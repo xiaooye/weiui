@@ -26,17 +26,24 @@ const resolved = resolveReferences(flat);
 const results = validateTokenContrast(resolved);
 
 let failed = false;
+let aaaCount = 0;
+let aaCount = 0;
+
 for (const r of results) {
+  const level = r.ratio >= 7.0 ? "AAA" : r.ratio >= 4.5 ? "AA" : "FAIL";
   const icon = r.passes ? "PASS" : "FAIL";
-  console.log(`[${icon}] ${r.fg} on ${r.bg}: ${r.ratio.toFixed(2)}:1 (need ${r.required}:1)`);
+  const req = r.required >= 7.0 ? "AAA" : "AA";
+  console.log(`[${icon}] ${r.fg} on ${r.bg}: ${r.ratio.toFixed(2)}:1 (${level}, need ${req} ${r.required}:1)`);
   if (!r.passes) failed = true;
+  if (r.ratio >= 7.0) aaaCount++;
+  else if (r.ratio >= 4.5) aaCount++;
 }
 
 if (failed) {
-  console.error("\nWCAG AAA contrast validation FAILED");
+  console.error("\nContrast validation FAILED — pairs below minimum threshold");
   process.exit(1);
 } else {
-  console.log(`\nAll ${results.length} contrast pairs pass WCAG AAA (7:1)`);
+  console.log(`\nAll ${results.length} pairs pass: ${aaaCount} at AAA (7:1), ${aaCount} at AA (4.5:1)`);
 }
 
 function deepMerge(target: TokenGroup, source: TokenGroup): void {

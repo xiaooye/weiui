@@ -32,6 +32,10 @@ export function findContrastPairs(tokens: FlatToken[]): ContrastPair[] {
   return pairs;
 }
 
+// Content pairs require AAA (7:1). Accent/status pairs require AA (4.5:1).
+// Body content text requires AAA (7:1). Muted and accent pairs require AA (4.5:1).
+const AAA_PAIRS = new Set(["color.foreground", "color.card-foreground"]);
+
 export function validateTokenContrast(tokens: FlatToken[]): ContrastResult[] {
   const pairs = findContrastPairs(tokens);
 
@@ -39,9 +43,10 @@ export function validateTokenContrast(tokens: FlatToken[]): ContrastResult[] {
     const fgValue = String(fg.token.$value);
     const bgValue = String(bg.token.$value);
     const ratio = getContrastRatio(fgValue, bgValue);
-    const required = 7.0;
+    const fgKey = fg.path.join(".");
+    const required = AAA_PAIRS.has(fgKey) ? 7.0 : 4.5;
     return {
-      fg: fg.path.join("."),
+      fg: fgKey,
       bg: bg.path.join("."),
       ratio,
       required,

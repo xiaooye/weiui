@@ -16,13 +16,25 @@ describe("findContrastPairs", () => {
 });
 
 describe("validateTokenContrast", () => {
-  it("passes for high-contrast pairs", () => {
+  it("passes accent pairs at AA threshold (4.5:1)", () => {
     const tokens: FlatToken[] = [
-      { path: ["color", "primary"], token: { $value: "oklch(0.3 0.245 263)" } },
+      { path: ["color", "primary"], token: { $value: "oklch(0.546 0.245 263)" } },
       { path: ["color", "primary-foreground"], token: { $value: "oklch(1 0 0)" } },
     ];
     const results = validateTokenContrast(tokens);
-    expect(results.every((r) => r.passes)).toBe(true);
+    // primary-foreground is accent — requires 4.5:1, not 7:1
+    expect(results[0].required).toBe(4.5);
+    expect(results[0].passes).toBe(true);
+  });
+
+  it("requires AAA (7:1) for content text pairs", () => {
+    const tokens: FlatToken[] = [
+      { path: ["color", "card"], token: { $value: "oklch(1 0 0)" } },
+      { path: ["color", "card-foreground"], token: { $value: "oklch(0.145 0.010 240)" } },
+    ];
+    const results = validateTokenContrast(tokens);
+    expect(results[0].required).toBe(7.0);
+    expect(results[0].passes).toBe(true);
   });
 
   it("fails for low-contrast pairs", () => {
