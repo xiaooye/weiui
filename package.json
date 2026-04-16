@@ -6,12 +6,16 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["lightningcss-cli"]
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29",
     "turbo": "^2.4",
     "typescript": "^5.8",
     "vitest": "^3.1"
