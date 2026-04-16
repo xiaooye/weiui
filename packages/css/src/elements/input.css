@@ -1,0 +1,32 @@
+@layer wui-elements {
+  .wui-input {
+    display: flex; align-items: center; inline-size: 100%; min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-sm); color: var(--wui-color-foreground);
+    background-color: var(--wui-color-background);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+  }
+  .wui-input::placeholder { color: var(--wui-color-muted-foreground); }
+  .wui-input:hover { border-color: var(--wui-color-primary); }
+  .wui-input:focus-within { border-color: var(--wui-color-ring); outline: 2px solid var(--wui-color-ring); outline-offset: 0; }
+  .wui-input[data-invalid], .wui-input:invalid { border-color: var(--wui-color-destructive); }
+  .wui-input[data-invalid]:focus-within { outline-color: var(--wui-color-destructive); }
+  .wui-input[data-disabled], .wui-input:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--wui-color-muted); }
+  .wui-input[data-readonly], .wui-input[readonly] { background-color: var(--wui-color-muted); }
+
+  /* Sizes */
+  .wui-input--sm { min-block-size: 36px; padding-inline: var(--wui-spacing-2); font-size: var(--wui-font-size-xs); }
+  .wui-input--lg { min-block-size: 48px; padding-inline: var(--wui-spacing-4); font-size: var(--wui-font-size-base); }
+
+  /* Textarea */
+  textarea.wui-input { min-block-size: 80px; resize: vertical; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-input {
+      transition-property: border-color, outline-color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-default);
+    }
+  }
+}
