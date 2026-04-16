@@ -1,0 +1,180 @@
+# Form Selection
+
+Checkbox, Switch, RadioGroup, and Select — accessible form selection controls.
+
+## Installation
+
+```tsx
+import { Checkbox, Switch, RadioGroup, RadioGroupItem } from "@weiui/react";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@weiui/react";
+```
+
+---
+
+## Checkbox
+
+A standard checkbox input with an optional label.
+
+### Usage
+
+```tsx
+import { Checkbox } from "@weiui/react";
+
+// Uncontrolled
+<Checkbox label="Accept terms and conditions" defaultChecked />
+
+// Controlled
+<Checkbox label="Remember me" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+
+// No label (supply aria-label)
+<Checkbox aria-label="Select row" />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| label | `string` | — | Visible label text, auto-associated via `htmlFor` |
+| id | `string` | auto | Input id; generated with `useId` if omitted |
+| checked | `boolean` | — | Controlled checked state |
+| defaultChecked | `boolean` | — | Initial uncontrolled checked state |
+| disabled | `boolean` | `false` | Disables the checkbox |
+| className | `string` | — | Applied to the wrapper `div` |
+
+All other props are forwarded to the `<input type="checkbox">`.
+
+### Accessibility
+
+- Label is linked to the input via `htmlFor` / `id`
+- Keyboard: Space to toggle
+- Supports `aria-label`, `aria-describedby`, and all native input attributes
+
+---
+
+## Switch
+
+A toggle switch — semantically a checkbox with `role="switch"`.
+
+### Usage
+
+```tsx
+import { Switch } from "@weiui/react";
+
+<Switch label="Dark mode" defaultChecked />
+
+<Switch
+  label="Notifications"
+  checked={enabled}
+  onChange={(e) => setEnabled(e.target.checked)}
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| label | `string` | — | Visible label text |
+| id | `string` | auto | Input id; generated with `useId` if omitted |
+| checked | `boolean` | — | Controlled checked state |
+| defaultChecked | `boolean` | — | Initial uncontrolled checked state |
+| disabled | `boolean` | `false` | Disables the switch |
+| className | `string` | — | Applied to the wrapper `div` |
+
+All other props are forwarded to the underlying `<input>`.
+
+### Accessibility
+
+- Uses `role="switch"` so screen readers announce it as a switch, not a checkbox
+- `aria-checked` is set automatically by the browser from the checked state
+- Keyboard: Space to toggle
+
+---
+
+## RadioGroup
+
+A controlled or uncontrolled group of radio buttons. Compound component: `RadioGroup` + `RadioGroupItem`.
+
+### Usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@weiui/react";
+
+// Uncontrolled
+<RadioGroup defaultValue="b" aria-label="Fruit">
+  <RadioGroupItem value="a" label="Apple" />
+  <RadioGroupItem value="b" label="Banana" />
+  <RadioGroupItem value="c" label="Cherry" />
+</RadioGroup>
+
+// Controlled
+<RadioGroup value={fruit} onValueChange={setFruit} aria-label="Fruit">
+  <RadioGroupItem value="a" label="Apple" />
+  <RadioGroupItem value="b" label="Banana" />
+</RadioGroup>
+```
+
+### RadioGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | — | Controlled selected value |
+| defaultValue | `string` | `""` | Initial uncontrolled value |
+| onValueChange | `(value: string) => void` | — | Called when selection changes |
+| name | `string` | auto | Shared `name` for all radio inputs; generated if omitted |
+| className | `string` | — | Applied to the wrapper `div` |
+
+All other props are forwarded to the `<div role="radiogroup">`.
+
+### RadioGroupItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | required | The value this item represents |
+| label | `string` | — | Visible label text |
+| id | `string` | auto | Input id |
+| disabled | `boolean` | `false` | Disables this item |
+| className | `string` | — | Applied to the wrapper `div` |
+
+### Accessibility
+
+- Container has `role="radiogroup"`
+- All items share the same auto-generated `name` attribute
+- Keyboard: Arrow keys to navigate within the group; Space/Enter to select
+
+---
+
+## Select
+
+A fully accessible listbox-style select. Headless — bring your own styles or use CSS variables.
+
+### Usage
+
+```tsx
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@weiui/react";
+
+<Select value={lang} onValueChange={setLang}>
+  <SelectTrigger aria-label="Language">
+    <SelectValue placeholder="Pick a language" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="en">English</SelectItem>
+    <SelectItem value="fr">French</SelectItem>
+    <SelectItem value="de">German</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Select Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | — | Controlled selected value |
+| defaultValue | `string` | — | Initial uncontrolled value |
+| onValueChange | `(value: string) => void` | — | Called when selection changes |
+| disabled | `boolean` | `false` | Disables the select |
+
+### Accessibility
+
+- Follows the ARIA Listbox pattern
+- Keyboard: Space/Enter to open; Arrow keys to navigate; Enter to select; Escape to close
+- `aria-expanded`, `aria-haspopup`, `aria-selected` managed automatically

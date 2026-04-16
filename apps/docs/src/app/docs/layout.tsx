@@ -32,9 +32,18 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               <li><a href="/docs/components/typography" style={{ fontSize: "var(--wui-font-size-sm)" }}>Typography</a></li>
             </ul>
           </div>
+
+          <div>
+            <h4 style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-semibold)", textTransform: "uppercase", letterSpacing: "var(--wui-font-letterSpacing-wider)", color: "var(--wui-color-muted-foreground)", marginBottom: "var(--wui-spacing-2)" }}>Tools</h4>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-1)" }}>
+              <li><a href="/playground" style={{ fontSize: "var(--wui-font-size-sm)" }}>Playground</a></li>
+              <li><a href="/composer" style={{ fontSize: "var(--wui-font-size-sm)" }}>Composer</a></li>
+              <li><a href="/themes" style={{ fontSize: "var(--wui-font-size-sm)" }}>Theme Builder</a></li>
+            </ul>
+          </div>
         </div>
       </nav>
-      <main style={{ flex: 1, padding: "var(--wui-spacing-8)", maxWidth: "48rem" }}>
+      <main className="wui-prose" style={{ flex: 1, padding: "var(--wui-spacing-8)", maxWidth: "48rem" }}>
         {children}
       </main>
     </div>

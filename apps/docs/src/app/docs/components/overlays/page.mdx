@@ -1,0 +1,70 @@
+# Overlay Components
+
+Modal dialogs, tooltips, and popovers with full accessibility.
+
+## Dialog
+
+A modal overlay that traps focus and blocks interaction with the page behind it.
+
+```tsx
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose } from "@weiui/react";
+
+<Dialog>
+  <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
+  <DialogContent>
+    <DialogTitle>Confirm Action</DialogTitle>
+    <p>Are you sure you want to proceed?</p>
+    <DialogClose className="wui-button wui-button--outline">Cancel</DialogClose>
+  </DialogContent>
+</Dialog>
+```
+
+### Accessibility
+- Focus trapped inside dialog
+- Escape closes dialog
+- Focus returns to trigger on close
+- `aria-modal="true"`, `role="dialog"`
+- Body scroll locked when open
+
+## Tooltip
+
+Shows contextual information on hover/focus.
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
+
+<Tooltip>
+  <TooltipTrigger>
+    <button className="wui-button wui-button--ghost">Hover me</button>
+  </TooltipTrigger>
+  <TooltipContent>Helpful information</TooltipContent>
+</Tooltip>
+```
+
+### Accessibility
+- `role="tooltip"` on content
+- `aria-describedby` links trigger to tooltip
+- Shows on hover and focus
+- Hides on Escape
+
+## Popover
+
+An interactive overlay positioned relative to its trigger.
+
+```tsx
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+
+<Popover>
+  <PopoverTrigger className="wui-button wui-button--outline">Settings</PopoverTrigger>
+  <PopoverContent>
+    <p>Popover content here</p>
+    <PopoverClose className="wui-button wui-button--ghost">Close</PopoverClose>
+  </PopoverContent>
+</Popover>
+```
+
+### Accessibility
+- Focus trapped inside popover
+- Escape closes
+- Outside click closes
+- `aria-haspopup` on trigger

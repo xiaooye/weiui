@@ -1,0 +1,98 @@
+# Typography
+
+Text components for headings, body copy, labels, and accessible utilities.
+
+## Installation
+
+```tsx
+import { Heading, Text, Label } from "@weiui/react";
+```
+
+## Heading
+
+Renders semantic heading elements (h1–h6) with consistent size styles.
+
+```tsx
+import { Heading } from "@weiui/react";
+
+<Heading level={1}>Page title</Heading>
+<Heading level={2}>Section heading</Heading>
+<Heading level={3}>Subsection</Heading>
+<Heading level={4}>Card title</Heading>
+<Heading level={5}>Widget heading</Heading>
+<Heading level={6}>Caption heading</Heading>
+```
+
+### Heading levels
+
+| Level | Tag | Classes |
+|-------|-----|---------|
+| 1 | `<h1>` | `text-4xl font-bold tracking-tight` |
+| 2 | `<h2>` | `text-3xl font-semibold tracking-tight` (default) |
+| 3 | `<h3>` | `text-2xl font-semibold` |
+| 4 | `<h4>` | `text-xl font-semibold` |
+| 5 | `<h5>` | `text-lg font-semibold` |
+| 6 | `<h6>` | `text-base font-semibold` |
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| level | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `2` | HTML heading level |
+| children | `ReactNode` | — | Content |
+
+---
+
+## Text
+
+Renders body text as `<p>`, `<span>`, or `<div>` with size, color, and weight variants.
+
+```tsx
+import { Text } from "@weiui/react";
+
+<Text>Default paragraph text</Text>
+<Text size="sm" color="muted">Small muted text</Text>
+<Text size="lg" color="primary" weight="semibold">Large primary text</Text>
+<Text as="span" color="destructive">Inline error text</Text>
+<Text color="success">Success message</Text>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| size | `"xs" \| "sm" \| "base" \| "lg" \| "xl"` | `"base"` | Font size |
+| color | `"foreground" \| "muted" \| "primary" \| "destructive" \| "success"` | `"foreground"` | Text color |
+| weight | `"regular" \| "medium" \| "semibold" \| "bold"` | — | Font weight |
+| as | `"p" \| "span" \| "div"` | `"p"` | Rendered element |
+
+---
+
+## Label
+
+A styled `<label>` element with an optional required indicator.
+
+```tsx
+import { Label } from "@weiui/react";
+
+<Label htmlFor="email">Email address</Label>
+<Label htmlFor="name" required>Full name</Label>
+```
+
+The required `*` asterisk is rendered with `aria-hidden="true"` so screen readers
+rely on `aria-required` on the associated input rather than announcing the symbol.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| required | `boolean` | `false` | Shows `*` indicator |
+| htmlFor | `string` | — | Associates label with input |
+
+---
+
+## Accessibility
+
+- `Heading` renders the correct semantic element — use levels in document order.
+- `Text` defaults to `<p>` for block text; use `as="span"` for inline.
+- `Label.required` indicator is `aria-hidden`; pair with `aria-required` on the input.
