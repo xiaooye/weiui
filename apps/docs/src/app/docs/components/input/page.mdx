@@ -1,0 +1,53 @@
+# Input & Textarea
+
+Text input components for forms.
+
+## Installation
+
+```tsx
+import { Input, Textarea } from "@weiui/react";
+```
+
+## Usage
+
+```tsx
+import { Input, Textarea } from "@weiui/react";
+
+<Input placeholder="Enter text" />
+
+<Textarea placeholder="Enter long text" rows={4} />
+```
+
+## Invalid State
+
+```tsx
+<Input invalid aria-describedby="error-msg" placeholder="Email" />
+<p id="error-msg">Please enter a valid email.</p>
+```
+
+## Props — Input
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| invalid | `boolean` | `false` | Marks the input as invalid |
+| disabled | `boolean` | `false` | Disables interaction |
+| className | `string` | — | Additional CSS classes |
+
+All standard `<input>` HTML attributes are also supported.
+
+## Props — Textarea
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| invalid | `boolean` | `false` | Marks the textarea as invalid |
+| disabled | `boolean` | `false` | Disables interaction |
+| className | `string` | — | Additional CSS classes |
+
+All standard `<textarea>` HTML attributes are also supported.
+
+## Accessibility
+
+- `aria-invalid` set to `"true"` when `invalid` prop is provided
+- `data-invalid` attribute for CSS styling hooks
+- Associate inputs with labels using `htmlFor` / `id` or `aria-label`
+- Associate error messages using `aria-describedby`

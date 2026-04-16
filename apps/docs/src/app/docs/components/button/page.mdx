@@ -1,0 +1,52 @@
+# Button
+
+Triggers an action or event.
+
+## Installation
+
+```tsx
+import { Button } from "@weiui/react";
+```
+
+## Usage
+
+```tsx
+import { Button } from "@weiui/react";
+
+<Button variant="solid">Click me</Button>
+```
+
+## Variants
+
+- **Solid** — Primary filled button
+- **Outline** — Bordered, transparent background
+- **Ghost** — No border or background
+- **Soft** — Subtle tinted background
+- **Link** — Styled as a text link
+
+## Sizes
+
+- `sm` — 36px height
+- `md` — 44px height (default, meets WCAG AAA touch target)
+- `lg` — 48px height
+- `xl` — 56px height
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `"solid" \| "outline" \| "ghost" \| "soft" \| "link"` | `"solid"` | Visual style |
+| size | `"sm" \| "md" \| "lg" \| "xl" \| "icon"` | `"md"` | Button size |
+| color | `"primary" \| "destructive" \| "success" \| "warning" \| "neutral"` | `"primary"` | Color scheme |
+| loading | `boolean` | `false` | Shows loading state |
+| disabled | `boolean` | `false` | Disables interaction |
+| startIcon | `ReactNode` | — | Icon before text |
+| endIcon | `ReactNode` | — | Icon after text |
+
+## Accessibility
+
+- Minimum 44×44px touch target (WCAG AAA)
+- `aria-busy` when loading
+- `aria-disabled` when disabled
+- Keyboard: Enter and Space to activate
+- Focus ring: 3px solid, 2px offset
