@@ -1,0 +1,48 @@
+@layer wui-utilities {
+  .wui-container {
+    inline-size: 100%;
+    max-inline-size: var(--wui-breakpoint-xl);
+    margin-inline: auto;
+    padding-inline: var(--wui-spacing-4);
+  }
+
+  .wui-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wui-stack--row { flex-direction: row; }
+  .wui-stack--wrap { flex-wrap: wrap; }
+
+  .wui-grid {
+    display: grid;
+  }
+
+  .wui-divider {
+    border: none;
+    border-block-start: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    inline-size: 100%;
+  }
+
+  .wui-divider--vertical {
+    border-block-start: none;
+    border-inline-start: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    block-size: 100%;
+    inline-size: 0;
+  }
+
+  .wui-spacer { flex: 1; }
+
+  .wui-aspect-ratio {
+    position: relative;
+    inline-size: 100%;
+  }
+
+  .wui-aspect-ratio > * {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+}

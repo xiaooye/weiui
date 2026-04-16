@@ -1,0 +1,24 @@
+@layer wui-utilities {
+  .wui-text-xs { font-size: var(--wui-font-size-xs); }
+  .wui-text-sm { font-size: var(--wui-font-size-sm); }
+  .wui-text-base { font-size: var(--wui-font-size-base); }
+  .wui-text-lg { font-size: var(--wui-font-size-lg); }
+  .wui-text-xl { font-size: var(--wui-font-size-xl); }
+  .wui-text-2xl { font-size: var(--wui-font-size-2xl); }
+  .wui-text-3xl { font-size: var(--wui-font-size-3xl); }
+
+  .wui-font-regular { font-weight: var(--wui-font-weight-regular); }
+  .wui-font-medium { font-weight: var(--wui-font-weight-medium); }
+  .wui-font-semibold { font-weight: var(--wui-font-weight-semibold); }
+  .wui-font-bold { font-weight: var(--wui-font-weight-bold); }
+
+  .wui-text-foreground { color: var(--wui-color-foreground); }
+  .wui-text-muted { color: var(--wui-color-muted-foreground); }
+  .wui-text-primary { color: var(--wui-color-primary); }
+  .wui-text-destructive { color: var(--wui-color-destructive); }
+  .wui-text-success { color: var(--wui-color-success); }
+
+  .wui-text-start { text-align: start; }
+  .wui-text-center { text-align: center; }
+  .wui-text-end { text-align: end; }
+}

@@ -1,0 +1,127 @@
+# Layout Components
+
+WeiUI provides six layout primitives for composing page structure.
+
+## Container
+
+Centers content horizontally with a max-width and horizontal padding.
+
+```tsx
+import { Container } from "@weiui/react";
+
+<Container>
+  <p>Centered content with max-width</p>
+</Container>
+```
+
+Override max-width:
+
+```tsx
+<Container maxWidth="600px">
+  <p>Narrower container</p>
+</Container>
+```
+
+## Stack
+
+A flex container that stacks children vertically (default) or horizontally.
+
+```tsx
+import { Stack } from "@weiui/react";
+
+// Vertical stack (default)
+<Stack gap={4}>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Stack>
+
+// Horizontal row
+<Stack direction="row" gap={2}>
+  <div>Left</div>
+  <div>Right</div>
+</Stack>
+
+// Wrapping row
+<Stack direction="row" wrap gap={2}>
+  <div>Tag 1</div>
+  <div>Tag 2</div>
+  <div>Tag 3</div>
+</Stack>
+```
+
+## Grid
+
+A CSS grid container with configurable columns and gap.
+
+```tsx
+import { Grid } from "@weiui/react";
+
+// 3-column equal grid
+<Grid columns={3} gap={4}>
+  <div>Cell 1</div>
+  <div>Cell 2</div>
+  <div>Cell 3</div>
+</Grid>
+
+// Custom column template
+<Grid columns="1fr 2fr" gap={4}>
+  <div>Narrow</div>
+  <div>Wide</div>
+</Grid>
+```
+
+## Divider
+
+A horizontal or vertical separator line.
+
+```tsx
+import { Divider } from "@weiui/react";
+
+// Horizontal (default)
+<Divider />
+
+// Vertical
+<Stack direction="row">
+  <div>Left</div>
+  <Divider orientation="vertical" />
+  <div>Right</div>
+</Stack>
+```
+
+## Spacer
+
+A flexible space element that fills available flex space.
+
+```tsx
+import { Stack, Spacer } from "@weiui/react";
+
+<Stack direction="row">
+  <div>Logo</div>
+  <Spacer />
+  <div>Actions</div>
+</Stack>
+```
+
+## AspectRatio
+
+Constrains children to a given aspect ratio.
+
+```tsx
+import { AspectRatio } from "@weiui/react";
+
+// 16:9 (default)
+<AspectRatio>
+  <img src="/hero.jpg" alt="Hero" />
+</AspectRatio>
+
+// 4:3
+<AspectRatio ratio={4 / 3}>
+  <img src="/photo.jpg" alt="Photo" />
+</AspectRatio>
+
+// Square
+<AspectRatio ratio={1}>
+  <img src="/avatar.jpg" alt="Avatar" />
+</AspectRatio>
+```

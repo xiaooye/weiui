@@ -12,3 +12,6 @@
 @import "./elements/card.css";
 @import "./elements/avatar.css";
 @import "./elements/skeleton.css";
+@import "./utilities/layout.css";
+@import "./utilities/spacing.css";
+@import "./utilities/typography.css";
