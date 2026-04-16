@@ -1,0 +1,105 @@
+@layer wui-elements {
+  .wui-editor {
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    overflow: hidden;
+  }
+  .wui-editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wui-spacing-1);
+    padding-block: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-3);
+    border-block-end: 1px solid var(--wui-color-border);
+    background-color: var(--wui-color-muted);
+  }
+  .wui-editor__toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    border: none;
+    border-radius: var(--wui-shape-radius-md);
+    background: none;
+    cursor: pointer;
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-foreground);
+  }
+  .wui-editor__toolbar-btn:hover {
+    background-color: var(--wui-color-background);
+  }
+  .wui-editor__toolbar-btn[data-active] {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+  }
+  .wui-editor__toolbar-btn:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-editor__toolbar-sep {
+    inline-size: 1px;
+    align-self: stretch;
+    margin-block: var(--wui-spacing-1);
+    background-color: var(--wui-color-border);
+  }
+  .wui-editor__content {
+    min-block-size: 200px;
+    padding-block: var(--wui-spacing-4);
+    padding-inline: var(--wui-spacing-4);
+    font-size: var(--wui-font-size-base);
+    line-height: var(--wui-font-lineHeight-relaxed);
+    color: var(--wui-color-foreground);
+  }
+  .wui-editor__content:focus-visible {
+    outline: none;
+  }
+  .wui-editor__content .ProseMirror {
+    outline: none;
+    min-block-size: 200px;
+  }
+  .wui-editor__content .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--wui-color-muted-foreground);
+    pointer-events: none;
+    float: inline-start;
+    block-size: 0;
+  }
+  .wui-editor__content h1 { font-size: var(--wui-font-size-2xl); font-weight: var(--wui-font-weight-bold); margin-block-end: var(--wui-spacing-3); }
+  .wui-editor__content h2 { font-size: var(--wui-font-size-xl); font-weight: var(--wui-font-weight-semibold); margin-block-end: var(--wui-spacing-2); }
+  .wui-editor__content h3 { font-size: var(--wui-font-size-lg); font-weight: var(--wui-font-weight-semibold); margin-block-end: var(--wui-spacing-2); }
+  .wui-editor__content ul { list-style: disc; padding-inline-start: var(--wui-spacing-6); margin-block-end: var(--wui-spacing-3); }
+  .wui-editor__content ol { list-style: decimal; padding-inline-start: var(--wui-spacing-6); margin-block-end: var(--wui-spacing-3); }
+  .wui-editor__content blockquote {
+    border-inline-start: 3px solid var(--wui-color-primary);
+    padding-inline-start: var(--wui-spacing-4);
+    color: var(--wui-color-muted-foreground);
+    font-style: italic;
+  }
+  .wui-editor__content code {
+    font-family: var(--wui-font-family-mono);
+    font-size: 0.875em;
+    background-color: var(--wui-color-muted);
+    padding-block: 0.15em;
+    padding-inline: 0.4em;
+    border-radius: var(--wui-shape-radius-sm);
+  }
+  .wui-editor__content pre {
+    font-family: var(--wui-font-family-mono);
+    background-color: var(--wui-color-muted);
+    padding-block: var(--wui-spacing-3);
+    padding-inline: var(--wui-spacing-4);
+    border-radius: var(--wui-shape-radius-md);
+    overflow-inline: auto;
+    margin-block-end: var(--wui-spacing-3);
+  }
+  .wui-editor__content pre code {
+    background: none;
+    padding: 0;
+  }
+  .wui-editor[data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

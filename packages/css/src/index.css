@@ -29,6 +29,11 @@
 @import "./elements/timeline.css";
 @import "./elements/calendar.css";
 @import "./elements/date-picker.css";
+@import "./elements/data-table.css";
+@import "./elements/chart.css";
+@import "./elements/tree-view.css";
+@import "./elements/editor.css";
+@import "./elements/command-palette.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";

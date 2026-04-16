@@ -1,0 +1,20 @@
+@layer wui-elements {
+  .wui-chart {
+    inline-size: 100%;
+    min-block-size: 300px;
+    font-family: var(--wui-font-family-sans);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-foreground);
+  }
+  .wui-chart__title {
+    font-size: var(--wui-font-size-base);
+    font-weight: var(--wui-font-weight-semibold);
+    margin-block-end: var(--wui-spacing-3);
+    color: var(--wui-color-foreground);
+  }
+  .wui-chart__description {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+    margin-block-end: var(--wui-spacing-4);
+  }
+}

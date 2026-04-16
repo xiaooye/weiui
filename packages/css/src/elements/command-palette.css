@@ -1,0 +1,98 @@
+@layer wui-elements {
+  .wui-command-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: oklch(0 0 0 / 0.5);
+    z-index: var(--wui-zIndex-overlay);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-block-start: 15vh;
+  }
+  .wui-command {
+    inline-size: 100%;
+    max-inline-size: 640px;
+    background-color: var(--wui-color-background);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-shadow-xl);
+    overflow: hidden;
+  }
+  .wui-command__input-wrapper {
+    display: flex;
+    align-items: center;
+    padding-inline: var(--wui-spacing-4);
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+  .wui-command__icon {
+    color: var(--wui-color-muted-foreground);
+    flex-shrink: 0;
+    margin-inline-end: var(--wui-spacing-2);
+  }
+  .wui-command__input {
+    flex: 1;
+    min-block-size: 52px;
+    border: none;
+    background: none;
+    font-size: var(--wui-font-size-base);
+    color: var(--wui-color-foreground);
+    outline: none;
+  }
+  .wui-command__input::placeholder {
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-command__list {
+    max-block-size: 320px;
+    overflow-block: auto;
+    padding-block: var(--wui-spacing-2);
+  }
+  .wui-command__group-label {
+    padding-block: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-4);
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-semibold);
+    color: var(--wui-color-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: var(--wui-font-letterSpacing-wider);
+  }
+  .wui-command__item {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-3);
+    min-block-size: 44px;
+    padding-block: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-4);
+    cursor: pointer;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+  }
+  .wui-command__item:hover,
+  .wui-command__item[data-highlighted] {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-command__item[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .wui-command__item-shortcut {
+    margin-inline-start: auto;
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+    font-family: var(--wui-font-family-mono);
+  }
+  .wui-command__empty {
+    padding-block: var(--wui-spacing-6);
+    text-align: center;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-command {
+      animation: wui-command-in var(--wui-motion-duration-fast) var(--wui-motion-easing-out);
+    }
+  }
+  @keyframes wui-command-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+}
