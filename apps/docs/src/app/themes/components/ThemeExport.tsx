@@ -17,10 +17,10 @@ export function ThemeExport({ theme }: Props) {
     <div className="wui-card">
       <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
-          <button className={`wui-button wui-button--${format === "css" ? "soft" : "ghost"} wui-button--sm`} style={{ minHeight: "28px" }} onClick={() => setFormat("css")}>CSS</button>
-          <button className={`wui-button wui-button--${format === "json" ? "soft" : "ghost"} wui-button--sm`} style={{ minHeight: "28px" }} onClick={() => setFormat("json")}>JSON</button>
+          <button type="button" aria-pressed={format === "css"} className={`wui-button wui-button--${format === "css" ? "soft" : "ghost"} wui-button--sm`} onClick={() => setFormat("css")}>CSS</button>
+          <button type="button" aria-pressed={format === "json"} className={`wui-button wui-button--${format === "json" ? "soft" : "ghost"} wui-button--sm`} onClick={() => setFormat("json")}>JSON</button>
         </div>
-        <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px" }} onClick={() => navigator.clipboard.writeText(output)}>Copy</button>
+        <button type="button" className="wui-button wui-button--ghost wui-button--sm" onClick={() => navigator.clipboard.writeText(output)}>Copy</button>
       </div>
       <div className="wui-card__content">
         <pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-xs)", overflow: "auto" }}>

@@ -25,7 +25,17 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
             {nodes.map((node, i) => (
               <div
                 key={node.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedId === node.id}
+                aria-label={`Select ${node.type}`}
                 onClick={() => onSelect(node.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(node.id);
+                  }
+                }}
                 style={{
                   padding: "var(--wui-spacing-2)",
                   border: `2px solid ${selectedId === node.id ? "var(--wui-color-primary)" : "var(--wui-color-border)"}`,
@@ -40,9 +50,9 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
                   {renderPreview(node)}
                 </div>
                 <div style={{ display: "flex", gap: "var(--wui-spacing-1)" }}>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "up"); }} disabled={i === 0}>^</button>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "down"); }} disabled={i === nodes.length - 1}>v</button>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0, color: "var(--wui-color-destructive)" }} onClick={(e) => { e.stopPropagation(); onRemove(node.id); }}>x</button>
+                  <button type="button" aria-label={`Move ${node.type} up`} className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "44px", minWidth: "44px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "up"); }} disabled={i === 0}>↑</button>
+                  <button type="button" aria-label={`Move ${node.type} down`} className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "44px", minWidth: "44px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "down"); }} disabled={i === nodes.length - 1}>↓</button>
+                  <button type="button" aria-label={`Remove ${node.type}`} className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "44px", minWidth: "44px", padding: 0, color: "var(--wui-color-destructive)" }} onClick={(e) => { e.stopPropagation(); onRemove(node.id); }}>×</button>
                 </div>
               </div>
             ))}
