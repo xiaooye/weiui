@@ -2,6 +2,14 @@
 export { Keys, type KeyValue } from "./utils/keyboard";
 export { getFocusableElements, getFirstFocusable } from "./utils/focus";
 
+// Components - Dialog
+export { Dialog, type DialogProps } from "./components/Dialog";
+export { DialogTrigger, type DialogTriggerProps } from "./components/Dialog";
+export { DialogContent, type DialogContentProps } from "./components/Dialog";
+export { DialogTitle, type DialogTitleProps } from "./components/Dialog";
+export { DialogDescription, type DialogDescriptionProps } from "./components/Dialog";
+export { DialogClose, type DialogCloseProps } from "./components/Dialog";
+
 // A11y
 export { announce } from "./a11y/announce";
 
