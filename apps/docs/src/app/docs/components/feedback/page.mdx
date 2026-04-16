@@ -1,0 +1,139 @@
+# Feedback Components
+
+Components for communicating status, loading states, and empty content to users.
+
+## Alert
+
+Displays a contextual message with optional title and description.
+
+### Installation
+
+```tsx
+import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
+```
+
+### Usage
+
+```tsx
+<Alert>
+  <AlertTitle>Heads up</AlertTitle>
+  <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+</Alert>
+```
+
+### Variants
+
+```tsx
+<Alert variant="info">
+  <AlertTitle>Info</AlertTitle>
+  <AlertDescription>This is an informational message.</AlertDescription>
+</Alert>
+
+<Alert variant="success">
+  <AlertTitle>Success</AlertTitle>
+  <AlertDescription>Your changes have been saved.</AlertDescription>
+</Alert>
+
+<Alert variant="warning">
+  <AlertTitle>Warning</AlertTitle>
+  <AlertDescription>This action cannot be undone.</AlertDescription>
+</Alert>
+
+<Alert variant="destructive">
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+</Alert>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `"info" \| "success" \| "warning" \| "destructive"` | `"info"` | Visual style |
+| children | `ReactNode` | — | Alert content |
+
+---
+
+## Spinner
+
+Indicates a loading or processing state.
+
+### Installation
+
+```tsx
+import { Spinner } from "@weiui/react";
+```
+
+### Usage
+
+```tsx
+<Spinner />
+```
+
+### Sizes
+
+```tsx
+<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />
+```
+
+### Custom label
+
+```tsx
+<Spinner label="Saving changes" />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| size | `"sm" \| "md" \| "lg"` | `"md"` | Spinner size |
+| label | `string` | `"Loading"` | Accessible label (screen readers) |
+
+### Accessibility
+
+- `role="status"` announces the loading state to screen readers
+- `aria-label` set to the `label` prop
+- Visible label text hidden via `wui-sr-only`
+
+---
+
+## EmptyState
+
+Displayed when a list or content area has no items to show.
+
+### Installation
+
+```tsx
+import { EmptyState } from "@weiui/react";
+```
+
+### Usage
+
+```tsx
+<EmptyState
+  title="No results found"
+  description="Try adjusting your search or filters to find what you're looking for."
+/>
+```
+
+### With icon and action
+
+```tsx
+<EmptyState
+  icon={<InboxIcon />}
+  title="Your inbox is empty"
+  description="Messages from your team will appear here."
+  action={<Button>Invite teammates</Button>}
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| title | `string` | — | Required heading text |
+| description | `string` | — | Optional supporting text |
+| icon | `ReactNode` | — | Optional icon above the title |
+| action | `ReactNode` | — | Optional action element (e.g. a button) |
