@@ -2,8 +2,9 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { flatten } from "../src/flatten";
 import { resolveReferences } from "../src/resolve";
-import { generateCss } from "../src/generate-css";
+import { generateCss, generateDarkCss } from "../src/generate-css";
 import { generateTs } from "../src/generate-ts";
+import { generateDarkTokens } from "../src/dark-mode";
 import type { TokenGroup } from "../src/types";
 
 const ROOT = dirname(import.meta.dirname);
@@ -33,6 +34,12 @@ const resolved = resolveReferences(flat);
 
 mkdirSync(DIST, { recursive: true });
 writeFileSync(join(DIST, "tokens.css"), generateCss(resolved));
+
+// Append dark mode
+const darkTokens = generateDarkTokens(resolved);
+const darkCss = generateDarkCss(darkTokens);
+const lightCss = readFileSync(join(DIST, "tokens.css"), "utf-8");
+writeFileSync(join(DIST, "tokens.css"), lightCss + "\n" + darkCss);
 writeFileSync(join(DIST, "index.ts"), generateTs(resolved));
 writeFileSync(
   join(DIST, "tokens.json"),
