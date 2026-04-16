@@ -72,12 +72,34 @@ AccordionItem.displayName = "AccordionItem";
 export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {}
 
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, onKeyDown, ...props }, ref) => {
     const accordion = useContext(AccordionContext);
     const item = useContext(AccordionItemContext);
     if (!accordion || !item) throw new Error("AccordionTrigger must be used within Accordion > AccordionItem");
 
     const isOpen = accordion.expandedItems.has(item.value);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+        const root = e.currentTarget.closest(".wui-accordion");
+        if (root) {
+          const triggers = Array.from(
+            root.querySelectorAll<HTMLButtonElement>(".wui-accordion__trigger:not([disabled])"),
+          );
+          const idx = triggers.indexOf(e.currentTarget);
+          if (idx !== -1) {
+            e.preventDefault();
+            let next = idx;
+            if (e.key === "ArrowDown") next = (idx + 1) % triggers.length;
+            else if (e.key === "ArrowUp") next = (idx - 1 + triggers.length) % triggers.length;
+            else if (e.key === "Home") next = 0;
+            else if (e.key === "End") next = triggers.length - 1;
+            triggers[next]?.focus();
+          }
+        }
+      }
+      onKeyDown?.(e);
+    };
 
     return (
       <button
@@ -88,6 +110,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
         aria-expanded={isOpen}
         aria-controls={item.contentId}
         onClick={() => accordion.toggle(item.value)}
+        onKeyDown={handleKeyDown}
         {...props}
       >
         {children}

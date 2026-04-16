@@ -136,4 +136,39 @@ describe("Accordion", () => {
     expect(screen.getByRole("region")).toBeInTheDocument();
     expect(screen.getByRole("region")).toHaveTextContent("Content 1");
   });
+
+  it("supports ArrowDown/ArrowUp/Home/End to move focus between triggers", async () => {
+    const user = userEvent.setup();
+    render(
+      <Accordion type="multiple">
+        <AccordionItem value="a">
+          <AccordionTrigger>Title A</AccordionTrigger>
+          <AccordionContent>A</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="b">
+          <AccordionTrigger>Title B</AccordionTrigger>
+          <AccordionContent>B</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="c">
+          <AccordionTrigger>Title C</AccordionTrigger>
+          <AccordionContent>C</AccordionContent>
+        </AccordionItem>
+      </Accordion>,
+    );
+
+    const a = screen.getByRole("button", { name: /Title A/i });
+    a.focus();
+
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByRole("button", { name: /Title B/i })).toHaveFocus();
+
+    await user.keyboard("{End}");
+    expect(screen.getByRole("button", { name: /Title C/i })).toHaveFocus();
+
+    await user.keyboard("{Home}");
+    expect(a).toHaveFocus();
+
+    await user.keyboard("{ArrowUp}");
+    expect(screen.getByRole("button", { name: /Title C/i })).toHaveFocus();
+  });
 });
