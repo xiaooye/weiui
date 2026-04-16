@@ -1,0 +1,12 @@
+@layer wui-base {
+  :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+  @media (forced-colors: active) {
+    :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+      outline: 3px solid Highlight;
+    }
+  }
+}

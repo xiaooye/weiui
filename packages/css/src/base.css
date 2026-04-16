@@ -1,0 +1,15 @@
+@layer wui-base {
+  body {
+    font-family: var(--wui-font-family-sans);
+    font-size: var(--wui-font-size-base);
+    line-height: var(--wui-font-lineHeight-normal);
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-background);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--wui-font-weight-semibold);
+    line-height: var(--wui-font-lineHeight-tight);
+    letter-spacing: var(--wui-font-letterSpacing-tight);
+  }
+  code, kbd, pre { font-family: var(--wui-font-family-mono); }
+}

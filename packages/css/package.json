@@ -1,0 +1,21 @@
+{
+  "name": "@weiui/css",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./dist/weiui.css",
+    "./weiui.css": "./dist/weiui.css",
+    "./reset.css": "./dist/reset.css",
+    "./elements/*": "./dist/elements/*"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "postcss src/index.css -o dist/weiui.css && lightningcss --minify dist/weiui.css -o dist/weiui.min.css"
+  },
+  "devDependencies": {
+    "postcss": "^8.5",
+    "postcss-cli": "^11.0",
+    "postcss-import": "^16.1",
+    "postcss-nesting": "^13.0",
+    "lightningcss-cli": "^1.29"
+  }
+}
