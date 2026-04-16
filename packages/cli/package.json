@@ -1,0 +1,10 @@
+{
+  "name": "@weiui/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": { "weiui": "./dist/index.js" },
+  "files": ["dist"],
+  "scripts": { "build": "tsup src/index.ts --format esm --dts --shims" },
+  "dependencies": { "commander": "^13.1" },
+  "devDependencies": { "tsup": "^8.4" }
+}
