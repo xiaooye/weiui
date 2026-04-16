@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useReducer, useId, useState } from "react";
+import { forwardRef, useReducer, useId, useState, useEffect } from "react";
 import { cn } from "../../utils/cn";
 
 export interface CalendarProps {
@@ -13,7 +13,10 @@ export interface CalendarProps {
   label?: string;
 }
 
-type CalendarAction = { type: "PREV_MONTH" } | { type: "NEXT_MONTH" };
+type CalendarAction =
+  | { type: "PREV_MONTH" }
+  | { type: "NEXT_MONTH" }
+  | { type: "SET_VIEW"; year: number; month: number };
 
 interface CalendarState {
   viewYear: number;
@@ -34,6 +37,8 @@ function calendarReducer(state: CalendarState, action: CalendarAction): Calendar
         ? { viewYear: state.viewYear + 1, viewMonth: 0 }
         : { ...state, viewMonth: m };
     }
+    case "SET_VIEW":
+      return { viewYear: action.year, viewMonth: action.month };
   }
 }
 
@@ -80,6 +85,16 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     const [internalSelected, setInternalSelected] = useState<Date | undefined>(defaultValue);
     const calendarId = useId();
     const selectedDate = value ?? internalSelected;
+
+    // Sync viewed month/year when controlled value changes externally to a
+    // date outside the currently-shown month.
+    useEffect(() => {
+      if (value === undefined) return;
+      if (value.getFullYear() !== state.viewYear || value.getMonth() !== state.viewMonth) {
+        dispatch({ type: "SET_VIEW", year: value.getFullYear(), month: value.getMonth() });
+      }
+    }, [value, state.viewYear, state.viewMonth]);
+
     const handleSelect = (day: Date) => {
       if (value === undefined) setInternalSelected(day);
       onChange?.(day);
