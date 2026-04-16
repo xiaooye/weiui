@@ -1,0 +1,20 @@
+{
+  "name": "@weiui/icons",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "generate": "tsx scripts/build.ts",
+    "build": "tsx scripts/build.ts && tsup src/index.ts --format esm --dts --external react"
+  },
+  "peerDependencies": { "react": "^19.0" },
+  "devDependencies": {
+    "tsx": "^4.19",
+    "tsup": "^8.4",
+    "svgo": "^3.3",
+    "@types/react": "^19.1"
+  }
+}
