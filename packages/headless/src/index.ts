@@ -21,3 +21,9 @@ export { useToggle, type UseToggleProps } from "./hooks/use-toggle";
 export { useFocusTrap } from "./hooks/use-focus-trap";
 export { useOutsideClick } from "./hooks/use-outside-click";
 export { useKeyboardNav, type UseKeyboardNavProps, type UseKeyboardNavReturn } from "./hooks/use-keyboard-nav";
+
+// Components - Tabs
+export { Tabs, type TabsProps, TabsList, type TabsListProps, TabsTrigger, type TabsTriggerProps, TabsContent, type TabsContentProps } from "./components/Tabs";
+
+// Components - Accordion
+export { Accordion, type AccordionProps, AccordionItem, type AccordionItemProps, AccordionTrigger, type AccordionTriggerProps, AccordionContent, type AccordionContentProps } from "./components/Accordion";
