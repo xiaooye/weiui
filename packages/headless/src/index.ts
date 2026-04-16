@@ -52,3 +52,10 @@ export { SelectTrigger, type SelectTriggerProps } from "./components/Select";
 export { SelectValue, type SelectValueProps } from "./components/Select";
 export { SelectContent, type SelectContentProps } from "./components/Select";
 export { SelectItem, type SelectItemProps } from "./components/Select";
+
+// Components - Combobox
+export { Combobox, type ComboboxProps } from "./components/Combobox";
+export { ComboboxInput, type ComboboxInputProps } from "./components/Combobox";
+export { ComboboxContent, type ComboboxContentProps } from "./components/Combobox";
+export { ComboboxItem, type ComboboxItemProps } from "./components/Combobox";
+export { ComboboxEmpty, type ComboboxEmptyProps } from "./components/Combobox";
