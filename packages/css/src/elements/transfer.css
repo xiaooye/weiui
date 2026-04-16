@@ -1,0 +1,77 @@
+@layer wui-elements {
+  .wui-transfer {
+    display: flex;
+    align-items: stretch;
+    gap: var(--wui-spacing-3);
+  }
+  .wui-transfer__list {
+    flex: 1;
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .wui-transfer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-3);
+    border-block-end: 1px solid var(--wui-color-border);
+    background-color: var(--wui-color-muted);
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+  }
+  .wui-transfer__items {
+    flex: 1;
+    overflow-block: auto;
+    max-block-size: 300px;
+  }
+  .wui-transfer__item {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+    min-block-size: 44px;
+    padding-block: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-3);
+    cursor: pointer;
+    font-size: var(--wui-font-size-sm);
+  }
+  .wui-transfer__item:hover {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-transfer__item[data-selected] {
+    background-color: oklch(from var(--wui-color-primary) l c h / 0.08);
+  }
+  .wui-transfer__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--wui-spacing-1);
+  }
+  .wui-transfer__move-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background);
+    cursor: pointer;
+    font-size: var(--wui-font-size-base);
+    color: var(--wui-color-foreground);
+  }
+  .wui-transfer__move-btn:hover {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-transfer__move-btn:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-transfer__move-btn[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

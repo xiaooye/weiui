@@ -1,0 +1,41 @@
+@layer wui-elements {
+  .wui-toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    overflow: hidden;
+  }
+  .wui-toggle-group__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    padding-inline: var(--wui-spacing-3);
+    border: none;
+    border-inline-end: 1px solid var(--wui-color-border);
+    background: var(--wui-color-background);
+    cursor: pointer;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+  }
+  .wui-toggle-group__item:last-child {
+    border-inline-end: none;
+  }
+  .wui-toggle-group__item:hover {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-toggle-group__item:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: -3px;
+    z-index: 1;
+  }
+  .wui-toggle-group__item[data-active] {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+  }
+  .wui-toggle-group__item[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,56 @@
+@layer wui-elements {
+  .wui-app-bar {
+    display: flex;
+    align-items: center;
+    min-block-size: 56px;
+    padding-inline: var(--wui-spacing-4);
+    background-color: var(--wui-color-background);
+    border-block-end: 1px solid var(--wui-color-border);
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--wui-zIndex-sticky);
+  }
+  .wui-app-bar__brand {
+    font-weight: var(--wui-font-weight-bold);
+    font-size: var(--wui-font-size-lg);
+    margin-inline-end: var(--wui-spacing-6);
+    white-space: nowrap;
+  }
+  .wui-app-bar__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    flex: 1;
+  }
+  .wui-app-bar__link {
+    display: flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-sm);
+    border-radius: var(--wui-shape-radius-md);
+    color: var(--wui-color-muted-foreground);
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  .wui-app-bar__link:hover {
+    background-color: var(--wui-color-muted);
+    color: var(--wui-color-foreground);
+  }
+  .wui-app-bar__link[data-active] {
+    color: var(--wui-color-foreground);
+    font-weight: var(--wui-font-weight-medium);
+  }
+  .wui-app-bar__link:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: -3px;
+  }
+  .wui-app-bar__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+    margin-inline-start: auto;
+  }
+}

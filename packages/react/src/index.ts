@@ -122,3 +122,16 @@ export { Editor, type EditorProps } from "./components/Editor";
 
 // Command Palette
 export { CommandPalette, type CommandPaletteProps, type CommandItem } from "./components/CommandPalette";
+
+// Wave 2 components
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, type AccordionProps, type AccordionItemProps, type AccordionTriggerProps, type AccordionContentProps } from "./components/Accordion";
+export { Pagination, type PaginationProps } from "./components/Pagination";
+export { Transfer, type TransferProps, type TransferItem } from "./components/Transfer";
+export { Splitter, type SplitterProps } from "./components/Splitter";
+
+// Wave 3 components
+export { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions, type AppBarProps, type AppBarLinkProps } from "./components/AppBar";
+export { BottomNav, BottomNavItem, type BottomNavProps, type BottomNavItemProps } from "./components/BottomNav";
+export { SpeedDial, type SpeedDialProps, type SpeedDialAction } from "./components/SpeedDial";
+export { ToggleGroup, ToggleGroupItem, type ToggleGroupProps, type ToggleGroupItemProps } from "./components/ToggleGroup";
+export { ButtonGroup, type ButtonGroupProps } from "./components/ButtonGroup";

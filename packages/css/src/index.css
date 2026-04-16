@@ -34,6 +34,15 @@
 @import "./elements/tree-view.css";
 @import "./elements/editor.css";
 @import "./elements/command-palette.css";
+@import "./elements/accordion.css";
+@import "./elements/transfer.css";
+@import "./elements/splitter.css";
+@import "./elements/pagination.css";
+@import "./elements/app-bar.css";
+@import "./elements/bottom-nav.css";
+@import "./elements/speed-dial.css";
+@import "./elements/toggle-group.css";
+@import "./elements/button-group.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";

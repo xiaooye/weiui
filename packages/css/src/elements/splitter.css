@@ -1,0 +1,54 @@
+@layer wui-elements {
+  .wui-splitter {
+    display: flex;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: hidden;
+  }
+  .wui-splitter--vertical {
+    flex-direction: column;
+  }
+  .wui-splitter__panel {
+    overflow: auto;
+    min-inline-size: 0;
+    min-block-size: 0;
+  }
+  .wui-splitter__handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: var(--wui-color-border);
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+  }
+  .wui-splitter--vertical > .wui-splitter__handle {
+    cursor: row-resize;
+    block-size: 4px;
+    inline-size: 100%;
+  }
+  .wui-splitter:not(.wui-splitter--vertical) > .wui-splitter__handle {
+    inline-size: 4px;
+    block-size: 100%;
+  }
+  .wui-splitter__handle:hover {
+    background-color: var(--wui-color-primary);
+  }
+  .wui-splitter__handle:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: -1px;
+    background-color: var(--wui-color-primary);
+  }
+  .wui-splitter__handle-dot {
+    inline-size: 4px;
+    block-size: 20px;
+    border-radius: var(--wui-shape-radius-full);
+    background-color: var(--wui-color-muted-foreground);
+    opacity: 0.5;
+  }
+  .wui-splitter--vertical .wui-splitter__handle-dot {
+    inline-size: 20px;
+    block-size: 4px;
+  }
+}

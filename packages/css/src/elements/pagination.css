@@ -1,0 +1,45 @@
+@layer wui-elements {
+  .wui-pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+  }
+  .wui-pagination__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background);
+    cursor: pointer;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+  }
+  .wui-pagination__btn:hover {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-pagination__btn:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-pagination__btn[data-active] {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+    border-color: var(--wui-color-primary);
+  }
+  .wui-pagination__btn[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .wui-pagination__ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 44px;
+    min-block-size: 44px;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+  }
+}
