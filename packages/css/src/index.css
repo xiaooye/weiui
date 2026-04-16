@@ -12,6 +12,13 @@
 @import "./elements/card.css";
 @import "./elements/avatar.css";
 @import "./elements/skeleton.css";
+@import "./elements/toast.css";
+@import "./elements/chip.css";
+@import "./elements/progress.css";
+@import "./elements/slider.css";
+@import "./elements/rating.css";
+@import "./elements/input-number.css";
+@import "./elements/input-otp.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";

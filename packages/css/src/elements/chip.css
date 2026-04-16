@@ -1,0 +1,22 @@
+@layer wui-elements {
+  .wui-chip {
+    display: inline-flex; align-items: center; gap: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-sm); font-weight: var(--wui-font-weight-medium);
+    border-radius: var(--wui-shape-radius-full);
+    border: 1px solid var(--wui-color-border);
+    background-color: var(--wui-color-muted);
+    color: var(--wui-color-foreground);
+  }
+  .wui-chip__remove {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-block-size: 16px; min-inline-size: 16px;
+    border-radius: var(--wui-shape-radius-full); cursor: pointer;
+    color: var(--wui-color-muted-foreground); background: none; border: none;
+    font-size: var(--wui-font-size-xs);
+  }
+  .wui-chip__remove:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-border); }
+  .wui-chip--primary { background-color: oklch(from var(--wui-color-primary) l c h / 0.1); color: var(--wui-color-primary); border-color: transparent; }
+  .wui-chip--success { background-color: oklch(from var(--wui-color-success) l c h / 0.1); color: var(--wui-color-success); border-color: transparent; }
+  .wui-chip--destructive { background-color: oklch(from var(--wui-color-destructive) l c h / 0.1); color: var(--wui-color-destructive); border-color: transparent; }
+}

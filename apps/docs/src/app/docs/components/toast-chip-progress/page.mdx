@@ -1,0 +1,174 @@
+import { ComponentPreview } from "../../../../components/ComponentPreview";
+
+# Toast, Chip & ProgressBar
+
+## Toast
+
+Toast is a notification system driven by an external store. Because it requires JavaScript for the queue and timer logic, use code examples rather than a live preview.
+
+Place `<Toaster />` once near the root of your app (e.g. in a layout). Then call `toast()` from anywhere.
+
+```tsx
+// In your root layout
+import { Toaster } from "@weiui/react";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+```tsx
+// Anywhere in your app
+import { toast } from "@weiui/react";
+
+// Default
+toast("File saved successfully");
+
+// With description
+toast("Update available", { description: "Refresh to apply the latest changes." });
+
+// Variants
+toast.success("Payment received");
+toast.error("Something went wrong", { description: "Please try again later." });
+toast.warning("Session expiring soon");
+
+// Custom duration (ms). Pass 0 to disable auto-dismiss.
+toast("Manual dismiss only", { duration: 0 });
+```
+
+### Props — `toast()`
+
+| Argument | Type | Default | Description |
+|----------|------|---------|-------------|
+| title | `string` | — | Required notification text |
+| opts.description | `string` | — | Optional supporting text |
+| opts.variant | `"default" \| "success" \| "destructive" \| "warning"` | `"default"` | Visual style |
+| opts.duration | `number` | `5000` | Auto-dismiss delay in ms. `0` disables auto-dismiss. |
+
+### Accessibility
+
+- `<Toaster>` has `role="region"` and `aria-label="Notifications"`
+- Each toast has `role="alert"` so screen readers announce it immediately
+- Close button has `aria-label="Close notification"`
+
+---
+
+## Chip
+
+Like Badge but interactive — can be dismissed with a remove button.
+
+<ComponentPreview label="Chip variants">
+  <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
+    <span className="wui-chip">Default</span>
+    <span className="wui-chip wui-chip--primary">Primary</span>
+    <span className="wui-chip wui-chip--success">Success</span>
+    <span className="wui-chip wui-chip--destructive">Destructive</span>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview label="Chip with remove button">
+  <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
+    <span className="wui-chip">
+      TypeScript
+      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
+    </span>
+    <span className="wui-chip wui-chip--primary">
+      React
+      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
+    </span>
+    <span className="wui-chip wui-chip--success">
+      Verified
+      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
+    </span>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Chip } from "@weiui/react";
+
+// Static
+<Chip>Default</Chip>
+<Chip color="primary">Primary</Chip>
+<Chip color="success">Success</Chip>
+<Chip color="destructive">Error</Chip>
+
+// Dismissible
+<Chip onRemove={() => handleRemove("typescript")}>TypeScript</Chip>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| children | `ReactNode` | — | Chip label content |
+| color | `"default" \| "primary" \| "success" \| "destructive"` | `"default"` | Color variant |
+| onRemove | `() => void` | — | When provided, renders a remove button |
+
+---
+
+## ProgressBar
+
+<ComponentPreview label="ProgressBar sizes and colors">
+  <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)", width: "100%", maxWidth: "480px" }}>
+    <div>
+      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Default (60%)</p>
+      <div role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress">
+        <div className="wui-progress__bar" style={{ inlineSize: "60%" }}></div>
+      </div>
+    </div>
+    <div>
+      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Success (80%)</p>
+      <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--success">
+        <div className="wui-progress__bar" style={{ inlineSize: "80%" }}></div>
+      </div>
+    </div>
+    <div>
+      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Warning (40%) — small</p>
+      <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--sm wui-progress--warning">
+        <div className="wui-progress__bar" style={{ inlineSize: "40%" }}></div>
+      </div>
+    </div>
+    <div>
+      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Destructive (25%) — large</p>
+      <div role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--lg wui-progress--destructive">
+        <div className="wui-progress__bar" style={{ inlineSize: "25%" }}></div>
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { ProgressBar } from "@weiui/react";
+
+<ProgressBar value={60} />
+<ProgressBar value={80} color="success" />
+<ProgressBar value={40} color="warning" size="sm" label="Upload progress" />
+<ProgressBar value={25} color="destructive" size="lg" />
+
+// Indeterminate (no known value)
+<ProgressBar indeterminate label="Loading data" />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `number` | `0` | Current progress value |
+| max | `number` | `100` | Maximum value |
+| size | `"sm" \| "md" \| "lg"` | `"md"` | Track height |
+| color | `"primary" \| "success" \| "destructive" \| "warning"` | `"primary"` | Bar color |
+| indeterminate | `boolean` | — | Show animated indeterminate state |
+| label | `string` | `"Progress"` | Accessible label for screen readers |
+
+### Accessibility
+
+- `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- `aria-valuenow` is omitted in indeterminate mode (per ARIA spec)
+- `aria-label` set via the `label` prop

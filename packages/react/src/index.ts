@@ -78,3 +78,8 @@ export {
 } from "./components/Menu";
 export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, type BreadcrumbProps, type BreadcrumbItemProps } from "./components/Breadcrumb";
 export { Link, type LinkProps } from "./components/Link";
+
+// New components
+export { Toaster, toast, addToast, removeToast, getToasts, subscribe } from "./components/Toast";
+export { Chip, type ChipProps } from "./components/Chip";
+export { ProgressBar, type ProgressBarProps } from "./components/ProgressBar";
