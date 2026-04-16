@@ -1,0 +1,164 @@
+# Data Display
+
+Components for presenting data, content, and visual information.
+
+## Installation
+
+```tsx
+import {
+  Card, CardHeader, CardContent, CardFooter,
+  Badge,
+  Avatar, AvatarImage, AvatarFallback,
+  Code,
+  Kbd,
+  Skeleton,
+} from "@weiui/react";
+```
+
+---
+
+## Card
+
+A container with an optional header, content area, and footer.
+
+```tsx
+import { Card, CardHeader, CardContent, CardFooter } from "@weiui/react";
+
+<Card>
+  <CardHeader>Card Title</CardHeader>
+  <CardContent>This is the main content of the card.</CardContent>
+  <CardFooter>
+    <button>Action</button>
+  </CardFooter>
+</Card>
+```
+
+### Props
+
+| Component | Props | Description |
+|-----------|-------|-------------|
+| `Card` | `HTMLDivElement` attrs | Root container |
+| `CardHeader` | `HTMLDivElement` attrs | Top section |
+| `CardContent` | `HTMLDivElement` attrs | Main content area |
+| `CardFooter` | `HTMLDivElement` attrs | Bottom section |
+
+---
+
+## Badge
+
+A small label used to highlight status or categories.
+
+```tsx
+import { Badge } from "@weiui/react";
+
+<Badge>New</Badge>
+<Badge variant="soft" color="success">Active</Badge>
+<Badge variant="outline" color="destructive">Error</Badge>
+<Badge variant="solid" color="warning">Pending</Badge>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"solid" \| "soft" \| "outline"` | `"solid"` | Visual style |
+| `color` | `"primary" \| "destructive" \| "success" \| "warning"` | `"primary"` | Color scheme |
+
+---
+
+## Avatar
+
+A circular element representing a user or entity.
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@weiui/react";
+
+<Avatar>
+  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+  <AvatarFallback>JD</AvatarFallback>
+</Avatar>
+
+{/* Different sizes */}
+<Avatar size="sm">
+  <AvatarFallback>A</AvatarFallback>
+</Avatar>
+<Avatar size="lg">
+  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+  <AvatarFallback>JD</AvatarFallback>
+</Avatar>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | `"md"` | Avatar size |
+
+---
+
+## Code
+
+Renders inline or block code snippets.
+
+```tsx
+import { Code } from "@weiui/react";
+
+{/* Inline */}
+Use the <Code>useState</Code> hook to manage state.
+
+{/* Block */}
+<Code inline={false}>
+  {`function greet(name: string) {
+  return \`Hello, \${name}!\`;
+}`}
+</Code>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `inline` | `boolean` | `true` | Renders `<code>` when true, `<pre><code>` when false |
+
+---
+
+## Kbd
+
+Displays a keyboard key combination.
+
+```tsx
+import { Kbd } from "@weiui/react";
+
+Press <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> to open the command palette.
+
+Press <Kbd>⌘</Kbd> + <Kbd>S</Kbd> to save.
+```
+
+---
+
+## Skeleton
+
+A placeholder that represents loading content.
+
+```tsx
+import { Skeleton } from "@weiui/react";
+
+{/* Rectangle (default) */}
+<Skeleton style={{ width: "100%", height: "120px" }} />
+
+{/* Text line */}
+<Skeleton variant="text" style={{ width: "200px" }} />
+
+{/* Circle (e.g., avatar placeholder) */}
+<Skeleton variant="circle" style={{ width: "40px", height: "40px" }} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"text" \| "circle" \| "rect"` | `"rect"` | Shape of the skeleton |
+
+### Accessibility
+
+Skeleton elements have `aria-hidden="true"` so screen readers skip them.
