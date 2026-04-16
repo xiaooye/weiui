@@ -16,6 +16,9 @@
     "validate": "tsx scripts/validate.ts",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@weiui/a11y": "workspace:*"
+  },
   "devDependencies": {
     "tsx": "^4.19",
     "vitest": "^3.1"

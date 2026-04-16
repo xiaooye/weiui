@@ -32,6 +32,10 @@ importers:
         version: 3.2.4(tsx@4.21.0)
 
   packages/tokens:
+    dependencies:
+      '@weiui/a11y':
+        specifier: workspace:*
+        version: link:../a11y
     devDependencies:
       tsx:
         specifier: ^4.19
