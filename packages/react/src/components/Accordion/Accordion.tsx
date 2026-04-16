@@ -5,16 +5,17 @@ import { cn } from "../../utils/cn";
 interface AccordionContextValue {
   expandedItems: Set<string>;
   toggle: (id: string) => void;
-  type: "single" | "multiple";
 }
 
 const AccordionContext = createContext<AccordionContextValue | null>(null);
 
-function useAccordionContext() {
-  const ctx = useContext(AccordionContext);
-  if (!ctx) throw new Error("AccordionItem must be used within <Accordion>");
-  return ctx;
+interface AccordionItemContextValue {
+  value: string;
+  contentId: string;
+  triggerId: string;
 }
+
+const AccordionItemContext = createContext<AccordionItemContextValue | null>(null);
 
 export interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
   type?: "single" | "multiple";
@@ -39,7 +40,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     };
 
     return (
-      <AccordionContext.Provider value={{ expandedItems, toggle, type }}>
+      <AccordionContext.Provider value={{ expandedItems, toggle }}>
         <div ref={ref} className={cn("wui-accordion", className)} {...props}>
           {children}
         </div>
@@ -55,32 +56,38 @@ export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
-  ({ value, className, children, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-accordion__item", className)} {...props}>
-      {children}
-    </div>
-  ),
+  ({ value, className, children, ...props }, ref) => {
+    const id = useId();
+    return (
+      <AccordionItemContext.Provider value={{ value, contentId: `${id}-content`, triggerId: `${id}-trigger` }}>
+        <div ref={ref} className={cn("wui-accordion__item", className)} {...props}>
+          {children}
+        </div>
+      </AccordionItemContext.Provider>
+    );
+  },
 );
 AccordionItem.displayName = "AccordionItem";
 
-export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {
-  value: string;
-}
+export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {}
 
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ value, className, children, ...props }, ref) => {
-    const { expandedItems, toggle } = useAccordionContext();
-    const isOpen = expandedItems.has(value);
-    const contentId = useId();
+  ({ className, children, ...props }, ref) => {
+    const accordion = useContext(AccordionContext);
+    const item = useContext(AccordionItemContext);
+    if (!accordion || !item) throw new Error("AccordionTrigger must be used within Accordion > AccordionItem");
+
+    const isOpen = accordion.expandedItems.has(item.value);
 
     return (
       <button
         ref={ref}
         type="button"
+        id={item.triggerId}
         className={cn("wui-accordion__trigger", className)}
         aria-expanded={isOpen}
-        aria-controls={`${contentId}-content`}
-        onClick={() => toggle(value)}
+        aria-controls={item.contentId}
+        onClick={() => accordion.toggle(item.value)}
         {...props}
       >
         {children}
@@ -93,17 +100,25 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 
-export interface AccordionContentProps extends HTMLAttributes<HTMLDivElement> {
-  value: string;
-}
+export interface AccordionContentProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
-  ({ value, className, children, ...props }, ref) => {
-    const { expandedItems } = useAccordionContext();
-    if (!expandedItems.has(value)) return null;
+  ({ className, children, ...props }, ref) => {
+    const accordion = useContext(AccordionContext);
+    const item = useContext(AccordionItemContext);
+    if (!accordion || !item) throw new Error("AccordionContent must be used within Accordion > AccordionItem");
+
+    if (!accordion.expandedItems.has(item.value)) return null;
 
     return (
-      <div ref={ref} className={cn("wui-accordion__content", className)} role="region" {...props}>
+      <div
+        ref={ref}
+        id={item.contentId}
+        className={cn("wui-accordion__content", className)}
+        role="region"
+        aria-labelledby={item.triggerId}
+        {...props}
+      >
         {children}
       </div>
     );

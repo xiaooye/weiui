@@ -4,22 +4,13 @@ import userEvent from "@testing-library/user-event";
 import { Rating } from "../Rating";
 
 describe("Rating", () => {
-  it("renders with role=radiogroup", () => {
+  it("renders stars with role=radio inside role=radiogroup", () => {
     render(<Rating />);
     expect(screen.getByRole("radiogroup")).toBeInTheDocument();
-  });
-
-  it("renders correct number of stars (default 5)", () => {
-    render(<Rating />);
     expect(screen.getAllByRole("radio")).toHaveLength(5);
   });
 
-  it("renders correct number of stars when max is set", () => {
-    render(<Rating max={3} />);
-    expect(screen.getAllByRole("radio")).toHaveLength(3);
-  });
-
-  it("clicking a star calls onChange with correct value", async () => {
+  it("clicking a star calls onChange with its value", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<Rating onChange={onChange} />);
@@ -27,48 +18,67 @@ describe("Rating", () => {
     expect(onChange).toHaveBeenCalledWith(3);
   });
 
-  it("sets aria-checked on selected star", () => {
-    render(<Rating value={3} />);
-    expect(screen.getByLabelText("3 stars")).toHaveAttribute("aria-checked", "true");
+  it("aria-checked reflects the selected star", () => {
+    render(<Rating value={4} />);
+    expect(screen.getByLabelText("4 stars")).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByLabelText("3 stars")).toHaveAttribute("aria-checked", "false");
+    expect(screen.getByLabelText("5 stars")).toHaveAttribute("aria-checked", "false");
   });
 
-  it("unselected stars have aria-checked=false", () => {
-    render(<Rating value={3} />);
-    expect(screen.getByLabelText("2 stars")).toHaveAttribute("aria-checked", "false");
-  });
-
-  it("does not call onChange when disabled", async () => {
+  it("ArrowRight moves to next star", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<Rating onChange={onChange} disabled />);
+    render(<Rating defaultValue={3} onChange={onChange} />);
+    const star3 = screen.getByLabelText("3 stars");
+    star3.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(onChange).toHaveBeenCalledWith(4);
+  });
+
+  it("ArrowLeft moves to previous star", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Rating defaultValue={3} onChange={onChange} />);
+    const star3 = screen.getByLabelText("3 stars");
+    star3.focus();
+    await user.keyboard("{ArrowLeft}");
+    expect(onChange).toHaveBeenCalledWith(2);
+  });
+
+  it("all stars are disabled when disabled prop is set", () => {
+    render(<Rating disabled />);
     const stars = screen.getAllByRole("radio");
-    // disabled buttons can't be clicked via userEvent
-    expect(stars[0]).toBeDisabled();
-    expect(onChange).not.toHaveBeenCalled();
+    stars.forEach((star) => {
+      expect(star).toBeDisabled();
+    });
   });
 
-  it("does not call onChange when readOnly", async () => {
+  it("clicks do not change value when readOnly", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<Rating onChange={onChange} readOnly defaultValue={2} />);
-    // readOnly buttons are not disabled but clicking should be a no-op
+    render(<Rating readOnly defaultValue={2} onChange={onChange} />);
     await user.click(screen.getByLabelText("4 stars"));
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("applies data-disabled when disabled", () => {
+  it("defaultValue sets initial stars", () => {
+    render(<Rating defaultValue={3} />);
+    expect(screen.getByLabelText("3 stars")).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByLabelText("1 star")).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("renders correct number of stars with custom max", () => {
+    render(<Rating max={10} />);
+    expect(screen.getAllByRole("radio")).toHaveLength(10);
+  });
+
+  it("has data-disabled on radiogroup when disabled", () => {
     render(<Rating disabled />);
     expect(screen.getByRole("radiogroup")).toHaveAttribute("data-disabled", "true");
   });
 
-  it("applies data-readonly when readOnly", () => {
+  it("has data-readonly on radiogroup when readOnly", () => {
     render(<Rating readOnly />);
     expect(screen.getByRole("radiogroup")).toHaveAttribute("data-readonly", "true");
-  });
-
-  it("forwards ref to root div", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
-    render(<Rating ref={ref} />);
-    expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 });

@@ -1,6 +1,14 @@
 "use client";
-import { forwardRef, useState } from "react";
+import { createContext, useContext, forwardRef, useState } from "react";
 import { cn } from "../../utils/cn";
+
+interface ToggleGroupContextValue {
+  selected: string[];
+  toggle: (value: string) => void;
+  disabled?: boolean;
+}
+
+const ToggleGroupContext = createContext<ToggleGroupContextValue | null>(null);
 
 export interface ToggleGroupProps {
   type?: "single" | "multiple";
@@ -20,7 +28,9 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       return Array.isArray(def) ? def : def ? [def] : [];
     });
 
-    const selected = controlled !== undefined ? (Array.isArray(controlled) ? controlled : [controlled]) : internal;
+    const selected = controlled !== undefined
+      ? (Array.isArray(controlled) ? controlled : controlled ? [controlled] : [])
+      : internal;
 
     const toggle = (val: string) => {
       if (disabled) return;
@@ -35,29 +45,17 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn("wui-toggle-group", className)}
-        role="group"
-        aria-label={label}
-        data-disabled={disabled || undefined}
-      >
-        {Array.isArray(children)
-          ? children.map((child) => {
-              if (!child || typeof child !== "object" || !("props" in child)) return child;
-              const val = (child as React.ReactElement<ToggleGroupItemProps>).props.value;
-              return (
-                <ToggleGroupItemInternal
-                  key={val}
-                  {...(child as React.ReactElement<ToggleGroupItemProps>).props}
-                  isActive={selected.includes(val)}
-                  onToggle={() => toggle(val)}
-                  disabled={disabled}
-                />
-              );
-            })
-          : children}
-      </div>
+      <ToggleGroupContext.Provider value={{ selected, toggle, disabled }}>
+        <div
+          ref={ref}
+          className={cn("wui-toggle-group", className)}
+          role="group"
+          aria-label={label}
+          data-disabled={disabled || undefined}
+        >
+          {children}
+        </div>
+      </ToggleGroupContext.Provider>
     );
   },
 );
@@ -70,27 +68,27 @@ export interface ToggleGroupItemProps {
   className?: string;
 }
 
-function ToggleGroupItemInternal({ value, isActive, onToggle, disabled, className, children }: ToggleGroupItemProps & { isActive: boolean; onToggle: () => void }) {
-  return (
-    <button
-      type="button"
-      className={cn("wui-toggle-group__item", className)}
-      data-active={isActive || undefined}
-      data-disabled={disabled || undefined}
-      aria-pressed={isActive}
-      disabled={disabled}
-      onClick={onToggle}
-    >
-      {children}
-    </button>
-  );
-}
-
 export const ToggleGroupItem = forwardRef<HTMLButtonElement, ToggleGroupItemProps>(
-  ({ value, className, children, ...props }, ref) => (
-    <button ref={ref} type="button" className={cn("wui-toggle-group__item", className)} data-value={value} {...props}>
-      {children}
-    </button>
-  ),
+  ({ value, disabled: itemDisabled, className, children, ...props }, ref) => {
+    const ctx = useContext(ToggleGroupContext);
+    const isActive = ctx?.selected.includes(value) ?? false;
+    const isDisabled = itemDisabled || ctx?.disabled;
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={cn("wui-toggle-group__item", className)}
+        data-active={isActive || undefined}
+        data-disabled={isDisabled || undefined}
+        aria-pressed={isActive}
+        disabled={isDisabled}
+        onClick={() => ctx?.toggle(value)}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  },
 );
 ToggleGroupItem.displayName = "ToggleGroupItem";

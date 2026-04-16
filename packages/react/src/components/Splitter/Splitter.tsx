@@ -47,13 +47,13 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
         const step = 5;
         if (e.key === "ArrowRight" || e.key === "ArrowDown") {
           e.preventDefault();
-          setSizes(([a, b]) => {
+          setSizes(([a]) => {
             const next = Math.min(a + step, 100 - minSize);
             return [next, 100 - next];
           });
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
-          setSizes(([a, b]) => {
+          setSizes(([a]) => {
             const next = Math.max(a - step, minSize);
             return [next, 100 - next];
           });
