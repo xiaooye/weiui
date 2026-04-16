@@ -1,0 +1,24 @@
+{
+  "name": "@weiui/docs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^15.3",
+    "react": "^19.1",
+    "react-dom": "^19.1",
+    "@weiui/css": "workspace:*",
+    "@weiui/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1",
+    "@next/mdx": "^15.3",
+    "@mdx-js/loader": "^3.1",
+    "@mdx-js/react": "^3.1",
+    "typescript": "^5.8"
+  }
+}
