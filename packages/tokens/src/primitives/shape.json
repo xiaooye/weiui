@@ -1,0 +1,28 @@
+{
+  "shape": {
+    "radius": {
+      "none": { "$value": "0px", "$type": "dimension" },
+      "sm":   { "$value": "4px", "$type": "dimension" },
+      "base": { "$value": "6px", "$type": "dimension" },
+      "md":   { "$value": "8px", "$type": "dimension" },
+      "lg":   { "$value": "12px", "$type": "dimension" },
+      "xl":   { "$value": "16px", "$type": "dimension" },
+      "2xl":  { "$value": "24px", "$type": "dimension" },
+      "full": { "$value": "9999px", "$type": "dimension" }
+    },
+    "border": {
+      "width": {
+        "thin":   { "$value": "1px", "$type": "dimension" },
+        "medium": { "$value": "2px", "$type": "dimension" },
+        "thick":  { "$value": "3px", "$type": "dimension" }
+      }
+    }
+  },
+  "shadow": {
+    "xs": { "$value": "0 1px 2px 0 oklch(0 0 0 / 0.03)", "$type": "shadow" },
+    "sm": { "$value": "0 1px 3px 0 oklch(0 0 0 / 0.04), 0 1px 2px -1px oklch(0 0 0 / 0.03)", "$type": "shadow" },
+    "md": { "$value": "0 4px 6px -1px oklch(0 0 0 / 0.05), 0 2px 4px -2px oklch(0 0 0 / 0.03)", "$type": "shadow" },
+    "lg": { "$value": "0 10px 15px -3px oklch(0 0 0 / 0.06), 0 4px 6px -4px oklch(0 0 0 / 0.03)", "$type": "shadow" },
+    "xl": { "$value": "0 20px 25px -5px oklch(0 0 0 / 0.08), 0 8px 10px -6px oklch(0 0 0 / 0.04)", "$type": "shadow" }
+  }
+}

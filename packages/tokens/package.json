@@ -1,0 +1,23 @@
+{
+  "name": "@weiui/tokens",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "validate": "tsx scripts/validate.ts",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "tsx": "^4.19",
+    "vitest": "^3.1"
+  }
+}
