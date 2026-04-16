@@ -77,6 +77,7 @@ function DataTableInner<TData>(
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const sorted = header.column.getIsSorted();
+                  const sortHandler = canSort ? header.column.getToggleSortingHandler() : undefined;
                   return (
                     <th
                       key={header.id}
@@ -88,7 +89,18 @@ function DataTableInner<TData>(
                             ? "descending"
                             : undefined
                       }
-                      onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                      tabIndex={canSort ? 0 : undefined}
+                      onClick={sortHandler}
+                      onKeyDown={
+                        canSort
+                          ? (e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                sortHandler?.(e);
+                              }
+                            }
+                          : undefined
+                      }
                     >
                       {header.isPlaceholder
                         ? null
