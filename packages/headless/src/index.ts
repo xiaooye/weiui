@@ -38,3 +38,17 @@ export { Tabs, type TabsProps, TabsList, type TabsListProps, TabsTrigger, type T
 
 // Components - Accordion
 export { Accordion, type AccordionProps, AccordionItem, type AccordionItemProps, AccordionTrigger, type AccordionTriggerProps, AccordionContent, type AccordionContentProps } from "./components/Accordion";
+
+// Components - Menu
+export { Menu, type MenuProps } from "./components/Menu";
+export { MenuTrigger, type MenuTriggerProps } from "./components/Menu";
+export { MenuContent, type MenuContentProps } from "./components/Menu";
+export { MenuItem, type MenuItemProps } from "./components/Menu";
+export { MenuSeparator, type MenuSeparatorProps } from "./components/Menu";
+
+// Components - Select
+export { Select, type SelectProps } from "./components/Select";
+export { SelectTrigger, type SelectTriggerProps } from "./components/Select";
+export { SelectValue, type SelectValueProps } from "./components/Select";
+export { SelectContent, type SelectContentProps } from "./components/Select";
+export { SelectItem, type SelectItemProps } from "./components/Select";
