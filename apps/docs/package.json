@@ -8,17 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@weiui/css": "workspace:*",
+    "@weiui/tokens": "workspace:*",
     "next": "^15.3",
     "react": "^19.1",
-    "react-dom": "^19.1",
-    "@weiui/css": "workspace:*",
-    "@weiui/tokens": "workspace:*"
+    "react-dom": "^19.1"
   },
   "devDependencies": {
-    "@types/react": "^19.1",
-    "@next/mdx": "^15.3",
     "@mdx-js/loader": "^3.1",
-    "@mdx-js/react": "^3.1",
+    "@next/mdx": "^15.3",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "25.6.0",
+    "@types/react": "^19.1",
     "typescript": "^5.8"
   }
 }
