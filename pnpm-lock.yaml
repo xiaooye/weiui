@@ -133,6 +133,52 @@ importers:
         specifier: ^3.1
         version: 3.2.4(@types/debug@4.1.13)(@types/node@25.6.0)(jsdom@26.1.0)(tsx@4.21.0)(yaml@2.8.3)
 
+  packages/react:
+    dependencies:
+      '@weiui/css':
+        specifier: workspace:*
+        version: link:../css
+      '@weiui/headless':
+        specifier: workspace:*
+        version: link:../headless
+      tailwind-merge:
+        specifier: ^3.0
+        version: 3.5.0
+      tailwind-variants:
+        specifier: ^0.3
+        version: 0.3.1(tailwindcss@4.2.2)
+    devDependencies:
+      '@testing-library/jest-dom':
+        specifier: ^6.6
+        version: 6.9.1
+      '@testing-library/react':
+        specifier: ^16.3
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@testing-library/user-event':
+        specifier: ^14.6
+        version: 14.6.1(@testing-library/dom@10.4.1)
+      '@types/react':
+        specifier: ^19.1
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.1
+        version: 19.2.3(@types/react@19.2.14)
+      jsdom:
+        specifier: ^26.0
+        version: 26.1.0
+      react:
+        specifier: ^19.1
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.1
+        version: 19.2.5(react@19.2.5)
+      tsup:
+        specifier: ^8.4
+        version: 8.5.1(postcss@8.5.10)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+      vitest:
+        specifier: ^3.1
+        version: 3.2.4(@types/debug@4.1.13)(@types/node@25.6.0)(jsdom@26.1.0)(tsx@4.21.0)(yaml@2.8.3)
+
   packages/tokens:
     dependencies:
       '@weiui/a11y':
@@ -1878,6 +1924,21 @@ packages:
 
   tabbable@6.4.0:
     resolution: {integrity: sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==}
+
+  tailwind-merge@2.5.4:
+    resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
+
+  tailwind-merge@3.5.0:
+    resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
+
+  tailwind-variants@0.3.1:
+    resolution: {integrity: sha512-krn67M3FpPwElg4FsZrOQd0U26o7UDH/QOkK8RNaiCCrr052f6YJPBUfNKnPo/s/xRzNPtv1Mldlxsg8Tb46BQ==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwindcss: '*'
+
+  tailwindcss@4.2.2:
+    resolution: {integrity: sha512-KWBIxs1Xb6NoLdMVqhbhgwZf2PGBpPEiwOqgI4pFIYbNTfBXiKYyWoTsXgBQ9WFg/OlhnvHaY+AEpW7wSmFo2Q==}
 
   thenby@1.4.0:
     resolution: {integrity: sha512-D+BkEl5MpeTbQ1Rz0io/TLZmwmYUAgvUpS1r2eKUvPicYOnpqzjZE6bVa7rSEYv189zkSM+CVc+hG5X7nVe9LQ==}
@@ -3941,6 +4002,17 @@ snapshots:
   symbol-tree@3.2.4: {}
 
   tabbable@6.4.0: {}
+
+  tailwind-merge@2.5.4: {}
+
+  tailwind-merge@3.5.0: {}
+
+  tailwind-variants@0.3.1(tailwindcss@4.2.2):
+    dependencies:
+      tailwind-merge: 2.5.4
+      tailwindcss: 4.2.2
+
+  tailwindcss@4.2.2: {}
 
   thenby@1.4.0: {}
 
