@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Validate token contrast (WCAG AAA/AA)
+        run: pnpm --filter @weiui/tokens validate
+
+      - name: Check bundle sizes
+        run: |
+          echo "=== Package sizes ==="
+          echo "--- @weiui/tokens CSS ---"
+          wc -c packages/tokens/dist/tokens.css
+          echo "--- @weiui/css ---"
+          wc -c packages/css/dist/weiui.css packages/css/dist/weiui.min.css
+          echo "--- @weiui/headless ---"
+          wc -c packages/headless/dist/index.js
+          echo "--- @weiui/react ---"
+          wc -c packages/react/dist/index.js
+          echo "--- @weiui/icons ---"
+          wc -c packages/icons/dist/index.js
+          echo "--- @weiui/a11y ---"
+          wc -c packages/a11y/dist/index.js
+          echo "--- @weiui/cli ---"
+          wc -c packages/cli/dist/index.js
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: TypeScript strict check
+        run: |
+          cd packages/headless && npx tsc --noEmit
+          cd ../../packages/react && npx tsc --noEmit
+          cd ../../packages/a11y && npx tsc --noEmit
+          cd ../../packages/tokens && npx tsc --noEmit
