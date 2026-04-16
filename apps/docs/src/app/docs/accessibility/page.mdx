@@ -1,0 +1,116 @@
+# Accessibility
+
+WeiUI is built with accessibility as a first-class concern. The system targets WCAG 2.2 AAA for content text, enforces AA as a hard minimum for interactive elements, and ships sensible defaults for keyboard navigation, screen readers, and motion preferences.
+
+## Contrast Standards
+
+| Context | Standard | Ratio |
+|---------|----------|-------|
+| Body text, headings | WCAG AAA | ≥ 7:1 |
+| Large text (18pt+) | WCAG AAA | ≥ 4.5:1 |
+| Interactive controls, accent colors | WCAG AA | ≥ 4.5:1 |
+| Decorative, disabled states | None | — |
+
+The token system is designed so semantic color pairings meet these ratios in both light and dark mode. Override tokens carefully — introducing a custom `--wui-color-primary` may break contrast guarantees.
+
+## Touch Targets
+
+All interactive elements meet the WCAG 2.2 Success Criterion 2.5.8 (Target Size) minimum of 24×24 CSS pixels. Buttons and form controls default to a minimum height of 44px to align with Apple and Google platform guidelines.
+
+```css
+/* Built into every interactive component */
+.wui-button {
+  min-height: 2.75rem; /* 44px */
+  min-width: 2.75rem;
+}
+```
+
+## Focus Indicators
+
+Every focusable element has a visible, high-contrast focus ring. WeiUI uses a `2px` offset outline that inherits the primary color to stay theme-aware.
+
+```css
+/* Applied globally via the CSS layer */
+:focus-visible {
+  outline: 2px solid var(--wui-color-ring);
+  outline-offset: 2px;
+}
+```
+
+The `:focus-visible` pseudo-class is used rather than `:focus` so the ring only appears during keyboard navigation, not on mouse click.
+
+## Keyboard Navigation
+
+WeiUI components follow the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) keyboard patterns:
+
+| Component | Keys |
+|-----------|------|
+| Button | `Enter`, `Space` to activate |
+| Tabs | `Arrow Left/Right` to switch, `Home/End` for first/last |
+| Dialog | `Escape` to close, focus trapped inside while open |
+| Menu | `Arrow Up/Down` to navigate, `Enter` to select, `Escape` to close |
+| Select | `Arrow Up/Down` to navigate options |
+| Checkbox | `Space` to toggle |
+| Radio group | `Arrow Up/Down/Left/Right` to change selection |
+
+## Screen Reader Support
+
+Components ship with the appropriate ARIA roles, states, and properties. You do not need to add `role` or `aria-*` attributes manually for standard usage.
+
+```html
+<!-- Role and state managed automatically -->
+<button class="wui-button wui-button--solid" aria-busy="true">
+  <span class="wui-spinner" aria-hidden="true"></span>
+  Loading...
+</button>
+
+<!-- Required field announced correctly -->
+<label for="email">Email <span aria-hidden="true">*</span></label>
+<input id="email" class="wui-input" type="email"
+       aria-required="true" aria-describedby="email-error" />
+<span id="email-error" class="wui-field-error" role="alert">
+  Please enter a valid email address.
+</span>
+```
+
+## Motion Preferences
+
+All animations and transitions respect `prefers-reduced-motion`. When the user has enabled reduced motion in their OS settings, transitions are shortened or removed entirely.
+
+```css
+/* Built into the WeiUI CSS layer */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+## Semantic HTML
+
+The CSS layer is designed to augment semantic HTML — not replace it. Use the right element for the job and add a WeiUI class for styling:
+
+```html
+<!-- Good: semantic element + WeiUI class -->
+<button class="wui-button wui-button--solid">Submit</button>
+<nav class="wui-nav" aria-label="Main navigation">...</nav>
+<main class="wui-main">...</main>
+
+<!-- Avoid: non-semantic element -->
+<div class="wui-button" onclick="...">Submit</div>
+```
+
+## Testing Checklist
+
+Before shipping a component or page, verify:
+
+- [ ] All text meets contrast requirements (use browser DevTools or [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/))
+- [ ] All interactive elements are reachable and operable by keyboard alone
+- [ ] Focus is visible at all times during keyboard navigation
+- [ ] Screen reader announces correct role, state, and name for each interactive element
+- [ ] Animations are suppressed under `prefers-reduced-motion: reduce`
+- [ ] Touch targets are at least 24×24px (44×44px recommended)
+- [ ] Form fields have associated labels and error messages linked via `aria-describedby`

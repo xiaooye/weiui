@@ -1,0 +1,88 @@
+# Components
+
+WeiUI ships a full set of accessible, themeable UI components. Each component is available as a CSS class (`wui-*`), a headless React hook, and a fully styled React component.
+
+## Actions
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Button](/docs/components/button) | `wui-button` | Push buttons with solid, outline, ghost, and soft variants |
+
+## Inputs
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Input](/docs/components/input) | `wui-input` | Text input and textarea with validation states |
+| [Form Controls](/docs/components/form) | `wui-checkbox`, `wui-radio`, `wui-switch` | Checkbox, radio group, and toggle switch |
+
+## Layout
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Layout](/docs/components/layout) | `wui-card`, `wui-divider`, `wui-stack` | Card, divider, and stack layout primitives |
+
+## Data Display
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Data Display](/docs/components/data-display) | `wui-badge`, `wui-avatar`, `wui-table` | Badge, avatar, and data table |
+
+## Overlays
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Overlays](/docs/components/overlays) | `wui-dialog`, `wui-tooltip`, `wui-popover` | Modal dialog, tooltip, and popover |
+
+## Feedback
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Feedback](/docs/components/feedback) | `wui-alert`, `wui-toast`, `wui-spinner` | Alert banners, toast notifications, and loading spinner |
+
+## Navigation
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Navigation](/docs/components/navigation) | `wui-tabs`, `wui-breadcrumb`, `wui-menu` | Tabs, breadcrumb trail, and dropdown menu |
+
+## Typography
+
+| Component | CSS Class | Description |
+|-----------|-----------|-------------|
+| [Typography](/docs/components/typography) | `wui-heading`, `wui-text`, `wui-code` | Heading scale, body text, and inline code |
+
+## Quick Example
+
+Every component works with plain HTML — no JavaScript required for the CSS layer:
+
+```html
+<!-- Button variants -->
+<button class="wui-button wui-button--solid">Primary</button>
+<button class="wui-button wui-button--outline">Secondary</button>
+<button class="wui-button wui-button--ghost">Ghost</button>
+<button class="wui-button wui-button--soft">Soft</button>
+
+<!-- Badges -->
+<span class="wui-badge wui-badge--solid">New</span>
+<span class="wui-badge wui-badge--success">Live</span>
+<span class="wui-badge wui-badge--warning">Beta</span>
+<span class="wui-badge wui-badge--error">Deprecated</span>
+
+<!-- Avatar -->
+<span class="wui-avatar">
+  <span class="wui-avatar__fallback">AB</span>
+</span>
+
+<!-- Card -->
+<div class="wui-card">
+  <div class="wui-card__header">
+    <h3>Card Title</h3>
+  </div>
+  <div class="wui-card__content">
+    <p>Card body content.</p>
+  </div>
+</div>
+
+<!-- Input -->
+<input class="wui-input" placeholder="Enter text..." />
+```

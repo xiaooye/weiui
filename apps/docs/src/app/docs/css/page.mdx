@@ -1,0 +1,189 @@
+# CSS Layer
+
+The CSS layer is the foundation of WeiUI. It provides every component as a set of plain CSS classes — no JavaScript required. This makes it usable in any framework, server-rendered HTML, or static site.
+
+## Installation
+
+```bash
+pnpm add @weiui/tokens @weiui/css
+```
+
+Import both packages in your root stylesheet or layout:
+
+```css
+/* In your global CSS */
+@import "@weiui/tokens/tokens.css";
+@import "@weiui/css";
+```
+
+Or in a Next.js / React root layout:
+
+```tsx
+// app/layout.tsx
+import "@weiui/tokens/tokens.css";
+import "@weiui/css";
+```
+
+## Cascade Layers
+
+The WeiUI CSS is wrapped in a named `@layer` so it sits at a predictable specificity level. Your own styles will override WeiUI without needing `!important`.
+
+```css
+/* WeiUI ships wrapped like this */
+@layer weiui.reset, weiui.tokens, weiui.base, weiui.components;
+
+/* Your overrides automatically win */
+.wui-button {
+  border-radius: 9999px; /* pill-shaped buttons */
+}
+```
+
+The layer order from lowest to highest priority:
+
+1. `weiui.reset` — minimal CSS reset
+2. `weiui.tokens` — CSS custom property definitions
+3. `weiui.base` — base element styles (body, headings)
+4. `weiui.components` — component classes
+
+## Naming Convention
+
+WeiUI uses BEM (Block, Element, Modifier) with a `wui-` prefix:
+
+```
+wui-{block}               Block
+wui-{block}__{element}    Element
+wui-{block}--{modifier}   Modifier
+```
+
+Examples:
+
+```html
+<!-- Block -->
+<div class="wui-card">
+
+  <!-- Element -->
+  <div class="wui-card__header">Card Title</div>
+  <div class="wui-card__content">Body</div>
+  <div class="wui-card__footer">Footer</div>
+</div>
+
+<!-- Block + Modifier -->
+<button class="wui-button wui-button--solid">Primary</button>
+<button class="wui-button wui-button--outline">Secondary</button>
+<button class="wui-button wui-button--ghost">Tertiary</button>
+```
+
+## Using Without JavaScript
+
+Every component in the CSS layer renders correctly in static HTML. There is no hydration step, no runtime bundle, and no framework dependency.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/weiui.css" />
+</head>
+<body>
+  <!-- Fully functional with zero JavaScript -->
+  <button class="wui-button wui-button--solid">Click me</button>
+
+  <div class="wui-card">
+    <div class="wui-card__header">
+      <h2>Hello World</h2>
+      <span class="wui-badge wui-badge--success">Live</span>
+    </div>
+    <div class="wui-card__content">
+      <p>This page has no JavaScript.</p>
+      <input class="wui-input" placeholder="Still works" />
+    </div>
+  </div>
+</body>
+</html>
+```
+
+## Component Reference
+
+### Button
+
+```html
+<button class="wui-button wui-button--solid">Solid</button>
+<button class="wui-button wui-button--outline">Outline</button>
+<button class="wui-button wui-button--ghost">Ghost</button>
+<button class="wui-button wui-button--soft">Soft</button>
+
+<!-- Size modifiers -->
+<button class="wui-button wui-button--solid wui-button--sm">Small</button>
+<button class="wui-button wui-button--solid wui-button--lg">Large</button>
+
+<!-- Disabled state -->
+<button class="wui-button wui-button--solid" disabled>Disabled</button>
+```
+
+### Input
+
+```html
+<input class="wui-input" type="text" placeholder="Default" />
+<input class="wui-input wui-input--error" type="text" value="Invalid value" />
+<textarea class="wui-input" rows="4" placeholder="Multiline"></textarea>
+```
+
+### Badge
+
+```html
+<span class="wui-badge wui-badge--solid">Default</span>
+<span class="wui-badge wui-badge--outline">Outline</span>
+<span class="wui-badge wui-badge--success">Success</span>
+<span class="wui-badge wui-badge--warning">Warning</span>
+<span class="wui-badge wui-badge--error">Error</span>
+```
+
+### Avatar
+
+```html
+<!-- With image -->
+<span class="wui-avatar">
+  <img src="/avatar.jpg" alt="Jane Doe" class="wui-avatar__image" />
+</span>
+
+<!-- Fallback initials -->
+<span class="wui-avatar">
+  <span class="wui-avatar__fallback">JD</span>
+</span>
+
+<!-- Size modifiers -->
+<span class="wui-avatar wui-avatar--sm">...</span>
+<span class="wui-avatar wui-avatar--lg">...</span>
+```
+
+### Card
+
+```html
+<div class="wui-card">
+  <div class="wui-card__header">
+    <h3>Title</h3>
+    <p class="wui-card__description">Optional subtitle</p>
+  </div>
+  <div class="wui-card__content">
+    <!-- Main content here -->
+  </div>
+  <div class="wui-card__footer">
+    <button class="wui-button wui-button--solid">Action</button>
+  </div>
+</div>
+```
+
+## Customizing Tokens
+
+Override any CSS custom property after importing WeiUI to theme components globally:
+
+```css
+@import "@weiui/tokens/tokens.css";
+@import "@weiui/css";
+
+/* Custom theme */
+:root {
+  --wui-color-primary: oklch(55% 0.20 160); /* green primary */
+  --wui-radius-md: 0.75rem;                 /* rounder corners */
+}
+```

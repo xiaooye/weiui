@@ -1,0 +1,123 @@
+# Design Tokens
+
+WeiUI uses a three-tier token system that maps raw values up through semantic meaning to component-specific usage. All tokens are emitted as CSS custom properties from a W3C Design Token format JSON source.
+
+## Token Tiers
+
+```
+Primitive → Semantic → Component
+```
+
+### Primitive tokens
+
+Raw values with no meaning attached — colors as OKLCH coordinates, numeric scales, font families:
+
+```css
+/* Color primitives */
+--wui-primitive-blue-50: oklch(97% 0.02 250);
+--wui-primitive-blue-500: oklch(55% 0.18 250);
+--wui-primitive-blue-900: oklch(25% 0.10 250);
+
+/* Spacing primitives */
+--wui-primitive-space-1: 0.25rem;
+--wui-primitive-space-4: 1rem;
+--wui-primitive-space-8: 2rem;
+```
+
+### Semantic tokens
+
+Assign meaning to primitives. These change value between light and dark mode.
+
+```css
+/* Light mode (default) */
+:root {
+  --wui-color-background: var(--wui-primitive-neutral-50);
+  --wui-color-foreground: var(--wui-primitive-neutral-900);
+  --wui-color-primary: var(--wui-primitive-blue-500);
+  --wui-color-muted-foreground: var(--wui-primitive-neutral-500);
+  --wui-color-border: var(--wui-primitive-neutral-200);
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --wui-color-background: var(--wui-primitive-neutral-950);
+  --wui-color-foreground: var(--wui-primitive-neutral-50);
+  --wui-color-primary: var(--wui-primitive-blue-400);
+  --wui-color-muted-foreground: var(--wui-primitive-neutral-400);
+  --wui-color-border: var(--wui-primitive-neutral-800);
+}
+```
+
+### Component tokens
+
+Scoped to a single component, built from semantic tokens:
+
+```css
+.wui-button {
+  --button-bg: var(--wui-color-primary);
+  --button-text: var(--wui-color-primary-foreground);
+  --button-radius: var(--wui-radius-md);
+  --button-height: var(--wui-spacing-10);
+}
+```
+
+## CSS Custom Property Naming
+
+All tokens follow the pattern `--wui-<category>-<name>`:
+
+| Prefix | Category | Examples |
+|--------|----------|---------|
+| `--wui-color-` | Color | `--wui-color-primary`, `--wui-color-border` |
+| `--wui-spacing-` | Spacing | `--wui-spacing-4`, `--wui-spacing-8` |
+| `--wui-font-size-` | Font size | `--wui-font-size-sm`, `--wui-font-size-xl` |
+| `--wui-font-weight-` | Font weight | `--wui-font-weight-bold`, `--wui-font-weight-semibold` |
+| `--wui-font-lineHeight-` | Line height | `--wui-font-lineHeight-tight`, `--wui-font-lineHeight-relaxed` |
+| `--wui-font-letterSpacing-` | Letter spacing | `--wui-font-letterSpacing-tight`, `--wui-font-letterSpacing-wider` |
+| `--wui-radius-` | Border radius | `--wui-radius-sm`, `--wui-radius-lg` |
+| `--wui-shadow-` | Box shadow | `--wui-shadow-sm`, `--wui-shadow-md` |
+
+## OKLCH Color Space
+
+WeiUI uses [OKLCH](https://oklch.com/) for all color values. OKLCH is perceptually uniform — equal numeric steps look equal to the human eye, making it ideal for generating accessible color scales.
+
+```css
+/* OKLCH: oklch(lightness% chroma hue) */
+--wui-color-primary: oklch(55% 0.18 250);
+/*                          ^^^  ^^^^  ^^^
+                            L    C     H
+                            0-1  0-0.4 0-360 */
+```
+
+Benefits over HSL/RGB:
+- Consistent perceived lightness across hues
+- Reliable contrast ratio predictions
+- Smooth, natural-looking color scales
+
+## Dark Mode
+
+Dark mode is applied by adding `data-theme="dark"` to the `<html>` element. Semantic tokens automatically resolve to dark-mode values — no additional CSS needed.
+
+```tsx
+// Toggle dark mode
+document.documentElement.dataset.theme = "dark";
+
+// Or respect system preference
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+```
+
+WeiUI also ships a `prefers-color-scheme` media query fallback so dark mode works even without JavaScript.
+
+## Using Tokens in Your CSS
+
+Reference any token in your own styles:
+
+```css
+.my-component {
+  background: var(--wui-color-background);
+  color: var(--wui-color-foreground);
+  padding: var(--wui-spacing-4);
+  border-radius: var(--wui-radius-md);
+  font-size: var(--wui-font-size-sm);
+}
+```
