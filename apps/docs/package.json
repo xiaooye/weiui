@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test e2e/visual",
+    "test:a11y": "playwright test e2e/a11y"
   },
   "dependencies": {
     "@weiui/css": "workspace:*",
@@ -15,8 +18,10 @@
     "react-dom": "^19.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10",
     "@mdx-js/loader": "^3.1",
     "@next/mdx": "^15.3",
+    "@playwright/test": "^1.52",
     "@types/mdx": "^2.0.13",
     "@types/node": "25.6.0",
     "@types/react": "^19.1",
