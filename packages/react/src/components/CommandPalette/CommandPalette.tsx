@@ -70,7 +70,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       if (isOpen) {
         setQuery("");
         setHighlightedIndex(0);
-        requestAnimationFrame(() => inputRef.current?.focus());
+        inputRef.current?.focus();
       }
     }, [isOpen]);
 
