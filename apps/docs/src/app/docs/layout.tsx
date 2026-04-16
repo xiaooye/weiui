@@ -24,12 +24,20 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               <li><a href="/docs/components/button" style={{ fontSize: "var(--wui-font-size-sm)" }}>Button</a></li>
               <li><a href="/docs/components/input" style={{ fontSize: "var(--wui-font-size-sm)" }}>Input</a></li>
               <li><a href="/docs/components/form" style={{ fontSize: "var(--wui-font-size-sm)" }}>Form Controls</a></li>
+              <li><a href="/docs/components/advanced-inputs" style={{ fontSize: "var(--wui-font-size-sm)" }}>Advanced Inputs</a></li>
+              <li><a href="/docs/components/date-time" style={{ fontSize: "var(--wui-font-size-sm)" }}>Date & Time</a></li>
               <li><a href="/docs/components/layout" style={{ fontSize: "var(--wui-font-size-sm)" }}>Layout</a></li>
+              <li><a href="/docs/components/sidebar-drawer" style={{ fontSize: "var(--wui-font-size-sm)" }}>Sidebar & Drawer</a></li>
               <li><a href="/docs/components/data-display" style={{ fontSize: "var(--wui-font-size-sm)" }}>Data Display</a></li>
+              <li><a href="/docs/components/data" style={{ fontSize: "var(--wui-font-size-sm)" }}>Data Components</a></li>
               <li><a href="/docs/components/overlays" style={{ fontSize: "var(--wui-font-size-sm)" }}>Overlays</a></li>
               <li><a href="/docs/components/feedback" style={{ fontSize: "var(--wui-font-size-sm)" }}>Feedback</a></li>
+              <li><a href="/docs/components/toast-chip-progress" style={{ fontSize: "var(--wui-font-size-sm)" }}>Toast & Chips</a></li>
+              <li><a href="/docs/components/stepper-timeline" style={{ fontSize: "var(--wui-font-size-sm)" }}>Stepper & Timeline</a></li>
               <li><a href="/docs/components/navigation" style={{ fontSize: "var(--wui-font-size-sm)" }}>Navigation</a></li>
               <li><a href="/docs/components/typography" style={{ fontSize: "var(--wui-font-size-sm)" }}>Typography</a></li>
+              <li><a href="/docs/components/editor" style={{ fontSize: "var(--wui-font-size-sm)" }}>Editor</a></li>
+              <li><a href="/docs/components/command-palette" style={{ fontSize: "var(--wui-font-size-sm)" }}>Command Palette</a></li>
             </ul>
           </div>
 

@@ -1,0 +1,49 @@
+# Rich Text Editor
+
+Full-featured editor powered by TipTap with a formatting toolbar.
+
+---
+
+## Editor
+
+```tsx
+import { Editor } from "@weiui/react";
+
+<Editor placeholder="Start writing..." onChange={(html) => console.log(html)} />
+<Editor value={content} onChange={setContent} />
+<Editor disabled />
+```
+
+### Toolbar Actions
+
+Bold, Italic, Strikethrough, Heading 1/2/3, Bullet List, Ordered List, Blockquote, Inline Code, Code Block.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | — | Controlled HTML content |
+| defaultValue | `string` | `""` | Initial content |
+| onChange | `(html: string) => void` | — | Content change handler |
+| placeholder | `string` | `"Write something..."` | Placeholder text |
+| disabled | `boolean` | `false` | Disables editing |
+| label | `string` | `"Rich text editor"` | ARIA label |
+
+### Accessibility
+
+- Toolbar uses `role="toolbar"` with `aria-label`
+- Each button has `aria-label` and `aria-pressed` for active state
+- 44px minimum touch target on all toolbar buttons
+- `onMouseDown` with `preventDefault` keeps editor focus while formatting
+- Disabled state applies `pointer-events: none` and reduced opacity
+
+### CSS Classes
+
+| Class | Description |
+|-------|-------------|
+| `.wui-editor` | Container with border |
+| `.wui-editor__toolbar` | Toolbar row |
+| `.wui-editor__toolbar-btn` | Individual formatting button |
+| `.wui-editor__toolbar-btn[data-active]` | Active formatting state |
+| `.wui-editor__toolbar-sep` | Visual separator between groups |
+| `.wui-editor__content` | Content editing area |

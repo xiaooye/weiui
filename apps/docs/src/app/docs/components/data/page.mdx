@@ -1,0 +1,121 @@
+# Data Components
+
+DataTable, Charts, and TreeView for data-heavy interfaces.
+
+---
+
+## DataTable
+
+Powered by `@tanstack/react-table` — sort, filter, paginate, and select rows.
+
+```tsx
+import { DataTable, createColumnHelper } from "@weiui/react";
+
+type User = { name: string; email: string; role: string };
+
+const columnHelper = createColumnHelper<User>();
+const columns = [
+  columnHelper.accessor("name", { header: "Name" }),
+  columnHelper.accessor("email", { header: "Email" }),
+  columnHelper.accessor("role", { header: "Role" }),
+];
+
+<DataTable data={users} columns={columns} searchable pageSize={10} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `TData[]` | — | Table data array |
+| columns | `ColumnDef<TData>[]` | — | Column definitions |
+| searchable | `boolean` | `false` | Shows global search input |
+| selectable | `boolean` | `false` | Enables row selection checkboxes |
+| pageSize | `number` | `10` | Rows per page |
+| emptyText | `string` | `"No results."` | Empty state message |
+
+---
+
+## Charts
+
+Six chart types built on Recharts with WeiUI design tokens.
+
+```tsx
+import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "@weiui/react";
+
+const data = [
+  { name: "Jan", revenue: 4000, expenses: 2400 },
+  { name: "Feb", revenue: 3000, expenses: 1398 },
+  { name: "Mar", revenue: 2000, expenses: 9800 },
+];
+
+<BarChart data={data} dataKeys={["revenue", "expenses"]} title="Revenue vs Expenses" />
+<LineChart data={data} dataKeys={["revenue"]} title="Revenue Trend" />
+<AreaChart data={data} dataKeys={["revenue"]} title="Revenue Area" />
+```
+
+```tsx
+const pieData = [
+  { name: "Desktop", value: 400 },
+  { name: "Mobile", value: 300 },
+  { name: "Tablet", value: 100 },
+];
+
+<PieChart data={pieData} title="Traffic Sources" />
+<DonutChart data={pieData} title="Traffic (Donut)" />
+```
+
+### Chart Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `Record<string, unknown>[]` | — | Data array |
+| dataKeys | `string[]` | — | Keys to chart (Bar/Line/Area/Radar) |
+| xKey | `string` | `"name"` | X-axis data key |
+| title | `ReactNode` | — | Chart title |
+| description | `ReactNode` | — | Chart description |
+| height | `number` | `300` | Chart height in px |
+| colors | `string[]` | design tokens | Custom color palette |
+
+---
+
+## TreeView
+
+Recursive tree with expand/collapse, keyboard navigation, and selection.
+
+```tsx
+import { TreeView, type TreeNode } from "@weiui/react";
+
+const nodes: TreeNode[] = [
+  {
+    id: "src",
+    label: "src",
+    children: [
+      { id: "src/components", label: "components", children: [
+        { id: "src/components/Button.tsx", label: "Button.tsx" },
+        { id: "src/components/Input.tsx", label: "Input.tsx" },
+      ]},
+      { id: "src/index.ts", label: "index.ts" },
+    ],
+  },
+  { id: "package.json", label: "package.json" },
+];
+
+<TreeView nodes={nodes} onSelect={(id) => console.log(id)} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| nodes | `TreeNode[]` | — | Tree data structure |
+| selected | `string` | — | Currently selected node ID |
+| defaultExpanded | `string[]` | `[]` | Initially expanded node IDs |
+| onSelect | `(id: string) => void` | — | Selection callback |
+
+### Accessibility
+
+- `role="tree"` with `role="treeitem"` on each node
+- `aria-expanded` on branch nodes
+- Keyboard: ArrowDown/Up to navigate, ArrowRight to expand, ArrowLeft to collapse, Home/End, Enter/Space to select
+- 44px minimum touch target per node

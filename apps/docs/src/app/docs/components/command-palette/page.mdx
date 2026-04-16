@@ -1,0 +1,68 @@
+# Command Palette
+
+A `Cmd+K` fuzzy search dialog for quick navigation and actions.
+
+---
+
+## CommandPalette
+
+```tsx
+import { CommandPalette, type CommandItem } from "@weiui/react";
+
+const items: CommandItem[] = [
+  { id: "home", label: "Go to Home", group: "Navigation", shortcut: "Ctrl+H", onSelect: () => router.push("/") },
+  { id: "settings", label: "Open Settings", group: "Navigation", shortcut: "Ctrl+,", onSelect: () => router.push("/settings") },
+  { id: "theme", label: "Toggle Dark Mode", group: "Actions", onSelect: () => toggleTheme() },
+  { id: "logout", label: "Sign Out", group: "Actions", onSelect: () => signOut() },
+];
+
+// Uncontrolled — opens/closes with Cmd+K automatically
+<CommandPalette items={items} />
+
+// Controlled
+<CommandPalette items={items} open={isOpen} onOpenChange={setIsOpen} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| items | `CommandItem[]` | — | Searchable command list |
+| open | `boolean` | — | Controlled open state |
+| onOpenChange | `(open: boolean) => void` | — | Open/close callback |
+| placeholder | `string` | `"Type a command or search..."` | Input placeholder |
+| emptyText | `string` | `"No results found."` | Empty state text |
+
+### CommandItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | `string` | Unique identifier |
+| label | `string` | Display text |
+| group | `string?` | Grouping label |
+| shortcut | `string?` | Keyboard shortcut display |
+| disabled | `boolean?` | Prevents selection |
+| onSelect | `() => void` | Action callback |
+
+### Accessibility
+
+- `role="dialog"` with `aria-modal="true"`
+- Input uses `role="combobox"` with `aria-activedescendant`
+- Results use `role="listbox"` with `role="option"` items
+- Keyboard: ArrowDown/Up to navigate, Enter to select, Escape to close
+- Global `Cmd+K` / `Ctrl+K` hotkey
+- Items grouped with `role="group"` and `aria-label`
+- Disabled items skip during keyboard navigation
+
+### CSS Classes
+
+| Class | Description |
+|-------|-------------|
+| `.wui-command-overlay` | Full-screen backdrop |
+| `.wui-command` | Dialog container |
+| `.wui-command__input` | Search input |
+| `.wui-command__list` | Scrollable results list |
+| `.wui-command__item` | Individual result item |
+| `.wui-command__item[data-highlighted]` | Keyboard-focused item |
+| `.wui-command__group-label` | Group heading |
+| `.wui-command__item-shortcut` | Shortcut badge |
