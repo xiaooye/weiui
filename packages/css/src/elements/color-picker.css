@@ -1,0 +1,36 @@
+@layer wui-elements {
+  .wui-color-picker { display: flex; flex-direction: column; gap: var(--wui-spacing-3); inline-size: 240px; }
+  .wui-color-picker__preview {
+    inline-size: 100%; block-size: 40px;
+    border-radius: var(--wui-shape-radius-md);
+    border: 1px solid var(--wui-color-border);
+  }
+  .wui-color-picker__hue {
+    inline-size: 100%; block-size: 44px; border-radius: var(--wui-shape-radius-full);
+    background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    -webkit-appearance: none; appearance: none; cursor: pointer;
+  }
+  .wui-color-picker__hue::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    inline-size: 20px; block-size: 20px;
+    border-radius: var(--wui-shape-radius-full);
+    background: white; border: 2px solid var(--wui-color-border);
+    box-shadow: var(--wui-shadow-sm);
+  }
+  .wui-color-picker__input {
+    font-family: var(--wui-font-family-mono); font-size: var(--wui-font-size-sm);
+    padding-block: var(--wui-spacing-2); padding-inline: var(--wui-spacing-2); border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md); inline-size: 100%;
+  }
+  .wui-color-picker__swatches {
+    display: flex; flex-wrap: wrap; gap: var(--wui-spacing-1);
+  }
+  .wui-color-picker__swatch {
+    inline-size: 44px; block-size: 44px;
+    border-radius: var(--wui-shape-radius-sm);
+    border: 1px solid var(--wui-color-border);
+    cursor: pointer; padding: 0; background: none;
+  }
+  .wui-color-picker__swatch[data-selected] { outline: 2px solid var(--wui-color-ring); outline-offset: 1px; }
+  .wui-color-picker__swatch:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; }
+}

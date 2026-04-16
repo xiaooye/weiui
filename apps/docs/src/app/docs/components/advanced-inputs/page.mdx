@@ -1,0 +1,223 @@
+import { ComponentPreview } from "../../../../components/ComponentPreview";
+
+# Advanced Inputs
+
+Slider, Rating, InputNumber, and InputOTP — specialized input controls for ranges, ratings, numeric values, and one-time passwords.
+
+---
+
+## Slider
+
+A range slider with min/max/step support and full keyboard navigation.
+
+<ComponentPreview label="Slider default">
+  <div style={{ padding: "0 8px", width: "320px" }}>
+    <div className="wui-slider">
+      <div className="wui-slider__track">
+        <div className="wui-slider__fill" style={{ inlineSize: "40%" }} />
+        <div className="wui-slider__thumb" role="slider" tabIndex={0} aria-valuenow={40} aria-valuemin={0} aria-valuemax={100} aria-label="Slider" style={{ insetInlineStart: "40%" }} />
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview label="Slider disabled">
+  <div style={{ padding: "0 8px", width: "320px" }}>
+    <div className="wui-slider" data-disabled="true">
+      <div className="wui-slider__track">
+        <div className="wui-slider__fill" style={{ inlineSize: "60%" }} />
+        <div className="wui-slider__thumb" role="slider" tabIndex={-1} aria-valuenow={60} aria-valuemin={0} aria-valuemax={100} aria-label="Slider" aria-disabled="true" style={{ insetInlineStart: "60%" }} />
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Slider } from "@weiui/react";
+
+<Slider defaultValue={40} />
+<Slider min={0} max={200} step={10} defaultValue={100} onChange={(v) => console.log(v)} />
+<Slider disabled defaultValue={60} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| min | `number` | `0` | Minimum value |
+| max | `number` | `100` | Maximum value |
+| step | `number` | `1` | Step increment |
+| value | `number` | — | Controlled value |
+| defaultValue | `number` | `0` | Initial uncontrolled value |
+| onChange | `(value: number) => void` | — | Called on value change |
+| disabled | `boolean` | `false` | Disables the slider |
+| label | `string` | `"Slider"` | ARIA label for the thumb |
+
+### Accessibility
+
+- `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- Keyboard: ArrowRight/Up increments, ArrowLeft/Down decrements, Home/End jump to min/max
+- 44px minimum touch target height
+
+---
+
+## Rating
+
+Star rating component with keyboard and pointer support.
+
+<ComponentPreview label="Rating default">
+  <div className="wui-rating" role="radiogroup" aria-label="Rating">
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="true" aria-label="1 star" tabIndex={0}>★</button>
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1}>★</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1}>☆</button>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview label="Rating readonly & disabled">
+  <div className="wui-rating" role="radiogroup" aria-label="Read-only rating" data-readonly="true">
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="1 star" tabIndex={0}>★</button>
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1}>☆</button>
+  </div>
+  <div className="wui-rating" role="radiogroup" aria-label="Disabled rating" data-disabled="true">
+    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="1 star" tabIndex={0} disabled={true}>★</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1} disabled={true}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1} disabled={true}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1} disabled={true}>☆</button>
+    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1} disabled={true}>☆</button>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Rating } from "@weiui/react";
+
+<Rating defaultValue={3} />
+<Rating value={rating} onChange={setRating} />
+<Rating readOnly defaultValue={4} />
+<Rating disabled defaultValue={2} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| max | `number` | `5` | Number of stars |
+| value | `number` | — | Controlled value |
+| defaultValue | `number` | `0` | Initial uncontrolled value |
+| onChange | `(value: number) => void` | — | Called when a star is clicked |
+| disabled | `boolean` | `false` | Disables all interactions |
+| readOnly | `boolean` | `false` | Prevents changes, still focusable |
+| label | `string` | `"Rating"` | ARIA label for the group |
+
+### Accessibility
+
+- `role="radiogroup"` with individual stars as `role="radio"`
+- `aria-checked` reflects selected star
+- 44px minimum touch target height per star
+- Roving tabIndex within the group
+
+---
+
+## InputNumber
+
+Numeric input with increment/decrement buttons and keyboard step control.
+
+<ComponentPreview label="InputNumber default">
+  <div className="wui-input-number">
+    <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
+    <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" />
+    <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
+  </div>
+</ComponentPreview>
+
+<ComponentPreview label="InputNumber disabled">
+  <div className="wui-input-number" data-disabled="true">
+    <button type="button" className="wui-input-number__btn" aria-label="Decrement" disabled={true}>−</button>
+    <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" disabled={true} />
+    <button type="button" className="wui-input-number__btn" aria-label="Increment" disabled={true}>+</button>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { InputNumber } from "@weiui/react";
+
+<InputNumber defaultValue={5} />
+<InputNumber min={0} max={100} step={5} defaultValue={50} onChange={(v) => console.log(v)} />
+<InputNumber disabled defaultValue={10} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| min | `number` | `-Infinity` | Minimum allowed value |
+| max | `number` | `Infinity` | Maximum allowed value |
+| step | `number` | `1` | Step for increment/decrement |
+| value | `number` | — | Controlled value |
+| defaultValue | `number` | `0` | Initial uncontrolled value |
+| onChange | `(value: number) => void` | — | Called on value change |
+| disabled | `boolean` | `false` | Disables the control |
+
+### Accessibility
+
+- Increment/Decrement buttons have `aria-label`
+- ArrowUp/ArrowDown keyboard support on the input
+- Buttons auto-disable at min/max bounds
+- 44px minimum height touch targets
+
+---
+
+## InputOTP
+
+One-time password input with separate boxes per digit and auto-advance.
+
+<ComponentPreview label="InputOTP 6-digit">
+  <div className="wui-input-otp" role="group" aria-label="One-time password">
+    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="1" aria-label="Digit 1" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="2" aria-label="Digit 2" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="3" aria-label="Digit 3" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 4" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 5" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 6" />
+  </div>
+</ComponentPreview>
+
+<ComponentPreview label="InputOTP 4-digit">
+  <div className="wui-input-otp" role="group" aria-label="One-time password">
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 1" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 2" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 3" />
+    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 4" />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { InputOTP } from "@weiui/react";
+
+<InputOTP onChange={(value) => console.log(value)} />
+<InputOTP length={4} onChange={(value) => console.log(value)} />
+<InputOTP value={otp} onChange={setOtp} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| length | `number` | `6` | Number of digit slots |
+| value | `string` | — | Controlled value |
+| defaultValue | `string` | `""` | Initial uncontrolled value |
+| onChange | `(value: string) => void` | — | Called when any slot changes |
+| disabled | `boolean` | `false` | Disables all slots |
+
+### Accessibility
+
+- `role="group"` with `aria-label="One-time password"`
+- Each slot has `aria-label="Digit N"`
+- `inputMode="numeric"` for mobile numeric keyboard
+- Auto-advances focus to next slot on input
+- Backspace clears current slot and moves focus back
+- Paste distributes characters across slots

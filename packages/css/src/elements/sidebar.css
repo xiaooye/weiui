@@ -1,0 +1,29 @@
+@layer wui-elements {
+  .wui-sidebar {
+    display: flex; flex-direction: column;
+    block-size: 100vh; inline-size: 16rem;
+    background-color: var(--wui-color-background);
+    border-inline-end: 1px solid var(--wui-color-border);
+    position: sticky; inset-block-start: 0;
+    overflow-block: auto;
+  }
+  .wui-sidebar[data-collapsed] { inline-size: 4rem; }
+  .wui-sidebar__header { padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-4); border-block-end: 1px solid var(--wui-color-border); }
+  .wui-sidebar__content { flex: 1; padding-block: var(--wui-spacing-2); padding-inline: var(--wui-spacing-2); }
+  .wui-sidebar__footer { padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-4); border-block-start: 1px solid var(--wui-color-border); }
+  .wui-sidebar__item {
+    display: flex; align-items: center; gap: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2); padding-inline: var(--wui-spacing-3);
+    border-radius: var(--wui-shape-radius-md);
+    font-size: var(--wui-font-size-sm); cursor: pointer;
+    color: var(--wui-color-muted-foreground);
+    min-block-size: 44px; border: none; background: none; inline-size: 100%;
+    text-align: start;
+  }
+  .wui-sidebar__item:hover { background-color: var(--wui-color-muted); color: var(--wui-color-foreground); }
+  .wui-sidebar__item[data-active] { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); font-weight: var(--wui-font-weight-medium); }
+  .wui-sidebar__item:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: -3px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-sidebar { transition: inline-size var(--wui-motion-duration-normal) var(--wui-motion-easing-default); }
+  }
+}

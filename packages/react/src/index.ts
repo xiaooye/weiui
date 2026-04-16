@@ -83,3 +83,31 @@ export { Link, type LinkProps } from "./components/Link";
 export { Toaster, toast, addToast, removeToast, getToasts, subscribe } from "./components/Toast";
 export { Chip, type ChipProps } from "./components/Chip";
 export { ProgressBar, type ProgressBarProps } from "./components/ProgressBar";
+
+// Advanced input components
+export { Slider, type SliderProps } from "./components/Slider";
+export { Rating, type RatingProps } from "./components/Rating";
+export { InputNumber, type InputNumberProps } from "./components/InputNumber";
+export { InputOTP, type InputOTPProps } from "./components/InputOTP";
+export { AutoComplete, type AutoCompleteProps } from "./components/AutoComplete";
+export { MultiSelect, type MultiSelectProps } from "./components/MultiSelect";
+export { FileUpload, type FileUploadProps } from "./components/FileUpload";
+export { ColorPicker, type ColorPickerProps } from "./components/ColorPicker";
+
+// Date components
+export { Calendar, type CalendarProps } from "./components/Calendar";
+export { DatePicker, type DatePickerProps } from "./components/DatePicker";
+
+// Layout components - Sidebar + Drawer
+export {
+  Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem,
+  type SidebarProps, type SidebarItemProps,
+} from "./components/Sidebar";
+export {
+  Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerClose,
+  type DrawerProps, type DrawerTriggerProps, type DrawerContentProps, type DrawerCloseProps,
+} from "./components/Drawer";
+
+// Progress + display components
+export { Stepper, Step, StepSeparator, type StepperProps, type StepProps, type StepSeparatorProps } from "./components/Stepper";
+export { Timeline, TimelineItem, type TimelineProps, type TimelineItemProps } from "./components/Timeline";

@@ -19,6 +19,16 @@
 @import "./elements/rating.css";
 @import "./elements/input-number.css";
 @import "./elements/input-otp.css";
+@import "./elements/autocomplete.css";
+@import "./elements/multi-select.css";
+@import "./elements/file-upload.css";
+@import "./elements/color-picker.css";
+@import "./elements/sidebar.css";
+@import "./elements/drawer.css";
+@import "./elements/stepper.css";
+@import "./elements/timeline.css";
+@import "./elements/calendar.css";
+@import "./elements/date-picker.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";

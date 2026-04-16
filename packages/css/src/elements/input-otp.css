@@ -1,0 +1,11 @@
+@layer wui-elements {
+  .wui-input-otp { display: inline-flex; gap: var(--wui-spacing-2); }
+  .wui-input-otp__slot {
+    inline-size: 44px; block-size: 44px;
+    text-align: center; font-size: var(--wui-font-size-xl); font-family: var(--wui-font-family-mono);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background); color: var(--wui-color-foreground);
+  }
+  .wui-input-otp__slot:focus { border-color: var(--wui-color-ring); outline: 2px solid var(--wui-color-ring); outline-offset: 0; }
+}

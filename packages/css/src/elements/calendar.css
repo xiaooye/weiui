@@ -1,0 +1,38 @@
+@layer wui-elements {
+  .wui-calendar { inline-size: 320px; padding-block: var(--wui-spacing-3); padding-inline: var(--wui-spacing-3); }
+  .wui-calendar__header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-block-end: var(--wui-spacing-3);
+  }
+  .wui-calendar__title { font-weight: var(--wui-font-weight-semibold); font-size: var(--wui-font-size-sm); }
+  .wui-calendar__nav {
+    display: flex; align-items: center; justify-content: center;
+    min-block-size: 44px; min-inline-size: 44px;
+    border-radius: var(--wui-shape-radius-md); cursor: pointer;
+    background: none; border: none; color: var(--wui-color-foreground);
+  }
+  .wui-calendar__nav:hover { background-color: var(--wui-color-muted); }
+  .wui-calendar__nav:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; }
+  .wui-calendar__grid { inline-size: 100%; border-collapse: collapse; }
+  .wui-calendar__weekday {
+    font-size: var(--wui-font-size-xs); font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-muted-foreground); text-align: center;
+    padding-block-end: var(--wui-spacing-1);
+  }
+  .wui-calendar__day {
+    text-align: center; padding: 0;
+  }
+  .wui-calendar__day-btn {
+    inline-size: 44px; block-size: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--wui-shape-radius-md);
+    border: none; background: none; cursor: pointer;
+    font-size: var(--wui-font-size-sm); color: var(--wui-color-foreground);
+  }
+  .wui-calendar__day-btn:hover { background-color: var(--wui-color-muted); }
+  .wui-calendar__day-btn:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; }
+  .wui-calendar__day-btn[data-selected] { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); }
+  .wui-calendar__day-btn[data-today] { border: 1px solid var(--wui-color-primary); }
+  .wui-calendar__day-btn[data-outside] { color: var(--wui-color-muted-foreground); opacity: 0.5; }
+  .wui-calendar__day-btn[data-disabled] { opacity: 0.3; cursor: not-allowed; }
+}

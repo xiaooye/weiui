@@ -1,0 +1,31 @@
+@layer wui-elements {
+  .wui-autocomplete { position: relative; inline-size: 100%; }
+  .wui-autocomplete__input {
+    inline-size: 100%; min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-sm); color: var(--wui-color-foreground);
+    background-color: var(--wui-color-background);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+  }
+  .wui-autocomplete__input:focus { border-color: var(--wui-color-ring); outline: 2px solid var(--wui-color-ring); outline-offset: 0; }
+  .wui-autocomplete__list {
+    position: absolute; inset-block-start: 100%; inset-inline: 0;
+    margin-block-start: var(--wui-spacing-1);
+    background-color: var(--wui-color-background);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    box-shadow: var(--wui-shadow-md);
+    max-block-size: 240px; overflow-y: auto;
+    z-index: var(--wui-zIndex-dropdown);
+  }
+  .wui-autocomplete__item {
+    padding-block: var(--wui-spacing-2); padding-inline: var(--wui-spacing-3);
+    font-size: var(--wui-font-size-sm); cursor: pointer;
+    min-block-size: 44px; display: flex; align-items: center;
+  }
+  .wui-autocomplete__item:hover,
+  .wui-autocomplete__item[data-highlighted] { background-color: var(--wui-color-muted); }
+  .wui-autocomplete__item[data-selected] { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); }
+  .wui-autocomplete__empty { padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-4); text-align: center; color: var(--wui-color-muted-foreground); font-size: var(--wui-font-size-sm); }
+}

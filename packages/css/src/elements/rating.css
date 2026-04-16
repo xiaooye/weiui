@@ -1,0 +1,13 @@
+@layer wui-elements {
+  .wui-rating { display: inline-flex; gap: var(--wui-spacing-0\.5); }
+  .wui-rating__star {
+    cursor: pointer; background: none; border: none; padding: 0;
+    color: var(--wui-color-border); font-size: 24px; line-height: 1;
+    min-block-size: 44px; min-inline-size: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .wui-rating__star[data-filled] { color: var(--wui-color-warning); }
+  .wui-rating__star:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; border-radius: var(--wui-shape-radius-sm); }
+  .wui-rating[data-disabled] .wui-rating__star { cursor: default; opacity: 0.5; }
+  .wui-rating[data-readonly] .wui-rating__star { cursor: default; }
+}
