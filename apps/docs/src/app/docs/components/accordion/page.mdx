@@ -1,0 +1,42 @@
+# Accordion
+
+Collapsible content sections — single or multiple expand mode.
+
+---
+
+```tsx
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@weiui/react";
+
+<Accordion type="single">
+  <AccordionItem value="faq-1">
+    <AccordionTrigger value="faq-1">What is WeiUI?</AccordionTrigger>
+    <AccordionContent value="faq-1">
+      A business-level design system with CSS, headless, and styled React layers.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="faq-2">
+    <AccordionTrigger value="faq-2">Is it accessible?</AccordionTrigger>
+    <AccordionContent value="faq-2">
+      Yes — WCAG AAA compliant with full keyboard support.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Multiple expand
+<Accordion type="multiple" defaultExpanded={["item-1"]}>
+  ...
+</Accordion>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| type | `"single" \| "multiple"` | `"single"` | Allow one or many open at once |
+| defaultExpanded | `string[]` | `[]` | Initially expanded items |
+
+### Accessibility
+
+- Trigger uses `aria-expanded` and `aria-controls`
+- Content uses `role="region"`
+- Chevron icon rotates on expand (respects `prefers-reduced-motion`)

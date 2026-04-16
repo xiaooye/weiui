@@ -38,6 +38,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               <li><a href="/docs/components/typography" style={{ fontSize: "var(--wui-font-size-sm)" }}>Typography</a></li>
               <li><a href="/docs/components/editor" style={{ fontSize: "var(--wui-font-size-sm)" }}>Editor</a></li>
               <li><a href="/docs/components/command-palette" style={{ fontSize: "var(--wui-font-size-sm)" }}>Command Palette</a></li>
+              <li><a href="/docs/components/accordion" style={{ fontSize: "var(--wui-font-size-sm)" }}>Accordion</a></li>
+              <li><a href="/docs/components/wave2-3" style={{ fontSize: "var(--wui-font-size-sm)" }}>More Components</a></li>
             </ul>
           </div>
 

@@ -1,0 +1,153 @@
+# Wave 2 & 3 Components
+
+Pagination, Transfer, Splitter, AppBar, BottomNav, SpeedDial, ToggleGroup, ButtonGroup.
+
+---
+
+## Pagination
+
+Page navigation with ellipsis for large page counts.
+
+```tsx
+import { Pagination } from "@weiui/react";
+
+<Pagination page={3} totalPages={20} onPageChange={setPage} />
+<Pagination page={1} totalPages={100} onPageChange={setPage} siblingCount={2} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| page | `number` | — | Current page |
+| totalPages | `number` | — | Total page count |
+| onPageChange | `(page: number) => void` | — | Page change handler |
+| siblingCount | `number` | `1` | Pages shown around current |
+
+---
+
+## Transfer
+
+Dual-list with items moved between source and target.
+
+```tsx
+import { Transfer } from "@weiui/react";
+
+<Transfer
+  sourceItems={[
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue" },
+    { value: "angular", label: "Angular" },
+  ]}
+  onChange={(source, target) => console.log({ source, target })}
+/>
+```
+
+---
+
+## Splitter
+
+Resizable split panes — horizontal or vertical.
+
+```tsx
+import { Splitter } from "@weiui/react";
+
+<Splitter defaultSizes={[60, 40]} style={{ height: "400px" }}>
+  <div>Left panel</div>
+  <div>Right panel</div>
+</Splitter>
+
+<Splitter orientation="vertical" minSize={20}>
+  <div>Top</div>
+  <div>Bottom</div>
+</Splitter>
+```
+
+### Accessibility
+- Handle uses `role="separator"` with `aria-orientation` and `aria-valuenow`
+- Keyboard: ArrowLeft/Right (horizontal) or ArrowUp/Down (vertical) to resize
+
+---
+
+## AppBar
+
+Sticky top navigation header with brand, nav links, and actions.
+
+```tsx
+import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiui/react";
+
+<AppBar>
+  <AppBarBrand>MyApp</AppBarBrand>
+  <AppBarNav>
+    <AppBarLink active>Dashboard</AppBarLink>
+    <AppBarLink>Settings</AppBarLink>
+  </AppBarNav>
+  <AppBarActions>
+    <button className="wui-button wui-button--ghost">Sign out</button>
+  </AppBarActions>
+</AppBar>
+```
+
+---
+
+## BottomNav
+
+Mobile bottom navigation bar — fixed to viewport bottom.
+
+```tsx
+import { BottomNav, BottomNavItem } from "@weiui/react";
+
+<BottomNav>
+  <BottomNavItem active icon="🏠" label="Home" onClick={() => navigate("/")} />
+  <BottomNavItem icon="🔍" label="Search" onClick={() => navigate("/search")} />
+  <BottomNavItem icon="👤" label="Profile" onClick={() => navigate("/profile")} />
+</BottomNav>
+```
+
+---
+
+## SpeedDial
+
+Floating action button that expands into multiple actions.
+
+```tsx
+import { SpeedDial } from "@weiui/react";
+
+<SpeedDial
+  actions={[
+    { id: "add", icon: "+", label: "Add item", onClick: () => add() },
+    { id: "edit", icon: "✏", label: "Edit", onClick: () => edit() },
+    { id: "share", icon: "↗", label: "Share", onClick: () => share() },
+  ]}
+/>
+```
+
+---
+
+## ToggleGroup
+
+Grouped toggle buttons — single or multiple selection.
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
+
+<ToggleGroup type="single" defaultValue="left">
+  <ToggleGroupItem value="left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+```
+
+---
+
+## ButtonGroup
+
+Group related buttons with shared borders.
+
+```tsx
+import { ButtonGroup, Button } from "@weiui/react";
+
+<ButtonGroup>
+  <Button variant="outline">Copy</Button>
+  <Button variant="outline">Cut</Button>
+  <Button variant="outline">Paste</Button>
+</ButtonGroup>
+```
