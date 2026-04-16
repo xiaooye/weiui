@@ -66,7 +66,12 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
           e.preventDefault();
           if (!disabled) setIsDragOver(true);
         }}
-        onDragLeave={() => setIsDragOver(false)}
+        onDragLeave={(e) => {
+          // Ignore transitions to descendant elements (prevents flicker)
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+            setIsDragOver(false);
+          }
+        }}
         onDrop={(e) => {
           e.preventDefault();
           setIsDragOver(false);
@@ -79,7 +84,11 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
           accept={accept}
           multiple={multiple}
           disabled={disabled}
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(e) => {
+            handleFiles(e.target.files);
+            // Reset so selecting the same file again still fires change
+            e.target.value = "";
+          }}
           style={{ display: "none" }}
           tabIndex={-1}
         />
