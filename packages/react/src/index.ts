@@ -1,6 +1,18 @@
 // Provider
 export { WeiUIProvider, useWeiUI, type WeiUIProviderProps, type WeiUILocale } from "./provider/WeiUIProvider";
 
+// Typography
+export { Heading, type HeadingProps } from "./components/Heading";
+export { Text, type TextProps } from "./components/Text";
+export { Label, type LabelProps } from "./components/Label";
+
+// Utility
+export { VisuallyHidden } from "./components/VisuallyHidden";
+export { Portal, type PortalProps } from "./components/Portal";
+
+// Form
+export { Field, FieldLabel, FieldDescription, FieldControl, type FieldProps } from "./components/Field";
+
 // Utils
 export { cn } from "./utils/cn";
 

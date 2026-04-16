@@ -1,0 +1,138 @@
+# Navigation Components
+
+Tabs, Menu, Breadcrumb, and Link for structuring navigation and content.
+
+## Tabs
+
+Organize content into tabbed panels with keyboard navigation.
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@weiui/react";
+
+<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="features">Features</TabsTrigger>
+    <TabsTrigger value="pricing">Pricing</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">
+    <p>Welcome to the overview tab.</p>
+  </TabsContent>
+  <TabsContent value="features">
+    <p>Explore all available features.</p>
+  </TabsContent>
+  <TabsContent value="pricing">
+    <p>Choose a plan that works for you.</p>
+  </TabsContent>
+</Tabs>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| defaultValue | `string` | — | Initially active tab (uncontrolled) |
+| value | `string` | — | Active tab (controlled) |
+| onValueChange | `(value: string) => void` | — | Called when active tab changes |
+
+### Accessibility
+
+- `role="tablist"`, `role="tab"`, `role="tabpanel"`
+- Arrow keys move focus between tabs
+- `aria-selected` on the active trigger
+- `aria-controls` / `aria-labelledby` link triggers to panels
+
+## Menu
+
+A dropdown menu with keyboard-navigable items.
+
+```tsx
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+
+<Menu>
+  <MenuTrigger className="wui-button wui-button--outline">Actions</MenuTrigger>
+  <MenuContent>
+    <MenuItem onSelect={() => console.log("edit")}>Edit</MenuItem>
+    <MenuItem onSelect={() => console.log("duplicate")}>Duplicate</MenuItem>
+    <MenuSeparator />
+    <MenuItem onSelect={() => console.log("delete")}>Delete</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| open | `boolean` | — | Controlled open state |
+| onOpenChange | `(open: boolean) => void` | — | Called when open state changes |
+
+### Accessibility
+
+- `role="menu"` on content, `role="menuitem"` on items
+- Arrow keys navigate items
+- Escape closes menu
+- Enter / Space selects item
+
+## Breadcrumb
+
+Shows the current page's location within the site hierarchy.
+
+```tsx
+import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "@weiui/react";
+
+<Breadcrumb>
+  <BreadcrumbItem>
+    <a href="/">Home</a>
+  </BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem>
+    <a href="/products">Products</a>
+  </BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem active>
+    Detail
+  </BreadcrumbItem>
+</Breadcrumb>
+```
+
+### Props — BreadcrumbItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| active | `boolean` | `false` | Marks current page; sets `aria-current="page"` |
+
+### Accessibility
+
+- Wrapped in `<nav aria-label="Breadcrumb">`
+- Active item gets `aria-current="page"`
+- Separators have `aria-hidden="true"`
+
+## Link
+
+A styled anchor element with optional external link handling.
+
+```tsx
+import { Link } from "@weiui/react";
+
+{/* Internal link */}
+<Link href="/docs">Documentation</Link>
+
+{/* External link — opens in new tab with rel="noopener noreferrer" */}
+<Link href="https://github.com/weiui" external>
+  GitHub
+</Link>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| external | `boolean` | `false` | Adds `target="_blank"` and `rel="noopener noreferrer"` |
+| href | `string` | — | Link destination |
+| className | `string` | — | Additional CSS classes |
+
+### Accessibility
+
+- Inherits all native anchor attributes
+- External links automatically set `rel="noopener noreferrer"` to prevent tab-napping
