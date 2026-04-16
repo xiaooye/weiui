@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useState, useRef, useId } from "react";
+import { forwardRef, useState, useRef, useId, useEffect } from "react";
 import { cn } from "../../utils/cn";
 import { useOutsideClick } from "@weiui/headless";
 
@@ -40,6 +40,14 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
     const listboxId = useId();
 
     useOutsideClick(containerRef, () => setIsOpen(false), isOpen);
+
+    // Sync internal state when controlled value changes externally
+    useEffect(() => {
+      if (value === undefined) return;
+      setSelectedValue(value);
+      const matched = options.find((o) => o.value === value);
+      setInputValue(matched?.label ?? "");
+    }, [value, options]);
 
     const filtered = options.filter((o) =>
       o.label.toLowerCase().includes(inputValue.toLowerCase()),

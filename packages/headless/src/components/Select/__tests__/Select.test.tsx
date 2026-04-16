@@ -94,4 +94,32 @@ describe("Select", () => {
     const cherryOption = screen.getByRole("option", { name: "Cherry" });
     expect(cherryOption).toHaveAttribute("aria-selected", "true");
   });
+
+  it("navigates options with ArrowDown/ArrowUp and selects with Enter", async () => {
+    const onValueChange = vi.fn();
+    render(<TestSelect onValueChange={onValueChange} />);
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("combobox"));
+
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByRole("option", { name: "Banana" })).toHaveAttribute(
+      "data-highlighted",
+      "true",
+    );
+
+    await user.keyboard("{End}");
+    expect(screen.getByRole("option", { name: "Cherry" })).toHaveAttribute(
+      "data-highlighted",
+      "true",
+    );
+
+    await user.keyboard("{Home}");
+    expect(screen.getByRole("option", { name: "Apple" })).toHaveAttribute(
+      "data-highlighted",
+      "true",
+    );
+
+    await user.keyboard("{Enter}");
+    expect(onValueChange).toHaveBeenCalledWith("apple");
+  });
 });
