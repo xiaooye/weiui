@@ -1,0 +1,16 @@
+/* packages/css/src/elements/skeleton.css */
+@layer wui-elements {
+  .wui-skeleton {
+    background-color: var(--wui-color-muted);
+    border-radius: var(--wui-shape-radius-md);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-skeleton { animation: wui-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  }
+  @keyframes wui-skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .wui-skeleton--text { block-size: 1em; inline-size: 100%; border-radius: var(--wui-shape-radius-sm); }
+  .wui-skeleton--circle { border-radius: var(--wui-shape-radius-full); }
+}

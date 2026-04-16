@@ -1,0 +1,21 @@
+/* packages/css/src/elements/card.css */
+@layer wui-elements {
+  .wui-card {
+    background-color: var(--wui-color-card); color: var(--wui-color-card-foreground);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg); box-shadow: var(--wui-shadow-sm);
+    container-type: inline-size; container-name: wui-card;
+  }
+  .wui-card__header {
+    display: flex; align-items: center; gap: var(--wui-spacing-3);
+    padding: var(--wui-spacing-6); padding-block-end: 0;
+  }
+  .wui-card__content { padding: var(--wui-spacing-6); }
+  .wui-card__footer {
+    display: flex; align-items: center; gap: var(--wui-spacing-2);
+    padding: var(--wui-spacing-6); padding-block-start: 0;
+  }
+  @container wui-card (max-width: 300px) {
+    .wui-card__header { flex-direction: column; align-items: flex-start; }
+  }
+}

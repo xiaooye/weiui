@@ -1,0 +1,15 @@
+/* packages/css/src/elements/avatar.css */
+@layer wui-elements {
+  .wui-avatar {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    overflow: hidden; border-radius: var(--wui-shape-radius-full);
+    background-color: var(--wui-color-muted); color: var(--wui-color-muted-foreground);
+    font-weight: var(--wui-font-weight-medium);
+    inline-size: 40px; block-size: 40px; font-size: var(--wui-font-size-sm);
+  }
+  .wui-avatar--sm { inline-size: 32px; block-size: 32px; font-size: var(--wui-font-size-xs); }
+  .wui-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--wui-font-size-base); }
+  .wui-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--wui-font-size-lg); }
+  .wui-avatar__image { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .wui-avatar__fallback { display: flex; align-items: center; justify-content: center; inline-size: 100%; block-size: 100%; }
+}

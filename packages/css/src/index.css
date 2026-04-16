@@ -8,3 +8,7 @@
 @import "./a11y/motion.css";
 @import "./elements/button.css";
 @import "./elements/input.css";
+@import "./elements/badge.css";
+@import "./elements/card.css";
+@import "./elements/avatar.css";
+@import "./elements/skeleton.css";
