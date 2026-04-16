@@ -1,5 +1,5 @@
 "use client";
-import { type ReactNode, useReducer, useCallback } from "react";
+import { type ReactNode, useReducer, useCallback, useEffect } from "react";
 import { useId } from "../../hooks/use-id";
 import { ComboboxContext } from "./ComboboxContext";
 
@@ -43,24 +43,31 @@ function reducer(state: State, action: Action): State {
 export interface ComboboxProps {
   children: ReactNode;
   defaultValue?: string;
+  value?: string;
   onValueChange?: (value: string) => void;
 }
 
-export function Combobox({ children, defaultValue = "", onValueChange }: ComboboxProps) {
+export function Combobox({ children, defaultValue = "", value, onValueChange }: ComboboxProps) {
   const [state, dispatch] = useReducer(reducer, {
     isOpen: false,
     inputValue: "",
-    selectedValue: defaultValue,
+    selectedValue: value ?? defaultValue,
     selectedLabel: "",
     highlightedIndex: -1,
   });
 
   const baseId = useId("combobox");
 
+  useEffect(() => {
+    if (value !== undefined && value !== state.selectedValue) {
+      dispatch({ type: "SELECT", value, label: state.selectedLabel });
+    }
+  }, [value, state.selectedValue, state.selectedLabel]);
+
   const onSelect = useCallback(
-    (value: string, label: string) => {
-      dispatch({ type: "SELECT", value, label });
-      onValueChange?.(value);
+    (val: string, label: string) => {
+      dispatch({ type: "SELECT", value: val, label });
+      onValueChange?.(val);
     },
     [onValueChange],
   );
