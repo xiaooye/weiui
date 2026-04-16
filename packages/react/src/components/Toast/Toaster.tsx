@@ -28,7 +28,7 @@ function ToastItem({ toast: t }: { toast: { id: string; title: string; descripti
         <div className="wui-toast__title">{t.title}</div>
         {t.description && <div className="wui-toast__description">{t.description}</div>}
       </div>
-      <button className="wui-toast__close" onClick={() => removeToast(t.id)} aria-label="Close notification">
+      <button type="button" className="wui-toast__close" onClick={() => removeToast(t.id)} aria-label="Close notification">
         ×
       </button>
     </div>

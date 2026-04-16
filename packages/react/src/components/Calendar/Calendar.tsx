@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useReducer, useId } from "react";
+import { forwardRef, useReducer, useId, useState } from "react";
 import { cn } from "../../utils/cn";
 
 export interface CalendarProps {
@@ -77,8 +77,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       viewYear: initial.getFullYear(),
       viewMonth: initial.getMonth(),
     });
+    const [internalSelected, setInternalSelected] = useState<Date | undefined>(defaultValue);
     const calendarId = useId();
-    const selectedDate = value ?? defaultValue;
+    const selectedDate = value ?? internalSelected;
+    const handleSelect = (day: Date) => {
+      if (value === undefined) setInternalSelected(day);
+      onChange?.(day);
+    };
     const days = getDaysInMonth(state.viewYear, state.viewMonth);
     const monthLabel = new Date(state.viewYear, state.viewMonth).toLocaleDateString(
       "en-US",
@@ -158,7 +163,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                           year: "numeric",
                         })}
                         aria-selected={selected}
-                        onClick={() => onChange?.(day)}
+                        onClick={() => handleSelect(day)}
                         tabIndex={selected ? 0 : -1}
                       >
                         {day.getDate()}

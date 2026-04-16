@@ -60,4 +60,26 @@ describe("Tabs", () => {
     const panel = screen.getByRole("tabpanel");
     expect(tab.getAttribute("aria-controls")).toBe(panel.id);
   });
+
+  it("navigates tabs with ArrowRight/ArrowLeft/Home/End", async () => {
+    const user = userEvent.setup();
+    render(<TestTabs />);
+    const tabA = screen.getByText("Tab A");
+    tabA.focus();
+
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByText("Tab B")).toHaveFocus();
+    expect(screen.getByText("Content B")).toBeInTheDocument();
+
+    await user.keyboard("{End}");
+    expect(screen.getByText("Tab C")).toHaveFocus();
+    expect(screen.getByText("Content C")).toBeInTheDocument();
+
+    await user.keyboard("{Home}");
+    expect(screen.getByText("Tab A")).toHaveFocus();
+    expect(screen.getByText("Content A")).toBeInTheDocument();
+
+    await user.keyboard("{ArrowLeft}");
+    expect(screen.getByText("Tab C")).toHaveFocus();
+  });
 });
