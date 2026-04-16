@@ -1,164 +1,106 @@
+import { ComponentPreview } from "../../../../components/ComponentPreview";
+
 # Data Display
 
 Components for presenting data, content, and visual information.
 
-## Installation
-
-```tsx
-import {
-  Card, CardHeader, CardContent, CardFooter,
-  Badge,
-  Avatar, AvatarImage, AvatarFallback,
-  Code,
-  Kbd,
-  Skeleton,
-} from "@weiui/react";
-```
-
----
-
 ## Card
 
-A container with an optional header, content area, and footer.
+<ComponentPreview label="Card">
+  <div className="wui-card" style={{ maxWidth: "320px", width: "100%" }}>
+    <div className="wui-card__header">
+      <strong>Card Title</strong>
+    </div>
+    <div className="wui-card__content">
+      <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)" }}>This is the main content of the card. It can contain any content.</p>
+    </div>
+    <div className="wui-card__footer">
+      <button className="wui-button wui-button--solid wui-button--sm">Action</button>
+      <button className="wui-button wui-button--outline wui-button--sm">Cancel</button>
+    </div>
+  </div>
+</ComponentPreview>
 
 ```tsx
 import { Card, CardHeader, CardContent, CardFooter } from "@weiui/react";
 
 <Card>
   <CardHeader>Card Title</CardHeader>
-  <CardContent>This is the main content of the card.</CardContent>
-  <CardFooter>
-    <button>Action</button>
-  </CardFooter>
+  <CardContent>Content here</CardContent>
+  <CardFooter><Button>Action</Button></CardFooter>
 </Card>
 ```
 
-### Props
-
-| Component | Props | Description |
-|-----------|-------|-------------|
-| `Card` | `HTMLDivElement` attrs | Root container |
-| `CardHeader` | `HTMLDivElement` attrs | Top section |
-| `CardContent` | `HTMLDivElement` attrs | Main content area |
-| `CardFooter` | `HTMLDivElement` attrs | Bottom section |
-
----
-
 ## Badge
 
-A small label used to highlight status or categories.
+<ComponentPreview label="Badge variants">
+  <span className="wui-badge wui-badge--solid">Default</span>
+  <span className="wui-badge wui-badge--soft">Soft</span>
+  <span className="wui-badge wui-badge--outline">Outline</span>
+</ComponentPreview>
+
+<ComponentPreview label="Badge colors">
+  <span className="wui-badge wui-badge--solid">Primary</span>
+  <span className="wui-badge wui-badge--success">Success</span>
+  <span className="wui-badge wui-badge--warning">Warning</span>
+  <span className="wui-badge wui-badge--destructive">Error</span>
+</ComponentPreview>
 
 ```tsx
 import { Badge } from "@weiui/react";
 
-<Badge>New</Badge>
+<Badge variant="solid">Default</Badge>
 <Badge variant="soft" color="success">Active</Badge>
-<Badge variant="outline" color="destructive">Error</Badge>
-<Badge variant="solid" color="warning">Pending</Badge>
 ```
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"solid" \| "soft" \| "outline"` | `"solid"` | Visual style |
-| `color` | `"primary" \| "destructive" \| "success" \| "warning"` | `"primary"` | Color scheme |
-
----
 
 ## Avatar
 
-A circular element representing a user or entity.
+<ComponentPreview label="Avatar sizes">
+  <span className="wui-avatar wui-avatar--sm"><span className="wui-avatar__fallback">SM</span></span>
+  <span className="wui-avatar"><span className="wui-avatar__fallback">MD</span></span>
+  <span className="wui-avatar wui-avatar--lg"><span className="wui-avatar__fallback">LG</span></span>
+  <span className="wui-avatar wui-avatar--xl"><span className="wui-avatar__fallback">XL</span></span>
+</ComponentPreview>
 
 ```tsx
-import { Avatar, AvatarImage, AvatarFallback } from "@weiui/react";
+import { Avatar, AvatarFallback } from "@weiui/react";
 
-<Avatar>
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
-  <AvatarFallback>JD</AvatarFallback>
-</Avatar>
-
-{/* Different sizes */}
-<Avatar size="sm">
-  <AvatarFallback>A</AvatarFallback>
-</Avatar>
 <Avatar size="lg">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
   <AvatarFallback>JD</AvatarFallback>
 </Avatar>
 ```
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `"sm" \| "md" \| "lg" \| "xl"` | `"md"` | Avatar size |
-
----
-
-## Code
-
-Renders inline or block code snippets.
-
-```tsx
-import { Code } from "@weiui/react";
-
-{/* Inline */}
-Use the <Code>useState</Code> hook to manage state.
-
-{/* Block */}
-<Code inline={false}>
-  {`function greet(name: string) {
-  return \`Hello, \${name}!\`;
-}`}
-</Code>
-```
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `inline` | `boolean` | `true` | Renders `<code>` when true, `<pre><code>` when false |
-
----
-
-## Kbd
-
-Displays a keyboard key combination.
-
-```tsx
-import { Kbd } from "@weiui/react";
-
-Press <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> to open the command palette.
-
-Press <Kbd>⌘</Kbd> + <Kbd>S</Kbd> to save.
-```
-
----
 
 ## Skeleton
 
-A placeholder that represents loading content.
+<ComponentPreview label="Skeleton loading states">
+  <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-2)", width: "100%", maxWidth: "300px" }}>
+    <div className="wui-skeleton" style={{ height: "120px", width: "100%" }}></div>
+    <div className="wui-skeleton wui-skeleton--text" style={{ width: "80%" }}></div>
+    <div className="wui-skeleton wui-skeleton--text" style={{ width: "60%" }}></div>
+  </div>
+</ComponentPreview>
 
 ```tsx
 import { Skeleton } from "@weiui/react";
 
-{/* Rectangle (default) */}
 <Skeleton style={{ width: "100%", height: "120px" }} />
-
-{/* Text line */}
-<Skeleton variant="text" style={{ width: "200px" }} />
-
-{/* Circle (e.g., avatar placeholder) */}
-<Skeleton variant="circle" style={{ width: "40px", height: "40px" }} />
+<Skeleton variant="text" style={{ width: "80%" }} />
 ```
 
-### Props
+## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"text" \| "circle" \| "rect"` | `"rect"` | Shape of the skeleton |
+| Component | Props | Description |
+|-----------|-------|-------------|
+| Card | HTMLDivElement attrs | Root container |
+| CardHeader | HTMLDivElement attrs | Top section |
+| CardContent | HTMLDivElement attrs | Main content area |
+| CardFooter | HTMLDivElement attrs | Bottom section |
+| Badge | variant, color | Status label |
+| Avatar | size | User/entity avatar |
+| Skeleton | variant | Loading placeholder |
 
-### Accessibility
+## Accessibility
 
-Skeleton elements have `aria-hidden="true"` so screen readers skip them.
+- Card uses `container-type: inline-size` for responsive layout
+- Skeleton has `aria-hidden="true"` (decorative loading indicator)
+- Avatar fallback shows initials when image unavailable

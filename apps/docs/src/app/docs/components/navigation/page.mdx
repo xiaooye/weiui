@@ -1,6 +1,58 @@
+import { ComponentPreview } from "../../../../components/ComponentPreview";
+
 # Navigation Components
 
 Tabs, Menu, Breadcrumb, and Link for structuring navigation and content.
+
+## Breadcrumb
+
+<ComponentPreview label="Breadcrumb">
+  <nav aria-label="Breadcrumb">
+    <ol style={{ display: "flex", alignItems: "center", gap: "var(--wui-spacing-1)", listStyle: "none", margin: 0, padding: 0, fontSize: "var(--wui-font-size-sm)" }}>
+      <li>
+        <a href="/" style={{ color: "var(--wui-color-primary)", textDecoration: "none" }}>Home</a>
+      </li>
+      <li aria-hidden="true" style={{ color: "var(--wui-color-muted-foreground)" }}>/</li>
+      <li>
+        <a href="/products" style={{ color: "var(--wui-color-primary)", textDecoration: "none" }}>Products</a>
+      </li>
+      <li aria-hidden="true" style={{ color: "var(--wui-color-muted-foreground)" }}>/</li>
+      <li aria-current="page" style={{ color: "var(--wui-color-muted-foreground)" }}>Detail</li>
+    </ol>
+  </nav>
+</ComponentPreview>
+
+```tsx
+import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "@weiui/react";
+
+<Breadcrumb>
+  <BreadcrumbItem>
+    <a href="/">Home</a>
+  </BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem>
+    <a href="/products">Products</a>
+  </BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem active>
+    Detail
+  </BreadcrumbItem>
+</Breadcrumb>
+```
+
+### Props — BreadcrumbItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| active | `boolean` | `false` | Marks current page; sets `aria-current="page"` |
+
+### Accessibility
+
+- Wrapped in `<nav aria-label="Breadcrumb">`
+- Active item gets `aria-current="page"`
+- Separators have `aria-hidden="true"`
+
+---
 
 ## Tabs
 
@@ -42,6 +94,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@weiui/react";
 - `aria-selected` on the active trigger
 - `aria-controls` / `aria-labelledby` link triggers to panels
 
+---
+
 ## Menu
 
 A dropdown menu with keyboard-navigable items.
@@ -74,39 +128,7 @@ import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/
 - Escape closes menu
 - Enter / Space selects item
 
-## Breadcrumb
-
-Shows the current page's location within the site hierarchy.
-
-```tsx
-import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "@weiui/react";
-
-<Breadcrumb>
-  <BreadcrumbItem>
-    <a href="/">Home</a>
-  </BreadcrumbItem>
-  <BreadcrumbSeparator />
-  <BreadcrumbItem>
-    <a href="/products">Products</a>
-  </BreadcrumbItem>
-  <BreadcrumbSeparator />
-  <BreadcrumbItem active>
-    Detail
-  </BreadcrumbItem>
-</Breadcrumb>
-```
-
-### Props — BreadcrumbItem
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| active | `boolean` | `false` | Marks current page; sets `aria-current="page"` |
-
-### Accessibility
-
-- Wrapped in `<nav aria-label="Breadcrumb">`
-- Active item gets `aria-current="page"`
-- Separators have `aria-hidden="true"`
+---
 
 ## Link
 

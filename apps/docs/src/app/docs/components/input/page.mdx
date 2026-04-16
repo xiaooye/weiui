@@ -1,53 +1,61 @@
-# Input & Textarea
+import { ComponentPreview } from "../../../../components/ComponentPreview";
 
-Text input components for forms.
+# Input
 
-## Installation
+Text input field with validation states and size variants.
 
-```tsx
-import { Input, Textarea } from "@weiui/react";
-```
+## Default
+
+<ComponentPreview label="Input">
+  <input className="wui-input" placeholder="Enter your email..." style={{ maxWidth: "320px" }} />
+</ComponentPreview>
+
+## Sizes
+
+<ComponentPreview label="Input sizes">
+  <input className="wui-input wui-input--sm" placeholder="Small" style={{ maxWidth: "200px" }} />
+  <input className="wui-input" placeholder="Medium (default)" style={{ maxWidth: "200px" }} />
+  <input className="wui-input wui-input--lg" placeholder="Large" style={{ maxWidth: "200px" }} />
+</ComponentPreview>
+
+## States
+
+<ComponentPreview label="Input states">
+  <input className="wui-input" placeholder="Default" style={{ maxWidth: "200px" }} />
+  <input className="wui-input" data-invalid="true" placeholder="Invalid" style={{ maxWidth: "200px" }} />
+  <input className="wui-input" disabled={true} placeholder="Disabled" style={{ maxWidth: "200px" }} />
+  <input className="wui-input" readOnly={true} defaultValue="Read only" style={{ maxWidth: "200px" }} />
+</ComponentPreview>
+
+## Textarea
+
+<ComponentPreview label="Textarea">
+  <textarea className="wui-input" placeholder="Enter a longer message..." style={{ maxWidth: "400px" }}></textarea>
+</ComponentPreview>
 
 ## Usage
 
 ```tsx
 import { Input, Textarea } from "@weiui/react";
 
-<Input placeholder="Enter text" />
-
-<Textarea placeholder="Enter long text" rows={4} />
+<Input placeholder="Email" />
+<Input invalid placeholder="Invalid email" />
+<Textarea placeholder="Message..." />
 ```
 
-## Invalid State
-
-```tsx
-<Input invalid aria-describedby="error-msg" placeholder="Email" />
-<p id="error-msg">Please enter a valid email.</p>
-```
-
-## Props — Input
+## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| invalid | `boolean` | `false` | Marks the input as invalid |
-| disabled | `boolean` | `false` | Disables interaction |
-| className | `string` | — | Additional CSS classes |
+| invalid | `boolean` | `false` | Shows error state |
+| disabled | `boolean` | `false` | Disables input |
+| className | `string` | — | Additional classes |
 
 All standard `<input>` HTML attributes are also supported.
 
-## Props — Textarea
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| invalid | `boolean` | `false` | Marks the textarea as invalid |
-| disabled | `boolean` | `false` | Disables interaction |
-| className | `string` | — | Additional CSS classes |
-
-All standard `<textarea>` HTML attributes are also supported.
-
 ## Accessibility
 
-- `aria-invalid` set to `"true"` when `invalid` prop is provided
-- `data-invalid` attribute for CSS styling hooks
-- Associate inputs with labels using `htmlFor` / `id` or `aria-label`
-- Associate error messages using `aria-describedby`
+- Minimum 44px height touch target
+- `aria-invalid` when invalid
+- Focus ring on focus-within
+- Supports native validation pseudo-classes
