@@ -260,7 +260,9 @@ export function MenuContent({ children, className, style, onKeyDown, ...props }:
                   : [];
                 const buffer = typeaheadBufferRef.current;
                 for (let i = 0; i < items.length; i++) {
-                  const text = (items[i].textContent || "").trim().toLowerCase();
+                  const item = items[i];
+                  if (!item) continue;
+                  const text = (item.textContent || "").trim().toLowerCase();
                   if (!disabledList[i] && text.startsWith(buffer)) {
                     setActiveIndex(i);
                     break;

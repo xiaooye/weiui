@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-16
+**Last updated:** 2026-04-16 (Wave 5b shipped)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -44,15 +44,15 @@
 | Wave | Components | P0 gaps | P1 gaps | P2 gaps |
 |------|------------|---------|---------|---------|
 | 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
-| 5b Overlay | 7 | 17 | 31 | 9 |
+| 5b Overlay | 7 | 0 ✅ shipped | 31 | 9 |
 | 5c Data/Nav | 12 | 12 | 58 | 23 |
 | 5d Advanced | 9 | 13 | 54 | 16 |
 | 5e Form + display | 16 | 14 | 38 | 30 |
-| **Total** | **51** | **56** | **216** | **89** |
+| **Total** | **51** | **39** | **216** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
-**Highest P0 load per component:** Overlay family carries most per-component debt — Menu (4 P0), CommandPalette (3 P0), Popover (3 P0), Dialog (2 P0 plus every overlay needs Portal). DataTable (3 P0) and Calendar (3 P0) carry the highest Wave-5c / 5d individual loads.
+**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s — Menu (3), CommandPalette (3), Popover (3), Tooltip (3), Toast (2), Dialog (2), Drawer (1) plus shared Portal primitive. Next up: DataTable (3 P0) and Calendar (3 P0) carry the highest Wave-5c / 5d individual loads.
 
 ---
 
@@ -232,8 +232,8 @@
 | Escape to close | ✅ | ✅ | — | — |
 | Outside click to close | ✅ | ✅ | — | — |
 | `aria-labelledby` / `aria-describedby` wired | ✅ | ✅ | — | — |
-| Portal rendering (render outside DOM tree) | ❌ | ✅ | Add Portal component, mount outside tree | **P0** |
-| Overlay/backdrop component | ❌ (rendered inline, no overlay element) | ✅ DialogOverlay | Add Overlay part | **P0** |
+| Portal rendering (render outside DOM tree) | ✅ | ✅ | Add Portal component, mount outside tree | ✅ shipped |
+| Overlay/backdrop component | ✅ DialogOverlay | ✅ DialogOverlay | Add Overlay part | ✅ shipped |
 | `modal={false}` non-modal variant | ❌ | ✅ | Add variant | **P1** |
 | Nested dialog stacking | ❌ | ✅ | Stack context | **P1** |
 | `onInteractOutside` / `onEscapeKeyDown` callbacks with preventable default | ❌ | ✅ | Add callbacks | **P1** |
@@ -254,7 +254,7 @@
 | Scroll lock | ✅ | ✅ | — | — |
 | Overlay/backdrop | ✅ | ✅ | — | — |
 | Escape + outside click | ✅ | ✅ | — | — |
-| Portal rendering | ❌ | ✅ | Same Portal primitive | **P0** |
+| Portal rendering | ✅ | ✅ | Same Portal primitive | ✅ shipped |
 | Swipe-to-dismiss (mobile) | ❌ | ✅ Vaul | Add gesture support | **P1** |
 | Snap points (partial open) | ❌ | ✅ Vaul | Out of scope for v1 | **P2** |
 | Non-modal (dismiss by interacting elsewhere without close) | ❌ | ✅ | Add variant | **P2** |
@@ -275,9 +275,9 @@
 | Escape + outside click | ✅ | ✅ | — | — |
 | Focus first focusable on open, restore on close | ✅ | ✅ | — | — |
 | Focus trap | ✅ | ✅ | — | — |
-| Controlled + uncontrolled open | ❌ (internal state only) | ✅ | Expose `open`/`onOpenChange` via props | **P0** |
-| Portal rendering | ❌ | ✅ | Same Portal primitive | **P0** |
-| Configurable placement (side / align) | ❌ (hard-coded `bottom-start`) | ✅ 12 placements | Add `side` + `align` props | **P0** |
+| Controlled + uncontrolled open | ✅ via `open`/`onOpenChange` | ✅ | Expose `open`/`onOpenChange` via props | ✅ shipped |
+| Portal rendering | ✅ | ✅ | Same Portal primitive | ✅ shipped |
+| Configurable placement (side / align) | ✅ `side` + `align` props | ✅ 12 placements | Add `side` + `align` props | ✅ shipped |
 | Anchor arrow element | ❌ | ✅ `PopoverArrow` | Add Arrow part + Floating UI arrow middleware | **P1** |
 | Collision padding config | ❌ | ✅ | Add `collisionPadding` prop | **P1** |
 | Modal vs non-modal | ⚠️ always traps focus | ✅ toggle | Add `modal` prop (default false for popover) | **P1** |
@@ -295,11 +295,11 @@
 | Trigger + Content parts | ✅ | ✅ | — | — |
 | Floating placement (default `top`) | ✅ | ✅ | — | — |
 | Open delay | ✅ | ✅ | — | — |
-| Pointer / hover open | ⚠️ (depends on Trigger impl) | ✅ | Wire `useHover` from floating-ui | **P0** |
-| Keyboard focus open | ❌ | ✅ | Open on focusin, close on focusout | **P0** |
-| Close delay / hover-out grace | ❌ | ✅ | Add close delay | **P1** |
+| Pointer / hover open | ✅ | ✅ | Wire `useHover` from floating-ui | ✅ shipped |
+| Keyboard focus open | ✅ | ✅ | Open on focusin, close on focusout | ✅ shipped |
+| Close delay / hover-out grace | ✅ via `closeDelay` prop | ✅ | Add close delay | ✅ shipped |
 | Provider for global delay config | ❌ | ✅ TooltipProvider | Add provider | **P1** |
-| `role="tooltip"` + aria-describedby on trigger | ⚠️ role on content, describedby not auto-wired | ✅ auto-wired | Set `aria-describedby={tooltipId}` on trigger when open | **P0** |
+| `role="tooltip"` + aria-describedby on trigger | ✅ auto-wired | ✅ auto-wired | Set `aria-describedby={tooltipId}` on trigger when open | ✅ shipped |
 | Side / align / offset config | ❌ | ✅ | Add props | **P1** |
 | Portal rendering | ❌ | ✅ | Portal primitive | **P1** |
 | Escape to close | ❌ | ✅ | Close on Escape | **P1** |
@@ -319,12 +319,12 @@
 | Escape + outside click to close | ✅ | ✅ | — | — |
 | Focus first item on open | ✅ | ✅ | — | — |
 | Focus trigger on close | ✅ | ✅ | — | — |
-| Type-ahead (first-letter search) | ❌ | ✅ | Add typeahead buffer | **P0** |
-| Disabled items skip over | ⚠️ unclear (no `disabled` on MenuItem) | ✅ | Add `disabled` prop + skip logic | **P0** |
+| Type-ahead (first-letter search) | ✅ | ✅ | Add typeahead buffer | ✅ shipped |
+| Disabled items skip over | ✅ `disabled` prop + skip logic | ✅ | Add `disabled` prop + skip logic | ✅ shipped |
 | Submenu / nested menu | ❌ | ✅ | Out of scope for v1 | **P2** |
 | CheckboxItem / RadioItem variants | ❌ | ✅ | Add variants | **P1** |
 | Shortcut display | ❌ | ✅ | Add `shortcut` slot | **P1** |
-| Floating placement | ❌ (no positioning at all) | ✅ | Add Floating UI | **P0** |
+| Floating placement | ✅ Floating UI via `side`/`align` | ✅ | Add Floating UI | ✅ shipped |
 | Portal rendering | ❌ | ✅ | Portal primitive | **P1** |
 | Label slot (group header) | ❌ | ✅ MenuLabel | Add MenuLabel | **P1** |
 | Group (role=group) | ❌ | ✅ MenuGroup | Add MenuGroup | **P2** |
@@ -345,11 +345,11 @@
 | Manual close button | ✅ | ✅ | — | — |
 | Role=region live region | ✅ | ✅ | — | — |
 | Per-toast `role="alert"` | ✅ | ✅ | — | — |
-| Action button (`undo`-style) | ❌ | ✅ | Add `action` option | **P0** |
+| Action button (`undo`-style) | ✅ | ✅ | Add `action` option | ✅ shipped |
 | Promise-based toast (loading → success/error) | ❌ | ✅ `toast.promise` | Add `toast.promise` | **P1** |
 | Stacking / expand on hover | ❌ | ✅ | Add stack behaviour | **P1** |
 | Swipe to dismiss (mobile) | ❌ | ✅ | Add gesture support | **P1** |
-| Position config (top/bottom × left/center/right) | ❌ | ✅ | Add `position` on Toaster | **P0** |
+| Position config (top/bottom × left/center/right) | ✅ `position` on Toaster | ✅ | Add `position` on Toaster | ✅ shipped |
 | Pause on hover / focus | ❌ | ✅ | Pause timer on hover | **P1** |
 | Rich content (JSX description) | ⚠️ description as string | ✅ ReactNode | Accept ReactNode | **P1** |
 | Dismiss programmatically by id | ✅ (`removeToast(id)`) | ✅ | — | — |
@@ -373,12 +373,12 @@
 | Global hotkey (Cmd/Ctrl+K) | ✅ | ⚠️ manual in cmdk | — (bonus) | — |
 | Recent / frecency items | ❌ | ✅ | Add `recent` tracking + slot | **P1** |
 | Async filtering / loading state | ❌ | ✅ | Add `loading` prop | **P1** |
-| Per-item icon | ❌ | ✅ | Add `icon` field | **P0** |
+| Per-item icon | ✅ | ✅ | Add `icon` field | ✅ shipped |
 | Per-item keyboard-shortcut execution | ❌ (display only) | ✅ | Register each shortcut | **P1** |
 | Subpages / nested commands | ❌ | ✅ Raycast | Add `subItems` / nav stack | **P2** |
 | Fuzzy matching scoring | ⚠️ substring only | ✅ weighted fuzzy | Add fuzzy matcher (e.g. match-sorter) | **P1** |
-| Focus trap + return focus to trigger | ⚠️ input auto-focus only, no trap | ✅ | Add focus trap, restore on close | **P0** |
-| Portal rendering | ❌ | ✅ | Portal primitive | **P0** |
+| Focus trap + return focus to trigger | ✅ focus trap + return focus | ✅ | Add focus trap, restore on close | ✅ shipped |
+| Portal rendering | ✅ | ✅ | Portal primitive | ✅ shipped |
 | Animation on open/close | ⚠️ none | ✅ | CSS animation with prefers-reduced-motion | **P1** |
 | Reset query on close | ✅ | ✅ | — | — |
 | Custom empty state | ⚠️ string only | ✅ ReactNode | Accept ReactNode | **P1** |
