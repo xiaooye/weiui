@@ -6,8 +6,11 @@ import { Spinner } from "../Spinner/Spinner";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   ButtonVariants & {
+    /** Show a spinner and disable the button while an action runs. */
     loading?: boolean;
+    /** Node rendered before the label (icon, avatar, etc.). Hidden while `loading`. */
     startIcon?: React.ReactNode;
+    /** Node rendered after the label (icon, badge, chevron, etc.). */
     endIcon?: React.ReactNode;
   };
 

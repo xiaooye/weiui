@@ -4,9 +4,13 @@ import { cn } from "../../utils/cn";
 import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+  /** Marks the input as invalid. Falls back to the parent `<Field>` error state when omitted. */
   invalid?: boolean;
+  /** Visual size. Controls height, padding, and font size. */
   size?: "sm" | "md" | "lg";
+  /** Content rendered inside the input wrapper, before the input (prefix, icon, unit). */
   startAddon?: ReactNode;
+  /** Content rendered inside the input wrapper, after the input (suffix, button, unit). */
   endAddon?: ReactNode;
 }
 

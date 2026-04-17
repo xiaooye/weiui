@@ -29,8 +29,11 @@ export function useFieldContext() {
 }
 
 export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
+  /** Label, input, description, and error children. Order is preserved. */
   children: ReactNode;
+  /** Error message. When set, wires `aria-invalid`/`aria-describedby` and renders an alert. */
   error?: string;
+  /** Marks the field as required — shown in the label and mirrored to the input. */
   required?: boolean;
 }
 
