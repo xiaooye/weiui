@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-16 (Wave 5e shipped — all waves P0 closed)
+**Last updated:** 2026-04-17 (Wave 5e shipped — all waves P0 closed, Round 11 perf polish)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -1186,3 +1186,8 @@
 | Divider between sections | ❌ | ✅ | Add CardDivider or rely on Divider | **P2** |
 
 **Notes:** Card is structural and has no P0s. Included here as a short entry per Phase 0 guidance rather than in Wave 5e.
+
+---
+
+_End of audit._
+
