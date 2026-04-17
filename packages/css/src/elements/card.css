@@ -1,9 +1,10 @@
-/* packages/css/src/elements/card.css */
 @layer wui-elements {
   .wui-card {
-    background-color: var(--wui-color-card); color: var(--wui-color-card-foreground);
+    background-color: var(--wui-surface-raised);
+    color: var(--wui-color-card-foreground);
     border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg); box-shadow: var(--wui-shadow-sm);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-2);
     container-type: inline-size; container-name: wui-card;
   }
   .wui-card__header {
@@ -17,5 +18,19 @@
   }
   @container wui-card (max-width: 300px) {
     .wui-card__header { flex-direction: column; align-items: flex-start; }
+  }
+
+  .wui-card--interactive { cursor: pointer; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-card--interactive {
+      transition-property: transform, box-shadow, border-color;
+      transition-duration: var(--wui-motion-duration-base);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-card--interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--wui-elevation-3);
+    }
   }
 }

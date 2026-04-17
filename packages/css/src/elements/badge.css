@@ -1,4 +1,3 @@
-/* packages/css/src/elements/badge.css */
 @layer wui-elements {
   .wui-badge {
     display: inline-flex; align-items: center; gap: var(--wui-spacing-1);
@@ -7,10 +6,33 @@
     line-height: var(--wui-font-lineHeight-normal);
     border-radius: var(--wui-shape-radius-full); white-space: nowrap;
   }
-  .wui-badge--solid { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); }
-  .wui-badge--soft { background-color: oklch(from var(--wui-color-primary) l c h / 0.1); color: var(--wui-color-primary); }
-  .wui-badge--outline { background-color: transparent; border: var(--wui-shape-border-width-thin) solid var(--wui-color-border); color: var(--wui-color-foreground); }
-  .wui-badge--destructive { background-color: var(--wui-color-destructive); color: var(--wui-color-destructive-foreground); }
-  .wui-badge--success { background-color: var(--wui-color-success); color: var(--wui-color-success-foreground); }
-  .wui-badge--warning { background-color: var(--wui-color-warning); color: var(--wui-color-warning-foreground); }
+  .wui-badge--solid {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+  }
+  .wui-badge--soft {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-badge--outline {
+    background-color: transparent;
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    color: var(--wui-color-foreground);
+  }
+  .wui-badge--destructive {
+    background-color: var(--wui-color-destructive);
+    color: var(--wui-color-destructive-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.12);
+  }
+  .wui-badge--success {
+    background-color: var(--wui-color-success);
+    color: var(--wui-color-success-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-success-foreground) l c h / 0.12);
+  }
+  .wui-badge--warning {
+    background-color: var(--wui-color-warning);
+    color: var(--wui-color-warning-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.12);
+  }
 }

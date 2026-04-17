@@ -4,8 +4,8 @@
     padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
     font-size: var(--wui-font-size-sm); font-weight: var(--wui-font-weight-medium);
     border-radius: var(--wui-shape-radius-full);
-    border: 1px solid var(--wui-color-border);
-    background-color: var(--wui-color-muted);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    background-color: var(--wui-surface-raised);
     color: var(--wui-color-foreground);
   }
   .wui-chip__remove {
@@ -16,7 +16,27 @@
     font-size: var(--wui-font-size-xs);
   }
   .wui-chip__remove:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-border); }
-  .wui-chip--primary { background-color: oklch(from var(--wui-color-primary) l c h / 0.1); color: var(--wui-color-primary); border-color: transparent; }
-  .wui-chip--success { background-color: oklch(from var(--wui-color-success) l c h / 0.1); color: var(--wui-color-success); border-color: transparent; }
-  .wui-chip--destructive { background-color: oklch(from var(--wui-color-destructive) l c h / 0.1); color: var(--wui-color-destructive); border-color: transparent; }
+  .wui-chip--primary {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
+    color: var(--wui-color-primary);
+    border-color: transparent;
+  }
+  .wui-chip--success {
+    background-color: color-mix(in oklch, var(--wui-color-success) 12%, transparent);
+    color: var(--wui-color-success);
+    border-color: transparent;
+  }
+  .wui-chip--destructive {
+    background-color: color-mix(in oklch, var(--wui-color-destructive) 12%, transparent);
+    color: var(--wui-color-destructive);
+    border-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-chip {
+      transition-property: background-color, color, border-color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
 }

@@ -1,16 +1,28 @@
-/* packages/css/src/elements/skeleton.css */
 @layer wui-elements {
   .wui-skeleton {
+    display: block;
     background-color: var(--wui-color-muted);
-    border-radius: var(--wui-shape-radius-md);
+    border-radius: var(--wui-shape-radius-base);
+    position: relative;
+    overflow: hidden;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-skeleton { animation: wui-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .wui-skeleton::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in oklch, var(--wui-color-background) 50%, transparent) 50%,
+        transparent 100%
+      );
+      animation: wui-skeleton-shimmer 1.6s var(--wui-motion-easing-standard) infinite;
+    }
   }
-  @keyframes wui-skeleton-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+  @keyframes wui-skeleton-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
-  .wui-skeleton--text { block-size: 1em; inline-size: 100%; border-radius: var(--wui-shape-radius-sm); }
   .wui-skeleton--circle { border-radius: var(--wui-shape-radius-full); }
+  .wui-skeleton--line   { block-size: 1em; }
 }
