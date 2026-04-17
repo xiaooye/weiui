@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 interface PreviewFrameProps {
@@ -12,7 +12,7 @@ interface PreviewFrameProps {
 
 export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [container, setContainer] = useUseContainer();
+  const [container, setContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -54,7 +54,7 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
 
     const root = doc.getElementById("wui-preview-root");
     setContainer(root);
-  }, [theme, dir, setContainer]);
+  }, [theme, dir]);
 
   const inlineSize = width === "100%" ? "100%" : `${width}px`;
 
@@ -69,12 +69,4 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
       {container && createPortal(children, container)}
     </>
   );
-}
-
-function useUseContainer(): [HTMLElement | null, (el: HTMLElement | null) => void] {
-  const ref = useRef<HTMLElement | null>(null);
-  const setRef = (el: HTMLElement | null) => {
-    ref.current = el;
-  };
-  return [ref.current, setRef];
 }
