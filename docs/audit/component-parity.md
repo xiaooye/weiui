@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-16 (Wave 5d shipped)
+**Last updated:** 2026-04-16 (Wave 5e shipped — all waves P0 closed)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -47,12 +47,12 @@
 | 5b Overlay | 7 | 0 ✅ shipped | 31 | 9 |
 | 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
 | 5d Advanced | 9 | 0 ✅ shipped | 54 | 16 |
-| 5e Form + display | 16 | 14 | 38 | 30 |
-| **Total** | **51** | **14** | **216** | **89** |
+| 5e Form + display | 16 | 0 ✅ shipped | 38 | 30 |
+| **Total** | **51** | **0** | **216** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
-**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Wave 5d shipped 13 P0s — Calendar (3), DatePicker/Chart/Editor/SpeedDial (2 each), ColorPicker/Splitter (1 each). Final: Wave 5e (14 P0s) still pending.
+**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Wave 5d shipped 13 P0s — Calendar (3), DatePicker/Chart/Editor/SpeedDial (2 each), ColorPicker/Splitter (1 each). Wave 5e shipped 14 P0s — Checkbox (2), RadioGroup (2), ToggleGroup (2), Field (2), Button (2), Switch (1), Skeleton (1), Spinner (1), ProgressBar (1). **All waves P0 closed.**
 
 ---
 
@@ -882,11 +882,11 @@
 | Loading state with `aria-busy` | ✅ | ✅ | — | — |
 | Start / end icon slots | ✅ | ✅ | — | — |
 | Disabled | ✅ | ✅ | — | — |
-| Spinner inside loading state | ❌ (children hide but no spinner) | ✅ | Show Spinner when loading | **P0** |
+| Spinner inside loading state | ✅ | ✅ | Show Spinner when loading | ✅ shipped |
 | `asChild` (render-as) pattern for Link / router integration | ❌ | ✅ Radix Slot | Add `asChild` via Slot primitive | **P1** |
 | Icon-only variant (square) | ❌ | ✅ | Add `iconOnly` variant | **P1** |
 | Full-width variant | ❌ | ✅ | Add `fullWidth` | **P1** |
-| Type button default | ⚠️ relies on consumer | ✅ explicit `type="button"` default | Default to `type="button"` to avoid form-submit surprises | **P0** |
+| Type button default | ✅ | ✅ explicit `type="button"` default | Default to `type="button"` to avoid form-submit surprises | ✅ shipped |
 | `aria-label` required when icon-only | ⚠️ consumer-responsibility | ✅ dev-warning | Document pattern | **P2** |
 
 **Notes:** Two P0s. Loading without a spinner leaves the button blank during requests — cosmetic but breaks user feedback. `type="button"` default is a well-known footgun (in Radix/shadcn it's baseline). `asChild` is the idiomatic pattern for router-link integration.
@@ -916,8 +916,8 @@
 |---------|-----------|---------------|-----|----------|
 | Native checkbox input + label | ✅ | ✅ | — | — |
 | `forwardRef` to input | ✅ | ✅ | — | — |
-| Custom visual (CSS-styled box + check icon) | ❌ | ✅ | Replace with CSS-styled check using ::before / mask | **P0** |
-| Indeterminate state | ❌ | ✅ | Support `indeterminate` prop | **P0** |
+| Custom visual (CSS-styled box + check icon) | ✅ | ✅ | Replace with CSS-styled check using ::before / mask | ✅ shipped |
+| Indeterminate state | ✅ | ✅ | Support `indeterminate` prop | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ via native `checked`/`defaultChecked` | ✅ | — | — |
 | Size variant | ❌ | ✅ | Add size | **P1** |
 | Color variant | ❌ | ✅ | Add color | **P1** |
@@ -938,8 +938,8 @@
 | Controlled + uncontrolled | ✅ via `useControllable` | ✅ | — | — |
 | `role="radiogroup"` | ✅ | ✅ | — | — |
 | Auto-generated name | ✅ | ✅ | — | — |
-| Custom visual (styled radio) | ❌ (native only) | ✅ | CSS-styled radio | **P0** |
-| Arrow-key navigation within group | ❌ | ✅ | Add keyboard nav | **P0** |
+| Custom visual (styled radio) | ✅ | ✅ | CSS-styled radio | ✅ shipped |
+| Arrow-key navigation within group | ✅ | ✅ | Add keyboard nav | ✅ shipped |
 | Size variant | ❌ | ✅ | Add size | **P1** |
 | Disabled on group (applies to all items) | ❌ | ✅ | Add `disabled` on group | **P1** |
 | Required / invalid forwarding | ❌ | ✅ | Add required + aria-required | **P1** |
@@ -957,7 +957,7 @@
 |---------|-----------|---------------|-----|----------|
 | Native input with `role="switch"` | ✅ | ✅ | — | — |
 | Forwarded ref | ✅ | ✅ | — | — |
-| Custom visual (track + thumb) | ❌ | ✅ | Replace with styled track/thumb | **P0** |
+| Custom visual (track + thumb) | ✅ | ✅ | Replace with styled track/thumb | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ native attrs | ✅ | — | — |
 | Size variant | ❌ | ✅ | Add size | **P1** |
 | On/off label slots | ❌ | ✅ | Add labels | **P1** |
@@ -977,8 +977,8 @@
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
 | `aria-pressed` on items | ✅ | ✅ | — | — |
 | Disabled per item + group | ✅ | ✅ | — | — |
-| Arrow-key nav within group | ❌ | ✅ | Add keyboard nav | **P0** |
-| Roving tab index | ❌ (all items tabbable) | ✅ | Add roving tabindex | **P0** |
+| Arrow-key nav within group | ✅ | ✅ | Add keyboard nav | ✅ shipped |
+| Roving tab index | ✅ | ✅ | Add roving tabindex | ✅ shipped |
 | Orientation horizontal/vertical | ❌ | ✅ | Add prop | **P1** |
 | `loop` nav at ends | ❌ | ✅ | Add | **P2** |
 | Size variant | ❌ | ✅ | Add size | **P1** |
@@ -996,8 +996,8 @@
 | Auto-generated IDs | ✅ | ✅ | — | — |
 | Error prop → `role="alert"` message | ✅ | ✅ | — | — |
 | Required asterisk | ✅ via `required` | ✅ | — | — |
-| Child input auto-wired `aria-describedby` to Description + Error | ❌ (not cloned/wired) | ✅ | Auto-wire via Control slot | **P0** |
-| Child input auto-wired `id` = fieldId | ❌ | ✅ | Wire id from context | **P0** |
+| Child input auto-wired `aria-describedby` to Description + Error | ✅ | ✅ | Auto-wire via Control slot | ✅ shipped |
+| Child input auto-wired `id` = fieldId | ✅ | ✅ | Wire id from context | ✅ shipped |
 | Hint / helper text slot | ✅ Description doubles | ✅ | — | — |
 | Success / validating states | ❌ (error only) | ✅ | Add `status` prop | **P1** |
 | Counter slot | ❌ | ✅ | Accept char counter node | **P2** |
@@ -1116,7 +1116,7 @@
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Variants (text/circle/rect) | ✅ | ✅ | — | — |
-| Shimmer animation | ⚠️ CSS-driven, check prefers-reduced-motion | ✅ | Verify animation respects reduced-motion | **P0** |
+| Shimmer animation | ✅ PRM-gated | ✅ | Verify animation respects reduced-motion | ✅ shipped |
 | `aria-hidden` | ✅ | ✅ | — | — |
 | Visible / invisible toggle (`visible` prop for conditional render) | ❌ | ✅ Mantine | Add `visible` prop | **P2** |
 | Height / width via props vs className | ⚠️ via style | ✅ dedicated props | Document inline-size/block-size pattern | **P2** |
@@ -1134,7 +1134,7 @@
 | Size (sm/md/lg) | ✅ | ✅ | — | — |
 | `role="status"` + SR label | ✅ | ✅ | — | — |
 | Tailwind `animate-spin` | ✅ | ✅ | — | — |
-| Respects `prefers-reduced-motion` | ⚠️ relies on Tailwind's animate-spin which ignores PRM | ✅ | Wrap animation in PRM media query | **P0** |
+| Respects `prefers-reduced-motion` | ✅ wui-spinner class PRM-gated | ✅ | Wrap animation in PRM media query | ✅ shipped |
 | Color variant | ❌ (uses currentColor) | ✅ | Add color prop | **P1** |
 | Type variants (dots / bars / oval) | ❌ | ✅ Mantine | Add types | **P2** |
 | Centered wrapper helper | ❌ | ✅ | Document pattern | **P2** |
@@ -1153,7 +1153,7 @@
 | Size (sm/md/lg) | ✅ | ✅ | — | — |
 | Color (primary/success/warning/destructive) | ✅ | ✅ | — | — |
 | Indeterminate | ✅ | ✅ | — | — |
-| Indeterminate animation respects PRM | ⚠️ need to verify | ✅ | Audit | **P0** |
+| Indeterminate animation respects PRM | ✅ PRM-gated in progress.css | ✅ | Audit | ✅ shipped |
 | Striped / animated striped variant | ❌ | ✅ | Add | **P2** |
 | Segmented (multi-value) | ❌ | ✅ Mantine | Add | **P2** |
 | Label overlay (percent text) | ❌ | ✅ | Add | **P1** |
