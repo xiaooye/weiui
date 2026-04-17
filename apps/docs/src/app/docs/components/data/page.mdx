@@ -107,6 +107,14 @@ For datasets that live on the server, opt-out of client-side pagination / sortin
 | onGlobalFilterChange | `OnChangeFn<string>` | — | Fires when the search box changes |
 | onRowSelectionChange | `OnChangeFn<RowSelectionState>` | — | Fires when row selection changes |
 
+### Accessibility
+
+- Renders a semantic `<table>` with `<thead>` / `<tbody>` / `<th scope="col">` so screen readers announce row/column relationships.
+- Sortable column headers use `aria-sort` (`"ascending"`, `"descending"`, `"none"`) and expose a clickable button that meets the 44px touch-target minimum.
+- Row-selection checkboxes carry an `aria-label` describing the row — the header checkbox announces select-all / deselect-all state.
+- The pagination bar exposes `aria-label="Pagination"` with previous/next buttons getting clear labels, and the page-size selector is a standard `<select>` so keyboard and screen-reader interaction follows native semantics.
+- The empty state renders inside the tbody region — the `emptyText` is announced as soon as the data becomes empty.
+
 ---
 
 ## Charts
