@@ -92,9 +92,9 @@ A slide-in panel from any edge with overlay and focus trap.
 ```tsx
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerClose } from "@weiui/react";
 
-<Drawer>
+<Drawer side="right">
   <DrawerTrigger>Open Drawer</DrawerTrigger>
-  <DrawerContent side="right">
+  <DrawerContent>
     <DrawerHeader>Settings</DrawerHeader>
     <p>Your drawer content.</p>
     <DrawerClose>Close</DrawerClose>
@@ -104,10 +104,13 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerClose } from 
 
 ### Props
 
+`side` and open-state props live on the `<Drawer>` root.
+
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | side | `"left" \| "right" \| "top" \| "bottom"` | `"right"` | Slide direction |
 | open | `boolean` | — | Controlled open state |
+| defaultOpen | `boolean` | `false` | Initial uncontrolled state |
 | onOpenChange | `(open: boolean) => void` | — | Open/close callback |
 
 ### Accessibility
