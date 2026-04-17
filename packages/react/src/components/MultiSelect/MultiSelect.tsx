@@ -1,7 +1,7 @@
 "use client";
 import { forwardRef, useState, useRef, useId } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick } from "@weiui/headless";
+import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
 
 export interface MultiSelectProps {
   options: { value: string; label: string }[];
@@ -32,8 +32,11 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     const selected = controlled ?? internal;
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const [filter, setFilter] = useState("");
     const containerRef = useRef<HTMLDivElement>(null);
     const listboxId = useId();
+
+    const { refs, floatingStyles } = useFloatingMenu({ open: isOpen });
 
     useOutsideClick(containerRef, () => setIsOpen(false), isOpen);
 
@@ -50,6 +53,10 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       );
     };
 
+    const filtered = options.filter((o) =>
+      o.label.toLowerCase().includes(filter.toLowerCase()),
+    );
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowDown":
@@ -58,7 +65,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
             setIsOpen(true);
             setHighlightedIndex(0);
           } else {
-            setHighlightedIndex((p) => Math.min(p + 1, options.length - 1));
+            setHighlightedIndex((p) => Math.min(p + 1, filtered.length - 1));
           }
           break;
         case "ArrowUp":
@@ -68,8 +75,8 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
         case "Enter":
         case " ":
           e.preventDefault();
-          if (isOpen && highlightedIndex >= 0 && options[highlightedIndex]) {
-            toggle(options[highlightedIndex].value);
+          if (isOpen && highlightedIndex >= 0 && filtered[highlightedIndex]) {
+            toggle(filtered[highlightedIndex].value);
           } else if (!isOpen) {
             setIsOpen(true);
             setHighlightedIndex(0);
@@ -83,7 +90,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     };
 
     const activeDescendant =
-      isOpen && highlightedIndex >= 0 && options[highlightedIndex]
+      isOpen && highlightedIndex >= 0 && filtered[highlightedIndex]
         ? `${listboxId}-opt-${highlightedIndex}`
         : undefined;
 
@@ -95,6 +102,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       >
         <div ref={containerRef}>
           <div
+            ref={refs.setReference}
             className="wui-multi-select__trigger"
             role="combobox"
             aria-expanded={isOpen}
@@ -132,12 +140,26 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
           </div>
           {isOpen && (
             <div
+              ref={refs.setFloating}
+              style={floatingStyles}
               className="wui-multi-select__dropdown"
               role="listbox"
               id={listboxId}
               aria-multiselectable="true"
             >
-              {options.map((opt, i) => (
+              <input
+                type="text"
+                className="wui-multi-select__search"
+                placeholder="Search…"
+                value={filter}
+                onChange={(e) => {
+                  setFilter(e.target.value);
+                  setHighlightedIndex(0);
+                }}
+                onKeyDown={handleKeyDown}
+                onClick={(e) => e.stopPropagation()}
+              />
+              {filtered.map((opt, i) => (
                 <div
                   key={opt.value}
                   id={`${listboxId}-opt-${i}`}

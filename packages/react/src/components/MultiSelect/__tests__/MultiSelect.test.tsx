@@ -111,4 +111,32 @@ describe("MultiSelect", () => {
     await user.click(screen.getByRole("option", { name: "Vue" }));
     expect(onChange).toHaveBeenCalledWith(["react", "vue"]);
   });
+
+  it("filters options by typing in the search input", async () => {
+    const user = userEvent.setup();
+    render(
+      <MultiSelect
+        options={[
+          { value: "a", label: "Apple" },
+          { value: "b", label: "Banana" },
+        ]}
+        label="Fruits"
+      />,
+    );
+    const trigger = screen.getByRole("combobox");
+    await user.click(trigger);
+    const search = screen.getByPlaceholderText(/search/i);
+    await user.type(search, "app");
+    expect(screen.queryByText("Banana")).not.toBeInTheDocument();
+    expect(screen.getByText("Apple")).toBeInTheDocument();
+  });
+
+  it("applies floating placement to dropdown", async () => {
+    const user = userEvent.setup();
+    render(<MultiSelect options={[{ value: "a", label: "A" }]} label="Items" />);
+    const trigger = screen.getByRole("combobox");
+    await user.click(trigger);
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.style.position).toBe("absolute");
+  });
 });

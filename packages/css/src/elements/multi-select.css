@@ -53,3 +53,20 @@
     }
   }
 }
+
+@layer wui-elements {
+  .wui-multi-select__search {
+    inline-size: 100%;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    background: transparent;
+    border: none;
+    border-block-end: 1px solid var(--wui-color-border);
+    font-size: var(--wui-font-size-sm);
+    outline: none;
+    color: var(--wui-color-foreground);
+  }
+  .wui-multi-select__search::placeholder {
+    color: var(--wui-color-muted-foreground);
+  }
+}
