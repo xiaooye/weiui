@@ -10,6 +10,8 @@
     border-block-start: 1px solid var(--wui-color-border);
     box-shadow: var(--wui-elevation-2);
     min-block-size: 56px;
+    /* iOS safe area — adds space below for the home indicator. */
+    padding-block-end: env(safe-area-inset-bottom, 0);
   }
   .wui-bottom-nav__item {
     display: flex;
