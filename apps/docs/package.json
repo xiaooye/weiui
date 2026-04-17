@@ -13,6 +13,8 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@weiui/css": "workspace:*",
+    "@weiui/headless": "workspace:*",
+    "@weiui/react": "workspace:*",
     "@weiui/tokens": "workspace:*",
     "cmdk": "^1.1.1",
     "next": "^15.3",

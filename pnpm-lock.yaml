@@ -29,6 +29,12 @@ importers:
       '@weiui/css':
         specifier: workspace:*
         version: link:../../packages/css
+      '@weiui/headless':
+        specifier: workspace:*
+        version: link:../../packages/headless
+      '@weiui/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       '@weiui/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
