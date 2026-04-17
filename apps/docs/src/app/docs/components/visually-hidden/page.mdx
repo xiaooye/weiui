@@ -42,3 +42,10 @@ Applies the `wui-sr-only` utility from the CSS layer, which uses the canonical `
 - Live-region announcements that shouldn't take up space in the layout.
 
 Do **not** use it to hide content you want to genuinely remove — use conditional rendering or `display: none` instead.
+
+### Accessibility
+
+- Content stays in the accessibility tree — screen readers announce it while sighted users see nothing.
+- Works with all assistive tech because it uses the established `clip`/`clip-path` + 1×1px pattern (not `display: none`, which would also hide from AT).
+- Pair with `aria-hidden="true"` on accompanying decorative icons so the visually hidden label is the only announced text.
+- Safe to place inside live regions for announcements that should not consume visual space.
