@@ -122,6 +122,24 @@
     }
   }
 
+  /* Mobile hamburger — shown only on narrow viewports */
+  .wui-docs-header__menu {
+    display: none;
+    inline-size: 36px; block-size: 36px;
+    align-items: center; justify-content: center;
+    background-color: transparent;
+    color: var(--wui-color-muted-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-base);
+    cursor: pointer;
+    font-size: var(--wui-font-size-lg);
+    line-height: 1;
+  }
+  .wui-docs-header__menu:hover {
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-muted);
+  }
+
   /* Mobile header — hide primary nav, shrink search trigger */
   @media (max-width: 768px) {
     .wui-docs-header__inner {
@@ -143,6 +161,71 @@
       font-size: var(--wui-font-size-lg);
     }
     .wui-docs-header__github { display: none; }
+    .wui-docs-header__menu { display: inline-flex; }
+  }
+}
+
+@layer wui-base {
+  /* Mobile nav drawer — shown via MobileNav on sub-768px */
+  .wui-docs-mobile-nav {
+    inline-size: min(20rem, 85vw);
+  }
+  .wui-docs-mobile-nav__title {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-docs-mobile-nav__close {
+    inline-size: 32px; block-size: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background-color: transparent;
+    color: var(--wui-color-muted-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-base);
+    cursor: pointer;
+    font-size: var(--wui-font-size-lg);
+    line-height: 1;
+  }
+  .wui-docs-mobile-nav__close:hover {
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-muted);
+  }
+  .wui-docs-mobile-nav__body {
+    flex: 1;
+    overflow-y: auto;
+    padding-block: var(--wui-spacing-4);
+  }
+  .wui-docs-mobile-nav__primary {
+    display: flex; flex-direction: column;
+    padding-inline: var(--wui-spacing-4);
+    padding-block-end: var(--wui-spacing-4);
+    border-block-end: 1px solid var(--wui-color-border);
+    margin-block-end: var(--wui-spacing-4);
+    gap: 2px;
+  }
+  .wui-docs-mobile-nav__primary a {
+    display: block;
+    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-foreground);
+    text-decoration: none;
+    border-radius: var(--wui-shape-radius-base);
+  }
+  .wui-docs-mobile-nav__primary a:hover {
+    background-color: var(--wui-color-muted);
+  }
+  /* Override the mobile "display: none" rule so the sidebar renders inside the drawer */
+  .wui-docs-mobile-nav__body .wui-docs-sidebar {
+    display: block;
+    position: static;
+    block-size: auto;
+    border-inline-end: none;
+    padding-block: 0;
+    padding-inline: var(--wui-spacing-2);
+    overflow-y: visible;
   }
 }
 

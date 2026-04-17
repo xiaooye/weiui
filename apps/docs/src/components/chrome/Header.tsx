@@ -2,6 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "../../lib/site-config";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchTrigger } from "./SearchTrigger";
+import { MobileNav } from "./MobileNav";
 
 export function Header() {
   return (
@@ -29,6 +30,7 @@ export function Header() {
           >
             GitHub
           </a>
+          <MobileNav />
         </div>
       </div>
     </header>
