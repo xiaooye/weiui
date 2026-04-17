@@ -267,7 +267,7 @@ const options = [
   { value: "py", label: "Python" },
 ];
 
-<AutoComplete options={options} onValueChange={setValue} />
+<AutoComplete options={options} onChange={setValue} />
 
 // Async loading state
 <AutoComplete options={results} loading={isFetching} placeholder="Search packages..." />
@@ -278,10 +278,11 @@ const options = [
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | options | `{ value: string; label: string }[]` | — | Suggestion list |
-| value | `string` | — | Controlled input value |
-| defaultValue | `string` | — | Initial uncontrolled value |
-| onValueChange | `(value: string) => void` | — | Fires on typing or selection |
+| value | `string` | — | Controlled selected option value |
+| onChange | `(value: string) => void` | — | Fires when a suggestion is picked |
+| onInputChange | `(input: string) => void` | — | Fires as the user types in the text box |
 | placeholder | `string` | — | Input placeholder |
+| emptyText | `string` | `"No results"` | Message shown when the filter has no matches |
 | loading | `boolean` | `false` | Shows a loading row inside the dropdown |
 | disabled | `boolean` | `false` | Disables the input |
 
@@ -307,7 +308,7 @@ const options = [
   { value: "design", label: "Design" },
 ];
 
-<MultiSelect options={options} onValueChange={setValues} placeholder="Pick teams" />
+<MultiSelect options={options} onChange={setValues} placeholder="Pick teams" />
 ```
 
 ### Props
@@ -317,8 +318,9 @@ const options = [
 | options | `{ value: string; label: string }[]` | — | Available options |
 | value | `string[]` | — | Controlled selected values |
 | defaultValue | `string[]` | `[]` | Initial uncontrolled values |
-| onValueChange | `(values: string[]) => void` | — | Called when selection changes |
-| placeholder | `string` | — | Text shown when nothing is selected |
+| onChange | `(values: string[]) => void` | — | Called when selection changes |
+| placeholder | `string` | `"Select..."` | Text shown when nothing is selected |
+| disabled | `boolean` | `false` | Disables the control |
 
 ### Accessibility
 
@@ -338,7 +340,7 @@ import { FileUpload } from "@weiui/react";
 <FileUpload
   accept="image/*"
   maxSize={5 * 1024 * 1024}
-  onFilesChange={(files) => console.log(files)}
+  onChange={(files) => console.log(files)}
   onError={({ reason, file, message }) => {
     toast.error(`${file.name}: ${message}`);
   }}
@@ -347,7 +349,7 @@ import { FileUpload } from "@weiui/react";
 
 ### Error handling
 
-`onError` fires when a drop or selection is rejected — e.g. wrong `accept` MIME type, exceeded `maxSize`, or exceeded `maxFiles`. The handler receives `{ reason, file, message }` so you can pick whether to toast, inline-render, or silently log. An inline error is also rendered inside the dropzone automatically.
+`onError` fires when a drop or selection is rejected — e.g. wrong `accept` MIME type (`reason: "type"`), exceeded `maxSize` (`"size"`), or exceeded `maxFiles` (`"count"`). The handler receives `{ reason, file, message }` so you can pick whether to toast, inline-render, or silently log. An inline error is also rendered inside the dropzone automatically.
 
 ### Props
 
@@ -357,8 +359,10 @@ import { FileUpload } from "@weiui/react";
 | multiple | `boolean` | `false` | Allow multiple files |
 | maxSize | `number` | — | Max bytes per file |
 | maxFiles | `number` | — | Max file count when `multiple` is true |
-| onFilesChange | `(files: File[]) => void` | — | Called when files are added or removed |
-| onError | `(err: { reason: "accept" \| "size" \| "count"; file: File; message: string }) => void` | — | Called when a file is rejected |
+| onChange | `(files: File[]) => void` | — | Called when files are added or removed |
+| onError | `(err: { reason: "type" \| "size" \| "count"; file: File; message: string }) => void` | — | Called when a file is rejected |
+| label | `string` | `"Click or drag files here"` | Dropzone label text |
+| hint | `string` | — | Optional helper text under the label |
 | disabled | `boolean` | `false` | Disables drop + browse |
 
 ### Accessibility
