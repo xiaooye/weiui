@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef, useEffect, useState, type ReactNode } from "react";
 import {
   ResponsiveContainer,
   BarChart as ReBarChart,
@@ -23,6 +23,7 @@ import {
   Legend,
 } from "recharts";
 import { cn } from "../../utils/cn";
+import { VisuallyHidden } from "../VisuallyHidden";
 
 const COLORS = [
   "var(--wui-color-primary)",
@@ -35,22 +36,72 @@ const COLORS = [
   "oklch(0.65 0.15 60)",
 ];
 
+/** SSR-safe matchMedia hook for prefers-reduced-motion. */
+function usePrefersReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
+  return reduced;
+}
+
+interface DataTableProps {
+  columns: string[];
+  rows: (string | number)[][];
+  caption?: string;
+}
+
+function ChartDataTable({ columns, rows, caption }: DataTableProps) {
+  return (
+    <VisuallyHidden>
+      <table>
+        {caption ? <caption>{caption}</caption> : null}
+        <thead>
+          <tr>
+            {columns.map((c) => (
+              <th key={c} scope="col">
+                {c}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i}>
+              {row.map((cell, j) => (
+                <td key={j}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </VisuallyHidden>
+  );
+}
+
 interface ChartWrapperProps {
   title?: ReactNode;
   description?: ReactNode;
   className?: string;
   children: ReactNode;
   height?: number;
+  dataTable?: DataTableProps;
 }
 
 const ChartWrapper = forwardRef<HTMLDivElement, ChartWrapperProps>(
-  ({ title, description, className, children, height = 300 }, ref) => (
+  ({ title, description, className, children, height = 300, dataTable }, ref) => (
     <div ref={ref} className={cn("wui-chart", className)}>
       {title && <div className="wui-chart__title">{title}</div>}
       {description && <div className="wui-chart__description">{description}</div>}
       <ResponsiveContainer width="100%" height={height}>
         {children as React.ReactElement}
       </ResponsiveContainer>
+      {dataTable && <ChartDataTable {...dataTable} />}
     </div>
   ),
 );
@@ -67,57 +118,86 @@ export interface ChartProps {
   colors?: string[];
 }
 
+function stringify(v: unknown): string | number {
+  if (typeof v === "number" || typeof v === "string") return v;
+  if (v == null) return "";
+  return String(v);
+}
+
+function buildTable(
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  xKey: string,
+): DataTableProps {
+  return {
+    columns: [xKey, ...dataKeys],
+    rows: data.map((d) => [stringify(d[xKey]), ...dataKeys.map((k) => stringify(d[k]))]),
+  };
+}
+
 export const BarChart = forwardRef<HTMLDivElement, ChartProps>(
-  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => (
-    <ChartWrapper ref={ref} {...rest}>
-      <ReBarChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Bar chart"}>
-        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} />
-        <Tooltip />
-        <Legend />
-        {dataKeys.map((key, i) => (
-          <Bar key={key} dataKey={key} fill={colors[i % colors.length]} radius={[4, 4, 0, 0]} />
-        ))}
-      </ReBarChart>
-    </ChartWrapper>
-  ),
+  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => {
+    const reduced = usePrefersReducedMotion();
+    const animated = !reduced;
+    return (
+      <ChartWrapper ref={ref} {...rest} dataTable={buildTable(data, dataKeys, xKey)}>
+        <ReBarChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Bar chart"}>
+          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
+          <Tooltip />
+          <Legend />
+          {dataKeys.map((key, i) => (
+            <Bar key={key} dataKey={key} fill={colors[i % colors.length]} radius={[4, 4, 0, 0]} isAnimationActive={animated} />
+          ))}
+        </ReBarChart>
+      </ChartWrapper>
+    );
+  },
 );
 BarChart.displayName = "BarChart";
 
 export const LineChart = forwardRef<HTMLDivElement, ChartProps>(
-  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => (
-    <ChartWrapper ref={ref} {...rest}>
-      <ReLineChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Line chart"}>
-        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} />
-        <Tooltip />
-        <Legend />
-        {dataKeys.map((key, i) => (
-          <Line key={key} type="monotone" dataKey={key} stroke={colors[i % colors.length]} strokeWidth={2} dot={{ r: 3 }} />
-        ))}
-      </ReLineChart>
-    </ChartWrapper>
-  ),
+  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => {
+    const reduced = usePrefersReducedMotion();
+    const animated = !reduced;
+    return (
+      <ChartWrapper ref={ref} {...rest} dataTable={buildTable(data, dataKeys, xKey)}>
+        <ReLineChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Line chart"}>
+          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
+          <Tooltip />
+          <Legend />
+          {dataKeys.map((key, i) => (
+            <Line key={key} type="monotone" dataKey={key} stroke={colors[i % colors.length]} strokeWidth={2} dot={{ r: 3 }} isAnimationActive={animated} />
+          ))}
+        </ReLineChart>
+      </ChartWrapper>
+    );
+  },
 );
 LineChart.displayName = "LineChart";
 
 export const AreaChart = forwardRef<HTMLDivElement, ChartProps>(
-  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => (
-    <ChartWrapper ref={ref} {...rest}>
-      <ReAreaChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Area chart"}>
-        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} />
-        <Tooltip />
-        <Legend />
-        {dataKeys.map((key, i) => (
-          <Area key={key} type="monotone" dataKey={key} stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.2} />
-        ))}
-      </ReAreaChart>
-    </ChartWrapper>
-  ),
+  ({ data, dataKeys, xKey = "name", colors = COLORS, ...rest }, ref) => {
+    const reduced = usePrefersReducedMotion();
+    const animated = !reduced;
+    return (
+      <ChartWrapper ref={ref} {...rest} dataTable={buildTable(data, dataKeys, xKey)}>
+        <ReAreaChart data={data} role="img" aria-label={typeof rest.title === "string" ? rest.title : "Area chart"}>
+          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
+          <Tooltip />
+          <Legend />
+          {dataKeys.map((key, i) => (
+            <Area key={key} type="monotone" dataKey={key} stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.2} isAnimationActive={animated} />
+          ))}
+        </ReAreaChart>
+      </ChartWrapper>
+    );
+  },
 );
 AreaChart.displayName = "AreaChart";
 
@@ -132,28 +212,40 @@ export interface PieChartProps {
 }
 
 export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
-  ({ data, colors = COLORS, donut, ...rest }, ref) => (
-    <ChartWrapper ref={ref} {...rest}>
-      <RePieChart role="img" aria-label={typeof rest.title === "string" ? rest.title : "Pie chart"}>
-        <Pie
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          innerRadius={donut ? "50%" : 0}
-          outerRadius="80%"
-          label
-        >
-          {data.map((_, i) => (
-            <Cell key={i} fill={colors[i % colors.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </RePieChart>
-    </ChartWrapper>
-  ),
+  ({ data, colors = COLORS, donut, ...rest }, ref) => {
+    const reduced = usePrefersReducedMotion();
+    const animated = !reduced;
+    return (
+      <ChartWrapper
+        ref={ref}
+        {...rest}
+        dataTable={{
+          columns: ["name", "value"],
+          rows: data.map((d) => [d.name, d.value]),
+        }}
+      >
+        <RePieChart role="img" aria-label={typeof rest.title === "string" ? rest.title : "Pie chart"}>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={donut ? "50%" : 0}
+            outerRadius="80%"
+            label
+            isAnimationActive={animated}
+          >
+            {data.map((_, i) => (
+              <Cell key={i} fill={colors[i % colors.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </RePieChart>
+      </ChartWrapper>
+    );
+  },
 );
 PieChart.displayName = "PieChart";
 
@@ -174,19 +266,23 @@ export interface RadarChartProps {
 }
 
 export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
-  ({ data, dataKeys, angleKey = "subject", colors = COLORS, ...rest }, ref) => (
-    <ChartWrapper ref={ref} {...rest}>
-      <ReRadarChart data={data} cx="50%" cy="50%" outerRadius="80%" role="img" aria-label={typeof rest.title === "string" ? rest.title : "Radar chart"}>
-        <PolarGrid />
-        <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 12 }} />
-        <PolarRadiusAxis tick={{ fontSize: 10 }} />
-        {dataKeys.map((key, i) => (
-          <Radar key={key} dataKey={key} stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.2} />
-        ))}
-        <Tooltip />
-        <Legend />
-      </ReRadarChart>
-    </ChartWrapper>
-  ),
+  ({ data, dataKeys, angleKey = "subject", colors = COLORS, ...rest }, ref) => {
+    const reduced = usePrefersReducedMotion();
+    const animated = !reduced;
+    return (
+      <ChartWrapper ref={ref} {...rest} dataTable={buildTable(data, dataKeys, angleKey)}>
+        <ReRadarChart data={data} cx="50%" cy="50%" outerRadius="80%" role="img" aria-label={typeof rest.title === "string" ? rest.title : "Radar chart"}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 12 }} />
+          <PolarRadiusAxis tick={{ fontSize: 10 }} />
+          {dataKeys.map((key, i) => (
+            <Radar key={key} dataKey={key} stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.2} isAnimationActive={animated} />
+          ))}
+          <Tooltip />
+          <Legend />
+        </ReRadarChart>
+      </ChartWrapper>
+    );
+  },
 );
 RadarChart.displayName = "RadarChart";
