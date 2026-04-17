@@ -10,6 +10,7 @@ import {
   type ButtonHTMLAttributes,
 } from "react";
 import { useDisclosure, useFocusTrap, useOutsideClick, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
+import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
 type DrawerSide = "left" | "right" | "top" | "bottom";
@@ -105,7 +106,7 @@ export function DrawerContent({ children, className, onKeyDown, ...props }: Draw
   if (!isOpen) return null;
 
   return (
-    <>
+    <Portal>
       <div className="wui-drawer-overlay" onClick={onClose} aria-hidden="true" />
       <div
         ref={contentRef}
@@ -123,7 +124,7 @@ export function DrawerContent({ children, className, onKeyDown, ...props }: Draw
       >
         {children}
       </div>
-    </>
+    </Portal>
   );
 }
 
