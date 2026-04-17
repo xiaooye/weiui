@@ -1,7 +1,7 @@
 # WeiUI Polish Overhaul — Completion Summary
 
-**Shipped:** 2026-04-16 to 2026-04-17
-**Total commits:** 132
+**Shipped:** 2026-04-16 to 2026-04-17 (+ polish rounds 7–10 through 2026-04-17)
+**Total commits:** 166
 **Total tests:** 693 passing across all packages
 
 ## Waves shipped
@@ -20,6 +20,8 @@
 | Phase 5e | Form/display primitives — 14 P0s | 11 commits |
 | Polish 2 | Quality audit + docs updates + visual polish | 6 commits |
 | Polish 3-8 | Iterative fix rounds 1–6 (diagnostic + fix loops) | 36 commits |
+| Polish 9 | Live demos for 11 components + missing a11y sections + Breadcrumb/TOC polish | 24 commits |
+| Polish 10 | Demo interaction fixes, typography page, Preview/TOC polish, 404 page | 10 commits |
 | **Total** | **69 P0s closed · 50+ components polished · 37 latent bugs fixed** | — |
 
 ## Iterative fix rounds (Polish 3-8)
@@ -32,6 +34,8 @@
 | Round 4 | Missing tests, displayName on forwardRef, alphabetized sidebar | 3 |
 | Round 5 | Runtime leaks (Tooltip timer cleanup), JSDoc on Props | 2 |
 | Round 6 | InputNumber `locale` prop, migrate ComponentPreview → Preview on 11 pages | 2 |
+| Round 9 | Toaster mounted in layout; live demos for Dialog/Drawer/Popover/Tooltip/Menu/Toast/Kbd/Portal/VisuallyHidden/Editor/CommandPalette/ColorPicker/DatePicker/Calendar/MultiSelect/AutoComplete/FileUpload/DataTable; Accessibility sections added to 9 grouped pages; Breadcrumbs/TOC/anchor polish | 24 |
+| Round 10 | DataTable demo + 10 polish (Preview tabs, TOC scroll, turbo cache, typography previews, 404, LiveShowcase ARIA, demo onSelect wiring) | 10 |
 
 ## Files created / modified
 
