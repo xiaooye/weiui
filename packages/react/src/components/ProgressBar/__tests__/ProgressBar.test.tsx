@@ -85,4 +85,11 @@ describe("ProgressBar", () => {
     render(<ProgressBar ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
+
+  it("uses wui-progress class (PRM-gated animations in CSS layer)", () => {
+    // Both the fill transition and indeterminate animation are defined inside
+    // @media (prefers-reduced-motion: no-preference) — see progress.css.
+    render(<ProgressBar value={50} />);
+    expect(screen.getByRole("progressbar")).toHaveClass("wui-progress");
+  });
 });
