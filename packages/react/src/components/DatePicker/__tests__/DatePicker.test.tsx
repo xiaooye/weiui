@@ -69,4 +69,39 @@ describe("DatePicker", () => {
     await user.click(trigger);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
+
+  // Wave 5d P0: locale prop flows through to trigger + calendar
+  it("displays date in provided locale", () => {
+    const date = new Date(2025, 5, 15);
+    render(<DatePicker value={date} locale="fr-FR" placeholder="Pick date" />);
+    // French: "15 juin 2025" or similar — shouldn't show English "Jun"
+    const btn = screen.getByRole("button");
+    expect(btn.textContent?.toLowerCase()).not.toContain("jun 15");
+    expect(btn.textContent?.toLowerCase()).toMatch(/juin|15/);
+  });
+
+  it("passes locale through to Calendar dropdown", async () => {
+    const user = userEvent.setup();
+    render(<DatePicker placeholder="Pick date" label="Date" locale="fr-FR" />);
+    await user.click(screen.getByRole("button", { name: "Date" }));
+    // Dialog is open; month label should be in French
+    const dialog = screen.getByRole("dialog");
+    // Look for any French month substring in the dialog header
+    expect(dialog.textContent?.toLowerCase()).toMatch(
+      /janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre/,
+    );
+  });
+
+  // Wave 5d P0: floating placement via Floating UI
+  it("uses Floating UI for dropdown positioning (dropdown is portaled)", async () => {
+    const user = userEvent.setup();
+    render(<DatePicker placeholder="Pick date" label="Date" />);
+    await user.click(screen.getByRole("button", { name: "Date" }));
+    const dialog = screen.getByRole("dialog");
+    // Dropdown must be portaled into body, not a child of the trigger container
+    expect(dialog.parentElement).toBe(document.body);
+    // And must have inline positioning from Floating UI (position: absolute)
+    const style = dialog.getAttribute("style") || "";
+    expect(style).toMatch(/position\s*:\s*absolute/i);
+  });
 });
