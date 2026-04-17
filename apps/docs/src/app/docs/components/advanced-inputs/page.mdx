@@ -61,6 +61,7 @@ import { Rating } from "@weiui/react";
 
 <Rating defaultValue={3} />
 <Rating value={rating} onChange={setRating} />
+<Rating allowHalf value={halfRating} onChange={setHalfRating} />
 <Rating readOnly defaultValue={4} />
 <Rating disabled defaultValue={2} />
 ```
@@ -73,6 +74,7 @@ import { Rating } from "@weiui/react";
 | value | `number` | — | Controlled value |
 | defaultValue | `number` | `0` | Initial uncontrolled value |
 | onChange | `(value: number) => void` | — | Called when a star is clicked |
+| allowHalf | `boolean` | `false` | Clicking the left half of a star sets value to `N - 0.5`; ArrowRight/ArrowLeft step by `0.5` |
 | disabled | `boolean` | `false` | Disables all interactions |
 | readOnly | `boolean` | `false` | Prevents changes, still focusable |
 | label | `string` | `"Rating"` | ARIA label for the group |

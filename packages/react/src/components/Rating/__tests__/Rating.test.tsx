@@ -81,4 +81,62 @@ describe("Rating", () => {
     render(<Rating readOnly />);
     expect(screen.getByRole("radiogroup")).toHaveAttribute("data-readonly", "true");
   });
+
+  it("allowHalf: clicking the left half of a star sets value to N - 0.5", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Rating allowHalf onChange={onChange} />);
+    const star3 = screen.getByLabelText("3 stars");
+    // Stub bounding box so hit-testing is deterministic in jsdom.
+    vi.spyOn(star3, "getBoundingClientRect").mockReturnValue({
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      right: 44,
+      bottom: 44,
+      width: 44,
+      height: 44,
+      toJSON: () => ({}),
+    } as DOMRect);
+    await user.pointer({ keys: "[MouseLeft]", target: star3, coords: { clientX: 10, clientY: 10 } });
+    expect(onChange).toHaveBeenCalledWith(2.5);
+  });
+
+  it("allowHalf: clicking the right half of a star sets value to N", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Rating allowHalf onChange={onChange} />);
+    const star3 = screen.getByLabelText("3 stars");
+    vi.spyOn(star3, "getBoundingClientRect").mockReturnValue({
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      right: 44,
+      bottom: 44,
+      width: 44,
+      height: 44,
+      toJSON: () => ({}),
+    } as DOMRect);
+    await user.pointer({ keys: "[MouseLeft]", target: star3, coords: { clientX: 40, clientY: 10 } });
+    expect(onChange).toHaveBeenCalledWith(3);
+  });
+
+  it("allowHalf: ArrowRight increments by 0.5", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Rating allowHalf defaultValue={3} onChange={onChange} />);
+    screen.getByLabelText("3 stars").focus();
+    await user.keyboard("{ArrowRight}");
+    expect(onChange).toHaveBeenCalledWith(3.5);
+  });
+
+  it("allowHalf: star with half value renders with data-half attribute", () => {
+    render(<Rating allowHalf value={2.5} />);
+    const stars = screen.getAllByRole("radio");
+    expect(stars[2]).toHaveAttribute("data-half", "true");
+    expect(stars[0]).toHaveAttribute("data-filled", "true");
+    expect(stars[1]).toHaveAttribute("data-filled", "true");
+  });
 });

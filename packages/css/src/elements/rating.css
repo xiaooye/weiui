@@ -11,6 +11,16 @@
     color: var(--wui-color-warning);
     text-shadow: 0 1px 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.12);
   }
+  .wui-rating__star[data-half] {
+    background: linear-gradient(
+      to right,
+      var(--wui-color-warning) 50%,
+      color-mix(in oklch, var(--wui-color-foreground) 20%, transparent) 50%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
   .wui-rating__star:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; border-radius: var(--wui-shape-radius-sm); }
   .wui-rating[data-disabled] .wui-rating__star { cursor: default; opacity: 0.5; }
   .wui-rating[data-readonly] .wui-rating__star { cursor: default; }
