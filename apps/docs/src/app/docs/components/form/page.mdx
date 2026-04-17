@@ -105,7 +105,7 @@ const [enabled, setEnabled] = useState(false);
 />
 ```
 
-Switch supports both patterns via a single `useControllable` hook: pass `checked`/`onChange` for controlled, or `defaultChecked` for uncontrolled. Mixing the two (e.g. omitting `onChange` while passing `checked`) logs a development warning.
+Switch is a native checkbox under the hood with `role="switch"`, so React's usual controlled/uncontrolled rules apply: pass `checked` + `onChange` for controlled, or `defaultChecked` for uncontrolled.
 
 ### Props
 
@@ -230,7 +230,6 @@ import {
   Field,
   FieldLabel,
   FieldDescription,
-  FieldError,
   Input,
 } from "@weiui/react";
 
@@ -254,14 +253,14 @@ The child input can be any component that reads the `FieldContext` — `Input`, 
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| id | `string` | auto | Override the generated field id |
-| error | `string` | — | Renders `<FieldError>` and wires `aria-invalid` on the child input |
-| children | `ReactNode` | — | `FieldLabel`, input, `FieldDescription`, `FieldError` in any order |
+| error | `string` | — | Renders an inline error message and wires `aria-invalid` on the child input |
+| required | `boolean` | `false` | Adds a required-marker asterisk to `<FieldLabel>` |
+| children | `ReactNode` | — | `FieldLabel`, input, and `FieldDescription` in any order |
 
 ### Accessibility
 
 - `id` auto-generated via `useId()` and applied to the child input
 - `FieldLabel` gets a matching `htmlFor`
-- `FieldDescription` and `FieldError` get ids which are combined into `aria-describedby`
-- `error` (or a child `FieldError`) sets `aria-invalid="true"` on the input
+- `FieldDescription` gets an id which is combined into `aria-describedby`
+- `error` renders an inline error region and sets `aria-invalid="true"` on the input
 - Works with screen readers out of the box — no manual ARIA plumbing required
