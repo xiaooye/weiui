@@ -1,14 +1,46 @@
 @layer wui-elements {
   .wui-toaster {
     position: fixed;
-    inset-block-end: var(--wui-spacing-4);
-    inset-inline-end: var(--wui-spacing-4);
     z-index: var(--wui-zIndex-toast);
     display: flex;
     flex-direction: column;
     gap: var(--wui-spacing-2);
     max-inline-size: 420px;
     inline-size: 100%;
+    pointer-events: none;
+  }
+  .wui-toaster > * { pointer-events: auto; }
+  .wui-toaster--top-left {
+    inset-block-start: var(--wui-spacing-4);
+    inset-inline-start: var(--wui-spacing-4);
+    align-items: flex-start;
+  }
+  .wui-toaster--top-center {
+    inset-block-start: var(--wui-spacing-4);
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+  .wui-toaster--top-right {
+    inset-block-start: var(--wui-spacing-4);
+    inset-inline-end: var(--wui-spacing-4);
+    align-items: flex-end;
+  }
+  .wui-toaster--bottom-left {
+    inset-block-end: var(--wui-spacing-4);
+    inset-inline-start: var(--wui-spacing-4);
+    align-items: flex-start;
+  }
+  .wui-toaster--bottom-center {
+    inset-block-end: var(--wui-spacing-4);
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+  .wui-toaster--bottom-right {
+    inset-block-end: var(--wui-spacing-4);
+    inset-inline-end: var(--wui-spacing-4);
+    align-items: flex-end;
   }
 
   .wui-toast {
@@ -35,6 +67,22 @@
   .wui-toast__content { flex: 1; }
   .wui-toast__title { font-weight: var(--wui-font-weight-semibold); font-size: var(--wui-font-size-sm); }
   .wui-toast__description { font-size: var(--wui-font-size-sm); color: var(--wui-color-muted-foreground); margin-block-start: var(--wui-spacing-1); }
+  .wui-toast__action {
+    flex-shrink: 0;
+    align-self: center;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-1);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
+    color: var(--wui-color-primary);
+    border: 1px solid color-mix(in oklch, var(--wui-color-primary) 30%, transparent);
+    border-radius: var(--wui-shape-radius-base);
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-medium);
+    cursor: pointer;
+  }
+  .wui-toast__action:hover {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 20%, transparent);
+  }
   .wui-toast__close {
     flex-shrink: 0; min-block-size: 24px; min-inline-size: 24px;
     display: inline-flex; align-items: center; justify-content: center;

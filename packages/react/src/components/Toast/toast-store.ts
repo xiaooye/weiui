@@ -1,11 +1,17 @@
 type ToastVariant = "default" | "success" | "destructive" | "warning";
 
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
+}
+
 interface ToastItem {
   id: string;
   title: string;
   description?: string;
   variant: ToastVariant;
   duration: number;
+  action?: ToastAction;
 }
 
 type Listener = () => void;

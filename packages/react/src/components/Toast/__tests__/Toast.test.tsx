@@ -110,4 +110,37 @@ describe("Toaster", () => {
     expect(screen.queryByText("Auto dismiss")).not.toBeInTheDocument();
     vi.useRealTimers();
   });
+
+  it("renders action button when action option set, fires onClick and dismisses", async () => {
+    const onClick = vi.fn();
+    act(() => {
+      addToast({
+        title: "Saved",
+        variant: "default",
+        action: { label: "Undo", onClick },
+      });
+    });
+    render(<Toaster />);
+    const btn = screen.getByRole("button", { name: "Undo" });
+    expect(btn).toBeInTheDocument();
+    expect(btn).toHaveClass("wui-toast__action");
+    act(() => {
+      btn.click();
+    });
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("Saved")).not.toBeInTheDocument();
+  });
+
+  it("applies position modifier class on Toaster root", () => {
+    render(<Toaster position="top-left" />);
+    const region = screen.getByRole("region");
+    expect(region).toHaveClass("wui-toaster--top-left");
+    expect(region).toHaveAttribute("data-position", "top-left");
+  });
+
+  it("defaults to bottom-right position", () => {
+    render(<Toaster />);
+    const region = screen.getByRole("region");
+    expect(region).toHaveClass("wui-toaster--bottom-right");
+  });
 });
