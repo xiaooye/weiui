@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-16 (Wave 5c shipped)
+**Last updated:** 2026-04-16 (Wave 5d shipped)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -46,13 +46,13 @@
 | 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
 | 5b Overlay | 7 | 0 ✅ shipped | 31 | 9 |
 | 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
-| 5d Advanced | 9 | 13 | 54 | 16 |
+| 5d Advanced | 9 | 0 ✅ shipped | 54 | 16 |
 | 5e Form + display | 16 | 14 | 38 | 30 |
-| **Total** | **51** | **27** | **216** | **89** |
+| **Total** | **51** | **14** | **216** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
-**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Next up: Calendar (3 P0) carries the highest Wave-5d individual load.
+**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Wave 5d shipped 13 P0s — Calendar (3), DatePicker/Chart/Editor/SpeedDial (2 each), ColorPicker/Splitter (1 each). Final: Wave 5e (14 P0s) still pending.
 
 ---
 
@@ -655,13 +655,13 @@
 ## DatePicker
 
 **Reference:** react-aria DatePicker / Mantine DateInput
-**Status:** ⚠️ Partial — calendar trigger, min/max date, click to select.
+**Status:** ✅ Ships — trigger + Floating UI popover, Calendar, locale, min/max, disabled-date predicate.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger button + popover + Calendar | ✅ | ✅ | — | — |
 | Min / max date | ✅ | ✅ | — | — |
-| Locale-aware display | ⚠️ hard-coded en-US | ✅ Intl | Pass locale prop, use Intl | **P0** |
+| Locale-aware display | ✅ | ✅ Intl | Pass locale prop, use Intl | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ controlled-only (`value`/`onChange`) | ✅ | Add `defaultValue` pattern | **P1** |
 | Typed input (DateInput-style segmented input) | ❌ | ✅ | Add segmented input variant | **P1** |
 | Range mode (start + end) | ❌ | ✅ | Add DateRangePicker | **P1** |
@@ -669,7 +669,7 @@
 | Preset shortcuts (Today, Last 7 days) | ❌ | ✅ | Add `presets` slot | **P1** |
 | Disable specific dates (`isDateDisabled`) | ❌ (only min/max) | ✅ | Add predicate prop | **P1** |
 | Clearable | ❌ | ✅ | Add clear button | **P1** |
-| Floating placement for popover | ❌ (plain absolute) | ✅ | Use Floating UI | **P0** |
+| Floating placement for popover | ✅ | ✅ | Use Floating UI | ✅ shipped |
 | Form name + submit value | ❌ | ✅ | Add hidden input with ISO value | **P1** |
 | `aria-label` on trigger | ✅ | ✅ | — | — |
 | Week numbers | ❌ | ✅ | Add `showWeekNumbers` | **P2** |
@@ -680,7 +680,7 @@
 ## Calendar
 
 **Reference:** react-aria Calendar / Mantine Calendar
-**Status:** ⚠️ Partial — month grid, nav, min/max, selection; lacks keyboard grid nav.
+**Status:** ✅ Ships — month grid, locale + firstDayOfWeek, full WAI-ARIA grid keyboard nav (arrows, Home/End, PgUp/PgDn), disabled-date predicate.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
@@ -688,9 +688,9 @@
 | Prev / next month buttons | ✅ | ✅ | — | — |
 | Selected / today / disabled data attrs | ✅ | ✅ | — | — |
 | Controlled + uncontrolled selection | ✅ | ✅ | — | — |
-| Grid keyboard nav (ArrowKeys + Home/End + PgUp/PgDn) | ❌ | ✅ | Add grid a11y | **P0** |
-| Locale-aware weekday names | ❌ (hard-coded English) | ✅ | Use Intl.DateTimeFormat | **P0** |
-| First day of week config | ❌ (Sunday only) | ✅ | Add `firstDayOfWeek` | **P0** |
+| Grid keyboard nav (ArrowKeys + Home/End + PgUp/PgDn) | ✅ | ✅ | Add grid a11y | ✅ shipped |
+| Locale-aware weekday names | ✅ | ✅ | Use Intl.DateTimeFormat | ✅ shipped |
+| First day of week config | ✅ | ✅ | Add `firstDayOfWeek` | ✅ shipped |
 | Year / month dropdowns | ❌ | ✅ | Add nav dropdowns | **P1** |
 | Multi-month view | ❌ | ✅ | Add `numberOfMonths` | **P2** |
 | Date range mode | ❌ | ✅ | Add range selection | **P1** |
@@ -713,8 +713,8 @@
 | Tooltip / legend defaults | ✅ | ✅ | — | — |
 | Token-driven default palette | ✅ | N/A | — | — |
 | `aria-label` + `role="img"` on chart | ✅ | ⚠️ not default | — | — |
-| Screen-reader data table fallback | ❌ | ✅ Highcharts / Visx | Add visually-hidden table | **P0** |
-| Reduced-motion animation respect | ⚠️ Recharts animates by default | ✅ | Set `isAnimationActive=false` under prefers-reduced-motion | **P0** |
+| Screen-reader data table fallback | ✅ | ✅ Highcharts / Visx | Add visually-hidden table | ✅ shipped |
+| Reduced-motion animation respect | ✅ | ✅ | Set `isAnimationActive=false` under prefers-reduced-motion | ✅ shipped |
 | Dark-mode theming via tokens | ⚠️ colors via CSS vars but axis ticks etc. not themed | ✅ | Thread token into tick fill / stroke | **P1** |
 | Custom legend / tooltip | ⚠️ pass-through via Recharts | ✅ | Document pattern | **P1** |
 | Brush / zoom | ❌ | ✅ Recharts | Expose Brush component | **P1** |
@@ -729,7 +729,7 @@
 ## Editor
 
 **Reference:** Tiptap + ProseMirror
-**Status:** ⚠️ Partial — StarterKit, bold/italic/strike/headings/lists/blockquote/code.
+**Status:** ✅ Ships — StarterKit, bold/italic/strike/headings/lists/blockquote/code, link insertion, extensions merge.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
@@ -739,7 +739,7 @@
 | Placeholder via extension | ✅ | ✅ | — | — |
 | `aria-label` on toolbar | ✅ | ✅ | — | — |
 | Disabled state | ✅ | ✅ | — | — |
-| Link insertion / editing | ❌ | ✅ | Add Link extension + toolbar button | **P0** |
+| Link insertion / editing | ✅ | ✅ | Add Link extension + toolbar button | ✅ shipped |
 | Image insertion / upload hook | ❌ | ✅ | Add image extension + upload callback | **P1** |
 | Undo / redo buttons | ❌ (Cmd+Z works via ProseMirror) | ✅ | Add toolbar buttons | **P1** |
 | Keyboard shortcut hints in toolbar | ❌ | ✅ | Add title attr with shortcut | **P1** |
@@ -751,7 +751,7 @@
 | Collaborative editing (Y.js) | ❌ | ✅ | Out of scope for v1 | **P2** |
 | Character / word count | ❌ | ✅ | Add CharacterCount ext | **P1** |
 | Configurable toolbar (pick actions) | ❌ | ✅ | Add `toolbar` prop | **P1** |
-| Extensions prop for custom nodes | ❌ (StarterKit locked) | ✅ | Expose `extensions` prop | **P0** |
+| Extensions prop for custom nodes | ✅ | ✅ | Expose `extensions` prop | ✅ shipped |
 | Controlled HTML via setContent loop guard | ⚠️ has guard but runs on every value change | ✅ | Keep guard; audit for infinite loop | **P1** |
 
 **Notes:** Two P0s. Link insertion is the most-requested missing feature in any rich-text editor (Tiptap StarterKit does not include Link). Exposing `extensions` is P0 because the spec calls for "extensions API" and without it, consumers can't customise anything. Image upload bridges into FileUpload — share infrastructure.
@@ -759,7 +759,7 @@
 ## ColorPicker
 
 **Reference:** react-colorful / Mantine ColorPicker
-**Status:** ⚠️ Partial — hue slider + hex input + swatches, no saturation/value area.
+**Status:** ✅ Ships — hue slider + hex input + swatches + saturation/value area; accepts `oklch(...)` strings.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
@@ -767,7 +767,7 @@
 | Hue slider | ✅ | ✅ | — | — |
 | Optional swatches row | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
-| Saturation / value area (2D canvas) | ❌ | ✅ | Add SV area | **P0** |
+| Saturation / value area (2D canvas) | ✅ | ✅ | Add SV area | ✅ shipped |
 | Alpha channel | ❌ | ✅ | Add alpha slider | **P1** |
 | Color format toggle (hex/rgb/hsl/oklch) | ❌ | ✅ | Add format prop | **P1** |
 | Eyedropper (EyeDropper API) | ❌ | ✅ Mantine | Add eyedropper button | **P2** |
@@ -826,7 +826,7 @@
 ## SpeedDial
 
 **Reference:** MUI SpeedDial
-**Status:** ⚠️ Partial — trigger + actions list.
+**Status:** ✅ Ships — trigger + menu with keyboard open + arrow nav + Escape to close.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
@@ -834,8 +834,8 @@
 | Open on click | ✅ | ✅ | — | — |
 | Close after action fires | ✅ | ✅ | — | — |
 | Open on hover | ❌ | ✅ | Add `trigger="hover"` | **P1** |
-| Keyboard open + arrow nav | ❌ | ✅ | Add keyboard open + arrow nav | **P0** |
-| Escape to close | ❌ | ✅ | Add | **P0** |
+| Keyboard open + arrow nav | ✅ | ✅ | Add keyboard open + arrow nav | ✅ shipped |
+| Escape to close | ✅ | ✅ | Add | ✅ shipped |
 | Direction (up/down/left/right) | ❌ (CSS implied only) | ✅ | Add `direction` prop | **P1** |
 | Outside click close | ❌ | ✅ | Add useOutsideClick | **P1** |
 | Per-action tooltip | ⚠️ aria-label only | ✅ | Integrate Tooltip | **P1** |
@@ -847,7 +847,7 @@
 ## Splitter
 
 **Reference:** Ant Splitter / react-resizable-panels
-**Status:** ⚠️ Partial — two-panel, horizontal/vertical, keyboard, pointer drag.
+**Status:** ✅ Ships — two-panel, horizontal/vertical, keyboard + pointer drag, controlled sizes.
 
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
@@ -858,7 +858,7 @@
 | `role="separator"` + aria-valuenow | ✅ | ✅ | — | — |
 | N-panel (not just 2) | ❌ | ✅ | Add n-panel support | **P1** |
 | Collapsible panel (double-click collapse) | ❌ | ✅ | Add `collapsible` | **P1** |
-| Controlled sizes | ❌ (uncontrolled only) | ✅ | Add `sizes`/`onSizesChange` | **P0** |
+| Controlled sizes | ✅ | ✅ | Add `sizes`/`onSizesChange` | ✅ shipped |
 | Persist sizes to localStorage | ❌ | ✅ | Optional `id` + persistence | **P2** |
 | Max size per panel | ❌ | ✅ | Add maxSize | **P1** |
 | Nested splitters | ⚠️ technically possible | ✅ | Document pattern | **P2** |
