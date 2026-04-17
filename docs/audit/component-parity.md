@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-16 (Wave 5b shipped)
+**Last updated:** 2026-04-16 (Wave 5c shipped)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -45,14 +45,14 @@
 |------|------------|---------|---------|---------|
 | 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
 | 5b Overlay | 7 | 0 ✅ shipped | 31 | 9 |
-| 5c Data/Nav | 12 | 12 | 58 | 23 |
+| 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
 | 5d Advanced | 9 | 13 | 54 | 16 |
 | 5e Form + display | 16 | 14 | 38 | 30 |
-| **Total** | **51** | **39** | **216** | **89** |
+| **Total** | **51** | **27** | **216** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
-**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s — Menu (3), CommandPalette (3), Popover (3), Tooltip (3), Toast (2), Dialog (2), Drawer (1) plus shared Portal primitive. Next up: DataTable (3 P0) and Calendar (3 P0) carry the highest Wave-5c / 5d individual loads.
+**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Next up: Calendar (3 P0) carries the highest Wave-5d individual load.
 
 ---
 
@@ -399,11 +399,11 @@
 | Column sorting (click header) | ✅ | ✅ | — | — |
 | Global text filter | ✅ | ✅ | — | — |
 | Client-side pagination | ✅ | ✅ | — | — |
-| `selectable` flag for row selection state | ✅ (state only) | ✅ with checkbox column | No selection UI rendered — need select column + select-all | **P0** |
-| Page size selector | ❌ | ✅ | Add page-size select | **P0** |
+| `selectable` flag for row selection state | ✅ | ✅ with checkbox column | Select column + select-all header | ✅ shipped |
+| Page size selector | ✅ | ✅ | — | ✅ shipped |
 | First / last page buttons | ❌ (only prev/next) | ✅ | Add jump buttons | **P1** |
 | Jump to page (input) | ❌ | ✅ | Add page input | **P1** |
-| Server-side pagination / sort / filter (onPaginationChange etc.) | ❌ | ✅ | Expose manualPagination / `onChange` callbacks | **P0** |
+| Server-side pagination / sort / filter (onPaginationChange etc.) | ✅ | ✅ | `manualPagination` / `manualSorting` / `manualFiltering` + callbacks | ✅ shipped |
 | Column resize | ❌ | ✅ | Add column resize middleware | **P1** |
 | Column reorder | ❌ | ✅ | Add column reorder | **P2** |
 | Column pinning (left/right sticky) | ❌ | ✅ | Add pinning | **P1** |
@@ -414,7 +414,7 @@
 | Row virtualisation | ❌ | ✅ | Optional virtualiser | **P1** |
 | Sticky header | ❌ | ✅ | Add sticky header CSS | **P1** |
 | Keyboard navigation (grid a11y) | ❌ | ✅ | Add arrow / home / end nav | **P1** |
-| Loading state | ❌ | ✅ | Add `loading` + skeleton | **P0** |
+| Loading state | ✅ | ✅ | `loading` + `loadingText` props | ✅ shipped |
 | Empty state customisation | ⚠️ string only | ✅ ReactNode | Accept ReactNode emptyText | **P1** |
 | Row click / hover handlers | ❌ | ✅ | Add `onRowClick` | **P1** |
 | Dense/comfortable size variant | ❌ | ✅ | Add `size` prop | **P1** |
@@ -437,7 +437,7 @@
 | ArrowUp/Down/Left/Right/Home/End | ✅ | ✅ | — | — |
 | Enter / Space to select | ✅ | ✅ | — | — |
 | Single selection | ✅ | ✅ | — | — |
-| Controlled expanded state | ❌ (only `defaultExpanded`) | ✅ | Add `expanded`/`onExpandedChange` | **P0** |
+| Controlled expanded state | ✅ | ✅ | `expanded` + `onExpandedChange` props | ✅ shipped |
 | Multi-selection | ❌ | ✅ | Add `selectionMode` prop | **P1** |
 | Drag-and-drop to reorder | ❌ | ✅ react-arborist | Add drag handlers; out of scope for v1 | **P2** |
 | Node checkboxes (tri-state parent) | ❌ | ✅ Ant | Add checkbox mode | **P1** |
@@ -484,10 +484,10 @@
 | Controlled + uncontrolled via `value`/`defaultValue` | ✅ | ✅ | — | — |
 | `role=tablist/tab/tabpanel` + aria linkage | ✅ | ✅ | — | — |
 | Tab roving tab index (active = 0, rest = -1) | ✅ | ✅ | — | — |
-| ArrowLeft / ArrowRight to switch tab | ❌ | ✅ | Add arrow-key handler at list level | **P0** |
-| Home / End | ❌ | ✅ | Add | **P1** |
+| ArrowLeft / ArrowRight to switch tab | ✅ | ✅ | TabsList handles arrow nav | ✅ shipped |
+| Home / End | ✅ | ✅ | Same TabsList handler | ✅ shipped |
 | Automatic vs manual activation mode | ❌ | ✅ `activationMode` | Add prop | **P1** |
-| Horizontal / vertical orientation | ❌ | ✅ | Add `orientation` prop | **P1** |
+| Horizontal / vertical orientation | ✅ | ✅ | `orientation` prop on TabsList | ✅ shipped |
 | Disabled tab skip | ❌ | ✅ | Honour `disabled` on trigger, skip in arrow nav | **P1** |
 | Loop navigation at ends | ❌ | ✅ | Add `loop` prop | **P2** |
 
@@ -521,7 +521,7 @@
 | Sidebar + Header + Content + Footer + Item parts | ✅ | ✅ | — | — |
 | Collapsed / expanded state (controlled + uncontrolled) | ✅ via `useDisclosure` | ✅ | — | — |
 | Active item (`aria-current="page"`) | ✅ | ✅ | — | — |
-| Icon-only collapsed mode | ⚠️ data attribute only, no layout changes | ✅ | Ensure CSS hides labels / shows icon only | **P0** |
+| Icon-only collapsed mode | ✅ | ✅ | SidebarItem wraps label; CSS hides on `[data-collapsed]` | ✅ shipped |
 | Toggle button / trigger | ❌ (consumer wires) | ✅ SidebarTrigger | Add `SidebarTrigger` part | **P1** |
 | Off-canvas / sheet mode on mobile | ❌ | ✅ | Add responsive mode | **P1** |
 | Keyboard shortcut to toggle | ❌ | ✅ | Document pattern via context | **P2** |
@@ -561,7 +561,7 @@
 | `showLabels` mode (labels only when active) | ❌ | ✅ | Add prop | **P1** |
 | Badge slot on item | ❌ | ✅ | Accept slot / compose Badge | **P1** |
 | Controlled value (which item active) | ❌ (each item has own `active`) | ✅ onChange pattern | Add BottomNav `value`/`onChange` + item `value` | **P1** |
-| Safe-area padding for iOS | ❌ | ✅ | Add env(safe-area-inset-bottom) | **P0** |
+| Safe-area padding for iOS | ✅ | ✅ | `padding-block-end: env(safe-area-inset-bottom, 0)` | ✅ shipped |
 
 **Notes:** Safe-area-inset is P0 for mobile production use — without it the nav is partially covered by the home indicator on iPhones. One-line CSS fix.
 
@@ -576,9 +576,9 @@
 | `type` single / multiple | ✅ | ✅ | — | — |
 | Default expanded | ✅ | ✅ | — | — |
 | `aria-expanded` + `aria-controls` | ✅ | ✅ | — | — |
-| Controlled `value` / `onValueChange` | ❌ | ✅ | Add controlled mode | **P0** |
-| ArrowDown / ArrowUp between triggers | ❌ | ✅ | Add keyboard navigation | **P0** |
-| Home / End | ❌ | ✅ | Add | **P1** |
+| Controlled `value` / `onValueChange` | ✅ | ✅ | Added to Accordion | ✅ shipped |
+| ArrowDown / ArrowUp between triggers | ✅ | ✅ | Root handler at Accordion | ✅ shipped |
+| Home / End | ✅ | ✅ | Same root handler | ✅ shipped |
 | Collapsible (single mode can all be closed) | ⚠️ clear via re-click | ✅ `collapsible` prop | Add explicit `collapsible` | **P2** |
 | Disabled item | ❌ | ✅ | Add `disabled` on Item + trigger | **P1** |
 | Orientation vertical/horizontal | ❌ | ✅ | Add prop | **P2** |
@@ -604,7 +604,7 @@
 | Description slot | ✅ | ✅ | — | — |
 | Responsive / collapsed on small screens | ❌ | ✅ | Add responsive mode | **P2** |
 | Controlled active step | ✅ (required) | ✅ | — | — |
-| Step index auto (parent counts children) | ❌ (manual `index`) | ✅ | Infer index by position | **P0** |
+| Step index auto (parent counts children) | ✅ | ✅ | Stepper clones children + injects index | ✅ shipped |
 | Optional "optional" label | ❌ | ✅ | Add `optional` flag | **P2** |
 
 **Notes:** Auto step index is P0 — forcing consumers to hand-number every Step is error-prone and breaks when steps are conditionally rendered. Fix by having Stepper clone children with an injected index.
@@ -637,7 +637,7 @@
 | Per-item checkbox + selection state | ✅ | ✅ | — | — |
 | Disabled items | ✅ | ✅ | — | — |
 | Move selected to opposite side | ✅ | ✅ | — | — |
-| Controlled value (target items) | ❌ (uncontrolled only) | ✅ | Add `targetValues`/`onChange` | **P0** |
+| Controlled value (target items) | ✅ | ✅ | `targetValues` + `onTargetValuesChange` | ✅ shipped |
 | Search within each pane | ❌ | ✅ | Add per-pane search | **P1** |
 | Select-all per pane | ❌ | ✅ | Add header checkbox | **P1** |
 | Move-all button | ❌ | ✅ | Add `>>` / `<<` buttons | **P1** |
