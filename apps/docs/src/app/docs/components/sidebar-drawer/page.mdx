@@ -44,16 +44,16 @@ import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } fr
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| open | `boolean` | — | Controlled collapsed state |
-| defaultOpen | `boolean` | `false` | Default collapsed state |
-| onOpenChange | `(open: boolean) => void` | — | Collapse toggle callback |
+| open | `boolean` | — | Controls whether the sidebar is collapsed to icons only (`true`) or expanded with full labels (`false`). |
+| defaultOpen | `boolean` | `false` | Initial collapsed state (uncontrolled). Default is expanded. |
+| onOpenChange | `(open: boolean) => void` | — | Called when the collapsed state toggles. |
 
 ### Collapsed (icon-only) mode
 
 When the sidebar is collapsed, labels are visually hidden and the sidebar narrows to fit icons only — the layout transition is CSS-driven so the adjacent content reflows without layout shift. Screen readers still announce the full label via `aria-label`.
 
 ```tsx
-<Sidebar defaultOpen={false}>
+<Sidebar defaultOpen>
   <SidebarContent>
     <SidebarItem icon={<HomeIcon />}>Home</SidebarItem>
     <SidebarItem icon={<SettingsIcon />}>Settings</SidebarItem>
@@ -67,7 +67,8 @@ Toggle by flipping `open` / calling `onOpenChange`. In CSS, the mode is a `data-
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| active | `boolean` | `false` | Highlights as current page |
+| active | `boolean` | `false` | Highlights as current page; sets `aria-current="page"`. |
+| icon | `ReactNode` | — | Icon rendered before the label; remains visible in collapsed mode. |
 
 ---
 
