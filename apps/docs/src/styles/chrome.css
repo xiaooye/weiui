@@ -232,7 +232,9 @@
   .wui-docs-toc {
     position: sticky;
     inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    padding-block-start: var(--wui-spacing-6);
+    max-block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    overflow-y: auto;
+    padding-block: var(--wui-spacing-6);
     padding-inline-start: var(--wui-spacing-6);
     inline-size: 14rem;
     align-self: flex-start;
