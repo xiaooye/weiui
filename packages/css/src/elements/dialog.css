@@ -1,0 +1,24 @@
+@layer wui-elements {
+  .wui-dialog__overlay {
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in oklch, var(--wui-color-foreground) 40%, transparent);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: var(--wui-zIndex-overlay);
+  }
+  .wui-dialog__content {
+    position: fixed;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--wui-surface-overlay);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-5);
+    padding: var(--wui-spacing-6);
+    max-inline-size: 32rem;
+    inline-size: calc(100vw - 2rem);
+    z-index: var(--wui-zIndex-modal);
+  }
+}

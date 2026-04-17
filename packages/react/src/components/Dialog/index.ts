@@ -2,13 +2,15 @@ export {
   Dialog,
   DialogTrigger,
   DialogContent,
+  DialogOverlay,
   DialogTitle,
   DialogDescription,
   DialogClose,
   type DialogProps,
   type DialogTriggerProps,
   type DialogContentProps,
+  type DialogOverlayProps,
   type DialogTitleProps,
   type DialogDescriptionProps,
   type DialogCloseProps,
-} from "@weiui/headless";
+} from "./Dialog";

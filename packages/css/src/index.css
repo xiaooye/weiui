@@ -24,6 +24,7 @@
 @import "./elements/file-upload.css";
 @import "./elements/color-picker.css";
 @import "./elements/sidebar.css";
+@import "./elements/dialog.css";
 @import "./elements/drawer.css";
 @import "./elements/stepper.css";
 @import "./elements/timeline.css";

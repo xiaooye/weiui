@@ -43,8 +43,8 @@ export { EmptyState, type EmptyStateProps } from "./components/EmptyState";
 
 // Overlay components (re-exported from headless)
 export {
-  Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose,
-  type DialogProps, type DialogTriggerProps, type DialogContentProps,
+  Dialog, DialogTrigger, DialogContent, DialogOverlay, DialogTitle, DialogDescription, DialogClose,
+  type DialogProps, type DialogTriggerProps, type DialogContentProps, type DialogOverlayProps,
   type DialogTitleProps, type DialogDescriptionProps, type DialogCloseProps,
 } from "./components/Dialog";
 export {
