@@ -84,4 +84,28 @@ describe("InputOTP", () => {
     render(<InputOTP ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
+
+  it("ArrowLeft moves focus to previous slot", async () => {
+    const user = userEvent.setup();
+    render(<InputOTP length={4} />);
+    const inputs = screen.getAllByRole("textbox");
+    await user.click(inputs[2]);
+    await user.keyboard("{ArrowLeft}");
+    expect(inputs[1]).toHaveFocus();
+  });
+
+  it("ArrowRight moves focus to next slot", async () => {
+    const user = userEvent.setup();
+    render(<InputOTP length={4} />);
+    const inputs = screen.getAllByRole("textbox");
+    await user.click(inputs[1]);
+    await user.keyboard("{ArrowRight}");
+    expect(inputs[2]).toHaveFocus();
+  });
+
+  it("first input has autoComplete=one-time-code", () => {
+    render(<InputOTP length={6} />);
+    const inputs = screen.getAllByRole("textbox");
+    expect(inputs[0]).toHaveAttribute("autocomplete", "one-time-code");
+  });
 });

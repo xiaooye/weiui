@@ -53,6 +53,12 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
           update(arr.join(""));
           inputRefs.current[i - 1]?.focus();
         }
+      } else if (e.key === "ArrowLeft" && i > 0) {
+        e.preventDefault();
+        inputRefs.current[i - 1]?.focus();
+      } else if (e.key === "ArrowRight" && i < length - 1) {
+        e.preventDefault();
+        inputRefs.current[i + 1]?.focus();
       }
     };
 
@@ -79,6 +85,7 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
             value={slots[i] ?? ""}
             disabled={disabled}
             aria-label={`Digit ${i + 1}`}
+            autoComplete={i === 0 ? "one-time-code" : undefined}
             onChange={(e) => handleChange(i, e)}
             onKeyDown={(e) => handleKeyDown(i, e)}
             onPaste={handlePaste}
