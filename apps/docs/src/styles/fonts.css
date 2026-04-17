@@ -1,0 +1,15 @@
+@layer wui-base {
+  :root {
+    --wui-font-family-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+    --wui-font-family-display: var(--font-display), Georgia, serif;
+    --wui-font-family-mono: var(--font-mono), "SF Mono", Consolas, monospace;
+  }
+  body {
+    font-family: var(--wui-font-family-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  .wui-display {
+    font-family: var(--wui-font-family-display);
+    letter-spacing: -0.02em;
+  }
+}
