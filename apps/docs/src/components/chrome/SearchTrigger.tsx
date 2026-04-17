@@ -1,6 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const CommandPalette = dynamic(
+  () => import("./CommandPalette").then((m) => m.CommandPalette),
+  { ssr: false },
+);
 
 export function SearchTrigger() {
   const [open, setOpen] = useState(false);
@@ -27,12 +33,7 @@ export function SearchTrigger() {
         <span>Search…</span>
         <kbd>⌘K</kbd>
       </button>
-      {open && (
-        <div className="wui-docs-search-trigger__placeholder" role="dialog" aria-modal="true">
-          <p>Command palette coming soon.</p>
-          <button type="button" onClick={() => setOpen(false)}>Close</button>
-        </div>
-      )}
+      <CommandPalette open={open} onClose={() => setOpen(false)} />
     </>
   );
 }

@@ -323,3 +323,64 @@
     color: var(--wui-color-primary);
   }
 }
+
+@layer wui-base {
+  .wui-cmdk-overlay {
+    position: fixed; inset: 0;
+    background-color: color-mix(in oklch, var(--wui-color-foreground) 40%, transparent);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-block-start: 12vh;
+    z-index: 60;
+  }
+  .wui-cmdk-shell {
+    inline-size: min(640px, 90vw);
+    background-color: var(--wui-surface-overlay);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-5);
+    overflow: hidden;
+  }
+  .wui-cmdk-shell [cmdk-input] {
+    inline-size: 100%;
+    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-4);
+    background-color: transparent;
+    border: none;
+    border-block-end: 1px solid var(--wui-color-border);
+    font-size: var(--wui-font-size-base);
+    color: var(--wui-color-foreground);
+    font-family: inherit;
+    outline: none;
+  }
+  .wui-cmdk-shell [cmdk-list] {
+    max-block-size: 50vh;
+    overflow-y: auto;
+    padding-block: var(--wui-spacing-2);
+  }
+  .wui-cmdk-shell [cmdk-group-heading] {
+    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-xs);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--wui-color-muted-foreground);
+    font-weight: var(--wui-font-weight-semibold);
+  }
+  .wui-cmdk-shell [cmdk-item] {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
+    cursor: pointer;
+    color: var(--wui-color-foreground);
+  }
+  .wui-cmdk-shell [cmdk-item][data-selected="true"] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+  }
+  .wui-cmdk-shell .wui-cmdk-href {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-cmdk-shell [cmdk-empty] {
+    padding: var(--wui-spacing-6);
+    text-align: center;
+    color: var(--wui-color-muted-foreground);
+  }
+}
