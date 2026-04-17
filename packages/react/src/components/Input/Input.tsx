@@ -1,6 +1,7 @@
 "use client";
 import { forwardRef, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
+import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   invalid?: boolean;
@@ -11,8 +12,14 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, invalid, size = "md", startAddon, endAddon, ...props }, ref) => {
+    const ctx = useFieldContext();
     const sizeClass = size === "sm" ? "wui-input--sm" : size === "lg" ? "wui-input--lg" : "";
     const hasAddons = Boolean(startAddon || endAddon);
+
+    // Field context auto-wires id, aria-describedby, aria-invalid when not explicitly set.
+    const resolvedId = props.id ?? ctx?.fieldId;
+    const resolvedDescribedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
+    const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
 
     const inputEl = (
       <input
@@ -24,9 +31,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           hasAddons && "wui-input--with-addons",
           !hasAddons && className,
         )}
-        aria-invalid={invalid || undefined}
-        data-invalid={invalid || undefined}
+        aria-invalid={resolvedInvalid || undefined}
+        data-invalid={resolvedInvalid || undefined}
+        aria-describedby={resolvedDescribedBy}
         {...props}
+        id={resolvedId}
       />
     );
 
@@ -35,7 +44,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn("wui-input-group", sizeClass, className)}
-        data-invalid={invalid || undefined}
+        data-invalid={resolvedInvalid || undefined}
       >
         {startAddon && <span className="wui-input-group__addon">{startAddon}</span>}
         {inputEl}

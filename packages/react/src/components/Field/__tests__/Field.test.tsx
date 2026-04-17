@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Field, FieldLabel, FieldDescription, FieldControl } from "../Field";
+import { Input } from "../../Input";
+import { Textarea } from "../../Textarea";
 
 describe("Field", () => {
   it("renders children", () => {
@@ -91,5 +93,102 @@ describe("Field", () => {
     );
     const control = screen.getByTestId("control");
     expect(control).not.toHaveAttribute("data-invalid");
+  });
+
+  it("FieldControl auto-wires id and aria-describedby onto a single child input", () => {
+    render(
+      <Field>
+        <FieldLabel>Email</FieldLabel>
+        <FieldDescription>Enter your email</FieldDescription>
+        <FieldControl>
+          <input data-testid="input" />
+        </FieldControl>
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    const label = screen.getByText("Email").closest("label")!;
+    const desc = screen.getByText("Enter your email");
+
+    expect(input.getAttribute("id")).toBeTruthy();
+    expect(input.getAttribute("id")).toBe(label.getAttribute("for"));
+    expect(input.getAttribute("aria-describedby")).toContain(desc.getAttribute("id"));
+  });
+
+  it("FieldControl auto-wires aria-invalid and error id when error is present", () => {
+    render(
+      <Field error="Required">
+        <FieldLabel>Name</FieldLabel>
+        <FieldControl>
+          <input data-testid="input" />
+        </FieldControl>
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    const err = screen.getByRole("alert");
+
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input.getAttribute("aria-describedby")).toContain(err.getAttribute("id"));
+  });
+
+  it("FieldControl preserves a user-provided id on the child when set explicitly", () => {
+    render(
+      <Field>
+        <FieldLabel>Custom</FieldLabel>
+        <FieldControl>
+          <input id="custom-id" data-testid="input" />
+        </FieldControl>
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    // User-provided id wins; consumers who set it are responsible for wiring the label.
+    expect(input.getAttribute("id")).toBe("custom-id");
+  });
+
+  it("Input auto-wires to Field context when nested directly", () => {
+    render(
+      <Field>
+        <FieldLabel>Email</FieldLabel>
+        <FieldDescription>Enter your email</FieldDescription>
+        <Input data-testid="input" />
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    const label = screen.getByText("Email").closest("label")!;
+    expect(input.getAttribute("id")).toBe(label.getAttribute("for"));
+    expect(input.getAttribute("aria-describedby")).toBeTruthy();
+  });
+
+  it("Input auto-wires aria-invalid when Field has error", () => {
+    render(
+      <Field error="Error">
+        <FieldLabel>Email</FieldLabel>
+        <Input data-testid="input" />
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("Textarea auto-wires to Field context", () => {
+    render(
+      <Field>
+        <FieldLabel>Bio</FieldLabel>
+        <FieldDescription>Tell us about yourself</FieldDescription>
+        <Textarea data-testid="ta" />
+      </Field>,
+    );
+    const ta = screen.getByTestId("ta");
+    const label = screen.getByText("Bio").closest("label")!;
+    expect(ta.getAttribute("id")).toBe(label.getAttribute("for"));
+    expect(ta.getAttribute("aria-describedby")).toBeTruthy();
+  });
+
+  it("Input/Textarea explicit invalid prop still takes precedence", () => {
+    render(
+      <Field>
+        <Input invalid data-testid="input" />
+      </Field>,
+    );
+    expect(screen.getByTestId("input")).toHaveAttribute("aria-invalid", "true");
   });
 });
