@@ -1,0 +1,77 @@
+@layer wui-elements {
+  .wui-select__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--wui-spacing-2);
+    inline-size: 100%;
+    min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    font-family: inherit;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-background);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    cursor: pointer;
+    text-align: start;
+  }
+  .wui-select__trigger:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-select__trigger[aria-expanded="true"] {
+    border-color: var(--wui-color-primary);
+  }
+  .wui-select__trigger[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .wui-select__value--placeholder {
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-select__content {
+    margin-block-start: var(--wui-spacing-1);
+    padding: var(--wui-spacing-1);
+    background-color: var(--wui-color-background);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    box-shadow: var(--wui-elevation-2);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-block-size: 240px;
+    overflow: auto;
+  }
+  .wui-select__item {
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    min-block-size: 36px;
+    display: flex;
+    align-items: center;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+    border-radius: var(--wui-shape-radius-sm);
+    cursor: pointer;
+  }
+  .wui-select__item:hover,
+  .wui-select__item:focus-visible {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
+    outline: none;
+  }
+  .wui-select__item[data-selected] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
+    font-weight: var(--wui-font-weight-semibold);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-select__trigger,
+    .wui-select__item {
+      transition-property: background-color, color, border-color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
+}
