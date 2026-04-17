@@ -1,6 +1,13 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { PortalDemo } from "../../../../components/demos/PortalDemo";
+
 # Portal
 
 Renders children into a different part of the DOM tree. By default the portal target is `document.body`, which keeps overlay content from being clipped by scrolling or `overflow: hidden` parents.
+
+<Preview label="Portal escapes overflow">
+  <PortalDemo />
+</Preview>
 
 ---
 
