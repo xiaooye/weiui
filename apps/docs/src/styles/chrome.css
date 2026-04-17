@@ -1,4 +1,11 @@
 @layer wui-base {
+  /* Smooth anchor scrolling with header-aware offset */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   /* Header */
   .wui-docs-header {
     position: sticky;
@@ -406,6 +413,150 @@
     padding: var(--wui-spacing-6);
     text-align: center;
     color: var(--wui-color-muted-foreground);
+  }
+}
+
+/* Prose typography for MDX pages */
+@layer wui-base {
+  .wui-prose {
+    color: var(--wui-color-foreground);
+    font-size: var(--wui-font-size-base);
+    line-height: 1.7;
+  }
+
+  /* Scroll margin so anchored headings don't hide under sticky header */
+  .wui-prose :where(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-block-start: 5rem;
+    color: var(--wui-color-foreground);
+    font-weight: var(--wui-font-weight-semibold);
+    letter-spacing: -0.015em;
+  }
+  .wui-prose h1 {
+    font-family: var(--wui-font-family-display);
+    font-size: var(--wui-font-size-4xl);
+    line-height: 1.15;
+    margin-block: 0 var(--wui-spacing-6);
+    letter-spacing: -0.025em;
+    font-weight: var(--wui-font-weight-bold);
+  }
+  .wui-prose h2 {
+    font-size: var(--wui-font-size-2xl);
+    line-height: 1.25;
+    margin-block: var(--wui-spacing-10) var(--wui-spacing-4);
+    padding-block-end: var(--wui-spacing-2);
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+  .wui-prose h3 {
+    font-size: var(--wui-font-size-xl);
+    line-height: 1.3;
+    margin-block: var(--wui-spacing-8) var(--wui-spacing-3);
+  }
+  .wui-prose h4 {
+    font-size: var(--wui-font-size-lg);
+    line-height: 1.4;
+    margin-block: var(--wui-spacing-6) var(--wui-spacing-2);
+  }
+
+  .wui-prose p {
+    margin-block: var(--wui-spacing-4);
+  }
+  .wui-prose p:first-child { margin-block-start: 0; }
+  .wui-prose p:last-child  { margin-block-end: 0; }
+
+  .wui-prose a {
+    color: var(--wui-color-primary);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .wui-prose a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .wui-prose strong { font-weight: var(--wui-font-weight-semibold); }
+  .wui-prose em { font-style: italic; }
+
+  .wui-prose ul, .wui-prose ol {
+    margin-block: var(--wui-spacing-4);
+    padding-inline-start: var(--wui-spacing-6);
+  }
+  .wui-prose ul { list-style: disc; }
+  .wui-prose ol { list-style: decimal; }
+  .wui-prose li { margin-block: var(--wui-spacing-1); }
+  .wui-prose li::marker { color: var(--wui-color-muted-foreground); }
+  .wui-prose ul ul, .wui-prose ul ol,
+  .wui-prose ol ul, .wui-prose ol ol {
+    margin-block: var(--wui-spacing-1);
+  }
+
+  .wui-prose blockquote {
+    margin-block: var(--wui-spacing-4);
+    padding-inline-start: var(--wui-spacing-4);
+    border-inline-start: 3px solid var(--wui-color-primary);
+    color: var(--wui-color-muted-foreground);
+    font-style: italic;
+  }
+
+  .wui-prose hr {
+    border: 0;
+    border-block-start: 1px solid var(--wui-color-border);
+    margin-block: var(--wui-spacing-8);
+  }
+
+  /* Inline code */
+  .wui-prose :not(pre) > code {
+    font-family: var(--wui-font-family-mono);
+    font-size: 0.875em;
+    padding-inline: 0.35em;
+    padding-block: 0.15em;
+    background-color: var(--wui-surface-sunken);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-sm);
+    color: var(--wui-color-foreground);
+  }
+
+  /* Code blocks — give them breathing room */
+  .wui-prose pre,
+  .wui-prose .wui-code-block {
+    margin-block: var(--wui-spacing-4);
+  }
+
+  /* Tables */
+  .wui-prose table {
+    inline-size: 100%;
+    margin-block: var(--wui-spacing-4);
+    border-collapse: collapse;
+    font-size: var(--wui-font-size-sm);
+    display: block;
+    overflow-x: auto;
+  }
+  .wui-prose thead { background-color: var(--wui-surface-sunken); }
+  .wui-prose th {
+    text-align: start;
+    font-weight: var(--wui-font-weight-semibold);
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    border-block-end: 1px solid var(--wui-color-border);
+    color: var(--wui-color-foreground);
+  }
+  .wui-prose td {
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    border-block-end: 1px solid var(--wui-color-border);
+    vertical-align: top;
+  }
+  .wui-prose tr:last-child td { border-block-end: 0; }
+
+  .wui-prose kbd {
+    font-family: var(--wui-font-family-mono);
+    font-size: 0.85em;
+    padding-inline: 0.45em;
+    padding-block: 0.1em;
+    background-color: var(--wui-surface-sunken);
+    border: 1px solid var(--wui-color-border);
+    border-block-end-width: 2px;
+    border-radius: var(--wui-shape-radius-sm);
+    color: var(--wui-color-foreground);
   }
 }
 
