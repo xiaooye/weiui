@@ -8,6 +8,7 @@ import "../styles/fonts.css";
 import "../styles/shiki.css";
 import "../styles/chrome.css";
 import "../styles/preview.css";
+import "../styles/landing.css";
 
 const inter = Inter({
   subsets: ["latin"],
