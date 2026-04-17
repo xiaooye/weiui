@@ -2,15 +2,38 @@
 import { forwardRef, useState, useRef } from "react";
 import { cn } from "../../utils/cn";
 
+export type FileUploadError = {
+  reason: "size" | "type" | "count";
+  file: File;
+  message: string;
+};
+
 export interface FileUploadProps {
   accept?: string;
   multiple?: boolean;
   maxSize?: number;
+  maxFiles?: number;
   disabled?: boolean;
   onChange?: (files: File[]) => void;
+  onError?: (error: FileUploadError) => void;
   className?: string;
   label?: string;
   hint?: string;
+}
+
+function matchesAccept(file: File, accept: string): boolean {
+  const patterns = accept.split(",").map((s) => s.trim()).filter(Boolean);
+  if (patterns.length === 0) return true;
+  return patterns.some((pattern) => {
+    if (pattern.startsWith(".")) {
+      return file.name.toLowerCase().endsWith(pattern.toLowerCase());
+    }
+    if (pattern.endsWith("/*")) {
+      const base = pattern.slice(0, -1);
+      return file.type.startsWith(base);
+    }
+    return file.type === pattern;
+  });
 }
 
 export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
@@ -19,8 +42,10 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       accept,
       multiple,
       maxSize,
+      maxFiles,
       disabled,
       onChange,
+      onError,
       className,
       label = "Click or drag files here",
       hint,
@@ -28,16 +53,57 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     ref,
   ) => {
     const [files, setFiles] = useState<File[]>([]);
+    const [errors, setErrors] = useState<FileUploadError[]>([]);
     const [isDragOver, setIsDragOver] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFiles = (fileList: FileList | null) => {
       if (!fileList) return;
-      let newFiles = Array.from(fileList);
-      if (maxSize) newFiles = newFiles.filter((f) => f.size <= maxSize);
-      const updated = multiple ? [...files, ...newFiles] : newFiles.slice(0, 1);
-      setFiles(updated);
-      onChange?.(updated);
+      const incoming = Array.from(fileList);
+      const accepted: File[] = [];
+      const rejections: FileUploadError[] = [];
+
+      for (const file of incoming) {
+        if (maxSize !== undefined && file.size > maxSize) {
+          rejections.push({
+            reason: "size",
+            file,
+            message: `${file.name} exceeds the maximum size of ${maxSize} bytes.`,
+          });
+          continue;
+        }
+        if (accept && !matchesAccept(file, accept)) {
+          rejections.push({
+            reason: "type",
+            file,
+            message: `${file.name} is not an accepted file type.`,
+          });
+          continue;
+        }
+        accepted.push(file);
+      }
+
+      const limit = maxFiles;
+      let final = multiple ? [...files, ...accepted] : accepted.slice(0, 1);
+      if (limit !== undefined && final.length > limit) {
+        const overflow = final.slice(limit);
+        final = final.slice(0, limit);
+        for (const file of overflow) {
+          rejections.push({
+            reason: "count",
+            file,
+            message: `${file.name} exceeds the maximum of ${limit} files.`,
+          });
+        }
+      }
+
+      for (const rejection of rejections) {
+        onError?.(rejection);
+      }
+
+      setErrors(rejections);
+      setFiles(final);
+      onChange?.(final);
     };
 
     const removeFile = (index: number) => {
@@ -79,6 +145,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
           accept={accept}
           multiple={multiple}
           disabled={disabled}
+          aria-label="Upload file"
           onChange={(e) => handleFiles(e.target.files)}
           style={{ display: "none" }}
           tabIndex={-1}
@@ -101,6 +168,20 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
                 >
                   &times;
                 </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {errors.length > 0 && (
+          <div
+            className="wui-file-upload__errors"
+            role="alert"
+            aria-live="polite"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {errors.map((err, i) => (
+              <div key={i} className="wui-file-upload__error">
+                {err.message}
               </div>
             ))}
           </div>

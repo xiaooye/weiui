@@ -38,3 +38,20 @@
     }
   }
 }
+
+@layer wui-elements {
+  .wui-file-upload__errors {
+    inline-size: 100%;
+    margin-block-start: var(--wui-spacing-3);
+    padding: var(--wui-spacing-3);
+    background-color: color-mix(in oklch, var(--wui-color-destructive) 5%, var(--wui-color-background));
+    border: 1px solid color-mix(in oklch, var(--wui-color-destructive) 40%, var(--wui-color-border));
+    color: var(--wui-color-destructive);
+    border-radius: var(--wui-shape-radius-base);
+    font-size: var(--wui-font-size-sm);
+    text-align: start;
+  }
+  .wui-file-upload__error + .wui-file-upload__error {
+    margin-block-start: var(--wui-spacing-1);
+  }
+}
