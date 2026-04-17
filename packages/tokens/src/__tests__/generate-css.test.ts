@@ -27,11 +27,11 @@ describe("generateCss", () => {
 });
 
 describe("shadow scale", () => {
-  it("shape.json declares 8 shadow levels", () => {
+  it("shape.json declares 8 shadow levels at top level", () => {
     const shapeJson = JSON.parse(
       readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
     );
-    const keys = Object.keys(shapeJson.shape.shadow);
+    const keys = Object.keys(shapeJson.shadow);
     expect(keys).toEqual(["xs", "sm", "base", "md", "lg", "xl", "2xl", "inset"]);
   });
 
@@ -39,7 +39,7 @@ describe("shadow scale", () => {
     const shapeJson = JSON.parse(
       readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
     );
-    for (const [, token] of Object.entries(shapeJson.shape.shadow)) {
+    for (const [, token] of Object.entries(shapeJson.shadow)) {
       expect((token as { $value: string }).$value).toMatch(/oklch\(/);
     }
   });
