@@ -33,30 +33,32 @@ export function Preview({ children, code, label }: PreviewProps) {
     <div className="wui-preview">
       <div className="wui-preview__header">
         {label && <span className="wui-preview__label">{label}</span>}
-        <div className="wui-preview__tabs" role="tablist">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === "preview"}
-            onClick={() => setTab("preview")}
-            className="wui-preview__tab"
-            data-active={tab === "preview" || undefined}
-          >
-            Preview
-          </button>
-          {code && (
+        {code && (
+          <div className="wui-preview__tabs" role="tablist" aria-label={label ? `${label} view` : "Preview view"}>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "preview"}
+              tabIndex={tab === "preview" ? 0 : -1}
+              onClick={() => setTab("preview")}
+              className="wui-preview__tab"
+              data-active={tab === "preview" || undefined}
+            >
+              Preview
+            </button>
             <button
               type="button"
               role="tab"
               aria-selected={tab === "code"}
+              tabIndex={tab === "code" ? 0 : -1}
               onClick={() => setTab("code")}
               className="wui-preview__tab"
               data-active={tab === "code" || undefined}
             >
               Code
             </button>
-          )}
-        </div>
+          </div>
+        )}
         <div className="wui-preview__actions">
           {tab === "preview" && (
             <>
