@@ -368,5 +368,5 @@ import { FileUpload } from "@weiui/react";
 ### Accessibility
 
 - Dropzone acts as a button: `role="button"`, activates the hidden file input on Enter/Space
-- `aria-describedby` wires the accepted-types hint and any error message
+- Hint text renders inside the dropzone so screen readers pick it up via the `aria-label`
 - Inline error region uses `role="alert"` for immediate announcement
