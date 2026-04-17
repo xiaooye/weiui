@@ -60,6 +60,8 @@ function SelectAll({ items, selected, setSelected }) {
 | checked | `boolean` | — | Controlled checked state |
 | defaultChecked | `boolean` | — | Initial uncontrolled checked state |
 | indeterminate | `boolean` | `false` | Tri-state mixed indicator (aria-checked="mixed") |
+| invalid | `boolean` | — | Shows the invalid style + sets `aria-invalid`. Inherits from `<Field error>` if not set. |
+| size | `"sm" \| "md" \| "lg"` | `"md"` | Visual size |
 | disabled | `boolean` | `false` | Disables the checkbox |
 
 ### Accessibility
@@ -115,6 +117,8 @@ Switch is a native checkbox under the hood with `role="switch"`, so React's usua
 | checked | `boolean` | — | Controlled checked state |
 | defaultChecked | `boolean` | — | Initial uncontrolled checked state |
 | onChange | `(e) => void` | — | Change handler (required when controlled) |
+| invalid | `boolean` | — | Shows the invalid style + sets `aria-invalid`. Inherits from `<Field error>` if not set. |
+| size | `"sm" \| "md" \| "lg"` | `"md"` | Visual size |
 | disabled | `boolean` | `false` | Disables the switch |
 
 ### Accessibility
