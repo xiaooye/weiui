@@ -1,24 +1,50 @@
+import { PackageManagerTabs } from "../../../components/docs/PackageManagerTabs";
+
 # Getting Started
 
-## Installation
+WeiUI is a three-layer design system. Start with the layer that matches how you work:
 
-Install the token and CSS packages:
+- **Just CSS?** Install `@weiui/tokens` and `@weiui/css`. Zero JavaScript.
+- **React, unstyled?** Add `@weiui/headless` for accessible hooks and compound components.
+- **React, styled?** Use `@weiui/react` — polished components on top of the two layers below.
 
-```bash
-pnpm add @weiui/tokens @weiui/css
-```
+## 1. Install
 
-## Setup
+The quickest start uses the styled React layer. It depends on the other three packages, so installing it pulls them all in.
 
-Import the token CSS and base styles in your root layout:
+<PackageManagerTabs command="@weiui/react" />
+
+## 2. Import tokens and base CSS
+
+Add these two lines once, at the top of your app. Tokens define the color, spacing, and typography scales; the CSS layer ships reset + component styles.
 
 ```tsx
+// app/layout.tsx (or equivalent)
 import "@weiui/tokens/tokens.css";
 import "@weiui/css";
 ```
 
-## First Component
+Tokens default to system light/dark via `prefers-color-scheme`. To force a theme, add `class="dark"` or `data-theme="dark"` to `<html>`.
+
+## 3. Render your first component
+
+```tsx
+import { Button } from "@weiui/react";
+
+export default function Page() {
+  return <Button>Hello WeiUI</Button>;
+}
+```
+
+Prefer a CSS-only build? Skip the import and use classes directly:
 
 ```html
-<button class="wui-button wui-button--solid">Click me</button>
+<button class="wui-button wui-button--solid">Hello WeiUI</button>
 ```
+
+## Next steps
+
+- [Browse components](/docs/components) — 66 components across form, overlay, data, feedback, and more.
+- [Design tokens](/docs/tokens) — the OKLCH color scales, spacing, typography, motion, and shadow tokens.
+- [Accessibility](/docs/accessibility) — WCAG AAA targets, keyboard patterns, and contrast guarantees.
+- [CLI](/docs/cli) — `weiui init`, `add`, and `audit` for scaffolding and validation.
