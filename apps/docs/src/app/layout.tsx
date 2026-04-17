@@ -7,6 +7,7 @@ import "@weiui/css";
 import "../styles/fonts.css";
 import "../styles/shiki.css";
 import "../styles/chrome.css";
+import "../styles/preview.css";
 
 const inter = Inter({
   subsets: ["latin"],
