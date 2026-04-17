@@ -197,3 +197,129 @@
     }
   }
 }
+
+@layer wui-base {
+  /* Comparison */
+  .wui-home-compare { padding-block: var(--wui-spacing-12); }
+  .wui-home-compare__wrap {
+    overflow-x: auto;
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    background-color: var(--wui-surface-raised);
+    box-shadow: var(--wui-elevation-1);
+  }
+  .wui-home-compare__table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--wui-font-size-sm);
+  }
+  .wui-home-compare__table th,
+  .wui-home-compare__table td {
+    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-3);
+    text-align: start;
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+  .wui-home-compare__table thead th {
+    background-color: var(--wui-surface-sunken);
+    font-weight: var(--wui-font-weight-semibold);
+    font-size: var(--wui-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--wui-color-muted-foreground);
+    text-align: center;
+  }
+  .wui-home-compare__table thead th:first-child { text-align: start; }
+  .wui-home-compare__table tbody th {
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-foreground);
+  }
+  .wui-home-compare__table tbody td { text-align: center; }
+  .wui-home-compare__yes {
+    color: var(--wui-color-success);
+    font-size: var(--wui-font-size-lg);
+  }
+  .wui-home-compare__no {
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-lg);
+  }
+  .wui-home-compare__partial {
+    display: inline-block;
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-warning);
+    font-style: italic;
+  }
+
+  /* Install snippet */
+  .wui-home-install { padding-block: var(--wui-spacing-12); }
+  .wui-home-install__wrap {
+    max-inline-size: 48rem;
+    margin-inline: auto;
+  }
+
+  /* Footer */
+  .wui-home-footer {
+    margin-block-start: var(--wui-spacing-12);
+    padding-block: var(--wui-spacing-12);
+    background-color: var(--wui-surface-sunken);
+    border-block-start: 1px solid var(--wui-color-border);
+  }
+  .wui-home-footer__inner {
+    max-inline-size: 72rem;
+    margin-inline: auto;
+    padding-inline: var(--wui-spacing-6);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--wui-spacing-8);
+  }
+  .wui-home-footer__brand {
+    display: flex; flex-direction: column; gap: var(--wui-spacing-1);
+  }
+  .wui-home-footer__brand > span:first-child {
+    font-size: var(--wui-font-size-xl);
+  }
+  .wui-home-footer__brand > span:nth-child(2) {
+    font-weight: var(--wui-font-weight-semibold);
+  }
+  .wui-home-footer__version {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-home-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--wui-spacing-6);
+  }
+  .wui-home-footer__cols h4 {
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--wui-color-muted-foreground);
+    margin-block-end: var(--wui-spacing-3);
+  }
+  .wui-home-footer__cols a {
+    display: block;
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+    text-decoration: none;
+    padding-block: 2px;
+  }
+  .wui-home-footer__cols a:hover { color: var(--wui-color-foreground); }
+  .wui-home-footer__bottom {
+    max-inline-size: 72rem;
+    margin-inline: auto;
+    padding-inline: var(--wui-spacing-6);
+    margin-block-start: var(--wui-spacing-8);
+    padding-block-start: var(--wui-spacing-6);
+    border-block-start: 1px solid var(--wui-color-border);
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+
+  @media (max-width: 768px) {
+    .wui-home-footer__inner { grid-template-columns: 1fr; }
+    .wui-home-footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+}
