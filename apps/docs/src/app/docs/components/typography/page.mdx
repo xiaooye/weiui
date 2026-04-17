@@ -1,3 +1,8 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { HeadingDemo } from "../../../../components/demos/HeadingDemo";
+import { TextDemo } from "../../../../components/demos/TextDemo";
+import { LabelDemo } from "../../../../components/demos/LabelDemo";
+
 # Typography
 
 Text components for headings, body copy, labels, and accessible utilities.
@@ -11,6 +16,10 @@ import { Heading, Text, Label } from "@weiui/react";
 ## Heading
 
 Renders semantic heading elements (h1–h6) with consistent size styles.
+
+<Preview label="Heading levels 1–6">
+  <HeadingDemo />
+</Preview>
 
 ```tsx
 import { Heading } from "@weiui/react";
@@ -47,6 +56,10 @@ import { Heading } from "@weiui/react";
 
 Renders body text as `<p>`, `<span>`, or `<div>` with size, color, and weight variants.
 
+<Preview label="Text sizes, colors, and weights">
+  <TextDemo />
+</Preview>
+
 ```tsx
 import { Text } from "@weiui/react";
 
@@ -71,6 +84,10 @@ import { Text } from "@weiui/react";
 ## Label
 
 A styled `<label>` element with an optional required indicator.
+
+<Preview label="Label with htmlFor wiring">
+  <LabelDemo />
+</Preview>
 
 ```tsx
 import { Label } from "@weiui/react";
