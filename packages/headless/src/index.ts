@@ -59,3 +59,5 @@ export { ComboboxInput, type ComboboxInputProps } from "./components/Combobox";
 export { ComboboxContent, type ComboboxContentProps } from "./components/Combobox";
 export { ComboboxItem, type ComboboxItemProps } from "./components/Combobox";
 export { ComboboxEmpty, type ComboboxEmptyProps } from "./components/Combobox";
+
+export { useFloatingMenu, type UseFloatingMenuOptions } from "./use-floating-menu";
