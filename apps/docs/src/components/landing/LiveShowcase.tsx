@@ -24,14 +24,37 @@ export function LiveShowcase() {
         </p>
       </header>
 
-      <div className="wui-home-showcase__tabs" role="tablist">
+      <div className="wui-home-showcase__tabs" role="tablist" aria-label="Component preview">
         {DEMOS.map((d) => (
           <button
             key={d.id}
             type="button"
             role="tab"
+            id={`wui-showcase-tab-${d.id}`}
             aria-selected={active === d.id}
+            aria-controls={`wui-showcase-panel-${d.id}`}
+            tabIndex={active === d.id ? 0 : -1}
             onClick={() => setActive(d.id)}
+            onKeyDown={(e) => {
+              const idx = DEMOS.findIndex((x) => x.id === active);
+              const goto = (i: number) => {
+                const next = DEMOS[((i % DEMOS.length) + DEMOS.length) % DEMOS.length];
+                if (next) setActive(next.id);
+              };
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                goto(idx + 1);
+              } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                goto(idx - 1);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                goto(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                goto(DEMOS.length - 1);
+              }
+            }}
             className="wui-home-showcase__tab"
             data-active={active === d.id || undefined}
           >
@@ -40,7 +63,12 @@ export function LiveShowcase() {
         ))}
       </div>
 
-      <div className="wui-home-showcase__stage">
+      <div
+        className="wui-home-showcase__stage"
+        role="tabpanel"
+        id={`wui-showcase-panel-${active}`}
+        aria-labelledby={`wui-showcase-tab-${active}`}
+      >
         {active === "buttons" && <ButtonDemo />}
         {active === "form" && <FormDemo />}
         {active === "card" && <CardDemo />}
