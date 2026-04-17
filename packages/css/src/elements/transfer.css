@@ -6,8 +6,9 @@
   }
   .wui-transfer__list {
     flex: 1;
-    border: 1px solid var(--wui-color-border);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -19,7 +20,7 @@
     padding-block: var(--wui-spacing-2);
     padding-inline: var(--wui-spacing-3);
     border-block-end: 1px solid var(--wui-color-border);
-    background-color: var(--wui-color-muted);
+    background-color: var(--wui-surface-sunken);
     font-size: var(--wui-font-size-sm);
     font-weight: var(--wui-font-weight-medium);
   }
@@ -39,10 +40,11 @@
     font-size: var(--wui-font-size-sm);
   }
   .wui-transfer__item:hover {
-    background-color: var(--wui-color-muted);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
   }
   .wui-transfer__item[data-selected] {
-    background-color: oklch(from var(--wui-color-primary) l c h / 0.08);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-transfer__actions {
     display: flex;
@@ -64,7 +66,8 @@
     color: var(--wui-color-foreground);
   }
   .wui-transfer__move-btn:hover {
-    background-color: var(--wui-color-muted);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-transfer__move-btn:focus-visible {
     outline: 3px solid var(--wui-color-ring);
@@ -73,5 +76,14 @@
   .wui-transfer__move-btn[data-disabled] {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-transfer__item,
+    .wui-transfer__move-btn {
+      transition-property: background-color, color, border-color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
   }
 }

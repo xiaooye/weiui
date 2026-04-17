@@ -1,5 +1,11 @@
 @layer wui-elements {
-  .wui-timeline { display: flex; flex-direction: column; gap: 0; }
+  .wui-timeline {
+    display: flex; flex-direction: column; gap: 0;
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-1);
+    padding: var(--wui-spacing-4);
+  }
   .wui-timeline-item {
     display: flex; gap: var(--wui-spacing-4);
     padding-block-end: var(--wui-spacing-6);
@@ -14,7 +20,8 @@
     border-radius: var(--wui-shape-radius-full);
     background-color: var(--wui-color-primary);
     border: 2px solid var(--wui-color-background);
-    box-shadow: 0 0 0 2px var(--wui-color-primary);
+    box-shadow: 0 0 0 2px var(--wui-color-primary),
+                inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
     z-index: 1;
   }
   .wui-timeline-item__line {

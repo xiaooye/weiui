@@ -2,10 +2,14 @@
   .wui-tree {
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-foreground);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-1);
+    padding: var(--wui-spacing-2);
   }
   .wui-tree[role="tree"] {
     list-style: none;
-    padding: 0;
+    padding: var(--wui-spacing-2);
     margin: 0;
   }
   .wui-tree__group {
@@ -33,15 +37,15 @@
     color: inherit;
   }
   .wui-tree__node:hover {
-    background-color: var(--wui-color-muted);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
   }
   .wui-tree__node:focus-visible {
     outline: 3px solid var(--wui-color-ring);
     outline-offset: -3px;
   }
   .wui-tree__node[data-selected] {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-tree__toggle {
     display: inline-flex;
@@ -59,7 +63,14 @@
   }
   @media (prefers-reduced-motion: no-preference) {
     .wui-tree__toggle {
-      transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-default);
+      transition-property: transform;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-tree__node {
+      transition-property: background-color, color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
   .wui-tree__label {
