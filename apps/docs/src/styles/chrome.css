@@ -121,6 +121,29 @@
       transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
+
+  /* Mobile header — hide primary nav, shrink search trigger */
+  @media (max-width: 768px) {
+    .wui-docs-header__inner {
+      gap: var(--wui-spacing-3);
+      padding-inline: var(--wui-spacing-4);
+    }
+    .wui-docs-header__nav { display: none; }
+    .wui-docs-header__version { display: none; }
+    .wui-docs-search-trigger {
+      min-inline-size: 0;
+      inline-size: 36px;
+      padding-inline: 0;
+      justify-content: center;
+    }
+    .wui-docs-search-trigger > span,
+    .wui-docs-search-trigger > kbd { display: none; }
+    .wui-docs-search-trigger::before {
+      content: "⌕";
+      font-size: var(--wui-font-size-lg);
+    }
+    .wui-docs-header__github { display: none; }
+  }
 }
 
 @layer wui-base {
@@ -201,8 +224,16 @@
     .wui-docs-toc { display: none; }
   }
   @media (max-width: 768px) {
-    .wui-docs-shell { grid-template-columns: minmax(0, 1fr); }
+    .wui-docs-shell {
+      grid-template-columns: minmax(0, 1fr);
+      padding-inline: var(--wui-spacing-4);
+      gap: var(--wui-spacing-4);
+    }
     .wui-docs-sidebar { display: none; }
+    .wui-docs-pager {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .wui-docs-pager__next { text-align: start; }
   }
   .wui-docs-main {
     padding-block: var(--wui-spacing-8);
