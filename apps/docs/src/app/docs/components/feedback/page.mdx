@@ -66,6 +66,13 @@ import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
 | variant | `"info" \| "success" \| "warning" \| "destructive"` | `"info"` | Visual style |
 | children | `ReactNode` | — | Alert content |
 
+### Accessibility
+
+- Alert uses `role="alert"` on the root so screen readers announce the message when it appears.
+- `<AlertTitle>` renders as a heading (`<h5>` by default) so assistive tech users can navigate to it via heading shortcuts.
+- Destructive variant is paired with an icon inside the content slot — never convey the severity by color alone.
+- Contrast for every variant is validated against the 7:1 AAA threshold at build time.
+
 ---
 
 ## Spinner
@@ -133,3 +140,9 @@ import { EmptyState } from "@weiui/react";
 | description | `string` | — | Optional supporting text |
 | icon | `ReactNode` | — | Optional icon above the title |
 | action | `ReactNode` | — | Optional action element |
+
+### Accessibility
+
+- `title` renders inside an `<h3>` so keyboard users can jump to it with heading shortcuts.
+- Mark the decorative `icon` slot with `aria-hidden="true"` when you pass one — the `title` carries the meaning, and letting screen readers describe the glyph adds noise.
+- The action slot accepts any focusable element; pair it with a clear call to action (e.g. "Clear filters", "Add your first project") so screen reader users know how to recover from the empty state.
