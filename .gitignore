@@ -5,3 +5,4 @@ dist/
 .next/
 .env*.local
 .superpowers/
+apps/docs/public/search-index.json
