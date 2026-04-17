@@ -37,3 +37,59 @@
     }
   }
 }
+
+@layer wui-elements {
+  .wui-input-group {
+    display: inline-flex;
+    align-items: center;
+    inline-size: 100%;
+    min-block-size: 44px;
+    background-color: var(--wui-color-background);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
+    overflow: hidden;
+  }
+  .wui-input-group.wui-input--sm { min-block-size: 36px; }
+  .wui-input-group.wui-input--lg { min-block-size: 48px; }
+  .wui-input-group:hover { border-color: color-mix(in oklch, var(--wui-color-border) 60%, var(--wui-color-foreground)); }
+  .wui-input-group:focus-within {
+    border-color: var(--wui-color-ring);
+    outline: 3px solid var(--wui-color-ring-soft);
+    outline-offset: 0;
+  }
+  .wui-input-group[data-invalid] {
+    border-color: var(--wui-color-destructive);
+  }
+  .wui-input-group__addon {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding-inline: var(--wui-spacing-3);
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-sm);
+    flex: 0 0 auto;
+    pointer-events: none;
+  }
+  .wui-input-group__addon:has(button),
+  .wui-input-group__addon:has(a),
+  .wui-input-group__addon:has([role="button"]) {
+    pointer-events: auto;
+  }
+  .wui-input-group .wui-input {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    min-block-size: 0;
+    outline: none;
+  }
+  .wui-input-group .wui-input:focus-within {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-input-group {
+      transition-property: border-color, outline-color, background-color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
+}

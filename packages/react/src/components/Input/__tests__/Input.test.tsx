@@ -43,4 +43,25 @@ describe("Input", () => {
     render(<Input disabled aria-label="test input" />);
     expect(screen.getByRole("textbox").className).toContain("wui-input--disabled");
   });
+
+  it("renders sm size class", () => {
+    const { container } = render(<Input size="sm" />);
+    expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+  });
+
+  it("renders lg size class", () => {
+    const { container } = render(<Input size="lg" />);
+    expect(container.querySelector(".wui-input--lg")).not.toBeNull();
+  });
+
+  it("renders startAddon and endAddon", () => {
+    render(
+      <Input
+        startAddon={<span data-testid="start">$</span>}
+        endAddon={<span data-testid="end">.00</span>}
+      />,
+    );
+    expect(screen.getByTestId("start")).toBeInTheDocument();
+    expect(screen.getByTestId("end")).toBeInTheDocument();
+  });
 });
