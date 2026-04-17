@@ -85,4 +85,24 @@ describe("InputNumber", () => {
     render(<InputNumber ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
+
+  it("formats value with locale thousands separator", () => {
+    render(<InputNumber value={1234567} formatOptions={{ style: "decimal" }} />);
+    const input = screen.getByRole("spinbutton");
+    expect(input).toHaveValue("1,234,567");
+  });
+
+  it("formats as currency", () => {
+    render(<InputNumber value={42.5} formatOptions={{ style: "currency", currency: "USD" }} />);
+    const input = screen.getByRole("spinbutton");
+    expect(input).toHaveValue("$42.50");
+  });
+
+  it("has role=spinbutton and aria-valuenow/min/max", () => {
+    render(<InputNumber value={5} min={0} max={10} />);
+    const input = screen.getByRole("spinbutton");
+    expect(input).toHaveAttribute("aria-valuenow", "5");
+    expect(input).toHaveAttribute("aria-valuemin", "0");
+    expect(input).toHaveAttribute("aria-valuemax", "10");
+  });
 });

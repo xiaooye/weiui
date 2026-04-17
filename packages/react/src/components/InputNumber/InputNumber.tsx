@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useState, type HTMLAttributes } from "react";
+import { forwardRef, useMemo, useState, type HTMLAttributes } from "react";
 import { cn } from "../../utils/cn";
 
 export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -10,6 +10,7 @@ export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "
   defaultValue?: number;
   onChange?: (value: number) => void;
   disabled?: boolean;
+  formatOptions?: Intl.NumberFormatOptions;
 }
 
 export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
@@ -22,6 +23,7 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
       defaultValue = 0,
       onChange,
       disabled,
+      formatOptions,
       className,
       ...props
     },
@@ -29,6 +31,11 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
   ) => {
     const [internal, setInternal] = useState(defaultValue);
     const value = controlled ?? internal;
+
+    const formatter = useMemo(
+      () => (formatOptions ? new Intl.NumberFormat("en-US", formatOptions) : null),
+      [formatOptions],
+    );
 
     const clamp = (v: number) => Math.max(min, Math.min(max, v));
 
@@ -49,9 +56,12 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const parsed = parseFloat(e.target.value);
+      const raw = e.target.value.replace(/[^0-9.\-]/g, "");
+      const parsed = parseFloat(raw);
       if (!isNaN(parsed)) update(parsed);
     };
+
+    const displayValue = formatter ? formatter.format(value) : value;
 
     return (
       <div
@@ -71,9 +81,9 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
           −
         </button>
         <input
-          type="number"
+          type={formatter ? "text" : "number"}
           className="wui-input-number__input"
-          value={value}
+          value={displayValue}
           min={min}
           max={max}
           step={step}
@@ -81,6 +91,11 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           aria-label="Number input"
+          role="spinbutton"
+          aria-valuenow={value}
+          aria-valuemin={min === -Infinity ? undefined : min}
+          aria-valuemax={max === Infinity ? undefined : max}
+          aria-valuetext={formatter ? formatter.format(value) : undefined}
         />
         <button
           type="button"
