@@ -5,4 +5,4 @@ export {
   type TooltipProps,
   type TooltipTriggerProps,
   type TooltipContentProps,
-} from "@weiui/headless";
+} from "./Tooltip";
