@@ -43,12 +43,12 @@
 
 | Wave | Components | P0 gaps | P1 gaps | P2 gaps |
 |------|------------|---------|---------|---------|
-| 5a Input family | 7 | 13 | 35 | 11 |
+| 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
 | 5b Overlay | 7 | 17 | 31 | 9 |
 | 5c Data/Nav | 12 | 12 | 58 | 23 |
 | 5d Advanced | 9 | 13 | 54 | 16 |
 | 5e Form + display | 16 | 14 | 38 | 30 |
-| **Total** | **51** | **69** | **216** | **89** |
+| **Total** | **51** | **56** | **216** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
@@ -67,8 +67,8 @@
 |---------|-----------|---------------|-----|----------|
 | Forwarded ref, native input attrs | ✅ | ✅ | — | — |
 | `invalid` → `aria-invalid` + `data-invalid` | ✅ | ✅ | — | — |
-| Size scale (sm/md/lg) | ❌ | ✅ | Add `size` variant | **P0** |
-| Start/end icon or addon slots | ❌ | ✅ | Add `startAddon` / `endAddon` slots | **P0** |
+| Size scale (sm/md/lg) | ✅ | ✅ | Add `size` variant | ✅ shipped |
+| Start/end icon or addon slots | ✅ | ✅ | Add `startAddon` / `endAddon` slots | ✅ shipped |
 | Clearable (clear button) | ❌ | ✅ | Add `clearable` + clear button | **P1** |
 | Password variant (show/hide toggle) | ❌ | ✅ | Add type=password with reveal | **P1** |
 | Search variant (search icon + clear) | ❌ | ✅ | Preset variant on Input | **P1** |
@@ -88,7 +88,7 @@
 |---------|-----------|---------------|-----|----------|
 | Forwarded ref, native textarea attrs | ✅ | ✅ | — | — |
 | `invalid` → `aria-invalid` | ✅ | ✅ | — | — |
-| Size variant | ❌ | ✅ | Add size prop | **P0** |
+| Size variant | ✅ | ✅ | Add size prop | ✅ shipped |
 | Autosize / auto-grow to content | ❌ | ✅ | Add `autosize` with optional min/max rows | **P1** |
 | Character counter | ❌ | ✅ | Add `showCount` + max length | **P1** |
 | Readonly styling hook | ⚠️ via native | ✅ explicit | Add `data-readonly` | **P2** |
@@ -111,11 +111,11 @@
 | PageUp/PageDown larger step | ❌ | ✅ | Add larger step on PageUp/Down | **P1** |
 | Home/End → min/max | ❌ | ✅ | Add Home/End | **P1** |
 | Mouse-wheel increment | ❌ | ✅ | Add wheel handler | **P2** |
-| Locale-aware formatting (thousands, decimals) | ❌ | ✅ Intl.NumberFormat | Add `formatOptions` via Intl | **P0** |
+| Locale-aware formatting (thousands, decimals) | ✅ | ✅ Intl.NumberFormat | Add `formatOptions` via Intl | ✅ shipped |
 | Prefix / suffix (currency, %) | ❌ | ✅ | Add `formatOptions.style` support | **P1** |
 | Parse partial/invalid input without clobbering | ⚠️ drops NaN silently | ✅ | Preserve intermediate typing state | **P1** |
 | `aria-valuetext` for humanised value | ❌ | ✅ | Expose aria-valuetext | **P1** |
-| Proper role + labeling (spinbutton on input) | ⚠️ generic number input | ✅ explicit `role="spinbutton"` | Wire spinbutton + aria-valuenow | **P0** |
+| Proper role + labeling (spinbutton on input) | ✅ | ✅ explicit `role="spinbutton"` | Wire spinbutton + aria-valuenow | ✅ shipped |
 
 **Notes:** Locale-aware formatting is P0 because internationalised number input is a baseline expectation of a "business-level" design system and without it, currency and percentage fields have to be reinvented downstream. Parse-preserving input is the other headline hazard — current impl drops any non-numeric intermediate character, which breaks "1,2" → "1,200" entry flows.
 
@@ -130,11 +130,11 @@
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
 | Paste-to-fill all slots | ✅ | ✅ | — | — |
 | Backspace traversal | ✅ | ✅ | — | — |
-| ArrowLeft / ArrowRight between slots | ❌ | ✅ | Add arrow navigation | **P0** |
+| ArrowLeft / ArrowRight between slots | ✅ | ✅ | Add arrow navigation | ✅ shipped |
 | Pattern constraint (numeric / alphanumeric) | ⚠️ regex fixed to `[0-9a-zA-Z]` | ✅ configurable | Add `pattern` prop | **P1** |
 | Group separator (e.g. 3-3 split) | ❌ | ✅ | Add `groups` prop | **P1** |
 | Auto-submit on complete | ❌ | ✅ | Add `onComplete` callback | **P1** |
-| Autocomplete="one-time-code" | ❌ | ✅ | Add autoComplete attr | **P0** |
+| Autocomplete="one-time-code" | ✅ | ✅ | Add autoComplete attr | ✅ shipped |
 | Mask mode (password-style) | ❌ | ✅ | Add `mask` prop | **P2** |
 | Disabled all slots | ✅ | ✅ | — | — |
 
@@ -153,12 +153,12 @@
 | Highlighted index state + `aria-activedescendant` | ✅ | ✅ | — | — |
 | Controlled open/close | ❌ (input focus auto-opens) | ✅ | Add `open`/`onOpenChange` | **P1** |
 | Controlled input value | ❌ | ✅ | Expose `inputValue` control | **P1** |
-| Async options / loading state | ❌ | ✅ | Add `loading` prop + pending slot | **P0** |
+| Async options / loading state | ✅ | ✅ | Add `loading` prop + pending slot | ✅ shipped |
 | Custom filter function | ❌ (substring only) | ✅ | Add `filter` prop | **P1** |
 | Empty state slot | ⚠️ string only | ✅ node | Accept ReactNode for emptyText | **P1** |
 | Render-prop for option | ❌ | ✅ | Add `renderOption` | **P1** |
 | Freeform value allowed | ⚠️ implicit | ✅ explicit `allowsCustomValue` | Add prop | **P1** |
-| Floating placement / collision handling | ❌ | ✅ via Floating UI | Use `@floating-ui/react` | **P0** |
+| Floating placement / collision handling | ✅ | ✅ via Floating UI | Use `@floating-ui/react` | ✅ shipped |
 | Virtualised list for large option sets | ❌ | ✅ | Optional virtualisation slot | **P2** |
 | `clearable` | ❌ | ✅ | Add clear button | **P1** |
 
@@ -175,12 +175,12 @@
 | Controlled + uncontrolled values | ✅ | ✅ | — | — |
 | ArrowUp/ArrowDown + Enter/Space toggle | ✅ | ✅ | — | — |
 | `aria-multiselectable` | ✅ | ✅ | — | — |
-| Search / type-ahead filter | ❌ (no input) | ✅ | Add filter input inside trigger | **P0** |
+| Search / type-ahead filter | ✅ | ✅ | Add filter input inside trigger | ✅ shipped |
 | Max selectable limit | ❌ | ✅ | Add `max` prop | **P1** |
 | Creatable (add new values) | ❌ | ✅ | Add `creatable` + `onCreate` | **P1** |
 | Async loading | ❌ | ✅ | Add `loading` prop | **P1** |
 | Select all / clear all | ❌ | ✅ | Add controls | **P1** |
-| Floating placement | ❌ | ✅ | Use Floating UI | **P0** |
+| Floating placement | ✅ | ✅ | Use Floating UI | ✅ shipped |
 | Disabled-option respect | ❌ (no `disabled` on option type) | ✅ | Extend option type | **P1** |
 | Grouped options | ❌ | ✅ | Add `group` field to option type | **P1** |
 | Backspace removes last tag | ❌ | ✅ | Handle Backspace on trigger | **P1** |
@@ -199,7 +199,7 @@
 | Drag-and-drop zone | ✅ | ✅ | — | — |
 | `accept` mime-type filter | ✅ | ✅ | — | — |
 | `multiple` | ✅ | ✅ | — | — |
-| `maxSize` filter | ✅ silent filter | ✅ with error callback | Expose `onError` / validation errors | **P0** |
+| `maxSize` filter | ✅ | ✅ with error callback | Expose `onError` / validation errors | ✅ shipped |
 | File list w/ remove button | ✅ | ✅ | — | — |
 | Upload progress per file | ❌ | ✅ | Add progress slot / prop | **P1** |
 | Resume / retry on failure | ❌ | ✅ | Out of scope for v1 | **P2** |
@@ -207,7 +207,7 @@
 | Cloud providers (S3, Dropbox) | ❌ | ✅ | Out of scope for v1 | **P2** |
 | Preview thumbnails for images | ❌ | ✅ | Add thumbnail slot | **P1** |
 | File-count limit | ❌ | ✅ | Add `maxFiles` | **P1** |
-| File-type validation error UI | ⚠️ silent | ✅ | Expose `onError` + messaging | **P0** |
+| File-type validation error UI | ✅ | ✅ | Expose `onError` + messaging | ✅ shipped |
 | Controlled files list | ❌ | ✅ | Add `value`/`onChange` pattern | **P1** |
 | Paste files from clipboard | ❌ | ✅ | Add paste listener | **P2** |
 
