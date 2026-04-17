@@ -1,3 +1,10 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { DialogDemo } from "../../../../components/demos/DialogDemo";
+import { DrawerDemo } from "../../../../components/demos/DrawerDemo";
+import { PopoverDemo } from "../../../../components/demos/PopoverDemo";
+import { TooltipDemo } from "../../../../components/demos/TooltipDemo";
+import { MenuDemo } from "../../../../components/demos/MenuDemo";
+
 # Overlay Components
 
 Modal dialogs, tooltips, and popovers with full accessibility. All overlays render through a Portal attached to `document.body` so they escape any `overflow: hidden` ancestor.
@@ -5,6 +12,10 @@ Modal dialogs, tooltips, and popovers with full accessibility. All overlays rend
 ## Dialog
 
 A modal overlay that traps focus and blocks interaction with the page behind it. Content renders into a Portal, and `<DialogContent>` emits its own backdrop automatically.
+
+<Preview label="Dialog">
+  <DialogDemo />
+</Preview>
 
 ```tsx
 import {
@@ -49,6 +60,10 @@ Open-state props live on the `<Dialog>` root.
 
 Shows contextual information on hover or keyboard focus. The trigger gets `aria-describedby` auto-wired to the tooltip id, and the content renders via Portal so it can escape overflow containers.
 
+<Preview label="Tooltip">
+  <TooltipDemo />
+</Preview>
+
 ```tsx
 import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
 
@@ -85,6 +100,10 @@ Tooltips open on both pointer hover and keyboard focus, so users navigating with
 ## Popover
 
 An interactive overlay positioned relative to its trigger. Popover is fully controllable and accepts side/align props to tune placement via Floating UI.
+
+<Preview label="Popover">
+  <PopoverDemo />
+</Preview>
 
 ```tsx
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
@@ -127,6 +146,10 @@ Placement (`side`, `align`) and open-state props live on the `<Popover>` root.
 ## Menu
 
 Dropdown menu with rich keyboard support including typeahead.
+
+<Preview label="Menu">
+  <MenuDemo />
+</Preview>
 
 ```tsx
 import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
