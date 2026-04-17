@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { generateCss, pathToCssVar } from "../generate-css";
 import type { FlatToken } from "../types";
 
@@ -21,5 +23,24 @@ describe("generateCss", () => {
     expect(css).toContain(":root");
     expect(css).toContain("--wui-color-primary: oklch(0.546 0.245 263)");
     expect(css).toContain("--wui-spacing-4: 16px");
+  });
+});
+
+describe("shadow scale", () => {
+  it("shape.json declares 8 shadow levels", () => {
+    const shapeJson = JSON.parse(
+      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
+    );
+    const keys = Object.keys(shapeJson.shape.shadow);
+    expect(keys).toEqual(["xs", "sm", "base", "md", "lg", "xl", "2xl", "inset"]);
+  });
+
+  it("every shadow uses OKLCH color", () => {
+    const shapeJson = JSON.parse(
+      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
+    );
+    for (const [, token] of Object.entries(shapeJson.shape.shadow)) {
+      expect((token as { $value: string }).$value).toMatch(/oklch\(/);
+    }
   });
 });
