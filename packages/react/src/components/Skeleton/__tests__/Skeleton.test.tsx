@@ -45,4 +45,11 @@ describe("Skeleton", () => {
     render(<Skeleton ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
+
+  it("uses wui-skeleton class whose shimmer is PRM-gated in the CSS layer", () => {
+    // The shimmer ::after animation is defined inside
+    // @media (prefers-reduced-motion: no-preference) — see skeleton.css.
+    render(<Skeleton data-testid="skel" />);
+    expect(screen.getByTestId("skel")).toHaveClass("wui-skeleton");
+  });
 });
