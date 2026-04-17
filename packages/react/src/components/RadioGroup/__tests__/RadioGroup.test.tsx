@@ -91,4 +91,60 @@ describe("RadioGroup", () => {
     expect(radios[0].name).toBe(radios[1].name);
     expect(radios[0].name).toBeTruthy();
   });
+
+  it("applies styled visual class (wui-radio__input)", () => {
+    render(
+      <RadioGroup aria-label="styled">
+        <RadioGroupItem value="a" label="A" />
+      </RadioGroup>,
+    );
+    expect(screen.getByRole("radio")).toHaveClass("wui-radio__input");
+  });
+
+  it("arrow-down moves focus + selection to next item", async () => {
+    const user = userEvent.setup();
+    render(
+      <RadioGroup aria-label="keys" defaultValue="a">
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+        <RadioGroupItem value="c" label="C" />
+      </RadioGroup>,
+    );
+    const radioA = screen.getByLabelText("A");
+    radioA.focus();
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByLabelText("B")).toBeChecked();
+    expect(screen.getByLabelText("B")).toHaveFocus();
+  });
+
+  it("arrow-up moves focus + selection to previous item", async () => {
+    const user = userEvent.setup();
+    render(
+      <RadioGroup aria-label="keys" defaultValue="b">
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    screen.getByLabelText("B").focus();
+    await user.keyboard("{ArrowUp}");
+    expect(screen.getByLabelText("A")).toBeChecked();
+    expect(screen.getByLabelText("A")).toHaveFocus();
+  });
+
+  it("arrow keys wrap from last to first and first to last", async () => {
+    const user = userEvent.setup();
+    render(
+      <RadioGroup aria-label="wrap" defaultValue="b">
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    screen.getByLabelText("B").focus();
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByLabelText("A")).toBeChecked();
+
+    screen.getByLabelText("A").focus();
+    await user.keyboard("{ArrowUp}");
+    expect(screen.getByLabelText("B")).toBeChecked();
+  });
 });
