@@ -135,4 +135,37 @@ describe("TreeView", () => {
     await user.keyboard(" ");
     expect(onSelect).toHaveBeenCalledWith("1.1");
   });
+
+  describe("controlled expanded (P0)", () => {
+    it("renders expanded children when `expanded` prop includes id", () => {
+      render(<TreeView nodes={nodes} expanded={["1"]} />);
+      expect(screen.getByText("Child 1")).toBeInTheDocument();
+    });
+
+    it("ignores internal toggle when controlled (unless consumer updates prop)", async () => {
+      const user = userEvent.setup();
+      render(<TreeView nodes={nodes} expanded={[]} />);
+
+      await user.click(screen.getByText("Root"));
+      // Still collapsed because consumer didn't update the prop
+      expect(screen.queryByText("Child 1")).not.toBeInTheDocument();
+    });
+
+    it("calls onExpandedChange when a branch is clicked", async () => {
+      const user = userEvent.setup();
+      const onExpandedChange = vi.fn();
+      render(<TreeView nodes={nodes} onExpandedChange={onExpandedChange} />);
+
+      await user.click(screen.getByText("Root"));
+      expect(onExpandedChange).toHaveBeenCalledWith(["1"]);
+    });
+
+    it("reflects controlled prop change", () => {
+      const { rerender } = render(<TreeView nodes={nodes} expanded={[]} />);
+      expect(screen.queryByText("Child 1")).not.toBeInTheDocument();
+
+      rerender(<TreeView nodes={nodes} expanded={["1"]} />);
+      expect(screen.getByText("Child 1")).toBeInTheDocument();
+    });
+  });
 });

@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useState, useRef, useCallback } from "react";
+import { forwardRef, useState, useRef, useCallback, useMemo } from "react";
 import { cn } from "../../utils/cn";
 
 export interface TreeNode {
@@ -11,6 +11,10 @@ export interface TreeNode {
 export interface TreeViewProps {
   nodes: TreeNode[];
   defaultExpanded?: string[];
+  /** Controlled expanded ids. When provided, `defaultExpanded` is ignored. */
+  expanded?: string[];
+  /** Called when a node is expanded or collapsed (with the new expanded list). */
+  onExpandedChange?: (expandedIds: string[]) => void;
   onSelect?: (id: string) => void;
   selected?: string;
   className?: string;
@@ -18,18 +22,39 @@ export interface TreeViewProps {
 }
 
 export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
-  ({ nodes, defaultExpanded = [], onSelect, selected, className, label }, ref) => {
-    const [expanded, setExpanded] = useState<Set<string>>(new Set(defaultExpanded));
+  (
+    {
+      nodes,
+      defaultExpanded = [],
+      expanded: controlledExpanded,
+      onExpandedChange,
+      onSelect,
+      selected,
+      className,
+      label,
+    },
+    ref,
+  ) => {
+    const [uncontrolledExpanded, setUncontrolledExpanded] = useState<Set<string>>(
+      new Set(defaultExpanded),
+    );
+    const isControlled = controlledExpanded !== undefined;
+    const expanded = useMemo(
+      () => (isControlled ? new Set(controlledExpanded) : uncontrolledExpanded),
+      [isControlled, controlledExpanded, uncontrolledExpanded],
+    );
     const nodeRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
-    const toggleExpand = useCallback((id: string) => {
-      setExpanded((prev) => {
-        const next = new Set(prev);
+    const toggleExpand = useCallback(
+      (id: string) => {
+        const next = new Set(expanded);
         if (next.has(id)) next.delete(id);
         else next.add(id);
-        return next;
-      });
-    }, []);
+        if (!isControlled) setUncontrolledExpanded(next);
+        onExpandedChange?.(Array.from(next));
+      },
+      [expanded, isControlled, onExpandedChange],
+    );
 
     const allNodes = flattenTree(nodes, expanded);
 
