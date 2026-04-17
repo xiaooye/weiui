@@ -9,14 +9,14 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@w
 
 <Accordion type="single">
   <AccordionItem value="faq-1">
-    <AccordionTrigger value="faq-1">What is WeiUI?</AccordionTrigger>
-    <AccordionContent value="faq-1">
+    <AccordionTrigger>What is WeiUI?</AccordionTrigger>
+    <AccordionContent>
       A business-level design system with CSS, headless, and styled React layers.
     </AccordionContent>
   </AccordionItem>
   <AccordionItem value="faq-2">
-    <AccordionTrigger value="faq-2">Is it accessible?</AccordionTrigger>
-    <AccordionContent value="faq-2">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
       Yes — WCAG AAA compliant with full keyboard support.
     </AccordionContent>
   </AccordionItem>
@@ -30,18 +30,18 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@w
 
 ### Controlled expanded state
 
-Both `single` and `multiple` modes accept a controlled `value` plus `onValueChange`. The `value` is `string | null` in single mode and `string[]` in multiple mode.
+Both `single` and `multiple` modes accept a controlled `value` plus `onValueChange`. The `value` is always `string[]` — in `single` mode it holds at most one entry (use an empty array to collapse).
 
 ```tsx
 // single — controlled
-const [open, setOpen] = useState<string | null>("faq-1");
+const [open, setOpen] = useState<string[]>(["faq-1"]);
 
 <Accordion type="single" value={open} onValueChange={setOpen}>
   {/* ... */}
 </Accordion>
 
 // multiple — controlled
-const [open, setOpen] = useState<string[]>(["faq-1"]);
+const [open, setOpen] = useState<string[]>(["faq-1", "faq-2"]);
 
 <Accordion type="multiple" value={open} onValueChange={setOpen}>
   {/* ... */}
@@ -60,8 +60,8 @@ const [open, setOpen] = useState<string[]>(["faq-1"]);
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | type | `"single" \| "multiple"` | `"single"` | Allow one or many open at once |
-| value | `string \| string[] \| null` | — | Controlled expanded value(s) |
-| onValueChange | `(value: string \| string[] \| null) => void` | — | Called when expanded changes |
+| value | `string[]` | — | Controlled expanded values (single mode holds at most one) |
+| onValueChange | `(value: string[]) => void` | — | Called when expanded changes |
 | defaultExpanded | `string[]` | `[]` | Initially expanded items (uncontrolled) |
 
 ### Accessibility
