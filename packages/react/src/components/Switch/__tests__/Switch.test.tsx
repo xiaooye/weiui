@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Switch } from "../Switch";
@@ -27,7 +28,7 @@ describe("Switch", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLInputElement>;
+    const ref = createRef<HTMLInputElement>();
     render(<Switch ref={ref} aria-label="test" />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });

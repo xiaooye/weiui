@@ -17,7 +17,7 @@ describe("Calendar", () => {
     // Use aria-label to target a specific day unambiguously
     await user.click(screen.getByLabelText(/Friday, January 10, 2025/));
     expect(onChange).toHaveBeenCalledTimes(1);
-    const calledDate = onChange.mock.calls[0][0] as Date;
+    const calledDate = onChange.mock.calls[0]![0] as Date;
     expect(calledDate.getDate()).toBe(10);
     expect(calledDate.getMonth()).toBe(0);
     expect(calledDate.getFullYear()).toBe(2025);

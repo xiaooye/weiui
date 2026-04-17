@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { InputNumber } from "../InputNumber";
@@ -81,7 +82,7 @@ describe("InputNumber", () => {
   });
 
   it("forwards ref to root div", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<InputNumber ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

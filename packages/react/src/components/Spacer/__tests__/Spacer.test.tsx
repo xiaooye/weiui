@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render } from "@testing-library/react";
 import { Spacer } from "../Spacer";
 
@@ -24,7 +25,7 @@ describe("Spacer", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<Spacer ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

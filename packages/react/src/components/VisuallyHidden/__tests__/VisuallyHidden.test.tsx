@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { VisuallyHidden } from "../VisuallyHidden";
 
@@ -21,7 +22,7 @@ describe("VisuallyHidden", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLSpanElement>;
+    const ref = createRef<HTMLSpanElement>();
     render(<VisuallyHidden ref={ref}>Text</VisuallyHidden>);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Textarea } from "../Textarea";
 
@@ -9,7 +10,7 @@ describe("Textarea", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLTextAreaElement>;
+    const ref = createRef<HTMLTextAreaElement>();
     render(<Textarea ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement);
   });

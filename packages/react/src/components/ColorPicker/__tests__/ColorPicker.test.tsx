@@ -58,7 +58,7 @@ describe("ColorPicker", () => {
     } as DOMRect);
     fireEvent.mouseDown(sv, { clientX: 100, clientY: 100 });
     expect(onChange).toHaveBeenCalled();
-    const newColor = onChange.mock.calls[0][0] as string;
+    const newColor = onChange.mock.calls[0]![0] as string;
     expect(newColor).toMatch(/^#[0-9a-f]{6}$/i);
     // Clicking near the middle should not return pure red anymore
     expect(newColor.toLowerCase()).not.toBe("#ff0000");

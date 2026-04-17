@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { AspectRatio } from "../AspectRatio";
 
@@ -29,7 +30,7 @@ describe("AspectRatio", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<AspectRatio ref={ref}>content</AspectRatio>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

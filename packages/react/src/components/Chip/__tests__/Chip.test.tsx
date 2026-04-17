@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Chip } from "../Chip";
@@ -63,7 +64,7 @@ describe("Chip", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLSpanElement>;
+    const ref = createRef<HTMLSpanElement>();
     render(<Chip ref={ref}>label</Chip>);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });

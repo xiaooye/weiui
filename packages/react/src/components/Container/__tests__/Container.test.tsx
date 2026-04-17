@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Container } from "../Container";
 
@@ -24,7 +25,7 @@ describe("Container", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<Container ref={ref}>content</Container>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

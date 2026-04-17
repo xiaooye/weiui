@@ -17,7 +17,7 @@ describe("toast-store", () => {
   it("addToast adds to the store", () => {
     addToast({ title: "Hello", variant: "default" });
     expect(getToasts()).toHaveLength(1);
-    expect(getToasts()[0].title).toBe("Hello");
+    expect(getToasts()[0]!.title).toBe("Hello");
   });
 
   it("removeToast removes from store", () => {
@@ -45,25 +45,25 @@ describe("toast-store", () => {
   it("toast.success sets variant to success", () => {
     toast.success("Done");
     const toasts = getToasts();
-    expect(toasts[toasts.length - 1].variant).toBe("success");
+    expect(toasts[toasts.length - 1]!.variant).toBe("success");
   });
 
   it("toast.error sets variant to destructive", () => {
     toast.error("Failed");
     const toasts = getToasts();
-    expect(toasts[toasts.length - 1].variant).toBe("destructive");
+    expect(toasts[toasts.length - 1]!.variant).toBe("destructive");
   });
 
   it("toast.warning sets variant to warning", () => {
     toast.warning("Be careful");
     const toasts = getToasts();
-    expect(toasts[toasts.length - 1].variant).toBe("warning");
+    expect(toasts[toasts.length - 1]!.variant).toBe("warning");
   });
 
   it("defaults duration to 5000", () => {
     addToast({ title: "Hello", variant: "default" });
     const toasts = getToasts();
-    expect(toasts[toasts.length - 1].duration).toBe(5000);
+    expect(toasts[toasts.length - 1]!.duration).toBe(5000);
   });
 });
 

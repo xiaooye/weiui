@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render } from "@testing-library/react";
 import { Divider } from "../Divider";
 
@@ -29,7 +30,7 @@ describe("Divider", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLHRElement>;
+    const ref = createRef<HTMLHRElement>();
     render(<Divider ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLHRElement);
   });

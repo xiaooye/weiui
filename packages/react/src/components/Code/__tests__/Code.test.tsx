@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Code } from "../Code";
 
@@ -19,7 +20,7 @@ describe("Code (inline)", () => {
   });
 
   it("forwards ref inline", () => {
-    const ref = { current: null } as React.RefObject<HTMLElement>;
+    const ref = createRef<HTMLElement>();
     render(<Code ref={ref}>code</Code>);
     expect(ref.current).toBeInstanceOf(HTMLElement);
   });
@@ -40,7 +41,7 @@ describe("Code (block)", () => {
   });
 
   it("forwards ref to the inner <code> when block", () => {
-    const ref = { current: null } as React.RefObject<HTMLElement>;
+    const ref = createRef<HTMLElement>();
     render(<Code inline={false} ref={ref}>code</Code>);
     expect(ref.current).toBeInstanceOf(HTMLElement);
     expect((ref.current as HTMLElement).tagName).toBe("CODE");

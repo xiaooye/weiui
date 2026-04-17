@@ -88,8 +88,8 @@ describe("RadioGroup", () => {
       </RadioGroup>,
     );
     const radios = screen.getAllByRole("radio") as HTMLInputElement[];
-    expect(radios[0].name).toBe(radios[1].name);
-    expect(radios[0].name).toBeTruthy();
+    expect(radios[0]!.name).toBe(radios[1]!.name);
+    expect(radios[0]!.name).toBeTruthy();
   });
 
   it("applies styled visual class (wui-radio__input)", () => {

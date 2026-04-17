@@ -29,7 +29,7 @@ describe("DatePicker", () => {
     });
     await user.click(dayButton);
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange.mock.calls[0][0]).toBeInstanceOf(Date);
+    expect(onChange.mock.calls[0]![0]).toBeInstanceOf(Date);
     // Dropdown should be closed
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });

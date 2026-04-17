@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { ProgressBar } from "../ProgressBar";
 
@@ -81,7 +82,7 @@ describe("ProgressBar", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<ProgressBar ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Avatar, AvatarImage, AvatarFallback } from "../Avatar";
 
@@ -29,7 +30,7 @@ describe("Avatar", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLSpanElement>;
+    const ref = createRef<HTMLSpanElement>();
     render(<Avatar ref={ref}><span>JD</span></Avatar>);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });
@@ -54,7 +55,7 @@ describe("AvatarImage", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLImageElement>;
+    const ref = createRef<HTMLImageElement>();
     render(<AvatarImage ref={ref} alt="User" />);
     expect(ref.current).toBeInstanceOf(HTMLImageElement);
   });
@@ -72,7 +73,7 @@ describe("AvatarFallback", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLSpanElement>;
+    const ref = createRef<HTMLSpanElement>();
     render(<AvatarFallback ref={ref}>JD</AvatarFallback>);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });

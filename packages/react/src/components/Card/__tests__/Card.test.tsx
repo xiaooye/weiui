@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Card, CardHeader, CardContent, CardFooter } from "../Card";
 
@@ -19,7 +20,7 @@ describe("Card", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<Card ref={ref}>content</Card>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
@@ -38,7 +39,7 @@ describe("CardHeader", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<CardHeader ref={ref}>Header</CardHeader>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
@@ -51,7 +52,7 @@ describe("CardContent", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<CardContent ref={ref}>Content</CardContent>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
@@ -64,7 +65,7 @@ describe("CardFooter", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<CardFooter ref={ref}>Footer</CardFooter>);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });

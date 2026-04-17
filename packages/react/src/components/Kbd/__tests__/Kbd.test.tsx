@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import { Kbd } from "../Kbd";
 
@@ -19,7 +20,7 @@ describe("Kbd", () => {
   });
 
   it("forwards ref", () => {
-    const ref = { current: null } as React.RefObject<HTMLElement>;
+    const ref = createRef<HTMLElement>();
     render(<Kbd ref={ref}>Ctrl</Kbd>);
     expect(ref.current).toBeInstanceOf(HTMLElement);
   });

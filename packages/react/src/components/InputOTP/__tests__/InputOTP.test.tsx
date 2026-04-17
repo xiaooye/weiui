@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { InputOTP } from "../InputOTP";
@@ -25,7 +26,7 @@ describe("InputOTP", () => {
     const user = userEvent.setup();
     render(<InputOTP length={4} />);
     const slots = screen.getAllByRole("textbox");
-    slots[0].focus();
+    slots[0]!.focus();
     await user.keyboard("1");
     expect(document.activeElement).toBe(slots[1]);
   });
@@ -36,7 +37,7 @@ describe("InputOTP", () => {
     render(<InputOTP length={4} defaultValue="12" onChange={onChange} />);
     const slots = screen.getAllByRole("textbox");
     // slot index 1 has "2", focus it and backspace
-    slots[1].focus();
+    slots[1]!.focus();
     await user.keyboard("{Backspace}");
     // Should have cleared slot 1
     expect(onChange).toHaveBeenLastCalledWith("1");
@@ -46,7 +47,7 @@ describe("InputOTP", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<InputOTP length={6} onChange={onChange} />);
-    const firstSlot = screen.getAllByRole("textbox")[0];
+    const firstSlot = screen.getAllByRole("textbox")[0]!;
     firstSlot.focus();
     await user.paste("123456");
     expect(onChange).toHaveBeenCalledWith("123456");
@@ -56,7 +57,7 @@ describe("InputOTP", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<InputOTP length={4} onChange={onChange} />);
-    const firstSlot = screen.getAllByRole("textbox")[0];
+    const firstSlot = screen.getAllByRole("textbox")[0]!;
     firstSlot.focus();
     await user.paste("123456");
     expect(onChange).toHaveBeenCalledWith("1234");
@@ -74,13 +75,13 @@ describe("InputOTP", () => {
     const onChange = vi.fn();
     render(<InputOTP length={4} onChange={onChange} />);
     const slots = screen.getAllByRole("textbox");
-    slots[0].focus();
+    slots[0]!.focus();
     await user.keyboard("5");
     expect(onChange).toHaveBeenCalledWith("5");
   });
 
   it("forwards ref to root div", () => {
-    const ref = { current: null } as React.RefObject<HTMLDivElement>;
+    const ref = createRef<HTMLDivElement>();
     render(<InputOTP ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
@@ -89,7 +90,7 @@ describe("InputOTP", () => {
     const user = userEvent.setup();
     render(<InputOTP length={4} />);
     const inputs = screen.getAllByRole("textbox");
-    await user.click(inputs[2]);
+    await user.click(inputs[2]!);
     await user.keyboard("{ArrowLeft}");
     expect(inputs[1]).toHaveFocus();
   });
@@ -98,7 +99,7 @@ describe("InputOTP", () => {
     const user = userEvent.setup();
     render(<InputOTP length={4} />);
     const inputs = screen.getAllByRole("textbox");
-    await user.click(inputs[1]);
+    await user.click(inputs[1]!);
     await user.keyboard("{ArrowRight}");
     expect(inputs[2]).toHaveFocus();
   });
