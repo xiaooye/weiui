@@ -1,5 +1,9 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { DataTableDemo } from "../../../../components/demos/DataTableDemo";
+import { ChartBarDemo } from "../../../../components/demos/ChartBarDemo";
+import { ChartLineDemo } from "../../../../components/demos/ChartLineDemo";
+import { ChartAreaPieRadarDemo } from "../../../../components/demos/ChartAreaPieRadarDemo";
+import { TreeViewDemo } from "../../../../components/demos/TreeViewDemo";
 
 # Data Components
 
@@ -134,6 +138,18 @@ For datasets that live on the server, opt-out of client-side pagination / sortin
 
 Six chart types built on Recharts with WeiUI design tokens.
 
+<Preview label="BarChart">
+  <ChartBarDemo />
+</Preview>
+
+<Preview label="LineChart">
+  <ChartLineDemo />
+</Preview>
+
+<Preview label="AreaChart · PieChart · DonutChart · RadarChart">
+  <ChartAreaPieRadarDemo />
+</Preview>
+
 ```tsx
 import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "@weiui/react/chart";
 
@@ -191,6 +207,10 @@ Bar / Line / Area chart entrance and tween animations are wrapped in `@media (pr
 ## TreeView
 
 Recursive tree with expand/collapse, keyboard navigation, and selection.
+
+<Preview label="TreeView">
+  <TreeViewDemo />
+</Preview>
 
 ```tsx
 import { TreeView, type TreeNode } from "@weiui/react";
