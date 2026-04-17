@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Data Display
 
@@ -6,7 +6,7 @@ Components for presenting data, content, and visual information.
 
 ## Card
 
-<ComponentPreview label="Card">
+<Preview label="Card">
   <div className="wui-card" style={{ maxWidth: "320px", width: "100%" }}>
     <div className="wui-card__header">
       <strong>Card Title</strong>
@@ -19,7 +19,7 @@ Components for presenting data, content, and visual information.
       <button className="wui-button wui-button--outline wui-button--sm">Cancel</button>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Card, CardHeader, CardContent, CardFooter } from "@weiui/react";
@@ -33,18 +33,18 @@ import { Card, CardHeader, CardContent, CardFooter } from "@weiui/react";
 
 ## Badge
 
-<ComponentPreview label="Badge variants">
+<Preview label="Badge variants">
   <span className="wui-badge wui-badge--solid">Default</span>
   <span className="wui-badge wui-badge--soft">Soft</span>
   <span className="wui-badge wui-badge--outline">Outline</span>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="Badge colors">
+<Preview label="Badge colors">
   <span className="wui-badge wui-badge--solid">Primary</span>
   <span className="wui-badge wui-badge--success">Success</span>
   <span className="wui-badge wui-badge--warning">Warning</span>
   <span className="wui-badge wui-badge--destructive">Error</span>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Badge } from "@weiui/react";
@@ -55,12 +55,12 @@ import { Badge } from "@weiui/react";
 
 ## Avatar
 
-<ComponentPreview label="Avatar sizes">
+<Preview label="Avatar sizes">
   <span className="wui-avatar wui-avatar--sm"><span className="wui-avatar__fallback">SM</span></span>
   <span className="wui-avatar"><span className="wui-avatar__fallback">MD</span></span>
   <span className="wui-avatar wui-avatar--lg"><span className="wui-avatar__fallback">LG</span></span>
   <span className="wui-avatar wui-avatar--xl"><span className="wui-avatar__fallback">XL</span></span>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Avatar, AvatarFallback } from "@weiui/react";
@@ -72,13 +72,13 @@ import { Avatar, AvatarFallback } from "@weiui/react";
 
 ## Skeleton
 
-<ComponentPreview label="Skeleton loading states">
+<Preview label="Skeleton loading states">
   <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-2)", width: "100%", maxWidth: "300px" }}>
     <div className="wui-skeleton" style={{ height: "120px", width: "100%" }}></div>
     <div className="wui-skeleton wui-skeleton--text" style={{ width: "80%" }}></div>
     <div className="wui-skeleton wui-skeleton--text" style={{ width: "60%" }}></div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Skeleton } from "@weiui/react";

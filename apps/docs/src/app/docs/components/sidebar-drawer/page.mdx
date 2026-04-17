@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Sidebar & Drawer
 
@@ -10,7 +10,7 @@ Navigation panels and slide-in overlays for app layouts.
 
 A collapsible navigation panel that sticks to the viewport edge.
 
-<ComponentPreview label="Sidebar">
+<Preview label="Sidebar">
   <div style={{ display: "flex", height: "240px", border: "1px solid var(--wui-color-border)", borderRadius: "var(--wui-shape-radius-lg)", overflow: "hidden" }}>
     <aside className="wui-sidebar" style={{ position: "relative", height: "100%", width: "12rem" }}>
       <div className="wui-sidebar__header">
@@ -25,7 +25,7 @@ A collapsible navigation panel that sticks to the viewport edge.
     </aside>
     <div style={{ flex: 1, padding: "var(--wui-spacing-4)" }}>Main content area</div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } from "@weiui/react";
@@ -76,7 +76,7 @@ Toggle by flipping `open` / calling `onOpenChange`. In CSS, the mode is a `data-
 
 A slide-in panel from any edge with overlay and focus trap.
 
-<ComponentPreview label="Drawer structure">
+<Preview label="Drawer structure">
   <div style={{ position: "relative", height: "200px", border: "1px solid var(--wui-color-border)", borderRadius: "var(--wui-shape-radius-lg)", overflow: "hidden" }}>
     <div style={{ padding: "var(--wui-spacing-4)" }}>Page content behind drawer</div>
     <div style={{ position: "absolute", inset: 0, background: "oklch(0 0 0 / 0.3)" }} />
@@ -87,7 +87,7 @@ A slide-in panel from any edge with overlay and focus trap.
       <div className="wui-drawer__content">Drawer content goes here.</div>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerClose } from "@weiui/react";

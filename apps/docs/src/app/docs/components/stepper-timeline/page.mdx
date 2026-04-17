@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Stepper & Timeline
 
@@ -10,7 +10,7 @@ Step progress indicators and chronological event displays.
 
 Multi-step progress indicator showing active, completed, and pending steps.
 
-<ComponentPreview label="Stepper horizontal">
+<Preview label="Stepper horizontal">
   <div className="wui-stepper" style={{ display: "flex", gap: "var(--wui-spacing-4)" }}>
     <div className="wui-step" data-completed="">
       <div className="wui-step__indicator" style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--wui-color-primary)", color: "var(--wui-color-primary-foreground)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--wui-font-size-sm)" }}>&#10003;</div>
@@ -34,7 +34,7 @@ Multi-step progress indicator showing active, completed, and pending steps.
       </div>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Stepper, Step, StepSeparator } from "@weiui/react";
@@ -82,7 +82,7 @@ You can mix the two: an explicit `index` on any child overrides the auto-assigne
 
 Chronological event display with dots and connecting lines.
 
-<ComponentPreview label="Timeline">
+<Preview label="Timeline">
   <ol className="wui-timeline" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
     <li className="wui-timeline-item" style={{ display: "flex", gap: "var(--wui-spacing-3)" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -106,7 +106,7 @@ Chronological event display with dots and connecting lines.
       </div>
     </li>
   </ol>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Timeline, TimelineItem } from "@weiui/react";

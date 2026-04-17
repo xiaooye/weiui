@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Advanced Inputs
 
@@ -10,7 +10,7 @@ Slider, Rating, InputNumber, and InputOTP — specialized input controls for ran
 
 A range slider with min/max/step support and full keyboard navigation.
 
-<ComponentPreview label="Slider default">
+<Preview label="Slider default">
   <div style={{ padding: "0 8px", width: "320px" }}>
     <div className="wui-slider">
       <div className="wui-slider__track">
@@ -19,9 +19,9 @@ A range slider with min/max/step support and full keyboard navigation.
       </div>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="Slider disabled">
+<Preview label="Slider disabled">
   <div style={{ padding: "0 8px", width: "320px" }}>
     <div className="wui-slider" data-disabled="true">
       <div className="wui-slider__track">
@@ -30,7 +30,7 @@ A range slider with min/max/step support and full keyboard navigation.
       </div>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Slider } from "@weiui/react";
@@ -65,7 +65,7 @@ import { Slider } from "@weiui/react";
 
 Star rating component with keyboard and pointer support.
 
-<ComponentPreview label="Rating default">
+<Preview label="Rating default">
   <div className="wui-rating" role="radiogroup" aria-label="Rating">
     <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="true" aria-label="1 star" tabIndex={0}>★</button>
     <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
@@ -73,9 +73,9 @@ Star rating component with keyboard and pointer support.
     <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1}>☆</button>
     <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1}>☆</button>
   </div>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="Rating readonly & disabled">
+<Preview label="Rating readonly & disabled">
   <div className="wui-rating" role="radiogroup" aria-label="Read-only rating" data-readonly="true">
     <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="1 star" tabIndex={0}>★</button>
     <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
@@ -90,7 +90,7 @@ Star rating component with keyboard and pointer support.
     <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1} disabled={true}>☆</button>
     <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1} disabled={true}>☆</button>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Rating } from "@weiui/react";
@@ -126,21 +126,21 @@ import { Rating } from "@weiui/react";
 
 Numeric input with increment/decrement buttons and keyboard step control.
 
-<ComponentPreview label="InputNumber default">
+<Preview label="InputNumber default">
   <div className="wui-input-number">
     <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
     <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" />
     <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
   </div>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="InputNumber disabled">
+<Preview label="InputNumber disabled">
   <div className="wui-input-number" data-disabled="true">
     <button type="button" className="wui-input-number__btn" aria-label="Decrement" disabled={true}>−</button>
     <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" disabled={true} />
     <button type="button" className="wui-input-number__btn" aria-label="Increment" disabled={true}>+</button>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { InputNumber } from "@weiui/react";
@@ -154,13 +154,13 @@ import { InputNumber } from "@weiui/react";
 
 Pass any `Intl.NumberFormatOptions` via the `formatOptions` prop to localise the display. The input still stores a plain number — formatting is applied only on render, and `aria-valuetext` mirrors the formatted string for screen readers.
 
-<ComponentPreview label="InputNumber with formatOptions">
+<Preview label="InputNumber with formatOptions">
   <div className="wui-input-number">
     <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
     <input type="text" className="wui-input-number__input" defaultValue="$1,234.00" aria-label="Amount in USD" role="spinbutton" aria-valuenow={1234} aria-valuetext="$1,234.00" />
     <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 <InputNumber
@@ -204,7 +204,7 @@ Pass any `Intl.NumberFormatOptions` via the `formatOptions` prop to localise the
 
 One-time password input with separate boxes per digit and auto-advance.
 
-<ComponentPreview label="InputOTP 6-digit">
+<Preview label="InputOTP 6-digit">
   <div className="wui-input-otp" role="group" aria-label="One-time password">
     <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="1" aria-label="Digit 1" />
     <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="2" aria-label="Digit 2" />
@@ -213,16 +213,16 @@ One-time password input with separate boxes per digit and auto-advance.
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 5" />
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 6" />
   </div>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="InputOTP 4-digit">
+<Preview label="InputOTP 4-digit">
   <div className="wui-input-otp" role="group" aria-label="One-time password">
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 1" />
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 2" />
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 3" />
     <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 4" />
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { InputOTP } from "@weiui/react";

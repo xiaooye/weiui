@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Navigation Components
 
@@ -6,7 +6,7 @@ Tabs, Menu, Breadcrumb, and Link for structuring navigation and content.
 
 ## Breadcrumb
 
-<ComponentPreview label="Breadcrumb">
+<Preview label="Breadcrumb">
   <nav aria-label="Breadcrumb">
     <ol style={{ display: "flex", alignItems: "center", gap: "var(--wui-spacing-1)", listStyle: "none", margin: 0, padding: 0, fontSize: "var(--wui-font-size-sm)" }}>
       <li>
@@ -20,7 +20,7 @@ Tabs, Menu, Breadcrumb, and Link for structuring navigation and content.
       <li aria-current="page" style={{ color: "var(--wui-color-muted-foreground)" }}>Detail</li>
     </ol>
   </nav>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "@weiui/react";

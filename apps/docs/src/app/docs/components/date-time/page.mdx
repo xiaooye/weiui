@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Date & Time
 
@@ -10,7 +10,7 @@ Calendar grid and date picker dropdown components.
 
 Month view grid with day selection, navigation, and min/max constraints.
 
-<ComponentPreview label="Calendar">
+<Preview label="Calendar">
   <div className="wui-calendar" role="group" aria-label="Calendar">
     <div className="wui-calendar__header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--wui-spacing-3)" }}>
       <button type="button" className="wui-calendar__nav" aria-label="Previous month">&lsaquo;</button>
@@ -60,7 +60,7 @@ Month view grid with day selection, navigation, and min/max constraints.
       </tbody>
     </table>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Calendar } from "@weiui/react";

@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Input
 
@@ -6,19 +6,19 @@ Text input field with validation states and size variants.
 
 ## Default
 
-<ComponentPreview label="Input">
+<Preview label="Input">
   <input className="wui-input" placeholder="Enter your email..." style={{ maxWidth: "320px" }} />
-</ComponentPreview>
+</Preview>
 
 ## Sizes
 
 The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 / 44 / 52px touch targets.
 
-<ComponentPreview label="Input sizes">
+<Preview label="Input sizes">
   <input className="wui-input wui-input--sm" placeholder="Small" style={{ maxWidth: "200px" }} />
   <input className="wui-input" placeholder="Medium (default)" style={{ maxWidth: "200px" }} />
   <input className="wui-input wui-input--lg" placeholder="Large" style={{ maxWidth: "200px" }} />
-</ComponentPreview>
+</Preview>
 
 ```tsx
 <Input size="sm" placeholder="Small" />
@@ -30,7 +30,7 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 
 `startAddon` and `endAddon` attach a prefix or suffix visually joined to the input (e.g. unit labels, icons, currency symbols). When either is set the input is rendered inside a `wui-input-group`.
 
-<ComponentPreview label="Input with addons">
+<Preview label="Input with addons">
   <div className="wui-input-group" style={{ maxWidth: "280px" }}>
     <span className="wui-input-group__addon">$</span>
     <input className="wui-input wui-input--with-addons" placeholder="0.00" />
@@ -44,7 +44,7 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
     <input className="wui-input wui-input--with-addons" placeholder="Search" />
     <span className="wui-input-group__addon">⌕</span>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 <Input startAddon="$" endAddon="USD" placeholder="0.00" />
@@ -54,26 +54,26 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 
 ## States
 
-<ComponentPreview label="Input states">
+<Preview label="Input states">
   <input className="wui-input" placeholder="Default" style={{ maxWidth: "200px" }} />
   <input className="wui-input" data-invalid="true" placeholder="Invalid" style={{ maxWidth: "200px" }} />
   <input className="wui-input" disabled={true} placeholder="Disabled" style={{ maxWidth: "200px" }} />
   <input className="wui-input" readOnly={true} defaultValue="Read only" style={{ maxWidth: "200px" }} />
-</ComponentPreview>
+</Preview>
 
 ## Textarea
 
 Textarea supports the same `size` variants as Input.
 
-<ComponentPreview label="Textarea">
+<Preview label="Textarea">
   <textarea className="wui-input" placeholder="Enter a longer message..." style={{ maxWidth: "400px" }}></textarea>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="Textarea sizes">
+<Preview label="Textarea sizes">
   <textarea className="wui-input wui-input--sm" placeholder="Small" rows={2} style={{ maxWidth: "400px" }}></textarea>
   <textarea className="wui-input" placeholder="Medium (default)" rows={2} style={{ maxWidth: "400px" }}></textarea>
   <textarea className="wui-input wui-input--lg" placeholder="Large" rows={2} style={{ maxWidth: "400px" }}></textarea>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 <Textarea size="sm" placeholder="Small" />

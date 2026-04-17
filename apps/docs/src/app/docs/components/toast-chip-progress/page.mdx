@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { Preview } from "../../../../components/preview/Preview";
 
 # Toast, Chip & ProgressBar
 
@@ -89,16 +89,16 @@ Configure where the stack appears on `<Toaster>`. All six corners are supported.
 
 Like Badge but interactive — can be dismissed with a remove button.
 
-<ComponentPreview label="Chip variants">
+<Preview label="Chip variants">
   <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
     <span className="wui-chip">Default</span>
     <span className="wui-chip wui-chip--primary">Primary</span>
     <span className="wui-chip wui-chip--success">Success</span>
     <span className="wui-chip wui-chip--destructive">Destructive</span>
   </div>
-</ComponentPreview>
+</Preview>
 
-<ComponentPreview label="Chip with remove button">
+<Preview label="Chip with remove button">
   <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
     <span className="wui-chip">
       TypeScript
@@ -113,7 +113,7 @@ Like Badge but interactive — can be dismissed with a remove button.
       <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
     </span>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { Chip } from "@weiui/react";
@@ -140,7 +140,7 @@ import { Chip } from "@weiui/react";
 
 ## ProgressBar
 
-<ComponentPreview label="ProgressBar sizes and colors">
+<Preview label="ProgressBar sizes and colors">
   <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)", width: "100%", maxWidth: "480px" }}>
     <div>
       <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Default (60%)</p>
@@ -167,7 +167,7 @@ import { Chip } from "@weiui/react";
       </div>
     </div>
   </div>
-</ComponentPreview>
+</Preview>
 
 ```tsx
 import { ProgressBar } from "@weiui/react";
