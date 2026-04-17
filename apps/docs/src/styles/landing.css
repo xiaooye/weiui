@@ -127,3 +127,73 @@
     }
   }
 }
+
+@layer wui-base {
+  .wui-home-showcase {
+    padding-block: var(--wui-spacing-12);
+  }
+  .wui-home-showcase__tabs {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    background-color: var(--wui-surface-sunken);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    margin-block-end: var(--wui-spacing-6);
+  }
+  .wui-home-showcase__tab {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
+    color: var(--wui-color-muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: calc(var(--wui-shape-radius-md) - 2px);
+    cursor: pointer;
+  }
+  .wui-home-showcase__tab[data-active] {
+    background-color: var(--wui-surface-raised);
+    color: var(--wui-color-foreground);
+    box-shadow: var(--wui-elevation-1);
+  }
+  .wui-home-showcase__stage {
+    padding: var(--wui-spacing-8);
+    background-color: var(--wui-surface-raised);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-2);
+    min-block-size: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wui-home-showcase__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wui-spacing-3);
+    align-items: center;
+    justify-content: center;
+  }
+  .wui-home-showcase__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-3);
+    max-inline-size: 320px;
+    inline-size: 100%;
+  }
+  .wui-home-showcase__label {
+    display: block;
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-muted-foreground);
+    margin-block-end: var(--wui-spacing-1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-home-showcase__tab {
+      transition-property: background-color, color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
+}
