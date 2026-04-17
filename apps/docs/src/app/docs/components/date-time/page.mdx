@@ -60,6 +60,15 @@ The full month grid supports keyboard navigation:
 | firstDayOfWeek | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | Index of the first column (0 = Sunday) |
 | disabled | `boolean` | `false` | Disables all interaction |
 
+### Accessibility
+
+- Calendar grid uses `role="grid"` with `aria-labelledby` pointing at the month heading.
+- Each day button carries a full `aria-label` (e.g. `"Wednesday, April 15, 2026"`) so screen readers announce the date even when only the day number is visible.
+- Previous/Next month navigation buttons have `aria-label="Previous month"` / `"Next month"`.
+- Roving focus — only the focused day is tabbable, matching the ARIA grid pattern.
+- All day buttons and nav arrows meet the 44×44px minimum touch target.
+- Dates outside `minDate` / `maxDate` or rejected by `isDateDisabled` are skipped during keyboard navigation.
+
 ---
 
 ## DatePicker
