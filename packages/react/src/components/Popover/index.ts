@@ -7,4 +7,4 @@ export {
   type PopoverTriggerProps,
   type PopoverContentProps,
   type PopoverCloseProps,
-} from "@weiui/headless";
+} from "./Popover";
