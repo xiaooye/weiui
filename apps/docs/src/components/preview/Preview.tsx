@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
 import { PreviewFrame } from "./PreviewFrame";
 
 export interface PreviewProps {
@@ -10,13 +10,17 @@ export interface PreviewProps {
 }
 
 type ViewportPreset = "100%" | 768 | 375;
+type TabId = "preview" | "code";
 
 export function Preview({ children, code, label }: PreviewProps) {
-  const [tab, setTab] = useState<"preview" | "code">("preview");
+  const [tab, setTab] = useState<TabId>("preview");
   const [copied, setCopied] = useState(false);
   const [theme, setTheme] = useState<"inherit" | "light" | "dark">("inherit");
   const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
   const [viewport, setViewport] = useState<ViewportPreset>("100%");
+  const uid = useId();
+  const tabId = (t: TabId) => `${uid}-tab-${t}`;
+  const panelId = (t: TabId) => `${uid}-panel-${t}`;
 
   const onCopy = async () => {
     if (!code) return;
@@ -29,6 +33,19 @@ export function Preview({ children, code, label }: PreviewProps) {
 
   const isolated = theme !== "inherit" || dir !== "ltr" || viewport !== "100%";
 
+  const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      setTab((t) => (t === "preview" ? "code" : "preview"));
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setTab("preview");
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setTab("code");
+    }
+  };
+
   return (
     <div className="wui-preview">
       <div className="wui-preview__header">
@@ -38,9 +55,12 @@ export function Preview({ children, code, label }: PreviewProps) {
             <button
               type="button"
               role="tab"
+              id={tabId("preview")}
               aria-selected={tab === "preview"}
+              aria-controls={panelId("preview")}
               tabIndex={tab === "preview" ? 0 : -1}
               onClick={() => setTab("preview")}
+              onKeyDown={onTabKeyDown}
               className="wui-preview__tab"
               data-active={tab === "preview" || undefined}
             >
@@ -49,9 +69,12 @@ export function Preview({ children, code, label }: PreviewProps) {
             <button
               type="button"
               role="tab"
+              id={tabId("code")}
               aria-selected={tab === "code"}
+              aria-controls={panelId("code")}
               tabIndex={tab === "code" ? 0 : -1}
               onClick={() => setTab("code")}
+              onKeyDown={onTabKeyDown}
               className="wui-preview__tab"
               data-active={tab === "code" || undefined}
             >
@@ -107,7 +130,12 @@ export function Preview({ children, code, label }: PreviewProps) {
       </div>
       {tab === "preview" ? (
         isolated ? (
-          <div className="wui-preview__stage wui-preview__stage--frame">
+          <div
+            className="wui-preview__stage wui-preview__stage--frame"
+            role={code ? "tabpanel" : undefined}
+            id={code ? panelId("preview") : undefined}
+            aria-labelledby={code ? tabId("preview") : undefined}
+          >
             <PreviewFrame
               theme={theme === "inherit" ? "system" : theme}
               dir={dir}
@@ -117,10 +145,22 @@ export function Preview({ children, code, label }: PreviewProps) {
             </PreviewFrame>
           </div>
         ) : (
-          <div className="wui-preview__stage">{children}</div>
+          <div
+            className="wui-preview__stage"
+            role={code ? "tabpanel" : undefined}
+            id={code ? panelId("preview") : undefined}
+            aria-labelledby={code ? tabId("preview") : undefined}
+          >
+            {children}
+          </div>
         )
       ) : (
-        <pre className="wui-preview__code"><code>{code}</code></pre>
+        <pre
+          className="wui-preview__code"
+          role="tabpanel"
+          id={panelId("code")}
+          aria-labelledby={tabId("code")}
+        ><code>{code}</code></pre>
       )}
     </div>
   );
