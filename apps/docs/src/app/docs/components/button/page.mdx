@@ -65,15 +65,32 @@ import { Button } from "@weiui/react";
 | variant | `"solid" \| "outline" \| "ghost" \| "soft" \| "link"` | `"solid"` | Visual style |
 | size | `"sm" \| "md" \| "lg" \| "xl" \| "icon"` | `"md"` | Button size |
 | color | `"primary" \| "destructive" \| "success" \| "warning"` | `"primary"` | Color scheme |
-| loading | `boolean` | `false` | Shows loading state |
+| loading | `boolean` | `false` | Shows a spinner and sets `aria-busy` |
 | disabled | `boolean` | `false` | Disables interaction |
 | startIcon | `ReactNode` | — | Icon before text |
 | endIcon | `ReactNode` | — | Icon after text |
+| type | `"button" \| "submit" \| "reset"` | `"button"` | HTML button type. Defaults to `"button"` so stray buttons don't accidentally submit forms. |
+
+### Loading spinner
+
+When `loading` is true, Button renders the `Spinner` component inline alongside the children and sets `aria-busy="true"`. The button becomes non-interactive until `loading` flips back to false.
+
+```tsx
+<Button loading>Saving…</Button>
+```
+
+### Default type
+
+Button defaults `type="button"`. If you want a form submit, set it explicitly:
+
+```tsx
+<Button type="submit">Create account</Button>
+```
 
 ## Accessibility
 
 - Minimum 44×44px touch target (WCAG AAA)
-- `aria-busy` when loading
+- `aria-busy` when loading, with an inline `<Spinner>`
 - `aria-disabled` when disabled
 - Keyboard: Enter and Space to activate
 - Focus ring: 3px solid, 2px offset

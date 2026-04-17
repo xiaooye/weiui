@@ -98,6 +98,7 @@ import { Spinner } from "@weiui/react";
 - `role="status"` announces the loading state to screen readers
 - `aria-label` set to the `label` prop
 - Visible label text hidden via `wui-sr-only`
+- Rotation animation is wrapped in `@media (prefers-reduced-motion: no-preference)` — users who prefer reduced motion see a static circle instead of a spin, while the `role="status"` announcement still plays
 
 ---
 

@@ -167,17 +167,31 @@ import { SpeedDial } from "@weiui/react";
 
 ## ToggleGroup
 
-Grouped toggle buttons — single or multiple selection.
+Grouped toggle buttons — single or multiple selection with full roving-tabindex keyboard support.
 
 ```tsx
 import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
 
+// Single — one item active at a time
 <ToggleGroup type="single" defaultValue="left">
   <ToggleGroupItem value="left">Left</ToggleGroupItem>
   <ToggleGroupItem value="center">Center</ToggleGroupItem>
   <ToggleGroupItem value="right">Right</ToggleGroupItem>
 </ToggleGroup>
+
+// Multiple — any combination active
+<ToggleGroup type="multiple" defaultValue={["bold"]}>
+  <ToggleGroupItem value="bold">B</ToggleGroupItem>
+  <ToggleGroupItem value="italic">I</ToggleGroupItem>
+  <ToggleGroupItem value="underline">U</ToggleGroupItem>
+</ToggleGroup>
 ```
+
+### Keyboard
+- ArrowLeft / ArrowRight (and ArrowUp / ArrowDown) rove focus between items, wrapping at the ends
+- Home / End jump to the first / last item
+- Enter / Space toggles the focused item
+- Only one item in the group is tabbable at a time (roving tabindex)
 
 ---
 

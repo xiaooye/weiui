@@ -29,6 +29,29 @@ import { Checkbox } from "@weiui/react";
 <Checkbox label="Disabled" disabled />
 ```
 
+### Indeterminate
+
+A tri-state "some children selected" mode commonly used in select-all lists. Set `indeterminate` and the checkbox renders a dash glyph and exposes `aria-checked="mixed"`.
+
+```tsx
+import { useState } from "react";
+import { Checkbox } from "@weiui/react";
+
+function SelectAll({ items, selected, setSelected }) {
+  const allChecked = selected.length === items.length;
+  const someChecked = selected.length > 0 && !allChecked;
+
+  return (
+    <Checkbox
+      label="Select all"
+      checked={allChecked}
+      indeterminate={someChecked}
+      onChange={(e) => setSelected(e.target.checked ? items : [])}
+    />
+  );
+}
+```
+
 ### Props
 
 | Prop | Type | Default | Description |
@@ -36,12 +59,14 @@ import { Checkbox } from "@weiui/react";
 | label | `string` | — | Visible label text |
 | checked | `boolean` | — | Controlled checked state |
 | defaultChecked | `boolean` | — | Initial uncontrolled checked state |
+| indeterminate | `boolean` | `false` | Tri-state mixed indicator (aria-checked="mixed") |
 | disabled | `boolean` | `false` | Disables the checkbox |
 
 ### Accessibility
 
 - Label is linked to the input via `htmlFor` / `id`
 - Keyboard: Space to toggle
+- `indeterminate` exposes `aria-checked="mixed"` to assistive tech
 - Supports `aria-label`, `aria-describedby`
 
 ---
@@ -64,11 +89,23 @@ import { Checkbox } from "@weiui/react";
 </ComponentPreview>
 
 ```tsx
+import { useState } from "react";
 import { Switch } from "@weiui/react";
 
+// Uncontrolled
 <Switch label="Dark mode" defaultChecked />
-<Switch label="Notifications" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
+
+// Controlled
+const [enabled, setEnabled] = useState(false);
+
+<Switch
+  label="Notifications"
+  checked={enabled}
+  onChange={(e) => setEnabled(e.target.checked)}
+/>
 ```
+
+Switch supports both patterns via a single `useControllable` hook: pass `checked`/`onChange` for controlled, or `defaultChecked` for uncontrolled. Mixing the two (e.g. omitting `onChange` while passing `checked`) logs a development warning.
 
 ### Props
 
@@ -77,6 +114,7 @@ import { Switch } from "@weiui/react";
 | label | `string` | — | Visible label text |
 | checked | `boolean` | — | Controlled checked state |
 | defaultChecked | `boolean` | — | Initial uncontrolled checked state |
+| onChange | `(e) => void` | — | Change handler (required when controlled) |
 | disabled | `boolean` | `false` | Disables the switch |
 
 ### Accessibility
@@ -124,11 +162,19 @@ import { RadioGroup, RadioGroupItem } from "@weiui/react";
 | defaultValue | `string` | `""` | Initial uncontrolled value |
 | onValueChange | `(value: string) => void` | — | Called when selection changes |
 
+### Keyboard
+
+- ArrowUp / ArrowDown (and ArrowLeft / ArrowRight) move focus between items
+- Home / End jump to the first / last item
+- Focus follows selection: moving focus selects the target and fires `onValueChange`
+- Only the selected item (or the first item if none is selected) is tabbable — this is a roving tabindex
+- Disabled items are skipped
+
 ### Accessibility
 
 - Container has `role="radiogroup"`
-- Arrow keys navigate items; Space/Enter to select
-- All items share the same `name` attribute
+- Items use native `<input type="radio">` with shared `name`, exposing `aria-checked` automatically
+- Arrow-key roving with focus-follows-selection, matching WAI-ARIA Authoring Practices
 
 ---
 
@@ -172,3 +218,50 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 - Follows the ARIA Listbox pattern
 - Keyboard: Space/Enter to open; Arrow keys to navigate; Escape to close
 - `aria-expanded`, `aria-haspopup`, `aria-selected` managed automatically
+
+---
+
+## Field
+
+`Field` wires a label, description, error message, and input together — it auto-generates an `id`, sets `htmlFor` on the label, builds `aria-describedby` from the description + error, and toggles `aria-invalid` when an error is present. Consumers don't need to manage any of that themselves.
+
+```tsx
+import {
+  Field,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  Input,
+} from "@weiui/react";
+
+// All ARIA wiring happens automatically
+<Field>
+  <FieldLabel>Email</FieldLabel>
+  <Input type="email" placeholder="you@example.com" />
+  <FieldDescription>We'll only use this to send receipts.</FieldDescription>
+</Field>
+
+// With an error — aria-invalid + aria-describedby update automatically
+<Field error="Please enter a valid email address">
+  <FieldLabel>Email</FieldLabel>
+  <Input type="email" defaultValue="not-an-email" />
+</Field>
+```
+
+The child input can be any component that reads the `FieldContext` — `Input`, `Textarea`, `Select`, and the other form controls in `@weiui/react` all support it out of the box.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| id | `string` | auto | Override the generated field id |
+| error | `string` | — | Renders `<FieldError>` and wires `aria-invalid` on the child input |
+| children | `ReactNode` | — | `FieldLabel`, input, `FieldDescription`, `FieldError` in any order |
+
+### Accessibility
+
+- `id` auto-generated via `useId()` and applied to the child input
+- `FieldLabel` gets a matching `htmlFor`
+- `FieldDescription` and `FieldError` get ids which are combined into `aria-describedby`
+- `error` (or a child `FieldError`) sets `aria-invalid="true"` on the input
+- Works with screen readers out of the box — no manual ARIA plumbing required
