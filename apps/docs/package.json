@@ -29,6 +29,7 @@
     "@types/mdx": "^2.0.13",
     "@types/node": "25.6.0",
     "@types/react": "^19.1",
+    "@types/react-dom": "^19.1",
     "remark-gfm": "^4.0.1",
     "tsx": "^4.21.0",
     "typescript": "^5.8"
