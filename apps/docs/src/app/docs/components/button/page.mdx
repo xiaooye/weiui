@@ -1,4 +1,5 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { ButtonLoadingDemo } from "../../../../components/demos/ButtonLoadingDemo";
 
 # Button
 
@@ -43,7 +44,10 @@ Triggers an action or event. Minimum 44×44px touch target for WCAG AAA complian
 <Preview label="Button states">
   <button className="wui-button wui-button--solid">Default</button>
   <button className="wui-button wui-button--solid" data-disabled="true">Disabled</button>
-  <button className="wui-button wui-button--solid" data-loading="true">Loading</button>
+</Preview>
+
+<Preview label="Button loading">
+  <ButtonLoadingDemo />
 </Preview>
 
 ## Usage

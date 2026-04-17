@@ -1,33 +1,12 @@
 import { ComponentPreview } from "../../../../components/ComponentPreview";
+import { AccordionDemo } from "../../../../components/demos/AccordionDemo";
 
 # Accordion
 
 Collapsible content sections — single or multiple expand mode.
 
 <ComponentPreview label="Accordion">
-  <div className="wui-accordion" style={{ width: "360px" }}>
-    <div className="wui-accordion__item">
-      <button type="button" className="wui-accordion__trigger" aria-expanded="true">
-        What is WeiUI?
-        <span className="wui-accordion__icon" aria-hidden="true">▾</span>
-      </button>
-      <div className="wui-accordion__content" role="region">
-        A business-level design system with CSS, headless, and styled React layers.
-      </div>
-    </div>
-    <div className="wui-accordion__item">
-      <button type="button" className="wui-accordion__trigger" aria-expanded="false">
-        Is it accessible?
-        <span className="wui-accordion__icon" aria-hidden="true">▾</span>
-      </button>
-    </div>
-    <div className="wui-accordion__item">
-      <button type="button" className="wui-accordion__trigger" aria-expanded="false">
-        Does it support dark mode?
-        <span className="wui-accordion__icon" aria-hidden="true">▾</span>
-      </button>
-    </div>
-  </div>
+  <AccordionDemo />
 </ComponentPreview>
 
 ---
