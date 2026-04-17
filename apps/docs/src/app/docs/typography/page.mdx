@@ -32,4 +32,34 @@ The hero on the landing page uses the display stack. Add `className="wui-display
 
 ## Weights
 
-`var(--wui-font-weight-regular)` = 400, `-medium` = 500, `-semibold` = 600, `-bold` = 700.
+| Token | Value | Preview |
+|-------|-------|---------|
+| `--wui-font-weight-regular` | 400 | <span style={{ fontWeight: 400 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--wui-font-weight-medium` | 500 | <span style={{ fontWeight: 500 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--wui-font-weight-semibold` | 600 | <span style={{ fontWeight: 600 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--wui-font-weight-bold` | 700 | <span style={{ fontWeight: 700 }}>The quick brown fox jumps over the lazy dog</span> |
+
+## Line height
+
+| Token | Value | Description |
+|-------|-------|-------------|
+| `--wui-line-height-tight` | 1.15 | Headings and display text — tight vertical rhythm |
+| `--wui-line-height-snug` | 1.35 | UI text, labels, buttons |
+| `--wui-line-height-normal` | 1.5 | Body copy — comfortable reading |
+| `--wui-line-height-relaxed` | 1.75 | Long-form prose, dense lists |
+
+## Letter spacing
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--wui-tracking-tight` | `-0.02em` | Display-size headings |
+| `--wui-tracking-normal` | `0` | Body text |
+| `--wui-tracking-wide` | `0.02em` | All-caps eyebrows and overlines |
+
+## Mono stack
+
+Block + inline code use `--wui-font-family-mono`.
+
+<pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-sm)", background: "var(--wui-color-muted)", padding: "var(--wui-spacing-3)", borderRadius: "var(--wui-shape-radius-md)", margin: 0 }}>
+{`const greet = (name: string) => \`Hello, \${name}!\`;`}
+</pre>
