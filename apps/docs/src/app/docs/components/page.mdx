@@ -1,88 +1,114 @@
 # Components
 
-WeiUI ships a full set of accessible, themeable UI components. Each component is available as a CSS class (`wui-*`), a headless React hook, and a fully styled React component.
+66 components across 9 categories. Each component is available as a CSS class (`wui-*`), a headless React hook, and a fully styled React component.
 
-## Actions
+## Form
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Button](/docs/components/button) | `wui-button` | Push buttons with solid, outline, ghost, and soft variants |
+Inputs, selection, and form controls.
 
-## Inputs
+- [Button](/docs/components/button) — actions and submissions
+- [Input](/docs/components/input) — text input with addons
+- [Textarea](/docs/components/input) — multiline text
+- [Checkbox](/docs/components/form) — tri-state with indeterminate
+- [Switch](/docs/components/form) — on/off toggle
+- [RadioGroup](/docs/components/form) — single-select
+- [Select](/docs/components/form) — dropdown listbox
+- [Field](/docs/components/form) — label + description + error wiring
+- [Slider](/docs/components/advanced-inputs) — range input
+- [Rating](/docs/components/advanced-inputs) — star rating
+- [InputNumber](/docs/components/advanced-inputs) — spinbutton with locale formatting
+- [InputOTP](/docs/components/advanced-inputs) — one-time-code slots
+- [AutoComplete](/docs/components/advanced-inputs) — combobox with filtering
+- [MultiSelect](/docs/components/advanced-inputs) — multi-value listbox
+- [FileUpload](/docs/components/advanced-inputs) — drag-and-drop file input
+- [ColorPicker](/docs/components/color-picker) — HSV + hex/OKLCH input
+- [Editor](/docs/components/editor) — rich-text editor
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Input](/docs/components/input) | `wui-input` | Text input and textarea with validation states |
-| [Form Controls](/docs/components/form) | `wui-checkbox`, `wui-radio`, `wui-switch` | Checkbox, radio group, and toggle switch |
+## Overlay
 
-## Layout
+Floating UI — dialogs, popovers, tooltips, and command surfaces.
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Layout](/docs/components/layout) | `wui-card`, `wui-divider`, `wui-stack` | Card, divider, and stack layout primitives |
+- [Dialog](/docs/components/overlays) — modal with focus trap
+- [Drawer](/docs/components/sidebar-drawer) — slide-in panel
+- [Popover](/docs/components/overlays) — anchored interactive overlay
+- [Tooltip](/docs/components/overlays) — hover / focus hint
+- [Menu](/docs/components/overlays) — dropdown with typeahead
+- [Toast](/docs/components/toast-chip-progress) — ephemeral notifications
+- [CommandPalette](/docs/components/command-palette) — Cmd+K fuzzy search
 
 ## Data Display
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Data Display](/docs/components/data-display) | `wui-badge`, `wui-avatar`, `wui-table` | Badge, avatar, and data table |
+Presenting content, tables, and charts.
 
-## Overlays
-
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Overlays](/docs/components/overlays) | `wui-dialog`, `wui-tooltip`, `wui-popover` | Modal dialog, tooltip, and popover |
-
-## Feedback
-
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Feedback](/docs/components/feedback) | `wui-alert`, `wui-toast`, `wui-spinner` | Alert banners, toast notifications, and loading spinner |
+- [Card](/docs/components/data-display) — surface for grouped content
+- [Badge](/docs/components/data-display) — status label
+- [Avatar](/docs/components/data-display) — user or entity image
+- [Skeleton](/docs/components/data-display) — loading placeholder
+- [DataTable](/docs/components/data) — sortable / filterable table
+- [Chart](/docs/components/data) — bar, line, area, pie, donut, radar
+- [TreeView](/docs/components/data) — recursive expandable tree
+- [Transfer](/docs/components/wave2-3) — dual-list item picker
+- [Code](/docs/components/code) — inline or block snippet
+- [Calendar](/docs/components/date-time) — month grid
+- [DatePicker](/docs/components/date-time) — calendar dropdown
 
 ## Navigation
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Navigation](/docs/components/navigation) | `wui-tabs`, `wui-breadcrumb`, `wui-menu` | Tabs, breadcrumb trail, and dropdown menu |
+Wayfinding, structure, and progress indicators.
+
+- [Tabs](/docs/components/navigation) — tab panels with arrow-key roving
+- [Breadcrumb](/docs/components/navigation) — hierarchical trail
+- [Link](/docs/components/navigation) — styled anchor with external handling
+- [Sidebar](/docs/components/sidebar-drawer) — collapsible nav rail
+- [Pagination](/docs/components/wave2-3) — page navigation with ellipsis
+- [AppBar](/docs/components/wave2-3) — sticky top header
+- [BottomNav](/docs/components/wave2-3) — mobile bottom bar
+- [Stepper](/docs/components/stepper-timeline) — multi-step progress
+- [Timeline](/docs/components/stepper-timeline) — chronological events
+
+## Feedback
+
+Status, loading, and empty states.
+
+- [Alert](/docs/components/feedback) — inline info / success / warning / error
+- [Spinner](/docs/components/feedback) — determinate loading indicator
+- [EmptyState](/docs/components/feedback) — "nothing here" placeholder
+- [ProgressBar](/docs/components/toast-chip-progress) — progress and indeterminate bars
+- [Chip](/docs/components/toast-chip-progress) — dismissible label
+
+## Layout
+
+Structural primitives for composition.
+
+- [Container](/docs/components/layout) — centered max-width wrapper
+- [Stack](/docs/components/layout) — vertical or horizontal flex stack
+- [Grid](/docs/components/layout) — CSS grid with column template
+- [Divider](/docs/components/layout) — horizontal or vertical separator
+- [Spacer](/docs/components/layout) — flexible gap filler
+- [AspectRatio](/docs/components/layout) — fixed-ratio container
+
+## Interaction
+
+Expand/collapse, grouped toggles, and action surfaces.
+
+- [Accordion](/docs/components/accordion) — collapsible sections
+- [Splitter](/docs/components/wave2-3) — resizable split panes
+- [SpeedDial](/docs/components/wave2-3) — floating action button
+- [ToggleGroup](/docs/components/wave2-3) — single- or multi-select toggle set
+- [ButtonGroup](/docs/components/wave2-3) — joined button cluster
 
 ## Typography
 
-| Component | CSS Class | Description |
-|-----------|-----------|-------------|
-| [Typography](/docs/components/typography) | `wui-heading`, `wui-text`, `wui-code` | Heading scale, body text, and inline code |
+Text, labels, and keyboard glyphs.
 
-## Quick Example
+- [Heading](/docs/components/typography) — semantic h1–h6
+- [Text](/docs/components/typography) — body text with size / color / weight
+- [Label](/docs/components/typography) — form label with required indicator
+- [Kbd](/docs/components/kbd) — keyboard-shortcut badge
 
-Every component works with plain HTML — no JavaScript required for the CSS layer:
+## Utility
 
-```html
-<!-- Button variants -->
-<button class="wui-button wui-button--solid">Primary</button>
-<button class="wui-button wui-button--outline">Secondary</button>
-<button class="wui-button wui-button--ghost">Ghost</button>
-<button class="wui-button wui-button--soft">Soft</button>
+Low-level primitives used by other components.
 
-<!-- Badges -->
-<span class="wui-badge wui-badge--solid">New</span>
-<span class="wui-badge wui-badge--success">Live</span>
-<span class="wui-badge wui-badge--warning">Beta</span>
-<span class="wui-badge wui-badge--destructive">Deprecated</span>
-
-<!-- Avatar -->
-<span class="wui-avatar">
-  <span class="wui-avatar__fallback">AB</span>
-</span>
-
-<!-- Card -->
-<div class="wui-card">
-  <div class="wui-card__header">
-    <h3>Card Title</h3>
-  </div>
-  <div class="wui-card__content">
-    <p>Card body content.</p>
-  </div>
-</div>
-
-<!-- Input -->
-<input class="wui-input" placeholder="Enter text..." />
-```
+- [Portal](/docs/components/portal) — render children outside the DOM tree
+- [VisuallyHidden](/docs/components/visually-hidden) — screen-reader-only text
