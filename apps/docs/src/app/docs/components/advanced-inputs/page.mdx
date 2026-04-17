@@ -1,4 +1,7 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { AutoCompleteDemo } from "../../../../components/demos/AutoCompleteDemo";
+import { MultiSelectDemo } from "../../../../components/demos/MultiSelectDemo";
+import { FileUploadDemo } from "../../../../components/demos/FileUploadDemo";
 
 # Advanced Inputs
 
@@ -259,6 +262,10 @@ import { InputOTP } from "@weiui/react";
 
 Text input with a filterable dropdown of suggestions. Anchored to the viewport via Floating UI so it can escape overflow clipping, and supports an async `loading` state.
 
+<Preview label="AutoComplete">
+  <AutoCompleteDemo />
+</Preview>
+
 ```tsx
 import { AutoComplete } from "@weiui/react";
 
@@ -299,6 +306,10 @@ const options = [
 
 Pick multiple values from a list. The trigger shows selected chips and the dropdown ships with a built-in typeahead search input.
 
+<Preview label="MultiSelect">
+  <MultiSelectDemo />
+</Preview>
+
 ```tsx
 import { MultiSelect } from "@weiui/react";
 
@@ -334,6 +345,10 @@ const options = [
 ## FileUpload
 
 Drag-and-drop or click-to-browse file input with validation hooks.
+
+<Preview label="FileUpload">
+  <FileUploadDemo />
+</Preview>
 
 ```tsx
 import { FileUpload } from "@weiui/react";
