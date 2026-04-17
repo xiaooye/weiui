@@ -1,6 +1,6 @@
 "use client";
-import { forwardRef, useEffect } from "react";
-import { useEditor, EditorContent, type Editor as TipTapEditor } from "@tiptap/react";
+import { forwardRef, useEffect, type ReactNode } from "react";
+import { useEditor, EditorContent, type Editor as TipTapEditor, type Extensions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { cn } from "../../utils/cn";
@@ -13,6 +13,8 @@ export interface EditorProps {
   disabled?: boolean;
   className?: string;
   label?: string;
+  /** Additional Tiptap extensions to merge with StarterKit + Placeholder. */
+  extensions?: Extensions;
 }
 
 interface ToolbarBtnProps {
@@ -20,7 +22,7 @@ interface ToolbarBtnProps {
   action: () => boolean | void;
   isActive?: boolean;
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 function ToolbarBtn({ action, isActive, label, children }: ToolbarBtnProps) {
@@ -42,11 +44,24 @@ function ToolbarBtn({ action, isActive, label, children }: ToolbarBtnProps) {
 }
 
 export const Editor = forwardRef<HTMLDivElement, EditorProps>(
-  ({ value, defaultValue, onChange, placeholder = "Write something...", disabled, className, label }, ref) => {
+  (
+    {
+      value,
+      defaultValue,
+      onChange,
+      placeholder = "Write something...",
+      disabled,
+      className,
+      label,
+      extensions,
+    },
+    ref,
+  ) => {
     const editor = useEditor({
       extensions: [
         StarterKit,
         Placeholder.configure({ placeholder }),
+        ...(extensions ?? []),
       ],
       content: value ?? defaultValue ?? "",
       editable: !disabled,
@@ -68,6 +83,17 @@ export const Editor = forwardRef<HTMLDivElement, EditorProps>(
     }, [editor, disabled]);
 
     if (!editor) return null;
+
+    const handleInsertLink = () => {
+      const current = editor.getAttributes("link").href as string | undefined;
+      const url = typeof window !== "undefined" ? window.prompt("Enter URL", current ?? "https://") : null;
+      if (url === null) return;
+      if (url === "") {
+        editor.chain().focus().extendMarkRange("link").unsetLink().run();
+        return;
+      }
+      editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    };
 
     return (
       <div
@@ -113,6 +139,9 @@ export const Editor = forwardRef<HTMLDivElement, EditorProps>(
           </ToolbarBtn>
           <ToolbarBtn editor={editor} action={() => editor.chain().focus().toggleCodeBlock().run()} isActive={editor.isActive("codeBlock")} label="Code block">
             {"{ }"}
+          </ToolbarBtn>
+          <ToolbarBtn editor={editor} action={handleInsertLink} isActive={editor.isActive("link")} label="Link">
+            <span aria-hidden="true">&#128279;</span>
           </ToolbarBtn>
         </div>
         <div className="wui-editor__content">
