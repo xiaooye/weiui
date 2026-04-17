@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useMemo } from "react";
 import { cn } from "../../utils/cn";
 
 export interface TransferItem {
@@ -10,7 +10,12 @@ export interface TransferItem {
 
 export interface TransferProps {
   sourceItems: TransferItem[];
+  /** Initial items on the target side (uncontrolled only). */
   targetItems?: TransferItem[];
+  /** Controlled list of values currently on the target side. */
+  targetValues?: string[];
+  /** Called with the updated list of target values (both controlled + uncontrolled). */
+  onTargetValuesChange?: (values: string[]) => void;
   onChange?: (source: TransferItem[], target: TransferItem[]) => void;
   sourceTitle?: string;
   targetTitle?: string;
@@ -19,13 +24,56 @@ export interface TransferProps {
 
 export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
   (
-    { sourceItems: initialSource, targetItems: initialTarget = [], onChange, sourceTitle = "Available", targetTitle = "Selected", className },
+    {
+      sourceItems,
+      targetItems: initialTarget = [],
+      targetValues,
+      onTargetValuesChange,
+      onChange,
+      sourceTitle = "Available",
+      targetTitle = "Selected",
+      className,
+    },
     ref,
   ) => {
-    const [source, setSource] = useState(initialSource);
-    const [target, setTarget] = useState(initialTarget);
+    const isControlled = targetValues !== undefined;
+    const [uncontrolledTargetValues, setUncontrolledTargetValues] = useState<string[]>(
+      initialTarget.map((i) => i.value),
+    );
+    const activeTargetValues = isControlled ? targetValues : uncontrolledTargetValues;
+
+    // Build a single flat item pool (by value) from sourceItems + initialTarget,
+    // so we can split it into source/target based on activeTargetValues.
+    const itemPool = useMemo(() => {
+      const map = new Map<string, TransferItem>();
+      for (const i of sourceItems) map.set(i.value, i);
+      for (const i of initialTarget) if (!map.has(i.value)) map.set(i.value, i);
+      return map;
+    }, [sourceItems, initialTarget]);
+
+    const targetSet = useMemo(() => new Set(activeTargetValues), [activeTargetValues]);
+    const source = useMemo(
+      () => Array.from(itemPool.values()).filter((i) => !targetSet.has(i.value)),
+      [itemPool, targetSet],
+    );
+    const target = useMemo(
+      () =>
+        activeTargetValues
+          .map((v) => itemPool.get(v))
+          .filter((i): i is TransferItem => i !== undefined),
+      [itemPool, activeTargetValues],
+    );
+
     const [sourceSelected, setSourceSelected] = useState<Set<string>>(new Set());
     const [targetSelected, setTargetSelected] = useState<Set<string>>(new Set());
+
+    const updateTargetValues = (next: string[]) => {
+      if (!isControlled) setUncontrolledTargetValues(next);
+      onTargetValuesChange?.(next);
+      const nextTarget = next.map((v) => itemPool.get(v)).filter((i): i is TransferItem => i !== undefined);
+      const nextSource = Array.from(itemPool.values()).filter((i) => !next.includes(i.value));
+      onChange?.(nextSource, nextTarget);
+    };
 
     const toggleSelection = (value: string, set: Set<string>, setter: (s: Set<string>) => void) => {
       const next = new Set(set);
@@ -35,23 +83,21 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
     };
 
     const moveRight = () => {
-      const moving = source.filter((i) => sourceSelected.has(i.value) && !i.disabled);
-      const newSource = source.filter((i) => !sourceSelected.has(i.value));
-      const newTarget = [...target, ...moving];
-      setSource(newSource);
-      setTarget(newTarget);
+      const movingValues = source
+        .filter((i) => sourceSelected.has(i.value) && !i.disabled)
+        .map((i) => i.value);
+      if (movingValues.length === 0) return;
+      updateTargetValues([...activeTargetValues, ...movingValues]);
       setSourceSelected(new Set());
-      onChange?.(newSource, newTarget);
     };
 
     const moveLeft = () => {
-      const moving = target.filter((i) => targetSelected.has(i.value) && !i.disabled);
-      const newTarget = target.filter((i) => !targetSelected.has(i.value));
-      const newSource = [...source, ...moving];
-      setSource(newSource);
-      setTarget(newTarget);
+      const movingValues = target
+        .filter((i) => targetSelected.has(i.value) && !i.disabled)
+        .map((i) => i.value);
+      if (movingValues.length === 0) return;
+      updateTargetValues(activeTargetValues.filter((v) => !movingValues.includes(v)));
       setTargetSelected(new Set());
-      onChange?.(newSource, newTarget);
     };
 
     const renderList = (

@@ -96,4 +96,55 @@ describe("Transfer", () => {
       [{ value: "a", label: "Item A" }],
     );
   });
+
+  describe("controlled targetValues (P0)", () => {
+    it("renders items in target based on `targetValues`", () => {
+      render(<Transfer sourceItems={sourceItems} targetValues={["a"]} />);
+      const targetList = screen.getByRole("listbox", { name: "Selected items" });
+      const sourceList = screen.getByRole("listbox", { name: "Available items" });
+      expect(targetList).toHaveTextContent("Item A");
+      expect(sourceList).toHaveTextContent("Item B");
+      expect(sourceList).not.toHaveTextContent("Item A");
+    });
+
+    it("calls onTargetValuesChange when moving items right", async () => {
+      const user = userEvent.setup();
+      const onTargetValuesChange = vi.fn();
+      render(
+        <Transfer
+          sourceItems={sourceItems}
+          targetValues={[]}
+          onTargetValuesChange={onTargetValuesChange}
+        />,
+      );
+
+      const itemA = screen.getByText("Item A").closest("[role='option']")!;
+      await user.click(itemA);
+      await user.click(screen.getByRole("button", { name: "Move selected to target" }));
+
+      expect(onTargetValuesChange).toHaveBeenCalledWith(["a"]);
+    });
+
+    it("does NOT mutate internal state when controlled (consumer must update prop)", async () => {
+      const user = userEvent.setup();
+      render(<Transfer sourceItems={sourceItems} targetValues={[]} />);
+
+      const itemA = screen.getByText("Item A").closest("[role='option']")!;
+      await user.click(itemA);
+      await user.click(screen.getByRole("button", { name: "Move selected to target" }));
+
+      // Still empty because the prop didn't change
+      const targetList = screen.getByRole("listbox", { name: "Selected items" });
+      expect(targetList).not.toHaveTextContent("Item A");
+    });
+
+    it("reflects controlled prop change", () => {
+      const { rerender } = render(<Transfer sourceItems={sourceItems} targetValues={[]} />);
+      const targetList = screen.getByRole("listbox", { name: "Selected items" });
+      expect(targetList).not.toHaveTextContent("Item A");
+
+      rerender(<Transfer sourceItems={sourceItems} targetValues={["a"]} />);
+      expect(screen.getByRole("listbox", { name: "Selected items" })).toHaveTextContent("Item A");
+    });
+  });
 });
