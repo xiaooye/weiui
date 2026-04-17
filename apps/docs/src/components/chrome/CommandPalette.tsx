@@ -19,6 +19,18 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
     fetch("/search-index.json").then((r) => r.json()).then(setEntries).catch(() => {});
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const grouped = entries.reduce<Record<string, SearchEntry[]>>((acc, e) => {
