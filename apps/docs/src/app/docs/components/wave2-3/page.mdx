@@ -1,3 +1,5 @@
+import { ComponentPreview } from "../../../../components/ComponentPreview";
+
 # Wave 2 & 3 Components
 
 Pagination, Transfer, Splitter, AppBar, BottomNav, SpeedDial, ToggleGroup, ButtonGroup.
@@ -7,6 +9,20 @@ Pagination, Transfer, Splitter, AppBar, BottomNav, SpeedDial, ToggleGroup, Butto
 ## Pagination
 
 Page navigation with ellipsis for large page counts.
+
+<ComponentPreview label="Pagination">
+  <nav className="wui-pagination" aria-label="Pagination">
+    <button type="button" className="wui-pagination__btn" aria-label="Previous page">&lsaquo;</button>
+    <button type="button" className="wui-pagination__btn">1</button>
+    <button type="button" className="wui-pagination__btn">2</button>
+    <button type="button" className="wui-pagination__btn" data-active="true" aria-current="page">3</button>
+    <button type="button" className="wui-pagination__btn">4</button>
+    <button type="button" className="wui-pagination__btn">5</button>
+    <span className="wui-pagination__ellipsis" aria-hidden="true">…</span>
+    <button type="button" className="wui-pagination__btn">20</button>
+    <button type="button" className="wui-pagination__btn" aria-label="Next page">&rsaquo;</button>
+  </nav>
+</ComponentPreview>
 
 ```tsx
 import { Pagination } from "@weiui/react";
@@ -179,6 +195,14 @@ import { SpeedDial } from "@weiui/react";
 
 Grouped toggle buttons — single or multiple selection with full roving-tabindex keyboard support.
 
+<ComponentPreview label="ToggleGroup — single">
+  <div className="wui-toggle-group" role="radiogroup" aria-label="Alignment">
+    <button type="button" className="wui-toggle-group__item" role="radio" aria-checked="true" data-active="true" tabIndex={0}>Left</button>
+    <button type="button" className="wui-toggle-group__item" role="radio" aria-checked="false" tabIndex={-1}>Center</button>
+    <button type="button" className="wui-toggle-group__item" role="radio" aria-checked="false" tabIndex={-1}>Right</button>
+  </div>
+</ComponentPreview>
+
 ```tsx
 import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
 
@@ -219,6 +243,14 @@ import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
 ## ButtonGroup
 
 Group related buttons with shared borders.
+
+<ComponentPreview label="ButtonGroup">
+  <div className="wui-button-group">
+    <button type="button" className="wui-button wui-button--outline">Copy</button>
+    <button type="button" className="wui-button wui-button--outline">Cut</button>
+    <button type="button" className="wui-button wui-button--outline">Paste</button>
+  </div>
+</ComponentPreview>
 
 ```tsx
 import { ButtonGroup, Button } from "@weiui/react";
