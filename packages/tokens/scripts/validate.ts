@@ -11,8 +11,8 @@ const SRC = join(ROOT, "src");
 // Load and merge tokens — same file list as build.ts
 const primitiveFiles = [
   "primitives/color.json", "primitives/spacing.json", "primitives/typography.json",
-  "primitives/shape.json", "primitives/motion.json", "primitives/z-index.json",
-  "primitives/breakpoint.json",
+  "primitives/shape.json", "primitives/shadow.json", "primitives/motion.json",
+  "primitives/z-index.json", "primitives/breakpoint.json",
 ];
 
 const merged: TokenGroup = {};
