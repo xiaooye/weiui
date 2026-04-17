@@ -7,8 +7,13 @@
     background-color: var(--wui-color-background);
     border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-md);
+    box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-autocomplete__input:focus { border-color: var(--wui-color-ring); outline: 2px solid var(--wui-color-ring); outline-offset: 0; }
+  .wui-autocomplete__input:focus {
+    border-color: var(--wui-color-ring);
+    outline: 3px solid var(--wui-color-ring-soft);
+    outline-offset: 0;
+  }
   .wui-autocomplete__list {
     position: absolute; inset-block-start: 100%; inset-inline: 0;
     margin-block-start: var(--wui-spacing-1);
@@ -28,4 +33,13 @@
   .wui-autocomplete__item[data-highlighted] { background-color: var(--wui-color-muted); }
   .wui-autocomplete__item[data-selected] { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); }
   .wui-autocomplete__empty { padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-4); text-align: center; color: var(--wui-color-muted-foreground); font-size: var(--wui-font-size-sm); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-autocomplete__input,
+    .wui-autocomplete__item {
+      transition-property: border-color, outline-color, background-color, box-shadow, color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
 }

@@ -7,9 +7,15 @@
     border-radius: var(--wui-shape-radius-lg);
     text-align: center; cursor: pointer;
     min-block-size: 120px;
+    box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
   .wui-file-upload:hover { border-color: var(--wui-color-primary); background-color: var(--wui-color-muted); }
-  .wui-file-upload[data-dragover] { border-color: var(--wui-color-primary); background-color: oklch(from var(--wui-color-primary) l c h / 0.05); }
+  .wui-file-upload:focus-within {
+    border-color: var(--wui-color-ring);
+    outline: 3px solid var(--wui-color-ring-soft);
+    outline-offset: 0;
+  }
+  .wui-file-upload[data-dragover] { border-color: var(--wui-color-primary); background-color: color-mix(in oklch, var(--wui-color-primary) 5%, transparent); }
   .wui-file-upload__text { font-size: var(--wui-font-size-sm); color: var(--wui-color-muted-foreground); }
   .wui-file-upload__hint { font-size: var(--wui-font-size-xs); color: var(--wui-color-muted-foreground); }
   .wui-file-upload__list { inline-size: 100%; margin-block-start: var(--wui-spacing-3); }
@@ -23,4 +29,12 @@
   }
   .wui-file-upload__file-remove { background: none; border: none; cursor: pointer; color: var(--wui-color-destructive); font-size: var(--wui-font-size-sm); min-block-size: 44px; min-inline-size: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .wui-file-upload[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-file-upload {
+      transition-property: border-color, outline-color, background-color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
 }
