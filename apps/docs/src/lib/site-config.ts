@@ -15,9 +15,18 @@ export const siteConfig = {
       title: "Getting Started",
       items: [
         { href: "/docs/getting-started", label: "Installation" },
+        { href: "/docs/installation", label: "Package Install" },
         { href: "/docs/tokens", label: "Design Tokens" },
         { href: "/docs/css", label: "CSS Layer" },
         { href: "/docs/accessibility", label: "Accessibility" },
+      ],
+    },
+    {
+      title: "Foundations",
+      items: [
+        { href: "/docs/typography", label: "Typography" },
+        { href: "/docs/colors", label: "Colors" },
+        { href: "/docs/icons", label: "Icons" },
       ],
     },
     {
@@ -38,11 +47,19 @@ export const siteConfig = {
         { href: "/docs/components/toast-chip-progress", label: "Toast & Chips" },
         { href: "/docs/components/stepper-timeline", label: "Stepper & Timeline" },
         { href: "/docs/components/navigation", label: "Navigation" },
-        { href: "/docs/components/typography", label: "Typography" },
+        { href: "/docs/components/typography", label: "Typography (legacy)" },
         { href: "/docs/components/editor", label: "Editor" },
         { href: "/docs/components/command-palette", label: "Command Palette" },
         { href: "/docs/components/accordion", label: "Accordion" },
         { href: "/docs/components/wave2-3", label: "More Components" },
+      ],
+    },
+    {
+      title: "Resources",
+      items: [
+        { href: "/docs/cli", label: "CLI" },
+        { href: "/docs/changelog", label: "Changelog" },
+        { href: "/docs/migration", label: "Migration" },
       ],
     },
     {
