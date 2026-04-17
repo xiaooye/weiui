@@ -1,0 +1,51 @@
+@layer wui-elements {
+  .wui-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-3);
+  }
+  .wui-tabs__list {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    background-color: var(--wui-surface-sunken);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    align-self: flex-start;
+  }
+  .wui-tabs__trigger {
+    padding-inline: var(--wui-spacing-4);
+    padding-block: var(--wui-spacing-2);
+    min-block-size: 44px;
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-muted-foreground);
+    background-color: transparent;
+    border: none;
+    border-radius: calc(var(--wui-shape-radius-md) - 2px);
+    cursor: pointer;
+  }
+  .wui-tabs__trigger:hover {
+    color: var(--wui-color-foreground);
+  }
+  .wui-tabs__trigger[aria-selected="true"] {
+    background-color: var(--wui-surface-raised);
+    color: var(--wui-color-foreground);
+    box-shadow: var(--wui-elevation-1);
+  }
+  .wui-tabs__trigger:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-tabs__content {
+    padding: var(--wui-spacing-4);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-tabs__trigger {
+      transition-property: background-color, color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
+}

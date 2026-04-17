@@ -48,6 +48,7 @@
 @import "./elements/radio.css";
 @import "./elements/switch.css";
 @import "./elements/spinner.css";
+@import "./elements/tabs.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";

@@ -1,17 +1,17 @@
 "use client";
-import { type ReactNode } from "react";
+import { type ReactNode, type HTMLAttributes } from "react";
 import { useControllable } from "../../hooks/use-controllable";
 import { useId } from "../../hooks/use-id";
 import { TabsContext } from "./TabsContext";
 
-export interface TabsProps {
+export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   defaultValue?: string;
   value?: string;
   onValueChange?: (value: string) => void;
 }
 
-export function Tabs({ children, defaultValue = "", value, onValueChange }: TabsProps) {
+export function Tabs({ children, defaultValue = "", value, onValueChange, ...rest }: TabsProps) {
   const [activeValue, setActiveValue] = useControllable({
     value,
     defaultValue,
@@ -21,7 +21,7 @@ export function Tabs({ children, defaultValue = "", value, onValueChange }: Tabs
 
   return (
     <TabsContext.Provider value={{ activeValue, onValueChange: setActiveValue, baseId }}>
-      <div>{children}</div>
+      <div {...rest}>{children}</div>
     </TabsContext.Provider>
   );
 }
