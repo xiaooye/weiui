@@ -93,6 +93,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         }
         event.preventDefault();
         const nextValue = order[nextIdx];
+        if (nextValue == null) return;
         setCurrentValue(nextValue);
         const nextEl = map.get(nextValue);
         nextEl?.focus();

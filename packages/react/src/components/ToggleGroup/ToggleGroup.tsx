@@ -105,7 +105,9 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
           return;
       }
       event.preventDefault();
-      map.get(order[nextIdx])?.focus();
+      const nextValue = order[nextIdx];
+      if (nextValue == null) return;
+      map.get(nextValue)?.focus();
     }, []);
 
     // Determine tab-stop value: first selected item if any, otherwise the first child Item's value.
