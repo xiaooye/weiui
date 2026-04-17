@@ -1,3 +1,8 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { StackDemo } from "../../../../components/demos/StackDemo";
+import { GridDemo } from "../../../../components/demos/GridDemo";
+import { DividerDemo } from "../../../../components/demos/DividerDemo";
+
 # Layout Components
 
 Container, Stack, Grid, Divider, Spacer, and AspectRatio — six layout primitives for composing page structure.
@@ -33,6 +38,10 @@ import { Container } from "@weiui/react";
 ## Stack
 
 A flex container that stacks children vertically (default) or horizontally.
+
+<Preview label="Stack — vertical, row, wrap">
+  <StackDemo />
+</Preview>
 
 ```tsx
 import { Stack } from "@weiui/react";
@@ -74,6 +83,10 @@ import { Stack } from "@weiui/react";
 
 A CSS grid container with configurable columns and gap.
 
+<Preview label="Grid — equal columns + custom template">
+  <GridDemo />
+</Preview>
+
 ```tsx
 import { Grid } from "@weiui/react";
 
@@ -104,6 +117,10 @@ import { Grid } from "@weiui/react";
 ## Divider
 
 A horizontal or vertical separator line.
+
+<Preview label="Divider — horizontal + vertical">
+  <DividerDemo />
+</Preview>
 
 ```tsx
 import { Divider } from "@weiui/react";
