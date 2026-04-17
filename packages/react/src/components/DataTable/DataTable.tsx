@@ -289,6 +289,9 @@ function DataTableInner<TData>(
   );
 }
 
-export const DataTable = forwardRef(DataTableInner) as <TData>(
+const DataTableForwarded = forwardRef(DataTableInner);
+DataTableForwarded.displayName = "DataTable";
+
+export const DataTable = DataTableForwarded as <TData>(
   props: DataTableProps<TData> & { ref?: React.Ref<HTMLDivElement> },
 ) => React.ReactElement;
