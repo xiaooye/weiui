@@ -2,6 +2,8 @@ import { Preview } from "../../../../components/preview/Preview";
 import { AutoCompleteDemo } from "../../../../components/demos/AutoCompleteDemo";
 import { MultiSelectDemo } from "../../../../components/demos/MultiSelectDemo";
 import { FileUploadDemo } from "../../../../components/demos/FileUploadDemo";
+import { SliderDemo } from "../../../../components/demos/SliderDemo";
+import { RatingDemo } from "../../../../components/demos/RatingDemo";
 
 # Advanced Inputs
 
@@ -13,26 +15,8 @@ Slider, Rating, InputNumber, and InputOTP — specialized input controls for ran
 
 A range slider with min/max/step support and full keyboard navigation.
 
-<Preview label="Slider default">
-  <div style={{ padding: "0 8px", width: "320px" }}>
-    <div className="wui-slider">
-      <div className="wui-slider__track">
-        <div className="wui-slider__fill" style={{ inlineSize: "40%" }} />
-        <div className="wui-slider__thumb" role="slider" tabIndex={0} aria-valuenow={40} aria-valuemin={0} aria-valuemax={100} aria-label="Slider" style={{ insetInlineStart: "40%" }} />
-      </div>
-    </div>
-  </div>
-</Preview>
-
-<Preview label="Slider disabled">
-  <div style={{ padding: "0 8px", width: "320px" }}>
-    <div className="wui-slider" data-disabled="true">
-      <div className="wui-slider__track">
-        <div className="wui-slider__fill" style={{ inlineSize: "60%" }} />
-        <div className="wui-slider__thumb" role="slider" tabIndex={-1} aria-valuenow={60} aria-valuemin={0} aria-valuemax={100} aria-label="Slider" aria-disabled="true" style={{ insetInlineStart: "60%" }} />
-      </div>
-    </div>
-  </div>
+<Preview label="Slider">
+  <SliderDemo />
 </Preview>
 
 ```tsx
@@ -68,31 +52,8 @@ import { Slider } from "@weiui/react";
 
 Star rating component with keyboard and pointer support.
 
-<Preview label="Rating default">
-  <div className="wui-rating" role="radiogroup" aria-label="Rating">
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="true" aria-label="1 star" tabIndex={0}>★</button>
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1}>★</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1}>☆</button>
-  </div>
-</Preview>
-
-<Preview label="Rating readonly & disabled">
-  <div className="wui-rating" role="radiogroup" aria-label="Read-only rating" data-readonly="true">
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="1 star" tabIndex={0}>★</button>
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1}>★</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1}>☆</button>
-  </div>
-  <div className="wui-rating" role="radiogroup" aria-label="Disabled rating" data-disabled="true">
-    <button type="button" className="wui-rating__star" data-filled="true" role="radio" aria-checked="false" aria-label="1 star" tabIndex={0} disabled={true}>★</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="2 stars" tabIndex={-1} disabled={true}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="3 stars" tabIndex={-1} disabled={true}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="4 stars" tabIndex={-1} disabled={true}>☆</button>
-    <button type="button" className="wui-rating__star" role="radio" aria-checked="false" aria-label="5 stars" tabIndex={-1} disabled={true}>☆</button>
-  </div>
+<Preview label="Rating">
+  <RatingDemo />
 </Preview>
 
 ```tsx

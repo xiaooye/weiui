@@ -1,6 +1,7 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { ToastDemo } from "../../../../components/demos/ToastDemo";
 import { ChipDemo } from "../../../../components/demos/ChipDemo";
+import { ProgressBarDemo } from "../../../../components/demos/ProgressBarDemo";
 
 # Toast, Chip & ProgressBar
 
@@ -142,32 +143,7 @@ import { Chip } from "@weiui/react";
 ## ProgressBar
 
 <Preview label="ProgressBar sizes and colors">
-  <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)", width: "100%", maxWidth: "480px" }}>
-    <div>
-      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Default (60%)</p>
-      <div role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress">
-        <div className="wui-progress__bar" style={{ inlineSize: "60%" }}></div>
-      </div>
-    </div>
-    <div>
-      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Success (80%)</p>
-      <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--success">
-        <div className="wui-progress__bar" style={{ inlineSize: "80%" }}></div>
-      </div>
-    </div>
-    <div>
-      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Warning (40%) — small</p>
-      <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--sm wui-progress--warning">
-        <div className="wui-progress__bar" style={{ inlineSize: "40%" }}></div>
-      </div>
-    </div>
-    <div>
-      <p style={{ fontSize: "var(--wui-font-size-sm)", marginBottom: "var(--wui-spacing-2)", color: "var(--wui-color-muted-foreground)" }}>Destructive (25%) — large</p>
-      <div role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" aria-label="Progress" className="wui-progress wui-progress--lg wui-progress--destructive">
-        <div className="wui-progress__bar" style={{ inlineSize: "25%" }}></div>
-      </div>
-    </div>
-  </div>
+  <ProgressBarDemo />
 </Preview>
 
 ```tsx
