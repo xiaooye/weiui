@@ -76,6 +76,13 @@ You can mix the two: an explicit `index` on any child overrides the auto-assigne
 | label | `ReactNode` | — | Step title (Step only) |
 | description | `ReactNode` | — | Step supporting text (Step only) |
 
+### Accessibility
+
+- The active step gets `aria-current="step"`, matching the ARIA Authoring Practices pattern, so screen readers announce which step the user is on.
+- Completed / active state is conveyed via `data-completed` / `data-active` for CSS targeting while keeping the decorative checkmark (`\u2713`) out of announcements.
+- Connecting separator lines are `aria-hidden="true"` — they are decorative, not content.
+- Pass `aria-label` on the `<Stepper>` wrapper if the step flow needs a name (e.g. `"Signup progress"`).
+
 ---
 
 ## Timeline
@@ -116,6 +123,14 @@ import { Timeline, TimelineItem } from "@weiui/react";
   <TimelineItem title="Under review" description="Being reviewed by our team" time="Jan 20" />
 </Timeline>
 ```
+
+### TimelineItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| title | `ReactNode` | — | Event heading |
+| description | `ReactNode` | — | Supporting event text |
+| time | `ReactNode` | — | Timestamp text (e.g. `"Jan 15"` or a `<time>` element) |
 
 ### Accessibility
 
