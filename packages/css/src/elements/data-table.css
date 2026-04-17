@@ -130,6 +130,41 @@
     text-align: center;
     color: var(--wui-color-muted-foreground);
   }
+  .wui-data-table__loading {
+    padding-block: var(--wui-spacing-8);
+    padding-inline: var(--wui-spacing-4);
+    text-align: center;
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-data-table__page-size {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+  }
+  .wui-data-table__page-size-select {
+    min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    font-size: var(--wui-font-size-sm);
+    background: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    cursor: pointer;
+  }
+  .wui-data-table__page-size-select:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-data-table th[data-select-col],
+  .wui-data-table td[data-select-col] {
+    inline-size: 44px;
+    padding-inline: var(--wui-spacing-2);
+    text-align: center;
+  }
+  .wui-data-table[data-loading] {
+    pointer-events: none;
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     .wui-data-table th[data-sortable],
