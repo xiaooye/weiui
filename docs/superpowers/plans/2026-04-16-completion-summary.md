@@ -1,7 +1,7 @@
 # WeiUI Polish Overhaul — Completion Summary
 
-**Shipped:** 2026-04-16 to 2026-04-17 (+ polish rounds 7–10 through 2026-04-17)
-**Total commits:** 166
+**Shipped:** 2026-04-16 to 2026-04-17 (+ polish rounds 7–14 through 2026-04-17)
+**Total commits:** 182
 **Total tests:** 693 passing across all packages
 
 ## Waves shipped
@@ -22,6 +22,10 @@
 | Polish 3-8 | Iterative fix rounds 1–6 (diagnostic + fix loops) | 36 commits |
 | Polish 9 | Live demos for 11 components + missing a11y sections + Breadcrumb/TOC polish | 24 commits |
 | Polish 10 | Demo interaction fixes, typography page, Preview/TOC polish, 404 page | 10 commits |
+| Polish 11 | Bundle split — `@weiui/react` subpath exports (75% First-Load JS reduction on heavy pages) | 4 commits |
+| Polish 12 | Tool pages (Playground/Composer/Themes) Header integration + README/CONTRIBUTING refresh | 3 commits |
+| Polish 13 | Mobile reflow, Preview tabs keyboard, CommandPalette Escape, Getting Started rewrite | 4 commits |
+| Polish 14 | Mobile sidebar drawer, Playground/Themes/Composer grid reflow, dark muted-fg contrast bump | 3 commits |
 | **Total** | **69 P0s closed · 50+ components polished · 37 latent bugs fixed** | — |
 
 ## Iterative fix rounds (Polish 3-8)
@@ -36,6 +40,10 @@
 | Round 6 | InputNumber `locale` prop, migrate ComponentPreview → Preview on 11 pages | 2 |
 | Round 9 | Toaster mounted in layout; live demos for Dialog/Drawer/Popover/Tooltip/Menu/Toast/Kbd/Portal/VisuallyHidden/Editor/CommandPalette/ColorPicker/DatePicker/Calendar/MultiSelect/AutoComplete/FileUpload/DataTable; Accessibility sections added to 9 grouped pages; Breadcrumbs/TOC/anchor polish | 24 |
 | Round 10 | DataTable demo + 10 polish (Preview tabs, TOC scroll, turbo cache, typography previews, 404, LiveShowcase ARIA, demo onSelect wiring) | 10 |
+| Round 11 | Bundle split: `@weiui/react/editor`, `/chart`, `/data-table` subpaths; First-Load JS on heavy pages: 426 kB → 105-150 kB (75% reduction) | 4 |
+| Round 12 | Playground/Composer/Themes Header integration; README + CONTRIBUTING refresh; diagnostic closed | 3 |
+| Round 13 | Mobile header reflow, Preview keyboard nav, CommandPalette Escape, Getting Started expansion | 4 |
+| Round 14 | Mobile hamburger + sidebar Drawer, three tool pages reflow, dark muted-fg contrast bump | 3 |
 
 ## Files created / modified
 
