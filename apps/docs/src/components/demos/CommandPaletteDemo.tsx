@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CommandPalette, toast, type CommandItem } from "@weiui/react";
+import { Button, CommandPalette, toast, type CommandItem } from "@weiui/react";
 
 const items: CommandItem[] = [
   {
@@ -64,14 +64,12 @@ export function CommandPaletteDemo() {
         gap: "var(--wui-spacing-2)",
       }}
     >
-      <button
-        type="button"
-        className="wui-button wui-button--solid"
+      <Button
         onClick={() => setOpen(true)}
         style={{ inlineSize: "fit-content" }}
       >
         Open palette
-      </button>
+      </Button>
       <p
         style={{
           fontSize: "var(--wui-font-size-sm)",

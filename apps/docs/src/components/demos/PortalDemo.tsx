@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Portal } from "@weiui/react";
+import { Button, Portal } from "@weiui/react";
 
 export function PortalDemo() {
   const [open, setOpen] = useState(false);
@@ -36,14 +36,12 @@ export function PortalDemo() {
           This box has <code>overflow: hidden</code>. Portal content escapes to
           document.body.
         </p>
-        <button
-          type="button"
-          className="wui-button wui-button--solid"
+        <Button
           onClick={() => setOpen((v) => !v)}
           style={{ marginBlockStart: "var(--wui-spacing-3)" }}
         >
           {open ? "Hide" : "Show"} portal content
-        </button>
+        </Button>
       </div>
       {open && (
         <Portal>

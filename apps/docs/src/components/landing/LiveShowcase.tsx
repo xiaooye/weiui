@@ -1,6 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Button,
+  Input,
+  Label,
+  Avatar,
+  AvatarFallback,
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Chip,
+  Badge,
+} from "@weiui/react";
 
 const DEMOS = [
   { id: "buttons", label: "Buttons" },
@@ -81,12 +94,12 @@ export function LiveShowcase() {
 function ButtonDemo() {
   return (
     <div className="wui-home-showcase__row">
-      <button className="wui-button wui-button--solid">Solid</button>
-      <button className="wui-button wui-button--outline">Outline</button>
-      <button className="wui-button wui-button--ghost">Ghost</button>
-      <button className="wui-button wui-button--soft">Soft</button>
-      <button className="wui-button wui-button--solid wui-button--destructive">Delete</button>
-      <button className="wui-button wui-button--solid" data-loading="true">Loading…</button>
+      <Button variant="solid">Solid</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="soft">Soft</Button>
+      <Button variant="solid" color="destructive">Delete</Button>
+      <Button variant="solid" loading>Loading…</Button>
     </div>
   );
 }
@@ -95,50 +108,52 @@ function FormDemo() {
   return (
     <div className="wui-home-showcase__form">
       <div>
-        <label htmlFor="wui-demo-email" className="wui-home-showcase__label">Email</label>
-        <input id="wui-demo-email" type="email" className="wui-input" placeholder="ada@example.com" />
+        <Label htmlFor="wui-demo-email" className="wui-home-showcase__label">Email</Label>
+        <Input id="wui-demo-email" type="email" placeholder="ada@example.com" />
       </div>
       <div>
-        <label htmlFor="wui-demo-pass" className="wui-home-showcase__label">Password</label>
-        <input id="wui-demo-pass" type="password" className="wui-input" placeholder="••••••••" />
+        <Label htmlFor="wui-demo-pass" className="wui-home-showcase__label">Password</Label>
+        <Input id="wui-demo-pass" type="password" placeholder="••••••••" />
       </div>
-      <button className="wui-button wui-button--solid" type="button">Sign in</button>
+      <Button variant="solid" type="button">Sign in</Button>
     </div>
   );
 }
 
 function CardDemo() {
   return (
-    <div className="wui-card" style={{ maxInlineSize: "360px" }}>
-      <div className="wui-card__header">
-        <span className="wui-avatar"><span className="wui-avatar__fallback">WU</span></span>
+    <Card style={{ maxInlineSize: "360px" }}>
+      <CardHeader>
+        <Avatar>
+          <AvatarFallback>WU</AvatarFallback>
+        </Avatar>
         <div>
           <div style={{ fontWeight: "var(--wui-font-weight-semibold)" }}>WeiUI Shipped</div>
           <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>v0.0.1 · 2 days ago</div>
         </div>
-      </div>
-      <div className="wui-card__content">
+      </CardHeader>
+      <CardContent>
         Phase 0 foundations landed — new shadow, motion, elevation tokens and a polish recipe applied to 36 component CSS files.
-      </div>
-      <div className="wui-card__footer">
-        <button className="wui-button wui-button--soft wui-button--sm">View</button>
-        <button className="wui-button wui-button--ghost wui-button--sm">Dismiss</button>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter>
+        <Button variant="soft" size="sm">View</Button>
+        <Button variant="ghost" size="sm">Dismiss</Button>
+      </CardFooter>
+    </Card>
   );
 }
 
 function ChipDemo() {
   return (
     <div className="wui-home-showcase__row">
-      <span className="wui-chip">Default</span>
-      <span className="wui-chip wui-chip--primary">Primary</span>
-      <span className="wui-chip wui-chip--success">Shipped</span>
-      <span className="wui-chip wui-chip--destructive">Breaking</span>
-      <span className="wui-badge wui-badge--solid">New</span>
-      <span className="wui-badge wui-badge--soft">Beta</span>
-      <span className="wui-badge wui-badge--outline">v0</span>
-      <span className="wui-badge wui-badge--success">AAA</span>
+      <Chip>Default</Chip>
+      <Chip color="primary">Primary</Chip>
+      <Chip color="success">Shipped</Chip>
+      <Chip color="destructive">Breaking</Chip>
+      <Badge variant="solid">New</Badge>
+      <Badge variant="soft">Beta</Badge>
+      <Badge variant="outline">v0</Badge>
+      <Badge variant="solid" color="success">AAA</Badge>
     </div>
   );
 }

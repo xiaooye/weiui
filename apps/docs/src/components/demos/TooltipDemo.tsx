@@ -1,14 +1,14 @@
 "use client";
 
-import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
+import { Button, Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
 
 export function TooltipDemo() {
   return (
     <Tooltip delay={200}>
       <TooltipTrigger>
-        <button type="button" className="wui-button wui-button--ghost">
+        <Button variant="ghost">
           Hover or focus me
-        </button>
+        </Button>
       </TooltipTrigger>
       <TooltipContent
         style={{

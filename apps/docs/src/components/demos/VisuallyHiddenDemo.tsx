@@ -1,6 +1,6 @@
 "use client";
 
-import { VisuallyHidden } from "@weiui/react";
+import { Button, VisuallyHidden } from "@weiui/react";
 
 export function VisuallyHiddenDemo() {
   return (
@@ -11,16 +11,15 @@ export function VisuallyHiddenDemo() {
         gap: "var(--wui-spacing-3)",
       }}
     >
-      <button
-        type="button"
-        className="wui-button wui-button--outline"
+      <Button
+        variant="outline"
         style={{ inlineSize: "fit-content" }}
       >
         <span aria-hidden="true" style={{ fontSize: "1.2em" }}>
           🗑
         </span>
         <VisuallyHidden>Delete item</VisuallyHidden>
-      </button>
+      </Button>
       <p
         style={{
           fontSize: "var(--wui-font-size-sm)",
