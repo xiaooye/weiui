@@ -160,16 +160,16 @@ Sticky top navigation header with brand, nav links, and actions.
 </ComponentPreview>
 
 ```tsx
-import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiui/react";
+import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions, Button } from "@weiui/react";
 
 <AppBar>
   <AppBarBrand>MyApp</AppBarBrand>
-  <AppBarNav>
+  <AppBarNav aria-label="Primary">
     <AppBarLink active>Dashboard</AppBarLink>
     <AppBarLink>Settings</AppBarLink>
   </AppBarNav>
   <AppBarActions>
-    <button className="wui-button wui-button--ghost">Sign out</button>
+    <Button variant="ghost" size="sm">Sign out</Button>
   </AppBarActions>
 </AppBar>
 ```
