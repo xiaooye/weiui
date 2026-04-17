@@ -49,4 +49,14 @@ describe("Switch", () => {
     render(<Switch disabled aria-label="disabled" />);
     expect(screen.getByRole("switch")).toBeDisabled();
   });
+
+  it("applies styled track + thumb class (wui-switch__input)", () => {
+    render(<Switch aria-label="styled" />);
+    expect(screen.getByRole("switch")).toHaveClass("wui-switch__input");
+  });
+
+  it("wrapper carries wui-switch class", () => {
+    const { container } = render(<Switch label="Dark" />);
+    expect(container.querySelector(".wui-switch")).toBeTruthy();
+  });
 });
