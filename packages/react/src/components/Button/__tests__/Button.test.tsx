@@ -60,4 +60,30 @@ describe("Button", () => {
     expect(screen.getByTestId("start")).toBeInTheDocument();
     expect(screen.getByTestId("end")).toBeInTheDocument();
   });
+
+  it("defaults type to 'button' to avoid form-submit surprises", () => {
+    render(<Button>Default</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+  });
+
+  it("preserves an explicit type prop", () => {
+    render(<Button type="submit">Submit</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+  });
+
+  it("renders a spinner inside loading state", () => {
+    render(<Button loading>Loading</Button>);
+    // The spinner is a status element providing feedback while the button is busy.
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
+
+  it("loading state hides startIcon but still shows label region", () => {
+    render(
+      <Button loading startIcon={<span data-testid="start">S</span>}>
+        Hello
+      </Button>,
+    );
+    expect(screen.queryByTestId("start")).not.toBeInTheDocument();
+    expect(screen.getByText("Hello")).toBeInTheDocument();
+  });
 });
