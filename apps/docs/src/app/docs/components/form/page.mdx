@@ -213,9 +213,10 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | value | `string` | — | Controlled selected value |
-| defaultValue | `string` | — | Initial uncontrolled value |
+| defaultValue | `string` | `""` | Initial uncontrolled value |
 | onValueChange | `(value: string) => void` | — | Called when selection changes |
-| disabled | `boolean` | `false` | Disables the select |
+
+(`disabled` is set on `<SelectTrigger>` / items, not on `<Select>` itself.)
 
 ### Accessibility
 
