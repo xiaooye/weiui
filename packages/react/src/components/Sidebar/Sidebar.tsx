@@ -63,11 +63,13 @@ SidebarFooter.displayName = "SidebarFooter";
 
 export interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
+  /** Optional icon node — rendered before the label; always visible even in collapsed mode. */
+  icon?: ReactNode;
   children: ReactNode;
 }
 
 export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
-  ({ active, className, children, ...props }, ref) => (
+  ({ active, icon, className, children, ...props }, ref) => (
     <button
       ref={ref}
       type="button"
@@ -76,7 +78,8 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
       aria-current={active ? "page" : undefined}
       {...props}
     >
-      {children}
+      {icon && <span className="wui-sidebar__icon" aria-hidden="true">{icon}</span>}
+      <span className="wui-sidebar__label">{children}</span>
     </button>
   ),
 );

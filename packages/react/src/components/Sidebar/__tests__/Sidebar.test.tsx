@@ -102,3 +102,31 @@ describe("Sidebar sub-components", () => {
     expect(screen.getByTestId("footer").className).toContain("wui-sidebar__footer");
   });
 });
+
+describe("SidebarItem — icon-only collapsed mode (P0)", () => {
+  it("wraps children in wui-sidebar__label span for collapsed hiding", () => {
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarItem data-testid="item">Home</SidebarItem>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    const item = screen.getByTestId("item");
+    const label = item.querySelector(".wui-sidebar__label");
+    expect(label).toBeInTheDocument();
+    expect(label).toHaveTextContent("Home");
+  });
+
+  it("renders icon in wui-sidebar__icon span", () => {
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarItem icon={<span data-testid="home-icon">H</span>}>Home</SidebarItem>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    const icon = screen.getByTestId("home-icon");
+    expect(icon.parentElement?.className).toContain("wui-sidebar__icon");
+  });
+});

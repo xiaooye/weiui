@@ -21,6 +21,23 @@
     min-block-size: 44px; border: none; background: none; inline-size: 100%;
     text-align: start;
   }
+  /* Collapsed (icon-only) mode — labels hidden, center icon. */
+  .wui-sidebar[data-collapsed] .wui-sidebar__item {
+    justify-content: center;
+    padding-inline: var(--wui-spacing-2);
+    gap: 0;
+  }
+  .wui-sidebar[data-collapsed] .wui-sidebar__item > :not(.wui-sidebar__icon):not(svg),
+  .wui-sidebar[data-collapsed] .wui-sidebar__label {
+    display: none;
+  }
+  .wui-sidebar[data-collapsed] .wui-sidebar__header,
+  .wui-sidebar[data-collapsed] .wui-sidebar__footer {
+    padding-inline: var(--wui-spacing-2);
+  }
+  .wui-sidebar[data-collapsed] .wui-sidebar__brand-label {
+    display: none;
+  }
   .wui-sidebar__item:hover {
     background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
     color: var(--wui-color-primary);
