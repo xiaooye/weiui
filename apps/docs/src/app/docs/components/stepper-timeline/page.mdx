@@ -1,4 +1,6 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { StepperDemo } from "../../../../components/demos/StepperDemo";
+import { TimelineDemo } from "../../../../components/demos/TimelineDemo";
 
 # Stepper & Timeline
 
@@ -11,29 +13,7 @@ Step progress indicators and chronological event displays.
 Multi-step progress indicator showing active, completed, and pending steps.
 
 <Preview label="Stepper horizontal">
-  <div className="wui-stepper" style={{ display: "flex", gap: "var(--wui-spacing-4)" }}>
-    <div className="wui-step" data-completed="">
-      <div className="wui-step__indicator" style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--wui-color-primary)", color: "var(--wui-color-primary-foreground)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--wui-font-size-sm)" }}>&#10003;</div>
-      <div>
-        <div className="wui-step__label" style={{ fontWeight: "var(--wui-font-weight-medium)", fontSize: "var(--wui-font-size-sm)" }}>Account</div>
-        <div className="wui-step__description" style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>Create your account</div>
-      </div>
-    </div>
-    <div className="wui-step" data-active="" aria-current="step">
-      <div className="wui-step__indicator" style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--wui-color-primary)", color: "var(--wui-color-primary-foreground)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--wui-font-size-sm)" }}>2</div>
-      <div>
-        <div className="wui-step__label" style={{ fontWeight: "var(--wui-font-weight-medium)", fontSize: "var(--wui-font-size-sm)" }}>Profile</div>
-        <div className="wui-step__description" style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>Fill in details</div>
-      </div>
-    </div>
-    <div className="wui-step">
-      <div className="wui-step__indicator" style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid var(--wui-color-border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)" }}>3</div>
-      <div>
-        <div className="wui-step__label" style={{ fontWeight: "var(--wui-font-weight-medium)", fontSize: "var(--wui-font-size-sm)" }}>Review</div>
-        <div className="wui-step__description" style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>Confirm setup</div>
-      </div>
-    </div>
-  </div>
+  <StepperDemo />
 </Preview>
 
 ```tsx
@@ -90,29 +70,7 @@ You can mix the two: an explicit `index` on any child overrides the auto-assigne
 Chronological event display with dots and connecting lines.
 
 <Preview label="Timeline">
-  <ol className="wui-timeline" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
-    <li className="wui-timeline-item" style={{ display: "flex", gap: "var(--wui-spacing-3)" }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "var(--wui-color-primary)" }} />
-        <div style={{ flex: 1, width: "2px", background: "var(--wui-color-border)" }} aria-hidden="true" />
-      </div>
-      <div>
-        <div style={{ fontWeight: "var(--wui-font-weight-medium)", fontSize: "var(--wui-font-size-sm)" }}>Application submitted</div>
-        <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>Your application was received</div>
-        <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>Jan 15, 2026</div>
-      </div>
-    </li>
-    <li className="wui-timeline-item" style={{ display: "flex", gap: "var(--wui-spacing-3)" }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "var(--wui-color-primary)" }} />
-      </div>
-      <div>
-        <div style={{ fontWeight: "var(--wui-font-weight-medium)", fontSize: "var(--wui-font-size-sm)" }}>Under review</div>
-        <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>Currently being reviewed by our team</div>
-        <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>Jan 20, 2026</div>
-      </div>
-    </li>
-  </ol>
+  <TimelineDemo />
 </Preview>
 
 ```tsx

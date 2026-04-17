@@ -1,6 +1,8 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { TabsDemo } from "../../../../components/demos/TabsDemo";
 import { LinkDemo } from "../../../../components/demos/LinkDemo";
+import { BreadcrumbDemo } from "../../../../components/demos/BreadcrumbDemo";
+import { MenuDemo } from "../../../../components/demos/MenuDemo";
 
 # Navigation Components
 
@@ -9,19 +11,7 @@ Tabs, Menu, Breadcrumb, and Link for structuring navigation and content.
 ## Breadcrumb
 
 <Preview label="Breadcrumb">
-  <nav aria-label="Breadcrumb">
-    <ol style={{ display: "flex", alignItems: "center", gap: "var(--wui-spacing-1)", listStyle: "none", margin: 0, padding: 0, fontSize: "var(--wui-font-size-sm)" }}>
-      <li>
-        <a href="/" style={{ color: "var(--wui-color-primary)", textDecoration: "none" }}>Home</a>
-      </li>
-      <li aria-hidden="true" style={{ color: "var(--wui-color-muted-foreground)" }}>/</li>
-      <li>
-        <a href="/products" style={{ color: "var(--wui-color-primary)", textDecoration: "none" }}>Products</a>
-      </li>
-      <li aria-hidden="true" style={{ color: "var(--wui-color-muted-foreground)" }}>/</li>
-      <li aria-current="page" style={{ color: "var(--wui-color-muted-foreground)" }}>Detail</li>
-    </ol>
-  </nav>
+  <BreadcrumbDemo />
 </Preview>
 
 ```tsx
@@ -121,6 +111,10 @@ Props on `<TabsList>`:
 ## Menu
 
 A dropdown menu with keyboard-navigable items.
+
+<Preview label="Menu">
+  <MenuDemo />
+</Preview>
 
 ```tsx
 import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";

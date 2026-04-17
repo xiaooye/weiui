@@ -1,4 +1,10 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { InputDemo } from "../../../../components/demos/InputDemo";
+import { InputSizesDemo } from "../../../../components/demos/InputSizesDemo";
+import { InputAddonsDemo } from "../../../../components/demos/InputAddonsDemo";
+import { InputStatesDemo } from "../../../../components/demos/InputStatesDemo";
+import { TextareaDemo } from "../../../../components/demos/TextareaDemo";
+import { TextareaSizesDemo } from "../../../../components/demos/TextareaSizesDemo";
 
 # Input
 
@@ -7,7 +13,7 @@ Text input field with validation states and size variants.
 ## Default
 
 <Preview label="Input">
-  <input className="wui-input" placeholder="Enter your email..." style={{ maxWidth: "320px" }} />
+  <InputDemo />
 </Preview>
 
 ## Sizes
@@ -15,9 +21,7 @@ Text input field with validation states and size variants.
 The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 / 44 / 52px touch targets.
 
 <Preview label="Input sizes">
-  <input className="wui-input wui-input--sm" placeholder="Small" style={{ maxWidth: "200px" }} />
-  <input className="wui-input" placeholder="Medium (default)" style={{ maxWidth: "200px" }} />
-  <input className="wui-input wui-input--lg" placeholder="Large" style={{ maxWidth: "200px" }} />
+  <InputSizesDemo />
 </Preview>
 
 ```tsx
@@ -31,19 +35,7 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 `startAddon` and `endAddon` attach a prefix or suffix visually joined to the input (e.g. unit labels, icons, currency symbols). When either is set the input is rendered inside a `wui-input-group`.
 
 <Preview label="Input with addons">
-  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
-    <span className="wui-input-group__addon">$</span>
-    <input className="wui-input wui-input--with-addons" placeholder="0.00" />
-    <span className="wui-input-group__addon">USD</span>
-  </div>
-  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
-    <span className="wui-input-group__addon">https://</span>
-    <input className="wui-input wui-input--with-addons" placeholder="example.com" />
-  </div>
-  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
-    <input className="wui-input wui-input--with-addons" placeholder="Search" />
-    <span className="wui-input-group__addon">⌕</span>
-  </div>
+  <InputAddonsDemo />
 </Preview>
 
 ```tsx
@@ -55,10 +47,7 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 ## States
 
 <Preview label="Input states">
-  <input className="wui-input" placeholder="Default" style={{ maxWidth: "200px" }} />
-  <input className="wui-input" data-invalid="true" placeholder="Invalid" style={{ maxWidth: "200px" }} />
-  <input className="wui-input" disabled={true} placeholder="Disabled" style={{ maxWidth: "200px" }} />
-  <input className="wui-input" readOnly={true} defaultValue="Read only" style={{ maxWidth: "200px" }} />
+  <InputStatesDemo />
 </Preview>
 
 ## Textarea
@@ -66,13 +55,11 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 Textarea supports the same `size` variants as Input.
 
 <Preview label="Textarea">
-  <textarea className="wui-input" placeholder="Enter a longer message..." style={{ maxWidth: "400px" }}></textarea>
+  <TextareaDemo />
 </Preview>
 
 <Preview label="Textarea sizes">
-  <textarea className="wui-input wui-input--sm" placeholder="Small" rows={2} style={{ maxWidth: "400px" }}></textarea>
-  <textarea className="wui-input" placeholder="Medium (default)" rows={2} style={{ maxWidth: "400px" }}></textarea>
-  <textarea className="wui-input wui-input--lg" placeholder="Large" rows={2} style={{ maxWidth: "400px" }}></textarea>
+  <TextareaSizesDemo />
 </Preview>
 
 ```tsx

@@ -4,6 +4,11 @@ import { MultiSelectDemo } from "../../../../components/demos/MultiSelectDemo";
 import { FileUploadDemo } from "../../../../components/demos/FileUploadDemo";
 import { SliderDemo } from "../../../../components/demos/SliderDemo";
 import { RatingDemo } from "../../../../components/demos/RatingDemo";
+import { InputNumberDemo } from "../../../../components/demos/InputNumberDemo";
+import { InputNumberDisabledDemo } from "../../../../components/demos/InputNumberDisabledDemo";
+import { InputNumberCurrencyDemo } from "../../../../components/demos/InputNumberCurrencyDemo";
+import { InputOTPDemo } from "../../../../components/demos/InputOTPDemo";
+import { InputOTP4Demo } from "../../../../components/demos/InputOTP4Demo";
 
 # Advanced Inputs
 
@@ -93,19 +98,11 @@ import { Rating } from "@weiui/react";
 Numeric input with increment/decrement buttons and keyboard step control.
 
 <Preview label="InputNumber default">
-  <div className="wui-input-number">
-    <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
-    <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" />
-    <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
-  </div>
+  <InputNumberDemo />
 </Preview>
 
 <Preview label="InputNumber disabled">
-  <div className="wui-input-number" data-disabled="true">
-    <button type="button" className="wui-input-number__btn" aria-label="Decrement" disabled={true}>−</button>
-    <input type="number" className="wui-input-number__input" defaultValue={5} aria-label="Number input" disabled={true} />
-    <button type="button" className="wui-input-number__btn" aria-label="Increment" disabled={true}>+</button>
-  </div>
+  <InputNumberDisabledDemo />
 </Preview>
 
 ```tsx
@@ -121,11 +118,7 @@ import { InputNumber } from "@weiui/react";
 Pass any `Intl.NumberFormatOptions` via the `formatOptions` prop to localise the display. The input still stores a plain number — formatting is applied only on render, and `aria-valuetext` mirrors the formatted string for screen readers.
 
 <Preview label="InputNumber with formatOptions">
-  <div className="wui-input-number">
-    <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
-    <input type="text" className="wui-input-number__input" defaultValue="$1,234.00" aria-label="Amount in USD" role="spinbutton" aria-valuenow={1234} aria-valuetext="$1,234.00" />
-    <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
-  </div>
+  <InputNumberCurrencyDemo />
 </Preview>
 
 ```tsx
@@ -171,23 +164,11 @@ Pass any `Intl.NumberFormatOptions` via the `formatOptions` prop to localise the
 One-time password input with separate boxes per digit and auto-advance.
 
 <Preview label="InputOTP 6-digit">
-  <div className="wui-input-otp" role="group" aria-label="One-time password">
-    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="1" aria-label="Digit 1" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="2" aria-label="Digit 2" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} defaultValue="3" aria-label="Digit 3" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 4" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 5" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 6" />
-  </div>
+  <InputOTPDemo />
 </Preview>
 
 <Preview label="InputOTP 4-digit">
-  <div className="wui-input-otp" role="group" aria-label="One-time password">
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 1" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 2" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 3" />
-    <input type="text" className="wui-input-otp__slot" maxLength={1} aria-label="Digit 4" />
-  </div>
+  <InputOTP4Demo />
 </Preview>
 
 ```tsx

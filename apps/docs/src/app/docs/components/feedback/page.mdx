@@ -1,4 +1,7 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { AlertDemo } from "../../../../components/demos/AlertDemo";
+import { SpinnerDemo } from "../../../../components/demos/SpinnerDemo";
+import { EmptyStateDemo } from "../../../../components/demos/EmptyStateDemo";
 
 # Feedback Components
 
@@ -7,32 +10,7 @@ Components for communicating status, loading states, and empty content to users.
 ## Alert
 
 <Preview label="Alert variants">
-  <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)", width: "100%", maxWidth: "480px" }}>
-    <div role="alert" style={{ display: "flex", gap: "var(--wui-spacing-3)", padding: "var(--wui-spacing-4)", borderRadius: "var(--wui-shape-radius-md)", border: "1px solid var(--wui-color-border)", backgroundColor: "var(--wui-color-muted)" }}>
-      <div>
-        <p style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-sm)" }}>Info</p>
-        <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>This is an informational message.</p>
-      </div>
-    </div>
-    <div role="alert" style={{ display: "flex", gap: "var(--wui-spacing-3)", padding: "var(--wui-spacing-4)", borderRadius: "var(--wui-shape-radius-md)", border: "1px solid var(--wui-color-success)", backgroundColor: "oklch(from var(--wui-color-success) l c h / 0.1)" }}>
-      <div>
-        <p style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-success)" }}>Success</p>
-        <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>Your changes have been saved.</p>
-      </div>
-    </div>
-    <div role="alert" style={{ display: "flex", gap: "var(--wui-spacing-3)", padding: "var(--wui-spacing-4)", borderRadius: "var(--wui-shape-radius-md)", border: "1px solid var(--wui-color-warning)", backgroundColor: "oklch(from var(--wui-color-warning) l c h / 0.1)" }}>
-      <div>
-        <p style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-warning)" }}>Warning</p>
-        <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>This action cannot be undone.</p>
-      </div>
-    </div>
-    <div role="alert" style={{ display: "flex", gap: "var(--wui-spacing-3)", padding: "var(--wui-spacing-4)", borderRadius: "var(--wui-shape-radius-md)", border: "1px solid var(--wui-color-destructive)", backgroundColor: "oklch(from var(--wui-color-destructive) l c h / 0.1)" }}>
-      <div>
-        <p style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-destructive)" }}>Error</p>
-        <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>Something went wrong. Please try again.</p>
-      </div>
-    </div>
-  </div>
+  <AlertDemo />
 </Preview>
 
 ```tsx
@@ -78,10 +56,7 @@ import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
 ## Spinner
 
 <Preview label="Spinner sizes">
-  <div role="status" aria-label="Loading" style={{ width: "16px", height: "16px", borderRadius: "50%", border: "2px solid var(--wui-color-muted)", borderTopColor: "var(--wui-color-primary)", animation: "spin 0.75s linear infinite" }}></div>
-  <div role="status" aria-label="Loading" style={{ width: "24px", height: "24px", borderRadius: "50%", border: "2px solid var(--wui-color-muted)", borderTopColor: "var(--wui-color-primary)", animation: "spin 0.75s linear infinite" }}></div>
-  <div role="status" aria-label="Loading" style={{ width: "36px", height: "36px", borderRadius: "50%", border: "3px solid var(--wui-color-muted)", borderTopColor: "var(--wui-color-primary)", animation: "spin 0.75s linear infinite" }}></div>
-  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+  <SpinnerDemo />
 </Preview>
 
 ```tsx
@@ -112,14 +87,7 @@ import { Spinner } from "@weiui/react";
 ## EmptyState
 
 <Preview label="Empty state">
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--wui-spacing-3)", padding: "var(--wui-spacing-8)", textAlign: "center", maxWidth: "320px" }}>
-    <div style={{ width: "48px", height: "48px", borderRadius: "var(--wui-shape-radius-md)", backgroundColor: "var(--wui-color-muted)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--wui-font-size-xl)" }}>📭</div>
-    <div>
-      <p style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-base)" }}>No results found</p>
-      <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)", marginTop: "var(--wui-spacing-1)" }}>Try adjusting your search or filters to find what you are looking for.</p>
-    </div>
-    <button className="wui-button wui-button--outline wui-button--sm">Clear filters</button>
-  </div>
+  <EmptyStateDemo />
 </Preview>
 
 ```tsx

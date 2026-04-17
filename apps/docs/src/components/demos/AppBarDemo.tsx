@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiui/react";
+import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions, Button } from "@weiui/react";
 
 const NAV_ITEMS = ["Dashboard", "Projects", "Team", "Settings"];
 
@@ -26,9 +26,9 @@ export function AppBarDemo() {
           ))}
         </AppBarNav>
         <AppBarActions>
-          <button className="wui-button wui-button--ghost wui-button--sm" type="button">
+          <Button variant="ghost" size="sm">
             Sign out
-          </button>
+          </Button>
         </AppBarActions>
       </AppBar>
     </div>
