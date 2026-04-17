@@ -162,6 +162,31 @@
 }
 
 @layer wui-base {
+  /* Shared shell for tool pages (Playground / Composer / Themes) */
+  .wui-tool-shell {
+    max-inline-size: 80rem;
+    margin-inline: auto;
+    padding-inline: var(--wui-spacing-6);
+    padding-block: var(--wui-spacing-8);
+  }
+  .wui-tool-shell__header {
+    margin-block-end: var(--wui-spacing-6);
+  }
+  .wui-tool-shell__title {
+    font-family: var(--wui-font-family-display);
+    font-size: var(--wui-font-size-4xl);
+    font-weight: var(--wui-font-weight-bold);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--wui-color-foreground);
+    margin-block-end: var(--wui-spacing-2);
+  }
+  .wui-tool-shell__sub {
+    font-size: var(--wui-font-size-base);
+    color: var(--wui-color-muted-foreground);
+    max-inline-size: 44rem;
+  }
+
   .wui-docs-shell {
     display: grid;
     grid-template-columns: 16rem minmax(0, 1fr) 14rem;
