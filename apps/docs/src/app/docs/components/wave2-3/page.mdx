@@ -195,6 +195,17 @@ import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
 - Enter / Space toggles the focused item
 - Only one item in the group is tabbable at a time (roving tabindex)
 
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| type | `"single" \| "multiple"` | `"single"` | One vs many items active at once |
+| value | `string \| string[]` | — | Controlled selected value(s) |
+| defaultValue | `string \| string[]` | — | Initial uncontrolled value(s) |
+| onChange | `(value: string \| string[]) => void` | — | Fires when selection changes |
+| disabled | `boolean` | `false` | Disables every item in the group |
+| label | `string` | — | Sets `aria-label` on the group wrapper |
+
 ---
 
 ## ButtonGroup
