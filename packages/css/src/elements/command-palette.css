@@ -12,11 +12,16 @@
   .wui-command {
     inline-size: 100%;
     max-inline-size: 640px;
-    background-color: var(--wui-color-background);
+    background-color: var(--wui-surface-overlay);
     border: 1px solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-shadow-xl);
+    box-shadow: var(--wui-elevation-4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     overflow: hidden;
+  }
+  @supports not (backdrop-filter: blur(8px)) {
+    .wui-command { background-color: var(--wui-color-card); }
   }
   .wui-command__input-wrapper {
     display: flex;
@@ -88,7 +93,7 @@
   }
   @media (prefers-reduced-motion: no-preference) {
     .wui-command {
-      animation: wui-command-in var(--wui-motion-duration-fast) var(--wui-motion-easing-out);
+      animation: wui-command-in var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized);
     }
   }
   @keyframes wui-command-in {

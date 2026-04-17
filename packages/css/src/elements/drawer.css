@@ -6,9 +6,14 @@
   }
   .wui-drawer {
     position: fixed; z-index: var(--wui-zIndex-modal);
-    background-color: var(--wui-color-background);
-    box-shadow: var(--wui-shadow-xl);
+    background-color: var(--wui-surface-overlay);
+    box-shadow: var(--wui-elevation-4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex; flex-direction: column;
+  }
+  @supports not (backdrop-filter: blur(8px)) {
+    .wui-drawer { background-color: var(--wui-color-card); }
   }
   .wui-drawer--right { inset-block: 0; inset-inline-end: 0; inline-size: 24rem; max-inline-size: 100vw; }
   .wui-drawer--left { inset-block: 0; inset-inline-start: 0; inline-size: 24rem; max-inline-size: 100vw; }
@@ -26,8 +31,8 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-drawer--right { animation: wui-drawer-slide-right var(--wui-motion-duration-normal) var(--wui-motion-easing-out); }
-    .wui-drawer--left { animation: wui-drawer-slide-left var(--wui-motion-duration-normal) var(--wui-motion-easing-out); }
+    .wui-drawer--right { animation: wui-drawer-slide-right var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
+    .wui-drawer--left { animation: wui-drawer-slide-left var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
   }
   @keyframes wui-drawer-slide-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
   @keyframes wui-drawer-slide-left { from { transform: translateX(-100%); } to { transform: translateX(0); } }

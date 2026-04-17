@@ -16,11 +16,16 @@
     align-items: flex-start;
     gap: var(--wui-spacing-3);
     padding: var(--wui-spacing-4);
-    background-color: var(--wui-color-card);
+    background-color: var(--wui-surface-overlay);
     color: var(--wui-color-card-foreground);
     border: 1px solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-shadow-lg);
+    box-shadow: var(--wui-elevation-4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  @supports not (backdrop-filter: blur(8px)) {
+    .wui-toast { background-color: var(--wui-color-card); }
   }
 
   .wui-toast--success { border-inline-start: 3px solid var(--wui-color-success); }
@@ -41,7 +46,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     .wui-toast {
-      animation: wui-toast-slide-in var(--wui-motion-duration-normal) var(--wui-motion-easing-out);
+      animation: wui-toast-slide-in var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized);
     }
   }
   @keyframes wui-toast-slide-in {
