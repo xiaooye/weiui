@@ -49,6 +49,7 @@ export const siteConfig = {
         { href: "/docs/components/navigation", label: "Navigation" },
         { href: "/docs/components/typography", label: "Typography (legacy)" },
         { href: "/docs/components/editor", label: "Editor" },
+        { href: "/docs/components/color-picker", label: "Color Picker" },
         { href: "/docs/components/command-palette", label: "Command Palette" },
         { href: "/docs/components/accordion", label: "Accordion" },
         { href: "/docs/components/wave2-3", label: "More Components" },

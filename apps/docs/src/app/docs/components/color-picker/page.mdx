@@ -1,0 +1,75 @@
+# Color Picker
+
+HSV-style color picker with a saturation/value area, hue slider, hex/OKLCH text input, and optional preset swatches.
+
+---
+
+```tsx
+import { ColorPicker } from "@weiui/react";
+
+<ColorPicker defaultValue="#2563eb" />
+```
+
+### With preset swatches
+
+Pass a `swatches` array for one-click presets. Selected swatch gets a `[data-selected]` ring.
+
+```tsx
+<ColorPicker
+  defaultValue="#2563eb"
+  swatches={[
+    "#2563eb",
+    "#7c3aed",
+    "#db2777",
+    "#ea580c",
+    "#16a34a",
+    "#0891b2",
+  ]}
+/>
+```
+
+### Saturation / value area
+
+The large gradient area is the saturation/value pad. Click or drag (mouse held down) to set the SV coordinate. The pad's hue is driven by the hue slider below it. The marker thumb uses logical properties (`inset-inline-start` / `inset-block-start`) so it positions correctly under RTL.
+
+### OKLCH input
+
+The text input accepts either:
+
+- A hex value in progress — e.g. `#`, `#2`, `#2563eb`
+- A full CSS `oklch()` string — e.g. `oklch(70% 0.2 260)`
+
+When the value is a hex, the SV pad and hue slider remain in sync. When the value is an `oklch()` string, the pad is left at neutral since the component's internal HSV model can't round-trip OKLCH — the string is passed through unchanged via `onChange`.
+
+```tsx
+<ColorPicker defaultValue="oklch(70% 0.2 260)" onChange={console.log} />
+```
+
+### Controlled
+
+```tsx
+const [color, setColor] = useState("#2563eb");
+
+<ColorPicker value={color} onChange={setColor} />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | — | Controlled color (hex or `oklch()`) |
+| defaultValue | `string` | `"#000000"` | Initial color (uncontrolled) |
+| onChange | `(color: string) => void` | — | Called on any change |
+| swatches | `string[]` | `[]` | Preset colors rendered as clickable chips |
+| disabled | `boolean` | `false` | Disables the whole picker |
+| label | `string` | `"Color picker"` | Accessible group label |
+
+### Accessibility
+
+- Root is `role="group"` with an `aria-label` (override via `label` prop)
+- SV area is `role="slider"` with live `aria-valuetext` reporting saturation + value percentages
+- Hue slider is a native `<input type="range">` with `aria-label="Hue"`
+- Text input has `aria-label="Hex color"`
+- Swatch list uses `role="listbox"` with each chip as `role="option"` and `aria-selected`
+- Disabled state propagates via `aria-disabled` and the native `disabled` attribute on controls
+- Marker position uses logical properties — RTL-safe without extra work
