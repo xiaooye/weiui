@@ -6,13 +6,26 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./editor": {
+      "types": "./dist/editor-entry.d.ts",
+      "import": "./dist/editor-entry.js"
+    },
+    "./chart": {
+      "types": "./dist/chart-entry.d.ts",
+      "import": "./dist/chart-entry.js"
+    },
+    "./data-table": {
+      "types": "./dist/data-table-entry.d.ts",
+      "import": "./dist/data-table-entry.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --external react --external react-dom",
+    "build": "tsup src/index.ts src/editor-entry.ts src/chart-entry.ts src/data-table-entry.ts --format esm --dts --external react --external react-dom",
     "test": "vitest run"
   },
   "peerDependencies": {

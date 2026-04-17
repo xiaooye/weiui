@@ -5,6 +5,7 @@
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
   },
+  "sideEffects": false,
   "files": ["dist"],
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --external react --external react-dom",

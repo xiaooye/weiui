@@ -115,12 +115,11 @@ export { Stepper, Step, StepSeparator, type StepperProps, type StepProps, type S
 export { Timeline, TimelineItem, type TimelineProps, type TimelineItemProps } from "./components/Timeline";
 
 // Data components
-export { DataTable, type DataTableProps, createColumnHelper, type ColumnDef } from "./components/DataTable";
-export { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart, type ChartProps, type PieChartProps, type RadarChartProps } from "./components/Chart";
+// DataTable and Chart are exported from dedicated subpaths ("@weiui/react/data-table", "@weiui/react/chart")
+// to keep the main barrel free of heavy deps (@tanstack/react-table, recharts).
 export { TreeView, type TreeViewProps, type TreeNode } from "./components/TreeView";
 
-// Editor
-export { Editor, type EditorProps } from "./components/Editor";
+// Editor is exported from "@weiui/react/editor" to keep Tiptap out of the main barrel.
 
 // Command Palette
 export { CommandPalette, type CommandPaletteProps, type CommandItem } from "./components/CommandPalette";

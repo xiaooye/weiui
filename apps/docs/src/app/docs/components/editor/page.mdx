@@ -14,7 +14,7 @@ Full-featured editor powered by TipTap with a formatting toolbar.
 ## Editor
 
 ```tsx
-import { Editor } from "@weiui/react";
+import { Editor } from "@weiui/react/editor";
 
 <Editor placeholder="Start writing..." onChange={(html) => console.log(html)} />
 <Editor value={content} onChange={setContent} />
@@ -34,7 +34,7 @@ The toolbar includes a Link button: selecting text and clicking the link icon pr
 TipTap ships a wide ecosystem of extensions. Pass any extra extensions through the `extensions` prop — they are appended to the built-in set.
 
 ```tsx
-import { Editor } from "@weiui/react";
+import { Editor } from "@weiui/react/editor";
 import Mention from "@tiptap/extension-mention";
 import Table from "@tiptap/extension-table";
 
