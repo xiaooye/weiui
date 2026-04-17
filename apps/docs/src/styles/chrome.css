@@ -392,6 +392,11 @@
   .wui-cmdk-shell [cmdk-item][data-selected="true"] {
     background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
   }
+  .wui-cmdk-shell .wui-cmdk-title {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-foreground);
+  }
   .wui-cmdk-shell .wui-cmdk-href {
     font-family: var(--wui-font-family-mono);
     font-size: var(--wui-font-size-xs);
