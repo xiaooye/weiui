@@ -10,10 +10,10 @@ A `Cmd+K` fuzzy search dialog for quick navigation and actions.
 import { CommandPalette, type CommandItem } from "@weiui/react";
 
 const items: CommandItem[] = [
-  { id: "home", label: "Go to Home", group: "Navigation", shortcut: "Ctrl+H", onSelect: () => router.push("/") },
-  { id: "settings", label: "Open Settings", group: "Navigation", shortcut: "Ctrl+,", onSelect: () => router.push("/settings") },
-  { id: "theme", label: "Toggle Dark Mode", group: "Actions", onSelect: () => toggleTheme() },
-  { id: "logout", label: "Sign Out", group: "Actions", onSelect: () => signOut() },
+  { id: "home", label: "Go to Home", group: "Navigation", shortcut: "Ctrl+H", icon: "🏠", onSelect: () => router.push("/") },
+  { id: "settings", label: "Open Settings", group: "Navigation", shortcut: "Ctrl+,", icon: "⚙", onSelect: () => router.push("/settings") },
+  { id: "theme", label: "Toggle Dark Mode", group: "Actions", icon: "🌓", onSelect: () => toggleTheme() },
+  { id: "logout", label: "Sign Out", group: "Actions", icon: "↪", onSelect: () => signOut() },
 ];
 
 // Uncontrolled — opens/closes with Cmd+K automatically
@@ -22,6 +22,10 @@ const items: CommandItem[] = [
 // Controlled
 <CommandPalette items={items} open={isOpen} onOpenChange={setIsOpen} />
 ```
+
+### Per-item icons
+
+Each `CommandItem` accepts an optional `icon` (`ReactNode`) rendered before the label. Use it to give users a visual anchor when scanning long lists.
 
 ### Props
 
@@ -39,6 +43,7 @@ const items: CommandItem[] = [
 |-------|------|-------------|
 | id | `string` | Unique identifier |
 | label | `string` | Display text |
+| icon | `ReactNode?` | Optional leading icon / glyph |
 | group | `string?` | Grouping label |
 | shortcut | `string?` | Keyboard shortcut display |
 | disabled | `boolean?` | Prevents selection |
@@ -53,6 +58,8 @@ const items: CommandItem[] = [
 - Global `Cmd+K` / `Ctrl+K` hotkey
 - Items grouped with `role="group"` and `aria-label`
 - Disabled items skip during keyboard navigation
+- Focus is trapped inside the palette while open — Tab/Shift+Tab stay within the dialog, and focus returns to the previously-focused element on close
+- Rendered via Portal so the dialog overlays all page chrome regardless of DOM nesting
 
 ### CSS Classes
 

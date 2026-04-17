@@ -41,6 +41,23 @@ toast.warning("Session expiring soon");
 
 // Custom duration (ms). Pass 0 to disable auto-dismiss.
 toast("Manual dismiss only", { duration: 0 });
+
+// With an inline action button
+toast("Message archived", {
+  action: {
+    label: "Undo",
+    onClick: () => restoreMessage(),
+  },
+});
+```
+
+### Position
+
+Configure where the stack appears on `<Toaster>`. All six corners are supported.
+
+```tsx
+<Toaster position="top-right" />
+<Toaster position="bottom-center" />
 ```
 
 ### Props — `toast()`
@@ -51,12 +68,20 @@ toast("Manual dismiss only", { duration: 0 });
 | opts.description | `string` | — | Optional supporting text |
 | opts.variant | `"default" \| "success" \| "destructive" \| "warning"` | `"default"` | Visual style |
 | opts.duration | `number` | `5000` | Auto-dismiss delay in ms. `0` disables auto-dismiss. |
+| opts.action | `{ label: string; onClick: () => void }` | — | Renders an inline action button on the toast |
+
+### Props — `<Toaster>`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| position | `"top-left" \| "top-center" \| "top-right" \| "bottom-left" \| "bottom-center" \| "bottom-right"` | `"bottom-right"` | Stack anchor corner |
 
 ### Accessibility
 
 - `<Toaster>` has `role="region"` and `aria-label="Notifications"`
 - Each toast has `role="alert"` so screen readers announce it immediately
 - Close button has `aria-label="Close notification"`
+- Action button (when provided) is keyboard-focusable and activated by Enter/Space
 
 ---
 

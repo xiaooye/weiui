@@ -125,8 +125,11 @@ import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/
 
 - `role="menu"` on content, `role="menuitem"` on items
 - Arrow keys navigate items
+- Typeahead: pressing a letter jumps focus to the next item whose label starts with that letter
+- Disabled items are skipped during keyboard navigation
 - Escape closes menu
 - Enter / Space selects item
+- Content is rendered through a Portal and anchored with Floating UI
 
 ---
 

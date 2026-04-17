@@ -1,16 +1,24 @@
 # Overlay Components
 
-Modal dialogs, tooltips, and popovers with full accessibility.
+Modal dialogs, tooltips, and popovers with full accessibility. All overlays render through a Portal attached to `document.body` so they escape any `overflow: hidden` ancestor.
 
 ## Dialog
 
-A modal overlay that traps focus and blocks interaction with the page behind it.
+A modal overlay that traps focus and blocks interaction with the page behind it. Content renders into a Portal, and you can customise the scrim via `<DialogOverlay>`.
 
 ```tsx
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose } from "@weiui/react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogOverlay,
+  DialogContent,
+  DialogTitle,
+  DialogClose,
+} from "@weiui/react";
 
 <Dialog>
   <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
+  <DialogOverlay />
   <DialogContent>
     <DialogTitle>Confirm Action</DialogTitle>
     <p>Are you sure you want to proceed?</p>
@@ -19,16 +27,19 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose } from "
 </Dialog>
 ```
 
+`<DialogOverlay>` is optional — omit it to get the default backdrop, or render your own to customise the blur / colour / click-to-close behaviour. Both `DialogOverlay` and `DialogContent` render via Portal.
+
 ### Accessibility
 - Focus trapped inside dialog
 - Escape closes dialog
 - Focus returns to trigger on close
 - `aria-modal="true"`, `role="dialog"`
 - Body scroll locked when open
+- Rendered via Portal — no `z-index` wars with parent containers
 
 ## Tooltip
 
-Shows contextual information on hover/focus.
+Shows contextual information on hover or keyboard focus. The trigger gets `aria-describedby` auto-wired to the tooltip id, and the content renders via Portal so it can escape overflow containers.
 
 ```tsx
 import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
@@ -41,30 +52,93 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
 </Tooltip>
 ```
 
+Tooltips open on both pointer hover and keyboard focus, so users navigating with a keyboard see the same hint.
+
 ### Accessibility
 - `role="tooltip"` on content
-- `aria-describedby` links trigger to tooltip
-- Shows on hover and focus
-- Hides on Escape
+- `aria-describedby` auto-links the trigger to the tooltip id
+- Shows on hover AND focus — keyboard users get the hint too
+- Hides on Escape and on blur/pointerleave
+- Rendered via Portal
 
 ## Popover
 
-An interactive overlay positioned relative to its trigger.
+An interactive overlay positioned relative to its trigger. Popover is fully controllable and accepts side/align props to tune placement via Floating UI.
 
 ```tsx
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
 
+// Uncontrolled
 <Popover>
   <PopoverTrigger className="wui-button wui-button--outline">Settings</PopoverTrigger>
-  <PopoverContent>
+  <PopoverContent side="bottom" align="end">
     <p>Popover content here</p>
     <PopoverClose className="wui-button wui-button--ghost">Close</PopoverClose>
   </PopoverContent>
 </Popover>
+
+// Controlled
+<Popover open={isOpen} onOpenChange={setIsOpen}>
+  <PopoverTrigger>Open</PopoverTrigger>
+  <PopoverContent>…</PopoverContent>
+</Popover>
 ```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| open | `boolean` | — | Controlled open state |
+| defaultOpen | `boolean` | `false` | Initial uncontrolled state |
+| onOpenChange | `(open: boolean) => void` | — | Open/close callback |
+
+### PopoverContent Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| side | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side, flipped if no room |
+| align | `"start" \| "center" \| "end"` | `"center"` | Alignment along the chosen side |
 
 ### Accessibility
 - Focus trapped inside popover
 - Escape closes
 - Outside click closes
-- `aria-haspopup` on trigger
+- `aria-haspopup`, `aria-expanded` on trigger
+- Rendered via Portal; placement calculated by Floating UI
+
+## Menu
+
+Dropdown menu with rich keyboard support including typeahead.
+
+```tsx
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+
+<Menu>
+  <MenuTrigger className="wui-button wui-button--outline">File</MenuTrigger>
+  <MenuContent>
+    <MenuItem onSelect={() => newFile()}>New file</MenuItem>
+    <MenuItem onSelect={() => open()}>Open…</MenuItem>
+    <MenuSeparator />
+    <MenuItem disabled onSelect={() => save()}>Save (disabled)</MenuItem>
+    <MenuItem onSelect={() => exit()}>Exit</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+### Keyboard
+- ArrowUp / ArrowDown move focus between items
+- Typeahead: type any letter(s) and focus jumps to the next item starting with that string
+- Disabled items are skipped during navigation
+- Enter / Space activates the focused item
+- Escape closes
+
+### Placement
+The menu content is anchored to the trigger via Floating UI and rendered through a Portal — it flips when it would overflow the viewport and won't be clipped by scrolling containers.
+
+## Toast
+
+Toast is documented on [Toast, Chip & ProgressBar](/docs/components/toast-chip-progress). Highlights from Wave 5b:
+
+- Each toast accepts an `action={{ label, onClick }}` to render an inline action button
+- Toaster position is configurable (`top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`)
+- Toasts render through a Portal
