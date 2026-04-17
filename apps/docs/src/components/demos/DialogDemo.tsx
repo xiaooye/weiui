@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-  Button,
+  toast,
 } from "@weiui/react";
 
 export function DialogDemo() {
@@ -23,9 +23,12 @@ export function DialogDemo() {
           <DialogClose className="wui-button wui-button--outline">
             Cancel
           </DialogClose>
-          <Button variant="solid" color="destructive">
+          <DialogClose
+            className="wui-button wui-button--solid wui-button--destructive"
+            onClick={() => toast.success("Confirmed")}
+          >
             Confirm
-          </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

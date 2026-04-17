@@ -6,7 +6,7 @@ export function PopoverDemo() {
   return (
     <Popover side="bottom" align="start">
       <PopoverTrigger className="wui-button wui-button--outline">
-        Show Popover
+        Account
       </PopoverTrigger>
       <PopoverContent
         style={{
@@ -15,16 +15,63 @@ export function PopoverDemo() {
           borderRadius: "var(--wui-shape-radius-md)",
           boxShadow: "var(--wui-elevation-3)",
           padding: "var(--wui-spacing-4)",
-          maxInlineSize: "240px",
+          minInlineSize: "260px",
           zIndex: 1000,
         }}
       >
-        <p style={{ margin: 0, marginBlockEnd: "var(--wui-spacing-3)", fontSize: "var(--wui-font-size-sm)" }}>
-          Popovers attach to a trigger and escape overflow containers.
-        </p>
-        <PopoverClose className="wui-button wui-button--ghost">
-          Close
-        </PopoverClose>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--wui-spacing-3)",
+            marginBlockEnd: "var(--wui-spacing-3)",
+          }}
+        >
+          <span className="wui-avatar">
+            <span className="wui-avatar__fallback">AL</span>
+          </span>
+          <div style={{ minInlineSize: 0 }}>
+            <div
+              style={{
+                fontSize: "var(--wui-font-size-sm)",
+                fontWeight: "var(--wui-font-weight-semibold)",
+                color: "var(--wui-color-foreground)",
+              }}
+            >
+              Ada Lovelace
+            </div>
+            <div
+              style={{
+                fontSize: "var(--wui-font-size-xs)",
+                color: "var(--wui-color-muted-foreground)",
+              }}
+            >
+              ada@example.com
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            blockSize: "1px",
+            background: "var(--wui-color-border)",
+            marginBlock: "var(--wui-spacing-2)",
+          }}
+          aria-hidden="true"
+        />
+        <div
+          style={{
+            display: "flex",
+            gap: "var(--wui-spacing-2)",
+            justifyContent: "flex-end",
+          }}
+        >
+          <PopoverClose className="wui-button wui-button--ghost wui-button--sm">
+            Sign out
+          </PopoverClose>
+          <PopoverClose className="wui-button wui-button--solid wui-button--sm">
+            Profile
+          </PopoverClose>
+        </div>
       </PopoverContent>
     </Popover>
   );

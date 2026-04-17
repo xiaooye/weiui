@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator, toast } from "@weiui/react";
 
 const menuItemStyle: CSSProperties = {
   padding: "var(--wui-spacing-2) var(--wui-spacing-3)",
@@ -26,10 +26,10 @@ export function MenuDemo() {
           zIndex: 1000,
         }}
       >
-        <MenuItem style={menuItemStyle} onSelect={() => {}}>
+        <MenuItem style={menuItemStyle} onSelect={() => toast("New file")}>
           New file
         </MenuItem>
-        <MenuItem style={menuItemStyle} onSelect={() => {}}>
+        <MenuItem style={menuItemStyle} onSelect={() => toast("Open dialog triggered")}>
           Open…
         </MenuItem>
         <MenuSeparator
@@ -39,10 +39,10 @@ export function MenuDemo() {
             marginBlock: "var(--wui-spacing-1)",
           }}
         />
-        <MenuItem style={menuItemStyle} disabled onSelect={() => {}}>
+        <MenuItem style={menuItemStyle} disabled onSelect={() => toast.error("This should never fire")}>
           Save (disabled)
         </MenuItem>
-        <MenuItem style={menuItemStyle} onSelect={() => {}}>
+        <MenuItem style={menuItemStyle} onSelect={() => toast("Goodbye")}>
           Exit
         </MenuItem>
       </MenuContent>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CommandPalette, type CommandItem } from "@weiui/react";
+import { CommandPalette, toast, type CommandItem } from "@weiui/react";
 
 const items: CommandItem[] = [
   {
@@ -9,48 +9,48 @@ const items: CommandItem[] = [
     label: "New File",
     group: "File",
     shortcut: "⌘N",
-    onSelect: () => {},
+    onSelect: () => toast("New File"),
   },
   {
     id: "open-file",
     label: "Open File…",
     group: "File",
     shortcut: "⌘O",
-    onSelect: () => {},
+    onSelect: () => toast("Open File"),
   },
   {
     id: "save",
     label: "Save",
     group: "File",
     shortcut: "⌘S",
-    onSelect: () => {},
+    onSelect: () => toast.success("Saved"),
   },
   {
     id: "find",
     label: "Find in Files",
     group: "Edit",
     shortcut: "⇧⌘F",
-    onSelect: () => {},
+    onSelect: () => toast("Find in Files"),
   },
   {
     id: "replace",
     label: "Replace",
     group: "Edit",
     shortcut: "⌘R",
-    onSelect: () => {},
+    onSelect: () => toast("Replace"),
   },
   {
     id: "theme-toggle",
     label: "Toggle Dark Mode",
     group: "View",
-    onSelect: () => {},
+    onSelect: () => toast("Toggle Dark Mode"),
   },
   {
     id: "settings",
     label: "Open Settings",
     group: "View",
     shortcut: "⌘,",
-    onSelect: () => {},
+    onSelect: () => toast("Open Settings"),
   },
 ];
 
