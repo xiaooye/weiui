@@ -125,8 +125,10 @@ import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| open | `boolean` | — | Controlled open state |
-| onOpenChange | `(open: boolean) => void` | — | Called when open state changes |
+| side | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side of the trigger to render on |
+| align | `"start" \| "center" \| "end"` | `"start"` | Alignment of the content relative to the trigger |
+
+Menu manages its own open state internally — clicking the trigger opens it, and Escape / outside click / item selection closes it.
 
 ### Accessibility
 
