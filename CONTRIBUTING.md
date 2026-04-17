@@ -22,9 +22,22 @@ weiui/
 │   ├── cli/        # CLI tool
 │   └── a11y/       # Accessibility utilities
 ├── apps/
-│   └── docs/       # Documentation site
+│   └── docs/       # Documentation site (Next.js)
 └── DESIGNSYSTEM-PLAN.md  # Full design specification
 ```
+
+### Subpath imports in `@weiui/react`
+
+Heavy third-party deps are kept out of the main barrel and live on
+dedicated subpath entries, so consumers who never touch those components
+pay nothing for them:
+
+- `@weiui/react/editor` — Tiptap-backed rich-text editor
+- `@weiui/react/data-table` — TanStack-table-backed DataTable
+- `@weiui/react/chart` — Recharts-backed BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart
+
+If you add a component with a heavy peer dep, route it through its own
+entry file (see `packages/react/src/editor-entry.ts` for the pattern).
 
 ## Pull Request Process
 

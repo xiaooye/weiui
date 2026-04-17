@@ -1,5 +1,12 @@
 # Runtime Audit Report — 2026-04-17
 
+> **Status — RESOLVED (2026-04-16).** All 22 concrete issues in this
+> report (5 critical, 10 major, 3 structural, 4 polish, plus the 10
+> missing live-demo pages) have been addressed across the subsequent
+> polish rounds. See commits between `abe5cc0` and `45b279b` for the
+> per-page fixes. This document remains for historical context — it is
+> no longer an open TODO list.
+
 Runtime diagnostic of the WeiUI docs site (`apps/docs`) and the exported `@weiui/react` components that the docs try to document. Build succeeds (`pnpm --filter @weiui/docs build` passes, 43 pages generated), so issues are structural / behavioural rather than compile-time.
 
 A single telltale: the Next.js build report shows 585 B First-Load JS for pages that *should* have heavy interactive components (`color-picker`, `command-palette`, `date-time` DatePicker portion, `editor`, `overlays`, `portal`, `kbd`, `data`, `toast-chip-progress`). Pages with real client components show 1.83 kB. Those 585 B pages ship no client JS = there is no live demo on them.
