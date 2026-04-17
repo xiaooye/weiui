@@ -135,4 +135,81 @@ describe("ToggleGroup", () => {
     await user.click(screen.getByText("B"));
     expect(onChange).toHaveBeenCalledWith(["a", "b"]);
   });
+
+  describe("keyboard navigation", () => {
+    it("applies roving tabindex (only one item is tabbable at a time)", () => {
+      render(
+        <ToggleGroup type="single" defaultValue="b">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+          <ToggleGroupItem value="c">C</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const a = screen.getByText("A").closest("button")!;
+      const b = screen.getByText("B").closest("button")!;
+      const c = screen.getByText("C").closest("button")!;
+      // Selected item is the tab-stop; the others get tabindex="-1".
+      expect(a.getAttribute("tabindex")).toBe("-1");
+      expect(b.getAttribute("tabindex")).toBe("0");
+      expect(c.getAttribute("tabindex")).toBe("-1");
+    });
+
+    it("arrow-right moves focus to next item", async () => {
+      const user = userEvent.setup();
+      render(
+        <ToggleGroup type="single">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const a = screen.getByText("A").closest("button")!;
+      a.focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByText("B").closest("button")).toHaveFocus();
+    });
+
+    it("arrow-left moves focus to previous item with wrap", async () => {
+      const user = userEvent.setup();
+      render(
+        <ToggleGroup type="single">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const a = screen.getByText("A").closest("button")!;
+      a.focus();
+      await user.keyboard("{ArrowLeft}");
+      expect(screen.getByText("B").closest("button")).toHaveFocus();
+    });
+
+    it("Home/End jump to first/last", async () => {
+      const user = userEvent.setup();
+      render(
+        <ToggleGroup type="single">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+          <ToggleGroupItem value="c">C</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const b = screen.getByText("B").closest("button")!;
+      b.focus();
+      await user.keyboard("{End}");
+      expect(screen.getByText("C").closest("button")).toHaveFocus();
+      await user.keyboard("{Home}");
+      expect(screen.getByText("A").closest("button")).toHaveFocus();
+    });
+
+    it("when no item selected, first item is the tab-stop", () => {
+      render(
+        <ToggleGroup type="single">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const a = screen.getByText("A").closest("button")!;
+      const b = screen.getByText("B").closest("button")!;
+      expect(a.getAttribute("tabindex")).toBe("0");
+      expect(b.getAttribute("tabindex")).toBe("-1");
+    });
+  });
 });
