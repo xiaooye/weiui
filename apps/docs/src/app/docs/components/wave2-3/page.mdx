@@ -38,6 +38,13 @@ import { Pagination } from "@weiui/react";
 | onPageChange | `(page: number) => void` | — | Page change handler |
 | siblingCount | `number` | `1` | Pages shown around current |
 
+### Accessibility
+
+- Root uses `<nav aria-label="Pagination">` so assistive tech announces it as a navigation landmark.
+- Current page button carries `aria-current="page"`.
+- Previous / Next buttons expose `aria-label` so screen readers hear the action rather than the raw glyph.
+- Ellipses are marked `aria-hidden="true"` — they are visual cues only.
+
 ---
 
 ## Transfer
@@ -81,6 +88,13 @@ const [selected, setSelected] = useState<string[]>(["react"]);
 | sourceTitle | `string` | `"Available"` | Heading over the source list |
 | targetTitle | `string` | `"Selected"` | Heading over the target list |
 
+### Accessibility
+
+- Both lists use `role="listbox"` with `aria-multiselectable="true"`; individual rows are `role="option"` with `aria-selected` kept in sync with their selection state.
+- Each list has an `aria-label` ("Available items" / "Selected items") so screen readers announce which side they're on.
+- The whole component is wrapped in `role="group"` with `aria-label="Transfer list"` to expose it as a named landmark.
+- Move buttons use `aria-label="Move selected to target"` / `"Move selected to source"` so the direction is unambiguous to screen readers.
+
 ---
 
 ## Splitter
@@ -114,9 +128,20 @@ const [sizes, setSizes] = useState<[number, number]>([30, 70]);
 </Splitter>
 ```
 
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| orientation | `"horizontal" \| "vertical"` | `"horizontal"` | Axis the panes split along |
+| sizes | `[number, number]` | — | Controlled pane sizes as percentages (sum to 100) |
+| defaultSizes | `[number, number]` | `[50, 50]` | Initial uncontrolled pane sizes |
+| onSizesChange | `(sizes: [number, number]) => void` | — | Fires when the user drags the handle |
+| minSize | `number` | `10` | Minimum percentage allowed per pane |
+
 ### Accessibility
-- Handle uses `role="separator"` with `aria-orientation` and `aria-valuenow`
-- Keyboard: ArrowLeft/Right (horizontal) or ArrowUp/Down (vertical) to resize
+- Handle uses `role="separator"` with `aria-orientation`, `aria-valuenow`, `aria-valuemin`, and `aria-valuemax`
+- Keyboard: Arrow keys resize the panes in 5% steps (Left/Right for horizontal, Up/Down for vertical)
+- `minSize` bounds both sides, so the separator can never be dragged past the permitted range
 
 ---
 
@@ -139,6 +164,23 @@ import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiu
 </AppBar>
 ```
 
+### Props
+
+`AppBar` and its slot components (`AppBarBrand`, `AppBarNav`, `AppBarActions`) forward every native HTML attribute — there are no WeiUI-specific props on them.
+
+`AppBarLink` adds one:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| active | `boolean` | `false` | Sets `data-active` and `aria-current="page"` |
+
+### Accessibility
+
+- Root renders as `<header>` — pair it with a page `<main>` landmark so assistive tech distinguishes the banner from body content.
+- `AppBarNav` renders as `<nav>`; pass `aria-label="Primary"` so screen readers can distinguish it from other nav landmarks.
+- Active links carry `aria-current="page"` so the current view is announced.
+- Sticky positioning is CSS-driven — the `.wui-app-bar` class handles it, no prop needed.
+
 ---
 
 ## BottomNav
@@ -156,6 +198,25 @@ import { BottomNav, BottomNavItem } from "@weiui/react";
 ```
 
 The safe-area inset is applied via CSS on `.wui-bottom-nav` and is therefore zero on platforms without a bottom inset. No consumer-side configuration is needed.
+
+### Props
+
+`BottomNav` forwards all native `<nav>` attributes.
+
+`BottomNavItem`:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| active | `boolean` | `false` | Marks as current view; sets `aria-current="page"` |
+| icon | `ReactNode` | — | Icon rendered above the label |
+| label | `string` | — | Visible label text |
+
+### Accessibility
+
+- Root renders as `<nav aria-label="Bottom navigation">` so assistive tech announces it as a named landmark.
+- Active items set `aria-current="page"`.
+- Icons are marked `aria-hidden="true"` — the `label` prop is the announced text, so screen readers don't speak the decorative glyph.
+- Each item inherits the Button 44×44px minimum touch target for reliable thumb reach on mobile.
 
 ---
 
@@ -188,6 +249,13 @@ import { SpeedDial } from "@weiui/react";
 | actions | `SpeedDialAction[]` | — | Action list — each has `id`, `icon`, `label`, `onClick` |
 | icon | `ReactNode` | `"+"` | Icon rendered on the FAB trigger |
 | label | `string` | `"Speed dial"` | `aria-label` on the group and open menu |
+
+### Accessibility
+
+- Trigger button uses `aria-haspopup="menu"` and `aria-expanded` to reflect the open state.
+- When open, the action list renders with `role="menu"` and each action as `role="menuitem"` with a clear `aria-label`.
+- Icons on actions are `aria-hidden="true"` so screen readers announce the action label, not the glyph.
+- Escape closes the menu and restores focus to the FAB trigger so keyboard users stay oriented.
 
 ---
 
@@ -238,6 +306,13 @@ import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
 | disabled | `boolean` | `false` | Disables every item in the group |
 | label | `string` | — | Sets `aria-label` on the group wrapper |
 
+### Accessibility
+
+- `type="single"` renders the group as `role="radiogroup"` with each item as `role="radio"` and `aria-checked` kept in sync with the selected value.
+- `type="multiple"` uses `role="group"` with each item as `role="button"` carrying `aria-pressed`.
+- Roving tabindex — only the focused (or first) item is tabbable, matching the ARIA Authoring Practices pattern for both toggle buttons and radio groups.
+- Disabled items are skipped during arrow-key navigation.
+
 ---
 
 ## ButtonGroup
@@ -261,3 +336,13 @@ import { ButtonGroup, Button } from "@weiui/react";
   <Button variant="outline">Paste</Button>
 </ButtonGroup>
 ```
+
+### Props
+
+ButtonGroup forwards every native `<div>` attribute — it adds no WeiUI-specific props. Pair it with any focusable children (typically `Button`), and the CSS handles shared-border collapsing.
+
+### Accessibility
+
+- Root renders as `<div role="group">` so assistive tech announces the buttons as a related set.
+- Pair with an `aria-label` when the group's purpose isn't clear from its children (e.g. `aria-label="Clipboard actions"`).
+- Unlike `ToggleGroup`, ButtonGroup doesn't manage selection — every child button keeps its own semantics and tab stop.
