@@ -48,6 +48,21 @@ import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } fr
 | defaultOpen | `boolean` | `false` | Default collapsed state |
 | onOpenChange | `(open: boolean) => void` | — | Collapse toggle callback |
 
+### Collapsed (icon-only) mode
+
+When the sidebar is collapsed, labels are visually hidden and the sidebar narrows to fit icons only — the layout transition is CSS-driven so the adjacent content reflows without layout shift. Screen readers still announce the full label via `aria-label`.
+
+```tsx
+<Sidebar defaultOpen={false}>
+  <SidebarContent>
+    <SidebarItem icon={<HomeIcon />}>Home</SidebarItem>
+    <SidebarItem icon={<SettingsIcon />}>Settings</SidebarItem>
+  </SidebarContent>
+</Sidebar>
+```
+
+Toggle by flipping `open` / calling `onOpenChange`. In CSS, the mode is a `data-collapsed` attribute — you can target it (e.g. `.wui-sidebar[data-collapsed] .brand-text { display: none }`) to tailor the visual further.
+
 ### SidebarItem Props
 
 | Prop | Type | Default | Description |

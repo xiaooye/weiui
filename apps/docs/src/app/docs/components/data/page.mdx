@@ -23,6 +23,58 @@ const columns = [
 <DataTable data={users} columns={columns} searchable pageSize={10} />
 ```
 
+### Row selection
+
+Pass `selectable` to render a checkbox column plus a header checkbox that selects/deselects the current page. Subscribe to changes with `onRowSelectionChange`.
+
+```tsx
+<DataTable
+  data={users}
+  columns={columns}
+  selectable
+  onRowSelectionChange={(rows) => console.log("selected:", rows)}
+/>
+```
+
+### Loading state
+
+When `loading` is set, rows are replaced with skeleton shimmer. Use this while fetching so the table keeps its layout instead of collapsing.
+
+```tsx
+<DataTable data={[]} columns={columns} loading />
+```
+
+### Page-size selector
+
+`pageSizeOptions` renders a dropdown in the pagination bar so users can pick how many rows to show.
+
+```tsx
+<DataTable
+  data={users}
+  columns={columns}
+  pageSize={10}
+  pageSizeOptions={[10, 25, 50, 100]}
+/>
+```
+
+### Server-side data
+
+For datasets that live on the server, opt-out of client-side pagination / sorting / filtering with the `manual*` flags, supply `rowCount`, and respond to state change callbacks by fetching the next page yourself.
+
+```tsx
+<DataTable
+  data={pageRows}
+  columns={columns}
+  manualPagination
+  manualSorting
+  manualFiltering
+  rowCount={totalRowCount}
+  onPaginationChange={(p) => fetchPage(p.pageIndex, p.pageSize)}
+  onSortingChange={(s) => fetchSorted(s)}
+  onGlobalFilterChange={(q) => fetchSearch(q)}
+/>
+```
+
 ### Props
 
 | Prop | Type | Default | Description |
@@ -32,7 +84,17 @@ const columns = [
 | searchable | `boolean` | `false` | Shows global search input |
 | selectable | `boolean` | `false` | Enables row selection checkboxes |
 | pageSize | `number` | `10` | Rows per page |
+| pageSizeOptions | `number[]` | — | Shows a page-size dropdown |
+| loading | `boolean` | `false` | Shows skeleton rows while data is fetching |
 | emptyText | `string` | `"No results."` | Empty state message |
+| rowCount | `number` | — | Total row count (required for `manualPagination`) |
+| manualPagination | `boolean` | `false` | Delegate pagination to server |
+| manualSorting | `boolean` | `false` | Delegate sorting to server |
+| manualFiltering | `boolean` | `false` | Delegate global filter to server |
+| onPaginationChange | `(state) => void` | — | Fires when page/pageSize changes |
+| onSortingChange | `(state) => void` | — | Fires when column sort changes |
+| onGlobalFilterChange | `(filter: string) => void` | — | Fires when the search box changes |
+| onRowSelectionChange | `(rows: TData[]) => void` | — | Fires when row selection changes |
 
 ---
 
@@ -104,13 +166,30 @@ const nodes: TreeNode[] = [
 <TreeView nodes={nodes} onSelect={(id) => console.log(id)} />
 ```
 
+### Controlled expanded state
+
+Drive the open/closed state from outside the component by pairing `expanded` with `onExpandedChange`. Useful when expanded state should persist in URL, localStorage, or sync with another view.
+
+```tsx
+const [expanded, setExpanded] = useState<string[]>(["src"]);
+
+<TreeView
+  nodes={nodes}
+  expanded={expanded}
+  onExpandedChange={setExpanded}
+  onSelect={(id) => console.log(id)}
+/>
+```
+
 ### Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | nodes | `TreeNode[]` | — | Tree data structure |
 | selected | `string` | — | Currently selected node ID |
-| defaultExpanded | `string[]` | `[]` | Initially expanded node IDs |
+| expanded | `string[]` | — | Controlled list of expanded node IDs |
+| defaultExpanded | `string[]` | `[]` | Initially expanded node IDs (uncontrolled) |
+| onExpandedChange | `(ids: string[]) => void` | — | Fires when a branch toggles |
 | onSelect | `(id: string) => void` | — | Selection callback |
 
 ### Accessibility

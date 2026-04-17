@@ -28,15 +28,45 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@w
 </Accordion>
 ```
 
+### Controlled expanded state
+
+Both `single` and `multiple` modes accept a controlled `value` plus `onValueChange`. The `value` is `string | null` in single mode and `string[]` in multiple mode.
+
+```tsx
+// single — controlled
+const [open, setOpen] = useState<string | null>("faq-1");
+
+<Accordion type="single" value={open} onValueChange={setOpen}>
+  {/* ... */}
+</Accordion>
+
+// multiple — controlled
+const [open, setOpen] = useState<string[]>(["faq-1"]);
+
+<Accordion type="multiple" value={open} onValueChange={setOpen}>
+  {/* ... */}
+</Accordion>
+```
+
+### Keyboard
+
+- ArrowDown / ArrowUp move focus between triggers (wraps at boundaries)
+- Home / End jump to the first / last trigger
+- Enter / Space toggles the focused item
+- Disabled items are skipped during navigation
+
 ### Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | type | `"single" \| "multiple"` | `"single"` | Allow one or many open at once |
-| defaultExpanded | `string[]` | `[]` | Initially expanded items |
+| value | `string \| string[] \| null` | — | Controlled expanded value(s) |
+| onValueChange | `(value: string \| string[] \| null) => void` | — | Called when expanded changes |
+| defaultExpanded | `string[]` | `[]` | Initially expanded items (uncontrolled) |
 
 ### Accessibility
 
 - Trigger uses `aria-expanded` and `aria-controls`
 - Content uses `role="region"`
+- Arrow-key roving between triggers, Home/End jumps, wraps at edges
 - Chevron icon rotates on expand (respects `prefers-reduced-motion`)

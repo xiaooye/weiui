@@ -39,6 +39,7 @@ Multi-step progress indicator showing active, completed, and pending steps.
 ```tsx
 import { Stepper, Step, StepSeparator } from "@weiui/react";
 
+// Explicit indices
 <Stepper activeStep={1}>
   <Step index={0} label="Account" description="Create your account" />
   <StepSeparator index={0} />
@@ -46,7 +47,19 @@ import { Stepper, Step, StepSeparator } from "@weiui/react";
   <StepSeparator index={1} />
   <Step index={2} label="Review" description="Confirm setup" />
 </Stepper>
+
+// Auto-inferred indices — Stepper walks its children and assigns an
+// index to each <Step>; separators take the preceding step's index.
+<Stepper activeStep={1}>
+  <Step label="Account" description="Create your account" />
+  <StepSeparator />
+  <Step label="Profile" description="Fill in details" />
+  <StepSeparator />
+  <Step label="Review" description="Confirm setup" />
+</Stepper>
 ```
+
+You can mix the two: an explicit `index` on any child overrides the auto-assigned value.
 
 ### Props
 
@@ -54,6 +67,14 @@ import { Stepper, Step, StepSeparator } from "@weiui/react";
 |------|------|---------|-------------|
 | activeStep | `number` | — | Current active step index |
 | orientation | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
+
+### Step / StepSeparator Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| index | `number` | auto | Explicit step index. Omit to let `Stepper` auto-infer from child order. |
+| label | `ReactNode` | — | Step title (Step only) |
+| description | `ReactNode` | — | Step supporting text (Step only) |
 
 ---
 

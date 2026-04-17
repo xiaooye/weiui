@@ -41,6 +41,27 @@ import { Transfer } from "@weiui/react";
 />
 ```
 
+### Controlled target values
+
+Drive the selected-side from the outside with `targetValues` + `onTargetValuesChange`. Useful when the selection is part of form state or must be persisted.
+
+```tsx
+const [selected, setSelected] = useState<string[]>(["react"]);
+
+<Transfer
+  sourceItems={allFrameworks}
+  targetValues={selected}
+  onTargetValuesChange={setSelected}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| sourceItems | `{ value: string; label: string }[]` | — | Full set of items available |
+| targetValues | `string[]` | — | Controlled selected values on the target side |
+| defaultTargetValues | `string[]` | `[]` | Initial uncontrolled selected values |
+| onTargetValuesChange | `(values: string[]) => void` | — | Fires when the target list changes |
+
 ---
 
 ## Splitter
@@ -58,6 +79,19 @@ import { Splitter } from "@weiui/react";
 <Splitter orientation="vertical" minSize={20}>
   <div>Top</div>
   <div>Bottom</div>
+</Splitter>
+```
+
+### Controlled sizes
+
+Both panes can be driven from outside via `sizes` + `onSizesChange`. Sizes are an array of percentages that must sum to 100.
+
+```tsx
+const [sizes, setSizes] = useState<number[]>([30, 70]);
+
+<Splitter sizes={sizes} onSizesChange={setSizes}>
+  <Nav />
+  <Editor />
 </Splitter>
 ```
 
@@ -90,7 +124,7 @@ import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiu
 
 ## BottomNav
 
-Mobile bottom navigation bar — fixed to viewport bottom.
+Mobile bottom navigation bar — fixed to viewport bottom. Adds `env(safe-area-inset-bottom)` padding automatically so the bar clears the iOS home indicator.
 
 ```tsx
 import { BottomNav, BottomNavItem } from "@weiui/react";
@@ -101,6 +135,8 @@ import { BottomNav, BottomNavItem } from "@weiui/react";
   <BottomNavItem icon="👤" label="Profile" onClick={() => navigate("/profile")} />
 </BottomNav>
 ```
+
+The safe-area inset is applied via CSS on `.wui-bottom-nav` and is therefore zero on platforms without a bottom inset. No consumer-side configuration is needed.
 
 ---
 
@@ -119,6 +155,13 @@ import { SpeedDial } from "@weiui/react";
   ]}
 />
 ```
+
+### Keyboard
+- Enter / Space on the FAB opens the action list and moves focus to the first action
+- ArrowUp / ArrowDown (or ArrowLeft / ArrowRight depending on `direction`) roves focus between actions
+- Home / End jumps to the first / last action
+- Escape closes the menu and returns focus to the FAB
+- Focus is locked inside the open speed dial — Tab stays within the actions
 
 ---
 

@@ -87,10 +87,17 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@weiui/react";
 | value | `string` | — | Active tab (controlled) |
 | onValueChange | `(value: string) => void` | — | Called when active tab changes |
 
+### Keyboard
+
+- ArrowLeft / ArrowRight move focus between tabs (ArrowUp / ArrowDown for vertical orientation)
+- Home / End jump to the first / last tab
+- Enter or Space activates the focused tab
+- Focus wraps from last to first
+
 ### Accessibility
 
 - `role="tablist"`, `role="tab"`, `role="tabpanel"`
-- Arrow keys move focus between tabs
+- Arrow-key roving focus — only one tab is tabbable at a time
 - `aria-selected` on the active trigger
 - `aria-controls` / `aria-labelledby` link triggers to panels
 
