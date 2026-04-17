@@ -43,3 +43,12 @@
     }
   }
 }
+
+@layer wui-elements {
+  .wui-autocomplete__loading {
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+  }
+}

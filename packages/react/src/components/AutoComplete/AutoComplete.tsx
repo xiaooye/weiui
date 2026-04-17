@@ -1,7 +1,7 @@
 "use client";
 import { forwardRef, useState, useRef, useId } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick } from "@weiui/headless";
+import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
 
 export interface AutoCompleteProps {
   options: { value: string; label: string }[];
@@ -13,6 +13,7 @@ export interface AutoCompleteProps {
   className?: string;
   emptyText?: string;
   label?: string;
+  loading?: boolean;
 }
 
 export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
@@ -27,6 +28,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
       className,
       emptyText = "No results",
       label,
+      loading,
     },
     ref,
   ) => {
@@ -38,6 +40,8 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const containerRef = useRef<HTMLDivElement>(null);
     const listboxId = useId();
+
+    const { refs, floatingStyles } = useFloatingMenu({ open: isOpen });
 
     useOutsideClick(containerRef, () => setIsOpen(false), isOpen);
 
@@ -96,6 +100,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
       >
         <div ref={containerRef}>
           <input
+            ref={refs.setReference}
             className="wui-autocomplete__input"
             value={inputValue}
             placeholder={placeholder}
@@ -116,8 +121,23 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
             onKeyDown={handleKeyDown}
           />
           {isOpen && (
-            <div className="wui-autocomplete__list" role="listbox" id={listboxId}>
-              {filtered.length > 0 ? (
+            <div
+              ref={refs.setFloating}
+              style={floatingStyles}
+              className="wui-autocomplete__list"
+              role="listbox"
+              id={listboxId}
+            >
+              {loading && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="wui-autocomplete__loading"
+                >
+                  Loading…
+                </div>
+              )}
+              {!loading && filtered.length > 0 ? (
                 filtered.map((opt, i) => (
                   <div
                     key={opt.value}
@@ -132,9 +152,9 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
                     {opt.label}
                   </div>
                 ))
-              ) : (
+              ) : !loading ? (
                 <div className="wui-autocomplete__empty">{emptyText}</div>
-              )}
+              ) : null}
             </div>
           )}
         </div>

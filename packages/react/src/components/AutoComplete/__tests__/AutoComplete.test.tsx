@@ -106,4 +106,22 @@ describe("AutoComplete", () => {
     await user.click(screen.getByText("Angular"));
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
+
+  it("renders loading indicator when loading=true", async () => {
+    const user = userEvent.setup();
+    render(<AutoComplete options={[]} loading />);
+    await user.click(screen.getByRole("combobox"));
+    const status = screen.getByRole("status");
+    expect(status).toBeInTheDocument();
+    expect(status).toHaveTextContent(/loading/i);
+  });
+
+  it("applies floating placement styles to dropdown", async () => {
+    const user = userEvent.setup();
+    render(<AutoComplete options={[{ value: "a", label: "A" }]} />);
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.style.position).toBe("absolute");
+  });
 });
