@@ -8,16 +8,34 @@
     border-radius: var(--wui-shape-radius-md);
     background: var(--wui-color-background); color: var(--wui-color-foreground);
     font-size: var(--wui-font-size-sm); cursor: pointer;
+    box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-date-picker__trigger:focus-visible { border-color: var(--wui-color-ring); outline: 2px solid var(--wui-color-ring); outline-offset: 0; }
+  .wui-date-picker__trigger:focus-visible {
+    border-color: var(--wui-color-ring);
+    outline: 3px solid var(--wui-color-ring-soft);
+    outline-offset: 0;
+  }
   .wui-date-picker__placeholder { color: var(--wui-color-muted-foreground); }
   .wui-date-picker__dropdown {
     position: absolute; inset-block-start: 100%;
     margin-block-start: var(--wui-spacing-1);
-    background-color: var(--wui-color-background);
+    background-color: var(--wui-surface-overlay);
     border: 1px solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-shadow-lg);
+    box-shadow: var(--wui-elevation-3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: var(--wui-zIndex-dropdown);
+  }
+  @supports not (backdrop-filter: blur(8px)) {
+    .wui-date-picker__dropdown { background-color: var(--wui-color-card); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-date-picker__trigger {
+      transition-property: border-color, outline-color, background-color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
   }
 }

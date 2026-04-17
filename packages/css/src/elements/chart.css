@@ -17,4 +17,12 @@
     color: var(--wui-color-muted-foreground);
     margin-block-end: var(--wui-spacing-4);
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-chart {
+      transition-property: color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
 }
