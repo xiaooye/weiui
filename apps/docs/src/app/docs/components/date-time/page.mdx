@@ -101,6 +101,7 @@ The full month grid supports keyboard navigation:
 | onChange | `(date: Date) => void` | — | Date selection handler |
 | minDate | `Date` | — | Earliest selectable date |
 | maxDate | `Date` | — | Latest selectable date |
+| isDateDisabled | `(date: Date) => boolean` | — | Predicate for disabling arbitrary dates (e.g. weekends, blackout days) |
 | locale | `string` | `"en-US"` | BCP-47 locale tag for month / weekday names |
 | firstDayOfWeek | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | Index of the first column (0 = Sunday) |
 | disabled | `boolean` | `false` | Disables all interaction |
@@ -130,6 +131,7 @@ import { DatePicker } from "@weiui/react";
 | placeholder | `string` | `"Select date..."` | Trigger button text |
 | minDate | `Date` | — | Earliest selectable date |
 | maxDate | `Date` | — | Latest selectable date |
+| isDateDisabled | `(date: Date) => boolean` | — | Forwarded to the embedded Calendar for arbitrary date disabling |
 | locale | `string` | `"en-US"` | BCP-47 locale tag forwarded to the Calendar |
 | firstDayOfWeek | `0 \| 1 \| … \| 6` | `0` | First column of the week grid |
 | disabled | `boolean` | `false` | Disables the picker |
