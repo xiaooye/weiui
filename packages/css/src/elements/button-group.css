@@ -1,10 +1,17 @@
 @layer wui-elements {
   .wui-button-group {
     display: inline-flex;
+    box-shadow: var(--wui-elevation-1);
+    border-radius: var(--wui-shape-radius-md);
+    overflow: hidden;
   }
-  .wui-button-group > .wui-button {
+  .wui-button-group > :where(.wui-button) {
+    box-shadow: none;
     border-radius: 0;
     border-inline-end-width: 0;
+  }
+  .wui-button-group > .wui-button:not(:last-child) {
+    border-inline-end: 1px solid color-mix(in oklch, var(--wui-color-border) 70%, transparent);
   }
   .wui-button-group > .wui-button:first-child {
     border-start-start-radius: var(--wui-shape-radius-md);
