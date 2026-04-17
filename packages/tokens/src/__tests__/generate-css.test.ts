@@ -54,3 +54,26 @@ describe("shadow scale", () => {
     }
   });
 });
+
+describe("motion scale", () => {
+  const motionJson = JSON.parse(
+    readFileSync(
+      join(import.meta.dirname, "..", "primitives", "motion.json"),
+      "utf-8",
+    ),
+  );
+
+  it("declares full duration set including base and slower", () => {
+    const durations = Object.keys(motionJson.motion.duration);
+    for (const key of ["instant", "fast", "base", "normal", "slow", "slower"]) {
+      expect(durations).toContain(key);
+    }
+  });
+
+  it("declares Material 3 easing aliases", () => {
+    const easings = Object.keys(motionJson.motion.easing);
+    for (const key of ["standard", "emphasized", "decelerated", "accelerated"]) {
+      expect(easings).toContain(key);
+    }
+  });
+});
