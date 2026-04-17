@@ -87,7 +87,7 @@ import { Splitter } from "@weiui/react";
 Both panes can be driven from outside via `sizes` + `onSizesChange`. Sizes are an array of percentages that must sum to 100.
 
 ```tsx
-const [sizes, setSizes] = useState<number[]>([30, 70]);
+const [sizes, setSizes] = useState<[number, number]>([30, 70]);
 
 <Splitter sizes={sizes} onSizesChange={setSizes}>
   <Nav />
