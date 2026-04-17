@@ -75,6 +75,8 @@ export {
 } from "./components/Tabs";
 export {
   Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator,
+  type MenuProps, type MenuTriggerProps, type MenuContentProps,
+  type MenuItemProps, type MenuSeparatorProps,
 } from "./components/Menu";
 export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, type BreadcrumbProps, type BreadcrumbItemProps } from "./components/Breadcrumb";
 export { Link, type LinkProps } from "./components/Link";
