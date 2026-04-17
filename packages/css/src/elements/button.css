@@ -16,10 +16,12 @@
   .wui-button--xl { min-block-size: 56px; padding-inline: var(--wui-spacing-8); font-size: var(--wui-font-size-lg); border-radius: var(--wui-shape-radius-lg); }
   .wui-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
 
-  /* Variant: solid */
-  .wui-button--solid { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); }
-  .wui-button--solid:hover { filter: brightness(1.1); }
-  .wui-button--solid:active { filter: brightness(0.95); transform: scale(0.98); }
+  /* Variant: solid — inset highlight for depth */
+  .wui-button--solid {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+  }
 
   /* Variant: outline */
   .wui-button--outline { background-color: transparent; border-color: var(--wui-color-primary); color: var(--wui-color-primary); }
@@ -27,26 +29,53 @@
   /* Variant: ghost */
   .wui-button--ghost { background-color: transparent; color: var(--wui-color-primary); }
 
-  /* Variant: soft */
-  .wui-button--soft { background-color: oklch(from var(--wui-color-primary) l c h / 0.1); color: var(--wui-color-primary); }
+  /* Variant: soft — OKLCH color-mix */
+  .wui-button--soft {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-button--soft:hover {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+  }
 
   /* Variant: link */
-  .wui-button--link { background-color: transparent; color: var(--wui-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; }
+  .wui-button--link { background-color: transparent; color: var(--wui-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; box-shadow: none; }
 
   /* Color: destructive */
-  .wui-button--destructive.wui-button--solid { background-color: var(--wui-color-destructive); color: var(--wui-color-destructive-foreground); }
+  .wui-button--destructive.wui-button--solid {
+    background-color: var(--wui-color-destructive);
+    color: var(--wui-color-destructive-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.12);
+  }
   .wui-button--destructive.wui-button--outline { border-color: var(--wui-color-destructive); color: var(--wui-color-destructive); }
 
   /* States */
-  .wui-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+  .wui-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; transform: none; }
   .wui-button[data-loading] { position: relative; cursor: wait; }
 
-  /* Transitions — motion-safe only */
+  /* Motion-safe hover/active lift — NOT on link or icon-only */
   @media (prefers-reduced-motion: no-preference) {
     .wui-button {
-      transition-property: background-color, border-color, color, filter, transform;
+      transition-property: transform, box-shadow, background-color, border-color, color;
       transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-default);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-button--solid:hover,
+    .wui-button--outline:hover,
+    .wui-button--soft:hover {
+      transform: translateY(-1px);
+    }
+    .wui-button--solid:hover {
+      box-shadow: var(--wui-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.18);
+    }
+    .wui-button--destructive.wui-button--solid:hover {
+      box-shadow: var(--wui-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.18);
+    }
+    .wui-button:active { transform: translateY(0); }
+    .wui-button--solid:active {
+      box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.10);
     }
   }
 }
