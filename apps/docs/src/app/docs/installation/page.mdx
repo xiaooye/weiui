@@ -1,0 +1,44 @@
+import { PackageManagerTabs } from "../../../components/docs/PackageManagerTabs";
+
+# Installation
+
+WeiUI ships four packages. Install only what you need.
+
+## @weiui/react — styled React components
+
+<PackageManagerTabs command="@weiui/react" />
+
+## @weiui/headless — accessible hooks
+
+<PackageManagerTabs command="@weiui/headless" />
+
+## @weiui/css — Layer 1 CSS-only primitives (zero JS)
+
+<PackageManagerTabs command="@weiui/css" />
+
+## @weiui/tokens — design tokens (CSS vars + JSON)
+
+<PackageManagerTabs command="@weiui/tokens" />
+
+## Quick start
+
+```tsx
+// your-app/layout.tsx
+import "@weiui/tokens/tokens.css";
+import "@weiui/css";
+
+export default function RootLayout({ children }) {
+  return <html><body>{children}</body></html>;
+}
+```
+
+```tsx
+// your-app/page.tsx
+import { Button } from "@weiui/react";
+
+export default function Page() {
+  return <Button>Hello WeiUI</Button>;
+}
+```
+
+Your tokens default to system light/dark via `prefers-color-scheme`. Add a `dark` class or `data-theme="dark"` on `<html>` to opt into manual dark mode.
