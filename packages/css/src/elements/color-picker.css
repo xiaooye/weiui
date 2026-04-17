@@ -18,6 +18,24 @@
     border: 1px solid var(--wui-color-border);
     box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-foreground) l c h / 0.06);
   }
+  .wui-color-picker__sv {
+    position: relative;
+    inline-size: 100%; block-size: 160px;
+    border-radius: var(--wui-shape-radius-md);
+    border: 1px solid var(--wui-color-border);
+    cursor: crosshair;
+    touch-action: none;
+  }
+  .wui-color-picker__sv:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; }
+  .wui-color-picker__sv-thumb {
+    position: absolute;
+    inline-size: 14px; block-size: 14px;
+    margin-inline-start: -7px; margin-block-start: -7px;
+    border-radius: var(--wui-shape-radius-full);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px oklch(0 0 0 / 0.4), var(--wui-elevation-1);
+    pointer-events: none;
+  }
   .wui-color-picker__hue {
     inline-size: 100%; block-size: 44px; border-radius: var(--wui-shape-radius-full);
     background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
