@@ -11,6 +11,7 @@ export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "
   onChange?: (value: number) => void;
   disabled?: boolean;
   formatOptions?: Intl.NumberFormatOptions;
+  locale?: string;
 }
 
 export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
@@ -24,6 +25,7 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
       onChange,
       disabled,
       formatOptions,
+      locale = "en-US",
       className,
       ...props
     },
@@ -33,8 +35,8 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
     const value = controlled ?? internal;
 
     const formatter = useMemo(
-      () => (formatOptions ? new Intl.NumberFormat("en-US", formatOptions) : null),
-      [formatOptions],
+      () => (formatOptions ? new Intl.NumberFormat(locale, formatOptions) : null),
+      [formatOptions, locale],
     );
 
     const clamp = (v: number) => Math.max(min, Math.min(max, v));

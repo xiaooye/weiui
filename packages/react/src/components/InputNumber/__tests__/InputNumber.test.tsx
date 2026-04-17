@@ -99,6 +99,13 @@ describe("InputNumber", () => {
     expect(input).toHaveValue("$42.50");
   });
 
+  it("respects locale prop", () => {
+    render(<InputNumber value={1234.56} locale="de-DE" formatOptions={{ style: "decimal" }} />);
+    const input = screen.getByRole("spinbutton");
+    // German uses . as thousands separator and , as decimal
+    expect(input).toHaveValue("1.234,56");
+  });
+
   it("has role=spinbutton and aria-valuenow/min/max", () => {
     render(<InputNumber value={5} min={0} max={10} />);
     const input = screen.getByRole("spinbutton");
