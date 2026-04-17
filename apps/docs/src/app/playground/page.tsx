@@ -30,7 +30,7 @@ export default function PlaygroundPage() {
           </p>
         </header>
 
-        <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 280px", gap: "var(--wui-spacing-6)" }}>
+        <div className="wui-tool-shell__layout wui-tool-shell__layout--playground">
           {/* Component selector */}
           <div>
             <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)", color: "var(--wui-color-muted-foreground)" }}>Components</h3>

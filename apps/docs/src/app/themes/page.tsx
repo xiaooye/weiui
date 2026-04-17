@@ -23,7 +23,7 @@ export default function ThemesPage() {
           </p>
         </header>
 
-        <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "var(--wui-spacing-6)" }}>
+        <div className="wui-tool-shell__layout wui-tool-shell__layout--themes">
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
             <ColorPicker hue={hue} saturation={saturation} onHueChange={setHue} onSaturationChange={setSaturation} />
 

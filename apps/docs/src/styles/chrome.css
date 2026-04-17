@@ -293,6 +293,40 @@
     max-inline-size: 44rem;
   }
 
+  /* Tool page layouts — collapse to single column on mobile */
+  .wui-tool-shell__layout {
+    display: grid;
+    gap: var(--wui-spacing-6);
+  }
+  .wui-tool-shell__layout--playground {
+    grid-template-columns: 200px minmax(0, 1fr) 280px;
+  }
+  .wui-tool-shell__layout--themes {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+  .wui-tool-shell__layout--composer {
+    grid-template-columns: 180px minmax(0, 1fr) 240px;
+    gap: var(--wui-spacing-4);
+    min-block-size: 70vh;
+  }
+  @media (max-width: 1024px) {
+    .wui-tool-shell__layout--playground,
+    .wui-tool-shell__layout--composer {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .wui-tool-shell {
+      padding-inline: var(--wui-spacing-4);
+    }
+    .wui-tool-shell__layout--playground,
+    .wui-tool-shell__layout--themes,
+    .wui-tool-shell__layout--composer {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--wui-spacing-4);
+    }
+  }
+
   .wui-docs-shell {
     display: grid;
     grid-template-columns: 16rem minmax(0, 1fr) 14rem;

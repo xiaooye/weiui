@@ -59,7 +59,7 @@ export default function ComposerPage() {
           </p>
         </header>
 
-        <div style={{ display: "grid", gridTemplateColumns: "180px 1fr 240px", gap: "var(--wui-spacing-4)", minHeight: "70vh" }}>
+        <div className="wui-tool-shell__layout wui-tool-shell__layout--composer">
           <ComponentPalette onAdd={addNode} />
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
             <Canvas
