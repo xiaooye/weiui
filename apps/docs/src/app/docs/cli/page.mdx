@@ -1,0 +1,43 @@
+# CLI
+
+The `@weiui/cli` package scaffolds WeiUI projects, adds components, and validates design tokens.
+
+## Install
+
+```bash
+pnpm add -D @weiui/cli
+# or run ad-hoc
+pnpm dlx @weiui/cli --help
+```
+
+## Commands
+
+### `init`
+
+Scaffold a new WeiUI consumer. Creates token imports and an optional theme config.
+
+```bash
+pnpm dlx @weiui/cli init
+```
+
+### `add`
+
+Copy a single component's source into your project (shadcn-style ownership).
+
+```bash
+pnpm dlx @weiui/cli add button
+```
+
+### `audit`
+
+Validate that your local token overrides still pass WCAG AAA targets.
+
+```bash
+pnpm dlx @weiui/cli audit
+```
+
+Exits non-zero if any contrast pair drops below its required threshold.
+
+## Programmatic API
+
+Every CLI command is also exported as a library function — see `@weiui/cli/api` for the full surface. This makes WeiUI's validators composable into your own build pipeline.

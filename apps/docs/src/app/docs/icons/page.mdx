@@ -1,0 +1,27 @@
+# Icons
+
+WeiUI does not ship a bundled icon set yet. The Phase 4 component-audit may grow `@weiui/icons`; for now, pair any icon library of your choice.
+
+## Recommended pairings
+
+- **Lucide** — clean, rounded, pairs well with Inter. `pnpm add lucide-react`
+- **Tabler** — extensive set with variants. `pnpm add @tabler/icons-react`
+- **Phosphor** — multiple weights. `pnpm add @phosphor-icons/react`
+
+All icon libraries respect `currentColor` and `em`-sized dimensions, so they adopt WeiUI's color and typography tokens automatically.
+
+## Example
+
+```tsx
+import { Button } from "@weiui/react";
+import { Download } from "lucide-react";
+
+<Button>
+  <Download size="1em" />
+  Download
+</Button>
+```
+
+## Future
+
+A searchable icon browser is planned for the @weiui/icons release. Track progress on the roadmap page.
