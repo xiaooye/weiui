@@ -109,4 +109,42 @@ describe("CommandPalette", () => {
     );
     expect(screen.getByPlaceholderText("Search commands...")).toBeInTheDocument();
   });
+
+  it("renders content to document.body via Portal", () => {
+    const { container } = render(
+      <CommandPalette items={items} open={true} onOpenChange={vi.fn()} />,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(container.contains(dialog)).toBe(false);
+    expect(document.body.contains(dialog)).toBe(true);
+  });
+
+  it("renders per-item icon when provided", () => {
+    const withIcons = [
+      { id: "1", label: "Home", icon: <span data-testid="icon-home">H</span>, onSelect: vi.fn() },
+      { id: "2", label: "Search", onSelect: vi.fn() },
+    ];
+    render(<CommandPalette items={withIcons} open={true} onOpenChange={vi.fn()} />);
+    expect(screen.getByTestId("icon-home")).toBeInTheDocument();
+    // item-icon wrapper has aria-hidden
+    const iconSpan = screen.getByTestId("icon-home").parentElement!;
+    expect(iconSpan).toHaveAttribute("aria-hidden", "true");
+    expect(iconSpan).toHaveClass("wui-command__item-icon");
+  });
+
+  it("focus trap keeps Tab inside the dialog (does not reach outside button)", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <button>Outside</button>
+        <CommandPalette items={items} open={true} onOpenChange={vi.fn()} />
+      </>,
+    );
+    // Input is auto-focused on open. Tab should cycle within the dialog,
+    // not land on the external "Outside" button.
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    expect(screen.getByText("Outside")).not.toHaveFocus();
+  });
 });

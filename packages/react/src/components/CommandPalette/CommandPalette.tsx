@@ -1,5 +1,15 @@
 "use client";
-import { forwardRef, useState, useRef, useEffect, useId, useCallback } from "react";
+import {
+  forwardRef,
+  useState,
+  useRef,
+  useEffect,
+  useId,
+  useCallback,
+  type ReactNode,
+} from "react";
+import { useFocusTrap } from "@weiui/headless";
+import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
 export interface CommandItem {
@@ -8,6 +18,7 @@ export interface CommandItem {
   group?: string;
   shortcut?: string;
   disabled?: boolean;
+  icon?: ReactNode;
   onSelect?: () => void;
 }
 
@@ -32,7 +43,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       className,
       label,
     },
-    ref,
+    _ref,
   ) => {
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = controlledOpen ?? internalOpen;
@@ -47,7 +58,12 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
     const [query, setQuery] = useState("");
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const previousFocusRef = useRef<HTMLElement | null>(null);
     const listboxId = useId();
+
+    // Focus trap keeps Tab inside the dialog
+    useFocusTrap(dialogRef, isOpen);
 
     const filtered = items.filter(
       (item) =>
@@ -68,9 +84,13 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
 
     useEffect(() => {
       if (isOpen) {
+        previousFocusRef.current = document.activeElement as HTMLElement;
         setQuery("");
         setHighlightedIndex(0);
         requestAnimationFrame(() => inputRef.current?.focus());
+      } else if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+        previousFocusRef.current = null;
       }
     }, [isOpen]);
 
@@ -124,82 +144,89 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         : undefined;
 
     return (
-      <div
-        className="wui-command-overlay"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setOpen(false);
-        }}
-        role="presentation"
-      >
+      <Portal>
         <div
-          ref={ref}
-          className={cn("wui-command", className)}
-          role="dialog"
-          aria-label={label || "Command palette"}
-          aria-modal="true"
+          className="wui-command-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
+          role="presentation"
         >
-          <div className="wui-command__input-wrapper">
-            <span className="wui-command__icon" aria-hidden="true">
-              &#x2315;
-            </span>
-            <input
-              ref={inputRef}
-              className="wui-command__input"
-              placeholder={placeholder}
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setHighlightedIndex(0);
-              }}
-              onKeyDown={handleKeyDown}
-              role="combobox"
-              aria-expanded={true}
-              aria-controls={listboxId}
-              aria-activedescendant={activeDescendant}
-              aria-autocomplete="list"
-            />
-          </div>
-          <div className="wui-command__list" role="listbox" id={listboxId}>
-            {flatItems.length > 0 ? (
-              Array.from(groups.entries()).map(([groupName, groupItems]) => (
-                <div key={groupName} role="group" aria-label={groupName || undefined}>
-                  {groupName && (
-                    <div className="wui-command__group-label">{groupName}</div>
-                  )}
-                  {groupItems.map((item) => {
-                    const flatIdx = flatItems.indexOf(item);
-                    return (
-                      <div
-                        key={item.id}
-                        id={`${listboxId}-item-${item.id}`}
-                        className="wui-command__item"
-                        role="option"
-                        aria-selected={flatIdx === highlightedIndex}
-                        aria-disabled={item.disabled || undefined}
-                        data-highlighted={flatIdx === highlightedIndex || undefined}
-                        data-disabled={item.disabled || undefined}
-                        onClick={() => {
-                          if (!item.disabled) {
-                            item.onSelect?.();
-                            setOpen(false);
-                          }
-                        }}
-                      >
-                        <span>{item.label}</span>
-                        {item.shortcut && (
-                          <span className="wui-command__item-shortcut">{item.shortcut}</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))
-            ) : (
-              <div className="wui-command__empty">{emptyText}</div>
-            )}
+          <div
+            ref={dialogRef}
+            className={cn("wui-command", className)}
+            role="dialog"
+            aria-label={label || "Command palette"}
+            aria-modal="true"
+          >
+            <div className="wui-command__input-wrapper">
+              <span className="wui-command__icon" aria-hidden="true">
+                &#x2315;
+              </span>
+              <input
+                ref={inputRef}
+                className="wui-command__input"
+                placeholder={placeholder}
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setHighlightedIndex(0);
+                }}
+                onKeyDown={handleKeyDown}
+                role="combobox"
+                aria-expanded={true}
+                aria-controls={listboxId}
+                aria-activedescendant={activeDescendant}
+                aria-autocomplete="list"
+              />
+            </div>
+            <div className="wui-command__list" role="listbox" id={listboxId}>
+              {flatItems.length > 0 ? (
+                Array.from(groups.entries()).map(([groupName, groupItems]) => (
+                  <div key={groupName} role="group" aria-label={groupName || undefined}>
+                    {groupName && (
+                      <div className="wui-command__group-label">{groupName}</div>
+                    )}
+                    {groupItems.map((item) => {
+                      const flatIdx = flatItems.indexOf(item);
+                      return (
+                        <div
+                          key={item.id}
+                          id={`${listboxId}-item-${item.id}`}
+                          className="wui-command__item"
+                          role="option"
+                          aria-selected={flatIdx === highlightedIndex}
+                          aria-disabled={item.disabled || undefined}
+                          data-highlighted={flatIdx === highlightedIndex || undefined}
+                          data-disabled={item.disabled || undefined}
+                          onClick={() => {
+                            if (!item.disabled) {
+                              item.onSelect?.();
+                              setOpen(false);
+                            }
+                          }}
+                        >
+                          {item.icon && (
+                            <span className="wui-command__item-icon" aria-hidden="true">
+                              {item.icon}
+                            </span>
+                          )}
+                          <span className="wui-command__item-label">{item.label}</span>
+                          {item.shortcut && (
+                            <span className="wui-command__item-shortcut">{item.shortcut}</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))
+              ) : (
+                <div className="wui-command__empty">{emptyText}</div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </Portal>
     );
   },
 );
