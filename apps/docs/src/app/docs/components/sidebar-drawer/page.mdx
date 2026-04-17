@@ -71,6 +71,13 @@ Toggle by flipping `open` / calling `onOpenChange`. In CSS, the mode is a `data-
 | active | `boolean` | `false` | Highlights as current page; sets `aria-current="page"`. |
 | icon | `ReactNode` | — | Icon rendered before the label; remains visible in collapsed mode. |
 
+### Accessibility
+
+- Root renders a semantic `<aside>` — always pass an `aria-label` (e.g. `"Main navigation"`) so screen readers can distinguish it from other asides on the page.
+- Active items set `aria-current="page"` so assistive tech announces the current location.
+- Labels stay in the DOM during collapsed mode (visually hidden via `wui-sr-only`), so screen readers keep announcing each item's name even when only icons are visible.
+- Arrow-key navigation works on items that opt into list semantics; standard Tab order applies for the default button-list pattern.
+
 ---
 
 ## Drawer
