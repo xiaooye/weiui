@@ -95,6 +95,7 @@ export function Menu({ children, side = "bottom", align = "start" }: MenuProps) 
     </MenuContext.Provider>
   );
 }
+Menu.displayName = "Menu";
 
 export interface MenuTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -281,6 +282,7 @@ export function MenuContent({ children, className, style, onKeyDown, ...props }:
     </Portal>
   );
 }
+MenuContent.displayName = "MenuContent";
 
 export interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -332,11 +334,13 @@ export function MenuItem({
     </div>
   );
 }
+MenuItem.displayName = "MenuItem";
 
 export interface MenuSeparatorProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function MenuSeparator({ ...props }: MenuSeparatorProps) {
   return <div role="separator" {...props} />;
 }
+MenuSeparator.displayName = "MenuSeparator";
 
 MenuSeparator.isSeparator = true;

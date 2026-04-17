@@ -88,6 +88,7 @@ export function Popover({
     </PopoverContext.Provider>
   );
 }
+Popover.displayName = "Popover";
 
 export interface PopoverTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -172,6 +173,7 @@ export function PopoverContent({ children, style, onKeyDown, ...props }: Popover
     </Portal>
   );
 }
+PopoverContent.displayName = "PopoverContent";
 
 export interface PopoverCloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;

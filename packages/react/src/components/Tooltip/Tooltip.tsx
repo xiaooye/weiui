@@ -76,6 +76,7 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
     </TooltipContext.Provider>
   );
 }
+Tooltip.displayName = "Tooltip";
 
 export interface TooltipTriggerProps {
   children: ReactNode;
@@ -109,6 +110,7 @@ export function TooltipTrigger({ children }: TooltipTriggerProps) {
     </span>
   );
 }
+TooltipTrigger.displayName = "TooltipTrigger";
 
 export interface TooltipContentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -133,3 +135,4 @@ export function TooltipContent({ children, style, ...props }: TooltipContentProp
     </Portal>
   );
 }
+TooltipContent.displayName = "TooltipContent";
