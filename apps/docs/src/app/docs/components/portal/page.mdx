@@ -1,0 +1,46 @@
+# Portal
+
+Renders children into a different part of the DOM tree. By default the portal target is `document.body`, which keeps overlay content from being clipped by scrolling or `overflow: hidden` parents.
+
+---
+
+```tsx
+import { Portal } from "@weiui/react";
+
+function ExamplePopup({ open }: { open: boolean }) {
+  if (!open) return null;
+  return (
+    <Portal>
+      <div role="dialog" aria-modal="true" className="wui-dialog">
+        Portal content lives at the end of document.body
+      </div>
+    </Portal>
+  );
+}
+```
+
+### Custom container
+
+Pass a specific DOM node via the `container` prop to portal somewhere other than `document.body` — useful for scoping portals to a layout wrapper or a shadow root.
+
+```tsx
+const target = useRef<HTMLDivElement>(null);
+
+<>
+  <div ref={target} id="overlay-root" />
+  <Portal container={target.current}>
+    <Tooltip>Anchored inside #overlay-root</Tooltip>
+  </Portal>
+</>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| children | `ReactNode` | — | Content to render into the target |
+| container | `Element \| null` | `document.body` | Target DOM node; when `null` on the server, the portal renders nothing |
+
+### SSR
+
+`Portal` is safe to render on the server — if `document` is unavailable, it returns `null` and hydrates to the real DOM on the client. Wrap any code that depends on a client-side ref in an effect if you pass a custom `container`.

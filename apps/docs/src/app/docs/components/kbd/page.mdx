@@ -1,0 +1,27 @@
+# Kbd
+
+Keyboard shortcut badge. Renders a native `<kbd>` element styled with the design tokens.
+
+---
+
+```tsx
+import { Kbd } from "@weiui/react";
+
+<p>Open the command palette with <Kbd>⌘K</Kbd>.</p>
+
+<p>Submit without closing: <Kbd>Shift</Kbd> + <Kbd>Enter</Kbd></p>
+```
+
+### Props
+
+Accepts all native `<kbd>` HTML attributes.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| className | `string` | — | Additional CSS classes |
+| children | `ReactNode` | — | Key label (e.g. `⌘K`, `Shift`) |
+
+### Accessibility
+
+- Renders a semantic `<kbd>` element — screen readers announce it as keyboard input.
+- Use a separator (like the literal `+`) between two `<Kbd>` instances for key chords so the spoken output reads naturally.

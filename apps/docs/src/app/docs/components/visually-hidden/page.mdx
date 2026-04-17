@@ -1,0 +1,37 @@
+# VisuallyHidden
+
+Visually hides content while keeping it in the accessibility tree — the standard pattern for screen-reader-only text that sighted users should not see.
+
+---
+
+```tsx
+import { VisuallyHidden } from "@weiui/react";
+
+<button type="button">
+  <TrashIcon aria-hidden="true" />
+  <VisuallyHidden>Delete item</VisuallyHidden>
+</button>
+```
+
+In the example above, sighted users see only the icon; screen readers announce "Delete item".
+
+### Props
+
+Accepts all native `<span>` HTML attributes.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| className | `string` | — | Additional CSS classes (merged with `wui-sr-only`) |
+| children | `ReactNode` | — | Content visible only to assistive technology |
+
+### How it works
+
+Applies the `wui-sr-only` utility from the CSS layer, which uses the canonical `clip`/`clip-path` + `width: 1px` + `height: 1px` pattern to keep the element rendered in the DOM (so screen readers see it) while removing it from visual layout.
+
+### When to use it
+
+- Icon-only buttons — pair a hidden label with an `aria-hidden` icon.
+- Supplementary text that would be visually redundant but helps screen reader users (e.g. "opens in a new tab" on external links).
+- Live-region announcements that shouldn't take up space in the layout.
+
+Do **not** use it to hide content you want to genuinely remove — use conditional rendering or `display: none` instead.

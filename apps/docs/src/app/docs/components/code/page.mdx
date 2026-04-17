@@ -1,0 +1,33 @@
+# Code
+
+Inline or block code snippet. Pairs with the `wui-code` styling from the CSS layer and uses JetBrains Mono from the typography tokens.
+
+---
+
+```tsx
+import { Code } from "@weiui/react";
+
+<p>Install with <Code>pnpm add @weiui/react</Code>.</p>
+
+// Block variant — wraps in a <pre> with horizontal scroll
+<Code inline={false}>
+  {`const x = 1;
+const y = 2;`}
+</Code>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| inline | `boolean` | `true` | When `true`, renders as `<code>`. When `false`, wraps `<code>` in a scrollable `<pre>` block. |
+| className | `string` | — | Additional CSS classes |
+| children | `ReactNode` | — | Code content |
+
+All other native `<code>` / `<pre>` attributes are forwarded via `...props`.
+
+### Accessibility
+
+- Renders a native `<code>` (and `<pre>` in block mode), so assistive tech announces it as code.
+- Respects OS text zoom via relative font sizing.
+- Block variant uses `overflow-x-auto` so long lines scroll rather than reflow.
