@@ -77,3 +77,28 @@ describe("motion scale", () => {
     }
   });
 });
+
+describe("semantic elevation, surface, and ring-soft tokens", () => {
+  const semantic = JSON.parse(
+    readFileSync(
+      join(import.meta.dirname, "..", "semantic.json"),
+      "utf-8",
+    ),
+  );
+
+  it("declares elevation 0-5 as references to shadow tokens", () => {
+    for (const level of ["0", "1", "2", "3", "4", "5"]) {
+      expect(semantic.elevation?.[level]).toBeDefined();
+    }
+  });
+
+  it("declares surface raised, overlay, sunken", () => {
+    for (const name of ["raised", "overlay", "sunken"]) {
+      expect(semantic.surface?.[name]).toBeDefined();
+    }
+  });
+
+  it("declares color.ring-soft", () => {
+    expect(semantic.color["ring-soft"]).toBeDefined();
+  });
+});

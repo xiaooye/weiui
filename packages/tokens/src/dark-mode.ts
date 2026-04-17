@@ -11,6 +11,9 @@ const DARK_OVERRIDES: Record<string, string> = {
   "color.primary":            "oklch(0.623 0.214 262)",
   "color.primary-foreground": "oklch(0.145 0.010 240)",
   "color.ring":               "oklch(0.623 0.214 262)",
+  "surface.raised":           "oklch(0.208 0.012 240)",
+  "surface.overlay":          "oklch(0.208 0.012 240)",
+  "surface.sunken":           "oklch(0.145 0.010 240)",
 };
 
 export function generateDarkTokens(tokens: FlatToken[]): FlatToken[] {
