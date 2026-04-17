@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import { Toaster } from "@weiui/react";
+import { AppToaster } from "../components/chrome/AppToaster";
 import "@weiui/tokens/tokens.css";
 import "@weiui/css";
 import "../styles/fonts.css";
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
-        <Toaster />
+        <AppToaster />
         <Analytics />
       </body>
     </html>
