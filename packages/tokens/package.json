@@ -10,7 +10,7 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsx scripts/build.ts",
     "validate": "tsx scripts/validate.ts",

@@ -22,7 +22,8 @@
   },
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsup src/index.ts src/editor-entry.ts src/chart-entry.ts src/data-table-entry.ts --format esm --dts --external react --external react-dom",

@@ -5,7 +5,7 @@
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "generate": "tsx scripts/build.ts",
     "build": "tsx scripts/build.ts && tsup src/index.ts --format esm --dts --external react"

@@ -7,7 +7,7 @@
     "./reset.css": "./dist/reset.css",
     "./elements/*": "./dist/elements/*"
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "postcss src/index.css -o dist/weiui.css && lightningcss --minify dist/weiui.css -o dist/weiui.min.css"
   },
