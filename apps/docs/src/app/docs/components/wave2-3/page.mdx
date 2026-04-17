@@ -1,6 +1,12 @@
 import { ComponentPreview } from "../../../../components/ComponentPreview";
 import { ToggleGroupDemo } from "../../../../components/demos/ToggleGroupDemo";
 import { ButtonGroupDemo } from "../../../../components/demos/ButtonGroupDemo";
+import { PaginationDemo } from "../../../../components/demos/PaginationDemo";
+import { TransferDemo } from "../../../../components/demos/TransferDemo";
+import { SplitterDemo } from "../../../../components/demos/SplitterDemo";
+import { AppBarDemo } from "../../../../components/demos/AppBarDemo";
+import { BottomNavDemo } from "../../../../components/demos/BottomNavDemo";
+import { SpeedDialDemo } from "../../../../components/demos/SpeedDialDemo";
 
 # Wave 2 & 3 Components
 
@@ -13,17 +19,7 @@ Pagination, Transfer, Splitter, AppBar, BottomNav, SpeedDial, ToggleGroup, Butto
 Page navigation with ellipsis for large page counts.
 
 <ComponentPreview label="Pagination">
-  <nav className="wui-pagination" aria-label="Pagination">
-    <button type="button" className="wui-pagination__btn" aria-label="Previous page">&lsaquo;</button>
-    <button type="button" className="wui-pagination__btn">1</button>
-    <button type="button" className="wui-pagination__btn">2</button>
-    <button type="button" className="wui-pagination__btn" data-active="true" aria-current="page">3</button>
-    <button type="button" className="wui-pagination__btn">4</button>
-    <button type="button" className="wui-pagination__btn">5</button>
-    <span className="wui-pagination__ellipsis" aria-hidden="true">…</span>
-    <button type="button" className="wui-pagination__btn">20</button>
-    <button type="button" className="wui-pagination__btn" aria-label="Next page">&rsaquo;</button>
-  </nav>
+  <PaginationDemo />
 </ComponentPreview>
 
 ```tsx
@@ -52,6 +48,10 @@ import { Pagination } from "@weiui/react";
 ## Transfer
 
 Dual-list with items moved between source and target.
+
+<ComponentPreview label="Transfer">
+  <TransferDemo />
+</ComponentPreview>
 
 ```tsx
 import { Transfer } from "@weiui/react";
@@ -103,6 +103,10 @@ const [selected, setSelected] = useState<string[]>(["react"]);
 
 Resizable split panes — horizontal or vertical.
 
+<ComponentPreview label="Splitter">
+  <SplitterDemo />
+</ComponentPreview>
+
 ```tsx
 import { Splitter } from "@weiui/react";
 
@@ -151,6 +155,10 @@ const [sizes, setSizes] = useState<[number, number]>([30, 70]);
 
 Sticky top navigation header with brand, nav links, and actions.
 
+<ComponentPreview label="AppBar">
+  <AppBarDemo />
+</ComponentPreview>
+
 ```tsx
 import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiui/react";
 
@@ -189,6 +197,10 @@ import { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions } from "@weiu
 
 Mobile bottom navigation bar — fixed to viewport bottom. Adds `env(safe-area-inset-bottom)` padding automatically so the bar clears the iOS home indicator.
 
+<ComponentPreview label="BottomNav">
+  <BottomNavDemo />
+</ComponentPreview>
+
 ```tsx
 import { BottomNav, BottomNavItem } from "@weiui/react";
 
@@ -225,6 +237,10 @@ The safe-area inset is applied via CSS on `.wui-bottom-nav` and is therefore zer
 ## SpeedDial
 
 Floating action button that expands into multiple actions.
+
+<ComponentPreview label="SpeedDial">
+  <SpeedDialDemo />
+</ComponentPreview>
 
 ```tsx
 import { SpeedDial } from "@weiui/react";
