@@ -1,6 +1,8 @@
 # Layout Components
 
-WeiUI provides six layout primitives for composing page structure.
+Container, Stack, Grid, Divider, Spacer, and AspectRatio — six layout primitives for composing page structure.
+
+---
 
 ## Container
 
@@ -12,15 +14,21 @@ import { Container } from "@weiui/react";
 <Container>
   <p>Centered content with max-width</p>
 </Container>
-```
 
-Override max-width:
-
-```tsx
+// Override max-width
 <Container maxWidth="600px">
   <p>Narrower container</p>
 </Container>
 ```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| maxWidth | `string` | `"1200px"` | CSS length for the inline max-size |
+| children | `ReactNode` | — | Content |
+
+---
 
 ## Stack
 
@@ -50,6 +58,18 @@ import { Stack } from "@weiui/react";
 </Stack>
 ```
 
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| direction | `"row" \| "column"` | `"column"` | Flex direction |
+| gap | `number` | `0` | Token-indexed spacing between children |
+| align | `"start" \| "center" \| "end" \| "stretch"` | — | `align-items` value |
+| justify | `"start" \| "center" \| "end" \| "between"` | — | `justify-content` value |
+| wrap | `boolean` | `false` | Allow children to wrap to new rows |
+
+---
+
 ## Grid
 
 A CSS grid container with configurable columns and gap.
@@ -71,6 +91,16 @@ import { Grid } from "@weiui/react";
 </Grid>
 ```
 
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| columns | `number \| string` | `1` | Number of equal columns, or a raw `grid-template-columns` string |
+| rows | `number \| string` | — | Number of equal rows, or a raw `grid-template-rows` string |
+| gap | `number` | `0` | Token-indexed gap between cells |
+
+---
+
 ## Divider
 
 A horizontal or vertical separator line.
@@ -89,6 +119,15 @@ import { Divider } from "@weiui/react";
 </Stack>
 ```
 
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| orientation | `"horizontal" \| "vertical"` | `"horizontal"` | Divider axis |
+| decorative | `boolean` | `true` | When `true`, sets `role="none"`; when `false`, renders as a semantic `role="separator"` |
+
+---
+
 ## Spacer
 
 A flexible space element that fills available flex space.
@@ -102,6 +141,12 @@ import { Stack, Spacer } from "@weiui/react";
   <div>Actions</div>
 </Stack>
 ```
+
+### Props
+
+Spacer takes no props — it renders a `<div>` with `flex: 1 1 auto` to absorb leftover space.
+
+---
 
 ## AspectRatio
 
@@ -125,3 +170,19 @@ import { AspectRatio } from "@weiui/react";
   <img src="/avatar.jpg" alt="Avatar" />
 </AspectRatio>
 ```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| ratio | `number` | `16 / 9` | Target aspect ratio as `width / height` |
+| children | `ReactNode` | — | Media or content to constrain |
+
+---
+
+## Accessibility
+
+- All six primitives render semantic HTML and forward `...props`, so you can pass `role`, `aria-*`, and `data-*` attributes straight through.
+- `Divider` with `decorative={false}` exposes `role="separator"` and supports `aria-orientation`; the decorative default hides it from assistive tech so layout dividers don't clutter announcements.
+- Layout primitives use logical CSS properties (`padding-inline-*`, `margin-block-*`), so RTL documents mirror correctly with no extra configuration.
+- `AspectRatio` uses the native `aspect-ratio` CSS property rather than a padding hack, so media inside stays sharp at any zoom level.
