@@ -51,3 +51,9 @@ const target = useRef<HTMLDivElement>(null);
 ### SSR
 
 `Portal` is safe to render on the server — if `document` is unavailable, it returns `null` and hydrates to the real DOM on the client. Wrap any code that depends on a client-side ref in an effect if you pass a custom `container`.
+
+### Accessibility
+
+- Portal is a pure DOM-relocation primitive — it does not add any ARIA of its own, so the content you render inside is responsible for its own semantics (for example, dialogs must still set `role="dialog"` and `aria-modal`).
+- Tab order follows DOM order, not visual order. When portalling an overlay, pair it with a focus-trap library (or WeiUI's `Dialog` / `Popover`) so keyboard users stay inside the overlay while it's open.
+- Because portalled content lives at the end of `document.body`, it bypasses `overflow: hidden` ancestors — useful for tooltips, popovers, and dropdowns that would otherwise be clipped.
