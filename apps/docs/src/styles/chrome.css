@@ -267,10 +267,28 @@
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
     margin-block-end: var(--wui-spacing-6);
+    letter-spacing: -0.005em;
   }
   .wui-docs-breadcrumbs ol {
     list-style: none; padding: 0; margin: 0;
-    display: flex; gap: var(--wui-spacing-2); flex-wrap: wrap; align-items: center;
+    display: flex; gap: 0; flex-wrap: wrap; align-items: center;
+  }
+  .wui-docs-breadcrumbs ol > li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+  }
+  .wui-docs-breadcrumbs ol > li + li {
+    margin-inline-start: var(--wui-spacing-2);
+  }
+  .wui-docs-breadcrumbs ol > li > span[aria-hidden] {
+    color: color-mix(in oklch, var(--wui-color-muted-foreground) 60%, transparent);
+    font-size: var(--wui-font-size-sm);
+    margin-inline-start: 0;
+  }
+  .wui-docs-breadcrumbs [aria-current="page"] {
+    color: var(--wui-color-foreground);
+    font-weight: var(--wui-font-weight-medium);
   }
   .wui-docs-breadcrumbs a {
     color: inherit; text-decoration: none;
@@ -278,6 +296,7 @@
   .wui-docs-breadcrumbs a:hover {
     color: var(--wui-color-foreground);
     text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* Pager */
