@@ -14,8 +14,9 @@ An accessibility-first design system with three consumption layers.
 - 44px minimum touch targets
 - Full keyboard navigation (WAI-ARIA patterns)
 - CSS cascade layers (no `!important`)
-- 30+ React components
-- 8 headless compound components
+- 65+ React components across Wave 1, 2, and 3
+- Compound components (Accordion, Menu, Select, Tabs, Dialog, Popover, Tooltip, Stepper, Timeline, Sidebar, Drawer, and more)
+- Tree-shakable — heavy deps (Editor, DataTable, Charts) live on dedicated subpath imports
 
 ## Quick Start
 
@@ -38,6 +39,13 @@ import { Button } from "@weiui/react";
 <Button variant="solid">Click me</Button>
 ```
 
+```tsx
+// Heavy components live on subpaths so the main barrel stays light
+import { Editor } from "@weiui/react/editor";
+import { DataTable } from "@weiui/react/data-table";
+import { BarChart, LineChart } from "@weiui/react/chart";
+```
+
 ## Packages
 
 | Package | Description |
@@ -52,7 +60,13 @@ import { Button } from "@weiui/react";
 
 ## Documentation
 
-Visit [ui.wei-dev.com](https://ui.wei-dev.com) for full documentation.
+Visit [ui.wei-dev.com](https://ui.wei-dev.com) for full documentation, including:
+
+- Per-component API reference with live previews and code tabs
+- Design token catalog (color, typography, spacing, motion, elevation)
+- **Playground** — tweak props interactively and copy generated code
+- **Composer** — drag-and-drop components onto a canvas, export JSX/HTML
+- **Theme Builder** — pick a primary color, preview against all components, export CSS or JSON
 
 ## Development
 
@@ -63,6 +77,8 @@ pnpm install
 pnpm build
 pnpm test
 ```
+
+The docs site lives in `apps/docs` and can be run with `pnpm --filter @weiui/docs dev`.
 
 ## License
 
