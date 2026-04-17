@@ -1,1 +1,1 @@
-export { Splitter, type SplitterProps } from "./Splitter";
+export { Splitter, type SplitterProps, type SplitterSizes } from "./Splitter";

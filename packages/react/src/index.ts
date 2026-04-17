@@ -128,7 +128,7 @@ export { CommandPalette, type CommandPaletteProps, type CommandItem } from "./co
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, type AccordionProps, type AccordionItemProps, type AccordionTriggerProps, type AccordionContentProps } from "./components/Accordion";
 export { Pagination, type PaginationProps } from "./components/Pagination";
 export { Transfer, type TransferProps, type TransferItem } from "./components/Transfer";
-export { Splitter, type SplitterProps } from "./components/Splitter";
+export { Splitter, type SplitterProps, type SplitterSizes } from "./components/Splitter";
 
 // Wave 3 components
 export { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions, type AppBarProps, type AppBarLinkProps } from "./components/AppBar";

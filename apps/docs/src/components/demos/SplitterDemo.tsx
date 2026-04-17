@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Splitter } from "@weiui/react";
-
-type SplitterSizes = [number, number];
+import { Splitter, type SplitterSizes } from "@weiui/react";
 
 const panelStyle: React.CSSProperties = {
   display: "flex",
