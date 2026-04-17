@@ -38,4 +38,9 @@ describe("Textarea", () => {
     render(<Textarea disabled aria-label="test textarea" />);
     expect(screen.getByRole("textbox")).toBeDisabled();
   });
+
+  it("renders sm size class", () => {
+    const { container } = render(<Textarea size="sm" />);
+    expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+  });
 });
