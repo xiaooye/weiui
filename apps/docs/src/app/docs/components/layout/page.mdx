@@ -2,6 +2,8 @@ import { Preview } from "../../../../components/preview/Preview";
 import { StackDemo } from "../../../../components/demos/StackDemo";
 import { GridDemo } from "../../../../components/demos/GridDemo";
 import { DividerDemo } from "../../../../components/demos/DividerDemo";
+import { SpacerDemo } from "../../../../components/demos/SpacerDemo";
+import { AspectRatioDemo } from "../../../../components/demos/AspectRatioDemo";
 
 # Layout Components
 
@@ -149,6 +151,10 @@ import { Divider } from "@weiui/react";
 
 A flexible space element that fills available flex space.
 
+<Preview label="Spacer — flex fill between items">
+  <SpacerDemo />
+</Preview>
+
 ```tsx
 import { Stack, Spacer } from "@weiui/react";
 
@@ -168,6 +174,10 @@ Spacer takes no props — it renders a `<div>` with `flex: 1 1 auto` to absorb l
 ## AspectRatio
 
 Constrains children to a given aspect ratio.
+
+<Preview label="AspectRatio — 16:9, 4:3, 1:1">
+  <AspectRatioDemo />
+</Preview>
 
 ```tsx
 import { AspectRatio } from "@weiui/react";
