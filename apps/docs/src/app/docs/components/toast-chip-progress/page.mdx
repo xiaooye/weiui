@@ -1,10 +1,15 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { ToastDemo } from "../../../../components/demos/ToastDemo";
 
 # Toast, Chip & ProgressBar
 
 ## Toast
 
-Toast is a notification system driven by an external store. Because it requires JavaScript for the queue and timer logic, use code examples rather than a live preview.
+Toast is a notification system driven by an external store. The docs site already has a `<Toaster />` mounted in the root layout, so the buttons below call the real `toast()` API.
+
+<Preview label="Toast variants">
+  <ToastDemo />
+</Preview>
 
 Place `<Toaster />` once near the root of your app (e.g. in a layout). Then call `toast()` from anywhere.
 
