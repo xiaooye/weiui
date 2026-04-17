@@ -4,6 +4,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   useRef,
   cloneElement,
   isValidElement,
@@ -67,6 +68,16 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
       setIsOpen(false);
     }
   }, [closeDelay]);
+
+  // Clear any pending open/close timers when unmounted so they don't fire
+  // setState on a dead component.
+  useEffect(
+    () => () => {
+      clearTimeout(openTimeoutRef.current);
+      clearTimeout(closeTimeoutRef.current);
+    },
+    [],
+  );
 
   return (
     <TooltipContext.Provider
