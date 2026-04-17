@@ -27,6 +27,16 @@ import {
 
 `<DialogContent>` renders via Portal and includes its own scrim, so you don't need to compose `<DialogOverlay>` yourself. `DialogOverlay` is still exported for consumers who want to restyle the backdrop via `className`.
 
+### Props
+
+Open-state props live on the `<Dialog>` root.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| open | `boolean` | — | Controlled open state |
+| defaultOpen | `boolean` | `false` | Initial uncontrolled state |
+| onOpenChange | `(open: boolean) => void` | — | Open/close callback |
+
 ### Accessibility
 - Focus trapped inside dialog
 - Escape closes dialog
