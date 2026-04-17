@@ -57,10 +57,13 @@ const [selected, setSelected] = useState<string[]>(["react"]);
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| sourceItems | `{ value: string; label: string }[]` | — | Full set of items available |
+| sourceItems | `TransferItem[]` | — | Full set of items available |
+| targetItems | `TransferItem[]` | `[]` | Initial items on the target side (uncontrolled only) |
 | targetValues | `string[]` | — | Controlled selected values on the target side |
-| defaultTargetValues | `string[]` | `[]` | Initial uncontrolled selected values |
 | onTargetValuesChange | `(values: string[]) => void` | — | Fires when the target list changes |
+| onChange | `(source, target) => void` | — | Fires with the full source + target lists |
+| sourceTitle | `string` | `"Available"` | Heading over the source list |
+| targetTitle | `string` | `"Selected"` | Heading over the target list |
 
 ---
 
