@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+import { Avatar, AvatarFallback, Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
 
 export function PopoverDemo() {
   return (
@@ -27,9 +27,9 @@ export function PopoverDemo() {
             marginBlockEnd: "var(--wui-spacing-3)",
           }}
         >
-          <span className="wui-avatar">
-            <span className="wui-avatar__fallback">AL</span>
-          </span>
+          <Avatar>
+            <AvatarFallback>AL</AvatarFallback>
+          </Avatar>
           <div style={{ minInlineSize: 0 }}>
             <div
               style={{
