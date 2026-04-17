@@ -51,4 +51,24 @@ describe("Checkbox", () => {
     render(<Checkbox disabled aria-label="disabled" />);
     expect(screen.getByRole("checkbox")).toBeDisabled();
   });
+
+  it("uses styled visual wrapper (wui-checkbox class)", () => {
+    render(<Checkbox aria-label="visual" data-testid="cb" />);
+    // Root wrapper should carry the design-system class, replacing browser-default look.
+    const input = screen.getByRole("checkbox");
+    expect(input).toHaveClass("wui-checkbox__input");
+  });
+
+  it("applies indeterminate state to DOM via ref.indeterminate", () => {
+    render(<Checkbox indeterminate aria-label="indet" />);
+    const cb = screen.getByRole("checkbox") as HTMLInputElement;
+    expect(cb.indeterminate).toBe(true);
+    expect(cb).toHaveAttribute("aria-checked", "mixed");
+  });
+
+  it("indeterminate false restores normal checked semantics", () => {
+    render(<Checkbox indeterminate={false} defaultChecked aria-label="normal" />);
+    const cb = screen.getByRole("checkbox") as HTMLInputElement;
+    expect(cb.indeterminate).toBe(false);
+  });
 });

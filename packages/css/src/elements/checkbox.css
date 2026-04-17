@@ -1,0 +1,71 @@
+@layer wui-elements {
+  .wui-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    cursor: pointer;
+  }
+  .wui-checkbox__input {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    inline-size: 20px;
+    block-size: 20px;
+    border: 1.5px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-sm);
+    background-color: var(--wui-color-background);
+    display: inline-grid;
+    place-content: center;
+    cursor: inherit;
+    color: var(--wui-color-primary-foreground);
+  }
+  .wui-checkbox__input::before {
+    content: "";
+    inline-size: 12px;
+    block-size: 12px;
+    transform: scale(0);
+    transform-origin: center;
+    background-color: currentColor;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+  .wui-checkbox__input:checked {
+    background-color: var(--wui-color-primary);
+    border-color: var(--wui-color-primary);
+  }
+  .wui-checkbox__input:checked::before {
+    transform: scale(1);
+  }
+  .wui-checkbox__input:indeterminate {
+    background-color: var(--wui-color-primary);
+    border-color: var(--wui-color-primary);
+  }
+  .wui-checkbox__input:indeterminate::before {
+    transform: scale(1);
+    clip-path: polygon(10% 40%, 90% 40%, 90% 60%, 10% 60%);
+  }
+  .wui-checkbox__input:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .wui-checkbox__input[aria-invalid="true"],
+  .wui-checkbox__input[data-invalid] {
+    border-color: var(--wui-color-destructive);
+  }
+  .wui-checkbox__label {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+    cursor: pointer;
+    user-select: none;
+  }
+  .wui-checkbox__input:disabled ~ .wui-checkbox__label {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-checkbox__input::before {
+      transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    }
+  }
+}

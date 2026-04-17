@@ -44,6 +44,9 @@
 @import "./elements/speed-dial.css";
 @import "./elements/toggle-group.css";
 @import "./elements/button-group.css";
+@import "./elements/checkbox.css";
+@import "./elements/radio.css";
+@import "./elements/switch.css";
 @import "./utilities/layout.css";
 @import "./utilities/spacing.css";
 @import "./utilities/typography.css";
