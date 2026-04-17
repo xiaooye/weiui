@@ -2,6 +2,7 @@
   .wui-accordion {
     border: 1px solid var(--wui-color-border);
     border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-2);
     overflow: hidden;
   }
   .wui-accordion__item {
@@ -27,7 +28,12 @@
     text-align: start;
   }
   .wui-accordion__trigger:hover {
-    background-color: var(--wui-color-muted);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-accordion__trigger[aria-expanded="true"] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-accordion__trigger:focus-visible {
     outline: 3px solid var(--wui-color-ring);
@@ -35,7 +41,6 @@
   }
   .wui-accordion__icon {
     flex-shrink: 0;
-    transition-property: transform;
   }
   .wui-accordion__trigger[aria-expanded="true"] .wui-accordion__icon {
     transform: rotate(180deg);
@@ -47,9 +52,15 @@
     color: var(--wui-color-muted-foreground);
   }
   @media (prefers-reduced-motion: no-preference) {
+    .wui-accordion__trigger {
+      transition-property: background-color, color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
     .wui-accordion__icon {
-      transition-duration: var(--wui-motion-duration-normal);
-      transition-timing-function: var(--wui-motion-easing-default);
+      transition-property: transform;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
 }

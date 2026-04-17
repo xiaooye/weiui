@@ -18,16 +18,17 @@
     color: var(--wui-color-foreground);
   }
   .wui-pagination__btn:hover {
-    background-color: var(--wui-color-muted);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-pagination__btn:focus-visible {
     outline: 3px solid var(--wui-color-ring);
     outline-offset: 2px;
   }
   .wui-pagination__btn[data-active] {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
-    border-color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
+    border-color: color-mix(in oklch, var(--wui-color-primary) 40%, transparent);
   }
   .wui-pagination__btn[data-disabled] {
     opacity: 0.5;
@@ -41,5 +42,13 @@
     min-block-size: 44px;
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-pagination__btn {
+      transition-property: background-color, color, border-color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
   }
 }

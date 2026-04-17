@@ -6,6 +6,7 @@
     padding-inline: var(--wui-spacing-4);
     background-color: var(--wui-color-background);
     border-block-end: 1px solid var(--wui-color-border);
+    box-shadow: var(--wui-elevation-2);
     position: sticky;
     inset-block-start: 0;
     z-index: var(--wui-zIndex-sticky);
@@ -36,11 +37,12 @@
     background: none;
   }
   .wui-app-bar__link:hover {
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-foreground);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
   }
   .wui-app-bar__link[data-active] {
-    color: var(--wui-color-foreground);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
     font-weight: var(--wui-font-weight-medium);
   }
   .wui-app-bar__link:focus-visible {
@@ -52,5 +54,13 @@
     align-items: center;
     gap: var(--wui-spacing-2);
     margin-inline-start: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-app-bar__link {
+      transition-property: background-color, color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
   }
 }

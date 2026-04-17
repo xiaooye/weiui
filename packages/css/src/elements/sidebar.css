@@ -4,6 +4,7 @@
     block-size: 100vh; inline-size: 16rem;
     background-color: var(--wui-color-background);
     border-inline-end: 1px solid var(--wui-color-border);
+    box-shadow: var(--wui-elevation-2);
     position: sticky; inset-block-start: 0;
     overflow-block: auto;
   }
@@ -20,10 +21,26 @@
     min-block-size: 44px; border: none; background: none; inline-size: 100%;
     text-align: start;
   }
-  .wui-sidebar__item:hover { background-color: var(--wui-color-muted); color: var(--wui-color-foreground); }
-  .wui-sidebar__item[data-active] { background-color: var(--wui-color-primary); color: var(--wui-color-primary-foreground); font-weight: var(--wui-font-weight-medium); }
+  .wui-sidebar__item:hover {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-sidebar__item[data-active] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
+    font-weight: var(--wui-font-weight-medium);
+  }
   .wui-sidebar__item:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: -3px; }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-sidebar { transition: inline-size var(--wui-motion-duration-normal) var(--wui-motion-easing-default); }
+    .wui-sidebar {
+      transition-property: inline-size;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-sidebar__item {
+      transition-property: background-color, color;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
   }
 }
