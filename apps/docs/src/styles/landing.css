@@ -77,3 +77,53 @@
     .wui-landing-hero__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 }
+
+@layer wui-base {
+  .wui-home-values {
+    padding-block: var(--wui-spacing-12);
+  }
+  .wui-home-values__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--wui-spacing-4);
+  }
+  .wui-home-values__card {
+    padding: var(--wui-spacing-6);
+    background-color: var(--wui-surface-raised);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-shadow: var(--wui-elevation-1);
+  }
+  .wui-home-values__glyph {
+    display: inline-flex; align-items: center; justify-content: center;
+    inline-size: 40px; block-size: 40px;
+    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
+    color: var(--wui-color-primary);
+    border-radius: var(--wui-shape-radius-md);
+    font-size: var(--wui-font-size-xl);
+    margin-block-end: var(--wui-spacing-3);
+  }
+  .wui-home-values__title {
+    font-size: var(--wui-font-size-lg);
+    font-weight: var(--wui-font-weight-semibold);
+    margin-block-end: var(--wui-spacing-2);
+  }
+  .wui-home-values__body {
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-sm);
+    line-height: 1.6;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-home-values__card {
+      transition-property: transform, box-shadow, border-color;
+      transition-duration: var(--wui-motion-duration-base);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-home-values__card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--wui-elevation-3);
+      border-color: color-mix(in oklch, var(--wui-color-primary) 40%, var(--wui-color-border));
+    }
+  }
+}
