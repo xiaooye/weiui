@@ -16,6 +16,7 @@ const primitiveFiles = [
   "primitives/spacing.json",
   "primitives/typography.json",
   "primitives/shape.json",
+  "primitives/shadow.json",
   "primitives/motion.json",
   "primitives/z-index.json",
   "primitives/breakpoint.json",

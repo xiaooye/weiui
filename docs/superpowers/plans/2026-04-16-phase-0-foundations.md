@@ -47,7 +47,7 @@ import { join } from "node:path";
 describe("shadow scale", () => {
   it("shape.json declares 8 shadow levels", () => {
     const shapeJson = JSON.parse(
-      readFileSync(join(__dirname, "..", "primitives", "shape.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
     );
     const keys = Object.keys(shapeJson.shape.shadow);
     expect(keys).toEqual(["xs", "sm", "base", "md", "lg", "xl", "2xl", "inset"]);
@@ -55,7 +55,7 @@ describe("shadow scale", () => {
 
   it("every shadow uses OKLCH color", () => {
     const shapeJson = JSON.parse(
-      readFileSync(join(__dirname, "..", "primitives", "shape.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
     );
     for (const [, token] of Object.entries(shapeJson.shape.shadow)) {
       expect((token as { $value: string }).$value).toMatch(/oklch\(/);
@@ -125,7 +125,7 @@ Append to the same test file:
 describe("motion scale", () => {
   it("motion.json declares full duration set", () => {
     const motionJson = JSON.parse(
-      readFileSync(join(__dirname, "..", "primitives", "motion.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "primitives", "motion.json"), "utf-8"),
     );
     const durations = Object.keys(motionJson.motion.duration);
     for (const key of ["instant", "fast", "base", "normal", "slow", "slower"]) {
@@ -135,7 +135,7 @@ describe("motion scale", () => {
 
   it("motion.json declares full easing set", () => {
     const motionJson = JSON.parse(
-      readFileSync(join(__dirname, "..", "primitives", "motion.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "primitives", "motion.json"), "utf-8"),
     );
     const easings = Object.keys(motionJson.motion.easing);
     for (const key of ["standard", "emphasized", "decelerated", "accelerated"]) {
@@ -223,7 +223,7 @@ Append to the test file:
 describe("semantic elevation and surface tokens", () => {
   it("semantic.json declares elevation 0-5", () => {
     const semantic = JSON.parse(
-      readFileSync(join(__dirname, "..", "semantic.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "semantic.json"), "utf-8"),
     );
     for (const level of ["0", "1", "2", "3", "4", "5"]) {
       expect(semantic.elevation?.[level]).toBeDefined();
@@ -232,7 +232,7 @@ describe("semantic elevation and surface tokens", () => {
 
   it("semantic.json declares surface raised/overlay/sunken", () => {
     const semantic = JSON.parse(
-      readFileSync(join(__dirname, "..", "semantic.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "semantic.json"), "utf-8"),
     );
     for (const name of ["raised", "overlay", "sunken"]) {
       expect(semantic.surface?.[name]).toBeDefined();
@@ -241,7 +241,7 @@ describe("semantic elevation and surface tokens", () => {
 
   it("semantic.json declares color.ring-soft", () => {
     const semantic = JSON.parse(
-      readFileSync(join(__dirname, "..", "semantic.json"), "utf-8"),
+      readFileSync(join(import.meta.dirname, "..", "semantic.json"), "utf-8"),
     );
     expect(semantic.color["ring-soft"]).toBeDefined();
   });

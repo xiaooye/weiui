@@ -27,20 +27,30 @@ describe("generateCss", () => {
 });
 
 describe("shadow scale", () => {
-  it("shape.json declares 8 shadow levels at top level", () => {
-    const shapeJson = JSON.parse(
-      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
-    );
-    const keys = Object.keys(shapeJson.shadow);
+  const shadowJson = JSON.parse(
+    readFileSync(
+      join(import.meta.dirname, "..", "primitives", "shadow.json"),
+      "utf-8",
+    ),
+  );
+
+  it("shadow.json declares 8 levels in order", () => {
+    const keys = Object.keys(shadowJson.shadow);
     expect(keys).toEqual(["xs", "sm", "base", "md", "lg", "xl", "2xl", "inset"]);
   });
 
-  it("every shadow uses OKLCH color", () => {
-    const shapeJson = JSON.parse(
-      readFileSync(join(import.meta.dirname, "..", "primitives", "shape.json"), "utf-8"),
-    );
-    for (const [, token] of Object.entries(shapeJson.shadow)) {
-      expect((token as { $value: string }).$value).toMatch(/oklch\(/);
+  it("every entry declares $type: shadow", () => {
+    for (const [, token] of Object.entries(shadowJson.shadow)) {
+      expect((token as { $type: string }).$type).toBe("shadow");
+    }
+  });
+
+  it("every entry uses OKLCH color and no hex/rgb/hsl", () => {
+    for (const [, token] of Object.entries(shadowJson.shadow)) {
+      const value = (token as { $value: string }).$value;
+      expect(value).toMatch(/oklch\(/);
+      expect(value).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+      expect(value).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/);
     }
   });
 });
