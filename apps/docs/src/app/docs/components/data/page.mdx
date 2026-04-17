@@ -139,6 +139,21 @@ const pieData = [
 | height | `number` | `300` | Chart height in px |
 | colors | `string[]` | design tokens | Custom color palette |
 
+### Accessibility
+
+Every chart automatically mirrors its data into a visually-hidden `<table>` placed alongside the `<svg>`. The table has a caption derived from `title` / `description` and proper `<th>` row/column scopes, so screen-reader users get a readable, linear representation of the chart's numbers.
+
+```html
+<!-- Rendered next to the chart SVG -->
+<table class="wui-sr-only">
+  <caption>Revenue vs Expenses</caption>
+  <thead><tr><th>Month</th><th>Revenue</th><th>Expenses</th></tr></thead>
+  <tbody><tr><td>Jan</td><td>4000</td><td>2400</td></tr>…</tbody>
+</table>
+```
+
+Bar / Line / Area chart entrance and tween animations are wrapped in `@media (prefers-reduced-motion: no-preference)`, so users who request reduced motion see the final chart state immediately with no sweeps or easing.
+
 ---
 
 ## TreeView

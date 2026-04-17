@@ -70,6 +70,28 @@ import { Calendar } from "@weiui/react";
 <Calendar minDate={new Date(2026, 0, 1)} maxDate={new Date(2026, 11, 31)} />
 ```
 
+### Locale & first day of week
+
+Month name and weekday headers come from `Intl.DateTimeFormat` — pass a BCP-47 `locale` to localise the calendar. `firstDayOfWeek` (0 = Sunday, 1 = Monday, etc.) controls the column order.
+
+```tsx
+<Calendar locale="fr-FR" firstDayOfWeek={1} />
+<Calendar locale="ja-JP" />
+<Calendar locale="ar-EG" firstDayOfWeek={6} />
+```
+
+### Keyboard
+
+The full month grid supports keyboard navigation:
+
+- ArrowLeft / ArrowRight move one day
+- ArrowUp / ArrowDown move one week
+- Home / End jump to the first / last day of the current week
+- PageUp / PageDown switch to the previous / next month
+- Shift+PageUp / Shift+PageDown switch year
+- Enter / Space selects the focused day
+- Dates outside `minDate` / `maxDate` are skipped during navigation
+
 ### Props
 
 | Prop | Type | Default | Description |
@@ -79,19 +101,24 @@ import { Calendar } from "@weiui/react";
 | onChange | `(date: Date) => void` | — | Date selection handler |
 | minDate | `Date` | — | Earliest selectable date |
 | maxDate | `Date` | — | Latest selectable date |
+| locale | `string` | `"en-US"` | BCP-47 locale tag for month / weekday names |
+| firstDayOfWeek | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | Index of the first column (0 = Sunday) |
 | disabled | `boolean` | `false` | Disables all interaction |
 
 ---
 
 ## DatePicker
 
-Calendar inside a dropdown triggered by a button. Combines the Calendar with `useOutsideClick`.
+Calendar inside a dropdown triggered by a button. The popover is anchored with Floating UI and rendered through a Portal, so it flips when close to the viewport edge and can't be clipped by scrolling ancestors.
 
 ```tsx
 import { DatePicker } from "@weiui/react";
 
 <DatePicker placeholder="Pick a date" onChange={(date) => console.log(date)} />
 <DatePicker value={date} onChange={setDate} minDate={new Date()} />
+
+// Localised
+<DatePicker locale="fr-FR" firstDayOfWeek={1} placeholder="Choisir une date" />
 ```
 
 ### Props
@@ -103,6 +130,8 @@ import { DatePicker } from "@weiui/react";
 | placeholder | `string` | `"Select date..."` | Trigger button text |
 | minDate | `Date` | — | Earliest selectable date |
 | maxDate | `Date` | — | Latest selectable date |
+| locale | `string` | `"en-US"` | BCP-47 locale tag forwarded to the Calendar |
+| firstDayOfWeek | `0 \| 1 \| … \| 6` | `0` | First column of the week grid |
 | disabled | `boolean` | `false` | Disables the picker |
 
 ### Accessibility

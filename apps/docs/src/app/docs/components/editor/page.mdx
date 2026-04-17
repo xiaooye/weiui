@@ -16,7 +16,28 @@ import { Editor } from "@weiui/react";
 
 ### Toolbar Actions
 
-Bold, Italic, Strikethrough, Heading 1/2/3, Bullet List, Ordered List, Blockquote, Inline Code, Code Block.
+Bold, Italic, Strikethrough, Heading 1/2/3, Bullet List, Ordered List, Blockquote, Inline Code, Code Block, Link.
+
+### Link
+
+The toolbar includes a Link button: selecting text and clicking the link icon prompts for a URL and wraps the selection in an `<a>` element. Clicking the same button on an existing link removes it.
+
+### Custom extensions
+
+TipTap ships a wide ecosystem of extensions. Pass any extra extensions through the `extensions` prop — they are appended to the built-in set.
+
+```tsx
+import { Editor } from "@weiui/react";
+import Mention from "@tiptap/extension-mention";
+import Table from "@tiptap/extension-table";
+
+<Editor
+  extensions={[
+    Mention.configure({ suggestion: mentionSuggestion }),
+    Table.configure({ resizable: true }),
+  ]}
+/>
+```
 
 ### Props
 
@@ -28,6 +49,7 @@ Bold, Italic, Strikethrough, Heading 1/2/3, Bullet List, Ordered List, Blockquot
 | placeholder | `string` | `"Write something..."` | Placeholder text |
 | disabled | `boolean` | `false` | Disables editing |
 | label | `string` | `"Rich text editor"` | ARIA label |
+| extensions | `Extension[]` | `[]` | Extra TipTap extensions appended to the defaults |
 
 ### Accessibility
 
