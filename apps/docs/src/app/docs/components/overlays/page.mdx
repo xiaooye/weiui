@@ -13,7 +13,25 @@ Modal dialogs, tooltips, and popovers with full accessibility. All overlays rend
 
 A modal overlay that traps focus and blocks interaction with the page behind it. Content renders into a Portal, and `<DialogContent>` emits its own backdrop automatically.
 
-<Preview label="Dialog">
+<Preview
+  label="Dialog"
+  code={`import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogClose,
+} from "@weiui/react";
+
+<Dialog>
+  <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
+  <DialogContent>
+    <DialogTitle>Confirm Action</DialogTitle>
+    <p>Are you sure you want to proceed?</p>
+    <DialogClose className="wui-button wui-button--outline">Cancel</DialogClose>
+  </DialogContent>
+</Dialog>`}
+>
   <DialogDemo />
 </Preview>
 
@@ -101,7 +119,18 @@ Tooltips open on both pointer hover and keyboard focus, so users navigating with
 
 An interactive overlay positioned relative to its trigger. Popover is fully controllable and accepts side/align props to tune placement via Floating UI.
 
-<Preview label="Popover">
+<Preview
+  label="Popover"
+  code={`import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+
+<Popover side="bottom" align="end">
+  <PopoverTrigger className="wui-button wui-button--outline">Settings</PopoverTrigger>
+  <PopoverContent>
+    <p>Popover content here</p>
+    <PopoverClose className="wui-button wui-button--ghost">Close</PopoverClose>
+  </PopoverContent>
+</Popover>`}
+>
   <PopoverDemo />
 </Preview>
 

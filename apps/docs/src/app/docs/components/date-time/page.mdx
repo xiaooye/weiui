@@ -75,7 +75,16 @@ The full month grid supports keyboard navigation:
 
 Calendar inside a dropdown triggered by a button. The popover is anchored with Floating UI and rendered through a Portal, so it flips when close to the viewport edge and can't be clipped by scrolling ancestors.
 
-<Preview label="DatePicker">
+<Preview
+  label="DatePicker"
+  code={`import { DatePicker } from "@weiui/react";
+
+<DatePicker placeholder="Pick a date" onChange={(date) => console.log(date)} />
+<DatePicker value={date} onChange={setDate} minDate={new Date()} />
+
+// Localised
+<DatePicker locale="fr-FR" firstDayOfWeek={1} placeholder="Choisir une date" />`}
+>
   <DatePickerDemo />
 </Preview>
 

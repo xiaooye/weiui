@@ -262,7 +262,18 @@ import { InputOTP } from "@weiui/react";
 
 Text input with a filterable dropdown of suggestions. Anchored to the viewport via Floating UI so it can escape overflow clipping, and supports an async `loading` state.
 
-<Preview label="AutoComplete">
+<Preview
+  label="AutoComplete"
+  code={`import { AutoComplete } from "@weiui/react";
+
+const options = [
+  { value: "js", label: "JavaScript" },
+  { value: "ts", label: "TypeScript" },
+  { value: "py", label: "Python" },
+];
+
+<AutoComplete options={options} onChange={setValue} />`}
+>
   <AutoCompleteDemo />
 </Preview>
 
@@ -306,7 +317,19 @@ const options = [
 
 Pick multiple values from a list. The trigger shows selected chips and the dropdown ships with a built-in typeahead search input.
 
-<Preview label="MultiSelect">
+<Preview
+  label="MultiSelect"
+  code={`import { MultiSelect } from "@weiui/react";
+
+const options = [
+  { value: "frontend", label: "Frontend" },
+  { value: "backend", label: "Backend" },
+  { value: "devops", label: "DevOps" },
+  { value: "design", label: "Design" },
+];
+
+<MultiSelect options={options} onChange={setValues} placeholder="Pick teams" />`}
+>
   <MultiSelectDemo />
 </Preview>
 

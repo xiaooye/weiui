@@ -11,7 +11,20 @@ DataTable, Charts, and TreeView for data-heavy interfaces.
 
 Powered by `@tanstack/react-table` — sort, filter, paginate, and select rows.
 
-<Preview label="DataTable">
+<Preview
+  label="DataTable"
+  code={`import { DataTable, type ColumnDef } from "@weiui/react/data-table";
+
+type User = { name: string; email: string; role: string };
+
+const columns: ColumnDef<User>[] = [
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "email", header: "Email" },
+  { accessorKey: "role", header: "Role" },
+];
+
+<DataTable data={users} columns={columns} searchable pageSize={5} />`}
+>
   <DataTableDemo />
 </Preview>
 

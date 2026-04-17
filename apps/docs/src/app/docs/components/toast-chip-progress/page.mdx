@@ -7,7 +7,24 @@ import { ToastDemo } from "../../../../components/demos/ToastDemo";
 
 Toast is a notification system driven by an external store. The docs site already has a `<Toaster />` mounted in the root layout, so the buttons below call the real `toast()` API.
 
-<Preview label="Toast variants">
+<Preview
+  label="Toast variants"
+  code={`import { toast, Button } from "@weiui/react";
+
+<Button onClick={() => toast("Default toast")}>Default</Button>
+<Button onClick={() => toast.success("Saved!")}>Success</Button>
+<Button onClick={() => toast.error("Something failed")}>Error</Button>
+<Button onClick={() => toast.warning("Heads up")}>Warning</Button>
+<Button
+  onClick={() =>
+    toast("Undo?", {
+      action: { label: "Undo", onClick: () => toast.success("Undone") },
+    })
+  }
+>
+  With action
+</Button>`}
+>
   <ToastDemo />
 </Preview>
 
