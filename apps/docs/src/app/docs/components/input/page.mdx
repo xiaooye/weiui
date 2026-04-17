@@ -12,11 +12,45 @@ Text input field with validation states and size variants.
 
 ## Sizes
 
+The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 / 44 / 52px touch targets.
+
 <ComponentPreview label="Input sizes">
   <input className="wui-input wui-input--sm" placeholder="Small" style={{ maxWidth: "200px" }} />
   <input className="wui-input" placeholder="Medium (default)" style={{ maxWidth: "200px" }} />
   <input className="wui-input wui-input--lg" placeholder="Large" style={{ maxWidth: "200px" }} />
 </ComponentPreview>
+
+```tsx
+<Input size="sm" placeholder="Small" />
+<Input size="md" placeholder="Medium" />
+<Input size="lg" placeholder="Large" />
+```
+
+## Addons
+
+`startAddon` and `endAddon` attach a prefix or suffix visually joined to the input (e.g. unit labels, icons, currency symbols). When either is set the input is rendered inside a `wui-input-group`.
+
+<ComponentPreview label="Input with addons">
+  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
+    <span className="wui-input-group__addon">$</span>
+    <input className="wui-input wui-input--with-addons" placeholder="0.00" />
+    <span className="wui-input-group__addon">USD</span>
+  </div>
+  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
+    <span className="wui-input-group__addon">https://</span>
+    <input className="wui-input wui-input--with-addons" placeholder="example.com" />
+  </div>
+  <div className="wui-input-group" style={{ maxWidth: "280px" }}>
+    <input className="wui-input wui-input--with-addons" placeholder="Search" />
+    <span className="wui-input-group__addon">⌕</span>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Input startAddon="$" endAddon="USD" placeholder="0.00" />
+<Input startAddon="https://" placeholder="example.com" />
+<Input endAddon={<SearchIcon />} placeholder="Search" />
+```
 
 ## States
 
@@ -29,9 +63,23 @@ Text input field with validation states and size variants.
 
 ## Textarea
 
+Textarea supports the same `size` variants as Input.
+
 <ComponentPreview label="Textarea">
   <textarea className="wui-input" placeholder="Enter a longer message..." style={{ maxWidth: "400px" }}></textarea>
 </ComponentPreview>
+
+<ComponentPreview label="Textarea sizes">
+  <textarea className="wui-input wui-input--sm" placeholder="Small" rows={2} style={{ maxWidth: "400px" }}></textarea>
+  <textarea className="wui-input" placeholder="Medium (default)" rows={2} style={{ maxWidth: "400px" }}></textarea>
+  <textarea className="wui-input wui-input--lg" placeholder="Large" rows={2} style={{ maxWidth: "400px" }}></textarea>
+</ComponentPreview>
+
+```tsx
+<Textarea size="sm" placeholder="Small" />
+<Textarea size="md" placeholder="Medium" />
+<Textarea size="lg" placeholder="Large" />
+```
 
 ## Usage
 
@@ -49,6 +97,9 @@ import { Input, Textarea } from "@weiui/react";
 |------|------|---------|-------------|
 | invalid | `boolean` | `false` | Shows error state |
 | disabled | `boolean` | `false` | Disables input |
+| size | `"sm" \| "md" \| "lg"` | `"md"` | Input height variant |
+| startAddon | `ReactNode` | — | Content rendered before the input, joined visually |
+| endAddon | `ReactNode` | — | Content rendered after the input, joined visually |
 | className | `string` | — | Additional classes |
 
 All standard `<input>` HTML attributes are also supported.

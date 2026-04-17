@@ -150,6 +150,31 @@ import { InputNumber } from "@weiui/react";
 <InputNumber disabled defaultValue={10} />
 ```
 
+### Locale & currency formatting
+
+Pass any `Intl.NumberFormatOptions` via the `formatOptions` prop to localise the display. The input still stores a plain number — formatting is applied only on render, and `aria-valuetext` mirrors the formatted string for screen readers.
+
+<ComponentPreview label="InputNumber with formatOptions">
+  <div className="wui-input-number">
+    <button type="button" className="wui-input-number__btn" aria-label="Decrement">−</button>
+    <input type="text" className="wui-input-number__input" defaultValue="$1,234.00" aria-label="Amount in USD" role="spinbutton" aria-valuenow={1234} aria-valuetext="$1,234.00" />
+    <button type="button" className="wui-input-number__btn" aria-label="Increment">+</button>
+  </div>
+</ComponentPreview>
+
+```tsx
+<InputNumber
+  defaultValue={1234}
+  formatOptions={{ style: "currency", currency: "USD" }}
+/>
+
+<InputNumber
+  defaultValue={0.75}
+  step={0.01}
+  formatOptions={{ style: "percent", minimumFractionDigits: 2 }}
+/>
+```
+
 ### Props
 
 | Prop | Type | Default | Description |
@@ -161,9 +186,12 @@ import { InputNumber } from "@weiui/react";
 | defaultValue | `number` | `0` | Initial uncontrolled value |
 | onChange | `(value: number) => void` | — | Called on value change |
 | disabled | `boolean` | `false` | Disables the control |
+| formatOptions | `Intl.NumberFormatOptions` | — | Currency / percent / locale number formatting |
 
 ### Accessibility
 
+- Input is exposed as `role="spinbutton"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- `aria-valuetext` announces the formatted value when `formatOptions` is set
 - Increment/Decrement buttons have `aria-label`
 - ArrowUp/ArrowDown keyboard support on the input
 - Buttons auto-disable at min/max bounds
@@ -218,6 +246,123 @@ import { InputOTP } from "@weiui/react";
 - `role="group"` with `aria-label="One-time password"`
 - Each slot has `aria-label="Digit N"`
 - `inputMode="numeric"` for mobile numeric keyboard
+- First slot sets `autoComplete="one-time-code"` so iOS/Android can surface the SMS code
+- ArrowLeft / ArrowRight move focus between slots without clearing values
 - Auto-advances focus to next slot on input
 - Backspace clears current slot and moves focus back
 - Paste distributes characters across slots
+
+---
+
+## AutoComplete
+
+Text input with a filterable dropdown of suggestions. Anchored to the viewport via Floating UI so it can escape overflow clipping, and supports an async `loading` state.
+
+```tsx
+import { AutoComplete } from "@weiui/react";
+
+const options = [
+  { value: "js", label: "JavaScript" },
+  { value: "ts", label: "TypeScript" },
+  { value: "py", label: "Python" },
+];
+
+<AutoComplete options={options} onValueChange={setValue} />
+
+// Async loading state
+<AutoComplete options={results} loading={isFetching} placeholder="Search packages..." />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| options | `{ value: string; label: string }[]` | — | Suggestion list |
+| value | `string` | — | Controlled input value |
+| defaultValue | `string` | — | Initial uncontrolled value |
+| onValueChange | `(value: string) => void` | — | Fires on typing or selection |
+| placeholder | `string` | — | Input placeholder |
+| loading | `boolean` | `false` | Shows a loading row inside the dropdown |
+| disabled | `boolean` | `false` | Disables the input |
+
+### Accessibility
+
+- Input exposed as `role="combobox"` with `aria-expanded`, `aria-controls`, `aria-activedescendant`
+- Keyboard: ArrowDown opens the list, Arrow keys navigate, Enter selects, Escape closes
+- Dropdown anchored with Floating UI — flips and shifts to stay on-screen
+
+---
+
+## MultiSelect
+
+Pick multiple values from a list. The trigger shows selected chips and the dropdown ships with a built-in typeahead search input.
+
+```tsx
+import { MultiSelect } from "@weiui/react";
+
+const options = [
+  { value: "frontend", label: "Frontend" },
+  { value: "backend", label: "Backend" },
+  { value: "devops", label: "DevOps" },
+  { value: "design", label: "Design" },
+];
+
+<MultiSelect options={options} onValueChange={setValues} placeholder="Pick teams" />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| options | `{ value: string; label: string }[]` | — | Available options |
+| value | `string[]` | — | Controlled selected values |
+| defaultValue | `string[]` | `[]` | Initial uncontrolled values |
+| onValueChange | `(values: string[]) => void` | — | Called when selection changes |
+| placeholder | `string` | — | Text shown when nothing is selected |
+
+### Accessibility
+
+- Dropdown uses `role="listbox"` with `aria-multiselectable="true"`
+- Built-in search input at the top of the dropdown filters options as you type
+- Anchored via Floating UI for correct placement inside scrolling containers
+
+---
+
+## FileUpload
+
+Drag-and-drop or click-to-browse file input with validation hooks.
+
+```tsx
+import { FileUpload } from "@weiui/react";
+
+<FileUpload
+  accept="image/*"
+  maxSize={5 * 1024 * 1024}
+  onFilesChange={(files) => console.log(files)}
+  onError={({ reason, file, message }) => {
+    toast.error(`${file.name}: ${message}`);
+  }}
+/>
+```
+
+### Error handling
+
+`onError` fires when a drop or selection is rejected — e.g. wrong `accept` MIME type, exceeded `maxSize`, or exceeded `maxFiles`. The handler receives `{ reason, file, message }` so you can pick whether to toast, inline-render, or silently log. An inline error is also rendered inside the dropzone automatically.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| accept | `string` | — | MIME types / extensions (same as `<input type="file">`) |
+| multiple | `boolean` | `false` | Allow multiple files |
+| maxSize | `number` | — | Max bytes per file |
+| maxFiles | `number` | — | Max file count when `multiple` is true |
+| onFilesChange | `(files: File[]) => void` | — | Called when files are added or removed |
+| onError | `(err: { reason: "accept" \| "size" \| "count"; file: File; message: string }) => void` | — | Called when a file is rejected |
+| disabled | `boolean` | `false` | Disables drop + browse |
+
+### Accessibility
+
+- Dropzone acts as a button: `role="button"`, activates the hidden file input on Enter/Space
+- `aria-describedby` wires the accepted-types hint and any error message
+- Inline error region uses `role="alert"` for immediate announcement
