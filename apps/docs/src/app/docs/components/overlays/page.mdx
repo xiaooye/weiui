@@ -48,9 +48,22 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
   </TooltipTrigger>
   <TooltipContent>Helpful information</TooltipContent>
 </Tooltip>
+
+// Delay open + close for less "hover flicker"
+<Tooltip delay={300} closeDelay={100}>
+  <TooltipTrigger>...</TooltipTrigger>
+  <TooltipContent>...</TooltipContent>
+</Tooltip>
 ```
 
 Tooltips open on both pointer hover and keyboard focus, so users navigating with a keyboard see the same hint.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| delay | `number` | `0` | Milliseconds to wait before opening on hover/focus |
+| closeDelay | `number` | `0` | Milliseconds to wait before closing on blur/pointer-leave |
 
 ### Accessibility
 - `role="tooltip"` on content
