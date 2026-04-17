@@ -4,13 +4,12 @@ Modal dialogs, tooltips, and popovers with full accessibility. All overlays rend
 
 ## Dialog
 
-A modal overlay that traps focus and blocks interaction with the page behind it. Content renders into a Portal, and you can customise the scrim via `<DialogOverlay>`.
+A modal overlay that traps focus and blocks interaction with the page behind it. Content renders into a Portal, and `<DialogContent>` emits its own backdrop automatically.
 
 ```tsx
 import {
   Dialog,
   DialogTrigger,
-  DialogOverlay,
   DialogContent,
   DialogTitle,
   DialogClose,
@@ -18,7 +17,6 @@ import {
 
 <Dialog>
   <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
-  <DialogOverlay />
   <DialogContent>
     <DialogTitle>Confirm Action</DialogTitle>
     <p>Are you sure you want to proceed?</p>
@@ -27,7 +25,7 @@ import {
 </Dialog>
 ```
 
-`<DialogOverlay>` is optional — omit it to get the default backdrop, or render your own to customise the blur / colour / click-to-close behaviour. Both `DialogOverlay` and `DialogContent` render via Portal.
+`<DialogContent>` renders via Portal and includes its own scrim, so you don't need to compose `<DialogOverlay>` yourself. `DialogOverlay` is still exported for consumers who want to restyle the backdrop via `className`.
 
 ### Accessibility
 - Focus trapped inside dialog
