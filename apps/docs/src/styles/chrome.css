@@ -217,6 +217,8 @@
     color: var(--wui-color-muted-foreground);
     border-radius: var(--wui-shape-radius-base);
     text-decoration: none;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
   }
   .wui-docs-sidebar__link:hover {
     color: var(--wui-color-foreground);
