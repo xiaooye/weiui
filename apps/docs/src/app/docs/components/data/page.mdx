@@ -25,14 +25,18 @@ const columns = [
 
 ### Row selection
 
-Pass `selectable` to render a checkbox column plus a header checkbox that selects/deselects the current page. Subscribe to changes with `onRowSelectionChange`.
+Pass `selectable` to render a checkbox column plus a header checkbox that selects/deselects the current page. Subscribe to changes with `onRowSelectionChange` — it follows the TanStack Table `OnChangeFn<RowSelectionState>` shape so you can forward it straight through.
 
 ```tsx
+import type { RowSelectionState } from "@tanstack/react-table";
+
+const [selection, setSelection] = useState<RowSelectionState>({});
+
 <DataTable
   data={users}
   columns={columns}
   selectable
-  onRowSelectionChange={(rows) => console.log("selected:", rows)}
+  onRowSelectionChange={setSelection}
 />
 ```
 
@@ -91,10 +95,10 @@ For datasets that live on the server, opt-out of client-side pagination / sortin
 | manualPagination | `boolean` | `false` | Delegate pagination to server |
 | manualSorting | `boolean` | `false` | Delegate sorting to server |
 | manualFiltering | `boolean` | `false` | Delegate global filter to server |
-| onPaginationChange | `(state) => void` | — | Fires when page/pageSize changes |
-| onSortingChange | `(state) => void` | — | Fires when column sort changes |
-| onGlobalFilterChange | `(filter: string) => void` | — | Fires when the search box changes |
-| onRowSelectionChange | `(rows: TData[]) => void` | — | Fires when row selection changes |
+| onPaginationChange | `OnChangeFn<PaginationState>` | — | Fires when page/pageSize changes |
+| onSortingChange | `OnChangeFn<SortingState>` | — | Fires when column sort changes |
+| onGlobalFilterChange | `OnChangeFn<string>` | — | Fires when the search box changes |
+| onRowSelectionChange | `OnChangeFn<RowSelectionState>` | — | Fires when row selection changes |
 
 ---
 
