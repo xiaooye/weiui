@@ -1,4 +1,7 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { CardDemo } from "../../../../components/demos/CardDemo";
+import { BadgeDemo } from "../../../../components/demos/BadgeDemo";
+import { AvatarDemo } from "../../../../components/demos/AvatarDemo";
 
 # Data Display
 
@@ -7,18 +10,7 @@ Components for presenting data, content, and visual information.
 ## Card
 
 <Preview label="Card">
-  <div className="wui-card" style={{ maxWidth: "320px", width: "100%" }}>
-    <div className="wui-card__header">
-      <strong>Card Title</strong>
-    </div>
-    <div className="wui-card__content">
-      <p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)" }}>This is the main content of the card. It can contain any content.</p>
-    </div>
-    <div className="wui-card__footer">
-      <button className="wui-button wui-button--solid wui-button--sm">Action</button>
-      <button className="wui-button wui-button--outline wui-button--sm">Cancel</button>
-    </div>
-  </div>
+  <CardDemo />
 </Preview>
 
 ```tsx
@@ -33,17 +25,8 @@ import { Card, CardHeader, CardContent, CardFooter } from "@weiui/react";
 
 ## Badge
 
-<Preview label="Badge variants">
-  <span className="wui-badge wui-badge--solid">Default</span>
-  <span className="wui-badge wui-badge--soft">Soft</span>
-  <span className="wui-badge wui-badge--outline">Outline</span>
-</Preview>
-
-<Preview label="Badge colors">
-  <span className="wui-badge wui-badge--solid">Primary</span>
-  <span className="wui-badge wui-badge--success">Success</span>
-  <span className="wui-badge wui-badge--warning">Warning</span>
-  <span className="wui-badge wui-badge--destructive">Error</span>
+<Preview label="Badge variants and colors">
+  <BadgeDemo />
 </Preview>
 
 ```tsx
@@ -55,11 +38,8 @@ import { Badge } from "@weiui/react";
 
 ## Avatar
 
-<Preview label="Avatar sizes">
-  <span className="wui-avatar wui-avatar--sm"><span className="wui-avatar__fallback">SM</span></span>
-  <span className="wui-avatar"><span className="wui-avatar__fallback">MD</span></span>
-  <span className="wui-avatar wui-avatar--lg"><span className="wui-avatar__fallback">LG</span></span>
-  <span className="wui-avatar wui-avatar--xl"><span className="wui-avatar__fallback">XL</span></span>
+<Preview label="Avatar sizes + image fallback">
+  <AvatarDemo />
 </Preview>
 
 ```tsx

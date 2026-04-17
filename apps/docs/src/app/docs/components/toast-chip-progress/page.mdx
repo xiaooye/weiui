@@ -1,5 +1,6 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { ToastDemo } from "../../../../components/demos/ToastDemo";
+import { ChipDemo } from "../../../../components/demos/ChipDemo";
 
 # Toast, Chip & ProgressBar
 
@@ -111,30 +112,8 @@ Configure where the stack appears on `<Toaster>`. All six corners are supported.
 
 Like Badge but interactive — can be dismissed with a remove button.
 
-<Preview label="Chip variants">
-  <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
-    <span className="wui-chip">Default</span>
-    <span className="wui-chip wui-chip--primary">Primary</span>
-    <span className="wui-chip wui-chip--success">Success</span>
-    <span className="wui-chip wui-chip--destructive">Destructive</span>
-  </div>
-</Preview>
-
-<Preview label="Chip with remove button">
-  <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
-    <span className="wui-chip">
-      TypeScript
-      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
-    </span>
-    <span className="wui-chip wui-chip--primary">
-      React
-      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
-    </span>
-    <span className="wui-chip wui-chip--success">
-      Verified
-      <button type="button" className="wui-chip__remove" aria-label="Remove">×</button>
-    </span>
-  </div>
+<Preview label="Chip with onRemove">
+  <ChipDemo />
 </Preview>
 
 ```tsx
