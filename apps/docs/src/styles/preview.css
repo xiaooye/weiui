@@ -127,3 +127,35 @@
     }
   }
 }
+
+@layer wui-base {
+  .wui-color-swatch {
+    display: flex; align-items: center; gap: var(--wui-spacing-3);
+    inline-size: 100%;
+    padding: var(--wui-spacing-3);
+    background-color: var(--wui-surface-raised);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    text-align: start;
+    cursor: pointer;
+  }
+  .wui-color-swatch:hover { border-color: var(--wui-color-primary); }
+  .wui-color-swatch__chip {
+    inline-size: 40px; block-size: 40px;
+    border-radius: var(--wui-shape-radius-base);
+    border: 1px solid color-mix(in oklch, var(--wui-color-foreground) 10%, transparent);
+    flex: 0 0 auto;
+  }
+  .wui-color-swatch__body { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
+  .wui-color-swatch__name { font-size: var(--wui-font-size-sm); font-weight: var(--wui-font-weight-medium); }
+  .wui-color-swatch__var {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-color-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--wui-spacing-3);
+    margin-block: var(--wui-spacing-4);
+  }
+}
