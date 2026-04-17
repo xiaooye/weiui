@@ -1,0 +1,35 @@
+# Typography
+
+WeiUI ships three type stacks exposed as CSS variables:
+
+- `--wui-font-family-sans` — **Inter** (body, UI, prose)
+- `--wui-font-family-display` — **Instrument Serif** (hero/display headings)
+- `--wui-font-family-mono` — **JetBrains Mono** (code)
+
+## Scale
+
+| Token | Value | Example |
+|-------|-------|---------|
+| `--wui-font-size-xs` | 12px | <span style={{ fontSize: "var(--wui-font-size-xs)" }}>The quick brown fox</span> |
+| `--wui-font-size-sm` | 14px | <span style={{ fontSize: "var(--wui-font-size-sm)" }}>The quick brown fox</span> |
+| `--wui-font-size-base` | 16px | <span style={{ fontSize: "var(--wui-font-size-base)" }}>The quick brown fox</span> |
+| `--wui-font-size-lg` | 18px | <span style={{ fontSize: "var(--wui-font-size-lg)" }}>The quick brown fox</span> |
+| `--wui-font-size-xl` | 20px | <span style={{ fontSize: "var(--wui-font-size-xl)" }}>The quick brown fox</span> |
+| `--wui-font-size-2xl` | 24px | <span style={{ fontSize: "var(--wui-font-size-2xl)" }}>The quick brown fox</span> |
+| `--wui-font-size-3xl` | 30px | <span style={{ fontSize: "var(--wui-font-size-3xl)" }}>The quick brown fox</span> |
+| `--wui-font-size-4xl` | 36px | <span style={{ fontSize: "var(--wui-font-size-4xl)" }}>The quick brown fox</span> |
+| `--wui-font-size-5xl` | 48px | <span style={{ fontSize: "var(--wui-font-size-5xl)" }}>The quick brown fox</span> |
+
+## Display typography
+
+The hero on the landing page uses the display stack. Add `className="wui-display"` to any heading to opt in.
+
+<div style={{ padding: "2rem", border: "1px solid var(--wui-color-border)", borderRadius: "var(--wui-shape-radius-lg)" }}>
+  <h2 className="wui-display" style={{ fontSize: "var(--wui-font-size-5xl)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+    A design system that earns its place.
+  </h2>
+</div>
+
+## Weights
+
+`var(--wui-font-weight-regular)` = 400, `-medium` = 500, `-semibold` = 600, `-bold` = 700.
