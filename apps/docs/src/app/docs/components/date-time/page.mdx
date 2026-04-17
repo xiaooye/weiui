@@ -1,4 +1,6 @@
 import { Preview } from "../../../../components/preview/Preview";
+import { CalendarDemo } from "../../../../components/demos/CalendarDemo";
+import { DatePickerDemo } from "../../../../components/demos/DatePickerDemo";
 
 # Date & Time
 
@@ -11,55 +13,7 @@ Calendar grid and date picker dropdown components.
 Month view grid with day selection, navigation, and min/max constraints.
 
 <Preview label="Calendar">
-  <div className="wui-calendar" role="group" aria-label="Calendar">
-    <div className="wui-calendar__header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--wui-spacing-3)" }}>
-      <button type="button" className="wui-calendar__nav" aria-label="Previous month">&lsaquo;</button>
-      <span className="wui-calendar__title" style={{ fontWeight: "var(--wui-font-weight-semibold)", fontSize: "var(--wui-font-size-sm)" }}>April 2026</span>
-      <button type="button" className="wui-calendar__nav" aria-label="Next month">&rsaquo;</button>
-    </div>
-    <table className="wui-calendar__grid" role="grid" style={{ width: "100%", borderCollapse: "collapse" }}>
-      <thead>
-        <tr>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Su</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Mo</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Tu</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>We</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Th</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Fr</th>
-          <th className="wui-calendar__weekday" style={{ textAlign: "center", fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)", paddingBottom: "var(--wui-spacing-1)" }}>Sa</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn" data-outside="">29</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn" data-outside="">30</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn" data-outside="">31</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">1</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">2</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">3</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">4</button></td>
-        </tr>
-        <tr>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">5</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">6</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">7</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">8</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">9</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">10</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">11</button></td>
-        </tr>
-        <tr>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">12</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">13</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">14</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn" data-selected="" data-today="">15</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn" data-today="">16</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">17</button></td>
-          <td className="wui-calendar__day" style={{ textAlign: "center" }}><button type="button" className="wui-calendar__day-btn">18</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <CalendarDemo />
 </Preview>
 
 ```tsx
@@ -111,6 +65,10 @@ The full month grid supports keyboard navigation:
 ## DatePicker
 
 Calendar inside a dropdown triggered by a button. The popover is anchored with Floating UI and rendered through a Portal, so it flips when close to the viewport edge and can't be clipped by scrolling ancestors.
+
+<Preview label="DatePicker">
+  <DatePickerDemo />
+</Preview>
 
 ```tsx
 import { DatePicker } from "@weiui/react";
