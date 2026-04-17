@@ -29,4 +29,13 @@ describe("Spinner", () => {
     const el = screen.getByRole("status");
     expect(el).toHaveStyle({ width: "32px", height: "32px" });
   });
+
+  it("uses motion-safe wui-spinner class (PRM-gated animation)", () => {
+    // Tailwind's animate-spin ignores prefers-reduced-motion. We use a custom
+    // wui-spinner class that is PRM-gated in the CSS layer.
+    render(<Spinner />);
+    const el = screen.getByRole("status");
+    expect(el).toHaveClass("wui-spinner");
+    expect(el.className).not.toContain("animate-spin");
+  });
 });

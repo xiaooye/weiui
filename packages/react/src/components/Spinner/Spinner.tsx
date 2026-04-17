@@ -15,7 +15,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         ref={ref}
         role="status"
         aria-label={label}
-        className={cn("inline-block animate-spin rounded-full border-2 border-current border-r-transparent", className)}
+        className={cn("wui-spinner", className)}
         style={{ width: sizeMap[size], height: sizeMap[size] }}
         {...props}
       >

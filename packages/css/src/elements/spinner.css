@@ -1,0 +1,19 @@
+@layer wui-elements {
+  .wui-spinner {
+    display: inline-block;
+    border-style: solid;
+    border-width: 2px;
+    border-color: currentColor;
+    border-inline-end-color: transparent;
+    border-radius: var(--wui-shape-radius-full);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-spinner {
+      animation: wui-spinner-rotate 0.8s linear infinite;
+    }
+  }
+  @keyframes wui-spinner-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+}
