@@ -2,27 +2,51 @@
 import { forwardRef, useState, useRef, useCallback, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
+export type SplitterSizes = [number, number];
+
 export interface SplitterProps {
   orientation?: "horizontal" | "vertical";
-  defaultSizes?: [number, number];
+  defaultSizes?: SplitterSizes;
+  /** Controlled sizes. Pair with `onSizesChange`. */
+  sizes?: SplitterSizes;
+  /** Fires when the user drags or presses arrow keys on the separator. */
+  onSizesChange?: (sizes: SplitterSizes) => void;
   minSize?: number;
   children: [ReactNode, ReactNode];
   className?: string;
 }
 
 export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
-  ({ orientation = "horizontal", defaultSizes = [50, 50], minSize = 10, children, className }, ref) => {
-    const [sizes, setSizes] = useState(defaultSizes);
+  (
+    {
+      orientation = "horizontal",
+      defaultSizes = [50, 50],
+      sizes: controlledSizes,
+      onSizesChange,
+      minSize = 10,
+      children,
+      className,
+    },
+    ref,
+  ) => {
+    const [uncontrolled, setUncontrolled] = useState<SplitterSizes>(defaultSizes);
+    const isControlled = controlledSizes !== undefined;
+    const sizes = controlledSizes ?? uncontrolled;
     const containerRef = useRef<HTMLDivElement>(null);
     const dragging = useRef(false);
 
-    const handlePointerDown = useCallback(
-      (e: React.PointerEvent) => {
-        dragging.current = true;
-        e.currentTarget.setPointerCapture(e.pointerId);
+    const updateSizes = useCallback(
+      (next: SplitterSizes) => {
+        if (!isControlled) setUncontrolled(next);
+        onSizesChange?.(next);
       },
-      [],
+      [isControlled, onSizesChange],
     );
+
+    const handlePointerDown = useCallback((e: React.PointerEvent) => {
+      dragging.current = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
+    }, []);
 
     const handlePointerMove = useCallback(
       (e: React.PointerEvent) => {
@@ -33,9 +57,9 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
         const pos = isVertical ? e.clientY - rect.top : e.clientX - rect.left;
         let pct = (pos / total) * 100;
         pct = Math.max(minSize, Math.min(100 - minSize, pct));
-        setSizes([pct, 100 - pct]);
+        updateSizes([pct, 100 - pct]);
       },
-      [orientation, minSize],
+      [orientation, minSize, updateSizes],
     );
 
     const handlePointerUp = useCallback(() => {
@@ -45,21 +69,18 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
     const handleKeyDown = useCallback(
       (e: React.KeyboardEvent) => {
         const step = 5;
+        const a = sizes[0];
         if (e.key === "ArrowRight" || e.key === "ArrowDown") {
           e.preventDefault();
-          setSizes(([a]) => {
-            const next = Math.min(a + step, 100 - minSize);
-            return [next, 100 - next];
-          });
+          const next = Math.min(a + step, 100 - minSize);
+          updateSizes([next, 100 - next]);
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
-          setSizes(([a]) => {
-            const next = Math.max(a - step, minSize);
-            return [next, 100 - next];
-          });
+          const next = Math.max(a - step, minSize);
+          updateSizes([next, 100 - next]);
         }
       },
-      [minSize],
+      [minSize, sizes, updateSizes],
     );
 
     const isVertical = orientation === "vertical";
@@ -73,7 +94,10 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
         }}
         className={cn("wui-splitter", isVertical && "wui-splitter--vertical", className)}
       >
-        <div className="wui-splitter__panel" style={isVertical ? { height: `${sizes[0]}%` } : { width: `${sizes[0]}%` }}>
+        <div
+          className="wui-splitter__panel"
+          style={isVertical ? { height: `${sizes[0]}%` } : { width: `${sizes[0]}%` }}
+        >
           {children[0]}
         </div>
         <div
@@ -91,7 +115,10 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
         >
           <div className="wui-splitter__handle-dot" />
         </div>
-        <div className="wui-splitter__panel" style={isVertical ? { height: `${sizes[1]}%` } : { width: `${sizes[1]}%` }}>
+        <div
+          className="wui-splitter__panel"
+          style={isVertical ? { height: `${sizes[1]}%` } : { width: `${sizes[1]}%` }}
+        >
           {children[1]}
         </div>
       </div>
