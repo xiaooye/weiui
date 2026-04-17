@@ -115,3 +115,41 @@
     }
   }
 }
+
+@layer wui-base {
+  .wui-code-block {
+    position: relative;
+  }
+  .wui-code-block__copy {
+    position: absolute;
+    inset-block-start: var(--wui-spacing-2);
+    inset-inline-end: var(--wui-spacing-2);
+    inline-size: 32px;
+    block-size: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in oklch, var(--wui-surface-overlay) 80%, transparent);
+    color: var(--wui-color-muted-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-base);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .wui-code-block:hover .wui-code-block__copy,
+  .wui-code-block:focus-within .wui-code-block__copy {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .wui-code-block__copy:hover {
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-muted);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-code-block__copy {
+      transition: opacity var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    }
+  }
+}

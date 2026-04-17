@@ -1,3 +1,39 @@
 @layer wui-base {
-  /* Shiki token styles land in Phase 1 task 6. */
+  figure[data-rehype-pretty-code-figure] {
+    background-color: var(--wui-surface-sunken);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    overflow: hidden;
+    margin-block: var(--wui-spacing-4);
+    position: relative;
+  }
+  figure[data-rehype-pretty-code-figure] > pre {
+    padding: var(--wui-spacing-4);
+    overflow-x: auto;
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-sm);
+    line-height: 1.6;
+  }
+  figure[data-rehype-pretty-code-figure] code {
+    counter-reset: line;
+  }
+  figure[data-rehype-pretty-code-figure] code > [data-line] {
+    padding-inline: var(--wui-spacing-4);
+    border-inline-start: 2px solid transparent;
+  }
+  figure[data-rehype-pretty-code-figure] code > [data-highlighted-line] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 6%, transparent);
+    border-inline-start-color: var(--wui-color-primary);
+  }
+  /* rehype-pretty-code emits two color tokens per span (--shiki-light / --shiki-dark) */
+  code[data-theme*=" "],
+  code[data-theme*=" "] span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+  html.dark code[data-theme*=" "],
+  html.dark code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
 }
