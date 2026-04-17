@@ -97,9 +97,9 @@ Run: `pnpm --filter @weiui/tokens build`
 Open `packages/tokens/dist/tokens.css` and confirm these lines exist:
 
 ```
---wui-shape-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
---wui-shape-shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.18);
---wui-shape-shadow-inset: inset 0 2px 4px 0 oklch(0 0 0 / 0.05);
+--wui-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+--wui-shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.18);
+--wui-shadow-inset: inset 0 2px 4px 0 oklch(0 0 0 / 0.05);
 ```
 
 - [ ] **Step 6: Commit**
@@ -392,7 +392,7 @@ Motion-safe translateY + shadow bump:
 @media (prefers-reduced-motion: no-preference) {
   .wui-button:hover {
     transform: translateY(-1px);
-    box-shadow: var(--wui-shape-shadow-sm),
+    box-shadow: var(--wui-shadow-sm),
                 inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.15);
   }
   .wui-button:active {
@@ -570,11 +570,11 @@ Replace the full contents of `packages/css/src/elements/button.css` with:
       transform: translateY(-1px);
     }
     .wui-button--solid:hover {
-      box-shadow: var(--wui-shape-shadow-sm),
+      box-shadow: var(--wui-shadow-sm),
                   inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.18);
     }
     .wui-button--destructive.wui-button--solid:hover {
-      box-shadow: var(--wui-shape-shadow-sm),
+      box-shadow: var(--wui-shadow-sm),
                   inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.18);
     }
     .wui-button:active { transform: translateY(0); }
@@ -1162,7 +1162,7 @@ export const buttonVariants = tv({
         "text-[var(--wui-color-primary-foreground)]",
         "shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.12)]",
         "motion-safe:hover:-translate-y-px",
-        "motion-safe:hover:shadow-[var(--wui-shape-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.18)]",
+        "motion-safe:hover:shadow-[var(--wui-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.18)]",
         "motion-safe:active:translate-y-0",
       ],
       outline: [
@@ -1193,7 +1193,7 @@ export const buttonVariants = tv({
   },
   compoundVariants: [
     { variant: "solid", color: "primary", className: "bg-[var(--wui-color-primary)]" },
-    { variant: "solid", color: "destructive", className: "bg-[var(--wui-color-destructive)] text-[var(--wui-color-destructive-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.12)] motion-safe:hover:shadow-[var(--wui-shape-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.18)]" },
+    { variant: "solid", color: "destructive", className: "bg-[var(--wui-color-destructive)] text-[var(--wui-color-destructive-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.12)] motion-safe:hover:shadow-[var(--wui-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.18)]" },
     { variant: "solid", color: "success", className: "bg-[var(--wui-color-success)] text-[var(--wui-color-success-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-success-foreground)_l_c_h_/_0.12)]" },
     { variant: "outline", color: "primary", className: "border-[var(--wui-color-primary)] text-[var(--wui-color-primary)] hover:bg-[color-mix(in_oklch,var(--wui-color-primary)_8%,transparent)]" },
     { variant: "ghost", color: "primary", className: "text-[var(--wui-color-primary)] hover:bg-[color-mix(in_oklch,var(--wui-color-primary)_8%,transparent)]" },
