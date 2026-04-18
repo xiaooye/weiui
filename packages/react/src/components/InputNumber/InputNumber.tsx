@@ -1,8 +1,8 @@
 "use client";
-import { forwardRef, useMemo, useState, type HTMLAttributes } from "react";
+import { forwardRef, useMemo, useState, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
-export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "prefix"> {
   min?: number;
   max?: number;
   step?: number;
@@ -12,6 +12,10 @@ export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "
   disabled?: boolean;
   formatOptions?: Intl.NumberFormatOptions;
   locale?: string;
+  /** Text/node rendered inline before the number input. */
+  prefix?: ReactNode;
+  /** Text/node rendered inline after the number input. */
+  suffix?: ReactNode;
 }
 
 export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
@@ -26,6 +30,8 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
       disabled,
       formatOptions,
       locale = "en-US",
+      prefix,
+      suffix,
       className,
       ...props
     },
@@ -54,6 +60,22 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
       } else if (e.key === "ArrowDown") {
         e.preventDefault();
         update(value - step);
+      } else if (e.key === "PageUp") {
+        e.preventDefault();
+        update(value + step * 10);
+      } else if (e.key === "PageDown") {
+        e.preventDefault();
+        update(value - step * 10);
+      } else if (e.key === "Home") {
+        if (min !== -Infinity) {
+          e.preventDefault();
+          update(min);
+        }
+      } else if (e.key === "End") {
+        if (max !== Infinity) {
+          e.preventDefault();
+          update(max);
+        }
       }
     };
 
@@ -82,6 +104,7 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
         >
           −
         </button>
+        {prefix && <span className="wui-input-number__affix">{prefix}</span>}
         <input
           type={formatter ? "text" : "number"}
           className="wui-input-number__input"
@@ -99,6 +122,7 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
           aria-valuemax={max === Infinity ? undefined : max}
           aria-valuetext={formatter ? formatter.format(value) : undefined}
         />
+        {suffix && <span className="wui-input-number__affix">{suffix}</span>}
         <button
           type="button"
           className="wui-input-number__btn"

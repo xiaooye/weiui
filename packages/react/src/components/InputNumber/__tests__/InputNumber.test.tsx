@@ -113,4 +113,48 @@ describe("InputNumber", () => {
     expect(input).toHaveAttribute("aria-valuemin", "0");
     expect(input).toHaveAttribute("aria-valuemax", "10");
   });
+
+  describe("P1 features", () => {
+    it("increments by step*10 on PageUp", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={5} step={2} onChange={onChange} />);
+      await user.click(screen.getByRole("spinbutton"));
+      await user.keyboard("{PageUp}");
+      expect(onChange).toHaveBeenCalledWith(25);
+    });
+
+    it("decrements by step*10 on PageDown", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={30} step={2} onChange={onChange} />);
+      await user.click(screen.getByRole("spinbutton"));
+      await user.keyboard("{PageDown}");
+      expect(onChange).toHaveBeenCalledWith(10);
+    });
+
+    it("jumps to min on Home", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={5} min={0} max={10} onChange={onChange} />);
+      await user.click(screen.getByRole("spinbutton"));
+      await user.keyboard("{Home}");
+      expect(onChange).toHaveBeenCalledWith(0);
+    });
+
+    it("jumps to max on End", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={5} min={0} max={10} onChange={onChange} />);
+      await user.click(screen.getByRole("spinbutton"));
+      await user.keyboard("{End}");
+      expect(onChange).toHaveBeenCalledWith(10);
+    });
+
+    it("renders prefix and suffix slots", () => {
+      render(<InputNumber defaultValue={5} prefix="$" suffix="USD" />);
+      expect(screen.getByText("$")).toBeInTheDocument();
+      expect(screen.getByText("USD")).toBeInTheDocument();
+    });
+  });
 });
