@@ -19,13 +19,21 @@ export interface DatePickerPreset {
 }
 
 export interface DatePickerProps {
+  /** Controlled date value in single-mode. Pair with onChange. */
   value?: Date;
+  /** Called when the selected date changes in single-mode. */
   onChange?: (date: Date | null) => void;
+  /** Placeholder text shown when empty. */
   placeholder?: string;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Earliest selectable date. Dates before this are disabled. */
   minDate?: Date;
+  /** Latest selectable date. Dates after this are disabled. */
   maxDate?: Date;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label for the date picker. */
   label?: string;
   /** BCP 47 locale tag. Defaults to "en-US". */
   locale?: string;

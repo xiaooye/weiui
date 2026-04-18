@@ -24,13 +24,21 @@ export interface CalendarDayInfo {
 }
 
 export interface CalendarProps {
+  /** Controlled date value in single-mode. Pair with onChange. */
   value?: Date;
+  /** Initial date for uncontrolled single-mode. */
   defaultValue?: Date;
+  /** Called when the selected date changes in single-mode. */
   onChange?: (date: Date) => void;
+  /** Earliest selectable date. Dates before this are disabled. */
   minDate?: Date;
+  /** Latest selectable date. Dates after this are disabled. */
   maxDate?: Date;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label for the calendar. */
   label?: string;
   /** BCP 47 locale tag (e.g. "en-US", "fr-FR"). Defaults to "en-US". */
   locale?: string;
