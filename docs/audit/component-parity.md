@@ -718,14 +718,14 @@
 | `aria-label` + `role="img"` on chart | ✅ | ⚠️ not default | — | — |
 | Screen-reader data table fallback | ✅ | ✅ Highcharts / Visx | Add visually-hidden table | ✅ shipped |
 | Reduced-motion animation respect | ✅ | ✅ | Set `isAnimationActive=false` under prefers-reduced-motion | ✅ shipped |
-| Dark-mode theming via tokens | ⚠️ colors via CSS vars but axis ticks etc. not themed | ✅ | Thread token into tick fill / stroke | **P1** |
-| Custom legend / tooltip | ⚠️ pass-through via Recharts | ✅ | Document pattern | **P1** |
-| Brush / zoom | ❌ | ✅ Recharts | Expose Brush component | **P1** |
-| Stacked variants | ⚠️ bar/area partially support stacking but not surfaced | ✅ | Add `stacked` prop | **P1** |
+| Dark-mode theming via tokens | ✅ | ✅ | Thread token into tick fill / stroke | ✅ shipped |
+| Custom legend / tooltip | ✅ `legend` / `tooltip` slots | ✅ | Document pattern | ✅ shipped |
+| Brush / zoom | ✅ `showBrush` prop | ✅ Recharts | Expose Brush component | ✅ shipped |
+| Stacked variants | ✅ `stacked` prop | ✅ | Add `stacked` prop | ✅ shipped |
 | Sparkline mini-chart | ❌ | ✅ Nivo | Add variant | **P2** |
 | Scatter / bubble | ❌ | ✅ | Add variants | **P2** |
-| Axis formatting (currency, %, dates) | ❌ | ✅ | Add formatter props | **P1** |
-| Empty / no-data state | ❌ | ✅ | Add empty slot | **P1** |
+| Axis formatting (currency, %, dates) | ✅ `xAxisFormatter` / `yAxisFormatter` | ✅ | Add formatter props | ✅ shipped |
+| Empty / no-data state | ✅ default EmptyState + `emptyState` override | ✅ | Add empty slot | ✅ shipped |
 
 **Notes:** A11y SR fallback is P0 for "business-level" use — a chart without a data table is inaccessible to screen-reader users. Reduced-motion is P0 per the spec (all animations must be inside the prefers-reduced-motion: no-preference block). Both are small fixes on top of Recharts.
 

@@ -181,13 +181,79 @@ const pieData = [
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | `Record<string, unknown>[]` | — | Data array |
+| data | `Record<string, unknown>[]` | — | Data array. When empty, the chart renders an `EmptyState` instead of the plot. |
 | dataKeys | `string[]` | — | Keys to chart (Bar/Line/Area/Radar) |
 | xKey | `string` | `"name"` | X-axis data key |
 | title | `ReactNode` | — | Chart title |
 | description | `ReactNode` | — | Chart description |
 | height | `number` | `300` | Chart height in px |
 | colors | `string[]` | design tokens | Custom color palette |
+| stacked | `boolean \| string` | — | BarChart/AreaChart: share a stackId across series. Pass a string to set a custom id. |
+| showBrush | `boolean` | — | BarChart/LineChart/AreaChart: render a Recharts `<Brush>` for zoom / pan. |
+| xAxisFormatter | `(value: unknown) => string` | — | Formatter for x-axis ticks (e.g. dates). |
+| yAxisFormatter | `(value: unknown) => string` | — | Formatter for y-axis ticks + tooltip values (e.g. currency, %). |
+| emptyState | `ReactNode` | default `EmptyState` | Replace the empty-data slot. |
+| legend | `ReactNode \| null` | `<Legend />` | Replace the default Recharts legend, or pass `null` to hide it. |
+| tooltip | `ReactNode \| null` | `<Tooltip />` | Replace the default Recharts tooltip, or pass `null` to hide it. |
+
+### Axis formatters
+
+Use `xAxisFormatter` / `yAxisFormatter` for currency, percentages, compact numbers, or dates. Both the axis ticks and the default tooltip reuse the `yAxisFormatter`.
+
+```tsx
+const currency = (v: unknown) => `$${Number(v).toLocaleString()}`;
+
+<BarChart
+  data={data}
+  dataKeys={["revenue"]}
+  yAxisFormatter={currency}
+/>
+```
+
+### Stacked + brush
+
+`stacked` shares a `stackId` across series. `showBrush` drops in a Recharts `<Brush>` under the plot for zoom / pan — the handles are styled with `var(--wui-color-primary)` so they honor the theme.
+
+```tsx
+<BarChart data={data} dataKeys={["revenue", "expenses"]} stacked showBrush />
+<AreaChart data={data} dataKeys={["a", "b"]} stacked="totals" />
+```
+
+### Custom legend / tooltip slots
+
+Pass a Recharts `<Legend>` or `<Tooltip>` element as the `legend` / `tooltip` prop to fully replace the default UI. Pass `null` to remove the slot entirely.
+
+```tsx
+import { Legend, Tooltip } from "recharts";
+
+<BarChart
+  data={data}
+  dataKeys={["revenue"]}
+  legend={<Legend verticalAlign="top" iconType="circle" />}
+  tooltip={<Tooltip cursor={{ fill: "var(--wui-color-muted)" }} />}
+/>
+
+// Hide the default legend
+<LineChart data={data} dataKeys={["visits"]} legend={null} />
+```
+
+### Empty state
+
+When `data` is an empty array (or undefined), the chart renders a default `EmptyState` in place of the plot. Override the copy with `emptyState`.
+
+```tsx
+<LineChart data={[]} dataKeys={["visits"]} />
+// or
+<LineChart
+  data={[]}
+  dataKeys={["visits"]}
+  emptyState={<EmptyState title="Waiting for data" description="Check back soon." />}
+/>
+```
+
+### Dark mode
+
+Axis tick labels, grid lines, and polar axes are wired to `var(--wui-color-muted-foreground)` / `var(--wui-color-border)`, so they flip automatically when the theme switches to `data-theme="dark"`. No chart-specific dark CSS is required.
 
 ### Accessibility
 
