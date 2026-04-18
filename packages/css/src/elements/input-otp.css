@@ -1,5 +1,11 @@
 @layer wui-elements {
-  .wui-input-otp { display: inline-flex; gap: var(--wui-spacing-2); }
+  .wui-input-otp { display: inline-flex; align-items: center; gap: var(--wui-spacing-2); }
+  .wui-input-otp__separator {
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-xl);
+    pointer-events: none;
+    user-select: none;
+  }
   .wui-input-otp__slot {
     inline-size: 44px; block-size: 44px;
     text-align: center; font-size: var(--wui-font-size-xl); font-family: var(--wui-font-family-mono);

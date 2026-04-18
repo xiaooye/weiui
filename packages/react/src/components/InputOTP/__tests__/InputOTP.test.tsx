@@ -109,4 +109,65 @@ describe("InputOTP", () => {
     const inputs = screen.getAllByRole("textbox");
     expect(inputs[0]).toHaveAttribute("autocomplete", "one-time-code");
   });
+
+  describe("P1 features", () => {
+    it("pattern numeric rejects non-digits", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputOTP length={4} pattern="numeric" onChange={onChange} />);
+      const slots = screen.getAllByRole("textbox");
+      slots[0]!.focus();
+      await user.keyboard("a");
+      expect(onChange).not.toHaveBeenCalled();
+      await user.keyboard("3");
+      expect(onChange).toHaveBeenCalledWith("3");
+    });
+
+    it("pattern alphanumeric accepts letters and digits", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputOTP length={4} pattern="alphanumeric" onChange={onChange} />);
+      const slots = screen.getAllByRole("textbox");
+      slots[0]!.focus();
+      await user.keyboard("a");
+      expect(onChange).toHaveBeenCalledWith("a");
+    });
+
+    it("pattern RegExp custom rule works", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputOTP length={4} pattern={/^[A-F]$/} onChange={onChange} />);
+      const slots = screen.getAllByRole("textbox");
+      slots[0]!.focus();
+      await user.keyboard("z");
+      expect(onChange).not.toHaveBeenCalled();
+      await user.keyboard("B");
+      expect(onChange).toHaveBeenCalledWith("B");
+    });
+
+    it("groups renders separators between slot groups", () => {
+      const { container } = render(<InputOTP length={6} groups={[3, 3]} />);
+      expect(container.querySelectorAll(".wui-input-otp__separator").length).toBe(1);
+    });
+
+    it("onComplete fires when all slots are filled", async () => {
+      const user = userEvent.setup();
+      const onComplete = vi.fn();
+      render(<InputOTP length={3} onComplete={onComplete} />);
+      const slots = screen.getAllByRole("textbox");
+      slots[0]!.focus();
+      await user.keyboard("123");
+      expect(onComplete).toHaveBeenCalledWith("123");
+    });
+
+    it("onComplete does not fire when still empty slots", async () => {
+      const user = userEvent.setup();
+      const onComplete = vi.fn();
+      render(<InputOTP length={4} onComplete={onComplete} />);
+      const slots = screen.getAllByRole("textbox");
+      slots[0]!.focus();
+      await user.keyboard("12");
+      expect(onComplete).not.toHaveBeenCalled();
+    });
+  });
 });
