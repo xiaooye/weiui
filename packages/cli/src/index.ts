@@ -38,4 +38,12 @@ program
     console.log(await examplesCommand(name, opts));
   });
 
+program
+  .command("check-usage <file>")
+  .description("Lint a .tsx file for WeiUI-usage mistakes")
+  .action(async (file: string) => {
+    const { checkUsageCommand } = await import("./commands/check-usage.js");
+    console.log(await checkUsageCommand(file));
+  });
+
 program.parse();
