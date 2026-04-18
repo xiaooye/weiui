@@ -10,6 +10,7 @@ import {
 import { cn } from "../../utils/cn";
 
 export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
+  /** Breadcrumb items and separators — typically Breadcrumb.Item and Breadcrumb.Separator. */
   children: ReactNode;
   /**
    * Maximum number of items to display. When exceeded, middle items are collapsed
@@ -80,7 +81,9 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
 Breadcrumb.displayName = "Breadcrumb";
 
 export interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
+  /** Item content — typically text or a link. */
   children: ReactNode;
+  /** Marks the item as the current page. Applies active styling and sets aria-current. */
   active?: boolean;
 }
 

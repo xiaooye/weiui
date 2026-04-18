@@ -17,6 +17,7 @@ interface BottomNavContextValue {
 const BottomNavContext = createContext<BottomNavContextValue | null>(null);
 
 export interface BottomNavProps extends HTMLAttributes<HTMLElement> {
+  /** Bottom-nav items — typically BottomNavItem. */
   children: ReactNode;
   /** Controlled active item value. */
   value?: string;
@@ -44,8 +45,11 @@ export const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
 BottomNav.displayName = "BottomNav";
 
 export interface BottomNavItemProps extends HTMLAttributes<HTMLButtonElement> {
+  /** Marks the item as the current page. Applies active styling and sets aria-current. */
   active?: boolean;
+  /** Icon node rendered above the label. */
   icon?: ReactNode;
+  /** Text label rendered below the icon. */
   label: string;
   /** Value for controlled BottomNav `onValueChange`. When provided, parent drives `active`. */
   value?: string;

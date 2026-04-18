@@ -5,6 +5,7 @@ export type AppBarPosition = "static" | "sticky" | "fixed";
 export type AppBarColor = "surface" | "primary" | "transparent";
 
 export interface AppBarProps extends HTMLAttributes<HTMLElement> {
+  /** App-bar content — typically AppBarBrand, AppBarNav, and AppBarLink. */
   children: ReactNode;
   /** Positioning mode. Default `sticky`. */
   position?: AppBarPosition;
@@ -42,6 +43,7 @@ export const AppBarNav = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
 AppBarNav.displayName = "AppBarNav";
 
 export interface AppBarLinkProps extends HTMLAttributes<HTMLButtonElement> {
+  /** Marks the link as the current page. Applies active styling and sets aria-current. */
   active?: boolean;
 }
 

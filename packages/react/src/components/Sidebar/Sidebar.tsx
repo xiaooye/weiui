@@ -29,6 +29,7 @@ function useSidebarContext(): SidebarContextValue {
 }
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement>, UseDisclosureProps {
+  /** Sidebar content — typically SidebarHeader, SidebarContent, and SidebarFooter. */
   children: ReactNode;
 }
 
@@ -74,6 +75,7 @@ export const SidebarFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEl
 SidebarFooter.displayName = "SidebarFooter";
 
 export interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Marks the item as the current page. Applies active styling and sets aria-current. */
   active?: boolean;
   /** Optional icon node — rendered before the label; always visible even in collapsed mode. */
   icon?: ReactNode;
@@ -81,6 +83,7 @@ export interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement
   tooltip?: string;
   /** When true, clone the single child element (e.g. a router Link) and forward sidebar item props. */
   asChild?: boolean;
+  /** Item content — typically the label text. */
   children: ReactNode;
 }
 
@@ -170,6 +173,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
 SidebarTrigger.displayName = "SidebarTrigger";
 
 export interface SidebarGroupProps extends HTMLAttributes<HTMLDivElement> {
+  /** Group content — typically a SidebarGroupLabel followed by SidebarItem(s). */
   children: ReactNode;
 }
 
@@ -202,6 +206,7 @@ export interface SidebarSubMenuProps extends HTMLAttributes<HTMLDivElement> {
   open?: boolean;
   /** Called when the trigger toggles. */
   onOpenChange?: (open: boolean) => void;
+  /** Submenu items — typically nested SidebarItem(s). */
   children: ReactNode;
 }
 

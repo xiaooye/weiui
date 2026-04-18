@@ -17,9 +17,13 @@ export interface SpeedDialAction {
 }
 
 export interface SpeedDialProps {
+  /** Action items revealed when the speed dial is opened. */
   actions: SpeedDialAction[];
+  /** Icon shown on the trigger button. @default "+" */
   icon?: ReactNode;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label for the trigger. @default "Speed dial" */
   label?: string;
 }
 

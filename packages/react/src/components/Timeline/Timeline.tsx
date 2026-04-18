@@ -11,6 +11,7 @@ export type TimelineItemColor =
   | "info";
 
 export interface TimelineProps extends HTMLAttributes<HTMLOListElement> {
+  /** Timeline items — typically TimelineItem components. */
   children: ReactNode;
   /**
    * Layout mode.
@@ -37,8 +38,11 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(
 Timeline.displayName = "Timeline";
 
 export interface TimelineItemProps extends Omit<HTMLAttributes<HTMLLIElement>, "title"> {
+  /** Primary title text of the item. */
   title: ReactNode;
+  /** Secondary description text rendered below the title. */
   description?: ReactNode;
+  /** Timestamp or time label rendered with the item. */
   time?: ReactNode;
   /** Color of the dot indicator. */
   color?: TimelineItemColor;

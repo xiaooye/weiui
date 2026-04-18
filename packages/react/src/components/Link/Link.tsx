@@ -27,6 +27,7 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   showExternalIcon?: boolean;
   /** When true, clone the single child (e.g. a router Link) and forward link props/class. */
   asChild?: boolean;
+  /** Link content. */
   children?: ReactNode;
 }
 

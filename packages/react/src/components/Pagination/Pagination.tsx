@@ -5,9 +5,13 @@ import { cn } from "../../utils/cn";
 export type PaginationSize = "sm" | "md" | "lg";
 
 export interface PaginationProps {
+  /** Current page (1-indexed). */
   page: number;
+  /** Total number of pages. */
   totalPages: number;
+  /** Called when the user navigates to a different page. */
   onPageChange: (page: number) => void;
+  /** Number of sibling page buttons shown on each side of the current page. @default 1 */
   siblingCount?: number;
   /** Render first/last page jump buttons. */
   showFirstLast?: boolean;
@@ -25,6 +29,7 @@ export interface PaginationProps {
   onPageSizeChange?: (size: number) => void;
   /** Size variant for the buttons. Default `md`. */
   size?: PaginationSize;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
 }
 

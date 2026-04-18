@@ -26,8 +26,11 @@ function useStepperContext(): StepperContextValue {
 }
 
 export interface StepperProps extends HTMLAttributes<HTMLDivElement> {
+  /** Zero-indexed active step. */
   activeStep: number;
+  /** Stepper content — typically Step and StepSeparator components. */
   children: ReactNode;
+  /** Layout orientation. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
   /** When provided, Step indicators and labels become clickable to jump between steps. */
   onStepClick?: (index: number) => void;
@@ -80,7 +83,9 @@ Stepper.displayName = "Stepper";
 export interface StepProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional explicit index. Omit to let Stepper auto-infer from child order. */
   index?: number;
+  /** Step label shown next to the indicator. */
   label: ReactNode;
+  /** Secondary text shown below the label. */
   description?: ReactNode;
   /** Error state — renders an error indicator and description color. */
   error?: boolean;
