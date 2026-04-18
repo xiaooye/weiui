@@ -207,4 +207,73 @@ describe("Calendar", () => {
     await user.keyboard("{PageDown}");
     expect(screen.getByText("February 2025")).toBeInTheDocument();
   });
+
+  describe("P1 features", () => {
+    it("showYearMonthDropdowns renders month and year selects", () => {
+      render(<Calendar defaultValue={new Date(2025, 5, 1)} showYearMonthDropdowns />);
+      expect(screen.getByLabelText(/select month/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/select year/i)).toBeInTheDocument();
+    });
+
+    it("year dropdown switches the view year", async () => {
+      const user = userEvent.setup();
+      render(<Calendar defaultValue={new Date(2025, 5, 1)} showYearMonthDropdowns />);
+      const yearSelect = screen.getByLabelText(/select year/i) as HTMLSelectElement;
+      await user.selectOptions(yearSelect, "2024");
+      expect(yearSelect).toHaveValue("2024");
+    });
+
+    it("mode=range: first click sets start; second click sets end", async () => {
+      const user = userEvent.setup();
+      const onRangeChange = vi.fn();
+      render(
+        <Calendar
+          defaultValue={new Date(2025, 0, 1)}
+          mode="range"
+          onRangeChange={onRangeChange}
+        />,
+      );
+      const day5 = screen.getByLabelText(/Sunday, January 5, 2025/);
+      const day10 = screen.getByLabelText(/Friday, January 10, 2025/);
+      await user.click(day5);
+      expect(onRangeChange).not.toHaveBeenCalled();
+      await user.click(day10);
+      expect(onRangeChange).toHaveBeenCalledTimes(1);
+      const [start, end] = onRangeChange.mock.calls[0]![0] as [Date, Date];
+      expect(start.getDate()).toBe(5);
+      expect(end.getDate()).toBe(10);
+    });
+
+    it("renderDay customizes day cell content", () => {
+      render(
+        <Calendar
+          defaultValue={new Date(2025, 0, 1)}
+          renderDay={(d, info) => (
+            <span data-testid={`dc-${d.getDate()}`} data-selected={info.isSelected}>
+              {d.getDate()}
+            </span>
+          )}
+        />,
+      );
+      expect(screen.getByTestId("dc-15")).toBeInTheDocument();
+    });
+
+    it("autoFocus focuses selected day on mount", () => {
+      render(<Calendar defaultValue={new Date(2025, 0, 15)} autoFocus />);
+      const day15 = screen.getByLabelText(/January 15, 2025/);
+      expect(document.activeElement).toBe(day15);
+    });
+
+    it("rangeValue marks in-range days with data-in-range", () => {
+      const { container } = render(
+        <Calendar
+          defaultValue={new Date(2025, 0, 1)}
+          mode="range"
+          rangeValue={[new Date(2025, 0, 5), new Date(2025, 0, 10)]}
+        />,
+      );
+      const marked = container.querySelectorAll('[data-in-range="true"]');
+      expect(marked.length).toBeGreaterThan(0);
+    });
+  });
 });
