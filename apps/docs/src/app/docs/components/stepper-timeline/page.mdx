@@ -1,35 +1,26 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { StepperDemo } from "../../../../components/demos/StepperDemo";
+import { StepperClickableDemo } from "../../../../components/demos/StepperClickableDemo";
 import { TimelineDemo } from "../../../../components/demos/TimelineDemo";
+import { TimelineAlternateDemo } from "../../../../components/demos/TimelineAlternateDemo";
 
 # Stepper & Timeline
 
-Step progress indicators and chronological event displays.
+Two related progress surfaces — **Stepper** for a user's path through a multi-step flow that is *currently in progress*, and **Timeline** for a chronological record of events that have *already happened*. Both carry the same underlying design (dot / indicator, connector line, label block) but model different UX intent.
 
 ---
 
 ## Stepper
 
-Multi-step progress indicator showing active, completed, and pending steps.
+Orients the user within a linear sequence of steps. Supports horizontal and vertical orientation, completed + active + pending states, an error state per step, and click-to-jump navigation.
 
-<Preview label="Stepper horizontal">
+<Preview label="Stepper — click Next to advance">
   <StepperDemo />
 </Preview>
 
 ```tsx
 import { Stepper, Step, StepSeparator } from "@weiui/react";
 
-// Explicit indices
-<Stepper activeStep={1}>
-  <Step index={0} label="Account" description="Create your account" />
-  <StepSeparator index={0} />
-  <Step index={1} label="Profile" description="Fill in details" />
-  <StepSeparator index={1} />
-  <Step index={2} label="Review" description="Confirm setup" />
-</Stepper>
-
-// Auto-inferred indices — Stepper walks its children and assigns an
-// index to each <Step>; separators take the preceding step's index.
 <Stepper activeStep={1}>
   <Step label="Account" description="Create your account" />
   <StepSeparator />
@@ -39,37 +30,92 @@ import { Stepper, Step, StepSeparator } from "@weiui/react";
 </Stepper>
 ```
 
-You can mix the two: an explicit `index` on any child overrides the auto-assigned value.
+`Stepper` auto-assigns indices to each `<Step>` child by walking its children. Pass an explicit `index` on any Step to override.
 
-### Props
+### Clickable steps + error state
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| activeStep | `number` | — | Current active step index |
-| orientation | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
+Make indicators navigable for wizards where users can jump back and forth, and flag invalid steps with the `error` prop.
 
-### Step / StepSeparator Props
+<Preview label="Clickable stepper with an error step">
+  <StepperClickableDemo />
+</Preview>
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| index | `number` | auto | Explicit step index. Omit to let `Stepper` auto-infer from child order. |
-| label | `ReactNode` | — | Step title (Step only) |
-| description | `ReactNode` | — | Step supporting text (Step only) |
+```tsx
+<Stepper activeStep={active} onStepClick={setActive}>
+  <Step label="Plan" description="Pick a plan" />
+  <StepSeparator />
+  <Step label="Billing" description="Payment details" />
+  <StepSeparator />
+  <Step label="Review" description="Confirm &amp; pay" error />
+  <StepSeparator />
+  <Step label="Done" description="Receipt" />
+</Stepper>
+```
 
-### Accessibility
+### Vertical orientation
 
-- The active step gets `aria-current="step"`, matching the ARIA Authoring Practices pattern, so screen readers announce which step the user is on.
-- Completed / active state is conveyed via `data-completed` / `data-active` for CSS targeting while keeping the decorative checkmark (`\u2713`) out of announcements.
-- Connecting separator lines are `aria-hidden="true"` — they are decorative, not content.
-- Pass `aria-label` on the `<Stepper>` wrapper if the step flow needs a name (e.g. `"Signup progress"`).
+Useful inside sidebars or on mobile where horizontal space is tight:
+
+```tsx
+<Stepper activeStep={1} orientation="vertical">
+  <Step label="Source" description="Choose repo or template" />
+  <StepSeparator />
+  <Step label="Configure" description="Build + env vars" />
+  <StepSeparator />
+  <Step label="Deploy" description="Ship it" />
+</Stepper>
+```
+
+### Editable + resumable flows
+
+When a step is *editable after completion* (e.g. "Edit payment method"), render a dedicated button inside the Step description instead of relying on clicks on the indicator:
+
+```tsx
+<Step
+  label="Payment"
+  description={
+    <span>
+      Visa •••• 4242 <Button size="sm" variant="ghost">Change</Button>
+    </span>
+  }
+/>
+```
+
+### Stepper props
+
+| Prop             | Type                              | Default         | Description                                              |
+|------------------|-----------------------------------|-----------------|----------------------------------------------------------|
+| `activeStep`     | `number`                          | —               | Index of the step the user is on                         |
+| `orientation`    | `"horizontal" \| "vertical"`      | `"horizontal"`  | Layout direction                                         |
+| `onStepClick`    | `(index: number) => void`         | —               | Enable step indicators as buttons                        |
+
+### Step / StepSeparator props
+
+| Prop            | Type              | Default  | Description                                                   |
+|-----------------|-------------------|----------|---------------------------------------------------------------|
+| `index`         | `number`          | auto     | Explicit index. Omit to let Stepper infer from child order.   |
+| `label`         | `ReactNode`       | —        | Step title                                                    |
+| `description`   | `ReactNode`       | —        | Supporting text                                               |
+| `error`         | `boolean`         | `false`  | Render the step in an error state                             |
+| `icon`          | `ReactNode`       | —        | Custom indicator content                                      |
+| `completedIcon` | `ReactNode`       | ✓        | Custom completed indicator                                    |
+| `errorIcon`     | `ReactNode`       | `!`      | Custom error indicator                                        |
+
+### Stepper accessibility
+
+- The active step gets `aria-current="step"` per the WAI-ARIA Authoring Practices pattern.
+- Completed / active / error state is conveyed via `data-completed` / `data-active` / `data-error` so screen readers announce only the label + description, not decorative glyphs.
+- Connectors have `aria-hidden="true"` — they're visual, not content.
+- When `onStepClick` is supplied, indicators become `role="button"` with `tabIndex="0"` and are keyboard-activatable (Enter + Space).
+- Label the entire surface with `aria-label` (e.g. `"Signup progress"`) for a meaningful screen-reader name.
 
 ---
 
 ## Timeline
 
-Chronological event display with dots and connecting lines.
+A chronological record of events — notifications, activity feeds, audit logs, version histories. Items can stack all on one side (default / left / right) or alternate side-to-side.
 
-<Preview label="Timeline">
+<Preview label="Vertical timeline">
   <TimelineDemo />
 </Preview>
 
@@ -77,21 +123,82 @@ Chronological event display with dots and connecting lines.
 import { Timeline, TimelineItem } from "@weiui/react";
 
 <Timeline>
-  <TimelineItem title="Application submitted" description="Your application was received" time="Jan 15" />
-  <TimelineItem title="Under review" description="Being reviewed by our team" time="Jan 20" />
+  <TimelineItem
+    title="Application submitted"
+    description="Your application was received"
+    time="Jan 15, 2026"
+  />
+  <TimelineItem
+    title="Under review"
+    description="Currently being reviewed by our team"
+    time="Jan 20, 2026"
+  />
 </Timeline>
 ```
 
-### TimelineItem Props
+### Alternating layout with colors
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| title | `ReactNode` | — | Event heading |
-| description | `ReactNode` | — | Supporting event text |
-| time | `ReactNode` | — | Timestamp text (e.g. `"Jan 15"` or a `<time>` element) |
+<Preview label="Alternating timeline with semantic colors">
+  <TimelineAlternateDemo />
+</Preview>
 
-### Accessibility
+```tsx
+<Timeline mode="alternate">
+  <TimelineItem title="Deployed" color="success" time="2h ago" />
+  <TimelineItem title="Merged PR" color="info" time="5h ago" />
+  <TimelineItem title="Build failed" color="danger" time="Yesterday" />
+</Timeline>
+```
 
-- Uses semantic `<ol>` and `<li>` elements
-- Connecting lines are `aria-hidden="true"`
-- Server component — no `"use client"` required
+### Click to expand (detail on demand)
+
+Wrap `TimelineItem` content in a disclosure you control:
+
+```tsx
+<TimelineItem
+  title={
+    <button type="button" onClick={() => toggle(id)} className="wui-link">
+      Deploy succeeded
+    </button>
+  }
+  description={expanded ? <DeployDetails id={id} /> : null}
+  time={<time dateTime="2026-04-18T10:32Z">10:32</time>}
+/>
+```
+
+### Timeline props
+
+| Prop         | Type                                                  | Default     | Description                                |
+|--------------|-------------------------------------------------------|-------------|--------------------------------------------|
+| `mode`       | `"default" \| "alternate" \| "left" \| "right"`       | `"default"` | Layout (all one side, alternating, etc.)   |
+
+### TimelineItem props
+
+| Prop           | Type                                                           | Default     | Description                              |
+|----------------|----------------------------------------------------------------|-------------|------------------------------------------|
+| `title`        | `ReactNode`                                                    | —           | Event heading                            |
+| `description`  | `ReactNode`                                                    | —           | Supporting text                          |
+| `time`         | `ReactNode`                                                    | —           | Timestamp (prefer a `<time>` element)    |
+| `color`        | `"default" \| "primary" \| "success" \| "warning" \| "danger" \| "info"` | `"default"` | Dot color                |
+| `dot`          | `ReactNode`                                                    | —           | Custom dot (e.g. an icon)                |
+
+### Timeline accessibility
+
+- Rendered as `<ol>` + `<li>` so screen readers announce "list, 4 items" — chronology is semantic.
+- Connector lines are `aria-hidden="true"` — purely decorative.
+- Prefer `<time dateTime="…">` for timestamps so assistive tech can surface machine-readable dates.
+- Each item is an independent landmark — no additional ARIA required.
+
+---
+
+## Stepper vs Tabs vs Timeline
+
+| If you need…                                             | Use           |
+|----------------------------------------------------------|---------------|
+| Guide a user through a one-time flow (checkout, signup)  | **Stepper**   |
+| Switch between peer views the user may revisit any time  | Tabs          |
+| Show a chronological record of events that already happened | **Timeline** |
+| Render a wizard with validation between steps            | **Stepper** with `error` prop |
+| Show a feed of notifications, newest-first               | **Timeline**  |
+
+Rule of thumb: **Stepper** points forward (the user is mid-journey); **Timeline** points backward (these events are history). If a user can click around freely and no step has to come before another, you probably want Tabs, not Stepper.
