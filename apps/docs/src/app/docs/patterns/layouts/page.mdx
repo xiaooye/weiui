@@ -1,0 +1,285 @@
+import { Preview } from "../../../../components/preview/Preview";
+
+# Layout Recipes
+
+Five canonical app layouts composed entirely from WeiUI primitives. Copy the source, swap your content in, ship.
+
+## 1. Sidebar + Main
+
+The default app shell — persistent navigation on the start side, content on the end. Stacks the sidebar below the content on narrow viewports.
+
+```tsx
+import { Sidebar, SidebarContent, SidebarItem, Grid, Container } from "@weiui/react";
+
+export function AppShell({ children }) {
+  return (
+    <Grid
+      columns={{ base: "1fr", md: "240px 1fr" }}
+      gap={0}
+      style={{ minHeight: "100vh" }}
+    >
+      <Sidebar aria-label="Main navigation">
+        <SidebarContent>
+          <SidebarItem active>Dashboard</SidebarItem>
+          <SidebarItem>Projects</SidebarItem>
+          <SidebarItem>Settings</SidebarItem>
+        </SidebarContent>
+      </Sidebar>
+      <main>
+        <Container>{children}</Container>
+      </main>
+    </Grid>
+  );
+}
+```
+
+### Make the sidebar sticky
+
+Add `position: sticky; top: 0; block-size: 100vh;` to the Sidebar so it stays on screen as the main column scrolls. On WeiUI, the Sidebar already does this inside `.wui-sidebar` via CSS layers — you don't need to style it manually.
+
+### Collapse on narrow viewports
+
+Wrap the Sidebar in a Drawer for mobile (see [Sidebar & Drawer](/docs/components/sidebar-drawer#mobile-turn-the-sidebar-into-a-sheet)) and toggle via a menu button in the AppBar.
+
+---
+
+## 2. Holy Grail
+
+Header, footer, two sidebars — the classic layout that was hard in the flexbox era and is trivial with CSS Grid.
+
+```tsx
+import {
+  AppBar, Sidebar, Container, Stack, Grid,
+} from "@weiui/react";
+
+export function HolyGrail({ leftNav, rightRail, footer, children }) {
+  return (
+    <Stack gap={0} style={{ minHeight: "100vh" }}>
+      <AppBar sticky>
+        <strong>Acme</strong>
+      </AppBar>
+
+      <Grid
+        columns={{ base: "1fr", lg: "220px 1fr 300px" }}
+        gap={0}
+        style={{ flex: 1 }}
+      >
+        <Sidebar aria-label="Primary">{leftNav}</Sidebar>
+        <main>
+          <Container>{children}</Container>
+        </main>
+        <aside aria-label="Contextual">{rightRail}</aside>
+      </Grid>
+
+      <footer>
+        <Container>{footer}</Container>
+      </footer>
+    </Stack>
+  );
+}
+```
+
+The responsive Grid collapses to a single column below `lg` (1024 px) — rail content slots in below the main column automatically.
+
+---
+
+## 3. Hero + Grid of Cards
+
+Marketing / dashboard landing. The hero stretches full-width; the grid below snaps to a responsive column count.
+
+```tsx
+import { Stack, Container, Grid, Card, CardHeader, CardContent, Heading, Text, Button } from "@weiui/react";
+
+export function HomeLanding() {
+  return (
+    <Stack gap={10}>
+      {/* Hero */}
+      <section style={{ paddingBlock: "var(--wui-spacing-16)" }}>
+        <Container>
+          <Stack gap={4} align="center" style={{ textAlign: "center" }}>
+            <Heading size="5xl">Build faster with WeiUI</Heading>
+            <Text size="lg" color="muted">
+              65 components. Zero dependency headaches. AAA contrast baked in.
+            </Text>
+            <Stack direction="row" gap={3}>
+              <Button size="lg">Get started</Button>
+              <Button size="lg" variant="outline">View on GitHub</Button>
+            </Stack>
+          </Stack>
+        </Container>
+      </section>
+
+      {/* Cards */}
+      <Container>
+        <Grid columns={{ base: 1, sm: 2, lg: 3 }} gap={4}>
+          {features.map((f) => (
+            <Card key={f.id} variant="outlined">
+              <CardHeader>{f.icon}</CardHeader>
+              <CardContent>
+                <Heading size="sm">{f.title}</Heading>
+                <Text color="muted">{f.description}</Text>
+              </CardContent>
+            </Card>
+          ))}
+        </Grid>
+      </Container>
+    </Stack>
+  );
+}
+```
+
+### Breakpoints that work
+
+WeiUI's Grid accepts the breakpoint tokens directly: `columns={{ base: 1, sm: 2, md: 3, lg: 4 }}`. Six feature cards across 3 at desktop, 2 at tablet, 1 at mobile is a sane default.
+
+### Container queries for cards
+
+Every `<Card>` has `container-type: inline-size`. Inside a card, you can use `@container (inline-size > 340px) { ... }` to re-layout child elements based on the card's width — not the viewport. This makes the same Card render differently in a tight sidebar vs a full-width hero slot.
+
+---
+
+## 4. Dashboard
+
+Metric row across the top, chart in the middle, recent-activity feed on the side, table at the bottom.
+
+```tsx
+import {
+  Stack, Grid, Container, Card, CardHeader, CardContent,
+  Heading, Text, Divider, Timeline, TimelineItem,
+} from "@weiui/react";
+import { BarChart } from "@weiui/react/chart";
+import { DataTable } from "@weiui/react/data-table";
+
+export function Dashboard({ metrics, chartData, events, tableRows, tableCols }) {
+  return (
+    <Stack gap={6}>
+      {/* Metric row */}
+      <Grid columns={{ base: 1, sm: 2, lg: 4 }} gap={4}>
+        {metrics.map((m) => (
+          <Card key={m.id} variant="outlined">
+            <CardHeader>
+              <Text size="sm" color="muted">{m.label}</Text>
+            </CardHeader>
+            <CardContent>
+              <Heading size="2xl">{m.value}</Heading>
+              <Text size="sm" color={m.delta >= 0 ? "success" : "destructive"}>
+                {m.delta >= 0 ? "+" : ""}{m.delta}%
+              </Text>
+            </CardContent>
+          </Card>
+        ))}
+      </Grid>
+
+      {/* Chart + feed */}
+      <Grid columns={{ base: 1, lg: "1fr 320px" }} gap={4}>
+        <Card>
+          <CardHeader><Heading size="md">Revenue</Heading></CardHeader>
+          <CardContent>
+            <BarChart data={chartData} dataKeys={["revenue", "expenses"]} height={280} />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader><Heading size="md">Activity</Heading></CardHeader>
+          <CardContent>
+            <Timeline>
+              {events.map((e) => (
+                <TimelineItem key={e.id} title={e.title} time={e.time} color={e.color} />
+              ))}
+            </Timeline>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/* Table */}
+      <Card>
+        <CardHeader><Heading size="md">Recent orders</Heading></CardHeader>
+        <CardContent>
+          <DataTable data={tableRows} columns={tableCols} searchable pageSize={10} />
+        </CardContent>
+      </Card>
+    </Stack>
+  );
+}
+```
+
+### Dashboard tips
+
+- Keep metric cards to **one number + one delta + one label**. More than that and the row becomes a graveyard of text.
+- Stick charts and tables in Cards with explicit Headers — screen-reader users can jump by heading.
+- Make the DataTable the bottom block so it can claim vertical space without pushing summary content off-screen.
+
+---
+
+## 5. Auth flow (centered)
+
+Single-purpose screens — login, signup, reset. Content centered, logo on top, form capped at ~360 px.
+
+```tsx
+import { Container, Stack, Card, Heading, Text, Field, FieldLabel, Input, Button, Link } from "@weiui/react";
+
+export function AuthShell({ title, subtitle, children, footer }) {
+  return (
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", paddingBlock: "var(--wui-spacing-12)" }}>
+      <Container size="sm">
+        <Stack gap={6} align="center">
+          <Logo width={40} />
+          <Card variant="outlined" style={{ inlineSize: "100%" }}>
+            <Stack gap={4} style={{ padding: "var(--wui-spacing-6)" }}>
+              <Stack gap={2}>
+                <Heading size="lg">{title}</Heading>
+                <Text color="muted">{subtitle}</Text>
+              </Stack>
+              {children}
+            </Stack>
+          </Card>
+          <Text color="muted" size="sm">{footer}</Text>
+        </Stack>
+      </Container>
+    </div>
+  );
+}
+
+export function LoginPage() {
+  return (
+    <AuthShell
+      title="Welcome back"
+      subtitle="Sign in to your account to continue."
+      footer={<>Don&apos;t have an account? <Link href="/signup">Sign up</Link></>}
+    >
+      <form>
+        <Stack gap={4}>
+          <Field>
+            <FieldLabel>Email</FieldLabel>
+            <Input type="email" autoComplete="email" />
+          </Field>
+          <Field>
+            <FieldLabel>Password</FieldLabel>
+            <Input type="password" autoComplete="current-password" />
+          </Field>
+          <Button type="submit">Sign in</Button>
+        </Stack>
+      </form>
+    </AuthShell>
+  );
+}
+```
+
+### Auth tips
+
+- Keep forms to the fields you need *now*. Address, billing, phone can wait until after first run.
+- `autoComplete="current-password"` (login) vs `autoComplete="new-password"` (signup) matters — browsers / password managers use different heuristics.
+- Error messages go *inline*, not in an alert banner above. Users read top-down; errors at the bottom are easier to miss.
+- The auth screen is the one place where a `<main>` landmark with a clear `aria-label` is most valuable — screen-reader users land here often.
+
+---
+
+## Composing your own
+
+1. Decide which region moves with scroll and which is sticky.
+2. Pick Grid when you need two dimensions; Stack for one.
+3. Use Container to establish the reading width inside the main column.
+4. Let individual Cards use their own container queries instead of giving the grid a single source-of-truth breakpoint.
+5. Prefer logical properties (`padding-inline-*`, `margin-block-*`) so RTL support comes for free.
+6. Every new layout should pass keyboard-only navigation — Tab, Shift+Tab, Escape — before any visual polish.
+
+If a layout is fighting you, the primitive you reached for is probably wrong. Use the [Layout Decisions](/docs/patterns/layout-decisions) page to double-check.
