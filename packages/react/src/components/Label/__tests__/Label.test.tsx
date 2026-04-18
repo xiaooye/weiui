@@ -33,4 +33,33 @@ describe("Label", () => {
     render(<Label className="custom">Name</Label>);
     expect(screen.getByText("Name").closest("label")).toHaveClass("custom");
   });
+
+  // E.17 size + disabled
+  it("does not apply size class for default md", () => {
+    render(<Label>Name</Label>);
+    expect(screen.getByText("Name").closest("label")?.className).not.toContain("wui-label--md");
+  });
+
+  it("applies sm size class", () => {
+    render(<Label size="sm">Name</Label>);
+    expect(screen.getByText("Name").closest("label")?.className).toContain("wui-label--sm");
+  });
+
+  it("applies lg size class", () => {
+    render(<Label size="lg">Name</Label>);
+    expect(screen.getByText("Name").closest("label")?.className).toContain("wui-label--lg");
+  });
+
+  it("applies disabled class and data-disabled when disabled", () => {
+    render(<Label disabled>Name</Label>);
+    const el = screen.getByText("Name").closest("label") as HTMLLabelElement;
+    expect(el.className).toContain("wui-label--disabled");
+    expect(el).toHaveAttribute("data-disabled");
+  });
+
+  it("does not set data-disabled when not disabled", () => {
+    render(<Label>Name</Label>);
+    const el = screen.getByText("Name").closest("label") as HTMLLabelElement;
+    expect(el).not.toHaveAttribute("data-disabled");
+  });
 });

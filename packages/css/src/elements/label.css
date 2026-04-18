@@ -7,6 +7,19 @@
     color: var(--wui-color-foreground);
   }
 
+  .wui-label--sm {
+    font-size: var(--wui-font-size-xs);
+  }
+  .wui-label--lg {
+    font-size: var(--wui-font-size-base);
+  }
+
+  .wui-label--disabled,
+  .wui-label[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .wui-label__required {
     color: var(--wui-color-destructive);
     margin-inline-start: var(--wui-spacing-1);
