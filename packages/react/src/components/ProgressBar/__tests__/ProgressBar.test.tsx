@@ -93,4 +93,41 @@ describe("ProgressBar", () => {
     render(<ProgressBar value={50} />);
     expect(screen.getByRole("progressbar")).toHaveClass("wui-progress");
   });
+
+  // E.14 label overlay
+  it("does not render label overlay by default", () => {
+    render(<ProgressBar value={42} />);
+    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).not.toBeInTheDocument();
+  });
+
+  it("renders label overlay with percent when showLabel is true", () => {
+    render(<ProgressBar value={42} showLabel />);
+    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("42%");
+  });
+
+  it("rounds percent in the label", () => {
+    render(<ProgressBar value={33} max={100} showLabel />);
+    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("33%");
+  });
+
+  it("calculates percent from value/max for the label", () => {
+    render(<ProgressBar value={50} max={200} showLabel />);
+    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("25%");
+  });
+
+  it("label overlay is aria-hidden so SR reads value attributes", () => {
+    render(<ProgressBar value={42} showLabel />);
+    const lbl = screen.getByRole("progressbar").querySelector(".wui-progress__label") as HTMLElement;
+    expect(lbl).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("does not render label overlay when indeterminate", () => {
+    render(<ProgressBar indeterminate showLabel />);
+    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).not.toBeInTheDocument();
+  });
+
+  it("applies wui-progress--with-label class when showLabel is on", () => {
+    render(<ProgressBar value={50} showLabel />);
+    expect(screen.getByRole("progressbar").className).toContain("wui-progress--with-label");
+  });
 });
