@@ -87,4 +87,43 @@ describe("Button", () => {
     expect(screen.queryByTestId("start")).not.toBeInTheDocument();
     expect(screen.getByText("Hello")).toBeInTheDocument();
   });
+
+  it("renders as child element when asChild is true", () => {
+    render(
+      <Button asChild variant="outline">
+        <a href="/home" data-testid="link">Home</a>
+      </Button>,
+    );
+    const link = screen.getByTestId("link");
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("href", "/home");
+    expect(link.className).toContain("wui-button");
+    expect(link.className).toContain("wui-button--outline");
+  });
+
+  it("asChild preserves child's own className", () => {
+    render(
+      <Button asChild>
+        <a href="/home" className="my-link">Home</a>
+      </Button>,
+    );
+    const link = screen.getByText("Home");
+    expect(link.className).toContain("wui-button");
+    expect(link.className).toContain("my-link");
+  });
+
+  it("iconOnly adds icon size class", () => {
+    render(
+      <Button iconOnly aria-label="close">
+        <span>x</span>
+      </Button>,
+    );
+    const btn = screen.getByRole("button", { name: "close" });
+    expect(btn.className).toContain("wui-button--icon-only");
+  });
+
+  it("fullWidth adds full-width class", () => {
+    render(<Button fullWidth>Submit</Button>);
+    expect(screen.getByRole("button").className).toContain("wui-button--full-width");
+  });
 });

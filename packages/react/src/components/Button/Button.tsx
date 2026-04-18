@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef } from "react";
+import { Children, cloneElement, forwardRef, isValidElement, type ReactElement } from "react";
 import { cn } from "../../utils/cn";
 import { buttonVariants, type ButtonVariants } from "../../variants/button";
 import { Spinner } from "../Spinner/Spinner";
@@ -12,6 +12,12 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     startIcon?: React.ReactNode;
     /** Node rendered after the label (icon, badge, chevron, etc.). */
     endIcon?: React.ReactNode;
+    /** When true, clone the single child and forward button props (router-link integration). */
+    asChild?: boolean;
+    /** When true, render square padding. Requires `aria-label` for accessibility. */
+    iconOnly?: boolean;
+    /** When true, the button fills the inline size of its container. */
+    fullWidth?: boolean;
   };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -25,6 +31,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       startIcon,
       endIcon,
+      asChild = false,
+      iconOnly = false,
+      fullWidth = false,
       className,
       type = "button",
       ...props
@@ -32,11 +41,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const spinnerSize = size === "lg" ? "md" : "sm";
+    const classes = cn(
+      buttonVariants({ variant, size, color }),
+      iconOnly && "wui-button--icon-only",
+      fullWidth && "wui-button--full-width",
+      className,
+    );
+
+    if (asChild && isValidElement(children)) {
+      const child = Children.only(children) as ReactElement<Record<string, unknown>>;
+      const childProps = child.props ?? {};
+      return cloneElement(child, {
+        ...props,
+        ref,
+        className: cn(classes, childProps.className as string | undefined),
+        "data-disabled": disabled || loading || undefined,
+        "aria-disabled": disabled || loading || undefined,
+      });
+    }
+
     return (
       <button
         ref={ref}
         type={type}
-        className={cn(buttonVariants({ variant, size, color }), className)}
+        className={classes}
         disabled={disabled || loading}
         aria-busy={loading || undefined}
         aria-disabled={disabled || loading || undefined}

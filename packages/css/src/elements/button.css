@@ -16,6 +16,15 @@
   .wui-button--xl { min-block-size: 56px; padding-inline: var(--wui-spacing-8); font-size: var(--wui-font-size-lg); border-radius: var(--wui-shape-radius-lg); }
   .wui-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
 
+  /* Icon-only: square padding */
+  .wui-button--icon-only { padding-inline: 0; aspect-ratio: 1 / 1; }
+  .wui-button--icon-only.wui-button--sm { min-inline-size: 36px; }
+  .wui-button--icon-only.wui-button--lg { min-inline-size: 48px; }
+  .wui-button--icon-only.wui-button--xl { min-inline-size: 56px; }
+
+  /* Full-width — stretches to container */
+  .wui-button--full-width { display: flex; inline-size: 100%; }
+
   /* Inner slots */
   .wui-button-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .wui-button-label { display: inline-flex; align-items: center; }
