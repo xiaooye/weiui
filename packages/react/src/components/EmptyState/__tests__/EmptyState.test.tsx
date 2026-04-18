@@ -33,4 +33,44 @@ describe("EmptyState", () => {
     render(<EmptyState title="Empty" action={<button>Retry</button>} />);
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
   });
+
+  // E.15 size + illustration + orientation
+  it("does not apply size class for default md", () => {
+    const { container } = render(<EmptyState title="x" />);
+    expect((container.firstChild as HTMLElement).className).not.toContain("wui-empty-state--md");
+  });
+
+  it("applies sm size class", () => {
+    const { container } = render(<EmptyState title="x" size="sm" />);
+    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--sm");
+  });
+
+  it("applies lg size class", () => {
+    const { container } = render(<EmptyState title="x" size="lg" />);
+    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--lg");
+  });
+
+  it("renders illustration slot", () => {
+    render(
+      <EmptyState title="x" illustration={<svg data-testid="illust" />} />,
+    );
+    expect(screen.getByTestId("illust")).toBeInTheDocument();
+  });
+
+  it("does not render illustration wrapper when omitted", () => {
+    const { container } = render(<EmptyState title="x" />);
+    expect(container.querySelector(".wui-empty-state__illustration")).not.toBeInTheDocument();
+  });
+
+  it("applies horizontal orientation class", () => {
+    const { container } = render(
+      <EmptyState title="x" orientation="horizontal" />,
+    );
+    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--horizontal");
+  });
+
+  it("does not apply horizontal class for default vertical", () => {
+    const { container } = render(<EmptyState title="x" />);
+    expect((container.firstChild as HTMLElement).className).not.toContain("wui-empty-state--horizontal");
+  });
 });
