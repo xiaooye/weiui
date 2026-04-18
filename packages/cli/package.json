@@ -4,7 +4,10 @@
   "type": "module",
   "bin": { "weiui": "./dist/index.js" },
   "files": ["dist", "README.md"],
-  "scripts": { "build": "tsup src/index.ts --format esm --dts --shims" },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --shims",
+    "test": "vitest run"
+  },
   "dependencies": { "commander": "^13.1" },
   "devDependencies": { "tsup": "^8.4" }
 }
