@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SpeedDial } from "../SpeedDial";
 
@@ -102,5 +102,130 @@ describe("SpeedDial", () => {
     expect(
       screen.queryByRole("menuitem", { name: "Add" }),
     ).not.toBeInTheDocument();
+  });
+});
+
+// Phase 6H — SpeedDial P1 features
+describe("SpeedDial P1 additions", () => {
+  it("defaults direction to 'up' and reflects it on the root", () => {
+    render(<SpeedDial actions={actions} />);
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    expect(root).toHaveAttribute("data-direction", "up");
+    expect(root.className).toMatch(/wui-speed-dial--up/);
+  });
+
+  it.each([
+    ["down" as const, "wui-speed-dial--down"],
+    ["left" as const, "wui-speed-dial--left"],
+    ["right" as const, "wui-speed-dial--right"],
+  ])("direction=%s applies class %s", (direction, cls) => {
+    render(<SpeedDial actions={actions} direction={direction} />);
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    expect(root).toHaveAttribute("data-direction", direction);
+    expect(root.className).toContain(cls);
+  });
+
+  it("trigger='hover' opens on pointerEnter", () => {
+    render(<SpeedDial actions={actions} trigger="hover" />);
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    expect(root).toHaveAttribute("data-state", "closed");
+    fireEvent.pointerEnter(root);
+    expect(root).toHaveAttribute("data-state", "open");
+    expect(screen.getByRole("menuitem", { name: "Add" })).toBeInTheDocument();
+  });
+
+  it("trigger='hover' closes on pointerLeave after 200ms grace", async () => {
+    vi.useFakeTimers();
+    try {
+      render(<SpeedDial actions={actions} trigger="hover" />);
+      const root = screen.getByRole("group", { name: /speed dial/i });
+      fireEvent.pointerEnter(root);
+      expect(root).toHaveAttribute("data-state", "open");
+      fireEvent.pointerLeave(root);
+      // Still open immediately after leave
+      expect(root).toHaveAttribute("data-state", "open");
+      act(() => {
+        vi.advanceTimersByTime(250);
+      });
+      expect(root).toHaveAttribute("data-state", "closed");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("trigger='hover' cancels close timer when pointer re-enters during grace", async () => {
+    vi.useFakeTimers();
+    try {
+      render(<SpeedDial actions={actions} trigger="hover" />);
+      const root = screen.getByRole("group", { name: /speed dial/i });
+      fireEvent.pointerEnter(root);
+      fireEvent.pointerLeave(root);
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
+      fireEvent.pointerEnter(root);
+      act(() => {
+        vi.advanceTimersByTime(300);
+      });
+      expect(root).toHaveAttribute("data-state", "open");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("trigger='click' does not open on pointerEnter", () => {
+    render(<SpeedDial actions={actions} trigger="click" />);
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    fireEvent.pointerEnter(root);
+    expect(root).toHaveAttribute("data-state", "closed");
+  });
+
+  it("outside click closes the open dial", async () => {
+    const user = userEvent.setup();
+    render(
+      <div>
+        <SpeedDial actions={actions} />
+        <button>Outside</button>
+      </div>,
+    );
+    await user.click(screen.getByRole("button", { name: /open actions/i }));
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    expect(root).toHaveAttribute("data-state", "open");
+    fireEvent.mouseDown(document.body);
+    expect(root).toHaveAttribute("data-state", "closed");
+  });
+
+  it("outside click does not close when clicking inside the dial", async () => {
+    const user = userEvent.setup();
+    render(<SpeedDial actions={actions} />);
+    await user.click(screen.getByRole("button", { name: /open actions/i }));
+    const root = screen.getByRole("group", { name: /speed dial/i });
+    // mousedown inside the root (on the trigger button) should not close
+    const trigger = screen.getByRole("button", { name: /close actions/i });
+    fireEvent.mouseDown(trigger);
+    expect(root).toHaveAttribute("data-state", "open");
+  });
+
+  it("each action exposes its index via --wui-speed-dial-index", async () => {
+    const user = userEvent.setup();
+    render(<SpeedDial actions={actions} />);
+    await user.click(screen.getByRole("button", { name: /open actions/i }));
+    const add = screen.getByRole("menuitem", { name: "Add" });
+    const edit = screen.getByRole("menuitem", { name: "Edit" });
+    expect(add.style.getPropertyValue("--wui-speed-dial-index")).toBe("0");
+    expect(edit.style.getPropertyValue("--wui-speed-dial-index")).toBe("1");
+  });
+
+  it("each action has a tooltip with matching label", async () => {
+    const user = userEvent.setup();
+    render(<SpeedDial actions={actions} />);
+    await user.click(screen.getByRole("button", { name: /open actions/i }));
+    const add = screen.getByRole("menuitem", { name: "Add" });
+    expect(add).toHaveAttribute("data-tooltip", "Add");
+    // Hovering the action should open the Tooltip (delayDuration=0 on provider)
+    fireEvent.focus(add);
+    // Tooltip renders content with the action's label
+    const tooltips = screen.getAllByRole("tooltip");
+    expect(tooltips.some((t) => t.textContent === "Add")).toBe(true);
   });
 });

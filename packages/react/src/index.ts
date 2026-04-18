@@ -146,6 +146,6 @@ export { Splitter, type SplitterProps, type SplitterSizes } from "./components/S
 // Wave 3 components
 export { AppBar, AppBarBrand, AppBarNav, AppBarLink, AppBarActions, type AppBarProps, type AppBarLinkProps } from "./components/AppBar";
 export { BottomNav, BottomNavItem, type BottomNavProps, type BottomNavItemProps } from "./components/BottomNav";
-export { SpeedDial, type SpeedDialProps, type SpeedDialAction } from "./components/SpeedDial";
+export { SpeedDial, type SpeedDialProps, type SpeedDialAction, type SpeedDialDirection, type SpeedDialTrigger } from "./components/SpeedDial";
 export { ToggleGroup, ToggleGroupItem, type ToggleGroupProps, type ToggleGroupItemProps } from "./components/ToggleGroup";
 export { ButtonGroup, type ButtonGroupProps } from "./components/ButtonGroup";
