@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -101,5 +101,64 @@ describe("Dialog (react)", () => {
     );
     await user.click(screen.getByText("Open"));
     expect(screen.getByRole("dialog")).toHaveClass("wui-dialog__content--lg");
+  });
+});
+
+describe("Dialog P1 additions", () => {
+  it("modal={false} skips body scroll lock", () => {
+    const before = document.body.style.overflow;
+    render(
+      <Dialog defaultOpen modal={false}>
+        <DialogContent>Hi</DialogContent>
+      </Dialog>,
+    );
+    expect(document.body.style.overflow).toBe(before);
+  });
+
+  it("onInteractOutside called with preventable event", async () => {
+    const user = userEvent.setup();
+    const onInteract = vi.fn((e: Event) => e.preventDefault());
+    render(
+      <>
+        <Dialog defaultOpen>
+          <DialogContent onInteractOutside={onInteract}>Body</DialogContent>
+        </Dialog>
+        <button data-testid="outside">Outside</button>
+      </>,
+    );
+    await user.click(screen.getByTestId("outside"));
+    expect(onInteract).toHaveBeenCalled();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+  });
+
+  it("onEscapeKeyDown called with preventable event", async () => {
+    const user = userEvent.setup();
+    const onEsc = vi.fn((e: Event) => e.preventDefault());
+    render(
+      <Dialog defaultOpen>
+        <DialogContent onEscapeKeyDown={onEsc}>Body</DialogContent>
+      </Dialog>,
+    );
+    await user.keyboard("{Escape}");
+    expect(onEsc).toHaveBeenCalled();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+  });
+
+  it("nested dialogs get increasing z-index", () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent data-testid="outer">
+          Outer
+          <Dialog defaultOpen>
+            <DialogContent data-testid="inner">Inner</DialogContent>
+          </Dialog>
+        </DialogContent>
+      </Dialog>,
+    );
+    const outer = screen.getByTestId("outer");
+    const inner = screen.getByTestId("inner");
+    const outerZ = parseInt(outer.style.zIndex || "0", 10);
+    const innerZ = parseInt(inner.style.zIndex || "0", 10);
+    expect(innerZ).toBeGreaterThan(outerZ);
   });
 });

@@ -9,9 +9,17 @@ import {
   type HTMLAttributes,
   type ButtonHTMLAttributes,
 } from "react";
-import { useDisclosure, useFocusTrap, useOutsideClick, useId, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
+import {
+  useDisclosure,
+  useFocusTrap,
+  useId,
+  getFirstFocusable,
+  type UseDisclosureProps,
+} from "@weiui/headless";
 import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
+
+const DialogStackContext = createContext<number>(0);
 
 interface DialogContextValue {
   isOpen: boolean;
@@ -21,6 +29,8 @@ interface DialogContextValue {
   descriptionId: string;
   contentId: string;
   triggerId: string;
+  modal: boolean;
+  depth: number;
 }
 
 const DialogContext = createContext<DialogContextValue | null>(null);
@@ -33,26 +43,33 @@ function useDialogContext(): DialogContextValue {
 
 export interface DialogProps extends UseDisclosureProps {
   children: ReactNode;
+  modal?: boolean;
 }
 
-export function Dialog({ children, ...disclosureProps }: DialogProps) {
+export function Dialog({ children, modal = true, ...disclosureProps }: DialogProps) {
   const { isOpen, onOpen, onClose } = useDisclosure(disclosureProps);
   const baseId = useId("dialog");
+  const parentDepth = useContext(DialogStackContext);
+  const depth = parentDepth + 1;
 
   return (
-    <DialogContext.Provider
-      value={{
-        isOpen,
-        onOpen,
-        onClose,
-        titleId: `${baseId}-title`,
-        descriptionId: `${baseId}-desc`,
-        contentId: `${baseId}-content`,
-        triggerId: `${baseId}-trigger`,
-      }}
-    >
-      {children}
-    </DialogContext.Provider>
+    <DialogStackContext.Provider value={depth}>
+      <DialogContext.Provider
+        value={{
+          isOpen,
+          onOpen,
+          onClose,
+          titleId: `${baseId}-title`,
+          descriptionId: `${baseId}-desc`,
+          contentId: `${baseId}-content`,
+          triggerId: `${baseId}-trigger`,
+          modal,
+          depth,
+        }}
+      >
+        {children}
+      </DialogContext.Provider>
+    </DialogStackContext.Provider>
   );
 }
 
@@ -88,9 +105,19 @@ DialogTrigger.displayName = "DialogTrigger";
 export interface DialogOverlayProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-dialog__overlay", className)} aria-hidden="true" {...props} />
-  ),
+  ({ className, style, ...props }, ref) => {
+    const ctx = useContext(DialogContext);
+    const depth = ctx?.depth ?? 1;
+    return (
+      <div
+        ref={ref}
+        className={cn("wui-dialog__overlay", className)}
+        style={{ zIndex: 50 + depth * 10, ...style }}
+        aria-hidden="true"
+        {...props}
+      />
+    );
+  },
 );
 DialogOverlay.displayName = "DialogOverlay";
 
@@ -99,21 +126,51 @@ export type DialogSize = "sm" | "md" | "lg" | "full";
 export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   size?: DialogSize;
+  onInteractOutside?: (event: MouseEvent) => void;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }
 
-export function DialogContent({ children, className, onKeyDown, size = "md", ...props }: DialogContentProps) {
-  const { isOpen, onClose, contentId, titleId, descriptionId } = useDialogContext();
+export function DialogContent({
+  children,
+  className,
+  onKeyDown,
+  size = "md",
+  onInteractOutside,
+  onEscapeKeyDown,
+  style,
+  ...props
+}: DialogContentProps) {
+  const { isOpen, onClose, contentId, titleId, descriptionId, modal, depth } = useDialogContext();
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  useFocusTrap(contentRef, isOpen);
-  useOutsideClick(contentRef, onClose, isOpen);
+  useFocusTrap(contentRef, isOpen && modal);
+
+  // Custom outside-click with onInteractOutside preventable
+  useEffect(() => {
+    if (!isOpen) return;
+    function handler(e: MouseEvent) {
+      if (!contentRef.current) return;
+      if (contentRef.current.contains(e.target as Node)) return;
+      const ev = new Event("interactoutside", { cancelable: true });
+      Object.defineProperty(ev, "target", { value: e.target });
+      onInteractOutside?.(ev as unknown as MouseEvent);
+      if (!ev.defaultPrevented) onClose();
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen, onClose, onInteractOutside]);
 
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
       const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
-      if (firstFocusable) firstFocusable.focus();
+      if (firstFocusable) {
+        firstFocusable.focus();
+      } else if (contentRef.current) {
+        // Fallback: focus the dialog itself so Escape/keydown reaches it
+        contentRef.current.focus();
+      }
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
       previousFocusRef.current = null;
@@ -121,30 +178,38 @@ export function DialogContent({ children, className, onKeyDown, size = "md", ...
   }, [isOpen]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && modal) {
       const original = document.body.style.overflow;
       document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = original; };
+      return () => {
+        document.body.style.overflow = original;
+      };
     }
-  }, [isOpen]);
+  }, [isOpen, modal]);
 
   if (!isOpen) return null;
 
   return (
     <Portal>
-      <DialogOverlay />
+      {modal && <DialogOverlay />}
       <div
         ref={contentRef}
         id={contentId}
         role="dialog"
-        aria-modal="true"
+        aria-modal={modal || undefined}
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
+        tabIndex={-1}
         className={cn("wui-dialog__content", `wui-dialog__content--${size}`, className)}
+        style={{ zIndex: 51 + depth * 10, ...style }}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
-            e.stopPropagation();
-            onClose();
+            const ev = new KeyboardEvent("keydown", { key: "Escape", cancelable: true });
+            onEscapeKeyDown?.(ev);
+            if (!ev.defaultPrevented) {
+              e.stopPropagation();
+              onClose();
+            }
           }
           onKeyDown?.(e);
         }}
