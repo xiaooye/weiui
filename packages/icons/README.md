@@ -20,12 +20,12 @@ import { Check, ChevronDown, Search } from "@weiui/icons";
 
 All icons accept any SVG attribute plus `size` (number | string) which applies to both `width` and `height`. Stroke inherits from `currentColor`.
 
-## Starter set (v0.0.1)
+## Icon set
 
-AlertCircle, ArrowLeft, ArrowRight, Check, ChevronDown, ChevronRight, Info, Menu, Search, X.
+AlertCircle, ArrowLeft, ArrowRight, Check, ChevronDown, ChevronRight, Copy, Edit, Home, Info, Menu, Search, Settings, Trash, X.
 
 Add new icons by dropping `.svg` files into `svg/` and running `pnpm generate`. The script sanitises with SVGO and emits React components into `src/icons/`.
 
 ## Status
 
-v0.0.1 ships the 10 icons above. The pipeline is ready for expansion; additional icon sets will follow the design spec priorities.
+Ships 15 icons covering the most common UI needs. The pipeline is ready for expansion; additional icon sets will follow the design spec priorities.
