@@ -25,15 +25,19 @@ export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  const first = parts[0] ?? "";
+  if (parts.length === 1) return first.slice(0, 2).toUpperCase();
+  const last = parts[parts.length - 1] ?? "";
+  return ((first[0] ?? "") + (last[0] ?? "")).toUpperCase();
 }
 
-function colorFromName(name: string): "primary" | "success" | "warning" | "destructive" {
+type AvatarColor = "primary" | "success" | "warning" | "destructive";
+
+function colorFromName(name: string): AvatarColor {
   let hash = 0;
   for (const c of name) hash = (hash * 31 + c.charCodeAt(0)) | 0;
-  const palette = ["primary", "success", "warning", "destructive"] as const;
-  return palette[Math.abs(hash) % palette.length];
+  const palette: readonly AvatarColor[] = ["primary", "success", "warning", "destructive"];
+  return palette[Math.abs(hash) % palette.length] ?? "primary";
 }
 
 export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(

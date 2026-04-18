@@ -1002,10 +1002,10 @@
 | Child input auto-wired `aria-describedby` to Description + Error | ✅ | ✅ | Auto-wire via Control slot | ✅ shipped |
 | Child input auto-wired `id` = fieldId | ✅ | ✅ | Wire id from context | ✅ shipped |
 | Hint / helper text slot | ✅ Description doubles | ✅ | — | — |
-| Success / validating states | ❌ (error only) | ✅ | Add `status` prop | **P1** |
+| Success / validating states | ✅ | ✅ | `success` + `validating` props | ✅ shipped |
 | Counter slot | ❌ | ✅ | Accept char counter node | **P2** |
 | Integration with react-hook-form | ⚠️ consumer wires | ✅ pattern documented | Document HOF integration | **P2** |
-| Field disabled propagation | ❌ | ✅ | Pass disabled down | **P1** |
+| Field disabled propagation | ✅ | ✅ | Propagated via FieldContext | ✅ shipped |
 | Inline vs stacked layout | ❌ (stacked only) | ✅ | Add `orientation` | **P2** |
 
 **Notes:** Two P0s combined into one: the Field doesn't wire itself to the child input. Today `<Field><FieldLabel>Name</FieldLabel><Input /></Field>` does not associate the label with the input, defeating the purpose. Fix by having FieldControl clone its single child with `id`, `aria-describedby`, `aria-invalid`. This is the most important fix in Wave 5e.
@@ -1020,8 +1020,8 @@
 | Native `<label>` with props forwarded | ✅ | ✅ | — | — |
 | Required asterisk | ✅ | ✅ | — | — |
 | Click-label-focus-input (via htmlFor) | ⚠️ consumer passes htmlFor | ✅ | — | — |
-| Size variant | ❌ | ✅ | Add size | **P2** |
-| Disabled styling | ❌ | ✅ | Inherit from Field | **P2** |
+| Size variant | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
+| Disabled styling | ✅ | ✅ | `disabled` prop + `[data-disabled]` | ✅ shipped |
 
 **Notes:** No P0s — it's a thin label wrapper. The Field auto-wiring story (see Field) is the real integration point.
 
@@ -1034,7 +1034,7 @@
 |---------|-----------|---------------|-----|----------|
 | Variant (solid/soft/outline) | ✅ | ✅ | — | — |
 | Color (primary/destructive/success/warning) | ✅ | ✅ | — | — |
-| Size variant | ❌ | ✅ | Add size | **P1** |
+| Size variant | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
 | Dot indicator variant | ❌ | ✅ | Add `dot` variant | **P2** |
 | Pill vs square radius | ❌ (one radius) | ✅ | Add `radius` prop | **P2** |
 | Icon slot | ❌ | ✅ | Add left/right icon | **P2** |
@@ -1051,12 +1051,12 @@
 |---------|-----------|---------------|-----|----------|
 | Color variant | ✅ | ✅ | — | — |
 | Remove button with `aria-label` | ✅ | ✅ | — | — |
-| Icon slot (left) | ❌ | ✅ | Add | **P1** |
+| Icon slot (left) | ✅ | ✅ | `icon` prop | ✅ shipped |
 | Avatar slot (left circle image) | ❌ | ✅ MUI | Add | **P2** |
-| Clickable vs static | ❌ | ✅ `clickable` | Add variant that renders as button | **P1** |
-| Size variant | ❌ | ✅ | Add | **P1** |
-| Outlined variant | ❌ | ✅ | Add | **P1** |
-| Disabled state | ❌ | ✅ | Add | **P1** |
+| Clickable vs static | ✅ | ✅ `clickable` | `onClick` → renders as `<button>` | ✅ shipped |
+| Size variant | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
+| Outlined variant | ✅ | ✅ | `variant="outlined"` | ✅ shipped |
+| Disabled state | ✅ | ✅ | `disabled` prop | ✅ shipped |
 | Selected / toggled state | ❌ | ✅ Mantine | Add | **P2** |
 
 **Notes:** No P0s.
@@ -1070,12 +1070,12 @@
 |---------|-----------|---------------|-----|----------|
 | Size (sm/md/lg/xl) | ✅ | ✅ | — | — |
 | AvatarImage + AvatarFallback parts | ✅ | ✅ | — | — |
-| Image onError → fallback swap | ❌ (manual) | ✅ Radix | Handle image load failure automatically | **P1** |
-| Initials generation from name | ❌ | ✅ Mantine | Add `name` prop | **P1** |
+| Image onError → fallback swap | ✅ | ✅ Radix | Built-in `src` prop swaps to initials on error | ✅ shipped |
+| Initials generation from name | ✅ | ✅ Mantine | `name` prop auto-generates initials | ✅ shipped |
 | Status indicator (presence dot) | ❌ | ✅ | Add `status` dot slot | **P2** |
-| Avatar group (stacked) | ❌ | ✅ | Add AvatarGroup | **P1** |
+| Avatar group (stacked) | ✅ | ✅ | `<AvatarGroup max>` with `+N` overflow | ✅ shipped |
 | Square variant | ❌ (circle only) | ✅ | Add `radius` or `variant` | **P2** |
-| Color-from-name background | ❌ | ✅ | Add | **P2** |
+| Color-from-name background | ✅ | ✅ | Deterministic token hash | ✅ shipped |
 
 **Notes:** No P0s — it's a display primitive. AvatarImage-error-fallback is the only subtle hazard.
 
@@ -1089,9 +1089,9 @@
 | Variant (info/success/warning/destructive) | ✅ | ✅ | — | — |
 | Title + Description | ✅ | ✅ | — | — |
 | `role="alert"` | ✅ | ✅ | — | — |
-| Icon per variant | ❌ | ✅ | Add default icon slot + auto icon | **P1** |
-| Dismiss / close button | ❌ | ✅ | Add Close part | **P1** |
-| Action slot (buttons) | ❌ | ✅ | Add Actions slot | **P1** |
+| Icon per variant | ✅ | ✅ | Default unicode glyph per variant; override via `icon` | ✅ shipped |
+| Dismiss / close button | ✅ | ✅ | `dismissible` + `onDismiss` | ✅ shipped |
+| Action slot (buttons) | ✅ | ✅ | `action` slot | ✅ shipped |
 | Outlined vs filled variants | ⚠️ single style | ✅ | Add appearance variant | **P2** |
 | Animation on enter | ❌ | ✅ | CSS animation + prefers-reduced-motion | **P2** |
 
@@ -1105,9 +1105,9 @@
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Icon + title + description + action slots | ✅ | ✅ | — | — |
-| Size variant (md/lg) | ❌ | ✅ | Add size | **P2** |
-| Illustration slot (larger image) | ⚠️ via icon | ✅ | Add dedicated illustration slot | **P2** |
-| Orientation horizontal / vertical | ❌ | ✅ | Add prop | **P2** |
+| Size variant (md/lg) | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
+| Illustration slot (larger image) | ✅ | ✅ | `illustration` slot | ✅ shipped |
+| Orientation horizontal / vertical | ✅ | ✅ | `orientation` prop | ✅ shipped |
 
 **Notes:** No P0s — it's intentionally minimal.
 
@@ -1121,9 +1121,9 @@
 | Variants (text/circle/rect) | ✅ | ✅ | — | — |
 | Shimmer animation | ✅ PRM-gated | ✅ | Verify animation respects reduced-motion | ✅ shipped |
 | `aria-hidden` | ✅ | ✅ | — | — |
-| Visible / invisible toggle (`visible` prop for conditional render) | ❌ | ✅ Mantine | Add `visible` prop | **P2** |
-| Height / width via props vs className | ⚠️ via style | ✅ dedicated props | Document inline-size/block-size pattern | **P2** |
-| Count (render N repeated) | ❌ | ✅ | Add | **P2** |
+| Visible / invisible toggle (`visible` prop for conditional render) | ✅ | ✅ Mantine | `visible` prop renders children when false | ✅ shipped |
+| Height / width via props vs className | ✅ | ✅ dedicated props | `width` + `height` props (number → px, string → CSS length) | ✅ shipped |
+| Count (render N repeated) | ✅ | ✅ | `count` prop | ✅ shipped |
 
 **Notes:** One P0: verify the shimmer is inside a `@media (prefers-reduced-motion: no-preference)` gate per the CSS spec rule. Quick audit, one-line fix if missing.
 
@@ -1138,7 +1138,7 @@
 | `role="status"` + SR label | ✅ | ✅ | — | — |
 | Tailwind `animate-spin` | ✅ | ✅ | — | — |
 | Respects `prefers-reduced-motion` | ✅ wui-spinner class PRM-gated | ✅ | Wrap animation in PRM media query | ✅ shipped |
-| Color variant | ❌ (uses currentColor) | ✅ | Add color prop | **P1** |
+| Color variant | ✅ | ✅ | `color` prop (default/primary/success/warning/destructive) | ✅ shipped |
 | Type variants (dots / bars / oval) | ❌ | ✅ Mantine | Add types | **P2** |
 | Centered wrapper helper | ❌ | ✅ | Document pattern | **P2** |
 
@@ -1159,7 +1159,7 @@
 | Indeterminate animation respects PRM | ✅ PRM-gated in progress.css | ✅ | Audit | ✅ shipped |
 | Striped / animated striped variant | ❌ | ✅ | Add | **P2** |
 | Segmented (multi-value) | ❌ | ✅ Mantine | Add | **P2** |
-| Label overlay (percent text) | ❌ | ✅ | Add | **P1** |
+| Label overlay (percent text) | ✅ | ✅ | `showLabel` prop | ✅ shipped |
 | Buffer / secondary value | ❌ | ✅ | Add | **P2** |
 
 **Notes:** Same P0 motion-reduction audit as Spinner — indeterminate CSS needs to be PRM-gated.
@@ -1182,8 +1182,8 @@
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Card + Header + Content + Footer parts | ✅ | ✅ | — | — |
-| Variant (elevated/outlined) | ❌ | ✅ | Add variant | **P1** |
-| `as` / `asChild` for links | ❌ | ✅ | Add `asChild` | **P1** |
+| Variant (elevated/outlined) | ✅ | ✅ | `variant: elevated/outlined/filled` | ✅ shipped |
+| `as` / `asChild` for links | ✅ | ✅ | `asChild` clones single child | ✅ shipped |
 | Radius / padding props | ⚠️ via CSS token defaults | ✅ | Add props | **P2** |
 | Clickable / interactive state | ❌ | ✅ | Document pattern (wrap in Link) | **P2** |
 | Divider between sections | ❌ | ✅ | Add CardDivider or rely on Divider | **P2** |
