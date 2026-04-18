@@ -29,6 +29,13 @@
     transform: scale(0);
     background-color: currentColor;
   }
+  .wui-radio__input:hover:not(:disabled) {
+    border-color: var(--wui-color-primary);
+  }
+  .wui-radio__input:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
   .wui-radio__input:checked {
     border-color: var(--wui-color-primary);
   }
@@ -54,6 +61,11 @@
     opacity: 0.5;
   }
   @media (prefers-reduced-motion: no-preference) {
+    .wui-radio__input {
+      transition-property: border-color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
     .wui-radio__input::before {
       transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
     }

@@ -30,6 +30,13 @@
     background-color: currentColor;
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
   }
+  .wui-checkbox__input:hover:not(:disabled) {
+    border-color: var(--wui-color-primary);
+  }
+  .wui-checkbox__input:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
   .wui-checkbox__input:checked {
     background-color: var(--wui-color-primary);
     border-color: var(--wui-color-primary);
@@ -64,6 +71,11 @@
     opacity: 0.5;
   }
   @media (prefers-reduced-motion: no-preference) {
+    .wui-checkbox__input {
+      transition-property: background-color, border-color, box-shadow;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
     .wui-checkbox__input::before {
       transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
     }

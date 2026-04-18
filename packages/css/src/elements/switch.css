@@ -30,8 +30,18 @@
     background-color: var(--wui-color-background);
     box-shadow: 0 1px 2px oklch(0 0 0 / 0.2);
   }
+  .wui-switch__input:hover:not(:disabled) {
+    background-color: color-mix(in oklch, var(--wui-color-muted) 80%, var(--wui-color-foreground) 20%);
+  }
+  .wui-switch__input:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
   .wui-switch__input:checked {
     background-color: var(--wui-color-primary);
+  }
+  .wui-switch__input:checked:hover:not(:disabled) {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 90%, var(--wui-color-foreground) 10%);
   }
   .wui-switch__input:checked::before {
     inset-inline-start: 18px;
