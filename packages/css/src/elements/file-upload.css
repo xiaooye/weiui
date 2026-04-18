@@ -54,4 +54,38 @@
   .wui-file-upload__error + .wui-file-upload__error {
     margin-block-start: var(--wui-spacing-1);
   }
+  .wui-file-upload__file-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-1);
+    flex: 1 1 auto;
+    text-align: start;
+    min-inline-size: 0;
+  }
+  .wui-file-upload__file-name {
+    font-weight: var(--wui-font-weight-medium);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .wui-file-upload__thumb {
+    inline-size: 40px;
+    block-size: 40px;
+    object-fit: cover;
+    border-radius: var(--wui-shape-radius-sm);
+    flex: 0 0 auto;
+    margin-inline-end: var(--wui-spacing-3);
+  }
+  .wui-file-upload__progress {
+    inline-size: 100%;
+    block-size: 4px;
+    background-color: var(--wui-color-muted);
+    border-radius: var(--wui-shape-radius-full);
+    overflow: hidden;
+  }
+  .wui-file-upload__progress-bar {
+    block-size: 100%;
+    background-color: var(--wui-color-primary);
+    transition: inline-size var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+  }
 }

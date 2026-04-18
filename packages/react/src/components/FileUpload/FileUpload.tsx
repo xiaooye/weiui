@@ -1,5 +1,6 @@
 "use client";
-import { forwardRef, useState, useRef } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { useControllable } from "@weiui/headless";
 import { cn } from "../../utils/cn";
 
 export type FileUploadError = {
@@ -19,6 +20,14 @@ export interface FileUploadProps {
   className?: string;
   label?: string;
   hint?: string;
+  /** Controlled file list. Pair with `onFilesChange`. */
+  files?: File[];
+  /** Controlled-mode callback when files change. */
+  onFilesChange?: (files: File[]) => void;
+  /** Upload progress per file keyed by `file.name` (0–100). */
+  progress?: Record<string, number>;
+  /** Render image thumbnail previews for image-typed files. */
+  thumbnails?: boolean;
 }
 
 function matchesAccept(file: File, accept: string): boolean {
@@ -49,13 +58,68 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       className,
       label = "Click or drag files here",
       hint,
+      files: controlledFiles,
+      onFilesChange,
+      progress,
+      thumbnails,
     },
     ref,
   ) => {
-    const [files, setFiles] = useState<File[]>([]);
+    const [files, setFiles] = useControllable<File[]>({
+      value: controlledFiles,
+      defaultValue: [],
+      onChange: onFilesChange,
+    });
     const [errors, setErrors] = useState<FileUploadError[]>([]);
     const [isDragOver, setIsDragOver] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Object URLs keyed by file reference so we can revoke on unmount / replace.
+    const urlMapRef = useRef<Map<File, string>>(new Map());
+
+    const previewUrls = useMemo(() => {
+      if (!thumbnails) return new Map<File, string>();
+      const fresh = new Map<File, string>();
+      for (const file of files ?? []) {
+        if (!file.type.startsWith("image/")) continue;
+        const existing = urlMapRef.current.get(file);
+        if (existing) {
+          fresh.set(file, existing);
+        } else if (typeof URL !== "undefined" && URL.createObjectURL) {
+          try {
+            fresh.set(file, URL.createObjectURL(file));
+          } catch {
+            // ignore — some environments (SSR / old jsdom) lack support
+          }
+        }
+      }
+      // Revoke URLs no longer referenced.
+      for (const [file, url] of urlMapRef.current) {
+        if (!fresh.has(file) && typeof URL !== "undefined" && URL.revokeObjectURL) {
+          try {
+            URL.revokeObjectURL(url);
+          } catch {
+            /* ignore */
+          }
+        }
+      }
+      urlMapRef.current = fresh;
+      return fresh;
+    }, [files, thumbnails]);
+
+    useEffect(() => {
+      return () => {
+        for (const url of urlMapRef.current.values()) {
+          if (typeof URL !== "undefined" && URL.revokeObjectURL) {
+            try {
+              URL.revokeObjectURL(url);
+            } catch {
+              /* ignore */
+            }
+          }
+        }
+      };
+    }, []);
 
     const handleFiles = (fileList: FileList | null) => {
       if (!fileList) return;
@@ -84,7 +148,8 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       }
 
       const limit = maxFiles;
-      let final = multiple ? [...files, ...accepted] : accepted.slice(0, 1);
+      const current = files ?? [];
+      let final = multiple ? [...current, ...accepted] : accepted.slice(0, 1);
       if (limit !== undefined && final.length > limit) {
         const overflow = final.slice(limit);
         final = final.slice(0, limit);
@@ -107,10 +172,13 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     };
 
     const removeFile = (index: number) => {
-      const updated = files.filter((_, i) => i !== index);
+      const current = files ?? [];
+      const updated = current.filter((_, i) => i !== index);
       setFiles(updated);
       onChange?.(updated);
     };
+
+    const currentFiles = files ?? [];
 
     return (
       <div
@@ -152,24 +220,53 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         />
         <span className="wui-file-upload__text">{label}</span>
         {hint && <span className="wui-file-upload__hint">{hint}</span>}
-        {files.length > 0 && (
+        {currentFiles.length > 0 && (
           <div className="wui-file-upload__list" onClick={(e) => e.stopPropagation()}>
-            {files.map((file, i) => (
-              <div key={`${file.name}-${i}`} className="wui-file-upload__file">
-                <span>{file.name}</span>
-                <button
-                  type="button"
-                  className="wui-file-upload__file-remove"
-                  aria-label={`Remove ${file.name}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile(i);
-                  }}
-                >
-                  &times;
-                </button>
-              </div>
-            ))}
+            {currentFiles.map((file, i) => {
+              const pct = progress ? progress[file.name] : undefined;
+              const thumb = thumbnails ? previewUrls.get(file) : undefined;
+              return (
+                <div key={`${file.name}-${i}`} className="wui-file-upload__file">
+                  {thumb && (
+                    <img
+                      src={thumb}
+                      alt=""
+                      className="wui-file-upload__thumb"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <div className="wui-file-upload__file-body">
+                    <span className="wui-file-upload__file-name">{file.name}</span>
+                    {pct !== undefined && (
+                      <div
+                        className="wui-file-upload__progress"
+                        role="progressbar"
+                        aria-label={`${file.name} upload progress`}
+                        aria-valuenow={pct}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                      >
+                        <div
+                          className="wui-file-upload__progress-bar"
+                          style={{ inlineSize: `${Math.max(0, Math.min(100, pct))}%` }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="wui-file-upload__file-remove"
+                    aria-label={`Remove ${file.name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFile(i);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
         {errors.length > 0 && (

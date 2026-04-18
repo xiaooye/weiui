@@ -75,4 +75,39 @@ describe("FileUpload", () => {
       expect.objectContaining({ reason: "count" }),
     );
   });
+
+  describe("P1 features", () => {
+    it("progress renders per-file progress bar", async () => {
+      const file = new File(["abc"], "ok.txt", { type: "text/plain" });
+      render(
+        <FileUpload files={[file]} progress={{ "ok.txt": 42 }} onFilesChange={() => {}} />,
+      );
+      const bar = screen.getByRole("progressbar", { name: /ok\.txt/i });
+      expect(bar).toBeInTheDocument();
+      expect(bar).toHaveAttribute("aria-valuenow", "42");
+    });
+
+    it("thumbnails render preview image for image files", () => {
+      // jsdom URL.createObjectURL may not be defined — add a stub
+      const original = URL.createObjectURL;
+      URL.createObjectURL = (() => "blob:preview-url") as typeof URL.createObjectURL;
+      const file = new File(["x"], "pic.png", { type: "image/png" });
+      const { container } = render(
+        <FileUpload files={[file]} thumbnails onFilesChange={() => {}} />,
+      );
+      const img = container.querySelector(".wui-file-upload__thumb");
+      expect(img).toBeInTheDocument();
+      URL.createObjectURL = original;
+    });
+
+    it("controlled files + onFilesChange", async () => {
+      const user = userEvent.setup();
+      const onFilesChange = vi.fn();
+      render(<FileUpload files={[]} onFilesChange={onFilesChange} />);
+      const input = screen.getByLabelText(/upload/i) as HTMLInputElement;
+      const file = new File(["a"], "a.txt", { type: "text/plain" });
+      await user.upload(input, file);
+      expect(onFilesChange).toHaveBeenCalledWith([expect.objectContaining({ name: "a.txt" })]);
+    });
+  });
 });
