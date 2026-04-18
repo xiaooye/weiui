@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Tooltip, TooltipTrigger, TooltipContent } from "../Tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "../Tooltip";
 
 describe("Tooltip", () => {
   it("opens on pointer enter and closes on pointer leave", () => {
@@ -69,5 +69,25 @@ describe("Tooltip", () => {
     const tooltip = screen.getByRole("tooltip");
     expect(container.contains(tooltip)).toBe(false);
     expect(document.body.contains(tooltip)).toBe(true);
+  });
+
+  it("renders TooltipArrow inside content when provided", () => {
+    render(
+      <Tooltip>
+        <TooltipTrigger>
+          <button>Arrow</button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Tip body
+          <TooltipArrow data-testid="arrow" />
+        </TooltipContent>
+      </Tooltip>,
+    );
+    fireEvent.focus(screen.getByText("Arrow"));
+    const arrow = screen.getByTestId("arrow");
+    expect(arrow).toBeInTheDocument();
+    expect(arrow).toHaveAttribute("aria-hidden", "true");
+    // Arrow is positioned via inline styles
+    expect(arrow.style.position).toBe("absolute");
   });
 });

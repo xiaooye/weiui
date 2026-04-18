@@ -8,12 +8,15 @@ import {
   useRef,
   cloneElement,
   isValidElement,
+  type MutableRefObject,
   type ReactNode,
   type HTMLAttributes,
   type CSSProperties,
 } from "react";
 import { useId, useFloatingMenu } from "@weiui/headless";
 import { Portal } from "../Portal";
+
+type TooltipSide = "top" | "right" | "bottom" | "left";
 
 interface TooltipContextValue {
   isOpen: boolean;
@@ -22,6 +25,9 @@ interface TooltipContextValue {
   tooltipId: string;
   refs: ReturnType<typeof useFloatingMenu>["refs"];
   floatingStyles: CSSProperties;
+  arrowRef: MutableRefObject<HTMLElement | null>;
+  arrowData: { x?: number; y?: number } | undefined;
+  placement: string;
 }
 
 const TooltipContext = createContext<TooltipContextValue | null>(null);
@@ -43,12 +49,14 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
   const tooltipId = useId("tooltip");
   const openTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const arrowRef = useRef<HTMLElement | null>(null);
 
-  const { refs, floatingStyles } = useFloatingMenu({
+  const { refs, floatingStyles, middlewareData, placement } = useFloatingMenu({
     open: isOpen,
     placement: "top",
     offsetPx: 8,
     collisionPadding: 8,
+    arrowRef,
   });
 
   const open = useCallback(() => {
@@ -81,7 +89,17 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
 
   return (
     <TooltipContext.Provider
-      value={{ isOpen, open, close, tooltipId, refs, floatingStyles }}
+      value={{
+        isOpen,
+        open,
+        close,
+        tooltipId,
+        refs,
+        floatingStyles,
+        arrowRef,
+        arrowData: middlewareData.arrow,
+        placement,
+      }}
     >
       {children}
     </TooltipContext.Provider>
@@ -147,3 +165,37 @@ export function TooltipContent({ children, style, ...props }: TooltipContentProp
   );
 }
 TooltipContent.displayName = "TooltipContent";
+
+export interface TooltipArrowProps extends HTMLAttributes<HTMLSpanElement> {
+  size?: number;
+}
+
+export function TooltipArrow({ size = 8, style, ...props }: TooltipArrowProps) {
+  const { arrowRef, arrowData, placement } = useTooltipContext();
+  const side = placement.split("-")[0] as TooltipSide;
+  const staticSide: TooltipSide = (
+    { top: "bottom", right: "left", bottom: "top", left: "right" } as const
+  )[side];
+
+  return (
+    <span
+      ref={(el) => {
+        arrowRef.current = el;
+      }}
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        width: size,
+        height: size,
+        background: "inherit",
+        left: arrowData?.x != null ? `${arrowData.x}px` : undefined,
+        top: arrowData?.y != null ? `${arrowData.y}px` : undefined,
+        [staticSide]: `-${size / 2}px`,
+        transform: "rotate(45deg)",
+        ...style,
+      }}
+      {...props}
+    />
+  );
+}
+TooltipArrow.displayName = "TooltipArrow";

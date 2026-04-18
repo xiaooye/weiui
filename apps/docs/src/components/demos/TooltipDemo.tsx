@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
+import { Button, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "@weiui/react";
 
 export function TooltipDemo() {
   return (
@@ -21,6 +21,7 @@ export function TooltipDemo() {
         }}
       >
         Helpful information
+        <TooltipArrow />
       </TooltipContent>
     </Tooltip>
   );
