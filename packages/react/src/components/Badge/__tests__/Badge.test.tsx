@@ -44,4 +44,20 @@ describe("Badge", () => {
     render(<Badge ref={ref}>label</Badge>);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });
+
+  // E.8 size variant
+  it("does not apply size class for default md", () => {
+    render(<Badge>label</Badge>);
+    expect(screen.getByText("label").className).not.toContain("wui-badge--md");
+  });
+
+  it("applies size class for sm", () => {
+    render(<Badge size="sm">label</Badge>);
+    expect(screen.getByText("label").className).toContain("wui-badge--sm");
+  });
+
+  it("applies size class for lg", () => {
+    render(<Badge size="lg">label</Badge>);
+    expect(screen.getByText("label").className).toContain("wui-badge--lg");
+  });
 });
