@@ -5,9 +5,11 @@ import { ProgressBarDemo } from "../../../../components/demos/ProgressBarDemo";
 
 # Toast, Chip & ProgressBar
 
+Three short-lived surfaces for status and progress. Toast is transient and global. Chip is interactive and local. ProgressBar is ambient and attached to work in progress.
+
 ## Toast
 
-Toast is a notification system driven by an external store. The docs site already has a `<Toaster />` mounted in the root layout, so the buttons below call the real `toast()` API.
+A notification system driven by an external store, rendered through a single `<Toaster />` mount. Supports four variants, six corner positions, auto-dismiss with pause-on-hover, stacking with hover-to-expand, inline actions, and a `toast.promise()` helper for async flows.
 
 <Preview
   label="Toast variants"
@@ -30,10 +32,12 @@ Toast is a notification system driven by an external store. The docs site alread
   <ToastDemo />
 </Preview>
 
-Place `<Toaster />` once near the root of your app (e.g. in a layout). Then call `toast()` from anywhere.
+### Setup
+
+Mount `<Toaster />` once near your app root, then call `toast()` from anywhere:
 
 ```tsx
-// In your root layout
+// Root layout
 import { Toaster } from "@weiui/react";
 
 export default function RootLayout({ children }) {
@@ -49,69 +53,104 @@ export default function RootLayout({ children }) {
 ```
 
 ```tsx
-// Anywhere in your app
+// Anywhere
 import { toast } from "@weiui/react";
 
-// Default
 toast("File saved successfully");
-
-// With description
-toast("Update available", { description: "Refresh to apply the latest changes." });
-
-// Variants
 toast.success("Payment received");
 toast.error("Something went wrong", { description: "Please try again later." });
 toast.warning("Session expiring soon");
-
-// Custom duration (ms). Pass 0 to disable auto-dismiss.
-toast("Manual dismiss only", { duration: 0 });
-
-// With an inline action button
 toast("Message archived", {
-  action: {
-    label: "Undo",
-    onClick: () => restoreMessage(),
-  },
+  action: { label: "Undo", onClick: () => restoreMessage() },
 });
 ```
 
-### Position
+### Async: `toast.promise`
 
-Configure where the stack appears on `<Toaster>`. All six corners are supported.
+Drive a single toast through `loading → success / error` states tied to a promise. The toast updates in place — no flicker, no duplicate notifications.
+
+```tsx
+import { toast } from "@weiui/react";
+
+async function handleSubscribe() {
+  await toast.promise(api.subscribe(email), {
+    loading: "Subscribing…",
+    success: (data) => `Welcome, ${data.name}!`,
+    error: (err) => err.message ?? "Could not subscribe",
+  });
+}
+```
+
+The `loading` toast is pinned (no auto-dismiss) while the promise is in flight, then swaps to the resolved variant and starts the normal dismiss timer.
+
+### Stacking + hover-to-expand
+
+Up to 3 toasts stack vertically; the rest queue. Hovering the stack expands it so every toast is readable, and pauses the dismiss timers until the pointer leaves.
+
+The stack:
+- Lifts the front toast slightly, stacks peeks of the next two behind it.
+- Expands to show each toast at full height on hover / focus-within.
+- Pauses all dismiss timers while `data-paused` is set (pointer inside or focus inside).
+- Resumes on pointer leave + blur.
+
+### Position
 
 ```tsx
 <Toaster position="top-right" />
 <Toaster position="bottom-center" />
 ```
 
-### Props — `toast()`
+Six corners: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right` (default).
 
-| Argument | Type | Default | Description |
-|----------|------|---------|-------------|
-| title | `string` | — | Required notification text |
-| opts.description | `string` | — | Optional supporting text |
-| opts.variant | `"default" \| "success" \| "destructive" \| "warning"` | `"default"` | Visual style |
-| opts.duration | `number` | `5000` | Auto-dismiss delay in ms. `0` disables auto-dismiss. |
-| opts.action | `{ label: string; onClick: () => void }` | — | Renders an inline action button on the toast |
+### `toast()` options
 
-### Props — `<Toaster>`
+| Option          | Type                                                               | Default     | Description                                             |
+|-----------------|--------------------------------------------------------------------|-------------|---------------------------------------------------------|
+| `description`   | `string`                                                           | —           | Secondary line under the title                          |
+| `variant`       | `"default" \| "success" \| "destructive" \| "warning"`             | `"default"` | Tone + icon                                             |
+| `duration`      | `number`                                                           | `5000`      | Auto-dismiss delay in ms; `0` pins the toast            |
+| `action`        | `{ label: string; onClick: () => void }`                           | —           | Inline action button                                    |
+| `id`            | `string`                                                           | auto        | Pass your own id to reuse / update a toast              |
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| position | `"top-left" \| "top-center" \| "top-right" \| "bottom-left" \| "bottom-center" \| "bottom-right"` | `"bottom-right"` | Stack anchor corner |
+Variant helpers: `toast.success(...)`, `toast.error(...)`, `toast.warning(...)`, `toast.info(...)`. All accept the same options.
 
-### Accessibility
+### `toast.promise(promise, messages)`
 
-- `<Toaster>` has `role="region"` and `aria-label="Notifications"`
-- Each toast has `role="alert"` so screen readers announce it immediately
-- Close button has `aria-label="Close notification"`
-- Action button (when provided) is keyboard-focusable and activated by Enter/Space
+```ts
+toast.promise<T>(
+  promise: Promise<T>,
+  messages: {
+    loading: string;
+    success: string | ((value: T) => string);
+    error: string | ((err: unknown) => string);
+  },
+): Promise<T>
+```
+
+Returns the original promise so you can `await` or chain it. Throws if the promise rejects (after showing the error toast).
+
+### Toaster props
+
+| Prop       | Type                                                                                         | Default          | Description                       |
+|------------|----------------------------------------------------------------------------------------------|------------------|-----------------------------------|
+| `position` | `"top-left" \| "top-center" \| "top-right" \| "bottom-left" \| "bottom-center" \| "bottom-right"` | `"bottom-right"` | Stack anchor corner               |
+| `gap`      | `number`                                                                                     | `14`             | px between stacked toasts         |
+| `max`      | `number`                                                                                     | `3`              | Visible toasts before queueing    |
+
+### Toast accessibility
+
+- `<Toaster>` is `role="region"` + `aria-label="Notifications"` so assistive tech can jump to the landmark.
+- Each toast is `role="alert"` — screen readers announce immediately on mount.
+- Hover pauses dismiss timers; focus entering a toast also pauses — keyboard users aren't rushed.
+- The close button has `aria-label="Close notification"`.
+- Action buttons are plain `<button>`s; Enter / Space activate.
+- Stacking animation sits inside `@media (prefers-reduced-motion: no-preference)`; reduced-motion users see instant swaps.
 
 ---
 
 ## Chip
 
-Like Badge but interactive — can be dismissed with a remove button.
+Like Badge but interactive — can be selected, removed, or carry an icon. Use for filter tags, selected values, and removable items in a list.
 
 <Preview label="Chip with onRemove">
   <ChipDemo />
@@ -120,27 +159,54 @@ Like Badge but interactive — can be dismissed with a remove button.
 ```tsx
 import { Chip } from "@weiui/react";
 
-// Static
+{/* Static */}
 <Chip>Default</Chip>
 <Chip color="primary">Primary</Chip>
-<Chip color="success">Success</Chip>
+<Chip color="success">Active</Chip>
 <Chip color="destructive">Error</Chip>
 
-// Dismissible
+{/* Dismissible */}
 <Chip onRemove={() => handleRemove("typescript")}>TypeScript</Chip>
+
+{/* With icon */}
+<Chip icon={<Zap size={14} aria-hidden />} color="warning">Beta</Chip>
 ```
 
-### Props
+### Filter-chip pattern
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| children | `ReactNode` | — | Chip label content |
-| color | `"default" \| "primary" \| "success" \| "destructive"` | `"default"` | Color variant |
-| onRemove | `() => void` | — | When provided, renders a remove button |
+```tsx
+const [filters, setFilters] = useState<string[]>(["typescript", "react"]);
+
+<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+  {filters.map((f) => (
+    <Chip key={f} onRemove={() => setFilters((xs) => xs.filter((x) => x !== f))}>
+      {f}
+    </Chip>
+  ))}
+</div>
+```
+
+### Chip props
+
+| Prop        | Type                                                    | Default     | Description                                    |
+|-------------|---------------------------------------------------------|-------------|------------------------------------------------|
+| `color`     | `"default" \| "primary" \| "success" \| "destructive" \| "warning"` | `"default"` | Tone                                  |
+| `icon`      | `ReactNode`                                             | —           | Leading icon                                   |
+| `onRemove`  | `() => void`                                            | —           | Render a remove (×) button when provided        |
+| `disabled`  | `boolean`                                               | `false`     | Non-interactive state                          |
+
+### Chip accessibility
+
+- Static chips are `<span>`s — purely visual.
+- When `onRemove` is set, the remove button is an internal `<button aria-label="Remove ${label}">`.
+- Pair removable chips with an `aria-live="polite"` region announcing `"${label} removed"` when state updates.
+- Color is never the sole differentiator — always pair with visible label text.
 
 ---
 
 ## ProgressBar
+
+Bounded (0-100) or indeterminate progress indicator with optional in-bar label.
 
 <Preview label="ProgressBar sizes and colors">
   <ProgressBarDemo />
@@ -154,23 +220,45 @@ import { ProgressBar } from "@weiui/react";
 <ProgressBar value={40} color="warning" size="sm" label="Upload progress" />
 <ProgressBar value={25} color="destructive" size="lg" />
 
-// Indeterminate (no known value)
+{/* Indeterminate */}
 <ProgressBar indeterminate label="Loading data" />
+
+{/* Overlay the label on the bar */}
+<ProgressBar value={45} showLabel label="Syncing files" size="lg" />
 ```
 
-### Props
+### ProgressBar props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| value | `number` | `0` | Current progress value |
-| max | `number` | `100` | Maximum value |
-| size | `"sm" \| "md" \| "lg"` | `"md"` | Track height |
-| color | `"primary" \| "success" \| "destructive" \| "warning"` | `"primary"` | Bar color |
-| indeterminate | `boolean` | — | Show animated indeterminate state |
-| label | `string` | `"Progress"` | Accessible label for screen readers |
+| Prop            | Type                                                       | Default       | Description                                          |
+|-----------------|------------------------------------------------------------|---------------|------------------------------------------------------|
+| `value`         | `number`                                                   | `0`           | Current value (0 ≤ value ≤ max)                      |
+| `max`           | `number`                                                   | `100`         | Upper bound                                          |
+| `size`          | `"sm" \| "md" \| "lg"`                                     | `"md"`        | Track height                                         |
+| `color`         | `"primary" \| "success" \| "destructive" \| "warning"`     | `"primary"`   | Bar color                                            |
+| `indeterminate` | `boolean`                                                  | `false`       | Hide the value; animate as a moving bar              |
+| `label`         | `string`                                                   | `"Progress"`  | Screen-reader label                                  |
+| `showLabel`     | `boolean`                                                  | `false`       | Render the label (and percentage) visually overlaid  |
 
-### Accessibility
+### ProgressBar accessibility
 
-- `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
-- `aria-valuenow` is omitted in indeterminate mode (per ARIA spec)
-- `aria-label` set via the `label` prop
+- `role="progressbar"` with `aria-valuenow` / `aria-valuemin` / `aria-valuemax`.
+- In indeterminate mode, `aria-valuenow` is omitted per the ARIA spec — assistive tech announces "loading" rather than a bogus percentage.
+- The visible label + percentage (when `showLabel`) uses AAA contrast against the track color; the un-filled track portion carries the same foreground token.
+- Motion on the indeterminate bar is gated on `@media (prefers-reduced-motion: no-preference)` — reduced-motion users see a static fill.
+
+---
+
+## When to use which
+
+| Situation                                        | Component           |
+|--------------------------------------------------|---------------------|
+| Transient confirmation ("Saved", "Undone")       | **Toast**           |
+| Async operation (login, fetch) with loading state| **`toast.promise`** |
+| Destructive confirmation                         | Dialog              |
+| Removable tag / filter chip                      | **Chip**            |
+| Static status label                              | Badge               |
+| Measurable upload / sync progress                | **ProgressBar**     |
+| Short unmeasured operation                       | Spinner             |
+| Empty list / no data                             | EmptyState          |
+
+Avoid stacking more than a few Toasts at once — prefer a persistent inbox / activity-log surface when notifications accumulate.
