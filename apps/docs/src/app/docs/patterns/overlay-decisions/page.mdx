@@ -1,0 +1,193 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { TooltipDemo } from "../../../../components/demos/TooltipDemo";
+import { PopoverDemo } from "../../../../components/demos/PopoverDemo";
+import { MenuDemo } from "../../../../components/demos/MenuDemo";
+import { DialogDemo } from "../../../../components/demos/DialogDemo";
+import { DrawerDemo } from "../../../../components/demos/DrawerDemo";
+
+# Overlay Decisions
+
+Tooltip, Popover, Menu, Dialog, Drawer, CommandPalette — six overlays with distinct jobs. Picking the wrong one makes the app feel broken: users lose context, lose focus, or can't escape the UI.
+
+## The short answer
+
+| Situation                                                         | Use               |
+|--------------------------------------------------------------------|-------------------|
+| Brief, *informational* hover hint (≤ 10 words)                     | **Tooltip**       |
+| Floating content with forms, buttons, or rich nodes                | **Popover**       |
+| List of actions attached to a trigger                              | **Menu**          |
+| Task-focused modal — user must act (confirm, compose, focus)       | **Dialog**        |
+| Side-sheet: settings, filters, cart, details                       | **Drawer**        |
+| Keyboard-driven search / navigate / command                        | **CommandPalette**|
+| Disrupting critical alert ("Are you sure you want to delete?")     | **Dialog modal**  |
+| Non-blocking confirmation                                          | Toast             |
+
+## Tooltip
+
+<Preview label="Tooltip">
+  <TooltipDemo />
+</Preview>
+
+**Use when…** you need a brief label or hint on hover/focus — icon buttons, truncated text, keyboard shortcut hints.
+
+**Avoid when…**
+- The content has interactive elements — tooltips vanish on mouse-out, so users can't reach a button inside.
+- The content is essential to completing the task — tooltips are secondary, not primary.
+- The trigger is a text link whose label already explains it.
+
+```tsx
+<Tooltip content="Copy link">
+  <Button aria-label="Copy link"><Copy size={16} /></Button>
+</Tooltip>
+```
+
+A11y: content is announced via `aria-describedby`. Keyboard-focusable triggers are supported; hover *and* focus show the tooltip, pointer-out *and* blur dismiss it.
+
+## Popover
+
+<Preview label="Popover">
+  <PopoverDemo />
+</Preview>
+
+**Use when…** you want a floating panel with interactive content — a mini-form, a color picker, a preview card, rich info.
+
+**Avoid when…**
+- The content is a list of action items — use **Menu** for the canonical ARIA semantics.
+- The interaction requires full focus (destructive confirmation, wizard) — use **Dialog**.
+
+```tsx
+<Popover>
+  <PopoverTrigger>Invite</PopoverTrigger>
+  <PopoverContent>
+    <form>
+      <Input name="email" />
+      <Button type="submit">Invite</Button>
+    </form>
+  </PopoverContent>
+</Popover>
+```
+
+A11y: content renders through Portal with focus management — focus can enter the popover content, Escape closes, outside-click closes (overridable via `onInteractOutside`).
+
+## Menu
+
+<Preview label="Menu">
+  <MenuDemo />
+</Preview>
+
+**Use when…** the overlay is a list of actions or a list of checkable / radio items. Menu's keyboard semantics (arrow nav, typeahead, Home/End) are tuned for this pattern.
+
+**Avoid when…** the content isn't a list of actions — use Popover.
+
+```tsx
+<Menu>
+  <MenuTrigger>Actions</MenuTrigger>
+  <MenuContent>
+    <MenuItem onSelect={edit}>Edit</MenuItem>
+    <MenuItem onSelect={duplicate}>Duplicate</MenuItem>
+    <MenuSeparator />
+    <MenuItem onSelect={remove}>Delete</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+A11y: `role="menu"` / `role="menuitem"`. Typeahead (letter keys jump to matching items). Disabled items skipped.
+
+## Dialog
+
+<Preview label="Dialog">
+  <DialogDemo />
+</Preview>
+
+**Use when…** the user must focus on a single task — compose a message, confirm a destructive action, review terms. Modal by default — background is dimmed, inert, and focus is trapped.
+
+**Avoid when…**
+- The content is read-only or an announcement — prefer Alert or Toast.
+- The overlay is a side panel (filters, cart) — use Drawer.
+- The trigger doesn't need immediate attention — avoid interrupting the user.
+
+```tsx
+<Dialog>
+  <DialogTrigger>Delete project</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Delete this project?</DialogTitle>
+      <DialogDescription>This cannot be undone.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose>Cancel</DialogClose>
+      <Button variant="destructive">Delete</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+A11y: `role="dialog"` + `aria-modal="true"`. Focus trap, body-scroll lock, Escape to close, focus returns to trigger on close.
+
+## Drawer
+
+<Preview label="Drawer">
+  <DrawerDemo />
+</Preview>
+
+**Use when…** the content is substantial and can live on a side — filter panels, setting sheets, cart, mobile nav, detail reveals.
+
+**Avoid when…**
+- The content is a single decision — use Dialog.
+- The content is a few words — use Popover or Toast.
+
+```tsx
+<Drawer side="end">
+  <DrawerTrigger>Open filters</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>Filters</DrawerHeader>
+    {/* nested form */}
+  </DrawerContent>
+</Drawer>
+```
+
+A11y: modal dialog semantics, focus trap, Escape closes. Nests.
+
+## CommandPalette
+
+**Use when…** power users need keyboard-only navigation across app commands, files, people, docs — combined search + execute.
+
+**Avoid when…** the list is a single form; use Select or AutoComplete.
+
+```tsx
+<CommandPalette>
+  <CommandPaletteInput placeholder="Search docs…" />
+  <CommandPaletteList>
+    <CommandPaletteEmpty>No results</CommandPaletteEmpty>
+    <CommandPaletteGroup heading="Pages">
+      <CommandPaletteItem onSelect={() => go("/docs")}>Docs</CommandPaletteItem>
+    </CommandPaletteGroup>
+  </CommandPaletteList>
+</CommandPalette>
+```
+
+## Side-by-side comparison
+
+| Trait                      | Tooltip | Popover   | Menu     | Dialog   | Drawer   | CommandPalette |
+|----------------------------|---------|-----------|----------|----------|----------|----------------|
+| Portal                     | yes     | yes       | yes      | yes      | yes      | yes            |
+| Modal (trap focus)         | no      | optional  | no       | yes      | yes      | yes            |
+| Dimmed backdrop            | no      | no        | no       | yes      | yes      | yes            |
+| Body scroll lock           | no      | no        | no       | yes      | yes      | yes            |
+| Trigger required           | yes     | yes       | yes      | optional | yes      | optional       |
+| Max content size           | ≤ 280px | medium    | small    | large    | XL       | XL             |
+| Keyboard                   | focus   | focus+esc | arrows   | tab-trap | tab-trap | cmdk           |
+| Typical role               | describes| groups   | menu     | dialog   | dialog   | listbox        |
+
+## Escalation ladder
+
+When the content is getting bigger, keep scaling up:
+
+1. **Tooltip** → label-only
+2. **Popover** → small form / preview card
+3. **Menu** → list of 3-10 actions
+4. **Dialog** → single task that needs focus
+5. **Drawer** → wider content that can live on a side
+6. **Full-page route** → page-sized, nested sub-flow
+
+Never downgrade — if the content feels squeezed, scale up one level.

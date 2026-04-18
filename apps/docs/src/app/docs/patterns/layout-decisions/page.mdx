@@ -1,0 +1,204 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { ContainerDemo } from "../../../../components/demos/ContainerDemo";
+import { StackDemo } from "../../../../components/demos/StackDemo";
+import { GridDemo } from "../../../../components/demos/GridDemo";
+
+# Layout Primitive Decisions
+
+Container, Stack, Grid, Divider, Spacer, AspectRatio, Splitter — seven layout primitives. Pick by intent, not appearance.
+
+## The short answer
+
+| Situation                                                      | Use              |
+|----------------------------------------------------------------|------------------|
+| Cap the content width (article, form column)                   | **Container**    |
+| Stack items vertically or horizontally with consistent gap     | **Stack**        |
+| Two-axis layout with explicit columns                          | **Grid**         |
+| Thin visual separator                                          | **Divider**      |
+| Fill remaining space in a flex container                       | **Spacer**       |
+| Constrain media to a fixed ratio (video, card thumbnail)       | **AspectRatio**  |
+| Two draggable resizable panes                                  | **Splitter**     |
+
+## Container
+
+<Preview label="Container — default, narrow, reading width">
+  <ContainerDemo />
+</Preview>
+
+**Use when…** you want a max-width wrapper that centers content and adds consistent inline padding. The canonical "page column".
+
+**Avoid when…** the content should fill 100 % of its parent — a Container introduces both max-width *and* padding.
+
+```tsx
+<Container>
+  <h1>Page heading</h1>
+  <p>Content capped at a reading width.</p>
+</Container>
+```
+
+Container has a `size` prop (`"sm" | "md" | "lg" | "xl" | "reading"`) so you can dial in the max-width per page type.
+
+## Stack
+
+<Preview label="Stack — vertical + horizontal">
+  <StackDemo />
+</Preview>
+
+**Use when…** children should flow vertically (column) or horizontally (row) with one of the token-backed gap values.
+
+**Avoid when…** you need two rows *and* columns — use Grid. Avoid flexbox-only tricks like `space-between` by mixing Spacer in instead.
+
+```tsx
+<Stack direction="column" gap="4">
+  <h2>Title</h2>
+  <p>Description</p>
+  <Button>Action</Button>
+</Stack>
+
+<Stack direction="row" gap="2" align="center">
+  <Avatar name="Jane" />
+  <span>Jane Doe</span>
+</Stack>
+```
+
+Supports responsive props: `direction={{ base: "column", md: "row" }}`.
+
+## Grid
+
+<Preview label="Grid">
+  <GridDemo />
+</Preview>
+
+**Use when…** you need a responsive multi-column layout — card grids, dashboard metrics, form row layouts.
+
+**Avoid when…** content is a single column of items — Stack is simpler.
+
+```tsx
+<Grid columns={{ base: 1, sm: 2, md: 3 }} gap="4">
+  {items.map((i) => <Card key={i.id}>{i.label}</Card>)}
+</Grid>
+```
+
+Grid also accepts `rows`, `rowGap`, `columnGap`, and `flow` for finer control.
+
+## Divider
+
+**Use when…** you need a thin, tokenised separator — between sections of a Card, between list items, between vertical columns.
+
+**Avoid when…** the separation is purely whitespace — use Spacer.
+
+```tsx
+<Stack gap="3">
+  <SidebarItem>Dashboard</SidebarItem>
+  <Divider />
+  <SidebarItem>Settings</SidebarItem>
+</Stack>
+```
+
+- `orientation="horizontal"` (default) or `"vertical"`.
+- `decorative` (default `true`) hides from assistive tech. Set `decorative={false}` to expose `role="separator"`.
+
+## Spacer
+
+**Use when…** in a flex container you want a gap that absorbs remaining space — push one group left, another right.
+
+**Avoid when…** gaps are predictable — use Stack's `gap` prop instead.
+
+```tsx
+<Stack direction="row">
+  <Button>Back</Button>
+  <Spacer />
+  <Button>Next</Button>
+</Stack>
+```
+
+## AspectRatio
+
+**Use when…** you need to constrain a box to a fixed ratio regardless of content — video embeds, card thumbnails, hero images.
+
+**Avoid when…** the content dictates its own size (e.g. a paragraph, an SVG that has intrinsic dimensions).
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="/hero.jpg" alt="Product hero" />
+</AspectRatio>
+
+<AspectRatio ratio={1}>
+  <Avatar src="/avatar.jpg" />
+</AspectRatio>
+```
+
+Uses the native `aspect-ratio` CSS property — crisp at any zoom, no padding hack.
+
+## Splitter
+
+**Use when…** two panes should be user-resizable — docked side panels in editors, dashboards with a dragable rail.
+
+**Avoid when…** the ratio is fixed — Grid or Stack is cheaper and more predictable.
+
+```tsx
+<Splitter defaultSizes={[30, 70]} minSize={15}>
+  <Nav />
+  <Editor />
+</Splitter>
+```
+
+Keyboard-resizable (ArrowLeft/Right or ArrowUp/Down in 5 % steps).
+
+## Side-by-side matrix
+
+| Trait              | Container | Stack   | Grid    | Divider | Spacer | AspectRatio | Splitter |
+|--------------------|-----------|---------|---------|---------|--------|-------------|----------|
+| Axis               | inline    | 1-D     | 2-D     | 1-D     | 1-D    | fixed       | 1-D      |
+| Controlled sizes   | —         | —       | —       | —       | —      | fixed ratio | yes      |
+| Tokens — gap       | —         | yes     | yes     | —       | —      | —           | —        |
+| Tokens — padding   | yes       | —       | —       | —       | —      | —           | —        |
+| Responsive props   | `size`    | `direction/gap` | `columns/gap` | `orientation` | `size` | `ratio` | — |
+| RTL-aware          | yes       | yes     | yes     | yes     | yes    | —           | yes      |
+
+## Composition recipes
+
+### Sidebar + main
+
+```tsx
+<Grid columns={{ base: 1, md: "240px 1fr" }} gap="0" style={{ minHeight: "100vh" }}>
+  <Sidebar />
+  <main><Container>{children}</Container></main>
+</Grid>
+```
+
+### Dashboard hero + metrics row
+
+```tsx
+<Stack gap="6">
+  <HeroSection />
+  <Grid columns={{ base: 1, sm: 2, lg: 4 }} gap="4">
+    <MetricCard title="Active" />
+    <MetricCard title="Today" />
+    <MetricCard title="MRR" />
+    <MetricCard title="Churn" />
+  </Grid>
+</Stack>
+```
+
+### Holy grail
+
+```tsx
+<Stack gap="0" style={{ minHeight: "100vh" }}>
+  <AppBar />
+  <Grid columns="240px 1fr 320px" gap="0" style={{ flex: 1 }}>
+    <Sidebar />
+    <main><Container>{children}</Container></main>
+    <aside>{rail}</aside>
+  </Grid>
+  <footer />
+</Stack>
+```
+
+## Rule of thumb
+
+- Reach for **Stack** first; switch to **Grid** only when you need two dimensions.
+- Reach for **Container** when a page or section needs a reading width.
+- **Divider** and **Spacer** are cheap — use them instead of custom margins.
+- **AspectRatio** for any media; it survives reflow, zoom, and RTL.
+- **Splitter** when the user should decide, not the designer.

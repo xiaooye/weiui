@@ -59,6 +59,16 @@ export const siteConfig = {
       ],
     },
     {
+      title: "Patterns",
+      items: [
+        { href: "/docs/patterns/form-decisions", label: "Form Decisions" },
+        { href: "/docs/patterns/overlay-decisions", label: "Overlay Decisions" },
+        { href: "/docs/patterns/layout-decisions", label: "Layout Decisions" },
+        { href: "/docs/patterns/forms", label: "Full-form Example" },
+        { href: "/docs/patterns/layouts", label: "Layout Recipes" },
+      ],
+    },
+    {
       title: "Resources",
       items: [
         { href: "/docs/cli", label: "CLI" },

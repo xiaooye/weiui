@@ -1,0 +1,136 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { CheckboxDemo } from "../../../../components/demos/CheckboxDemo";
+import { SwitchDemo } from "../../../../components/demos/SwitchDemo";
+import { RadioGroupDemo } from "../../../../components/demos/RadioGroupDemo";
+import { SelectDemo } from "../../../../components/demos/SelectDemo";
+import { ToggleGroupDemo } from "../../../../components/demos/ToggleGroupDemo";
+
+# Form Control Decisions
+
+Four similar-looking controls — **Checkbox**, **Switch**, **RadioGroup**, **Select**, and **ToggleGroup** — with overlapping shapes but distinct semantics. Pick the wrong one and your form is harder to use, less accessible, and often broken for keyboard or voice-control users. This page walks you through the decision.
+
+## The short answer
+
+| Situation                                                          | Use             |
+|---------------------------------------------------------------------|-----------------|
+| Binary on/off state that takes effect *immediately*                | **Switch**      |
+| Binary on/off state submitted *with the form*                      | **Checkbox**    |
+| Opt-in to multiple *independent* items                             | **Checkbox** (many) |
+| Pick exactly one of 2-5 *mutually exclusive* options (visible)     | **RadioGroup**  |
+| Pick exactly one of 2-5 options (segmented-control style)          | **ToggleGroup type="single"** |
+| Pick one of many options (≥ 6) or save space                       | **Select**      |
+| Pick many of a large list (≥ 6)                                    | **MultiSelect** |
+| Toggle *multiple* independent text-editor style options (B, I, U)  | **ToggleGroup type="multiple"** |
+
+## Checkbox
+
+<Preview label="Checkbox states">
+  <CheckboxDemo />
+</Preview>
+
+**Use when…** the user is marking zero or more items from a list, or confirming a single boolean (e.g. "I agree to the terms"). Value is submitted with the form.
+
+**Avoid when…** the change takes effect immediately (use **Switch**), or one-of-N is required (use **RadioGroup**).
+
+```tsx
+<Checkbox defaultChecked label="Send me a copy" name="cc" />
+<Checkbox label="I agree to the terms" name="terms" required />
+```
+
+## Switch
+
+<Preview label="Switch states">
+  <SwitchDemo />
+</Preview>
+
+**Use when…** flipping the switch takes effect *right away* — "Dark mode", "Notifications", "Auto-save". Think of it as a physical light switch.
+
+**Avoid when…** the user has to submit to apply the change — that's a Checkbox.
+
+```tsx
+<Switch checked={dark} onCheckedChange={toggleDark} label="Dark mode" />
+```
+
+## RadioGroup
+
+<Preview label="RadioGroup">
+  <RadioGroupDemo />
+</Preview>
+
+**Use when…** the user picks exactly one option from 2-5 visible choices and you want them all on screen at once (subscription plans, payment method, delivery option).
+
+**Avoid when…** options ≥ 6 — the vertical real-estate swamps the form. Switch to Select. Also avoid for segmented control aesthetics — ToggleGroup looks better when options are short.
+
+```tsx
+<RadioGroup defaultValue="monthly" name="plan">
+  <RadioGroupItem value="monthly">Monthly</RadioGroupItem>
+  <RadioGroupItem value="yearly">Yearly — save 20%</RadioGroupItem>
+  <RadioGroupItem value="forever">Lifetime</RadioGroupItem>
+</RadioGroup>
+```
+
+## Select
+
+<Preview label="Select">
+  <SelectDemo />
+</Preview>
+
+**Use when…** options ≥ 6, or options are taxonomic / searchable (country, timezone). A Select collapses to a single control so the form scans as a list of one-liners.
+
+**Avoid when…** the user would benefit from seeing every option at a glance — use RadioGroup or ToggleGroup instead.
+
+```tsx
+<Select defaultValue="us" name="country">
+  <SelectTrigger>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="us">United States</SelectItem>
+    <SelectItem value="ca">Canada</SelectItem>
+    <SelectItem value="mx">Mexico</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## ToggleGroup
+
+<Preview label="ToggleGroup single + multiple">
+  <ToggleGroupDemo />
+</Preview>
+
+**Use when…** you need a compact segmented control — text alignment, view mode, time range (24h / 7d / 30d). Or for toolbar-style multi-toggles (Bold / Italic / Underline).
+
+**Avoid when…** items have long labels — they'll wrap and break the "segment" feel.
+
+```tsx
+<ToggleGroup type="single" defaultValue="day">
+  <ToggleGroupItem value="day">Day</ToggleGroupItem>
+  <ToggleGroupItem value="week">Week</ToggleGroupItem>
+  <ToggleGroupItem value="month">Month</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Side-by-side matrix
+
+| Trait                                     | Checkbox | Switch | Radio    | Select   | ToggleGroup |
+|-------------------------------------------|----------|--------|----------|----------|-------------|
+| Cardinality                               | 1-of-many| 1      | 1        | 1        | 1 or many   |
+| Immediate effect                          | no       | yes    | depends  | depends  | depends     |
+| Submitted with form                       | yes      | yes    | yes      | yes      | yes         |
+| Visible options at a glance               | yes      | —      | yes      | no       | yes         |
+| Good at N=2                               | yes      | yes    | yes      | ok       | yes         |
+| Good at N=5                               | yes      | —      | yes      | ok       | ok          |
+| Good at N=20                              | no       | —      | no       | yes      | no          |
+| Vertical space                            | 44 × N   | 44     | 44 × N   | 44       | 44          |
+| Typical use                               | opt-in   | toggle | plan     | country  | segmented   |
+| Native-element equivalent                 | `<input type=checkbox>` | `<input type=checkbox role=switch>` | `<input type=radio>` | `<select>` | none (custom) |
+
+## Accessibility implications
+
+- **Switch** carries `role="switch"` + `aria-checked`. Screen readers announce "on/off", not "checked/unchecked".
+- **Checkbox** is `role="checkbox"`. Announces "checked/unchecked".
+- **RadioGroup** is `role="radiogroup"` with each item `role="radio"`. Only one item is tabbable — arrow keys navigate.
+- **Select** uses `role="listbox"` / `role="option"`; screen readers announce position ("2 of 12").
+- **ToggleGroup type="single"** renders as `role="radiogroup"` + `role="radio"` with `aria-checked`. **type="multiple"** renders as `role="group"` with `role="button"` + `aria-pressed`.
+
+Pick by *behaviour*, not appearance. Misusing Switch as a form submission is confusing; misusing Checkbox for immediate effects makes users look for a Save button that doesn't exist.
