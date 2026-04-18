@@ -1,27 +1,72 @@
-import Link from "next/link";
+"use client";
+import NextLink from "next/link";
+import {
+  Badge,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Heading,
+  Stack,
+  Text,
+} from "@weiui/react";
 import { siteConfig } from "../../lib/site-config";
+
+const METRICS: Array<{ value: string; label: string }> = [
+  { value: "65+", label: "Components" },
+  { value: "AAA", label: "Contrast" },
+  { value: "3", label: "Layers" },
+  { value: "0", label: "JS required" },
+];
 
 export function Hero() {
   return (
     <section className="wui-landing-hero">
-      <span className="wui-landing-hero__badge">v{siteConfig.version} · Pre-release</span>
-      <h1 className="wui-display wui-landing-hero__title">
-        A design system that earns its place.
-      </h1>
-      <p className="wui-landing-hero__sub">
-        Three consumption layers. WCAG AAA enforcement. OKLCH tokens. Designer-friendly.
-      </p>
-      <div className="wui-landing-hero__cta">
-        <Link href="/docs/getting-started" className="wui-button wui-button--solid wui-button--lg">Get Started</Link>
-        <Link href="/docs/components" className="wui-button wui-button--outline wui-button--lg">Components</Link>
-        <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer" className="wui-button wui-button--ghost wui-button--lg">GitHub</a>
-      </div>
-      <div className="wui-landing-hero__metrics">
-        <div><strong>65+</strong><span>Components</span></div>
-        <div><strong>AAA</strong><span>Contrast</span></div>
-        <div><strong>3</strong><span>Layers</span></div>
-        <div><strong>0</strong><span>JS required</span></div>
-      </div>
+      <div className="wui-hero-ambient" aria-hidden="true" />
+      <Container maxWidth="72rem" className="wui-landing-hero__inner">
+        <Stack direction="column" gap={6} className="wui-landing-hero__content">
+          <Badge variant="soft" size="sm" className="wui-landing-hero__badge">
+            v{siteConfig.version} {"\u00B7"} Pre-release
+          </Badge>
+          <Heading level={1} className="wui-landing-hero__title">
+            A design system that earns its place.
+          </Heading>
+          <Text size="lg" color="muted" className="wui-landing-hero__sub">
+            Three consumption layers. WCAG AAA enforcement. OKLCH tokens. Designer-friendly.
+          </Text>
+          <Stack direction="row" gap={3} wrap className="wui-landing-hero__cta">
+            <Button asChild variant="solid" size="lg">
+              <NextLink href="/docs/getting-started">Get Started</NextLink>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <NextLink href="/docs/components">Components</NextLink>
+            </Button>
+            <Button asChild variant="ghost" size="lg">
+              <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+            </Button>
+          </Stack>
+          <Divider className="wui-landing-hero__metrics-divider" />
+          <Grid columns={4} gap={6} className="wui-landing-hero__metrics">
+            {METRICS.map((m) => (
+              <Stack key={m.label} direction="column" gap={1} className="wui-landing-hero__metric">
+                <Text
+                  as="span"
+                  size="xl"
+                  weight="semibold"
+                  className="wui-landing-hero__metric-value"
+                >
+                  {m.value}
+                </Text>
+                <Text as="span" size="xs" color="muted" className="wui-landing-hero__metric-label">
+                  {m.label}
+                </Text>
+              </Stack>
+            ))}
+          </Grid>
+        </Stack>
+      </Container>
     </section>
   );
 }

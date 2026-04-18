@@ -2,17 +2,26 @@
 
 import { useState } from "react";
 import {
-  Button,
-  Input,
-  Label,
   Avatar,
   AvatarFallback,
+  Badge,
+  Button,
   Card,
-  CardHeader,
   CardContent,
   CardFooter,
+  CardHeader,
   Chip,
-  Badge,
+  Container,
+  Field,
+  Heading,
+  Label,
+  Input,
+  Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Text,
 } from "@weiui/react";
 
 const DEMOS = [
@@ -28,116 +37,120 @@ export function LiveShowcase() {
   const [active, setActive] = useState<DemoId>("buttons");
 
   return (
-    <section className="wui-home-section wui-home-showcase">
-      <header className="wui-home-section__header">
-        <span className="wui-home-section__eyebrow">Live preview</span>
-        <h2 className="wui-home-section__title">Components, live — not screenshots.</h2>
-        <p className="wui-home-section__sub">
-          Everything below is rendered with the same tokens your app will use. Toggle the theme from the header to see dark mode in real time.
-        </p>
-      </header>
-
-      <div className="wui-home-showcase__tabs" role="tablist" aria-label="Component preview">
-        {DEMOS.map((d) => (
-          <button
-            key={d.id}
-            type="button"
-            role="tab"
-            id={`wui-showcase-tab-${d.id}`}
-            aria-selected={active === d.id}
-            aria-controls={`wui-showcase-panel-${d.id}`}
-            tabIndex={active === d.id ? 0 : -1}
-            onClick={() => setActive(d.id)}
-            onKeyDown={(e) => {
-              const idx = DEMOS.findIndex((x) => x.id === active);
-              const goto = (i: number) => {
-                const next = DEMOS[((i % DEMOS.length) + DEMOS.length) % DEMOS.length];
-                if (next) setActive(next.id);
-              };
-              if (e.key === "ArrowRight") {
-                e.preventDefault();
-                goto(idx + 1);
-              } else if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                goto(idx - 1);
-              } else if (e.key === "Home") {
-                e.preventDefault();
-                goto(0);
-              } else if (e.key === "End") {
-                e.preventDefault();
-                goto(DEMOS.length - 1);
-              }
-            }}
-            className="wui-home-showcase__tab"
-            data-active={active === d.id || undefined}
-          >
-            {d.label}
-          </button>
-        ))}
-      </div>
-
-      <div
-        className="wui-home-showcase__stage"
-        role="tabpanel"
-        id={`wui-showcase-panel-${active}`}
-        aria-labelledby={`wui-showcase-tab-${active}`}
-      >
-        {active === "buttons" && <ButtonDemo />}
-        {active === "form" && <FormDemo />}
-        {active === "card" && <CardDemo />}
-        {active === "chips" && <ChipDemo />}
-      </div>
-    </section>
+    <Container maxWidth="72rem" className="wui-home-section wui-home-showcase">
+      <Stack direction="column" gap={6}>
+        <Stack direction="column" gap={3} className="wui-home-section__header">
+          <Badge variant="soft" size="sm" className="wui-home-section__eyebrow">
+            Live preview
+          </Badge>
+          <Heading level={2} className="wui-home-section__title">
+            Components, live {"\u2014"} not screenshots.
+          </Heading>
+          <Text size="lg" color="muted" className="wui-home-section__sub">
+            Everything below is rendered with the same tokens your app will use. Toggle the theme
+            from the header to see dark mode in real time.
+          </Text>
+        </Stack>
+        <Tabs
+          value={active}
+          onValueChange={(v) => setActive(v as DemoId)}
+          className="wui-home-showcase"
+        >
+          <TabsList aria-label="Component preview">
+            {DEMOS.map((d) => (
+              <TabsTrigger key={d.id} value={d.id}>
+                {d.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value="buttons" className="wui-home-showcase__stage">
+            <ButtonDemo />
+          </TabsContent>
+          <TabsContent value="form" className="wui-home-showcase__stage">
+            <FormDemo />
+          </TabsContent>
+          <TabsContent value="card" className="wui-home-showcase__stage">
+            <CardDemo />
+          </TabsContent>
+          <TabsContent value="chips" className="wui-home-showcase__stage">
+            <ChipDemo />
+          </TabsContent>
+        </Tabs>
+      </Stack>
+    </Container>
   );
 }
 
 function ButtonDemo() {
   return (
-    <div className="wui-home-showcase__row">
+    <Stack direction="row" gap={3} wrap className="wui-home-showcase__row">
       <Button variant="solid">Solid</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="soft">Soft</Button>
-      <Button variant="solid" color="destructive">Delete</Button>
-      <Button variant="solid" loading>Loading…</Button>
-    </div>
+      <Button variant="solid" color="destructive">
+        Delete
+      </Button>
+      <Button variant="solid" loading>
+        Loading{"\u2026"}
+      </Button>
+    </Stack>
   );
 }
 
 function FormDemo() {
   return (
-    <div className="wui-home-showcase__form">
-      <div>
-        <Label htmlFor="wui-demo-email" className="wui-home-showcase__label">Email</Label>
+    <Stack direction="column" gap={3} className="wui-home-showcase__form">
+      <Field>
+        <Label htmlFor="wui-demo-email">Email</Label>
         <Input id="wui-demo-email" type="email" placeholder="ada@example.com" />
-      </div>
-      <div>
-        <Label htmlFor="wui-demo-pass" className="wui-home-showcase__label">Password</Label>
-        <Input id="wui-demo-pass" type="password" placeholder="••••••••" />
-      </div>
-      <Button variant="solid" type="button">Sign in</Button>
-    </div>
+      </Field>
+      <Field>
+        <Label htmlFor="wui-demo-pass">Password</Label>
+        <Input
+          id="wui-demo-pass"
+          type="password"
+          placeholder={"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
+        />
+      </Field>
+      <Button variant="solid" type="button">
+        Sign in
+      </Button>
+    </Stack>
   );
 }
 
 function CardDemo() {
   return (
-    <Card style={{ maxInlineSize: "360px" }}>
+    <Card className="wui-home-showcase__card">
       <CardHeader>
-        <Avatar>
-          <AvatarFallback>WU</AvatarFallback>
-        </Avatar>
-        <div>
-          <div style={{ fontWeight: "var(--wui-font-weight-semibold)" }}>WeiUI Shipped</div>
-          <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>v0.0.1 · 2 days ago</div>
-        </div>
+        <Stack direction="row" gap={3}>
+          <Avatar>
+            <AvatarFallback>WU</AvatarFallback>
+          </Avatar>
+          <Stack direction="column" gap={0}>
+            <Text as="span" weight="semibold">
+              WeiUI Shipped
+            </Text>
+            <Text as="span" size="xs" color="muted">
+              v0.0.1 {"\u00B7"} 2 days ago
+            </Text>
+          </Stack>
+        </Stack>
       </CardHeader>
       <CardContent>
-        Phase 0 foundations landed — new shadow, motion, elevation tokens and a polish recipe applied to 36 component CSS files.
+        <Text size="sm">
+          Phase 0 foundations landed {"\u2014"} new shadow, motion, elevation tokens and a polish
+          recipe applied to 36 component CSS files.
+        </Text>
       </CardContent>
       <CardFooter>
-        <Button variant="soft" size="sm">View</Button>
-        <Button variant="ghost" size="sm">Dismiss</Button>
+        <Button variant="soft" size="sm">
+          View
+        </Button>
+        <Button variant="ghost" size="sm">
+          Dismiss
+        </Button>
       </CardFooter>
     </Card>
   );
@@ -145,7 +158,7 @@ function CardDemo() {
 
 function ChipDemo() {
   return (
-    <div className="wui-home-showcase__row">
+    <Stack direction="row" gap={3} wrap className="wui-home-showcase__row">
       <Chip>Default</Chip>
       <Chip color="primary">Primary</Chip>
       <Chip color="success">Shipped</Chip>
@@ -153,7 +166,9 @@ function ChipDemo() {
       <Badge variant="solid">New</Badge>
       <Badge variant="soft">Beta</Badge>
       <Badge variant="outline">v0</Badge>
-      <Badge variant="solid" color="success">AAA</Badge>
-    </div>
+      <Badge variant="solid" color="success">
+        AAA
+      </Badge>
+    </Stack>
   );
 }
