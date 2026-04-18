@@ -89,7 +89,7 @@ export {
   type MenuItemProps, type MenuSeparatorProps,
   type MenuCheckboxItemProps, type MenuRadioItemProps, type MenuLabelProps,
 } from "./components/Menu";
-export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, type BreadcrumbProps, type BreadcrumbItemProps } from "./components/Breadcrumb";
+export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbEllipsis, type BreadcrumbProps, type BreadcrumbItemProps, type BreadcrumbEllipsisProps } from "./components/Breadcrumb";
 export { Link, type LinkProps } from "./components/Link";
 
 // New components

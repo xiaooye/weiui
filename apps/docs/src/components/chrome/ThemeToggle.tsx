@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@weiui/react";
 import { type Theme, THEME_STORAGE_KEY, resolveTheme } from "../../lib/theme";
 
 export function ThemeToggle() {
@@ -41,17 +42,23 @@ export function ThemeToggle() {
     setTheme((t) => (t === "light" ? "dark" : t === "dark" ? "system" : "light"));
 
   const label = theme === "light" ? "Light" : theme === "dark" ? "Dark" : "System";
-  const icon = theme === "light" ? "☀" : theme === "dark" ? "☾" : "⌘";
+  const icon = theme === "light" ? "\u2600" : theme === "dark" ? "\u263E" : "\u2318";
 
   return (
-    <button
-      type="button"
-      onClick={cycle}
-      aria-label={`Theme: ${label}. Click to change.`}
-      className="wui-theme-toggle"
-      suppressHydrationWarning
-    >
-      <span aria-hidden="true">{icon}</span>
-    </button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
+          onClick={cycle}
+          aria-label={`Theme: ${label}. Click to change.`}
+          suppressHydrationWarning
+        >
+          <span aria-hidden="true">{icon}</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Theme: {label}</TooltipContent>
+    </Tooltip>
   );
 }

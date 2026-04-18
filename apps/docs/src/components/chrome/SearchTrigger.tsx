@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { Button, Kbd, Text } from "@weiui/react";
 
 const CommandPalette = dynamic(
   () => import("./CommandPalette").then((m) => m.CommandPalette),
@@ -24,15 +25,18 @@ export function SearchTrigger() {
 
   return (
     <>
-      <button
-        type="button"
-        className="wui-docs-search-trigger"
+      <Button
+        variant="outline"
+        size="sm"
         onClick={() => setOpen(true)}
         aria-label="Search docs (Cmd+K)"
+        className="wui-docs-search-trigger"
+        endIcon={<Kbd>{"\u2318K"}</Kbd>}
       >
-        <span>Search…</span>
-        <kbd>⌘K</kbd>
-      </button>
+        <Text as="span" size="sm" color="muted">
+          Search
+        </Text>
+      </Button>
       <CommandPalette open={open} onClose={() => setOpen(false)} />
     </>
   );

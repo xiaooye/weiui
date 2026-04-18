@@ -1,7 +1,17 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Drawer, DrawerContent, DrawerHeader } from "@weiui/react";
+import {
+  Button,
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  Heading,
+  Stack,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@weiui/react";
 import { Sidebar } from "./Sidebar";
 import { siteConfig } from "../../lib/site-config";
 
@@ -10,27 +20,37 @@ export function MobileNav() {
   const close = () => setOpen(false);
   return (
     <>
-      <button
-        type="button"
-        className="wui-docs-header__menu"
-        aria-label="Open navigation"
-        aria-expanded={open}
-        onClick={() => setOpen(true)}
-      >
-        <span aria-hidden="true">☰</span>
-      </button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            aria-label="Open navigation"
+            aria-expanded={open}
+            onClick={() => setOpen(true)}
+            className="wui-docs-app-bar__menu"
+          >
+            <span aria-hidden="true">{"\u2630"}</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Menu</TooltipContent>
+      </Tooltip>
       <Drawer open={open} onOpenChange={setOpen} side="left">
         <DrawerContent aria-label="Navigation" className="wui-docs-mobile-nav">
           <DrawerHeader>
-            <span className="wui-docs-mobile-nav__title">Navigation</span>
-            <button
-              type="button"
-              className="wui-docs-mobile-nav__close"
+            <Heading level={2} className="wui-docs-mobile-nav__title">
+              Navigation
+            </Heading>
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
               aria-label="Close navigation"
               onClick={close}
             >
-              <span aria-hidden="true">×</span>
-            </button>
+              <span aria-hidden="true">{"\u00D7"}</span>
+            </Button>
           </DrawerHeader>
           <div
             className="wui-docs-mobile-nav__body"
@@ -38,13 +58,18 @@ export function MobileNav() {
               if ((e.target as HTMLElement).closest("a")) close();
             }}
           >
-            <nav className="wui-docs-mobile-nav__primary" aria-label="Primary">
+            <Stack direction="column" gap={1} className="wui-docs-mobile-nav__primary">
               {siteConfig.primaryNav.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
+                <Button
+                  key={item.href}
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                >
+                  <Link href={item.href}>{item.label}</Link>
+                </Button>
               ))}
-            </nav>
+            </Stack>
             <Sidebar />
           </div>
         </DrawerContent>
