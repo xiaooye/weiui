@@ -1,10 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { DatePicker } from "@weiui/react";
+
+function startOfDay(d: Date): Date {
+  const copy = new Date(d);
+  copy.setHours(0, 0, 0, 0);
+  return copy;
+}
+
+function addDays(d: Date, n: number): Date {
+  const copy = new Date(d);
+  copy.setDate(copy.getDate() + n);
+  return copy;
+}
 
 export function DatePickerDemo() {
   const [date, setDate] = useState<Date | undefined>();
+
+  // Only allow business days in the next 30 days.
+  const { minDate, maxDate } = useMemo(() => {
+    const today = startOfDay(new Date());
+    return { minDate: today, maxDate: addDays(today, 30) };
+  }, []);
+
+  const isWeekend = (d: Date) => d.getDay() === 0 || d.getDay() === 6;
 
   return (
     <div
@@ -15,7 +35,15 @@ export function DatePickerDemo() {
         inlineSize: "280px",
       }}
     >
-      <DatePicker value={date} onChange={setDate} placeholder="Pick a date" />
+      <DatePicker
+        value={date}
+        onChange={setDate}
+        placeholder="Pick a business day"
+        label="Appointment date"
+        minDate={minDate}
+        maxDate={maxDate}
+        isDateDisabled={isWeekend}
+      />
       <p
         style={{
           margin: 0,
@@ -24,8 +52,8 @@ export function DatePickerDemo() {
         }}
       >
         {date
-          ? `Selected: ${date.toLocaleDateString()}`
-          : "Click the input to open the calendar."}
+          ? `Selected: ${date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}`
+          : "Next 30 days. Weekends disabled. Click to open."}
       </p>
     </div>
   );
