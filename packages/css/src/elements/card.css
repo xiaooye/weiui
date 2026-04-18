@@ -20,6 +20,16 @@
     .wui-card__header { flex-direction: column; align-items: flex-start; }
   }
 
+  .wui-card--outlined {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  .wui-card--filled {
+    background-color: var(--wui-color-muted);
+    border-color: transparent;
+    box-shadow: none;
+  }
+
   .wui-card--interactive { cursor: pointer; }
 
   @media (prefers-reduced-motion: no-preference) {

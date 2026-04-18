@@ -85,3 +85,48 @@ describe("Card compound usage", () => {
     expect(screen.getByTestId("footer")).toBeInTheDocument();
   });
 });
+
+// E.12 variant + asChild
+describe("Card variants", () => {
+  it("does not apply variant class for default elevated", () => {
+    render(<Card>x</Card>);
+    expect(screen.getByText("x").className).not.toContain("wui-card--elevated");
+  });
+
+  it("applies outlined variant class", () => {
+    render(<Card variant="outlined">x</Card>);
+    expect(screen.getByText("x").className).toContain("wui-card--outlined");
+  });
+
+  it("applies filled variant class", () => {
+    render(<Card variant="filled">x</Card>);
+    expect(screen.getByText("x").className).toContain("wui-card--filled");
+  });
+});
+
+describe("Card asChild", () => {
+  it("renders as the child element when asChild is true", () => {
+    render(
+      <Card asChild>
+        <a href="/path" data-testid="link">Click me</a>
+      </Card>,
+    );
+    const link = screen.getByTestId("link");
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("href", "/path");
+    expect(link.className).toContain("wui-card");
+  });
+
+  it("merges child className with card classes", () => {
+    render(
+      <Card asChild className="extra" variant="outlined">
+        <a href="/" className="child-class" data-testid="link">Link</a>
+      </Card>,
+    );
+    const link = screen.getByTestId("link");
+    expect(link.className).toContain("wui-card");
+    expect(link.className).toContain("wui-card--outlined");
+    expect(link.className).toContain("extra");
+    expect(link.className).toContain("child-class");
+  });
+});
