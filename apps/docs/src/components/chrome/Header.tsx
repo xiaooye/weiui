@@ -85,7 +85,7 @@ export function Header() {
               className="wui-docs-app-bar__github"
             >
               <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">
-                <span aria-hidden="true" style={{ fontSize: "1.1em" }}>
+                <span aria-hidden="true" className="wui-docs-app-bar__github-glyph">
                   {"\u25EF"}
                 </span>
                 <span className="wui-docs-app-bar__github-label">GitHub</span>

@@ -39,6 +39,9 @@
   .wui-docs-app-bar__divider {
     block-size: 20px;
   }
+  .wui-docs-app-bar__github-glyph {
+    font-size: 1.1em;
+  }
   .wui-docs-app-bar__github-label {
     position: absolute;
     inline-size: 1px;
@@ -409,6 +412,36 @@
 
   .wui-docs-edit-link {
     margin-block-start: var(--wui-spacing-8);
+  }
+
+  .wui-not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 70vh;
+    padding-inline: var(--wui-spacing-4);
+  }
+  .wui-not-found__stack {
+    align-items: center;
+    text-align: center;
+    max-inline-size: 42rem;
+  }
+  .wui-not-found__code {
+    font-family: var(--wui-font-family-display);
+    font-size: var(--wui-font-size-5xl);
+    line-height: 1;
+  }
+  .wui-not-found__body {
+    align-items: center;
+  }
+  .wui-not-found__title {
+    font-family: var(--wui-font-family-display);
+    font-size: var(--wui-font-size-4xl);
+    line-height: 1.1;
+    margin: 0;
+  }
+  .wui-not-found__actions {
+    justify-content: center;
   }
 
   /* Pager — Grid+Card stack (styled primitives) */

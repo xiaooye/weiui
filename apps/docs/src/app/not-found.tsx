@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+import NextLink from "next/link";
+import { Button, Heading, Stack, Text } from "@weiui/react";
 import { Header } from "../components/chrome/Header";
 import { Footer } from "../components/landing/Footer";
 
@@ -6,75 +8,38 @@ export default function NotFound() {
   return (
     <>
       <Header />
-      <main
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "var(--wui-spacing-6)",
-          minBlockSize: "70vh",
-          paddingInline: "var(--wui-spacing-4)",
-          textAlign: "center",
-        }}
-      >
-        <span
-          aria-hidden="true"
-          style={{
-            fontFamily: "var(--wui-font-family-display)",
-            fontSize: "var(--wui-font-size-5xl)",
-            color: "var(--wui-color-muted-foreground)",
-            lineHeight: 1,
-          }}
-        >
-          404
-        </span>
-        <div style={{ maxInlineSize: "42rem" }}>
-          <h1
-            className="wui-display"
-            style={{
-              fontSize: "var(--wui-font-size-4xl)",
-              marginBlockEnd: "var(--wui-spacing-3)",
-              lineHeight: 1.1,
-            }}
+      <main className="wui-not-found">
+        <Stack direction="column" gap={6} className="wui-not-found__stack">
+          <Text
+            as="span"
+            aria-hidden="true"
+            size="xl"
+            color="muted"
+            className="wui-not-found__code"
           >
-            Page not found.
-          </h1>
-          <p
-            style={{
-              color: "var(--wui-color-muted-foreground)",
-              fontSize: "var(--wui-font-size-lg)",
-              margin: 0,
-            }}
-          >
-            The page you were looking for doesn&apos;t exist, or has moved. Try the docs
-            index or one of the featured components below.
-          </p>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "var(--wui-spacing-3)",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <Link href="/" className="wui-button wui-button--solid wui-button--lg">
-            Back to home
-          </Link>
-          <Link
-            href="/docs/getting-started"
-            className="wui-button wui-button--outline wui-button--lg"
-          >
-            Getting started
-          </Link>
-          <Link
-            href="/docs/components"
-            className="wui-button wui-button--ghost wui-button--lg"
-          >
-            Components
-          </Link>
-        </div>
+            404
+          </Text>
+          <Stack direction="column" gap={3} className="wui-not-found__body">
+            <Heading level={1} className="wui-not-found__title">
+              Page not found.
+            </Heading>
+            <Text size="lg" color="muted">
+              The page you were looking for doesn&apos;t exist, or has moved. Try the docs
+              index or one of the featured components below.
+            </Text>
+          </Stack>
+          <Stack direction="row" gap={3} wrap className="wui-not-found__actions">
+            <Button asChild variant="solid" size="lg">
+              <NextLink href="/">Back to home</NextLink>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <NextLink href="/docs/getting-started">Getting started</NextLink>
+            </Button>
+            <Button asChild variant="ghost" size="lg">
+              <NextLink href="/docs/components">Components</NextLink>
+            </Button>
+          </Stack>
+        </Stack>
       </main>
       <Footer />
     </>
