@@ -43,12 +43,12 @@
 
 | Wave | Components | P0 gaps | P1 gaps | P2 gaps |
 |------|------------|---------|---------|---------|
-| 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
+| 5a Input family | 7 | 0 ✅ shipped | 6 (29 shipped in Wave C) | 11 |
 | 5b Overlay | 7 | 0 ✅ shipped | 12 (19 shipped in Phase 6a) | 9 |
 | 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
-| 5d Advanced | 9 | 0 ✅ shipped | 54 | 16 |
+| 5d Advanced | 9 | 0 ✅ shipped | 29 (25 shipped in Wave C) | 16 |
 | 5e Form + display | 16 | 0 ✅ shipped | 38 | 30 |
-| **Total** | **51** | **0** | **197** | **89** |
+| **Total** | **51** | **0** | **143** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
@@ -69,13 +69,13 @@
 | `invalid` → `aria-invalid` + `data-invalid` | ✅ | ✅ | — | — |
 | Size scale (sm/md/lg) | ✅ | ✅ | Add `size` variant | ✅ shipped |
 | Start/end icon or addon slots | ✅ | ✅ | Add `startAddon` / `endAddon` slots | ✅ shipped |
-| Clearable (clear button) | ❌ | ✅ | Add `clearable` + clear button | **P1** |
+| Clearable (clear button) | ✅ | ✅ | Add `clearable` + clear button | ✅ shipped |
 | Password variant (show/hide toggle) | ❌ | ✅ | Add type=password with reveal | **P1** |
 | Search variant (search icon + clear) | ❌ | ✅ | Preset variant on Input | **P1** |
-| Character count / maxLength helper | ❌ | ✅ | Add `showCount` prop | **P1** |
-| Prefix/suffix text (e.g. "https://") | ❌ | ✅ | Covered by addon slots | **P1** |
+| Character count / maxLength helper | ✅ | ✅ | Add `showCount` prop | ✅ shipped |
+| Prefix/suffix text (e.g. "https://") | ✅ | ✅ | Covered by addon slots | ✅ shipped |
 | Readonly styling hook | ⚠️ via native | ✅ explicit | Add `data-readonly` styling | **P2** |
-| Composition inside Field with label/desc/error wiring | ⚠️ manual | ✅ integrated | Auto-wire aria-describedby when inside Field | **P1** |
+| Composition inside Field with label/desc/error wiring | ✅ | ✅ integrated | Auto-wire aria-describedby when inside Field | ✅ shipped |
 
 **Notes:** The current Input is a bare input wrapper. Size variants and icon/addon composition are baseline expectations for a design system and block form polish across the library. Password/Search are "variants of Input" per the plan — ship as composition primitives on top of a fleshed-out Input rather than separate components.
 
@@ -89,11 +89,11 @@
 | Forwarded ref, native textarea attrs | ✅ | ✅ | — | — |
 | `invalid` → `aria-invalid` | ✅ | ✅ | — | — |
 | Size variant | ✅ | ✅ | Add size prop | ✅ shipped |
-| Autosize / auto-grow to content | ❌ | ✅ | Add `autosize` with optional min/max rows | **P1** |
-| Character counter | ❌ | ✅ | Add `showCount` + max length | **P1** |
+| Autosize / auto-grow to content | ✅ | ✅ | Add `autosize` with optional min/max rows | ✅ shipped |
+| Character counter | ✅ | ✅ | Add `showCount` + max length | ✅ shipped |
 | Readonly styling hook | ⚠️ via native | ✅ explicit | Add `data-readonly` | **P2** |
 | Resize control (resize: both/vertical/none) | ⚠️ via style | ✅ prop | Add `resize` prop | **P2** |
-| Field integration (aria-describedby wire) | ⚠️ manual | ✅ | Wire from FieldContext | **P1** |
+| Field integration (aria-describedby wire) | ✅ | ✅ | Wire from FieldContext | ✅ shipped |
 
 **Notes:** Autosize is the headline P1 — without it, any form requiring comments or descriptions feels clumsy. Not P0 because consumers can fall back to the native behaviour.
 
@@ -108,11 +108,11 @@
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
 | Arrow-up/down increment/decrement | ✅ | ✅ | — | — |
 | Stepper buttons | ✅ | ✅ | — | — |
-| PageUp/PageDown larger step | ❌ | ✅ | Add larger step on PageUp/Down | **P1** |
-| Home/End → min/max | ❌ | ✅ | Add Home/End | **P1** |
+| PageUp/PageDown larger step | ✅ | ✅ | Add larger step on PageUp/Down | ✅ shipped |
+| Home/End → min/max | ✅ | ✅ | Add Home/End | ✅ shipped |
 | Mouse-wheel increment | ❌ | ✅ | Add wheel handler | **P2** |
 | Locale-aware formatting (thousands, decimals) | ✅ | ✅ Intl.NumberFormat | Add `formatOptions` via Intl | ✅ shipped |
-| Prefix / suffix (currency, %) | ❌ | ✅ | Add `formatOptions.style` support | **P1** |
+| Prefix / suffix (currency, %) | ✅ | ✅ | Add `formatOptions.style` support | ✅ shipped |
 | Parse partial/invalid input without clobbering | ⚠️ drops NaN silently | ✅ | Preserve intermediate typing state | **P1** |
 | `aria-valuetext` for humanised value | ❌ | ✅ | Expose aria-valuetext | **P1** |
 | Proper role + labeling (spinbutton on input) | ✅ | ✅ explicit `role="spinbutton"` | Wire spinbutton + aria-valuenow | ✅ shipped |
@@ -131,9 +131,9 @@
 | Paste-to-fill all slots | ✅ | ✅ | — | — |
 | Backspace traversal | ✅ | ✅ | — | — |
 | ArrowLeft / ArrowRight between slots | ✅ | ✅ | Add arrow navigation | ✅ shipped |
-| Pattern constraint (numeric / alphanumeric) | ⚠️ regex fixed to `[0-9a-zA-Z]` | ✅ configurable | Add `pattern` prop | **P1** |
-| Group separator (e.g. 3-3 split) | ❌ | ✅ | Add `groups` prop | **P1** |
-| Auto-submit on complete | ❌ | ✅ | Add `onComplete` callback | **P1** |
+| Pattern constraint (numeric / alphanumeric) | ✅ | ✅ configurable | Add `pattern` prop | ✅ shipped |
+| Group separator (e.g. 3-3 split) | ✅ | ✅ | Add `groups` prop | ✅ shipped |
+| Auto-submit on complete | ✅ | ✅ | Add `onComplete` callback | ✅ shipped |
 | Autocomplete="one-time-code" | ✅ | ✅ | Add autoComplete attr | ✅ shipped |
 | Mask mode (password-style) | ❌ | ✅ | Add `mask` prop | **P2** |
 | Disabled all slots | ✅ | ✅ | — | — |
@@ -151,16 +151,16 @@
 | ArrowUp/ArrowDown + Enter select | ✅ | ✅ | — | — |
 | Escape to close | ✅ | ✅ | — | — |
 | Highlighted index state + `aria-activedescendant` | ✅ | ✅ | — | — |
-| Controlled open/close | ❌ (input focus auto-opens) | ✅ | Add `open`/`onOpenChange` | **P1** |
-| Controlled input value | ❌ | ✅ | Expose `inputValue` control | **P1** |
+| Controlled open/close | ✅ | ✅ | Add `open`/`onOpenChange` | ✅ shipped |
+| Controlled input value | ✅ | ✅ | Expose `inputValue` control | ✅ shipped |
 | Async options / loading state | ✅ | ✅ | Add `loading` prop + pending slot | ✅ shipped |
-| Custom filter function | ❌ (substring only) | ✅ | Add `filter` prop | **P1** |
-| Empty state slot | ⚠️ string only | ✅ node | Accept ReactNode for emptyText | **P1** |
-| Render-prop for option | ❌ | ✅ | Add `renderOption` | **P1** |
-| Freeform value allowed | ⚠️ implicit | ✅ explicit `allowsCustomValue` | Add prop | **P1** |
+| Custom filter function | ✅ | ✅ | Add `filter` prop | ✅ shipped |
+| Empty state slot | ✅ | ✅ node | Accept ReactNode for emptyText | ✅ shipped |
+| Render-prop for option | ✅ | ✅ | Add `renderOption` | ✅ shipped |
+| Freeform value allowed | ✅ | ✅ explicit `allowsCustomValue` | Add prop | ✅ shipped |
 | Floating placement / collision handling | ✅ | ✅ via Floating UI | Use `@floating-ui/react` | ✅ shipped |
 | Virtualised list for large option sets | ❌ | ✅ | Optional virtualisation slot | **P2** |
-| `clearable` | ❌ | ✅ | Add clear button | **P1** |
+| `clearable` | ✅ | ✅ | Add clear button | ✅ shipped |
 
 **Notes:** Async loading is P0 — most real-world autocompletes hit an API and the user needs to see a pending indicator. Floating placement is also P0 because the raw absolute-positioned dropdown breaks inside scroll containers and modals. Consider sharing floating logic with MultiSelect and DatePicker to keep the hazard contained.
 
@@ -176,14 +176,14 @@
 | ArrowUp/ArrowDown + Enter/Space toggle | ✅ | ✅ | — | — |
 | `aria-multiselectable` | ✅ | ✅ | — | — |
 | Search / type-ahead filter | ✅ | ✅ | Add filter input inside trigger | ✅ shipped |
-| Max selectable limit | ❌ | ✅ | Add `max` prop | **P1** |
-| Creatable (add new values) | ❌ | ✅ | Add `creatable` + `onCreate` | **P1** |
+| Max selectable limit | ✅ | ✅ | Add `max` prop | ✅ shipped |
+| Creatable (add new values) | ✅ | ✅ | Add `creatable` + `onCreate` | ✅ shipped |
 | Async loading | ❌ | ✅ | Add `loading` prop | **P1** |
-| Select all / clear all | ❌ | ✅ | Add controls | **P1** |
+| Select all / clear all | ✅ | ✅ | Add controls | ✅ shipped |
 | Floating placement | ✅ | ✅ | Use Floating UI | ✅ shipped |
 | Disabled-option respect | ❌ (no `disabled` on option type) | ✅ | Extend option type | **P1** |
-| Grouped options | ❌ | ✅ | Add `group` field to option type | **P1** |
-| Backspace removes last tag | ❌ | ✅ | Handle Backspace on trigger | **P1** |
+| Grouped options | ✅ | ✅ | Add `group` field to option type | ✅ shipped |
+| Backspace removes last tag | ✅ | ✅ | Handle Backspace on trigger | ✅ shipped |
 | Render custom tag / option | ❌ | ✅ | Add render props | **P2** |
 
 **Notes:** Typeahead filter is P0 — selecting from 50+ options without a search field is a usability failure. Floating placement same as AutoComplete. The current "click to open a static list" flow scales poorly.
@@ -201,14 +201,14 @@
 | `multiple` | ✅ | ✅ | — | — |
 | `maxSize` filter | ✅ | ✅ with error callback | Expose `onError` / validation errors | ✅ shipped |
 | File list w/ remove button | ✅ | ✅ | — | — |
-| Upload progress per file | ❌ | ✅ | Add progress slot / prop | **P1** |
+| Upload progress per file | ✅ | ✅ | Add progress slot / prop | ✅ shipped |
 | Resume / retry on failure | ❌ | ✅ | Out of scope for v1 | **P2** |
 | Chunked / resumable upload | ❌ | ✅ | Out of scope for v1 | **P2** |
 | Cloud providers (S3, Dropbox) | ❌ | ✅ | Out of scope for v1 | **P2** |
-| Preview thumbnails for images | ❌ | ✅ | Add thumbnail slot | **P1** |
-| File-count limit | ❌ | ✅ | Add `maxFiles` | **P1** |
+| Preview thumbnails for images | ✅ | ✅ | Add thumbnail slot | ✅ shipped |
+| File-count limit | ✅ | ✅ | Add `maxFiles` | ✅ shipped |
 | File-type validation error UI | ✅ | ✅ | Expose `onError` + messaging | ✅ shipped |
-| Controlled files list | ❌ | ✅ | Add `value`/`onChange` pattern | **P1** |
+| Controlled files list | ✅ | ✅ | Add `value`/`onChange` pattern | ✅ shipped |
 | Paste files from clipboard | ❌ | ✅ | Add paste listener | **P2** |
 
 **Notes:** Silent rejection of oversized / wrong-type files is the biggest hazard — users drag a 30 MB PDF and nothing happens. Surface a `onError(reason, file)` callback. Upload progress is P1 because many consumers use their own upload pipeline; WeiUI should make rendering progress easy, not own the transport. Don't try to ship chunked uploads — that's an Uppy-level concern.
@@ -666,17 +666,17 @@
 | Min / max date | ✅ | ✅ | — | — |
 | Locale-aware display | ✅ | ✅ Intl | Pass locale prop, use Intl | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ controlled-only (`value`/`onChange`) | ✅ | Add `defaultValue` pattern | **P1** |
-| Typed input (DateInput-style segmented input) | ❌ | ✅ | Add segmented input variant | **P1** |
-| Range mode (start + end) | ❌ | ✅ | Add DateRangePicker | **P1** |
+| Typed input (DateInput-style segmented input) | ✅ | ✅ | Add segmented input variant | ✅ shipped |
+| Range mode (start + end) | ✅ | ✅ | Add DateRangePicker | ✅ shipped |
 | Time picker integration | ❌ | ✅ | Add time fields | **P2** |
-| Preset shortcuts (Today, Last 7 days) | ❌ | ✅ | Add `presets` slot | **P1** |
-| Disable specific dates (`isDateDisabled`) | ❌ (only min/max) | ✅ | Add predicate prop | **P1** |
-| Clearable | ❌ | ✅ | Add clear button | **P1** |
+| Preset shortcuts (Today, Last 7 days) | ✅ | ✅ | Add `presets` slot | ✅ shipped |
+| Disable specific dates (`isDateDisabled`) | ✅ | ✅ | Add predicate prop | ✅ shipped |
+| Clearable | ✅ | ✅ | Add clear button | ✅ shipped |
 | Floating placement for popover | ✅ | ✅ | Use Floating UI | ✅ shipped |
-| Form name + submit value | ❌ | ✅ | Add hidden input with ISO value | **P1** |
+| Form name + submit value | ✅ | ✅ | Add hidden input with ISO value | ✅ shipped |
 | `aria-label` on trigger | ✅ | ✅ | — | — |
 | Week numbers | ❌ | ✅ | Add `showWeekNumbers` | **P2** |
-| Year / month dropdown nav | ❌ (only prev/next) | ✅ | Add month+year select | **P1** |
+| Year / month dropdown nav | ✅ | ✅ | Add month+year select | ✅ shipped |
 
 **Notes:** Locale-aware display is P0 — "Apr 16, 2026" is fine for US users and broken for everyone else. Floating placement is P0 for the same reason as other popovers. Range mode and typed input are the biggest roadmap items.
 
@@ -694,13 +694,13 @@
 | Grid keyboard nav (ArrowKeys + Home/End + PgUp/PgDn) | ✅ | ✅ | Add grid a11y | ✅ shipped |
 | Locale-aware weekday names | ✅ | ✅ | Use Intl.DateTimeFormat | ✅ shipped |
 | First day of week config | ✅ | ✅ | Add `firstDayOfWeek` | ✅ shipped |
-| Year / month dropdowns | ❌ | ✅ | Add nav dropdowns | **P1** |
+| Year / month dropdowns | ✅ | ✅ | Add nav dropdowns | ✅ shipped |
 | Multi-month view | ❌ | ✅ | Add `numberOfMonths` | **P2** |
-| Date range mode | ❌ | ✅ | Add range selection | **P1** |
-| Disable dates predicate | ⚠️ only min/max | ✅ | Add `isDateDisabled` | **P1** |
-| Custom day render | ❌ | ✅ | Add `renderDay` | **P1** |
-| RTL support | ⚠️ via logical props but untested | ✅ | Verify with RTL tests | **P1** |
-| Focus visible day on mount | ⚠️ tabindex=0 on selected only | ✅ | Focus today if no selection | **P1** |
+| Date range mode | ✅ | ✅ | Add range selection | ✅ shipped |
+| Disable dates predicate | ✅ | ✅ | Add `isDateDisabled` | ✅ shipped |
+| Custom day render | ✅ | ✅ | Add `renderDay` | ✅ shipped |
+| RTL support | ✅ | ✅ | Verify with RTL tests | ✅ shipped |
+| Focus visible day on mount | ✅ | ✅ | Focus today if no selection | ✅ shipped |
 
 **Notes:** Three P0s, all about internationalisation and a11y baseline. Grid keyboard nav (up/down jumps a week, left/right jumps a day) is WAI-ARIA baseline. Locale and first-day-of-week are baseline for anyone outside the US. These tend to land together.
 
@@ -771,13 +771,13 @@
 | Optional swatches row | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
 | Saturation / value area (2D canvas) | ✅ | ✅ | Add SV area | ✅ shipped |
-| Alpha channel | ❌ | ✅ | Add alpha slider | **P1** |
-| Color format toggle (hex/rgb/hsl/oklch) | ❌ | ✅ | Add format prop | **P1** |
+| Alpha channel | ✅ | ✅ | Add alpha slider | ✅ shipped |
+| Color format toggle (hex/rgb/hsl/oklch) | ✅ | ✅ | Add format prop | ✅ shipped |
 | Eyedropper (EyeDropper API) | ❌ | ✅ Mantine | Add eyedropper button | **P2** |
 | Preset palette integration | ✅ swatches | ✅ | — | — |
-| Inline vs popover presentation | ❌ (inline only) | ✅ | Add popover variant | **P1** |
+| Inline vs popover presentation | ✅ | ✅ | Add popover variant | ✅ shipped |
 | Copy hex to clipboard | ❌ | ✅ | Add copy button | **P2** |
-| Label-announced color changes | ⚠️ aria-label on hue but not on update | ✅ | Announce via live region | **P1** |
+| Label-announced color changes | ✅ | ✅ | Announce via live region | ✅ shipped |
 
 **Notes:** Saturation/value area is P0 — a color picker that only lets you adjust hue isn't a usable color picker, it's a hue picker. Consider delegating to react-colorful for the SV area and layering our token-themed chrome on top.
 
@@ -793,15 +793,15 @@
 | Pointer drag | ✅ | ✅ | — | — |
 | Clamp to min/max + step | ✅ | ✅ | — | — |
 | `aria-valuenow/valuemin/valuemax` on thumb | ✅ | ✅ | — | — |
-| Range mode (two thumbs) | ❌ | ✅ | Add range variant | **P1** |
-| Vertical orientation | ❌ | ✅ | Add `orientation` | **P1** |
-| Step marks / ticks | ❌ | ✅ | Add `marks` prop | **P1** |
+| Range mode (two thumbs) | ✅ | ✅ | Add range variant | ✅ shipped |
+| Vertical orientation | ✅ | ✅ | Add `orientation` | ✅ shipped |
+| Step marks / ticks | ✅ | ✅ | Add `marks` prop | ✅ shipped |
 | Inverted direction (RTL) | ⚠️ CSS logical props used | ✅ | Verify RTL end-to-end | **P1** |
-| Tooltip on drag | ❌ | ✅ | Add tooltip slot | **P1** |
-| PageUp/PageDown large step | ❌ | ✅ | Add | **P1** |
-| `aria-valuetext` for humanised | ❌ | ✅ | Add | **P1** |
-| Custom formatter for value display | ❌ | ✅ | Add `formatValue` | **P2** |
-| Form name / submit value | ❌ | ✅ | Add hidden input | **P1** |
+| Tooltip on drag | ✅ | ✅ | Add tooltip slot | ✅ shipped |
+| PageUp/PageDown large step | ✅ | ✅ | Add | ✅ shipped |
+| `aria-valuetext` for humanised | ✅ | ✅ | Add | ✅ shipped |
+| Custom formatter for value display | ✅ | ✅ | Add `formatValue` | ✅ shipped (P2) |
+| Form name / submit value | ✅ | ✅ | Add hidden input | ✅ shipped |
 
 **Notes:** No P0s — the single-thumb slider is correct and a11y-clean. Range + vertical + marks are the top feature adds.
 
@@ -818,9 +818,9 @@
 | Read-only + disabled | ✅ | ✅ | — | — |
 | `role=radiogroup/radio` with aria-checked | ✅ | ✅ | — | — |
 | Half-star support | ✅ | ✅ | Add `allowHalf` | ✅ shipped |
-| Custom icon | ❌ (star only) | ✅ | Add `icon` prop | **P1** |
+| Custom icon | ✅ | ✅ | Add `icon` prop | ✅ shipped |
 | Hover preview | ❌ | ✅ | Add hover state | **P1** |
-| Clear on click-again | ❌ | ✅ | Add `allowClear` | **P1** |
+| Clear on click-again | ✅ | ✅ | Add `allowClear` | ✅ shipped |
 | Character variant (emoji / text) | ❌ | ✅ | Via `icon` | **P2** |
 | Tooltip per star | ❌ | ✅ | Add `tooltips` prop | **P2** |
 

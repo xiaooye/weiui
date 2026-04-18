@@ -37,7 +37,7 @@ export function DatePickerDemo() {
     >
       <DatePicker
         value={date}
-        onChange={setDate}
+        onChange={(d) => setDate(d ?? undefined)}
         placeholder="Pick a business day"
         label="Appointment date"
         minDate={minDate}
