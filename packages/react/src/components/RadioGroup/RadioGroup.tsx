@@ -31,11 +31,17 @@ function useRadioGroupContext() {
 }
 
 export interface RadioGroupProps extends HTMLAttributes<HTMLDivElement> {
+  /** Shared `name` attribute for every radio input in the group. Auto-generated when omitted. */
   name?: string;
+  /** Controlled selected value. Pair with `onValueChange`. */
   value?: string;
+  /** Uncontrolled initial selected value. */
   defaultValue?: string;
+  /** Called when the selected value changes. */
   onValueChange?: (value: string) => void;
+  /** `RadioGroupItem` children composing the options. */
   children: ReactNode;
+  /** Layout direction of the items. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
 }
 
@@ -148,7 +154,9 @@ RadioGroup.displayName = "RadioGroup";
 
 export interface RadioGroupItemProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "name" | "checked" | "onChange" | "size"> {
+  /** Value submitted/reported when this radio is selected. */
   value: string;
+  /** Visible label rendered next to the radio. */
   label?: string;
   /** Optional helper text rendered beneath the label. Wired to `aria-describedby`. */
   description?: ReactNode;

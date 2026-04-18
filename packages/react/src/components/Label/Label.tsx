@@ -2,6 +2,7 @@ import { forwardRef, type LabelHTMLAttributes } from "react";
 import { cn } from "../../utils/cn";
 
 export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
+  /** When true, renders a visible required indicator ("*") after the label text. */
   required?: boolean;
   /** Visual size. Defaults to `md`. */
   size?: "sm" | "md" | "lg";

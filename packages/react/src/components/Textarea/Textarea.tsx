@@ -5,7 +5,9 @@ import { cn } from "../../utils/cn";
 import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Marks the textarea as invalid. Falls back to the parent `<Field>` error state when omitted. */
   invalid?: boolean;
+  /** Visual size. Controls height, padding, and font size. @default "md" */
   size?: "sm" | "md" | "lg";
   /** Grow the textarea to fit its content, bounded by minRows/maxRows. */
   autosize?: boolean;

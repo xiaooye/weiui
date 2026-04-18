@@ -13,9 +13,13 @@ import { cn } from "../../utils/cn";
 import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+  /** Visible label rendered next to the checkbox. */
   label?: string;
+  /** Renders the mixed/partial state; toggled back to checked on click. */
   indeterminate?: boolean;
+  /** Marks the checkbox as invalid. Falls back to the parent `<Field>` error state when omitted. */
   invalid?: boolean;
+  /** Visual size. Controls the box dimensions and label font size. @default "md" */
   size?: "sm" | "md" | "lg";
   /** Helper text rendered beneath the label and wired to `aria-describedby`. */
   description?: ReactNode;
