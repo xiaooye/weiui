@@ -836,16 +836,17 @@
 | Trigger + action buttons | ✅ | ✅ | — | — |
 | Open on click | ✅ | ✅ | — | — |
 | Close after action fires | ✅ | ✅ | — | — |
-| Open on hover | ❌ | ✅ | Add `trigger="hover"` | **P1** |
+| Open on hover | ✅ | ✅ | Add `trigger="hover"` | ✅ shipped |
 | Keyboard open + arrow nav | ✅ | ✅ | Add keyboard open + arrow nav | ✅ shipped |
 | Escape to close | ✅ | ✅ | Add | ✅ shipped |
-| Direction (up/down/left/right) | ❌ (CSS implied only) | ✅ | Add `direction` prop | **P1** |
-| Outside click close | ❌ | ✅ | Add useOutsideClick | **P1** |
-| Per-action tooltip | ⚠️ aria-label only | ✅ | Integrate Tooltip | **P1** |
+| Direction (up/down/left/right) | ✅ | ✅ | Add `direction` prop | ✅ shipped |
+| Outside click close | ✅ | ✅ | Add useOutsideClick | ✅ shipped |
+| Per-action tooltip | ✅ (Tooltip wrapping) | ✅ | Integrate Tooltip | ✅ shipped |
 | Backdrop / scrim | ❌ | ✅ | Add optional backdrop | **P2** |
-| Animation stagger | ❌ | ✅ | Add stagger CSS | **P1** |
+| Animation stagger | ✅ (--wui-speed-dial-index) | ✅ | Add stagger CSS | ✅ shipped |
+| Hover preview | ✅ (scale on hover, pre-open) | ✅ | — | ✅ shipped |
 
-**Notes:** Two P0s. Keyboard open + arrow nav is baseline — SpeedDial is a menu-variant and inherits menu a11y. Escape to close is a one-liner. Outside-click close is P1 but practically must ship with these.
+**Notes:** P0s + all P1s shipped. Only optional backdrop/scrim remains as P2.
 
 ## Splitter
 
@@ -857,16 +858,16 @@
 | Two-panel horizontal / vertical | ✅ | ✅ | — | — |
 | Pointer drag to resize | ✅ | ✅ | — | — |
 | Arrow keys to resize | ✅ | ✅ | — | — |
-| Min size per side | ✅ (single `minSize`) | ✅ per-panel | Accept per-panel min/max | **P1** |
+| Min size per side | ✅ per-panel (`<SplitterPanel minSize>`) | ✅ per-panel | Accept per-panel min/max | ✅ shipped |
 | `role="separator"` + aria-valuenow | ✅ | ✅ | — | — |
-| N-panel (not just 2) | ❌ | ✅ | Add n-panel support | **P1** |
-| Collapsible panel (double-click collapse) | ❌ | ✅ | Add `collapsible` | **P1** |
+| N-panel (not just 2) | ✅ (K panels → K-1 handles) | ✅ | Add n-panel support | ✅ shipped |
+| Collapsible panel (double-click collapse) | ✅ (`collapsible` on SplitterPanel) | ✅ | Add `collapsible` | ✅ shipped |
 | Controlled sizes | ✅ | ✅ | Add `sizes`/`onSizesChange` | ✅ shipped |
 | Persist sizes to localStorage | ❌ | ✅ | Optional `id` + persistence | **P2** |
-| Max size per panel | ❌ | ✅ | Add maxSize | **P1** |
+| Max size per panel | ✅ (`<SplitterPanel maxSize>`) | ✅ | Add maxSize | ✅ shipped |
 | Nested splitters | ⚠️ technically possible | ✅ | Document pattern | **P2** |
 
-**Notes:** Controlled sizes is P0 — layouts that reset on remount (e.g. routing) can't restore panel sizes without external control.
+**Notes:** Controlled sizes + per-panel min/max + N-panel + collapsible all shipped. Only localStorage persistence remains as P2; nested splitters work implicitly.
 
 ---
 
