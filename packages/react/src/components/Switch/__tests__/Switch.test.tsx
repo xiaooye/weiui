@@ -72,4 +72,11 @@ describe("Switch", () => {
     expect(screen.getByText("On")).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("Off")).toHaveAttribute("aria-hidden", "true");
   });
+
+  it("exposes data-disabled on the wrapper when disabled", () => {
+    const { container, rerender } = render(<Switch aria-label="s" disabled />);
+    expect(container.querySelector(".wui-switch")).toHaveAttribute("data-disabled");
+    rerender(<Switch aria-label="s" />);
+    expect(container.querySelector(".wui-switch")).not.toHaveAttribute("data-disabled");
+  });
 });

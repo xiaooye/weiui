@@ -27,7 +27,10 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const sizeClass = size === "sm" ? "wui-switch--sm" : size === "lg" ? "wui-switch--lg" : "";
     const hasTrackLabels = onLabel != null || offLabel != null;
     return (
-      <div className={cn("wui-switch", sizeClass, hasTrackLabels && "wui-switch--with-track-labels", className)}>
+      <div
+        className={cn("wui-switch", sizeClass, hasTrackLabels && "wui-switch--with-track-labels", className)}
+        data-disabled={resolvedDisabled || undefined}
+      >
         <span className="wui-switch__control">
           <input
             ref={ref}
