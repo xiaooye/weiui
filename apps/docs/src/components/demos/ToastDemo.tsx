@@ -27,6 +27,26 @@ export function ToastDemo() {
       >
         With action
       </Button>
+      <Button
+        variant="soft"
+        onClick={() =>
+          toast.promise(
+            new Promise<string>((resolve, reject) => {
+              setTimeout(
+                () => (Math.random() > 0.2 ? resolve("saved") : reject(new Error("Network error"))),
+                1500,
+              );
+            }),
+            {
+              loading: "Saving…",
+              success: "Saved successfully",
+              error: (e) => (e as Error).message,
+            },
+          )
+        }
+      >
+        Promise
+      </Button>
     </div>
   );
 }

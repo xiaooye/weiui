@@ -1,2 +1,2 @@
 export { Toaster, type ToasterProps, type ToasterPosition } from "./Toaster";
-export { toast, addToast, removeToast, getToasts, subscribe, type ToastAction } from "./toast-store";
+export { toast, addToast, updateToast, removeToast, getToasts, subscribe, type ToastAction } from "./toast-store";

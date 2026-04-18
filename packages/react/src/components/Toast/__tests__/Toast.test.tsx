@@ -144,3 +144,42 @@ describe("Toaster", () => {
     expect(region).toHaveClass("wui-toaster--bottom-right");
   });
 });
+
+describe("toast.promise", () => {
+  beforeEach(() => {
+    clearToasts();
+  });
+
+  it("shows a loading toast, then success when promise resolves", async () => {
+    const p = new Promise<string>((resolve) => setTimeout(() => resolve("ok"), 10));
+    toast.promise(p, {
+      loading: "Saving…",
+      success: (v) => `Got ${v}`,
+      error: "Oops",
+    });
+    // Loading toast should exist immediately
+    let items = getToasts();
+    expect(items.some((t) => t.title === "Saving…")).toBe(true);
+
+    await p.catch(() => {});
+    // After resolve, success message should appear (loading removed)
+    await vi.waitFor(() => {
+      items = getToasts();
+      expect(items.some((t) => t.title === "Got ok")).toBe(true);
+    });
+  });
+
+  it("shows error toast when promise rejects", async () => {
+    const p = new Promise<string>((_, reject) => setTimeout(() => reject(new Error("boom")), 10));
+    toast.promise(p, {
+      loading: "Working…",
+      success: "Done",
+      error: (e) => (e as Error).message,
+    });
+    await p.catch(() => {});
+    await vi.waitFor(() => {
+      const items = getToasts();
+      expect(items.some((t) => t.title === "boom")).toBe(true);
+    });
+  });
+});
