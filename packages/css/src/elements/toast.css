@@ -55,7 +55,10 @@
     box-shadow: var(--wui-elevation-4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    touch-action: pan-y;
+    user-select: none;
   }
+  .wui-toast[data-dragging] { transition: none; }
   @supports not (backdrop-filter: blur(8px)) {
     .wui-toast { background-color: var(--wui-color-card); }
   }

@@ -1,5 +1,5 @@
 "use client";
-import { useSyncExternalStore, useEffect, useRef, useState, type ReactNode } from "react";
+import { useSyncExternalStore, useEffect, useRef, useState, type ReactNode, type PointerEvent as ReactPointerEvent } from "react";
 import { getToasts, subscribe, removeToast, type ToastAction } from "./toast-store";
 import { cn } from "../../utils/cn";
 
@@ -33,6 +33,12 @@ export function Toaster({ position = "bottom-right" }: ToasterProps = {}) {
   );
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  return Boolean(mq && mq.matches);
+}
+
 function ToastItem({
   toast: t,
   index,
@@ -55,6 +61,17 @@ function ToastItem({
   const startedAtRef = useRef<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [paused, setPaused] = useState(false);
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startTime: number;
+    lastX: number;
+    lastY: number;
+    lastTime: number;
+    element: HTMLElement;
+  } | null>(null);
+  const [dragOffset, setDragOffset] = useState<{ x: number; y: number } | null>(null);
 
   function armTimer(ms: number) {
     clearTimeout(timerRef.current);
@@ -82,24 +99,90 @@ function ToastItem({
     setPaused(false);
   }
 
+  function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
+    if (prefersReducedMotion()) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const target = e.currentTarget;
+    dragRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startTime: performance.now(),
+      lastX: e.clientX,
+      lastY: e.clientY,
+      lastTime: performance.now(),
+      element: target,
+    };
+    try {
+      target.setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+  }
+
+  function onPointerMove(e: ReactPointerEvent<HTMLDivElement>) {
+    const s = dragRef.current;
+    if (!s || s.pointerId !== e.pointerId) return;
+    s.lastX = e.clientX;
+    s.lastY = e.clientY;
+    s.lastTime = performance.now();
+    setDragOffset({ x: e.clientX - s.startX, y: e.clientY - s.startY });
+  }
+
+  function endDrag(e: ReactPointerEvent<HTMLDivElement>) {
+    const s = dragRef.current;
+    if (!s || s.pointerId !== e.pointerId) return;
+    const dx = s.lastX - s.startX;
+    const dy = s.lastY - s.startY;
+    const dist = Math.hypot(dx, dy);
+    const duration = Math.max(1, s.lastTime - s.startTime);
+    const velocity = dist / duration; // px/ms
+    dragRef.current = null;
+    setDragOffset(null);
+    try {
+      s.element.releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+    const isFlick = velocity >= 0.3 && dist >= 10;
+    if (dist >= 50 || isFlick) {
+      removeToast(t.id);
+    }
+  }
+
   // Stacking: non-expanded items scale/translate behind the front one
   const stackIndex = total - 1 - index; // front of stack = 0
-  const stackStyle = expanded
-    ? undefined
-    : {
-        transform: `translateY(${-stackIndex * 4}px) scale(${1 - stackIndex * 0.04})`,
-        opacity: stackIndex === 0 ? 1 : 0.85,
-        zIndex: 100 - stackIndex,
-      };
+  const stackStyle =
+    expanded || dragOffset
+      ? undefined
+      : {
+          transform: `translateY(${-stackIndex * 4}px) scale(${1 - stackIndex * 0.04})`,
+          opacity: stackIndex === 0 ? 1 : 0.85,
+          zIndex: 100 - stackIndex,
+        };
+
+  // While dragging, override with pointer translation + fade.
+  const dragStyle = dragOffset
+    ? {
+        transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
+        opacity: Math.max(0.2, 1 - Math.hypot(dragOffset.x, dragOffset.y) / 200),
+        zIndex: 200,
+      }
+    : undefined;
 
   return (
     <div
       className={cn("wui-toast", `wui-toast--${t.variant}`)}
       role="alert"
       data-paused={paused || undefined}
-      style={stackStyle}
+      data-dragging={dragOffset ? "" : undefined}
+      style={dragStyle ?? stackStyle}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
     >
       <div className="wui-toast__content">
         <div className="wui-toast__title">{t.title}</div>

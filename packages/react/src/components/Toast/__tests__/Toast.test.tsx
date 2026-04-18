@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, act } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { addToast, removeToast, getToasts, subscribe } from "../toast-store";
 import { toast } from "../toast-store";
 import { Toaster } from "../Toaster";
@@ -142,6 +143,57 @@ describe("Toaster", () => {
     render(<Toaster />);
     const region = screen.getByRole("region");
     expect(region).toHaveClass("wui-toaster--bottom-right");
+  });
+});
+
+describe("Toaster swipe-to-dismiss (P1)", () => {
+  beforeEach(() => {
+    clearToasts();
+  });
+
+  it("dismisses a toast when user swipes past 50px in any direction", async () => {
+    const user = userEvent.setup();
+    act(() => {
+      addToast({ title: "Swipe me", variant: "default" });
+    });
+    render(<Toaster />);
+    const t = screen.getByRole("alert");
+    await user.pointer([
+      { keys: "[TouchA>]", target: t, coords: { clientX: 100, clientY: 100 } },
+      { pointerName: "TouchA", target: t, coords: { clientX: 180, clientY: 100 } },
+      { keys: "[/TouchA]", target: t, coords: { clientX: 180, clientY: 100 } },
+    ]);
+    expect(screen.queryByText("Swipe me")).not.toBeInTheDocument();
+  });
+
+  it("does NOT dismiss a toast when drag is a tiny tap", async () => {
+    const user = userEvent.setup();
+    act(() => {
+      addToast({ title: "Stay", variant: "default" });
+    });
+    render(<Toaster />);
+    const t = screen.getByRole("alert");
+    await user.pointer([
+      { keys: "[TouchA>]", target: t, coords: { clientX: 100, clientY: 100 } },
+      { pointerName: "TouchA", target: t, coords: { clientX: 103, clientY: 100 } },
+      { keys: "[/TouchA]", target: t, coords: { clientX: 103, clientY: 100 } },
+    ]);
+    expect(screen.getByText("Stay")).toBeInTheDocument();
+  });
+
+  it("dismisses on vertical swipe too", async () => {
+    const user = userEvent.setup();
+    act(() => {
+      addToast({ title: "Vertical", variant: "default" });
+    });
+    render(<Toaster />);
+    const t = screen.getByRole("alert");
+    await user.pointer([
+      { keys: "[TouchA>]", target: t, coords: { clientX: 100, clientY: 100 } },
+      { pointerName: "TouchA", target: t, coords: { clientX: 100, clientY: 180 } },
+      { keys: "[/TouchA]", target: t, coords: { clientX: 100, clientY: 180 } },
+    ]);
+    expect(screen.queryByText("Vertical")).not.toBeInTheDocument();
   });
 });
 
