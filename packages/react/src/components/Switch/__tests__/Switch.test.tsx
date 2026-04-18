@@ -60,4 +60,16 @@ describe("Switch", () => {
     const { container } = render(<Switch label="Dark" />);
     expect(container.querySelector(".wui-switch")).toBeTruthy();
   });
+
+  it("renders on/off label slots", () => {
+    render(<Switch onLabel="On" offLabel="Off" aria-label="toggle" />);
+    expect(screen.getByText("On")).toBeInTheDocument();
+    expect(screen.getByText("Off")).toBeInTheDocument();
+  });
+
+  it("on/off labels are marked aria-hidden (decorative)", () => {
+    render(<Switch onLabel="On" offLabel="Off" aria-label="toggle" />);
+    expect(screen.getByText("On")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByText("Off")).toHaveAttribute("aria-hidden", "true");
+  });
 });

@@ -60,6 +60,45 @@
     cursor: not-allowed;
     opacity: 0.5;
   }
+  /* Control wraps input + optional in-track labels so labels can be absolutely positioned over the track. */
+  .wui-switch__control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .wui-switch__track-label {
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    font-weight: var(--wui-font-weight-bold);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--wui-color-primary-foreground);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+  }
+  .wui-switch__track-label--on {
+    inset-inline-start: var(--wui-spacing-1);
+  }
+  .wui-switch__track-label--off {
+    inset-inline-end: var(--wui-spacing-1);
+    color: var(--wui-color-muted-foreground);
+  }
+  /* Require wider track when labels present */
+  .wui-switch--with-track-labels .wui-switch__input { inline-size: 48px; }
+  .wui-switch--with-track-labels .wui-switch__input:checked::before { inset-inline-start: 30px; }
+  .wui-switch--with-track-labels.wui-switch--sm .wui-switch__input { inline-size: 38px; }
+  .wui-switch--with-track-labels.wui-switch--sm .wui-switch__input:checked::before { inset-inline-start: 24px; }
+  .wui-switch--with-track-labels.wui-switch--lg .wui-switch__input { inline-size: 56px; }
+  .wui-switch--with-track-labels.wui-switch--lg .wui-switch__input:checked::before { inset-inline-start: 34px; }
+  /* Show the relevant label based on state */
+  .wui-switch__input:checked ~ .wui-switch__track-label--on { opacity: 1; }
+  .wui-switch__input:not(:checked) ~ .wui-switch__track-label--off { opacity: 1; }
+
   /* Sizes */
   .wui-switch--sm .wui-switch__input { inline-size: 28px; block-size: 16px; }
   .wui-switch--sm .wui-switch__input::before { inline-size: 12px; block-size: 12px; }
