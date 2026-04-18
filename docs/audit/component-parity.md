@@ -814,14 +814,14 @@
 | ArrowKeys / Home / End | ✅ | ✅ | — | — |
 | Read-only + disabled | ✅ | ✅ | — | — |
 | `role=radiogroup/radio` with aria-checked | ✅ | ✅ | — | — |
-| Half-star support | ❌ | ✅ | Add `allowHalf` | **P1** |
+| Half-star support | ✅ | ✅ | Add `allowHalf` | ✅ shipped |
 | Custom icon | ❌ (star only) | ✅ | Add `icon` prop | **P1** |
 | Hover preview | ❌ | ✅ | Add hover state | **P1** |
 | Clear on click-again | ❌ | ✅ | Add `allowClear` | **P1** |
 | Character variant (emoji / text) | ❌ | ✅ | Via `icon` | **P2** |
 | Tooltip per star | ❌ | ✅ | Add `tooltips` prop | **P2** |
 
-**Notes:** No P0s. Half-star is the headline feature Ant users expect.
+**Notes:** No P0s. Half-star shipped — the headline feature Ant users expect.
 
 ## SpeedDial
 
