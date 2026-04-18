@@ -8,13 +8,13 @@ describe("ColorPicker", () => {
     render(<ColorPicker defaultValue="#ff0000" label="Pick" />);
     expect(screen.getByRole("group", { name: "Pick" })).toBeInTheDocument();
     expect(screen.getByLabelText("Hue")).toBeInTheDocument();
-    expect(screen.getByLabelText("Hex color")).toBeInTheDocument();
+    expect(screen.getByLabelText("Color value (hex or oklch)")).toBeInTheDocument();
   });
 
   it("typing a hex calls onChange", () => {
     const onChange = vi.fn();
     render(<ColorPicker defaultValue="#000000" onChange={onChange} />);
-    const input = screen.getByLabelText("Hex color") as HTMLInputElement;
+    const input = screen.getByLabelText("Color value (hex or oklch)") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "#112233" } });
     expect(onChange).toHaveBeenCalledWith("#112233");
   });
@@ -67,7 +67,7 @@ describe("ColorPicker", () => {
   // Wave 5d P0: OKLCH input support
   it("accepts oklch() string as value and renders the preview", () => {
     render(<ColorPicker value="oklch(0.7 0.2 30)" />);
-    const input = screen.getByLabelText("Hex color") as HTMLInputElement;
+    const input = screen.getByLabelText("Color value (hex or oklch)") as HTMLInputElement;
     expect(input.value).toContain("oklch");
   });
 });
