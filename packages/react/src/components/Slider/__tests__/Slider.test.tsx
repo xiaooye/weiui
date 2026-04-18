@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Slider } from "../Slider";
 
@@ -110,5 +110,81 @@ describe("Slider", () => {
     thumb.focus();
     await user.keyboard("{ArrowLeft}");
     expect(onChange).toHaveBeenCalledWith(0);
+  });
+
+  describe("range mode", () => {
+    it("renders two thumbs when mode=range", () => {
+      render(<Slider mode="range" defaultValue={[20, 80]} />);
+      expect(screen.getAllByRole("slider")).toHaveLength(2);
+    });
+
+    it("uses [min, max] as the default range when no defaultValue given", () => {
+      render(<Slider mode="range" min={10} max={90} />);
+      const thumbs = screen.getAllByRole("slider");
+      expect(thumbs[0]).toHaveAttribute("aria-valuenow", "10");
+      expect(thumbs[1]).toHaveAttribute("aria-valuenow", "90");
+    });
+
+    it("keyboard moves only the focused thumb and reports pair", async () => {
+      const user = userEvent.setup();
+      const onRangeChange = vi.fn();
+      render(
+        <Slider
+          mode="range"
+          defaultValue={[20, 80]}
+          onRangeChange={onRangeChange}
+        />,
+      );
+      const [low, high] = screen.getAllByRole("slider");
+      low.focus();
+      await user.keyboard("{ArrowRight}");
+      expect(onRangeChange).toHaveBeenLastCalledWith([21, 80]);
+      high.focus();
+      await user.keyboard("{ArrowLeft}");
+      expect(onRangeChange).toHaveBeenLastCalledWith([21, 79]);
+    });
+
+    it("thumbs use min/max labels when label is provided", () => {
+      render(
+        <Slider mode="range" defaultValue={[10, 90]} label="Price" />,
+      );
+      const thumbs = screen.getAllByRole("slider");
+      expect(thumbs[0]).toHaveAttribute("aria-label", "Price minimum");
+      expect(thumbs[1]).toHaveAttribute("aria-label", "Price maximum");
+    });
+  });
+
+  describe("tooltip", () => {
+    it("does not render tooltip by default", () => {
+      render(<Slider defaultValue={42} />);
+      expect(document.querySelector(".wui-slider__tooltip")).toBeNull();
+    });
+
+    it("renders tooltip on focus when showTooltip is true", async () => {
+      render(<Slider defaultValue={42} showTooltip />);
+      const thumb = screen.getByRole("slider");
+      await act(async () => {
+        thumb.focus();
+      });
+      const tip = document.querySelector(".wui-slider__tooltip");
+      expect(tip).not.toBeNull();
+      expect(tip?.textContent).toBe("42");
+    });
+
+    it("uses formatTooltip to format the displayed value", async () => {
+      render(
+        <Slider
+          defaultValue={42}
+          showTooltip
+          formatTooltip={(v) => `${v}%`}
+        />,
+      );
+      const thumb = screen.getByRole("slider");
+      await act(async () => {
+        thumb.focus();
+      });
+      const tip = document.querySelector(".wui-slider__tooltip");
+      expect(tip?.textContent).toBe("42%");
+    });
   });
 });
