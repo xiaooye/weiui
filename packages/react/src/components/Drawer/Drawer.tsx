@@ -9,7 +9,7 @@ import {
   type HTMLAttributes,
   type ButtonHTMLAttributes,
 } from "react";
-import { useDisclosure, useFocusTrap, useOutsideClick, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
+import { useDisclosure, useFocusTrap, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
 import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
@@ -74,21 +74,47 @@ DrawerTrigger.displayName = "DrawerTrigger";
 
 export interface DrawerContentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  onInteractOutside?: (event: MouseEvent) => void;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }
 
-export function DrawerContent({ children, className, onKeyDown, ...props }: DrawerContentProps) {
+export function DrawerContent({
+  children,
+  className,
+  onKeyDown,
+  onInteractOutside,
+  onEscapeKeyDown,
+  ...props
+}: DrawerContentProps) {
   const { isOpen, onClose, side } = useDrawerContext();
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useFocusTrap(contentRef, isOpen);
-  useOutsideClick(contentRef, onClose, isOpen);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handler(e: MouseEvent) {
+      if (!contentRef.current) return;
+      if (contentRef.current.contains(e.target as Node)) return;
+      const ev = new Event("interactoutside", { cancelable: true });
+      Object.defineProperty(ev, "target", { value: e.target });
+      onInteractOutside?.(ev as unknown as MouseEvent);
+      if (!ev.defaultPrevented) onClose();
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen, onClose, onInteractOutside]);
 
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
       const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
-      if (firstFocusable) firstFocusable.focus();
+      if (firstFocusable) {
+        firstFocusable.focus();
+      } else if (contentRef.current) {
+        contentRef.current.focus();
+      }
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
       previousFocusRef.current = null;
@@ -99,7 +125,9 @@ export function DrawerContent({ children, className, onKeyDown, ...props }: Draw
     if (isOpen) {
       const original = document.body.style.overflow;
       document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = original; };
+      return () => {
+        document.body.style.overflow = original;
+      };
     }
   }, [isOpen]);
 
@@ -112,11 +140,16 @@ export function DrawerContent({ children, className, onKeyDown, ...props }: Draw
         ref={contentRef}
         role="dialog"
         aria-modal="true"
+        tabIndex={-1}
         className={cn("wui-drawer", `wui-drawer--${side}`, className)}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
-            e.stopPropagation();
-            onClose();
+            const ev = new KeyboardEvent("keydown", { key: "Escape", cancelable: true });
+            onEscapeKeyDown?.(ev);
+            if (!ev.defaultPrevented) {
+              e.stopPropagation();
+              onClose();
+            }
           }
           onKeyDown?.(e);
         }}

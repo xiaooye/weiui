@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -59,5 +59,36 @@ describe("Drawer", () => {
     );
     await userEvent.setup().click(screen.getByText("Open"));
     expect(screen.getByRole("dialog")).toHaveClass("wui-drawer--left");
+  });
+});
+
+describe("Drawer P1 additions", () => {
+  it("onInteractOutside preventable", async () => {
+    const user = userEvent.setup();
+    const onInteract = vi.fn((e: Event) => e.preventDefault());
+    render(
+      <>
+        <Drawer defaultOpen>
+          <DrawerContent onInteractOutside={onInteract}>Body</DrawerContent>
+        </Drawer>
+        <button data-testid="outside">Outside</button>
+      </>,
+    );
+    await user.click(screen.getByTestId("outside"));
+    expect(onInteract).toHaveBeenCalled();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+  });
+
+  it("onEscapeKeyDown preventable", async () => {
+    const user = userEvent.setup();
+    const onEsc = vi.fn((e: Event) => e.preventDefault());
+    render(
+      <Drawer defaultOpen>
+        <DrawerContent onEscapeKeyDown={onEsc}>Body</DrawerContent>
+      </Drawer>,
+    );
+    await user.keyboard("{Escape}");
+    expect(onEsc).toHaveBeenCalled();
+    expect(screen.getByText("Body")).toBeInTheDocument();
   });
 });
