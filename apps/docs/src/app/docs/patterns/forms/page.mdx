@@ -1,0 +1,279 @@
+import { Preview } from "../../../../components/preview/Preview";
+import { SignupFormDemo } from "../../../../components/demos/SignupFormDemo";
+
+# Full-form Example
+
+A real signup form showing every form-time concern in one place: label + hint + error auto-wiring with `<Field>`, inline synchronous validation, async email-availability check on blur, mixed control types (Input, Textarea, Select, Checkbox), form-level submission with a `toast.promise` status indicator, and a reset action.
+
+<Preview label="Signup form with validation + async check + toast on submit">
+  <SignupFormDemo />
+</Preview>
+
+Try `taken@example.com` to see async validation fire; submit with empty fields to see focus jump to the first invalid input.
+
+## The source
+
+```tsx
+"use client";
+
+import { useState, useTransition, type FormEvent } from "react";
+import {
+  Field, Input, Textarea, Button, Checkbox,
+  Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
+  Stack, toast,
+} from "@weiui/react";
+
+type Values = {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  bio: string;
+  terms: boolean;
+};
+type Errors = Partial<Record<keyof Values, string>>;
+
+async function isEmailAvailable(email: string): Promise<boolean> {
+  await new Promise((r) => setTimeout(r, 600));
+  return email.toLowerCase() !== "taken@example.com";
+}
+
+function validate(values: Values): Errors {
+  const errors: Errors = {};
+  if (!values.name.trim()) errors.name = "Name is required.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = "Please enter a valid email.";
+  if (values.password.length < 8) errors.password = "Password must be at least 8 characters.";
+  if (!values.role) errors.role = "Pick a role so we can tailor the dashboard.";
+  if (!values.terms) errors.terms = "You must agree to continue.";
+  return errors;
+}
+
+export function SignupForm() {
+  const [values, setValues] = useState<Values>({
+    name: "", email: "", password: "", role: "", bio: "", terms: false,
+  });
+  const [errors, setErrors] = useState<Errors>({});
+  const [checking, setChecking] = useState(false);
+  const [pending, startTransition] = useTransition();
+
+  function setField<K extends keyof Values>(key: K, value: Values[K]) {
+    setValues((v) => ({ ...v, [key]: value }));
+    setErrors((e) => ({ ...e, [key]: undefined }));
+  }
+
+  async function handleEmailBlur() {
+    if (!values.email) return;
+    setChecking(true);
+    try {
+      const ok = await isEmailAvailable(values.email);
+      if (!ok) setErrors((e) => ({ ...e, email: "That email is already in use." }));
+    } finally {
+      setChecking(false);
+    }
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const v = validate(values);
+    if (Object.values(v).some(Boolean)) {
+      setErrors(v);
+      const firstKey = (Object.keys(v) as (keyof Values)[]).find((k) => v[k]);
+      if (firstKey) (document.getElementById(firstKey) as HTMLElement | null)?.focus();
+      return;
+    }
+    startTransition(async () => {
+      await toast.promise(
+        createAccount(values),
+        {
+          loading: "Creating your account…",
+          success: (data) => `Welcome, ${data.name}!`,
+          error: "Something went wrong. Please retry.",
+        },
+      );
+    });
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate>
+      <Stack gap="4">
+        <Field label="Full name" required error={errors.name}>
+          <Input id="name" name="name" autoComplete="name"
+            value={values.name} onChange={(e) => setField("name", e.target.value)} />
+        </Field>
+
+        <Field label="Work email" required error={errors.email}
+          hint={checking ? "Checking availability…" : undefined}>
+          <Input id="email" name="email" type="email" autoComplete="email"
+            value={values.email}
+            onChange={(e) => setField("email", e.target.value)}
+            onBlur={handleEmailBlur}
+            clearable
+          />
+        </Field>
+
+        <Field label="Password" required error={errors.password}
+          hint="At least 8 characters.">
+          <Input id="password" name="password" type="password"
+            autoComplete="new-password"
+            value={values.password}
+            onChange={(e) => setField("password", e.target.value)} />
+        </Field>
+
+        <Field label="Role" required error={errors.role}>
+          <Select value={values.role} onValueChange={(v) => setField("role", v)}>
+            <SelectTrigger id="role"><SelectValue placeholder="Pick one…" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="designer">Designer</SelectItem>
+              <SelectItem value="developer">Developer</SelectItem>
+              <SelectItem value="pm">Product manager</SelectItem>
+              <SelectItem value="founder">Founder</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+
+        <Field label="Bio">
+          <Textarea id="bio" name="bio" rows={3}
+            value={values.bio}
+            onChange={(e) => setField("bio", e.target.value)}
+            maxLength={240} showCount
+          />
+        </Field>
+
+        <Checkbox id="terms"
+          label={<>I agree to the <a href="/terms">terms</a>.</>}
+          checked={values.terms}
+          onChange={(e) => setField("terms", e.target.checked)}
+        />
+
+        <Button type="submit" disabled={pending || checking}>
+          {pending ? "Creating…" : "Create account"}
+        </Button>
+      </Stack>
+    </form>
+  );
+}
+```
+
+## Why `<Field>`?
+
+Every `<Field>` wrapping an `@weiui/react` form control auto-wires:
+
+1. An `id` generated via `useId()` — stable across server + client renders.
+2. `htmlFor` on the `FieldLabel` to match the control.
+3. `aria-describedby` pointing at the hint and error nodes so screen readers announce both.
+4. `aria-invalid="true"` when `error` is truthy.
+5. `aria-required="true"` when `required` is set.
+
+This means your form stays a11y-correct *without* you manually threading IDs between `<label>`, `<input>`, and error nodes.
+
+## Async validation on blur
+
+```tsx
+async function handleEmailBlur() {
+  if (!values.email) return;
+  setChecking(true);
+  try {
+    const ok = await isEmailAvailable(values.email);
+    if (!ok) setErrors((e) => ({ ...e, email: "Already in use." }));
+  } finally {
+    setChecking(false);
+  }
+}
+```
+
+- Fire on blur, not every keystroke — avoids hammering the server.
+- Show a transient hint ("Checking availability…") so keyboard users aren't left guessing.
+- `aria-live="polite"` on the hint ensures the announcement lands after the user stops typing.
+
+## Form-level submission
+
+```tsx
+function handleSubmit(e) {
+  e.preventDefault();
+  const v = validate(values);
+  if (Object.values(v).some(Boolean)) {
+    setErrors(v);
+    // Focus first invalid field — keyboard + screen-reader friendly
+    const firstKey = Object.keys(v).find((k) => v[k]);
+    if (firstKey) document.getElementById(firstKey)?.focus();
+    return;
+  }
+  startTransition(() => toast.promise(api.create(values), {
+    loading: "Creating…",
+    success: () => "Account created",
+    error: "Try again",
+  }));
+}
+```
+
+- `noValidate` on the `<form>` disables the browser tooltip UI so we own the error display.
+- `startTransition` keeps the button disabled without blocking typing.
+- `toast.promise` gives one toast that transitions through three states.
+
+## react-hook-form recipe
+
+If you already use `react-hook-form`, `<Field>` composes trivially via `register`:
+
+```tsx
+import { useForm } from "react-hook-form";
+import { Field, Input, Button, Stack } from "@weiui/react";
+
+function Profile() {
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>();
+
+  return (
+    <form onSubmit={handleSubmit(save)}>
+      <Stack gap="4">
+        <Field label="Name" required error={errors.name?.message}>
+          <Input {...register("name", { required: "Name is required." })} />
+        </Field>
+
+        <Field label="Email" required error={errors.email?.message}>
+          <Input
+            type="email"
+            {...register("email", {
+              required: "Email is required.",
+              pattern: { value: /^\S+@\S+\.\S+$/, message: "Enter a valid email." },
+            })}
+          />
+        </Field>
+
+        <Button type="submit" disabled={isSubmitting}>Save</Button>
+      </Stack>
+    </form>
+  );
+}
+```
+
+## Zod + react-hook-form (schema-first)
+
+```tsx
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(1, "Name is required."),
+  email: z.string().email("Enter a valid email."),
+  password: z.string().min(8, "Password must be at least 8 characters."),
+});
+
+const { register, handleSubmit, formState: { errors } } =
+  useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });
+```
+
+The schema is the source of truth — errors rendered by `<Field>` always match what the backend will accept. For server actions with Next.js, use the same schema on the server to validate before writing.
+
+## Accessibility checklist
+
+Before you ship a form, verify:
+
+- [ ] Every input is inside `<Field>` (or manually associated label).
+- [ ] Required fields say "Required" visually *and* carry `aria-required="true"`.
+- [ ] Errors render inline, not in a far-away summary alone, so low-vision users encounter them by the field.
+- [ ] The first invalid field is focused on submit failure.
+- [ ] Async validation is debounced / triggered on blur, not every keystroke.
+- [ ] Submit buttons are disabled while pending but remain focusable so the screen reader announces state.
+- [ ] `autocomplete` hints are populated: `email`, `new-password`, `current-password`, `name`, `tel`.
+- [ ] `inputmode` hints narrow the soft keyboard on mobile: `numeric`, `tel`, `email`, `url`, `search`.
+
+WeiUI's form primitives bake these defaults; you only have to remember the last two.
