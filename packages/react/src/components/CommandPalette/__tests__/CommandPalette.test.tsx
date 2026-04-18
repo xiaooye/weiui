@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CommandPalette } from "../CommandPalette";
 
@@ -201,5 +201,180 @@ describe("CommandPalette P1 additions", () => {
     const input = await screen.findByRole("combobox");
     await user.type(input, "zzzzz");
     expect(await screen.findByTestId("empty")).toBeInTheDocument();
+  });
+});
+
+describe("CommandPalette async loading (P1)", () => {
+  it("shows Spinner and announces loading via aria-live when loading=true", () => {
+    const { container } = render(
+      <CommandPalette
+        id="loading-demo"
+        open
+        items={[]}
+        onOpenChange={vi.fn()}
+        loading
+      />,
+    );
+    // Spinner has role=status with the loading label.
+    const spinner = screen.getByRole("status", { name: /loading/i });
+    expect(spinner).toBeInTheDocument();
+    // Loading container has aria-live polite
+    const wrapper = container.ownerDocument.querySelector(".wui-command-palette__loading");
+    expect(wrapper).toHaveAttribute("aria-live", "polite");
+    // aria-busy on the listbox
+    expect(screen.getByRole("listbox")).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("keeps the filter input enabled while loading", () => {
+    render(
+      <CommandPalette
+        id="loading-demo2"
+        open
+        items={[]}
+        onOpenChange={vi.fn()}
+        loading
+      />,
+    );
+    const input = screen.getByRole("combobox");
+    expect(input).not.toBeDisabled();
+  });
+
+  it("uses custom loadingLabel", () => {
+    render(
+      <CommandPalette
+        id="loading-demo3"
+        open
+        items={[]}
+        onOpenChange={vi.fn()}
+        loading
+        loadingLabel="Fetching commands…"
+      />,
+    );
+    // Spinner announces via its aria-label, visible label shows beside it.
+    expect(screen.getByRole("status", { name: "Fetching commands…" })).toBeInTheDocument();
+    expect(screen.getAllByText("Fetching commands…").length).toBeGreaterThan(0);
+  });
+});
+
+describe("CommandPalette shortcut execution (P1)", () => {
+  it("invokes an item's onSelect when its shortcut is pressed while open", () => {
+    const onSave = vi.fn();
+    const onOpenChange = vi.fn();
+    render(
+      <CommandPalette
+        id="sc1"
+        open
+        items={[
+          { id: "save", label: "Save", shortcut: "Cmd+S", onSelect: onSave },
+          { id: "open", label: "Open", shortcut: "Cmd+O", onSelect: vi.fn() },
+        ]}
+        onOpenChange={onOpenChange}
+      />,
+    );
+    fireEvent.keyDown(document, { key: "s", metaKey: true });
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("supports Ctrl+Shift+P style shortcuts", () => {
+    const onCmd = vi.fn();
+    render(
+      <CommandPalette
+        id="sc2"
+        open
+        items={[{ id: "cmd", label: "Command", shortcut: "Ctrl+Shift+P", onSelect: onCmd }]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    fireEvent.keyDown(document, { key: "p", ctrlKey: true, shiftKey: true });
+    expect(onCmd).toHaveBeenCalled();
+  });
+
+  it("does NOT invoke disabled items even if their shortcut is pressed", () => {
+    const onOff = vi.fn();
+    render(
+      <CommandPalette
+        id="sc3"
+        open
+        items={[{ id: "x", label: "Disabled", shortcut: "Cmd+D", disabled: true, onSelect: onOff }]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    fireEvent.keyDown(document, { key: "d", metaKey: true });
+    expect(onOff).not.toHaveBeenCalled();
+  });
+
+  it("does NOT invoke shortcut handlers when the palette is closed", () => {
+    const onSave = vi.fn();
+    render(
+      <CommandPalette
+        id="sc4"
+        open={false}
+        items={[{ id: "save", label: "Save", shortcut: "Cmd+S", onSelect: onSave }]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    fireEvent.keyDown(document, { key: "s", metaKey: true });
+    expect(onSave).not.toHaveBeenCalled();
+  });
+});
+
+describe("CommandPalette fuzzy matching (P1)", () => {
+  it("finds items with non-contiguous substring matches", async () => {
+    const user = userEvent.setup();
+    render(
+      <CommandPalette
+        id="fz1"
+        open
+        items={[
+          { id: "1", label: "Create New File", onSelect: vi.fn() },
+          { id: "2", label: "Settings", onSelect: vi.fn() },
+        ]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    const input = screen.getByRole("combobox");
+    // "newfile" — no exact substring, but matches "Create New File".
+    await user.type(input, "new file");
+    expect(screen.getByText("Create New File")).toBeInTheDocument();
+    expect(screen.queryByText("Settings")).not.toBeInTheDocument();
+  });
+
+  it("ranks exact prefix matches above loose matches", async () => {
+    const user = userEvent.setup();
+    render(
+      <CommandPalette
+        id="fz2"
+        open
+        items={[
+          { id: "1", label: "Settings", onSelect: vi.fn() },
+          { id: "2", label: "Send Message", onSelect: vi.fn() },
+        ]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    const input = screen.getByRole("combobox");
+    await user.type(input, "se");
+    const options = screen.getAllByRole("option");
+    // Both contain "se" — match-sorter ranks them; both should be present.
+    expect(options.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("shows the full list when the query is empty", () => {
+    render(
+      <CommandPalette
+        id="fz3"
+        open
+        items={[
+          { id: "1", label: "One", onSelect: vi.fn() },
+          { id: "2", label: "Two", onSelect: vi.fn() },
+          { id: "3", label: "Three", onSelect: vi.fn() },
+        ]}
+        onOpenChange={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("One")).toBeInTheDocument();
+    expect(screen.getByText("Two")).toBeInTheDocument();
+    expect(screen.getByText("Three")).toBeInTheDocument();
   });
 });

@@ -107,6 +107,16 @@
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
   }
+  .wui-command-palette__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--wui-spacing-2);
+    padding-block: var(--wui-spacing-6);
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-command-palette__loading-label { min-inline-size: 0; }
   @media (prefers-reduced-motion: no-preference) {
     .wui-command {
       animation: wui-command-in var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized);

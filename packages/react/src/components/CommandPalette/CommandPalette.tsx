@@ -6,10 +6,13 @@ import {
   useEffect,
   useId,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
+import { matchSorter } from "match-sorter";
 import { useFocusTrap } from "@weiui/headless";
 import { Portal } from "../Portal";
+import { Spinner } from "../Spinner";
 import { cn } from "../../utils/cn";
 
 export interface CommandItem {
@@ -41,6 +44,10 @@ export interface CommandPaletteProps {
   label?: string;
   /** Persistent identifier for recent-items storage. */
   id?: string;
+  /** When true, show a spinner inside the list and announce "Loading…". */
+  loading?: boolean;
+  /** Label announced to screen readers while `loading` is true. @default "Loading…" */
+  loadingLabel?: string;
 }
 
 function readRecent(storageKey: string): string[] {
@@ -64,6 +71,37 @@ function writeRecent(storageKey: string, ids: string[]) {
   }
 }
 
+/**
+ * Parse a shortcut string like "Cmd+K" or "Ctrl+Shift+P" and return a
+ * predicate that returns true when the given KeyboardEvent matches.
+ */
+function parseShortcut(shortcut: string): (e: KeyboardEvent) => boolean {
+  const parts = shortcut.split("+").map((p) => p.trim().toLowerCase());
+  let needsMeta = false;
+  let needsCtrl = false;
+  let needsShift = false;
+  let needsAlt = false;
+  let key = "";
+  for (const p of parts) {
+    if (p === "cmd" || p === "meta" || p === "⌘") needsMeta = true;
+    else if (p === "ctrl" || p === "control") needsCtrl = true;
+    else if (p === "shift" || p === "⇧") needsShift = true;
+    else if (p === "alt" || p === "option" || p === "⌥") needsAlt = true;
+    else key = p;
+  }
+  return (e: KeyboardEvent) => {
+    if (needsMeta && !e.metaKey) return false;
+    if (needsCtrl && !e.ctrlKey) return false;
+    if (needsShift && !e.shiftKey) return false;
+    if (needsAlt && !e.altKey) return false;
+    // When no meta/ctrl is required and the user IS holding them, ignore
+    // so "p" doesn't fire when the user presses Cmd+P.
+    if (!needsMeta && e.metaKey) return false;
+    if (!needsCtrl && e.ctrlKey) return false;
+    return e.key.toLowerCase() === key;
+  };
+}
+
 export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
   (
     {
@@ -76,6 +114,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       className,
       label,
       id: paletteId,
+      loading = false,
+      loadingLabel = "Loading…",
     },
     _ref,
   ) => {
@@ -109,11 +149,15 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       }
     }, [isOpen, storageKey]);
 
-    const filtered = items.filter(
-      (item) =>
-        item.label.toLowerCase().includes(query.toLowerCase()) ||
-        item.group?.toLowerCase().includes(query.toLowerCase()),
-    );
+    // Fuzzy filter: when query empty, show full list; otherwise rank by
+    // match-sorter over `label` (primary) and `group` (secondary).
+    const filtered = useMemo(() => {
+      if (query.trim() === "") return items;
+      return matchSorter(items, query, {
+        keys: ["label", "group"],
+        threshold: matchSorter.rankings.CONTAINS,
+      });
+    }, [items, query]);
 
     // Build recent items list (only when input is empty)
     const isInputEmpty = query.trim() === "";
@@ -129,12 +173,18 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
     const restItems = filtered.filter((it) => !recentSet.has(it.id));
     const flatItems = [...recentItems, ...restItems];
 
-    // Group the non-recent items
+    // Group the non-recent items. When fuzzy ranking is active (query non-empty)
+    // we preserve match-sorter order and bucket into a single nameless group
+    // so grouping doesn't fight the ranking.
     const groups = new Map<string, CommandItem[]>();
-    for (const item of restItems) {
-      const group = item.group || "";
-      if (!groups.has(group)) groups.set(group, []);
-      groups.get(group)!.push(item);
+    if (isInputEmpty) {
+      for (const item of restItems) {
+        const group = item.group || "";
+        if (!groups.has(group)) groups.set(group, []);
+        groups.get(group)!.push(item);
+      }
+    } else {
+      groups.set("", restItems);
     }
 
     useEffect(() => {
@@ -149,17 +199,6 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       }
     }, [isOpen]);
 
-    useEffect(() => {
-      const handleGlobalKey = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-          e.preventDefault();
-          setOpen(!isOpen);
-        }
-      };
-      document.addEventListener("keydown", handleGlobalKey);
-      return () => document.removeEventListener("keydown", handleGlobalKey);
-    }, [isOpen, setOpen]);
-
     const selectItem = useCallback(
       (item: CommandItem) => {
         if (item.disabled) return;
@@ -173,6 +212,34 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       },
       [recentIds, setOpen, storageKey],
     );
+
+    // Global Cmd/Ctrl+K toggle + per-item shortcut execution when open.
+    useEffect(() => {
+      const shortcutItems = items.filter((i) => i.shortcut && !i.disabled);
+      const matchers = shortcutItems.map((item) => ({
+        item,
+        matches: parseShortcut(item.shortcut!),
+      }));
+      const handleGlobalKey = (e: KeyboardEvent) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          setOpen(!isOpen);
+          return;
+        }
+        // Per-item shortcuts fire only while the palette is open so we
+        // don't hijack consumer shortcuts globally.
+        if (!isOpen) return;
+        for (const { item, matches } of matchers) {
+          if (matches(e)) {
+            e.preventDefault();
+            selectItem(item);
+            return;
+          }
+        }
+      };
+      document.addEventListener("keydown", handleGlobalKey);
+      return () => document.removeEventListener("keydown", handleGlobalKey);
+    }, [isOpen, setOpen, items, selectItem]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
@@ -276,8 +343,23 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                 aria-autocomplete="list"
               />
             </div>
-            <div className="wui-command__list" role="listbox" id={listboxId}>
-              {hasAnyResults ? (
+            <div
+              className="wui-command__list"
+              role="listbox"
+              id={listboxId}
+              aria-busy={loading || undefined}
+            >
+              {loading ? (
+                <div
+                  className="wui-command-palette__loading"
+                  aria-live="polite"
+                >
+                  <Spinner size="sm" label={loadingLabel} />
+                  <span className="wui-command-palette__loading-label" aria-hidden="true">
+                    {loadingLabel}
+                  </span>
+                </div>
+              ) : hasAnyResults ? (
                 <>
                   {recentItems.length > 0 && (
                     <div role="group" aria-label="Recent">
@@ -285,12 +367,14 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                       {recentItems.map((item) => renderItem(item))}
                     </div>
                   )}
-                  {Array.from(groups.entries()).map(([groupName, groupItems]) => (
-                    <div key={groupName} role="group" aria-label={groupName || undefined}>
-                      {groupName && <div className="wui-command__group-label">{groupName}</div>}
-                      {groupItems.map((item) => renderItem(item))}
-                    </div>
-                  ))}
+                  {Array.from(groups.entries()).map(([groupName, groupItems]) =>
+                    groupItems.length === 0 ? null : (
+                      <div key={groupName || "_"} role="group" aria-label={groupName || undefined}>
+                        {groupName && <div className="wui-command__group-label">{groupName}</div>}
+                        {groupItems.map((item) => renderItem(item))}
+                      </div>
+                    ),
+                  )}
                 </>
               ) : emptyState ? (
                 emptyState
