@@ -51,4 +51,29 @@
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
   }
+  .wui-autocomplete__wrapper { position: relative; inline-size: 100%; }
+  .wui-autocomplete__clear {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--wui-spacing-2);
+    transform: translateY(-50%);
+    inline-size: 28px;
+    block-size: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--wui-color-muted-foreground);
+    border-radius: var(--wui-shape-radius-sm);
+  }
+  .wui-autocomplete__clear:hover {
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-muted);
+  }
+  .wui-autocomplete__clear:focus-visible {
+    outline: 2px solid var(--wui-color-ring);
+    outline-offset: 1px;
+  }
 }

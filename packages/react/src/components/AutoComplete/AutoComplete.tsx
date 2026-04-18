@@ -1,13 +1,37 @@
 "use client";
-import { forwardRef, useState, useRef, useId } from "react";
+import { forwardRef, useRef, useId, useState, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
+import { useControllable, useOutsideClick, useFloatingMenu } from "@weiui/headless";
+
+export interface AutoCompleteOption {
+  value: string;
+  label: string;
+}
 
 export interface AutoCompleteProps {
-  options: { value: string; label: string }[];
+  options: AutoCompleteOption[];
   value?: string;
+  defaultValue?: string;
   onChange?: (value: string) => void;
+  /** Controlled input text. */
+  inputValue?: string;
+  /** Uncontrolled default input text. */
+  defaultInputValue?: string;
   onInputChange?: (input: string) => void;
+  /** Controlled open state of the suggestion list. */
+  open?: boolean;
+  /** Fires when the open state should change. */
+  onOpenChange?: (open: boolean) => void;
+  /** Custom predicate replacing the default substring filter. */
+  filter?: (query: string, option: AutoCompleteOption) => boolean;
+  /** Custom rendering per option. */
+  renderOption?: (option: AutoCompleteOption) => ReactNode;
+  /** Replaces the default empty message. */
+  emptyState?: ReactNode;
+  /** Shows an inline clear button when the input has content. */
+  clearable?: boolean;
+  /** Allows the combobox to accept values not in the option list. */
+  allowsCustomValue?: boolean;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
@@ -21,8 +45,18 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
     {
       options,
       value,
+      defaultValue,
       onChange,
+      inputValue,
+      defaultInputValue,
       onInputChange,
+      open,
+      onOpenChange,
+      filter,
+      renderOption,
+      emptyState,
+      clearable,
+      allowsCustomValue,
       placeholder,
       disabled,
       className,
@@ -32,11 +66,21 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
     },
     ref,
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [inputValue, setInputValue] = useState(
-      () => options.find((o) => o.value === value)?.label ?? "",
-    );
-    const [selectedValue, setSelectedValue] = useState(value ?? "");
+    const [isOpen, setIsOpen] = useControllable<boolean>({
+      value: open,
+      defaultValue: false,
+      onChange: onOpenChange,
+    });
+    const [textValue, setTextValue] = useControllable<string>({
+      value: inputValue,
+      defaultValue: defaultInputValue ?? options.find((o) => o.value === (value ?? defaultValue))?.label ?? "",
+      onChange: onInputChange,
+    });
+    const [selectedValue, setSelectedValue] = useControllable<string>({
+      value,
+      defaultValue: defaultValue ?? "",
+      onChange,
+    });
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const containerRef = useRef<HTMLDivElement>(null);
     const listboxId = useId();
@@ -45,16 +89,16 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
 
     useOutsideClick(containerRef, () => setIsOpen(false), isOpen);
 
-    const filtered = options.filter((o) =>
-      o.label.toLowerCase().includes(inputValue.toLowerCase()),
-    );
+    const defaultFilter = (q: string, opt: AutoCompleteOption) =>
+      opt.label.toLowerCase().includes(q.toLowerCase());
+    const predicate = filter ?? defaultFilter;
+    const filtered = options.filter((o) => predicate(textValue ?? "", o));
 
-    const handleSelect = (opt: { value: string; label: string }) => {
+    const handleSelect = (opt: AutoCompleteOption) => {
       setSelectedValue(opt.value);
-      setInputValue(opt.label);
+      setTextValue(opt.label);
       setIsOpen(false);
       setHighlightedIndex(-1);
-      onChange?.(opt.value);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -65,9 +109,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
             setIsOpen(true);
             setHighlightedIndex(0);
           } else {
-            setHighlightedIndex((prev) =>
-              Math.min(prev + 1, filtered.length - 1),
-            );
+            setHighlightedIndex((prev) => Math.min(prev + 1, filtered.length - 1));
           }
           break;
         case "ArrowUp":
@@ -78,6 +120,10 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
           e.preventDefault();
           if (isOpen && highlightedIndex >= 0 && filtered[highlightedIndex]) {
             handleSelect(filtered[highlightedIndex]);
+          } else if (allowsCustomValue && textValue && textValue.length > 0) {
+            setSelectedValue(textValue);
+            setIsOpen(false);
+            setHighlightedIndex(-1);
           }
           break;
         case "Escape":
@@ -87,22 +133,28 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
       }
     };
 
+    const handleClear = () => {
+      setTextValue("");
+      setSelectedValue("");
+    };
+
+    const currentText = textValue ?? "";
+    const showClear = clearable && currentText.length > 0 && !disabled;
+
     const activeDescendant =
       isOpen && highlightedIndex >= 0 && filtered[highlightedIndex]
         ? `${listboxId}-opt-${highlightedIndex}`
         : undefined;
 
+    const renderEmpty = () => emptyState ?? <div className="wui-autocomplete__empty">{emptyText}</div>;
+
     return (
-      <div
-        ref={ref}
-        className={cn("wui-autocomplete", className)}
-        data-disabled={disabled || undefined}
-      >
-        <div ref={containerRef}>
+      <div ref={ref} className={cn("wui-autocomplete", className)} data-disabled={disabled || undefined}>
+        <div ref={containerRef} className="wui-autocomplete__wrapper">
           <input
             ref={refs.setReference}
             className="wui-autocomplete__input"
-            value={inputValue}
+            value={currentText}
             placeholder={placeholder}
             disabled={disabled}
             role="combobox"
@@ -112,14 +164,27 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
             aria-activedescendant={activeDescendant}
             aria-label={label}
             onChange={(e) => {
-              setInputValue(e.target.value);
-              onInputChange?.(e.target.value);
+              setTextValue(e.target.value);
               setIsOpen(true);
               setHighlightedIndex(0);
             }}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
           />
+          {showClear && (
+            <button
+              type="button"
+              aria-label="Clear"
+              className="wui-autocomplete__clear"
+              onClick={handleClear}
+              tabIndex={-1}
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          )}
           {isOpen && (
             <div
               ref={refs.setFloating}
@@ -129,11 +194,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
               id={listboxId}
             >
               {loading && (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="wui-autocomplete__loading"
-                >
+                <div role="status" aria-live="polite" className="wui-autocomplete__loading">
                   Loading…
                 </div>
               )}
@@ -149,11 +210,11 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
                     data-highlighted={highlightedIndex === i || undefined}
                     onClick={() => handleSelect(opt)}
                   >
-                    {opt.label}
+                    {renderOption ? renderOption(opt) : opt.label}
                   </div>
                 ))
               ) : !loading ? (
-                <div className="wui-autocomplete__empty">{emptyText}</div>
+                renderEmpty()
               ) : null}
             </div>
           )}
