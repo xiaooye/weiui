@@ -239,4 +239,29 @@ describe("ToggleGroup", () => {
     expect(group).toHaveClass("wui-toggle-group--vertical");
     expect(group).toHaveAttribute("data-orientation", "vertical");
   });
+
+  it("applies size modifier class when `size` is set", () => {
+    const { rerender } = render(
+      <ToggleGroup type="single" size="sm">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    expect(screen.getByRole("group")).toHaveClass("wui-toggle-group--sm");
+    rerender(
+      <ToggleGroup type="single" size="lg">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    expect(screen.getByRole("group")).toHaveClass("wui-toggle-group--lg");
+  });
+
+  it("defaults to md size with no modifier class", () => {
+    render(
+      <ToggleGroup type="single">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    const group = screen.getByRole("group");
+    expect(group.className).not.toMatch(/wui-toggle-group--(sm|lg)/);
+  });
 });

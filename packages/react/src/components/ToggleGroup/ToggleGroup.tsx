@@ -45,6 +45,8 @@ export interface ToggleGroupProps {
   label?: string;
   /** Layout orientation. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
+  /** Visual size. Controls item height, padding, and font size. @default "md" */
+  size?: "sm" | "md" | "lg";
 }
 
 export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
@@ -59,6 +61,7 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       children,
       label,
       orientation = "horizontal",
+      size = "md",
     },
     ref,
   ) => {
@@ -171,6 +174,8 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
           className={cn(
             "wui-toggle-group",
             orientation === "vertical" && "wui-toggle-group--vertical",
+            size === "sm" && "wui-toggle-group--sm",
+            size === "lg" && "wui-toggle-group--lg",
             className,
           )}
           role="group"

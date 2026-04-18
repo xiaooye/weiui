@@ -40,6 +40,19 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+  /* Sizes */
+  .wui-toggle-group--sm .wui-toggle-group__item {
+    min-block-size: 36px;
+    min-inline-size: 36px;
+    padding-inline: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-xs);
+  }
+  .wui-toggle-group--lg .wui-toggle-group__item {
+    min-block-size: 48px;
+    min-inline-size: 48px;
+    padding-inline: var(--wui-spacing-4);
+    font-size: var(--wui-font-size-base);
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     .wui-toggle-group__item {
