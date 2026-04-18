@@ -264,4 +264,59 @@ describe("Accordion", () => {
       expect(screen.getByRole("button", { name: /Trigger A/i })).toHaveFocus();
     });
   });
+
+  describe("disabled item (P1)", () => {
+    it("disables the trigger button and skips keyboard focus", async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion type="single">
+          <AccordionItem value="a">
+            <AccordionTrigger>Trigger A</AccordionTrigger>
+            <AccordionContent>Content A</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="b" disabled>
+            <AccordionTrigger>Trigger B</AccordionTrigger>
+            <AccordionContent>Content B</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="c">
+            <AccordionTrigger>Trigger C</AccordionTrigger>
+            <AccordionContent>Content C</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      const b = screen.getByRole("button", { name: /Trigger B/i });
+      expect(b).toBeDisabled();
+      // From A, ArrowDown skips B and lands on C.
+      screen.getByRole("button", { name: /Trigger A/i }).focus();
+      await user.keyboard("{ArrowDown}");
+      expect(screen.getByRole("button", { name: /Trigger C/i })).toHaveFocus();
+    });
+
+    it("clicking a disabled trigger does not expand", async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion type="single">
+          <AccordionItem value="b" disabled>
+            <AccordionTrigger>Trigger B</AccordionTrigger>
+            <AccordionContent>Content B</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      const btn = screen.getByRole("button", { name: /Trigger B/i });
+      await user.click(btn);
+      expect(screen.queryByText("Content B")).not.toBeInTheDocument();
+    });
+
+    it("adds data-disabled to the item wrapper", () => {
+      render(
+        <Accordion type="single">
+          <AccordionItem value="b" disabled data-testid="item-b">
+            <AccordionTrigger>Trigger B</AccordionTrigger>
+            <AccordionContent>Content B</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      expect(screen.getByTestId("item-b")).toHaveAttribute("data-disabled");
+    });
+  });
 });

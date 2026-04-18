@@ -13,6 +13,7 @@ interface AccordionItemContextValue {
   value: string;
   contentId: string;
   triggerId: string;
+  disabled: boolean;
 }
 
 const AccordionItemContext = createContext<AccordionItemContextValue | null>(null);
@@ -102,14 +103,23 @@ Accordion.displayName = "Accordion";
 export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
   children: ReactNode;
+  /** When true, disables the item — trigger is disabled and keyboard nav skips it. */
+  disabled?: boolean;
 }
 
 export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
-  ({ value, className, children, ...props }, ref) => {
+  ({ value, disabled = false, className, children, ...props }, ref) => {
     const id = useId();
     return (
-      <AccordionItemContext.Provider value={{ value, contentId: `${id}-content`, triggerId: `${id}-trigger` }}>
-        <div ref={ref} className={cn("wui-accordion__item", className)} {...props}>
+      <AccordionItemContext.Provider
+        value={{ value, contentId: `${id}-content`, triggerId: `${id}-trigger`, disabled }}
+      >
+        <div
+          ref={ref}
+          className={cn("wui-accordion__item", className)}
+          data-disabled={disabled ? "" : undefined}
+          {...props}
+        >
           {children}
         </div>
       </AccordionItemContext.Provider>
@@ -121,12 +131,13 @@ AccordionItem.displayName = "AccordionItem";
 export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {}
 
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, disabled: disabledProp, ...props }, ref) => {
     const accordion = useContext(AccordionContext);
     const item = useContext(AccordionItemContext);
     if (!accordion || !item) throw new Error("AccordionTrigger must be used within Accordion > AccordionItem");
 
     const isOpen = accordion.expandedItems.has(item.value);
+    const disabled = disabledProp ?? item.disabled;
 
     return (
       <button
@@ -136,7 +147,10 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
         className={cn("wui-accordion__trigger", className)}
         aria-expanded={isOpen}
         aria-controls={item.contentId}
-        onClick={() => accordion.toggle(item.value)}
+        disabled={disabled}
+        onClick={() => {
+          if (!disabled) accordion.toggle(item.value);
+        }}
         {...props}
       >
         {children}
