@@ -13,7 +13,7 @@ describe("InputNumber", () => {
 
   it("renders with defaultValue", () => {
     render(<InputNumber defaultValue={10} />);
-    expect(screen.getByRole("spinbutton")).toHaveValue(10);
+    expect(screen.getByRole("spinbutton")).toHaveValue("10");
   });
 
   it("increments value on button click", async () => {
@@ -155,6 +155,73 @@ describe("InputNumber", () => {
       render(<InputNumber defaultValue={5} prefix="$" suffix="USD" />);
       expect(screen.getByText("$")).toBeInTheDocument();
       expect(screen.getByText("USD")).toBeInTheDocument();
+    });
+
+    it("preserves partial typing (character-by-character) without clobbering", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={0} onChange={onChange} />);
+      const input = screen.getByRole("spinbutton");
+      await user.clear(input);
+      await user.type(input, "1.5");
+      // Final commit should be 1.5, not 15. Read the most recent call.
+      const last = onChange.mock.calls[onChange.mock.calls.length - 1]?.[0];
+      expect(last).toBe(1.5);
+      // The visible display must not have lost the decimal point mid-way.
+      expect(input).toHaveValue("1.5");
+    });
+
+    it("keeps a lone minus on screen while typing", async () => {
+      const user = userEvent.setup();
+      render(<InputNumber defaultValue={0} />);
+      const input = screen.getByRole("spinbutton");
+      await user.clear(input);
+      await user.type(input, "-");
+      expect(input).toHaveValue("-");
+    });
+
+    it("keeps trailing decimal point while typing", async () => {
+      const user = userEvent.setup();
+      render(<InputNumber defaultValue={0} />);
+      const input = screen.getByRole("spinbutton");
+      await user.clear(input);
+      await user.type(input, "12.");
+      expect(input).toHaveValue("12.");
+    });
+
+    it("does not commit when input is only a minus sign", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<InputNumber defaultValue={0} onChange={onChange} />);
+      const input = screen.getByRole("spinbutton");
+      await user.clear(input);
+      onChange.mockClear();
+      await user.type(input, "-");
+      // No commit for a bare minus.
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it("exposes aria-valuetext via formatValueText", () => {
+      render(
+        <InputNumber
+          value={5}
+          formatValueText={(v) => `${v} dollars`}
+          min={0}
+          max={10}
+        />,
+      );
+      expect(screen.getByRole("spinbutton")).toHaveAttribute("aria-valuetext", "5 dollars");
+    });
+
+    it("formatValueText overrides the formatter-derived aria-valuetext", () => {
+      render(
+        <InputNumber
+          value={5}
+          formatOptions={{ style: "currency", currency: "USD" }}
+          formatValueText={(v) => `${v} US dollars`}
+        />,
+      );
+      expect(screen.getByRole("spinbutton")).toHaveAttribute("aria-valuetext", "5 US dollars");
     });
   });
 });
