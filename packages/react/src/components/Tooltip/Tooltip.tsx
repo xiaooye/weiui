@@ -17,6 +17,50 @@ import { useId, useFloatingMenu } from "@weiui/headless";
 import { Portal } from "../Portal";
 
 type TooltipSide = "top" | "right" | "bottom" | "left";
+type TooltipAlign = "start" | "center" | "end";
+
+type FloatingPlacement =
+  | "top" | "right" | "bottom" | "left"
+  | "top-start" | "top-end"
+  | "right-start" | "right-end"
+  | "bottom-start" | "bottom-end"
+  | "left-start" | "left-end";
+
+function toPlacement(side: TooltipSide, align: TooltipAlign): FloatingPlacement {
+  if (align === "center") return side;
+  return `${side}-${align}` as FloatingPlacement;
+}
+
+interface TooltipProviderValue {
+  delayDuration: number;
+  skipDelayDuration: number;
+}
+
+// Default `delayDuration: 0` when no provider is used keeps backward
+// compatibility with the pre-provider Tooltip behaviour (no open delay).
+const TooltipProviderContext = createContext<TooltipProviderValue>({
+  delayDuration: 0,
+  skipDelayDuration: 300,
+});
+
+export interface TooltipProviderProps {
+  children: ReactNode;
+  delayDuration?: number;
+  skipDelayDuration?: number;
+}
+
+export function TooltipProvider({
+  children,
+  delayDuration = 700,
+  skipDelayDuration = 300,
+}: TooltipProviderProps) {
+  return (
+    <TooltipProviderContext.Provider value={{ delayDuration, skipDelayDuration }}>
+      {children}
+    </TooltipProviderContext.Provider>
+  );
+}
+TooltipProvider.displayName = "TooltipProvider";
 
 interface TooltipContextValue {
   isOpen: boolean;
@@ -42,9 +86,22 @@ export interface TooltipProps {
   children: ReactNode;
   delay?: number;
   closeDelay?: number;
+  side?: TooltipSide;
+  align?: TooltipAlign;
+  offset?: number;
 }
 
-export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
+export function Tooltip({
+  children,
+  delay,
+  closeDelay = 0,
+  side = "top",
+  align = "center",
+  offset = 8,
+}: TooltipProps) {
+  const providerValue = useContext(TooltipProviderContext);
+  const resolvedDelay = delay ?? providerValue.delayDuration;
+
   const [isOpen, setIsOpen] = useState(false);
   const tooltipId = useId("tooltip");
   const openTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -53,20 +110,20 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
 
   const { refs, floatingStyles, middlewareData, placement } = useFloatingMenu({
     open: isOpen,
-    placement: "top",
-    offsetPx: 8,
+    placement: toPlacement(side, align),
+    offsetPx: offset,
     collisionPadding: 8,
     arrowRef,
   });
 
   const open = useCallback(() => {
     clearTimeout(closeTimeoutRef.current);
-    if (delay > 0) {
-      openTimeoutRef.current = setTimeout(() => setIsOpen(true), delay);
+    if (resolvedDelay > 0) {
+      openTimeoutRef.current = setTimeout(() => setIsOpen(true), resolvedDelay);
     } else {
       setIsOpen(true);
     }
-  }, [delay]);
+  }, [resolvedDelay]);
 
   const close = useCallback(() => {
     clearTimeout(openTimeoutRef.current);
@@ -86,6 +143,20 @@ export function Tooltip({ children, delay = 0, closeDelay = 0 }: TooltipProps) {
     },
     [],
   );
+
+  // Escape closes tooltip globally while open
+  useEffect(() => {
+    if (!isOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        clearTimeout(openTimeoutRef.current);
+        clearTimeout(closeTimeoutRef.current);
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen]);
 
   return (
     <TooltipContext.Provider

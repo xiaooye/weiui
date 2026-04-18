@@ -48,8 +48,9 @@ export {
   type DialogTitleProps, type DialogDescriptionProps, type DialogCloseProps, type DialogSize,
 } from "./components/Dialog";
 export {
-  Tooltip, TooltipTrigger, TooltipContent, TooltipArrow,
-  type TooltipProps, type TooltipTriggerProps, type TooltipContentProps, type TooltipArrowProps,
+  Tooltip, TooltipTrigger, TooltipContent, TooltipArrow, TooltipProvider,
+  type TooltipProps, type TooltipTriggerProps, type TooltipContentProps,
+  type TooltipArrowProps, type TooltipProviderProps,
 } from "./components/Tooltip";
 export {
   Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow,

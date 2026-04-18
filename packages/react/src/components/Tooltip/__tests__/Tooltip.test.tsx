@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "../Tooltip";
+import userEvent from "@testing-library/user-event";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow, TooltipProvider } from "../Tooltip";
 
 describe("Tooltip", () => {
   it("opens on pointer enter and closes on pointer leave", () => {
@@ -89,5 +90,52 @@ describe("Tooltip", () => {
     expect(arrow).toHaveAttribute("aria-hidden", "true");
     // Arrow is positioned via inline styles
     expect(arrow.style.position).toBe("absolute");
+  });
+});
+
+describe("Tooltip P1 additions", () => {
+  it("TooltipProvider sets global delay that child tooltips consume", async () => {
+    render(
+      <TooltipProvider delayDuration={0}>
+        <Tooltip>
+          <TooltipTrigger>
+            <button>Trigger</button>
+          </TooltipTrigger>
+          <TooltipContent>Hi</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    );
+    fireEvent.focus(screen.getByText("Trigger"));
+    expect(await screen.findByText("Hi")).toBeInTheDocument();
+  });
+
+  it("side prop changes placement", async () => {
+    render(
+      <Tooltip side="bottom">
+        <TooltipTrigger>
+          <button>Trigger</button>
+        </TooltipTrigger>
+        <TooltipContent data-testid="tip">Hi</TooltipContent>
+      </Tooltip>,
+    );
+    fireEvent.focus(screen.getByText("Trigger"));
+    const tip = await screen.findByTestId("tip");
+    expect(tip).toBeInTheDocument();
+  });
+
+  it("Escape closes the tooltip", async () => {
+    const user = userEvent.setup();
+    render(
+      <Tooltip>
+        <TooltipTrigger>
+          <button>Trigger</button>
+        </TooltipTrigger>
+        <TooltipContent>Hi</TooltipContent>
+      </Tooltip>,
+    );
+    fireEvent.focus(screen.getByText("Trigger"));
+    expect(await screen.findByText("Hi")).toBeInTheDocument();
+    await user.keyboard("{Escape}");
+    expect(screen.queryByText("Hi")).not.toBeInTheDocument();
   });
 });
