@@ -743,19 +743,19 @@
 | `aria-label` on toolbar | ✅ | ✅ | — | — |
 | Disabled state | ✅ | ✅ | — | — |
 | Link insertion / editing | ✅ | ✅ | Add Link extension + toolbar button | ✅ shipped |
-| Image insertion / upload hook | ❌ | ✅ | Add image extension + upload callback | **P1** |
-| Undo / redo buttons | ❌ (Cmd+Z works via ProseMirror) | ✅ | Add toolbar buttons | **P1** |
-| Keyboard shortcut hints in toolbar | ❌ | ✅ | Add title attr with shortcut | **P1** |
-| Markdown / HTML export | ⚠️ HTML via `getHTML` | ✅ Tiptap markdown ext | Add `onChangeMarkdown` variant | **P1** |
-| Bubble menu / floating toolbar | ❌ | ✅ | Add BubbleMenu component | **P1** |
+| Image insertion / upload hook | ✅ | ✅ | Image extension + `onImageUpload` callback (or URL prompt fallback) | ✅ shipped |
+| Undo / redo buttons | ✅ | ✅ | Toolbar buttons with disabled-when-empty state | ✅ shipped |
+| Keyboard shortcut hints in toolbar | ✅ | ✅ | `title` + `aria-label` include "Ctrl/Cmd+X" hints | ✅ shipped |
+| Markdown / HTML export | ✅ | ✅ | `onChangeMarkdown` prop + `ref.getMarkdown()` via `tiptap-markdown` | ✅ shipped |
+| Bubble menu / floating toolbar | ✅ | ✅ | `bubbleMenu` prop using `@tiptap/react/menus` BubbleMenu | ✅ shipped |
 | Slash command menu | ❌ | ✅ | Add SlashCommand extension | **P2** |
 | Table extension | ❌ | ✅ | Add Table ext | **P2** |
-| Code highlighting (prismjs / lowlight) | ❌ | ✅ | Add CodeBlockLowlight ext | **P1** |
+| Code highlighting (prismjs / lowlight) | ✅ | ✅ | `codeHighlighting` prop defaults on with CodeBlockLowlight + common langs | ✅ shipped |
 | Collaborative editing (Y.js) | ❌ | ✅ | Out of scope for v1 | **P2** |
-| Character / word count | ❌ | ✅ | Add CharacterCount ext | **P1** |
-| Configurable toolbar (pick actions) | ❌ | ✅ | Add `toolbar` prop | **P1** |
+| Character / word count | ✅ | ✅ | `showCount` prop renders live region with chars · words | ✅ shipped |
+| Configurable toolbar (pick actions) | ✅ | ✅ | `toolbar` prop accepts `ToolbarItem[]`, `"default"`, `"minimal"` | ✅ shipped |
 | Extensions prop for custom nodes | ✅ | ✅ | Expose `extensions` prop | ✅ shipped |
-| Controlled HTML via setContent loop guard | ⚠️ has guard but runs on every value change | ✅ | Keep guard; audit for infinite loop | **P1** |
+| Controlled HTML via setContent loop guard | ✅ | ✅ | Guard (`getHTML() !== value`) verified by no-infinite-loop test | ✅ shipped |
 
 **Notes:** Two P0s. Link insertion is the most-requested missing feature in any rich-text editor (Tiptap StarterKit does not include Link). Exposing `extensions` is P0 because the spec calls for "extensions API" and without it, consumers can't customise anything. Image upload bridges into FileUpload — share infrastructure.
 

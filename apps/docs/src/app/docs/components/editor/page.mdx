@@ -3,7 +3,7 @@ import { EditorDemo } from "../../../../components/demos/EditorDemo";
 
 # Rich Text Editor
 
-Full-featured editor powered by TipTap with a formatting toolbar.
+Full-featured editor powered by TipTap with a formatting toolbar, image upload hook, undo/redo, markdown export, syntax-highlighted code blocks, character count, optional bubble menu, and a fully configurable toolbar.
 
 <Preview label="Rich text editor">
   <EditorDemo />
@@ -21,13 +21,74 @@ import { Editor } from "@weiui/react/editor";
 <Editor disabled />
 ```
 
-### Toolbar Actions
+### Toolbar actions
 
-Bold, Italic, Strikethrough, Heading 1/2/3, Bullet List, Ordered List, Blockquote, Inline Code, Code Block, Link.
+Bold, Italic, Strikethrough, H1/H2/H3, Bullet list, Ordered list, Blockquote, Inline code, Code block, Link, Image, Undo, Redo — each with keyboard-shortcut hints in its `title` and `aria-label`.
 
 ### Link
 
 The toolbar includes a Link button: selecting text and clicking the link icon prompts for a URL and wraps the selection in an `<a>` element. Clicking the same button on an existing link removes it.
+
+### Image insertion
+
+When `onImageUpload` is provided, the image button opens a file picker and passes the selected `File` to the callback. The callback must resolve with a URL, which is then inserted into the editor.
+
+```tsx
+<Editor
+  onImageUpload={async (file) => {
+    const url = await uploadToS3(file);
+    return url;
+  }}
+/>
+```
+
+Without `onImageUpload` the button falls back to a URL prompt.
+
+### Markdown export
+
+Pair `onChange` (HTML) with `onChangeMarkdown` (markdown source), or pull either from the forwarded ref.
+
+```tsx
+const ref = useRef<EditorHandle>(null);
+
+<Editor
+  ref={ref}
+  onChangeMarkdown={(md) => console.log(md)}
+/>;
+
+// Imperatively:
+ref.current?.getMarkdown();
+ref.current?.getHTML();
+```
+
+### Bubble menu
+
+Set `bubbleMenu` to show a floating toolbar (Bold / Italic / Link) above the current selection.
+
+```tsx
+<Editor bubbleMenu />
+```
+
+### Syntax-highlighted code blocks
+
+Code blocks use `@tiptap/extension-code-block-lowlight` with the lowlight `common` language set (JS, TS, Python, CSS, HTML, JSON, Bash, and more). Opt out with `codeHighlighting={false}`.
+
+### Character / word count
+
+```tsx
+<Editor showCount />
+```
+
+Renders a live region below the editor reading `{characters} characters · {words} words`, updated on every transaction.
+
+### Configurable toolbar
+
+```tsx
+<Editor toolbar="minimal" />              {/* bold + italic + link */}
+<Editor toolbar={["bold", "italic", "separator", "undo", "redo"]} />
+```
+
+Supported items: `"bold" | "italic" | "strike" | "h1" | "h2" | "h3" | "bulletList" | "orderedList" | "blockquote" | "code" | "codeBlock" | "link" | "image" | "undo" | "redo" | "separator"`.
 
 ### Custom extensions
 
@@ -52,16 +113,34 @@ import Table from "@tiptap/extension-table";
 |------|------|---------|-------------|
 | value | `string` | — | Controlled HTML content |
 | defaultValue | `string` | `""` | Initial content |
-| onChange | `(html: string) => void` | — | Content change handler |
+| onChange | `(html: string) => void` | — | HTML change handler |
+| onChangeMarkdown | `(md: string) => void` | — | Markdown change handler (fires alongside `onChange`) |
 | placeholder | `string` | `"Write something..."` | Placeholder text |
 | disabled | `boolean` | `false` | Disables editing |
 | label | `string` | `"Rich text editor"` | ARIA label |
-| extensions | `Extensions` (from `@tiptap/react`) | — | Extra TipTap extensions appended to the defaults |
+| extensions | `Extensions` | — | Extra TipTap extensions |
+| toolbar | `ToolbarItem[] \| "default" \| "minimal"` | `"default"` | Toolbar item list or preset |
+| onImageUpload | `(file: File) => Promise<string>` | — | File-picker upload hook; without it, the image button prompts for a URL |
+| bubbleMenu | `boolean` | `false` | Show floating toolbar on selection |
+| codeHighlighting | `boolean` | `true` | Upgrade StarterKit code block with lowlight syntax highlighting |
+| showCount | `boolean` | `false` | Show character/word count under the editor |
+
+### Ref handle
+
+```ts
+interface EditorHandle {
+  editor: TipTapEditor | null;
+  getMarkdown(): string;
+  getHTML(): string;
+}
+```
 
 ### Accessibility
 
 - Toolbar uses `role="toolbar"` with `aria-label`
-- Each button has `aria-label` and `aria-pressed` for active state
+- Each button has `aria-label`, `aria-pressed`, and `title` with the keyboard shortcut
+- Undo/redo buttons disable when their history is empty (`editor.can().undo()` / `.redo()`)
+- Character/word count live region uses `aria-live="polite"`
 - 44px minimum touch target on all toolbar buttons
 - `onMouseDown` with `preventDefault` keeps editor focus while formatting
 - Disabled state applies `pointer-events: none` and reduced opacity
@@ -75,4 +154,8 @@ import Table from "@tiptap/extension-table";
 | `.wui-editor__toolbar-btn` | Individual formatting button |
 | `.wui-editor__toolbar-btn[data-active]` | Active formatting state |
 | `.wui-editor__toolbar-sep` | Visual separator between groups |
+| `.wui-editor__file-input` | Visually hidden `<input type="file">` for image upload |
 | `.wui-editor__content` | Content editing area |
+| `.wui-editor__bubble` | Floating selection toolbar host |
+| `.wui-editor__bubble-inner` | Buttons row inside the bubble menu |
+| `.wui-editor__count` | Character/word count row |

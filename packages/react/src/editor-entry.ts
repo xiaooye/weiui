@@ -1,1 +1,6 @@
-export { Editor, type EditorProps } from "./components/Editor";
+export {
+  Editor,
+  type EditorProps,
+  type EditorHandle,
+  type ToolbarItem,
+} from "./components/Editor";

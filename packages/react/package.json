@@ -59,15 +59,23 @@
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.24",
-    "@tiptap/extension-placeholder": "^3.22.3",
-    "@tiptap/react": "^3.22.3",
-    "@tiptap/starter-kit": "^3.22.3",
+    "@tiptap/extension-bubble-menu": "^3.22.4",
+    "@tiptap/extension-character-count": "^3.22.4",
+    "@tiptap/extension-code-block-lowlight": "^3.22.4",
+    "@tiptap/extension-floating-menu": "^3.22.4",
+    "@tiptap/extension-image": "^3.22.4",
+    "@tiptap/extension-placeholder": "^3.22.4",
+    "@tiptap/pm": "3.22.4",
+    "@tiptap/react": "^3.22.4",
+    "@tiptap/starter-kit": "^3.22.4",
     "@weiui/css": "workspace:*",
     "@weiui/headless": "workspace:*",
+    "lowlight": "^3.3.0",
     "match-sorter": "^8.3.0",
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.0",
-    "tailwind-variants": "^0.3"
+    "tailwind-variants": "^0.3",
+    "tiptap-markdown": "^0.9.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6",
