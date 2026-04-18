@@ -21,6 +21,8 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   invalid?: boolean;
   /** Visual size. Controls the box dimensions and label font size. @default "md" */
   size?: "sm" | "md" | "lg";
+  /** Token-driven check + border color when the box is checked. @default "primary" */
+  color?: "primary" | "success" | "warning" | "destructive";
   /** Helper text rendered beneath the label and wired to `aria-describedby`. */
   description?: ReactNode;
   /** When truthy, marks the input invalid. A string renders the message wired to `aria-describedby`. */
@@ -39,7 +41,18 @@ function mergeRefs<T>(...refs: Array<Ref<T> | undefined>) {
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
-    { label, className, id, indeterminate, invalid, size = "md", description, error, ...props },
+    {
+      label,
+      className,
+      id,
+      indeterminate,
+      invalid,
+      size = "md",
+      color = "primary",
+      description,
+      error,
+      ...props
+    },
     ref,
   ) => {
     const generatedId = useId();
@@ -69,9 +82,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const setRef = useCallback(mergeRefs<HTMLInputElement>(ref, innerRef), [ref]);
 
     const sizeClass = size === "sm" ? "wui-checkbox--sm" : size === "lg" ? "wui-checkbox--lg" : "";
+    const colorClass = color !== "primary" ? `wui-checkbox--color-${color}` : "";
     const resolvedDisabled = props.disabled ?? ctx?.disabled;
     return (
-      <div className={cn("wui-checkbox", sizeClass, className)}>
+      <div className={cn("wui-checkbox", sizeClass, colorClass, className)}>
         <div className="wui-checkbox__row">
           <input
             ref={setRef}

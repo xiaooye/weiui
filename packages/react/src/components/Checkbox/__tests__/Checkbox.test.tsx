@@ -94,4 +94,19 @@ describe("Checkbox", () => {
     render(<Checkbox label="Accept" error />);
     expect(screen.getByRole("checkbox")).toHaveAttribute("aria-invalid", "true");
   });
+
+  it("applies color modifier class when `color` is set", () => {
+    const { container, rerender } = render(<Checkbox aria-label="c" color="success" />);
+    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-success");
+    rerender(<Checkbox aria-label="c" color="warning" />);
+    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-warning");
+    rerender(<Checkbox aria-label="c" color="destructive" />);
+    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-destructive");
+  });
+
+  it("defaults to primary color with no extra modifier class", () => {
+    const { container } = render(<Checkbox aria-label="c" />);
+    const root = container.querySelector(".wui-checkbox")!;
+    expect(root.className).not.toMatch(/wui-checkbox--color-/);
+  });
 });
