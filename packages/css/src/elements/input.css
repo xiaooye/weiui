@@ -23,10 +23,13 @@
   .wui-input[data-invalid]:focus-within {
     outline-color: color-mix(in oklch, var(--wui-color-destructive) 35%, transparent);
   }
-  .wui-input[data-disabled], .wui-input:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--wui-color-muted); box-shadow: none; }
+  .wui-input[data-disabled], .wui-input:disabled, .wui-input--disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--wui-color-muted); box-shadow: none; }
   .wui-input[data-readonly], .wui-input[readonly] { background-color: var(--wui-color-muted); }
   .wui-input--sm { min-block-size: 36px; padding-inline: var(--wui-spacing-2); font-size: var(--wui-font-size-xs); }
   .wui-input--lg { min-block-size: 48px; padding-inline: var(--wui-spacing-4); font-size: var(--wui-font-size-base); }
+  /* Inputs inside a group lose their own chrome. */
+  .wui-input--with-addons { border: none; box-shadow: none; background: transparent; min-block-size: 0; outline: none; }
+  .wui-input--with-addons:focus-within { outline: none; }
   textarea.wui-input { min-block-size: 80px; resize: vertical; }
 
   @media (prefers-reduced-motion: no-preference) {

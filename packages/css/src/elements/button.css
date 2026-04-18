@@ -16,6 +16,10 @@
   .wui-button--xl { min-block-size: 56px; padding-inline: var(--wui-spacing-8); font-size: var(--wui-font-size-lg); border-radius: var(--wui-shape-radius-lg); }
   .wui-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
 
+  /* Inner slots */
+  .wui-button-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .wui-button-label { display: inline-flex; align-items: center; }
+
   /* Variant: solid — inset highlight for depth */
   .wui-button--solid {
     background-color: var(--wui-color-primary);

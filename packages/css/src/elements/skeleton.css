@@ -25,4 +25,5 @@
   }
   .wui-skeleton--circle { border-radius: var(--wui-shape-radius-full); }
   .wui-skeleton--line   { block-size: 1em; }
+  .wui-skeleton--text   { block-size: 1em; border-radius: var(--wui-shape-radius-sm); }
 }
