@@ -70,8 +70,8 @@
 | Size scale (sm/md/lg) | ✅ | ✅ | Add `size` variant | ✅ shipped |
 | Start/end icon or addon slots | ✅ | ✅ | Add `startAddon` / `endAddon` slots | ✅ shipped |
 | Clearable (clear button) | ✅ | ✅ | Add `clearable` + clear button | ✅ shipped |
-| Password variant (show/hide toggle) | ❌ | ✅ | Add type=password with reveal | **P1** |
-| Search variant (search icon + clear) | ❌ | ✅ | Preset variant on Input | **P1** |
+| Password variant (show/hide toggle) | ✅ | ✅ | Add type=password with reveal | ✅ shipped |
+| Search variant (search icon + clear) | ✅ | ✅ | Preset variant on Input | ✅ shipped |
 | Character count / maxLength helper | ✅ | ✅ | Add `showCount` prop | ✅ shipped |
 | Prefix/suffix text (e.g. "https://") | ✅ | ✅ | Covered by addon slots | ✅ shipped |
 | Readonly styling hook | ⚠️ via native | ✅ explicit | Add `data-readonly` styling | **P2** |
@@ -113,8 +113,8 @@
 | Mouse-wheel increment | ❌ | ✅ | Add wheel handler | **P2** |
 | Locale-aware formatting (thousands, decimals) | ✅ | ✅ Intl.NumberFormat | Add `formatOptions` via Intl | ✅ shipped |
 | Prefix / suffix (currency, %) | ✅ | ✅ | Add `formatOptions.style` support | ✅ shipped |
-| Parse partial/invalid input without clobbering | ⚠️ drops NaN silently | ✅ | Preserve intermediate typing state | **P1** |
-| `aria-valuetext` for humanised value | ❌ | ✅ | Expose aria-valuetext | **P1** |
+| Parse partial/invalid input without clobbering | ✅ | ✅ | Preserve intermediate typing state | ✅ shipped |
+| `aria-valuetext` for humanised value | ✅ | ✅ | Expose aria-valuetext | ✅ shipped |
 | Proper role + labeling (spinbutton on input) | ✅ | ✅ explicit `role="spinbutton"` | Wire spinbutton + aria-valuenow | ✅ shipped |
 
 **Notes:** Locale-aware formatting is P0 because internationalised number input is a baseline expectation of a "business-level" design system and without it, currency and percentage fields have to be reinvented downstream. Parse-preserving input is the other headline hazard — current impl drops any non-numeric intermediate character, which breaks "1,2" → "1,200" entry flows.
@@ -178,10 +178,10 @@
 | Search / type-ahead filter | ✅ | ✅ | Add filter input inside trigger | ✅ shipped |
 | Max selectable limit | ✅ | ✅ | Add `max` prop | ✅ shipped |
 | Creatable (add new values) | ✅ | ✅ | Add `creatable` + `onCreate` | ✅ shipped |
-| Async loading | ❌ | ✅ | Add `loading` prop | **P1** |
+| Async loading | ✅ | ✅ | Add `loading` prop | ✅ shipped |
 | Select all / clear all | ✅ | ✅ | Add controls | ✅ shipped |
 | Floating placement | ✅ | ✅ | Use Floating UI | ✅ shipped |
-| Disabled-option respect | ❌ (no `disabled` on option type) | ✅ | Extend option type | **P1** |
+| Disabled-option respect | ✅ | ✅ | Extend option type | ✅ shipped |
 | Grouped options | ✅ | ✅ | Add `group` field to option type | ✅ shipped |
 | Backspace removes last tag | ✅ | ✅ | Handle Backspace on trigger | ✅ shipped |
 | Render custom tag / option | ❌ | ✅ | Add render props | **P2** |
