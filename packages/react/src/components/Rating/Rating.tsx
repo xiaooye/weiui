@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useState, useRef } from "react";
+import { forwardRef, useState, useRef, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface RatingProps {
@@ -12,6 +12,10 @@ export interface RatingProps {
   label?: string;
   /** When true, clicking the left half of a star sets value to N - 0.5. */
   allowHalf?: boolean;
+  /** Custom icon replacing the default ★/☆ glyphs. */
+  icon?: ReactNode;
+  /** Clicking the currently-selected rating clears it to 0. */
+  allowClear?: boolean;
   className?: string;
 }
 
@@ -26,6 +30,8 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
       readOnly,
       label,
       allowHalf = false,
+      icon,
+      allowClear,
       className,
     },
     ref,
@@ -44,6 +50,10 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
       if (disabled || readOnly) return;
       const full = index + 1;
       if (!allowHalf) {
+        if (allowClear && value === full) {
+          setValue(0);
+          return;
+        }
         setValue(full);
         return;
       }
@@ -54,7 +64,12 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
       // but the visible left half matches that because we reverse layout via flex.
       const localX = e.clientX - rect.left;
       const isLeftHalf = localX < rect.width / 2;
-      setValue(isLeftHalf ? full - 0.5 : full);
+      const next = isLeftHalf ? full - 0.5 : full;
+      if (allowClear && value === next) {
+        setValue(0);
+        return;
+      }
+      setValue(next);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -128,7 +143,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
               tabIndex={i === activeIdx ? 0 : -1}
               disabled={disabled}
             >
-              {isFilled || isHalf ? "\u2605" : "\u2606"}
+              {icon !== undefined ? icon : isFilled || isHalf ? "\u2605" : "\u2606"}
             </button>
           );
         })}

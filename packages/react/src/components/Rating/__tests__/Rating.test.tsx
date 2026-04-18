@@ -139,4 +139,29 @@ describe("Rating", () => {
     expect(stars[0]).toHaveAttribute("data-filled", "true");
     expect(stars[1]).toHaveAttribute("data-filled", "true");
   });
+
+  describe("P1 features", () => {
+    it("custom icon replaces default star glyph", () => {
+      const { container } = render(
+        <Rating defaultValue={2} icon={<span data-testid="heart">♥</span>} />,
+      );
+      expect(container.querySelectorAll('[data-testid="heart"]').length).toBe(5);
+    });
+
+    it("allowClear: clicking the active rating clears it to 0", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<Rating allowClear defaultValue={3} onChange={onChange} />);
+      await user.click(screen.getByLabelText("3 stars"));
+      expect(onChange).toHaveBeenCalledWith(0);
+    });
+
+    it("allowClear: clicking a different star still sets that value", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<Rating allowClear defaultValue={3} onChange={onChange} />);
+      await user.click(screen.getByLabelText("4 stars"));
+      expect(onChange).toHaveBeenCalledWith(4);
+    });
+  });
 });
