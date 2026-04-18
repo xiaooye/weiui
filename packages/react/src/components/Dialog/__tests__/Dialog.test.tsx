@@ -53,4 +53,32 @@ describe("Dialog (react)", () => {
     const { container } = render(<DialogOverlay data-testid="ov" />);
     expect(container.querySelector(".wui-dialog__overlay")).not.toBeNull();
   });
+
+  it("Escape key closes the dialog", async () => {
+    const user = userEvent.setup();
+    render(<TestDialog />);
+    await user.click(screen.getByText("Open"));
+    expect(screen.queryByRole("dialog")).not.toBeNull();
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("locks body scroll when open and restores on close", async () => {
+    const user = userEvent.setup();
+    const originalOverflow = document.body.style.overflow;
+    render(<TestDialog />);
+    expect(document.body.style.overflow).toBe(originalOverflow);
+    await user.click(screen.getByText("Open"));
+    expect(document.body.style.overflow).toBe("hidden");
+    await user.keyboard("{Escape}");
+    expect(document.body.style.overflow).toBe(originalOverflow);
+  });
+
+  it("focuses first focusable element when opened", async () => {
+    const user = userEvent.setup();
+    render(<TestDialog />);
+    await user.click(screen.getByText("Open"));
+    // DialogClose is the first focusable button inside content
+    expect(document.activeElement).toBe(screen.getByText("Close"));
+  });
 });
