@@ -124,5 +124,79 @@ describe("Tabs", () => {
       await user.keyboard("{ArrowDown}");
       expect(screen.getByText("Tab B")).toHaveFocus();
     });
+
+    it("skips disabled tabs when navigating with arrows", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="a">
+          <TabsList>
+            <TabsTrigger value="a">Tab A</TabsTrigger>
+            <TabsTrigger value="b" disabled>
+              Tab B
+            </TabsTrigger>
+            <TabsTrigger value="c">Tab C</TabsTrigger>
+          </TabsList>
+          <TabsContent value="a">Content A</TabsContent>
+          <TabsContent value="c">Content C</TabsContent>
+        </Tabs>,
+      );
+      screen.getByText("Tab A").focus();
+      await user.keyboard("{ArrowRight}");
+      // Skip disabled B
+      expect(screen.getByText("Tab C")).toHaveFocus();
+    });
+
+    it("loop=false stops navigation at ends", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="a">
+          <TabsList loop={false}>
+            <TabsTrigger value="a">Tab A</TabsTrigger>
+            <TabsTrigger value="b">Tab B</TabsTrigger>
+            <TabsTrigger value="c">Tab C</TabsTrigger>
+          </TabsList>
+          <TabsContent value="a">Content A</TabsContent>
+          <TabsContent value="b">Content B</TabsContent>
+          <TabsContent value="c">Content C</TabsContent>
+        </Tabs>,
+      );
+      screen.getByText("Tab C").focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByText("Tab C")).toHaveFocus();
+    });
+  });
+
+  describe("activationMode (P1)", () => {
+    it("automatic (default) activates on arrow", async () => {
+      const user = userEvent.setup();
+      render(<TestTabs />);
+      screen.getByText("Tab A").focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByText("Tab B")).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByText("Content B")).toBeInTheDocument();
+    });
+
+    it("manual: arrow moves focus only, Enter activates", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="a">
+          <TabsList activationMode="manual">
+            <TabsTrigger value="a">Tab A</TabsTrigger>
+            <TabsTrigger value="b">Tab B</TabsTrigger>
+          </TabsList>
+          <TabsContent value="a">Content A</TabsContent>
+          <TabsContent value="b">Content B</TabsContent>
+        </Tabs>,
+      );
+      screen.getByText("Tab A").focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByText("Tab B")).toHaveFocus();
+      // Tab A still active.
+      expect(screen.getByText("Tab A")).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByText("Content A")).toBeInTheDocument();
+      // Enter activates.
+      await user.keyboard("{Enter}");
+      expect(screen.getByText("Tab B")).toHaveAttribute("aria-selected", "true");
+    });
   });
 });

@@ -1,18 +1,23 @@
 "use client";
 import { type ReactNode, type HTMLAttributes, type KeyboardEvent, useCallback, useRef } from "react";
 
+export type TabsActivationMode = "automatic" | "manual";
+
 export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   /** Layout orientation. `vertical` uses ArrowUp/ArrowDown; `horizontal` uses ArrowLeft/ArrowRight. */
   orientation?: "horizontal" | "vertical";
   /** When true, arrow navigation loops at ends (default true). */
   loop?: boolean;
+  /** Activation mode. `automatic`: arrow keys immediately activate tab. `manual`: arrows move focus only; Enter/Space activates. Default `automatic`. */
+  activationMode?: TabsActivationMode;
 }
 
 export function TabsList({
   children,
   orientation = "horizontal",
   loop = true,
+  activationMode = "automatic",
   onKeyDown,
   ...props
 }: TabsListProps) {
@@ -55,10 +60,13 @@ export function TabsList({
       if (nextIdx !== currentIdx && triggers[nextIdx]) {
         e.preventDefault();
         triggers[nextIdx]!.focus();
-        triggers[nextIdx]!.click();
+        // `automatic` activates on focus; `manual` requires Enter/Space (handled by browser default click on the trigger).
+        if (activationMode === "automatic") {
+          triggers[nextIdx]!.click();
+        }
       }
     },
-    [orientation, loop, onKeyDown],
+    [orientation, loop, activationMode, onKeyDown],
   );
 
   return (
