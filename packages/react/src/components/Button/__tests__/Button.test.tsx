@@ -38,13 +38,13 @@ describe("Button", () => {
   it("applies variant classes", () => {
     render(<Button variant="outline">Outline</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("bg-transparent");
+    expect(btn.className).toContain("wui-button--outline");
   });
 
   it("applies size classes", () => {
     render(<Button size="lg">Large</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("h-12");
+    expect(btn.className).toContain("wui-button--lg");
   });
 
   it("merges custom className", () => {
