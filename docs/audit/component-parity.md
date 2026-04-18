@@ -585,7 +585,7 @@
 | Collapsible (single mode can all be closed) | ⚠️ clear via re-click | ✅ `collapsible` prop | Add explicit `collapsible` | **P2** |
 | Disabled item | ✅ | ✅ | `disabled` on AccordionItem | ✅ shipped |
 | Orientation vertical/horizontal | ❌ | ✅ | Add prop | **P2** |
-| Animated expand (keep content in DOM) | ❌ (unmounts when closed) | ✅ via forceMount or data-state | Keep DOM, animate height | **P1** |
+| Animated expand (keep content in DOM) | ✅ data-state + grid-template-rows | ✅ via forceMount or data-state | Keep DOM, animate height | ✅ shipped |
 
 **Notes:** Two P0s. Controlled mode is expected on every WAI-ARIA composite. Keyboard nav between triggers is baseline. Animated expand is a known hazard — switching from "unmount" to "always render with data-state" is the idiomatic path and needs CSS coordination.
 
@@ -665,7 +665,7 @@
 | Trigger button + popover + Calendar | ✅ | ✅ | — | — |
 | Min / max date | ✅ | ✅ | — | — |
 | Locale-aware display | ✅ | ✅ Intl | Pass locale prop, use Intl | ✅ shipped |
-| Controlled + uncontrolled | ⚠️ controlled-only (`value`/`onChange`) | ✅ | Add `defaultValue` pattern | **P1** |
+| Controlled + uncontrolled | ✅ `value`/`onChange` + `defaultValue` | ✅ | Add `defaultValue` pattern | ✅ shipped |
 | Typed input (DateInput-style segmented input) | ✅ | ✅ | Add segmented input variant | ✅ shipped |
 | Range mode (start + end) | ✅ | ✅ | Add DateRangePicker | ✅ shipped |
 | Time picker integration | ❌ | ✅ | Add time fields | **P2** |
@@ -796,7 +796,7 @@
 | Range mode (two thumbs) | ✅ | ✅ | Add range variant | ✅ shipped |
 | Vertical orientation | ✅ | ✅ | Add `orientation` | ✅ shipped |
 | Step marks / ticks | ✅ | ✅ | Add `marks` prop | ✅ shipped |
-| Inverted direction (RTL) | ⚠️ CSS logical props used | ✅ | Verify RTL end-to-end | **P1** |
+| Inverted direction (RTL) | ✅ CSS logical props end-to-end + RTL tests | ✅ | Verify RTL end-to-end | ✅ shipped |
 | Tooltip on drag | ✅ | ✅ | Add tooltip slot | ✅ shipped |
 | PageUp/PageDown large step | ✅ | ✅ | Add | ✅ shipped |
 | `aria-valuetext` for humanised | ✅ | ✅ | Add | ✅ shipped |
@@ -819,7 +819,7 @@
 | `role=radiogroup/radio` with aria-checked | ✅ | ✅ | — | — |
 | Half-star support | ✅ | ✅ | Add `allowHalf` | ✅ shipped |
 | Custom icon | ✅ | ✅ | Add `icon` prop | ✅ shipped |
-| Hover preview | ❌ | ✅ | Add hover state | **P1** |
+| Hover preview | ✅ data-hover attribute per star | ✅ | Add hover state | ✅ shipped |
 | Clear on click-again | ✅ | ✅ | Add `allowClear` | ✅ shipped |
 | Character variant (emoji / text) | ❌ | ✅ | Via `icon` | **P2** |
 | Tooltip per star | ❌ | ✅ | Add `tooltips` prop | **P2** |
