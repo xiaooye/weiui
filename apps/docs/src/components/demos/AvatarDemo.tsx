@@ -25,6 +25,7 @@ export function AvatarDemo() {
         <AvatarImage
           src="https://i.pravatar.cc/96?img=12"
           alt="Avatar photo"
+          loading="lazy"
         />
         <AvatarFallback>XL</AvatarFallback>
       </Avatar>

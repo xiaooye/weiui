@@ -25,7 +25,17 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
             {nodes.map((node, i) => (
               <div
                 key={node.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedId === node.id}
+                aria-label={`Select ${node.type}`}
                 onClick={() => onSelect(node.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(node.id);
+                  }
+                }}
                 style={{
                   padding: "var(--wui-spacing-2)",
                   border: `2px solid ${selectedId === node.id ? "var(--wui-color-primary)" : "var(--wui-color-border)"}`,
@@ -56,7 +66,7 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
 function renderPreview(node: ComponentNode) {
   switch (node.type) {
     case "Button": return <button type="button" className={`wui-button wui-button--${node.props.variant || "solid"} wui-button--sm`}>{node.children}</button>;
-    case "Input": return <input className="wui-input wui-input--sm" placeholder={String(node.props.placeholder || "")} readOnly style={{ maxWidth: "150px" }} />;
+    case "Input": return <input className="wui-input wui-input--sm" placeholder={String(node.props.placeholder || "")} aria-label="Composer Input preview" readOnly style={{ maxWidth: "150px" }} />;
     case "Badge": return <span className={`wui-badge wui-badge--${node.props.variant || "solid"}`}>{node.children}</span>;
     case "Card": return <span style={{ fontSize: "var(--wui-font-size-sm)" }}>Card: {node.children}</span>;
     case "Avatar": return <span className="wui-avatar wui-avatar--sm"><span className="wui-avatar__fallback">{node.children}</span></span>;

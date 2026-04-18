@@ -24,10 +24,11 @@ export function ColorPicker({ hue, saturation, onHueChange, onSaturationChange }
 
         {/* Hue slider */}
         <div>
-          <label style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
+          <label htmlFor="theme-hue" style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
             Hue: {Math.round(hue)}
           </label>
           <input
+            id="theme-hue"
             type="range"
             min={0}
             max={360}
@@ -40,10 +41,11 @@ export function ColorPicker({ hue, saturation, onHueChange, onSaturationChange }
 
         {/* Saturation slider */}
         <div>
-          <label style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
+          <label htmlFor="theme-chroma" style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
             Chroma: {saturation.toFixed(3)}
           </label>
           <input
+            id="theme-chroma"
             type="range"
             min={0}
             max={0.4}

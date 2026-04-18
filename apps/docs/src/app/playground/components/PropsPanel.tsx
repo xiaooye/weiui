@@ -18,8 +18,9 @@ export function PropsPanel({ component, propValues, onPropChange, children, onCh
       <div className="wui-card__content" style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)" }}>
         {component.defaultChildren !== "" && (
           <div>
-            <label style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>children</label>
+            <label htmlFor="prop-children" style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>children</label>
             <input
+              id="prop-children"
               className="wui-input wui-input--sm"
               value={children}
               onChange={(e) => onChildrenChange(e.target.value)}
@@ -40,8 +41,8 @@ function PropControl({ prop, value, onChange }: { prop: PropDef; value: string |
     case "select":
       return (
         <div>
-          <label style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>{prop.name}</label>
-          <select className="wui-input wui-input--sm" value={String(value)} onChange={(e) => onChange(e.target.value)}>
+          <label htmlFor={`prop-${prop.name}`} style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>{prop.name}</label>
+          <select id={`prop-${prop.name}`} className="wui-input wui-input--sm" value={String(value)} onChange={(e) => onChange(e.target.value)}>
             {prop.options?.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
           </select>
         </div>
@@ -56,8 +57,8 @@ function PropControl({ prop, value, onChange }: { prop: PropDef; value: string |
     case "text":
       return (
         <div>
-          <label style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>{prop.name}</label>
-          <input className="wui-input wui-input--sm" value={String(value)} onChange={(e) => onChange(e.target.value)} />
+          <label htmlFor={`prop-${prop.name}`} style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>{prop.name}</label>
+          <input id={`prop-${prop.name}`} className="wui-input wui-input--sm" value={String(value)} onChange={(e) => onChange(e.target.value)} />
         </div>
       );
   }

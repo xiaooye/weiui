@@ -45,7 +45,7 @@ export function ThemePreview({ theme }: Props) {
           {/* Input */}
           <div>
             <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Input</h3>
-            <input className="wui-input" placeholder="Type something..." style={{ maxWidth: "300px" }} />
+            <input className="wui-input" placeholder="Type something..." aria-label="Sample input" style={{ maxWidth: "300px" }} />
           </div>
 
           {/* Card */}
