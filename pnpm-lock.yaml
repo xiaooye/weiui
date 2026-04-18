@@ -32,6 +32,9 @@ importers:
       '@weiui/headless':
         specifier: workspace:*
         version: link:../../packages/headless
+      '@weiui/icons':
+        specifier: workspace:*
+        version: link:../../packages/icons
       '@weiui/react':
         specifier: workspace:*
         version: link:../../packages/react

@@ -3,22 +3,28 @@ import { InputDemo } from "../../../../components/demos/InputDemo";
 import { InputSizesDemo } from "../../../../components/demos/InputSizesDemo";
 import { InputAddonsDemo } from "../../../../components/demos/InputAddonsDemo";
 import { InputStatesDemo } from "../../../../components/demos/InputStatesDemo";
+import { InputClearableDemo } from "../../../../components/demos/InputClearableDemo";
 import { TextareaDemo } from "../../../../components/demos/TextareaDemo";
 import { TextareaSizesDemo } from "../../../../components/demos/TextareaSizesDemo";
 
-# Input
+# Input & Textarea
 
-Text input field with validation states and size variants.
+Single-line (`<Input>`) and multi-line (`<Textarea>`) text fields with consistent sizing, validation states, addons, and optional clearing, character counting, and prefix / suffix slots.
 
 ## Default
 
-<Preview label="Input">
+<Preview label="Default input">
   <InputDemo />
 </Preview>
 
+```tsx
+<Input placeholder="Email" />
+<Input invalid placeholder="Invalid email" />
+```
+
 ## Sizes
 
-The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 / 44 / 52px touch targets.
+The `size` prop maps to 36 / 44 / 52 px heights. The default (`md`) guarantees WeiUI's 44 × 44 px touch-target minimum.
 
 <Preview label="Input sizes">
   <InputSizesDemo />
@@ -30,9 +36,27 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 <Input size="lg" placeholder="Large" />
 ```
 
+When an input is in a dense table or side-panel, use `size="sm"`. For primary actions (auth, checkout) prefer `size="lg"` to read as a single CTA-adjacent field.
+
+## States
+
+Inputs carry four visual states driven by props or native pseudo-classes: normal, invalid, readOnly, and disabled. The invalid state wires `aria-invalid="true"` and targets the AAA destructive ring.
+
+<Preview label="Input states">
+  <InputStatesDemo />
+</Preview>
+
+```tsx
+<Input invalid placeholder="Invalid" />
+<Input readOnly value="Read-only value" />
+<Input disabled placeholder="Disabled" />
+```
+
+Pair with `<Field>` for auto-wired label + error copy — see [Form primitives](/docs/components/form).
+
 ## Addons
 
-`startAddon` and `endAddon` attach a prefix or suffix visually joined to the input (e.g. unit labels, icons, currency symbols). When either is set the input is rendered inside a `wui-input-group`.
+`startAddon` and `endAddon` attach visually joined chrome to the edges (currency, unit, protocol, static icon). The input renders inside a `wui-input-group`.
 
 <Preview label="Input with addons">
   <InputAddonsDemo />
@@ -41,20 +65,44 @@ The `size` prop picks between `sm`, `md` (default), and `lg`. Heights map to 36 
 ```tsx
 <Input startAddon="$" endAddon="USD" placeholder="0.00" />
 <Input startAddon="https://" placeholder="example.com" />
-<Input endAddon={<SearchIcon />} placeholder="Search" />
+<Input endAddon={<Search size={16} aria-hidden />} placeholder="Search" />
 ```
 
-## States
+Addons visually attach to the input — they don't float inside it. For content inside the input (icons, tokens), use `prefix` / `suffix`.
 
-<Preview label="Input states">
-  <InputStatesDemo />
+## Prefix, suffix, clearable, character count
+
+`prefix` / `suffix` render inside the input border. `clearable` shows a close button while the value is non-empty. `showCount` + `maxLength` adds a character counter in the suffix slot.
+
+<Preview label="Clearable, character count, password reveal">
+  <InputClearableDemo />
 </Preview>
+
+```tsx
+import { Eye, EyeOff } from "@weiui/icons";
+
+{/* Clearable */}
+<Input clearable value={name} onChange={e => setName(e.target.value)} />
+
+{/* Character count */}
+<Input maxLength={60} showCount value={msg} onChange={e => setMsg(e.target.value)} />
+
+{/* Password reveal */}
+<Input
+  type={show ? "text" : "password"}
+  suffix={
+    <button type="button" onClick={() => setShow(!show)} aria-label={show ? "Hide password" : "Show password"}>
+      {show ? <EyeOff size={16} /> : <Eye size={16} />}
+    </button>
+  }
+/>
+```
 
 ## Textarea
 
-Textarea supports the same `size` variants as Input.
+A multi-line field with the same `size` variants and state props as `Input`.
 
-<Preview label="Textarea">
+<Preview label="Textarea default">
   <TextareaDemo />
 </Preview>
 
@@ -66,34 +114,54 @@ Textarea supports the same `size` variants as Input.
 <Textarea size="sm" placeholder="Small" />
 <Textarea size="md" placeholder="Medium" />
 <Textarea size="lg" placeholder="Large" />
+<Textarea invalid placeholder="Invalid" />
+<Textarea rows={6} placeholder="Multi-line" />
 ```
 
-## Usage
+## Auto-wiring with Field
+
+Wrap in `<Field>` so the label, hint, and error message are associated automatically. See [Form primitives](/docs/components/form#field).
 
 ```tsx
-import { Input, Textarea } from "@weiui/react";
+import { Field, Input } from "@weiui/react";
 
-<Input placeholder="Email" />
-<Input invalid placeholder="Invalid email" />
-<Textarea placeholder="Message..." />
+<Field label="Email" hint="We'll never share your email" error={errors.email}>
+  <Input type="email" placeholder="you@example.com" />
+</Field>
 ```
 
-## Props
+`<Field>` generates a stable `id` via `useId()`, sets `htmlFor` on the label, wires `aria-describedby` for hint and error, and marks the input `aria-invalid` when `error` is truthy.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| invalid | `boolean` | `false` | Shows error state |
-| disabled | `boolean` | `false` | Disables input |
-| size | `"sm" \| "md" \| "lg"` | `"md"` | Input height variant |
-| startAddon | `ReactNode` | — | Content rendered before the input, joined visually |
-| endAddon | `ReactNode` | — | Content rendered after the input, joined visually |
-| className | `string` | — | Additional classes |
+## Input props
 
-All standard `<input>` HTML attributes are also supported.
+| Prop          | Type                              | Default  | Description                                       |
+|---------------|-----------------------------------|----------|---------------------------------------------------|
+| `size`        | `"sm" \| "md" \| "lg"`            | `"md"`   | Height variant                                    |
+| `invalid`     | `boolean`                         | `false`  | Error state — sets `aria-invalid="true"`          |
+| `clearable`   | `boolean`                         | `false`  | Show a clear button when the value is non-empty   |
+| `prefix`      | `ReactNode`                       | —        | Content inside the input, before the value        |
+| `suffix`      | `ReactNode`                       | —        | Content inside the input, after the value         |
+| `startAddon`  | `ReactNode`                       | —        | Joined block before the input                     |
+| `endAddon`    | `ReactNode`                       | —        | Joined block after the input                      |
+| `showCount`   | `boolean`                         | `false`  | Render `value.length / maxLength` in the suffix   |
+| `maxLength`   | `number`                          | —        | Native max length (drives `showCount` denominator)|
+
+All standard `<input>` attributes (`type`, `placeholder`, `value`, `defaultValue`, `onChange`, `disabled`, `readOnly`, `required`, etc.) are supported.
+
+## Textarea props
+
+| Prop     | Type                              | Default  | Description          |
+|----------|-----------------------------------|----------|----------------------|
+| `size`   | `"sm" \| "md" \| "lg"`            | `"md"`   | Height variant       |
+| `invalid`| `boolean`                         | `false`  | Error state          |
+
+All standard `<textarea>` attributes are supported.
 
 ## Accessibility
 
-- Minimum 44px height touch target
-- `aria-invalid` when invalid
-- Focus ring on focus-within
-- Supports native validation pseudo-classes
+- Default height (`md`) guarantees a 44 × 44 px touch/click target (WCAG 2.5.5 AAA).
+- `invalid` triggers `aria-invalid="true"`; pair with a visible error message and wire `aria-describedby` via `<Field>`.
+- The clear button has `aria-label="Clear"` and is reachable by keyboard — Tab inside the input group jumps to it.
+- Addons are rendered as plain spans — keep their content static and non-interactive. For interactive trailing chrome (e.g. a password-reveal toggle, a unit switcher) use `suffix` with a real `<button>`.
+- `showCount` uses `aria-live="polite"` so the remaining-characters update is announced as the user types, but not on every keystroke (debounced by the browser).
+- Focus ring is 3 px solid with a 2 px offset, rendered via `focus-within` on the group so the entire chrome lights up when focus enters the input.
