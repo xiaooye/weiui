@@ -1,0 +1,38 @@
+{
+  "name": "@weiui/mcp",
+  "version": "0.0.1",
+  "description": "Model Context Protocol server for WeiUI — lets AI agents introspect components.",
+  "author": "Wei",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui" },
+  "homepage": "https://weiui.dev",
+  "keywords": ["weiui", "mcp", "ai", "agent", "react", "components"],
+  "type": "module",
+  "bin": { "weiui-mcp": "./dist/index.js" },
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./tools/list-components": { "types": "./dist/tools/list-components.d.ts", "import": "./dist/tools/list-components.js" },
+    "./tools/get-component": { "types": "./dist/tools/get-component.d.ts", "import": "./dist/tools/get-component.js" },
+    "./tools/search-components": { "types": "./dist/tools/search-components.d.ts", "import": "./dist/tools/search-components.js" },
+    "./tools/get-example": { "types": "./dist/tools/get-example.d.ts", "import": "./dist/tools/get-example.js" },
+    "./tools/check-usage": { "types": "./dist/tools/check-usage.d.ts", "import": "./dist/tools/check-usage.js" },
+    "./registry-loader": { "types": "./dist/registry-loader.d.ts", "import": "./dist/registry-loader.js" },
+    "./lint": { "types": "./dist/lint.d.ts", "import": "./dist/lint.js" }
+  },
+  "files": ["dist", "registry", "README.md"],
+  "scripts": {
+    "build": "tsup src/index.ts src/tools/list-components.ts src/tools/get-component.ts src/tools/search-components.ts src/tools/get-example.ts src/tools/check-usage.ts src/registry-loader.ts src/lint.ts --format esm --dts --target node20",
+    "test": "vitest run",
+    "prepack": "node -e \"try { require('fs').cpSync('../../apps/docs/public/registry', './registry', { recursive: true }) } catch (e) {}\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsup": "^8.3",
+    "typescript": "^5.8",
+    "vitest": "^3.1"
+  }
+}
