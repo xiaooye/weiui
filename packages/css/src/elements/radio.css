@@ -82,6 +82,13 @@
     cursor: not-allowed;
     opacity: 0.5;
   }
+  /* Sizes — propagated from the group. */
+  .wui-radio-group--sm .wui-radio__input { inline-size: 16px; block-size: 16px; }
+  .wui-radio-group--sm .wui-radio__input::before { inline-size: 8px; block-size: 8px; }
+  .wui-radio-group--sm .wui-radio__label { font-size: var(--wui-font-size-xs); }
+  .wui-radio-group--lg .wui-radio__input { inline-size: 24px; block-size: 24px; }
+  .wui-radio-group--lg .wui-radio__input::before { inline-size: 12px; block-size: 12px; }
+  .wui-radio-group--lg .wui-radio__label { font-size: var(--wui-font-size-base); }
   @media (prefers-reduced-motion: no-preference) {
     .wui-radio__input {
       transition-property: border-color, box-shadow;

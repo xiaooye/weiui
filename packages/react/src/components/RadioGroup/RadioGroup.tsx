@@ -20,6 +20,12 @@ interface RadioGroupContextValue {
   onChange: (value: string) => void;
   registerItem: (value: string, el: HTMLInputElement | null) => void;
   onItemKeyDown: (event: KeyboardEvent<HTMLInputElement>, itemValue: string) => void;
+  /** When true, every item inherits disabled unless it sets its own. */
+  disabled?: boolean;
+  /** When true, every item receives `aria-required="true"`. */
+  required?: boolean;
+  /** When true, every item receives `aria-invalid="true"`. */
+  invalid?: boolean;
 }
 
 const RadioGroupContext = createContext<RadioGroupContextValue | null>(null);
@@ -43,6 +49,14 @@ export interface RadioGroupProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   /** Layout direction of the items. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
+  /** Visual size. Propagates to every item's radio + label. @default "md" */
+  size?: "sm" | "md" | "lg";
+  /** Disables every item in the group; individual items may still disable themselves. */
+  disabled?: boolean;
+  /** Forwards `aria-required="true"` to every item. */
+  required?: boolean;
+  /** Forwards `aria-invalid="true"` to every item. */
+  invalid?: boolean;
 }
 
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
@@ -55,6 +69,10 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       children,
       className,
       orientation = "horizontal",
+      size = "md",
+      disabled,
+      required,
+      invalid,
       ...props
     },
     ref,
@@ -127,9 +145,14 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         onChange: setCurrentValue,
         registerItem,
         onItemKeyDown,
+        disabled,
+        required,
+        invalid,
       }),
-      [groupName, currentValue, setCurrentValue, registerItem, onItemKeyDown],
+      [groupName, currentValue, setCurrentValue, registerItem, onItemKeyDown, disabled, required, invalid],
     );
+
+    const sizeClass = size === "sm" ? "wui-radio-group--sm" : size === "lg" ? "wui-radio-group--lg" : "";
 
     return (
       <RadioGroupContext.Provider value={ctxValue}>
@@ -137,9 +160,12 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
           ref={ref}
           role="radiogroup"
           data-orientation={orientation}
+          data-disabled={disabled || undefined}
+          aria-invalid={invalid || undefined}
           className={cn(
             "wui-radio-group",
             orientation === "vertical" && "wui-radio-group--vertical",
+            sizeClass,
             className,
           )}
           {...props}
@@ -163,8 +189,17 @@ export interface RadioGroupItemProps
 }
 
 export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
-  ({ value, label, description, className, id, onKeyDown, ...props }, ref) => {
-    const { name, value: groupValue, onChange, registerItem, onItemKeyDown } = useRadioGroupContext();
+  ({ value, label, description, className, id, onKeyDown, disabled, ...props }, ref) => {
+    const {
+      name,
+      value: groupValue,
+      onChange,
+      registerItem,
+      onItemKeyDown,
+      disabled: groupDisabled,
+      required: groupRequired,
+      invalid: groupInvalid,
+    } = useRadioGroupContext();
     const generatedId = useId("radio-item");
     const inputId = id || generatedId;
     const descId = `${inputId}-desc`;
@@ -183,6 +218,10 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
     const describedBy =
       hasDescription ? [existingDescribedBy, descId].filter(Boolean).join(" ") : existingDescribedBy;
 
+    const resolvedDisabled = disabled ?? groupDisabled;
+    const resolvedInvalid = groupInvalid;
+    const resolvedRequired = groupRequired;
+
     return (
       <div className={cn("wui-radio", className)}>
         <div className="wui-radio__row">
@@ -199,7 +238,11 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
               onItemKeyDown(e, value);
               onKeyDown?.(e);
             }}
+            aria-invalid={resolvedInvalid || undefined}
+            aria-required={resolvedRequired || undefined}
+            data-invalid={resolvedInvalid || undefined}
             {...props}
+            disabled={resolvedDisabled}
             aria-describedby={describedBy}
           />
           {label && (

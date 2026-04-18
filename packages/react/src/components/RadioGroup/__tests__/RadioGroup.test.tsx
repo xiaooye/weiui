@@ -170,4 +170,65 @@ describe("RadioGroup", () => {
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute("aria-describedby", desc.id);
   });
+
+  it("applies size modifier class on the group", () => {
+    const { rerender } = render(
+      <RadioGroup aria-label="s" size="sm">
+        <RadioGroupItem value="a" label="A" />
+      </RadioGroup>,
+    );
+    expect(screen.getByRole("radiogroup")).toHaveClass("wui-radio-group--sm");
+    rerender(
+      <RadioGroup aria-label="s" size="lg">
+        <RadioGroupItem value="a" label="A" />
+      </RadioGroup>,
+    );
+    expect(screen.getByRole("radiogroup")).toHaveClass("wui-radio-group--lg");
+  });
+
+  it("group-level disabled propagates to every item", () => {
+    render(
+      <RadioGroup aria-label="g" disabled>
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    const radios = screen.getAllByRole("radio");
+    for (const r of radios) expect(r).toBeDisabled();
+  });
+
+  it("per-item disabled still works and does not override siblings", () => {
+    render(
+      <RadioGroup aria-label="g">
+        <RadioGroupItem value="a" label="A" disabled />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    expect(screen.getByLabelText("A")).toBeDisabled();
+    expect(screen.getByLabelText("B")).not.toBeDisabled();
+  });
+
+  it("group-level required forwards aria-required to every item", () => {
+    render(
+      <RadioGroup aria-label="g" required>
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    for (const r of screen.getAllByRole("radio")) {
+      expect(r).toHaveAttribute("aria-required", "true");
+    }
+  });
+
+  it("group-level invalid forwards aria-invalid to every item", () => {
+    render(
+      <RadioGroup aria-label="g" invalid>
+        <RadioGroupItem value="a" label="A" />
+        <RadioGroupItem value="b" label="B" />
+      </RadioGroup>,
+    );
+    for (const r of screen.getAllByRole("radio")) {
+      expect(r).toHaveAttribute("aria-invalid", "true");
+    }
+  });
 });
