@@ -147,4 +147,71 @@ describe("Transfer", () => {
       expect(screen.getByRole("listbox", { name: "Selected items" })).toHaveTextContent("Item A");
     });
   });
+
+  describe("select all per pane (P1)", () => {
+    it("renders a select-all checkbox in each pane", () => {
+      render(<Transfer sourceItems={sourceItems} />);
+      expect(screen.getByRole("checkbox", { name: /select all available/i })).toBeInTheDocument();
+      expect(screen.getByRole("checkbox", { name: /select all selected/i })).toBeInTheDocument();
+    });
+
+    it("select-all toggles all enabled items", async () => {
+      const user = userEvent.setup();
+      render(<Transfer sourceItems={sourceItems} />);
+      const all = screen.getByRole("checkbox", { name: /select all available/i });
+      await user.click(all);
+      const itemA = screen.getByText("Item A").closest("[role='option']")!;
+      const itemB = screen.getByText("Item B").closest("[role='option']")!;
+      expect(itemA).toHaveAttribute("aria-selected", "true");
+      expect(itemB).toHaveAttribute("aria-selected", "true");
+    });
+  });
+
+  describe("move all (P1)", () => {
+    it("renders Move-all buttons in each direction", () => {
+      render(<Transfer sourceItems={sourceItems} />);
+      expect(screen.getByRole("button", { name: /move all to target/i })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /move all to source/i })).toBeInTheDocument();
+    });
+
+    it("Move-all-right transfers every enabled source item", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<Transfer sourceItems={sourceItems} onChange={onChange} />);
+      await user.click(screen.getByRole("button", { name: /move all to target/i }));
+      expect(onChange).toHaveBeenCalled();
+      const targetList = screen.getByRole("listbox", { name: "Selected items" });
+      expect(targetList).toHaveTextContent("Item A");
+      expect(targetList).toHaveTextContent("Item B");
+    });
+  });
+
+  describe("search per pane (P1)", () => {
+    it("renders a search input per pane when searchable", () => {
+      render(<Transfer sourceItems={sourceItems} searchable />);
+      expect(screen.getByRole("textbox", { name: /search available/i })).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: /search selected/i })).toBeInTheDocument();
+    });
+
+    it("filters source items by search", async () => {
+      const user = userEvent.setup();
+      render(<Transfer sourceItems={sourceItems} searchable />);
+      const search = screen.getByRole("textbox", { name: /search available/i });
+      await user.type(search, "Item A");
+      expect(screen.getByText("Item A")).toBeInTheDocument();
+      expect(screen.queryByText("Item B")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("keyboard (P1)", () => {
+    it("Space/Enter toggles focused item selection", async () => {
+      const user = userEvent.setup();
+      render(<Transfer sourceItems={sourceItems} />);
+      const listbox = screen.getByRole("listbox", { name: "Available items" });
+      listbox.focus();
+      await user.keyboard(" ");
+      const itemA = screen.getByText("Item A").closest("[role='option']")!;
+      expect(itemA).toHaveAttribute("aria-selected", "true");
+    });
+  });
 });
