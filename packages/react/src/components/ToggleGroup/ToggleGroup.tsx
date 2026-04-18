@@ -35,10 +35,24 @@ export interface ToggleGroupProps {
   className?: string;
   children: ReactNode;
   label?: string;
+  orientation?: "horizontal" | "vertical";
 }
 
 export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
-  ({ type = "single", value: controlled, defaultValue, onChange, disabled, className, children, label }, ref) => {
+  (
+    {
+      type = "single",
+      value: controlled,
+      defaultValue,
+      onChange,
+      disabled,
+      className,
+      children,
+      label,
+      orientation = "horizontal",
+    },
+    ref,
+  ) => {
     const [internal, setInternal] = useState<string[]>(() => {
       const def = defaultValue ?? (type === "multiple" ? [] : "");
       return Array.isArray(def) ? def : def ? [def] : [];
@@ -77,38 +91,41 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       }
     }, []);
 
-    const onItemKeyDown = useCallback((event: KeyboardEvent<HTMLButtonElement>) => {
-      const order = orderRef.current;
-      const map = itemsRef.current;
-      if (order.length === 0) return;
-      const currentEl = event.currentTarget;
-      const currentValue = [...map.entries()].find(([, el]) => el === currentEl)?.[0];
-      if (!currentValue) return;
-      const idx = order.indexOf(currentValue);
-      let nextIdx = -1;
-      switch (event.key) {
-        case "ArrowRight":
-        case "ArrowDown":
-          nextIdx = (idx + 1) % order.length;
-          break;
-        case "ArrowLeft":
-        case "ArrowUp":
-          nextIdx = (idx - 1 + order.length) % order.length;
-          break;
-        case "Home":
-          nextIdx = 0;
-          break;
-        case "End":
-          nextIdx = order.length - 1;
-          break;
-        default:
-          return;
-      }
-      event.preventDefault();
-      const nextValue = order[nextIdx];
-      if (nextValue == null) return;
-      map.get(nextValue)?.focus();
-    }, []);
+    const onItemKeyDown = useCallback(
+      (event: KeyboardEvent<HTMLButtonElement>) => {
+        const order = orderRef.current;
+        const map = itemsRef.current;
+        if (order.length === 0) return;
+        const currentEl = event.currentTarget;
+        const currentValue = [...map.entries()].find(([, el]) => el === currentEl)?.[0];
+        if (!currentValue) return;
+        const idx = order.indexOf(currentValue);
+        const nextKey = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
+        const prevKey = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+        let nextIdx = -1;
+        switch (event.key) {
+          case nextKey:
+            nextIdx = (idx + 1) % order.length;
+            break;
+          case prevKey:
+            nextIdx = (idx - 1 + order.length) % order.length;
+            break;
+          case "Home":
+            nextIdx = 0;
+            break;
+          case "End":
+            nextIdx = order.length - 1;
+            break;
+          default:
+            return;
+        }
+        event.preventDefault();
+        const nextValue = order[nextIdx];
+        if (nextValue == null) return;
+        map.get(nextValue)?.focus();
+      },
+      [orientation],
+    );
 
     // Determine tab-stop value: first selected item if any, otherwise the first child Item's value.
     // We compute it by walking React children so it's stable from first render (SSR-safe).
@@ -142,9 +159,14 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       <ToggleGroupContext.Provider value={ctxValue}>
         <div
           ref={ref}
-          className={cn("wui-toggle-group", className)}
+          className={cn(
+            "wui-toggle-group",
+            orientation === "vertical" && "wui-toggle-group--vertical",
+            className,
+          )}
           role="group"
           aria-label={label}
+          data-orientation={orientation}
           data-disabled={disabled || undefined}
         >
           {children}

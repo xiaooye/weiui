@@ -6,6 +6,9 @@
     background-color: var(--wui-surface-sunken);
     border-radius: var(--wui-shape-radius-md);
   }
+  .wui-toggle-group--vertical {
+    flex-direction: column;
+  }
   .wui-toggle-group__item {
     display: flex;
     align-items: center;

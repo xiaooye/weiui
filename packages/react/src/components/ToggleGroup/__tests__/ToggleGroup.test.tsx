@@ -211,5 +211,32 @@ describe("ToggleGroup", () => {
       expect(a.getAttribute("tabindex")).toBe("0");
       expect(b.getAttribute("tabindex")).toBe("-1");
     });
+
+    it("vertical orientation uses ArrowDown/ArrowUp, ignores left/right", async () => {
+      const user = userEvent.setup();
+      render(
+        <ToggleGroup type="single" orientation="vertical">
+          <ToggleGroupItem value="a">A</ToggleGroupItem>
+          <ToggleGroupItem value="b">B</ToggleGroupItem>
+        </ToggleGroup>,
+      );
+      const a = screen.getByText("A").closest("button")!;
+      a.focus();
+      await user.keyboard("{ArrowDown}");
+      expect(screen.getByText("B").closest("button")).toHaveFocus();
+      await user.keyboard("{ArrowUp}");
+      expect(screen.getByText("A").closest("button")).toHaveFocus();
+    });
+  });
+
+  it("applies vertical orientation class and data attribute", () => {
+    render(
+      <ToggleGroup type="single" orientation="vertical">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    const group = screen.getByRole("group");
+    expect(group).toHaveClass("wui-toggle-group--vertical");
+    expect(group).toHaveAttribute("data-orientation", "vertical");
   });
 });
