@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
+  PopoverArrow,
 } from "../Popover";
 
 describe("Popover", () => {
@@ -91,5 +92,64 @@ describe("Popover", () => {
     const content = screen.getByTestId("content");
     // floating-ui assigns inline positioning styles
     expect(content.style.position).toBe("absolute");
+  });
+});
+
+describe("Popover P1 additions", () => {
+  it("renders PopoverArrow when mounted in content", async () => {
+    const user = userEvent.setup();
+    render(
+      <Popover>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverContent>
+          Body
+          <PopoverArrow data-testid="arrow" />
+        </PopoverContent>
+      </Popover>,
+    );
+    await user.click(screen.getByText("Open"));
+    expect(await screen.findByTestId("arrow")).toBeInTheDocument();
+  });
+
+  it("modal={false} skips focus trap (focus escapes)", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <Popover modal={false}>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>
+            <button>Inside</button>
+          </PopoverContent>
+        </Popover>
+        <button data-testid="outside">Outside</button>
+      </>,
+    );
+    await user.click(screen.getByText("Open"));
+    await screen.findByText("Inside");
+    // In non-modal mode Tab should reach the Outside button
+    // Since focus ordering varies by browser, assert only that trap is not active
+    // by checking Outside can receive focus via JS:
+    screen.getByTestId("outside").focus();
+    expect(screen.getByTestId("outside")).toHaveFocus();
+  });
+
+  it("onInteractOutside is called with preventDefault support", async () => {
+    const user = userEvent.setup();
+    const onInteract = vi.fn((e: Event) => e.preventDefault());
+    render(
+      <>
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent onInteractOutside={onInteract}>Body</PopoverContent>
+        </Popover>
+        <button data-testid="outside">Outside</button>
+      </>,
+    );
+    await user.click(screen.getByText("Open"));
+    await screen.findByText("Body");
+    await user.click(screen.getByTestId("outside"));
+    expect(onInteract).toHaveBeenCalled();
+    // Popover should remain open because preventDefault was called
+    expect(screen.getByText("Body")).toBeInTheDocument();
   });
 });

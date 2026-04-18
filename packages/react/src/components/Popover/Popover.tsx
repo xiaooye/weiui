@@ -14,7 +14,6 @@ import {
 import {
   useDisclosure,
   useFocusTrap,
-  useOutsideClick,
   getFirstFocusable,
   useId,
   useFloatingMenu,
@@ -46,6 +45,10 @@ interface PopoverContextValue {
   triggerId: string;
   refs: ReturnType<typeof useFloatingMenu>["refs"];
   floatingStyles: CSSProperties;
+  modal: boolean;
+  arrowRef: MutableRefObject<HTMLElement | null>;
+  arrowData: { x?: number; y?: number } | undefined;
+  placement: string;
 }
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
@@ -60,29 +63,40 @@ export interface PopoverProps extends UseDisclosureProps {
   children: ReactNode;
   side?: PopoverSide;
   align?: PopoverAlign;
+  offset?: number;
+  collisionPadding?: number;
+  modal?: boolean;
 }
 
 export function Popover({
   children,
   side = "bottom",
   align = "start",
+  offset = 8,
+  collisionPadding = 8,
+  modal = false,
   ...disclosureProps
 }: PopoverProps) {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure(disclosureProps);
   const baseId = useId("popover");
   const popoverId = `${baseId}-content`;
   const triggerId = `${baseId}-trigger`;
+  const arrowRef = useRef<HTMLElement | null>(null);
 
-  const { refs, floatingStyles } = useFloatingMenu({
+  const { refs, floatingStyles, middlewareData, placement } = useFloatingMenu({
     open: isOpen,
     placement: toPlacement(side, align),
-    offsetPx: 8,
-    collisionPadding: 8,
+    offsetPx: offset,
+    collisionPadding,
+    arrowRef,
   });
 
   return (
     <PopoverContext.Provider
-      value={{ isOpen, onOpen, onClose, onToggle, popoverId, triggerId, refs, floatingStyles }}
+      value={{
+        isOpen, onOpen, onClose, onToggle, popoverId, triggerId, refs, floatingStyles,
+        modal, arrowRef, arrowData: middlewareData.arrow, placement,
+      }}
     >
       {children}
     </PopoverContext.Provider>
@@ -125,10 +139,23 @@ PopoverTrigger.displayName = "PopoverTrigger";
 
 export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  onInteractOutside?: (event: MouseEvent) => void;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
+  onOpenAutoFocus?: (event: Event) => void;
+  onCloseAutoFocus?: (event: Event) => void;
 }
 
-export function PopoverContent({ children, style, onKeyDown, ...props }: PopoverContentProps) {
-  const { isOpen, onClose, popoverId, refs, floatingStyles } = usePopoverContext();
+export function PopoverContent({
+  children,
+  style,
+  onKeyDown,
+  onInteractOutside,
+  onEscapeKeyDown,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  ...props
+}: PopoverContentProps) {
+  const { isOpen, onClose, popoverId, refs, floatingStyles, modal } = usePopoverContext();
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
@@ -137,19 +164,41 @@ export function PopoverContent({ children, style, onKeyDown, ...props }: Popover
     refs.setFloating(el);
   };
 
-  useFocusTrap(contentRef, isOpen);
-  useOutsideClick(contentRef, onClose, isOpen);
+  useFocusTrap(contentRef, isOpen && modal);
+
+  // Custom outside-click that respects onInteractOutside preventDefault
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClick(e: MouseEvent) {
+      if (!contentRef.current) return;
+      if (contentRef.current.contains(e.target as Node)) return;
+      const preventable = new Event("interactoutside", { cancelable: true });
+      Object.defineProperty(preventable, "target", { value: e.target });
+      onInteractOutside?.(preventable as unknown as MouseEvent);
+      if (!preventable.defaultPrevented) onClose();
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isOpen, onClose, onInteractOutside]);
 
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
-      const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
-      if (firstFocusable) firstFocusable.focus();
+      const openEvent = new Event("openautofocus", { cancelable: true });
+      onOpenAutoFocus?.(openEvent);
+      if (!openEvent.defaultPrevented) {
+        const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
+        if (firstFocusable) firstFocusable.focus();
+      }
     } else if (previousFocusRef.current) {
-      previousFocusRef.current.focus();
+      const closeEvent = new Event("closeautofocus", { cancelable: true });
+      onCloseAutoFocus?.(closeEvent);
+      if (!closeEvent.defaultPrevented) {
+        previousFocusRef.current.focus();
+      }
       previousFocusRef.current = null;
     }
-  }, [isOpen]);
+  }, [isOpen, onOpenAutoFocus, onCloseAutoFocus]);
 
   if (!isOpen) return null;
 
@@ -161,8 +210,12 @@ export function PopoverContent({ children, style, onKeyDown, ...props }: Popover
         style={{ ...floatingStyles, ...style }}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
-            e.stopPropagation();
-            onClose();
+            const escEvent = new KeyboardEvent("keydown", { key: "Escape", cancelable: true });
+            onEscapeKeyDown?.(escEvent);
+            if (!escEvent.defaultPrevented) {
+              e.stopPropagation();
+              onClose();
+            }
           }
           onKeyDown?.(e);
         }}
@@ -198,3 +251,36 @@ export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(
   },
 );
 PopoverClose.displayName = "PopoverClose";
+
+export interface PopoverArrowProps extends HTMLAttributes<HTMLSpanElement> {
+  size?: number;
+}
+
+export function PopoverArrow({ size = 8, style, ...props }: PopoverArrowProps) {
+  const { arrowRef, arrowData, placement } = usePopoverContext();
+  const side = placement.split("-")[0] as PopoverSide;
+  const staticSide: PopoverSide = (
+    { top: "bottom", right: "left", bottom: "top", left: "right" } as const
+  )[side];
+
+  return (
+    <span
+      ref={(el) => { arrowRef.current = el; }}
+      aria-hidden="true"
+      className="wui-popover__arrow"
+      style={{
+        position: "absolute",
+        width: size,
+        height: size,
+        background: "inherit",
+        left: arrowData?.x != null ? `${arrowData.x}px` : undefined,
+        top: arrowData?.y != null ? `${arrowData.y}px` : undefined,
+        [staticSide]: `-${size / 2}px`,
+        transform: "rotate(45deg)",
+        ...style,
+      }}
+      {...props}
+    />
+  );
+}
+PopoverArrow.displayName = "PopoverArrow";

@@ -1,0 +1,7 @@
+@layer wui-elements {
+  .wui-popover__arrow {
+    /* Intrinsic box styled via inline styles (position from floating-ui).
+       Border radius makes the rotated square look softer. */
+    border-start-start-radius: 2px;
+  }
+}

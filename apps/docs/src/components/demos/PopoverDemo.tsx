@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+import { Avatar, AvatarFallback, Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow } from "@weiui/react";
 
 export function PopoverDemo() {
   return (
@@ -72,6 +72,7 @@ export function PopoverDemo() {
             Profile
           </PopoverClose>
         </div>
+        <PopoverArrow />
       </PopoverContent>
     </Popover>
   );

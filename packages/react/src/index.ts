@@ -52,8 +52,9 @@ export {
   type TooltipProps, type TooltipTriggerProps, type TooltipContentProps, type TooltipArrowProps,
 } from "./components/Tooltip";
 export {
-  Popover, PopoverTrigger, PopoverContent, PopoverClose,
-  type PopoverProps, type PopoverTriggerProps, type PopoverContentProps, type PopoverCloseProps,
+  Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow,
+  type PopoverProps, type PopoverTriggerProps, type PopoverContentProps,
+  type PopoverCloseProps, type PopoverArrowProps,
 } from "./components/Popover";
 
 // Form selection components
