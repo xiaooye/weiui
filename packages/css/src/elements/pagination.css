@@ -3,6 +3,22 @@
     display: flex;
     align-items: center;
     gap: var(--wui-spacing-1);
+    flex-wrap: wrap;
+  }
+  .wui-pagination[data-size="sm"] .wui-pagination__btn {
+    min-block-size: 32px;
+    min-inline-size: 32px;
+    font-size: var(--wui-font-size-xs);
+  }
+  .wui-pagination[data-size="lg"] .wui-pagination__btn {
+    min-block-size: 52px;
+    min-inline-size: 52px;
+    font-size: var(--wui-font-size-md);
+  }
+  .wui-pagination__total {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+    margin-inline-end: var(--wui-spacing-2);
   }
   .wui-pagination__btn {
     display: flex;
@@ -42,6 +58,53 @@
     min-block-size: 44px;
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
+  }
+
+  .wui-pagination__page-size,
+  .wui-pagination__jump {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    margin-inline-start: var(--wui-spacing-2);
+  }
+  .wui-pagination__page-size-label,
+  .wui-pagination__jump-label {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-pagination__page-size-select {
+    min-block-size: 44px;
+    padding-inline: var(--wui-spacing-2);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    font-size: var(--wui-font-size-sm);
+    cursor: pointer;
+  }
+  .wui-pagination__jump-input {
+    min-block-size: 44px;
+    inline-size: 60px;
+    padding-inline: var(--wui-spacing-2);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    font-size: var(--wui-font-size-sm);
+  }
+  .wui-pagination__jump-input:focus,
+  .wui-pagination__page-size-select:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+    border-color: var(--wui-color-ring);
+  }
+  .wui-pagination[data-size="sm"] .wui-pagination__page-size-select,
+  .wui-pagination[data-size="sm"] .wui-pagination__jump-input {
+    min-block-size: 32px;
+  }
+  .wui-pagination[data-size="lg"] .wui-pagination__page-size-select,
+  .wui-pagination[data-size="lg"] .wui-pagination__jump-input {
+    min-block-size: 52px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
