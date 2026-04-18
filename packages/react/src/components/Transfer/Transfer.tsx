@@ -9,6 +9,7 @@ export interface TransferItem {
 }
 
 export interface TransferProps {
+  /** Full item set (source + target). Items appearing in `targetValues` move to the target pane. */
   sourceItems: TransferItem[];
   /** Initial items on the target side (uncontrolled only). */
   targetItems?: TransferItem[];
@@ -16,13 +17,17 @@ export interface TransferProps {
   targetValues?: string[];
   /** Called with the updated list of target values (both controlled + uncontrolled). */
   onTargetValuesChange?: (values: string[]) => void;
+  /** Called with the current source/target item lists after any move. */
   onChange?: (source: TransferItem[], target: TransferItem[]) => void;
+  /** Heading for the source pane. */
   sourceTitle?: string;
+  /** Heading for the target pane. */
   targetTitle?: string;
   /** Enable per-pane search input. */
   searchable?: boolean;
   /** Search placeholder shown in each pane's input. */
   searchPlaceholder?: string;
+  /** Additional CSS classes merged onto the root. */
   className?: string;
 }
 

@@ -26,27 +26,43 @@ import { cn } from "../../utils/cn";
 export type DataTableSize = "comfortable" | "dense";
 
 export interface DataTableProps<TData> {
+  /** Array of row objects rendered into the table. */
   data: TData[];
+  /** TanStack Table column definitions (with `accessorKey` / `header` / optional `cell`). */
   columns: ColumnDef<TData, unknown>[];
+  /** Renders a global search input above the table. */
   searchable?: boolean;
+  /** Placeholder for the global search input. @default "Search..." */
   searchPlaceholder?: string;
+  /** Renders a checkbox column and enables row selection. */
   selectable?: boolean;
+  /** Rows per page for paginated mode. @default 10 */
   pageSize?: number;
+  /** Page-size options shown in the footer picker. @default [10, 20, 50, 100] */
   pageSizeOptions?: number[];
+  /** Content shown when there are no rows. @default "No results." */
   emptyText?: ReactNode;
+  /** Additional CSS classes merged onto the table wrapper. */
   className?: string;
   /** Server-side mode: when true, the component will NOT apply pagination/sort/filter to `data`. */
   manualPagination?: boolean;
+  /** When true, disables client sorting so the consumer can drive it from the server. */
   manualSorting?: boolean;
+  /** When true, disables client filtering so the consumer can drive it from the server. */
   manualFiltering?: boolean;
   /** Total row count for server-side pagination (required when manualPagination is true). */
   rowCount?: number;
+  /** Called when pagination state changes (page index / page size). */
   onPaginationChange?: OnChangeFn<PaginationState>;
+  /** Called when the sort state changes. */
   onSortingChange?: OnChangeFn<SortingState>;
+  /** Called when the global-filter string changes. */
   onGlobalFilterChange?: OnChangeFn<string>;
+  /** Called when the row-selection map changes. */
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   /** Loading state — renders a spinner row in the table body. */
   loading?: boolean;
+  /** Label shown next to the spinner in the loading row. */
   loadingText?: string;
   /** Size variant. `dense` uses reduced vertical padding. Default `comfortable`. */
   size?: DataTableSize;
@@ -76,6 +92,7 @@ export interface DataTableProps<TData> {
   onRowClick?: (row: TData, event: MouseEvent<HTMLTableRowElement>) => void;
   /** Stable row id (enables selection persistence across pages). */
   getRowId?: (row: TData, index: number) => string;
+  /** Test id forwarded to the table wrapper. */
   "data-testid"?: string;
 }
 

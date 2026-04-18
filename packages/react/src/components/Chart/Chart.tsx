@@ -108,13 +108,21 @@ const ChartWrapper = forwardRef<HTMLDivElement, ChartWrapperProps>(
 ChartWrapper.displayName = "ChartWrapper";
 
 export interface ChartProps {
+  /** Array of data rows; each row is a record keyed by `xKey` plus each `dataKeys` entry. */
   data: Record<string, unknown>[];
+  /** Keys within each row used as series (one line/bar/area per key). */
   dataKeys: string[];
+  /** Key within each row used for the x-axis category. @default "name" */
   xKey?: string;
+  /** Chart title rendered above the plot and used as `aria-label` fallback. */
   title?: ReactNode;
+  /** Secondary description rendered under the title. */
   description?: ReactNode;
+  /** Plot height in pixels. */
   height?: number;
+  /** Additional CSS classes merged onto the chart wrapper. */
   className?: string;
+  /** Palette for series colors. Cycles if there are more series than colors. */
   colors?: string[];
 }
 
@@ -202,12 +210,19 @@ export const AreaChart = forwardRef<HTMLDivElement, ChartProps>(
 AreaChart.displayName = "AreaChart";
 
 export interface PieChartProps {
+  /** Slice data — each entry is `{ name, value }`. */
   data: { name: string; value: number }[];
+  /** Chart title rendered above the plot. */
   title?: ReactNode;
+  /** Secondary description rendered under the title. */
   description?: ReactNode;
+  /** Plot height in pixels. */
   height?: number;
+  /** Additional CSS classes merged onto the chart wrapper. */
   className?: string;
+  /** Palette for slice colors. Cycles if there are more slices than colors. */
   colors?: string[];
+  /** When true, renders as a donut (inner radius cut-out). */
   donut?: boolean;
 }
 
@@ -255,13 +270,21 @@ export const DonutChart = forwardRef<HTMLDivElement, Omit<PieChartProps, "donut"
 DonutChart.displayName = "DonutChart";
 
 export interface RadarChartProps {
+  /** Array of data rows; each row is a record keyed by `angleKey` plus each `dataKeys` entry. */
   data: Record<string, unknown>[];
+  /** Keys within each row used as series (one radar polygon per key). */
   dataKeys: string[];
+  /** Key within each row used for the radial axis label. @default "subject" */
   angleKey?: string;
+  /** Chart title rendered above the plot. */
   title?: ReactNode;
+  /** Secondary description rendered under the title. */
   description?: ReactNode;
+  /** Plot height in pixels. */
   height?: number;
+  /** Additional CSS classes merged onto the chart wrapper. */
   className?: string;
+  /** Palette for series colors. Cycles if there are more series than colors. */
   colors?: string[];
 }
 

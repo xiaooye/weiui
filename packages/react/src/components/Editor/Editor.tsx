@@ -6,12 +6,19 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { cn } from "../../utils/cn";
 
 export interface EditorProps {
+  /** Controlled HTML content. Pair with `onChange`. */
   value?: string;
+  /** Uncontrolled initial HTML content. */
   defaultValue?: string;
+  /** Called when the document changes with the serialized HTML. */
   onChange?: (html: string) => void;
+  /** Text shown when the editor is empty. */
   placeholder?: string;
+  /** Disables editing and dims the editor. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the editor root. */
   className?: string;
+  /** Accessible label for the editor surface. */
   label?: string;
   /** Additional Tiptap extensions to merge with StarterKit + Placeholder. */
   extensions?: Extensions;

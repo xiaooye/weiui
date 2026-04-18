@@ -15,7 +15,9 @@ export interface TreeNode {
 export type TreeSelectionMode = "single" | "multiple";
 
 export interface TreeViewProps {
+  /** Root tree data. Each node may contain nested `children`. */
   nodes: TreeNode[];
+  /** Ids of nodes initially expanded (uncontrolled). */
   defaultExpanded?: string[];
   /** Controlled expanded ids. When provided, `defaultExpanded` is ignored. */
   expanded?: string[];
@@ -37,7 +39,9 @@ export interface TreeViewProps {
   checkboxes?: boolean;
   /** Lazy-load children. Called when a branch with `hasChildren: true` and no `children` is expanded. */
   loadChildren?: (node: TreeNode) => Promise<TreeNode[]>;
+  /** Additional CSS classes merged onto the tree root. */
   className?: string;
+  /** Accessible name for the tree (`aria-label`). */
   label?: string;
 }
 
