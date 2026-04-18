@@ -52,6 +52,17 @@ export function ColorPickerDemo() {
         />
         <code>{color}</code>
       </div>
+      <p
+        style={{
+          fontSize: "var(--wui-font-size-xs)",
+          color: "var(--wui-color-muted-foreground)",
+          margin: 0,
+        }}
+      >
+        Tip: paste an <code>oklch(…)</code> string into the input to use the
+        design-system colour space directly — for example{" "}
+        <code>oklch(0.65 0.2 265)</code>.
+      </p>
     </div>
   );
 }

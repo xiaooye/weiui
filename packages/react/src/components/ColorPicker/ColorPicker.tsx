@@ -171,7 +171,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
           className="wui-color-picker__input"
           value={value}
           disabled={disabled}
-          aria-label="Hex color"
+          aria-label="Color value (hex or oklch)"
+          placeholder="#rrggbb or oklch(…)"
           onChange={(e) => {
             const v = e.target.value;
             // Accept hex in-progress OR a full oklch() string.
