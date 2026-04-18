@@ -14,6 +14,7 @@ import { cn } from "../../utils/cn";
 
 interface StepperContextValue {
   activeStep: number;
+  onStepClick?: (index: number) => void;
 }
 
 const StepperContext = createContext<StepperContextValue | null>(null);
@@ -28,6 +29,8 @@ export interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   activeStep: number;
   children: ReactNode;
   orientation?: "horizontal" | "vertical";
+  /** When provided, Step indicators and labels become clickable to jump between steps. */
+  onStepClick?: (index: number) => void;
 }
 
 // Auto-inject `index` into <Step> and <StepSeparator> children when the
@@ -60,8 +63,8 @@ function injectIndices(children: ReactNode): ReactNode {
 }
 
 export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
-  ({ activeStep, orientation = "horizontal", className, children, ...props }, ref) => (
-    <StepperContext.Provider value={{ activeStep }}>
+  ({ activeStep, orientation = "horizontal", onStepClick, className, children, ...props }, ref) => (
+    <StepperContext.Provider value={{ activeStep, onStepClick }}>
       <div
         ref={ref}
         className={cn("wui-stepper", orientation === "vertical" && "wui-stepper--vertical", className)}
@@ -79,6 +82,14 @@ export interface StepProps extends HTMLAttributes<HTMLDivElement> {
   index?: number;
   label: ReactNode;
   description?: ReactNode;
+  /** Error state — renders an error indicator and description color. */
+  error?: boolean;
+  /** Custom icon to replace the numeric indicator. */
+  icon?: ReactNode;
+  /** Custom icon for the completed state (defaults to a checkmark). */
+  completedIcon?: ReactNode;
+  /** Custom icon for the error state (defaults to "!"). */
+  errorIcon?: ReactNode;
 }
 
 type StepComponent = ReturnType<typeof forwardRef<HTMLDivElement, StepProps>> & {
@@ -86,10 +97,21 @@ type StepComponent = ReturnType<typeof forwardRef<HTMLDivElement, StepProps>> & 
 };
 
 export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
-  ({ index = 0, label, description, className, children, ...props }, ref) => {
-    const { activeStep } = useStepperContext();
+  (
+    { index = 0, label, description, error, icon, completedIcon, errorIcon, className, children, onClick, ...props },
+    ref,
+  ) => {
+    const { activeStep, onStepClick } = useStepperContext();
     const isActive = index === activeStep;
-    const isCompleted = index < activeStep;
+    const isCompleted = !error && index < activeStep;
+    const clickable = !!onStepClick;
+
+    const renderIndicatorContent = () => {
+      if (error) return errorIcon ?? "!";
+      if (isCompleted) return completedIcon ?? "\u2713";
+      if (icon) return icon;
+      return index + 1;
+    };
 
     return (
       <div
@@ -97,10 +119,28 @@ export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
         className={cn("wui-step", className)}
         data-active={isActive ? "" : undefined}
         data-completed={isCompleted ? "" : undefined}
+        data-error={error ? "" : undefined}
+        data-clickable={clickable ? "" : undefined}
         aria-current={isActive ? "step" : undefined}
+        role={clickable ? "button" : undefined}
+        tabIndex={clickable ? 0 : undefined}
+        onClick={(e) => {
+          if (clickable) onStepClick?.(index);
+          onClick?.(e);
+        }}
+        onKeyDown={
+          clickable
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onStepClick?.(index);
+                }
+              }
+            : undefined
+        }
         {...props}
       >
-        <div className="wui-step__indicator">{isCompleted ? "\u2713" : index + 1}</div>
+        <div className="wui-step__indicator">{renderIndicatorContent()}</div>
         <div>
           <div className="wui-step__label">{label}</div>
           {description && <div className="wui-step__description">{description}</div>}

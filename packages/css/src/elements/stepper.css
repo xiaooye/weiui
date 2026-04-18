@@ -27,13 +27,48 @@
     flex: 1; block-size: 2px; min-inline-size: var(--wui-spacing-8);
     background-color: var(--wui-color-border);
   }
-  .wui-step__separator[data-completed] { background-color: var(--wui-color-primary); }
+  .wui-step__separator {
+    position: relative;
+    overflow: hidden;
+  }
+  .wui-step__separator::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 0;
+    background-color: var(--wui-color-primary);
+  }
+  .wui-step__separator[data-completed]::before { inline-size: 100%; }
+  .wui-step[data-error] .wui-step__indicator {
+    border-color: var(--wui-color-danger);
+    background-color: var(--wui-color-danger);
+    color: var(--wui-color-on-danger, #fff);
+  }
+  .wui-step[data-error] .wui-step__description {
+    color: var(--wui-color-danger);
+  }
+  .wui-step[data-clickable] {
+    cursor: pointer;
+    border-radius: var(--wui-shape-radius-md);
+  }
+  .wui-step[data-clickable]:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-step[data-clickable]:hover .wui-step__indicator {
+    border-color: var(--wui-color-primary);
+  }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-step__indicator,
-    .wui-step__separator {
+    .wui-step__indicator {
       transition-property: background-color, border-color, color, box-shadow;
       transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-step__separator::before {
+      transition-property: inline-size;
+      transition-duration: var(--wui-motion-duration-moderate);
       transition-timing-function: var(--wui-motion-easing-standard);
     }
   }

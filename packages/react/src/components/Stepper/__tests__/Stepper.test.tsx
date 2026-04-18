@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Stepper, Step, StepSeparator } from "../Stepper";
 
 describe("Stepper", () => {
@@ -88,6 +89,78 @@ describe("Stepper", () => {
       );
       // Separator between step 0 and step 1 should be data-completed when activeStep > 0.
       expect(screen.getByTestId("sep-1")).toHaveAttribute("data-completed", "");
+    });
+  });
+
+  describe("clickable (P1)", () => {
+    it("fires onStepClick with the step index", async () => {
+      const user = userEvent.setup();
+      const onStepClick = vi.fn();
+      render(
+        <Stepper activeStep={1} onStepClick={onStepClick}>
+          <Step label="A" />
+          <Step label="B" />
+          <Step label="C" />
+        </Stepper>,
+      );
+      await user.click(screen.getByText("A"));
+      expect(onStepClick).toHaveBeenCalledWith(0);
+    });
+
+    it("renders clickable steps with role=button", () => {
+      render(
+        <Stepper activeStep={0} onStepClick={vi.fn()}>
+          <Step label="A" />
+        </Stepper>,
+      );
+      expect(screen.getByRole("button", { name: /A/i })).toBeInTheDocument();
+    });
+  });
+
+  describe("error state (P1)", () => {
+    it("marks step with data-error and uses error indicator", () => {
+      render(
+        <Stepper activeStep={1}>
+          <Step label="A" />
+          <Step label="B" error />
+        </Stepper>,
+      );
+      const b = screen.getByText("B").closest(".wui-step");
+      expect(b).toHaveAttribute("data-error");
+      expect(b?.querySelector(".wui-step__indicator")?.textContent).toBe("!");
+    });
+
+    it("custom errorIcon overrides default", () => {
+      render(
+        <Stepper activeStep={1}>
+          <Step label="A" />
+          <Step label="B" error errorIcon="X" />
+        </Stepper>,
+      );
+      const b = screen.getByText("B").closest(".wui-step");
+      expect(b?.querySelector(".wui-step__indicator")?.textContent).toBe("X");
+    });
+  });
+
+  describe("custom icons (P1)", () => {
+    it("renders custom icon in place of number", () => {
+      render(
+        <Stepper activeStep={0}>
+          <Step label="A" icon={<span>A-icon</span>} />
+        </Stepper>,
+      );
+      expect(screen.getByText("A-icon")).toBeInTheDocument();
+    });
+
+    it("completedIcon replaces default checkmark", () => {
+      render(
+        <Stepper activeStep={2}>
+          <Step label="A" completedIcon={<span>done!</span>} />
+          <Step label="B" />
+          <Step label="C" />
+        </Stepper>,
+      );
+      expect(screen.getByText("done!")).toBeInTheDocument();
     });
   });
 });
