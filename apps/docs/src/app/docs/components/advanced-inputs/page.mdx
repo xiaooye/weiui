@@ -3,6 +3,7 @@ import { AutoCompleteDemo } from "../../../../components/demos/AutoCompleteDemo"
 import { MultiSelectDemo } from "../../../../components/demos/MultiSelectDemo";
 import { FileUploadDemo } from "../../../../components/demos/FileUploadDemo";
 import { SliderDemo } from "../../../../components/demos/SliderDemo";
+import { SliderRangeDemo } from "../../../../components/demos/SliderRangeDemo";
 import { RatingDemo } from "../../../../components/demos/RatingDemo";
 import { InputNumberDemo } from "../../../../components/demos/InputNumberDemo";
 import { InputNumberDisabledDemo } from "../../../../components/demos/InputNumberDisabledDemo";
@@ -32,6 +33,27 @@ import { Slider } from "@weiui/react";
 <Slider disabled defaultValue={60} />
 ```
 
+### Range mode
+
+Pass `mode="range"` with a `[low, high]` tuple and subscribe via `onRangeChange`. Each thumb is independently focusable and keyboard-controllable. Pair with `showTooltip` to surface the live value while dragging.
+
+<Preview label="Slider range + tooltip">
+  <SliderRangeDemo />
+</Preview>
+
+```tsx
+<Slider
+  mode="range"
+  min={0}
+  max={200}
+  step={5}
+  value={priceRange}
+  onRangeChange={setPriceRange}
+  showTooltip
+  formatTooltip={(v) => `$${v}`}
+/>
+```
+
 ### Props
 
 | Prop | Type | Default | Description |
@@ -39,9 +61,13 @@ import { Slider } from "@weiui/react";
 | min | `number` | `0` | Minimum value |
 | max | `number` | `100` | Maximum value |
 | step | `number` | `1` | Step increment |
-| value | `number` | — | Controlled value |
-| defaultValue | `number` | `0` | Initial uncontrolled value |
-| onChange | `(value: number) => void` | — | Called on value change |
+| mode | `"single" \| "range"` | `"single"` | Single thumb or two-thumb range |
+| value | `number \| [number, number]` | — | Controlled value (tuple in range mode) |
+| defaultValue | `number \| [number, number]` | `0` / `[min, max]` | Initial uncontrolled value |
+| onChange | `(value: number) => void` | — | Called on value change (single mode) |
+| onRangeChange | `(value: [number, number]) => void` | — | Called on value change (range mode) |
+| showTooltip | `boolean` | `false` | Shows a tooltip over the active thumb while hovered or dragged |
+| formatTooltip | `(value: number) => string` | — | Formats the tooltip text |
 | disabled | `boolean` | `false` | Disables the slider |
 | label | `string` | `"Slider"` | ARIA label for the thumb |
 
@@ -49,6 +75,7 @@ import { Slider } from "@weiui/react";
 
 - `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
 - Keyboard: ArrowRight/Up increments, ArrowLeft/Down decrements, Home/End jump to min/max
+- In range mode, each thumb is independently focusable and labelled `"{label} minimum"` / `"{label} maximum"`
 - 44px minimum touch target height
 
 ---
