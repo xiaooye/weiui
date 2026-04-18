@@ -5,9 +5,13 @@ import { cn } from "../../utils/cn";
 export type InputOTPPattern = "numeric" | "alphanumeric" | RegExp;
 
 export interface InputOTPProps {
+  /** Number of character slots. @default 6 */
   length?: number;
+  /** Controlled value. Pair with onChange. */
   value?: string;
+  /** Initial value for uncontrolled mode. */
   defaultValue?: string;
+  /** Called when the value changes. */
   onChange?: (value: string) => void;
   /** Fires when all `length` slots are filled. Receives the complete value. */
   onComplete?: (value: string) => void;
@@ -15,7 +19,9 @@ export interface InputOTPProps {
   pattern?: InputOTPPattern;
   /** Split slots into visual groups separated by a dash, e.g. `[3, 3]` → `123-456`. */
   groups?: number[];
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
 }
 

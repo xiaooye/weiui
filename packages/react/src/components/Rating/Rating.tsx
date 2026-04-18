@@ -3,12 +3,19 @@ import { forwardRef, useState, useRef, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface RatingProps {
+  /** Controlled value. Pair with onChange. */
   value?: number;
+  /** Initial value for uncontrolled mode. @default 0 */
   defaultValue?: number;
+  /** Maximum rating (number of stars). @default 5 */
   max?: number;
+  /** Called when the value changes. */
   onChange?: (value: number) => void;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Renders as read-only and disables user input. */
   readOnly?: boolean;
+  /** Accessible label for the rating control. */
   label?: string;
   /** When true, clicking the left half of a star sets value to N - 0.5. */
   allowHalf?: boolean;
@@ -16,6 +23,7 @@ export interface RatingProps {
   icon?: ReactNode;
   /** Clicking the currently-selected rating clears it to 0. */
   allowClear?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
 }
 

@@ -3,14 +3,23 @@ import { forwardRef, useMemo, useState, type HTMLAttributes, type ReactNode } fr
 import { cn } from "../../utils/cn";
 
 export interface InputNumberProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "prefix"> {
+  /** Minimum value. @default -Infinity */
   min?: number;
+  /** Maximum value. @default Infinity */
   max?: number;
+  /** Step increment for +/- buttons and arrow keys. @default 1 */
   step?: number;
+  /** Controlled value. Pair with onChange. */
   value?: number;
+  /** Initial value for uncontrolled mode. @default 0 */
   defaultValue?: number;
+  /** Called when the value changes. */
   onChange?: (value: number) => void;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Intl.NumberFormat options applied when formatting the displayed value. */
   formatOptions?: Intl.NumberFormatOptions;
+  /** BCP 47 locale used by Intl.NumberFormat for display. */
   locale?: string;
   /** Text/node rendered inline before the number input. */
   prefix?: ReactNode;

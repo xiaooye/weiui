@@ -17,23 +17,32 @@ export interface SliderMark {
 
 export interface SliderProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  /** Minimum value. @default 0 */
   min?: number;
+  /** Maximum value. @default 100 */
   max?: number;
+  /** Step increment between values. @default 1 */
   step?: number;
+  /** Single-value or range-selection mode. @default "single" */
   mode?: "single" | "range";
   /**
    * Single-mode: a `number`. Range-mode: a `[number, number]` tuple.
    * Use `onChange` for single-mode; use `onRangeChange` for range-mode.
    */
   value?: SliderValue;
+  /** Initial value for uncontrolled mode. */
   defaultValue?: SliderValue;
   /** Called in single-mode when the value changes. */
   onChange?: (value: number) => void;
   /** Called in range-mode when either thumb moves. */
   onRangeChange?: (value: [number, number]) => void;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Accessible label for the slider. */
   label?: string;
+  /** Shows a tooltip with the current value on the active thumb. */
   showTooltip?: boolean;
+  /** Formats the tooltip value as a string. */
   formatTooltip?: (value: number) => string;
   /** Layout axis. Defaults to `horizontal`. */
   orientation?: "horizontal" | "vertical";

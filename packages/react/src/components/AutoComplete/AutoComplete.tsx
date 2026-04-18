@@ -9,14 +9,19 @@ export interface AutoCompleteOption {
 }
 
 export interface AutoCompleteProps {
+  /** Options shown in the suggestion list. */
   options: AutoCompleteOption[];
+  /** Controlled selected value. Pair with onChange. */
   value?: string;
+  /** Initial selected value for uncontrolled mode. */
   defaultValue?: string;
+  /** Called when the selected value changes. */
   onChange?: (value: string) => void;
   /** Controlled input text. */
   inputValue?: string;
   /** Uncontrolled default input text. */
   defaultInputValue?: string;
+  /** Called when the input text changes. */
   onInputChange?: (input: string) => void;
   /** Controlled open state of the suggestion list. */
   open?: boolean;
@@ -32,11 +37,17 @@ export interface AutoCompleteProps {
   clearable?: boolean;
   /** Allows the combobox to accept values not in the option list. */
   allowsCustomValue?: boolean;
+  /** Placeholder text shown when empty. */
   placeholder?: string;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Text displayed when no options match. */
   emptyText?: string;
+  /** Accessible label for the combobox. */
   label?: string;
+  /** Shows a loading indicator in the suggestion list. */
   loading?: boolean;
 }
 

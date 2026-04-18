@@ -5,12 +5,19 @@ import { cn } from "../../utils/cn";
 export type ColorFormat = "hex" | "rgb" | "hsl" | "oklch";
 
 export interface ColorPickerProps {
+  /** Controlled color value. Pair with onChange. */
   value?: string;
+  /** Initial color for uncontrolled mode. */
   defaultValue?: string;
+  /** Called when the selected color changes. */
   onChange?: (color: string) => void;
+  /** Predefined color swatches shown below the gradient picker. */
   swatches?: string[];
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label for the color picker. */
   label?: string;
   /** Adds an alpha slider and composes `rgba()` output when changed. */
   showAlpha?: boolean;

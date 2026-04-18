@@ -10,15 +10,25 @@ export type FileUploadError = {
 };
 
 export interface FileUploadProps {
+  /** Comma-separated list of accepted MIME types or file extensions. */
   accept?: string;
+  /** Allows selecting multiple files. */
   multiple?: boolean;
+  /** Maximum size per file, in bytes. */
   maxSize?: number;
+  /** Maximum total number of files that may be selected. */
   maxFiles?: number;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Called when the accepted file list changes. */
   onChange?: (files: File[]) => void;
+  /** Called when a file is rejected for size, type, or count. */
   onError?: (error: FileUploadError) => void;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label shown above the dropzone. */
   label?: string;
+  /** Helper text shown below the dropzone. */
   hint?: string;
   /** Controlled file list. Pair with `onFilesChange`. */
   files?: File[];

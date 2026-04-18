@@ -11,13 +11,21 @@ export interface MultiSelectOption {
 }
 
 export interface MultiSelectProps {
+  /** Options shown in the dropdown list. */
   options: MultiSelectOption[];
+  /** Controlled selected values. Pair with onChange. */
   value?: string[];
+  /** Initial selected values for uncontrolled mode. */
   defaultValue?: string[];
+  /** Called when the selection changes. */
   onChange?: (value: string[]) => void;
+  /** Placeholder text shown when empty. */
   placeholder?: string;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** Accessible label for the select. */
   label?: string;
   /** Maximum number of values that may be selected. */
   max?: number;
