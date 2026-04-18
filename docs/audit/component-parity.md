@@ -1,6 +1,6 @@
 # Component Parity Audit
 
-**Last updated:** 2026-04-17 (Wave 5e shipped — all waves P0 closed, Round 11 perf polish)
+**Last updated:** 2026-04-18 (Wave D shipped — data + navigation P1 sweep)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
 **Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
@@ -45,14 +45,14 @@
 |------|------------|---------|---------|---------|
 | 5a Input family | 7 | 0 ✅ shipped | 6 (29 shipped in Wave C) | 11 |
 | 5b Overlay | 7 | 0 ✅ shipped | 12 (19 shipped in Phase 6a) | 9 |
-| 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
+| 5c Data/Nav | 12 | 0 ✅ shipped | 9 (49 shipped in Wave D) | 24 |
 | 5d Advanced | 9 | 0 ✅ shipped | 29 (25 shipped in Wave C) | 16 |
 | 5e Form + display | 16 | 0 ✅ shipped | 38 | 30 |
-| **Total** | **51** | **0** | **143** | **89** |
+| **Total** | **51** | **0** | **94** | **90** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
-**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Wave 5d shipped 13 P0s — Calendar (3), DatePicker/Chart/Editor/SpeedDial (2 each), ColorPicker/Splitter (1 each). Wave 5e shipped 14 P0s — Checkbox (2), RadioGroup (2), ToggleGroup (2), Field (2), Button (2), Switch (1), Skeleton (1), Spinner (1), ProgressBar (1). **All waves P0 closed.**
+**Highest P0 load per component:** Overlay family (Wave 5b) shipped 17 P0s. Wave 5c shipped 12 P0s — DataTable (4), Accordion (2), TreeView/Tabs/Sidebar/BottomNav/Stepper/Transfer (1 each). Wave 5d shipped 13 P0s — Calendar (3), DatePicker/Chart/Editor/SpeedDial (2 each), ColorPicker/Splitter (1 each). Wave 5e shipped 14 P0s — Checkbox (2), RadioGroup (2), ToggleGroup (2), Field (2), Button (2), Switch (1), Skeleton (1), Spinner (1), ProgressBar (1). **All waves P0 closed.** **Wave D (2026-04-18): Wave 5c P1 sweep — 49 P1 features shipped across DataTable (13), TreeView (6), Pagination (5), Tabs (3), Breadcrumb (1), Sidebar (5), AppBar (3), BottomNav (3), Accordion (1), Stepper (4), Timeline (3), Transfer (4) + Link (2). Sidebar off-canvas deferred to P2 (consumer wraps in Drawer using SidebarTrigger).**
 
 ---
 
@@ -404,25 +404,25 @@
 | Client-side pagination | ✅ | ✅ | — | — |
 | `selectable` flag for row selection state | ✅ | ✅ with checkbox column | Select column + select-all header | ✅ shipped |
 | Page size selector | ✅ | ✅ | — | ✅ shipped |
-| First / last page buttons | ❌ (only prev/next) | ✅ | Add jump buttons | **P1** |
-| Jump to page (input) | ❌ | ✅ | Add page input | **P1** |
+| First / last page buttons | ✅ | ✅ | Add jump buttons | ✅ shipped |
+| Jump to page (input) | ❌ | ✅ | Add page input | **P1** (Pagination ships; DataTable parity via Pagination) |
 | Server-side pagination / sort / filter (onPaginationChange etc.) | ✅ | ✅ | `manualPagination` / `manualSorting` / `manualFiltering` + callbacks | ✅ shipped |
-| Column resize | ❌ | ✅ | Add column resize middleware | **P1** |
+| Column resize | ✅ | ✅ | `enableColumnResizing` + drag handle | ✅ shipped |
 | Column reorder | ❌ | ✅ | Add column reorder | **P2** |
-| Column pinning (left/right sticky) | ❌ | ✅ | Add pinning | **P1** |
-| Column visibility toggle | ❌ | ✅ | Add visibility menu | **P1** |
-| Per-column filters | ❌ | ✅ | Add column filter slots | **P1** |
-| Row expansion / nested rows | ❌ | ✅ | Add expanding row model | **P1** |
+| Column pinning (left/right sticky) | ✅ | ✅ | `enableColumnPinning` | ✅ shipped |
+| Column visibility toggle | ✅ | ✅ | `enableColumnVisibility` menu | ✅ shipped |
+| Per-column filters | ✅ | ✅ | `enableColumnFilters` row | ✅ shipped |
+| Row expansion / nested rows | ✅ | ✅ | `enableExpanding` + `renderSubRow` | ✅ shipped |
 | Grouping / aggregation | ❌ | ✅ | Add grouping | **P2** |
-| Row virtualisation | ❌ | ✅ | Optional virtualiser | **P1** |
-| Sticky header | ❌ | ✅ | Add sticky header CSS | **P1** |
-| Keyboard navigation (grid a11y) | ❌ | ✅ | Add arrow / home / end nav | **P1** |
+| Row virtualisation | ✅ | ✅ | `virtualize` via @tanstack/react-virtual | ✅ shipped |
+| Sticky header | ✅ | ✅ | `stickyHeader` prop | ✅ shipped |
+| Keyboard navigation (grid a11y) | ✅ | ✅ | Arrow/Home/End between cells | ✅ shipped |
 | Loading state | ✅ | ✅ | `loading` + `loadingText` props | ✅ shipped |
-| Empty state customisation | ⚠️ string only | ✅ ReactNode | Accept ReactNode emptyText | **P1** |
-| Row click / hover handlers | ❌ | ✅ | Add `onRowClick` | **P1** |
-| Dense/comfortable size variant | ❌ | ✅ | Add `size` prop | **P1** |
+| Empty state customisation | ✅ | ✅ ReactNode | `emptyText: ReactNode` | ✅ shipped |
+| Row click / hover handlers | ✅ | ✅ | `onRowClick` prop | ✅ shipped |
+| Dense/comfortable size variant | ✅ | ✅ | `size` prop (comfortable/dense) | ✅ shipped |
 | Export to CSV / JSON | ❌ | ✅ Ant | Add export util | **P2** |
-| Sticky selection state across pages | ❌ | ✅ | Add `getRowId` + persistence | **P1** |
+| Sticky selection state across pages | ✅ | ✅ | `getRowId` prop | ✅ shipped |
 
 **Notes:** Three P0s, all about "this table is usable for a real backend":
 (1) render a selection column + header select-all when `selectable` (currently only state);
@@ -441,16 +441,16 @@
 | Enter / Space to select | ✅ | ✅ | — | — |
 | Single selection | ✅ | ✅ | — | — |
 | Controlled expanded state | ✅ | ✅ | `expanded` + `onExpandedChange` props | ✅ shipped |
-| Multi-selection | ❌ | ✅ | Add `selectionMode` prop | **P1** |
+| Multi-selection | ✅ | ✅ | `selectionMode="multiple"` + `selectedIds`/`onSelectedIdsChange` | ✅ shipped |
 | Drag-and-drop to reorder | ❌ | ✅ react-arborist | Add drag handlers; out of scope for v1 | **P2** |
-| Node checkboxes (tri-state parent) | ❌ | ✅ Ant | Add checkbox mode | **P1** |
+| Node checkboxes (tri-state parent) | ✅ | ✅ Ant | `checkboxes` prop with tri-state propagation | ✅ shipped |
 | Virtualisation for large trees | ❌ | ✅ | Add optional virtualiser | **P2** |
-| Lazy loading of children | ❌ | ✅ | Add `loadChildren` | **P1** |
-| Type-ahead first-letter search | ❌ | ✅ | Add typeahead | **P1** |
-| Icon / indicator per node | ❌ | ✅ | Add `icon` on node type | **P1** |
-| Controlled selected state | ⚠️ `selected` prop, no `onSelect` controlled pattern clear | ✅ | Tighten controlled pattern | **P1** |
-| Expand/collapse all | ❌ | ✅ | Add util methods | **P1** |
-| Depth-aware indentation | ⚠️ via CSS but depth not passed down | ✅ | Pass depth to CSS var | **P1** |
+| Lazy loading of children | ✅ | ✅ | `loadChildren` callback | ✅ shipped |
+| Type-ahead first-letter search | ✅ | ✅ | Typeahead buffer with 500ms reset | ✅ shipped |
+| Icon / indicator per node | ✅ | ✅ | `icon` on TreeNode | ✅ shipped |
+| Controlled selected state | ✅ | ✅ | Multi-select controlled via `selectedIds` | ✅ shipped |
+| Expand/collapse all | ❌ | ✅ | Add util methods | **P2** |
+| Depth-aware indentation | ✅ | ✅ | `data-depth` + CSS var | ✅ shipped |
 
 **Notes:** Controlled expanded is the only P0 — everything else here is advanced use. The current API limits trees to small static sets; okay for v1 but lazy loading and virtualisation are on the roadmap.
 
@@ -466,11 +466,11 @@
 | Sibling count config | ✅ | ✅ | — | — |
 | Current page `aria-current` | ✅ | ✅ | — | — |
 | Disabled state on prev/next at ends | ✅ | ✅ | — | — |
-| First / last jump buttons | ❌ | ✅ | Add first/last props | **P1** |
-| Page-size selector | ❌ | ✅ | Add size select | **P1** |
-| Jump to page (input) | ❌ | ✅ | Add go-to input | **P1** |
-| Total items display | ❌ | ✅ | Add total slot / label | **P1** |
-| Size variants | ❌ | ✅ | Add size prop | **P1** |
+| First / last jump buttons | ✅ | ✅ | `showFirstLast` prop | ✅ shipped |
+| Page-size selector | ✅ | ✅ | `pageSizeOptions` + `onPageSizeChange` | ✅ shipped |
+| Jump to page (input) | ✅ | ✅ | `jumpInput` prop | ✅ shipped |
+| Total items display | ✅ | ✅ | `showTotal` (bool or render fn) | ✅ shipped |
+| Size variants | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
 | Simple / mini variant | ❌ | ✅ | Add variant | **P2** |
 | Controlled only (no uncontrolled) | ✅ controlled | ✅ both | Optional defaultPage | **P2** |
 
@@ -489,10 +489,10 @@
 | Tab roving tab index (active = 0, rest = -1) | ✅ | ✅ | — | — |
 | ArrowLeft / ArrowRight to switch tab | ✅ | ✅ | TabsList handles arrow nav | ✅ shipped |
 | Home / End | ✅ | ✅ | Same TabsList handler | ✅ shipped |
-| Automatic vs manual activation mode | ❌ | ✅ `activationMode` | Add prop | **P1** |
+| Automatic vs manual activation mode | ✅ | ✅ `activationMode` | `activationMode: automatic/manual` prop | ✅ shipped |
 | Horizontal / vertical orientation | ✅ | ✅ | `orientation` prop on TabsList | ✅ shipped |
-| Disabled tab skip | ❌ | ✅ | Honour `disabled` on trigger, skip in arrow nav | **P1** |
-| Loop navigation at ends | ❌ | ✅ | Add `loop` prop | **P2** |
+| Disabled tab skip | ✅ | ✅ | Arrow nav skips `[disabled]` triggers | ✅ shipped |
+| Loop navigation at ends | ✅ | ✅ | `loop` prop on TabsList | ✅ shipped |
 
 **Notes:** Arrow-key nav in the tab list is P0 — it's the one thing tabs MUST do per WAI-ARIA and the current impl punts it to the parent. Everything else is P1 polish.
 
@@ -507,7 +507,7 @@
 | Breadcrumb + BreadcrumbItem + BreadcrumbSeparator | ✅ | ✅ | — | — |
 | `aria-current="page"` on active item | ✅ | ✅ | — | — |
 | Custom separator | ✅ (children of Separator) | ✅ | — | — |
-| Collapse middle items (with `...` + popover to reveal) | ❌ | ✅ | Add `BreadcrumbEllipsis` | **P1** |
+| Collapse middle items (with `...` + popover to reveal) | ✅ | ✅ | `BreadcrumbEllipsis` + `maxItems` auto-truncate | ✅ shipped |
 | Link primitive integration (Next Link, router link) | ⚠️ consumer composes | ✅ | Document pattern; no code change | **P2** |
 | Icon-only variant | ❌ | ✅ | Add size / variant | **P2** |
 | Responsive truncation | ❌ | ✅ | CSS-only via logical props | **P2** |
@@ -525,12 +525,12 @@
 | Collapsed / expanded state (controlled + uncontrolled) | ✅ via `useDisclosure` | ✅ | — | — |
 | Active item (`aria-current="page"`) | ✅ | ✅ | — | — |
 | Icon-only collapsed mode | ✅ | ✅ | SidebarItem wraps label; CSS hides on `[data-collapsed]` | ✅ shipped |
-| Toggle button / trigger | ❌ (consumer wires) | ✅ SidebarTrigger | Add `SidebarTrigger` part | **P1** |
-| Off-canvas / sheet mode on mobile | ❌ | ✅ | Add responsive mode | **P1** |
+| Toggle button / trigger | ✅ | ✅ SidebarTrigger | `SidebarTrigger` with aria-expanded | ✅ shipped |
+| Off-canvas / sheet mode on mobile | ❌ (deferred) | ✅ | Consumer wraps in Drawer via SidebarTrigger | **P2** (deferred) |
 | Keyboard shortcut to toggle | ❌ | ✅ | Document pattern via context | **P2** |
-| Group / section separators | ❌ | ✅ | Add SidebarGroup / SidebarGroupLabel | **P1** |
-| Nested items / submenu | ❌ | ✅ | Add SidebarSubMenu | **P1** |
-| Tooltip on collapsed items | ❌ | ✅ | Integrate Tooltip | **P1** |
+| Group / section separators | ✅ | ✅ | `SidebarGroup` + `SidebarGroupLabel` | ✅ shipped |
+| Nested items / submenu | ✅ | ✅ | `SidebarSubMenu` with collapsible trigger | ✅ shipped |
+| Tooltip on collapsed items | ✅ | ✅ | `title` attr shown only when collapsed | ✅ shipped |
 | Persist state to localStorage | ❌ | ✅ | Optional persistence | **P2** |
 
 **Notes:** Collapsed mode works in state but without the icon-only CSS it's half a feature — hence P0. Off-canvas responsive mode is what makes a sidebar production-ready; bump to Wave 6 if time-bound.
@@ -544,10 +544,10 @@
 |---------|-----------|---------------|-----|----------|
 | AppBar + Brand + Nav + Link + Actions parts | ✅ | ✅ | — | — |
 | Active link indicator (`aria-current="page"`) | ✅ | ✅ | — | — |
-| Sticky / fixed positioning | ❌ | ✅ | Add `position` variant | **P1** |
-| Color / surface variant | ❌ | ✅ | Add variant | **P1** |
+| Sticky / fixed positioning | ✅ | ✅ | `position: sticky/fixed/static` | ✅ shipped |
+| Color / surface variant | ✅ | ✅ | `color: surface/primary/transparent` | ✅ shipped |
 | Elevation / scroll-shadow | ❌ | ✅ | Add scroll-aware shadow | **P2** |
-| Responsive: collapse nav into drawer at breakpoint | ❌ | ✅ | Document pattern | **P1** |
+| Responsive: collapse nav into drawer at breakpoint | ✅ | ✅ | nav hidden below 48rem via CSS | ✅ shipped |
 | Search / command slot | ❌ | ✅ | Composable via Actions | **P2** |
 
 **Notes:** Structural component, no P0s. Sticky positioning is the most-requested add.
@@ -561,9 +561,9 @@
 |---------|-----------|---------------|-----|----------|
 | Items with icon + label | ✅ | ✅ | — | — |
 | Active highlight (`aria-current="page"`) | ✅ | ✅ | — | — |
-| `showLabels` mode (labels only when active) | ❌ | ✅ | Add prop | **P1** |
-| Badge slot on item | ❌ | ✅ | Accept slot / compose Badge | **P1** |
-| Controlled value (which item active) | ❌ (each item has own `active`) | ✅ onChange pattern | Add BottomNav `value`/`onChange` + item `value` | **P1** |
+| `showLabels` mode (labels only when active) | ✅ | ✅ | `showLabels: always/active/never` | ✅ shipped |
+| Badge slot on item | ✅ | ✅ | `badge` prop on BottomNavItem | ✅ shipped |
+| Controlled value (which item active) | ✅ | ✅ onChange pattern | `value` + `onValueChange` via context | ✅ shipped |
 | Safe-area padding for iOS | ✅ | ✅ | `padding-block-end: env(safe-area-inset-bottom, 0)` | ✅ shipped |
 
 **Notes:** Safe-area-inset is P0 for mobile production use — without it the nav is partially covered by the home indicator on iPhones. One-line CSS fix.
@@ -583,7 +583,7 @@
 | ArrowDown / ArrowUp between triggers | ✅ | ✅ | Root handler at Accordion | ✅ shipped |
 | Home / End | ✅ | ✅ | Same root handler | ✅ shipped |
 | Collapsible (single mode can all be closed) | ⚠️ clear via re-click | ✅ `collapsible` prop | Add explicit `collapsible` | **P2** |
-| Disabled item | ❌ | ✅ | Add `disabled` on Item + trigger | **P1** |
+| Disabled item | ✅ | ✅ | `disabled` on AccordionItem | ✅ shipped |
 | Orientation vertical/horizontal | ❌ | ✅ | Add prop | **P2** |
 | Animated expand (keep content in DOM) | ❌ (unmounts when closed) | ✅ via forceMount or data-state | Keep DOM, animate height | **P1** |
 
@@ -600,10 +600,10 @@
 | Active / completed state | ✅ | ✅ | — | — |
 | Orientation horizontal / vertical | ✅ | ✅ | — | — |
 | `aria-current="step"` | ✅ | ✅ | — | — |
-| Clickable steps (navigate to prior step) | ❌ | ✅ `onStepClick` | Add clickability | **P1** |
-| Error state on step | ❌ | ✅ | Add `error` on Step | **P1** |
-| Progress line connector | ⚠️ separator exists but no animation | ✅ | Animate separator to completed state | **P1** |
-| Custom icons per step | ❌ (number only) | ✅ | Add `icon` prop | **P1** |
+| Clickable steps (navigate to prior step) | ✅ | ✅ `onStepClick` | `onStepClick` on Stepper | ✅ shipped |
+| Error state on step | ✅ | ✅ | `error` prop on Step | ✅ shipped |
+| Progress line connector | ✅ | ✅ | Animated separator pseudo-element | ✅ shipped |
+| Custom icons per step | ✅ | ✅ | `icon`, `completedIcon`, `errorIcon` props | ✅ shipped |
 | Description slot | ✅ | ✅ | — | — |
 | Responsive / collapsed on small screens | ❌ | ✅ | Add responsive mode | **P2** |
 | Controlled active step | ✅ (required) | ✅ | — | — |
@@ -621,9 +621,9 @@
 |---------|-----------|---------------|-----|----------|
 | Timeline + TimelineItem parts | ✅ | ✅ | — | — |
 | Title / description / time slots | ✅ | ✅ | — | — |
-| Alternate left/right layout | ❌ | ✅ | Add `mode="alternate"` | **P1** |
-| Custom dot / icon per item | ❌ | ✅ | Add `dot` prop | **P1** |
-| Color per item (success/warning/error) | ❌ | ✅ | Add `color` prop | **P1** |
+| Alternate left/right layout | ✅ | ✅ | `mode: default/alternate/left/right` | ✅ shipped |
+| Custom dot / icon per item | ✅ | ✅ | `dot` prop on TimelineItem | ✅ shipped |
+| Color per item (success/warning/error) | ✅ | ✅ | `color` prop on TimelineItem | ✅ shipped |
 | Pending last-item animation | ❌ | ✅ | Add `pending` prop | **P2** |
 | Reverse order | ❌ | ✅ | Add prop | **P2** |
 
@@ -641,11 +641,11 @@
 | Disabled items | ✅ | ✅ | — | — |
 | Move selected to opposite side | ✅ | ✅ | — | — |
 | Controlled value (target items) | ✅ | ✅ | `targetValues` + `onTargetValuesChange` | ✅ shipped |
-| Search within each pane | ❌ | ✅ | Add per-pane search | **P1** |
-| Select-all per pane | ❌ | ✅ | Add header checkbox | **P1** |
-| Move-all button | ❌ | ✅ | Add `>>` / `<<` buttons | **P1** |
-| Keyboard navigation within pane | ❌ | ✅ | Add arrow nav | **P1** |
-| Custom item render | ❌ | ✅ | Add `renderItem` | **P1** |
+| Search within each pane | ✅ | ✅ | `searchable` prop | ✅ shipped |
+| Select-all per pane | ✅ | ✅ | Header checkbox with indeterminate | ✅ shipped |
+| Move-all button | ✅ | ✅ | `>>` / `<<` buttons | ✅ shipped |
+| Keyboard navigation within pane | ✅ | ✅ | Arrow / Home / End / Space / Enter | ✅ shipped |
+| Custom item render | ❌ | ✅ | Add `renderItem` | **P2** |
 | Drag to reorder within target | ❌ | ✅ | Out of scope for v1 | **P2** |
 | Async data source | ❌ | ✅ | Add `loading` + load callback | **P2** |
 
