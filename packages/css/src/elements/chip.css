@@ -8,6 +8,13 @@
     background-color: var(--wui-surface-raised);
     color: var(--wui-color-foreground);
   }
+  .wui-chip:hover {
+    background-color: color-mix(in oklch, var(--wui-color-foreground) 4%, var(--wui-surface-raised));
+  }
+  .wui-chip:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
   .wui-chip__remove {
     display: inline-flex; align-items: center; justify-content: center;
     min-block-size: 16px; min-inline-size: 16px;
@@ -16,6 +23,11 @@
     font-size: var(--wui-font-size-xs);
   }
   .wui-chip__remove:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-border); }
+  .wui-chip__remove:focus-visible {
+    outline: 2px solid var(--wui-color-ring);
+    outline-offset: 1px;
+    color: var(--wui-color-foreground);
+  }
   .wui-chip--primary {
     background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
     color: var(--wui-color-primary);
