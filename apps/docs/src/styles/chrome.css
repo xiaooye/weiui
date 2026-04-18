@@ -321,26 +321,26 @@
     margin-block-end: var(--wui-spacing-2);
   }
   .wui-docs-toc__list {
-    list-style: none; padding: 0; margin: 0;
     border-inline-start: 1px solid var(--wui-color-border);
-  }
-  .wui-docs-toc__list li[data-level="3"] {
-    padding-inline-start: var(--wui-spacing-3);
   }
   .wui-docs-toc__link {
     display: block;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-1);
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
-    text-decoration: none;
     margin-inline-start: -1px;
+    border-inline-start: 1px solid transparent;
+  }
+  .wui-docs-toc__link[data-level="3"] {
+    padding-inline-start: var(--wui-spacing-6);
   }
   .wui-docs-toc__link:hover {
     color: var(--wui-color-foreground);
   }
   .wui-docs-toc__link[data-active] {
     color: var(--wui-color-primary);
-    border-inline-start: 1px solid var(--wui-color-primary);
+    border-inline-start-color: var(--wui-color-primary);
     font-weight: var(--wui-font-weight-medium);
   }
 

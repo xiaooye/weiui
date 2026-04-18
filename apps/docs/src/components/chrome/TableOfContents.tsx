@@ -1,22 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Heading, Link, Stack } from "@weiui/react";
 
-interface Heading {
+interface TocHeading {
   id: string;
   text: string;
   level: 2 | 3;
 }
 
 export function TableOfContents() {
-  const [headings, setHeadings] = useState<Heading[]>([]);
+  const [headings, setHeadings] = useState<TocHeading[]>([]);
   const [active, setActive] = useState<string>("");
 
   useEffect(() => {
     const main = document.querySelector("main");
     if (!main) return;
     const nodes = main.querySelectorAll("h2, h3");
-    const list: Heading[] = [];
+    const list: TocHeading[] = [];
     nodes.forEach((node) => {
       if (!node.id) {
         node.id =
@@ -45,21 +46,25 @@ export function TableOfContents() {
   if (headings.length === 0) return null;
 
   return (
-    <aside className="wui-docs-toc" aria-label="On this page">
-      <h4 className="wui-docs-toc__title">On this page</h4>
-      <ul className="wui-docs-toc__list">
+    <nav className="wui-docs-toc" aria-label="On this page">
+      <Heading level={4} className="wui-docs-toc__title">
+        On this page
+      </Heading>
+      <Stack direction="column" gap={0} role="list" className="wui-docs-toc__list">
         {headings.map((h) => (
-          <li key={h.id} data-level={h.level}>
-            <a
-              href={`#${h.id}`}
-              className="wui-docs-toc__link"
-              data-active={active === h.id || undefined}
-            >
-              {h.text}
-            </a>
-          </li>
+          <Link
+            key={h.id}
+            href={`#${h.id}`}
+            underline="none"
+            role="listitem"
+            className="wui-docs-toc__link"
+            data-level={h.level}
+            data-active={active === h.id || undefined}
+          >
+            {h.text}
+          </Link>
         ))}
-      </ul>
-    </aside>
+      </Stack>
+    </nav>
   );
 }
