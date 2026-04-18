@@ -16,6 +16,11 @@
     min-inline-size: 0;
     min-block-size: 0;
   }
+  /* Collapsible hint — a thin border on the side nearest the handle signals
+   * double-click affordance. Non-collapsible panels get nothing. */
+  .wui-splitter__panel[data-collapsible] {
+    /* no-op default; consumers can theme via data-collapsible selector */
+  }
   .wui-splitter__handle {
     display: flex;
     align-items: center;
