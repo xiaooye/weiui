@@ -147,4 +147,27 @@ describe("RadioGroup", () => {
     await user.keyboard("{ArrowUp}");
     expect(screen.getByLabelText("B")).toBeChecked();
   });
+
+  it("applies vertical orientation class and data attribute", () => {
+    render(
+      <RadioGroup aria-label="opts" orientation="vertical">
+        <RadioGroupItem value="a" label="A" />
+      </RadioGroup>,
+    );
+    const group = screen.getByRole("radiogroup");
+    expect(group).toHaveClass("wui-radio-group--vertical");
+    expect(group).toHaveAttribute("data-orientation", "vertical");
+  });
+
+  it("renders item description and wires aria-describedby", () => {
+    render(
+      <RadioGroup aria-label="opts">
+        <RadioGroupItem value="a" label="Plan A" description="Best for small teams" />
+      </RadioGroup>,
+    );
+    const desc = screen.getByText("Best for small teams");
+    expect(desc).toBeInTheDocument();
+    const radio = screen.getByRole("radio");
+    expect(radio).toHaveAttribute("aria-describedby", desc.id);
+  });
 });

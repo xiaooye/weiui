@@ -36,10 +36,23 @@ export interface RadioGroupProps extends HTMLAttributes<HTMLDivElement> {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   children: ReactNode;
+  orientation?: "horizontal" | "vertical";
 }
 
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-  ({ name, value, defaultValue = "", onValueChange, children, className, ...props }, ref) => {
+  (
+    {
+      name,
+      value,
+      defaultValue = "",
+      onValueChange,
+      children,
+      className,
+      orientation = "horizontal",
+      ...props
+    },
+    ref,
+  ) => {
     const generatedName = useId("radio");
     const groupName = name || generatedName;
     const [currentValue, setCurrentValue] = useControllable({
@@ -114,7 +127,17 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
 
     return (
       <RadioGroupContext.Provider value={ctxValue}>
-        <div ref={ref} role="radiogroup" className={className} {...props}>
+        <div
+          ref={ref}
+          role="radiogroup"
+          data-orientation={orientation}
+          className={cn(
+            "wui-radio-group",
+            orientation === "vertical" && "wui-radio-group--vertical",
+            className,
+          )}
+          {...props}
+        >
           {children}
         </div>
       </RadioGroupContext.Provider>
@@ -127,13 +150,17 @@ export interface RadioGroupItemProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "name" | "checked" | "onChange" | "size"> {
   value: string;
   label?: string;
+  /** Optional helper text rendered beneath the label. Wired to `aria-describedby`. */
+  description?: ReactNode;
 }
 
 export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
-  ({ value, label, className, id, onKeyDown, ...props }, ref) => {
+  ({ value, label, description, className, id, onKeyDown, ...props }, ref) => {
     const { name, value: groupValue, onChange, registerItem, onItemKeyDown } = useRadioGroupContext();
     const generatedId = useId("radio-item");
     const inputId = id || generatedId;
+    const descId = `${inputId}-desc`;
+    const hasDescription = description != null;
 
     const setRef = useCallback(
       (el: HTMLInputElement | null) => {
@@ -144,27 +171,39 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
       [registerItem, value, ref],
     );
 
+    const existingDescribedBy = props["aria-describedby"] as string | undefined;
+    const describedBy =
+      hasDescription ? [existingDescribedBy, descId].filter(Boolean).join(" ") : existingDescribedBy;
+
     return (
       <div className={cn("wui-radio", className)}>
-        <input
-          ref={setRef}
-          type="radio"
-          id={inputId}
-          name={name}
-          value={value}
-          className="wui-radio__input"
-          checked={groupValue === value}
-          onChange={() => onChange(value)}
-          onKeyDown={(e) => {
-            onItemKeyDown(e, value);
-            onKeyDown?.(e);
-          }}
-          {...props}
-        />
-        {label && (
-          <label htmlFor={inputId} className="wui-radio__label">
-            {label}
-          </label>
+        <div className="wui-radio__row">
+          <input
+            ref={setRef}
+            type="radio"
+            id={inputId}
+            name={name}
+            value={value}
+            className="wui-radio__input"
+            checked={groupValue === value}
+            onChange={() => onChange(value)}
+            onKeyDown={(e) => {
+              onItemKeyDown(e, value);
+              onKeyDown?.(e);
+            }}
+            {...props}
+            aria-describedby={describedBy}
+          />
+          {label && (
+            <label htmlFor={inputId} className="wui-radio__label">
+              {label}
+            </label>
+          )}
+        </div>
+        {hasDescription && (
+          <p id={descId} className="wui-radio__description">
+            {description}
+          </p>
         )}
       </div>
     );

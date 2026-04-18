@@ -1,11 +1,33 @@
 @layer wui-elements {
+  .wui-radio-group {
+    display: inline-flex;
+    flex-direction: row;
+    gap: var(--wui-spacing-4);
+    align-items: center;
+  }
+  .wui-radio-group--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--wui-spacing-2);
+  }
   .wui-radio {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--wui-spacing-1);
+    min-block-size: 44px;
+    cursor: pointer;
+  }
+  .wui-radio__row {
     display: inline-flex;
     align-items: center;
     gap: var(--wui-spacing-2);
-    min-block-size: 44px;
-    min-inline-size: 44px;
-    cursor: pointer;
+  }
+  .wui-radio__description {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+    padding-inline-start: calc(20px + var(--wui-spacing-2));
+    margin: 0;
   }
   .wui-radio__input {
     appearance: none;
