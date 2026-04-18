@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Input } from "../Input";
+import { Input, SearchInput } from "../";
 
 describe("Input", () => {
   it("renders correctly", () => {
@@ -130,5 +130,34 @@ describe("Input", () => {
       render(<Input type="password" aria-label="Password" />);
       expect(screen.queryByRole("button", { name: /password/i })).not.toBeInTheDocument();
     });
+  });
+});
+
+describe("SearchInput", () => {
+  it("renders with search type and a magnifier icon in startAddon", () => {
+    const { container } = render(<SearchInput aria-label="Search" />);
+    const input = container.querySelector("input");
+    expect(input).toHaveAttribute("type", "search");
+    expect(container.querySelector(".wui-input-group__addon svg")).not.toBeNull();
+  });
+
+  it("is clearable by default", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<SearchInput defaultValue="query" onChange={onChange} aria-label="Search" />);
+    const clear = screen.getByLabelText("Clear input");
+    await user.click(clear);
+    expect(onChange).toHaveBeenCalled();
+  });
+
+  it("forwards ref to the underlying input", () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<SearchInput ref={ref} aria-label="Search" />);
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+
+  it("allows opting out of clearable", () => {
+    render(<SearchInput clearable={false} defaultValue="query" aria-label="Search" />);
+    expect(screen.queryByLabelText("Clear input")).not.toBeInTheDocument();
   });
 });

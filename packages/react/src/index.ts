@@ -21,7 +21,7 @@ export { buttonVariants, type ButtonVariants } from "./variants/button";
 
 // Components
 export { Button, type ButtonProps } from "./components/Button";
-export { Input, type InputProps } from "./components/Input";
+export { Input, type InputProps, SearchInput, type SearchInputProps } from "./components/Input";
 export { Textarea, type TextareaProps } from "./components/Textarea";
 
 // Layout components
