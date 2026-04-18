@@ -58,9 +58,10 @@ export interface MenuProps {
   children: ReactNode;
   side?: MenuSide;
   align?: MenuAlign;
+  offset?: number;
 }
 
-export function Menu({ children, side = "bottom", align = "start" }: MenuProps) {
+export function Menu({ children, side = "bottom", align = "start", offset = 4 }: MenuProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const baseId = useId("menu");
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -73,7 +74,7 @@ export function Menu({ children, side = "bottom", align = "start" }: MenuProps) 
   const { refs, floatingStyles } = useFloatingMenu({
     open: isOpen,
     placement: toPlacement(side, align),
-    offsetPx: 4,
+    offsetPx: offset,
     collisionPadding: 8,
   });
 
@@ -199,7 +200,9 @@ export function MenuContent({ children, className, style, onKeyDown, ...props }:
   // Focus the active item when activeIndex changes
   useEffect(() => {
     if (!isOpen || activeIndex < 0 || !contentRef.current) return;
-    const items = contentRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]');
+    const items = contentRef.current.querySelectorAll<HTMLElement>(
+      '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
+    );
     const item = items[activeIndex];
     if (item) item.focus();
   }, [isOpen, activeIndex]);
@@ -257,7 +260,11 @@ export function MenuContent({ children, className, style, onKeyDown, ...props }:
                 }, 500);
 
                 const items = contentRef.current
-                  ? Array.from(contentRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]'))
+                  ? Array.from(
+                      contentRef.current.querySelectorAll<HTMLElement>(
+                        '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
+                      ),
+                    )
                   : [];
                 const buffer = typeaheadBufferRef.current;
                 for (let i = 0; i < items.length; i++) {
@@ -288,6 +295,7 @@ export interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   onSelect?: () => void;
   disabled?: boolean;
+  shortcut?: string;
   /** Internal: injected by MenuContent */
   _menuIndex?: number;
 }
@@ -296,6 +304,7 @@ export function MenuItem({
   children,
   onSelect,
   disabled = false,
+  shortcut,
   _menuIndex,
   onClick,
   onKeyDown,
@@ -330,11 +339,160 @@ export function MenuItem({
       }}
       {...props}
     >
-      {children}
+      {shortcut ? (
+        <>
+          <span className="wui-menu__label">{children}</span>
+          <span className="wui-menu__shortcut">{shortcut}</span>
+        </>
+      ) : (
+        children
+      )}
     </div>
   );
 }
 MenuItem.displayName = "MenuItem";
+
+export interface MenuCheckboxItemProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  checked: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  disabled?: boolean;
+  shortcut?: string;
+  /** Internal: injected by MenuContent */
+  _menuIndex?: number;
+}
+
+export function MenuCheckboxItem({
+  children,
+  checked,
+  onCheckedChange,
+  disabled = false,
+  shortcut,
+  _menuIndex,
+  onClick,
+  onKeyDown,
+  ...props
+}: MenuCheckboxItemProps) {
+  const { activeIndex, onClose } = useMenuContext();
+  const index = _menuIndex ?? 0;
+  const isActive = activeIndex === index;
+
+  function activate() {
+    if (disabled) return;
+    onCheckedChange?.(!checked);
+    onClose();
+  }
+
+  return (
+    <div
+      role="menuitemcheckbox"
+      aria-checked={checked}
+      aria-disabled={disabled || undefined}
+      data-disabled={disabled ? "" : undefined}
+      data-checked={checked ? "" : undefined}
+      tabIndex={isActive && !disabled ? 0 : -1}
+      onClick={(e) => {
+        activate();
+        onClick?.(e);
+      }}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === Keys.Enter || e.key === Keys.Space)) {
+          e.preventDefault();
+          activate();
+        }
+        onKeyDown?.(e);
+      }}
+      {...props}
+    >
+      <span className="wui-menu__indicator" aria-hidden="true">
+        {checked ? "✓" : ""}
+      </span>
+      <span className="wui-menu__label">{children}</span>
+      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+    </div>
+  );
+}
+MenuCheckboxItem.displayName = "MenuCheckboxItem";
+
+export interface MenuRadioItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
+  children: ReactNode;
+  value: string;
+  checked?: boolean;
+  onSelect?: (value: string) => void;
+  disabled?: boolean;
+  shortcut?: string;
+  /** Internal: injected by MenuContent */
+  _menuIndex?: number;
+}
+
+export function MenuRadioItem({
+  children,
+  value,
+  checked = false,
+  onSelect,
+  disabled = false,
+  shortcut,
+  _menuIndex,
+  onClick,
+  onKeyDown,
+  ...props
+}: MenuRadioItemProps) {
+  const { activeIndex, onClose } = useMenuContext();
+  const index = _menuIndex ?? 0;
+  const isActive = activeIndex === index;
+
+  function activate() {
+    if (disabled) return;
+    onSelect?.(value);
+    onClose();
+  }
+
+  return (
+    <div
+      role="menuitemradio"
+      aria-checked={checked}
+      aria-disabled={disabled || undefined}
+      data-disabled={disabled ? "" : undefined}
+      data-checked={checked ? "" : undefined}
+      tabIndex={isActive && !disabled ? 0 : -1}
+      onClick={(e) => {
+        activate();
+        onClick?.(e);
+      }}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === Keys.Enter || e.key === Keys.Space)) {
+          e.preventDefault();
+          activate();
+        }
+        onKeyDown?.(e);
+      }}
+      {...props}
+    >
+      <span className="wui-menu__indicator" aria-hidden="true">
+        {checked ? "●" : ""}
+      </span>
+      <span className="wui-menu__label">{children}</span>
+      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+    </div>
+  );
+}
+MenuRadioItem.displayName = "MenuRadioItem";
+
+export interface MenuLabelProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+}
+
+export function MenuLabel({ children, ...props }: MenuLabelProps) {
+  return (
+    <div role="presentation" {...props}>
+      {children}
+    </div>
+  );
+}
+MenuLabel.displayName = "MenuLabel";
+
+// Flag so MenuContent indexing skips the label like it does for separators
+(MenuLabel as { isSeparator?: boolean }).isSeparator = true;
 
 export interface MenuSeparatorProps extends HTMLAttributes<HTMLDivElement> {}
 

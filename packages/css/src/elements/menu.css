@@ -1,0 +1,29 @@
+@layer wui-elements {
+  .wui-menu__label {
+    flex: 1;
+  }
+  .wui-menu__shortcut {
+    margin-inline-start: var(--wui-spacing-4);
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-menu__indicator {
+    inline-size: 1em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline-end: var(--wui-spacing-2);
+    color: var(--wui-color-primary);
+  }
+  [role="menuitemcheckbox"],
+  [role="menuitemradio"] {
+    display: flex;
+    align-items: center;
+    padding-inline-start: var(--wui-spacing-2);
+  }
+  [role="menuitem"] {
+    display: flex;
+    align-items: center;
+  }
+}

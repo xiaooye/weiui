@@ -1,7 +1,16 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "../Menu";
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
+  MenuCheckboxItem,
+  MenuRadioItem,
+  MenuLabel,
+} from "../Menu";
 
 function TestMenu({ onSelect }: { onSelect?: (value: string) => void } = {}) {
   return (
@@ -89,5 +98,79 @@ describe("Menu", () => {
     expect(items).toHaveLength(4);
     const copy = items.find((el) => el.textContent === "Copy")!;
     expect(copy).toHaveAttribute("aria-disabled", "true");
+  });
+});
+
+describe("Menu P1 additions", () => {
+  it("MenuCheckboxItem toggles checked state via role=menuitemcheckbox", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    render(
+      <Menu>
+        <MenuTrigger>Open</MenuTrigger>
+        <MenuContent>
+          <MenuCheckboxItem checked={false} onCheckedChange={onCheckedChange}>
+            Show toolbar
+          </MenuCheckboxItem>
+        </MenuContent>
+      </Menu>,
+    );
+    await user.click(screen.getByText("Open"));
+    const item = await screen.findByRole("menuitemcheckbox");
+    expect(item).toHaveAttribute("aria-checked", "false");
+    await user.click(item);
+    expect(onCheckedChange).toHaveBeenCalledWith(true);
+  });
+
+  it("MenuRadioItem exposes role=menuitemradio with aria-checked", async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu>
+        <MenuTrigger>Open</MenuTrigger>
+        <MenuContent>
+          <MenuRadioItem value="a" checked>
+            A
+          </MenuRadioItem>
+          <MenuRadioItem value="b">B</MenuRadioItem>
+        </MenuContent>
+      </Menu>,
+    );
+    await user.click(screen.getByText("Open"));
+    const items = await screen.findAllByRole("menuitemradio");
+    expect(items).toHaveLength(2);
+    expect(items[0]).toHaveAttribute("aria-checked", "true");
+    expect(items[1]).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("MenuLabel renders as non-focusable section header", async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu>
+        <MenuTrigger>Open</MenuTrigger>
+        <MenuContent>
+          <MenuLabel>Appearance</MenuLabel>
+          <MenuItem>Light</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+    await user.click(screen.getByText("Open"));
+    const label = await screen.findByText("Appearance");
+    expect(label).toHaveAttribute("role", "presentation");
+    // Focused index should skip past the label to the first MenuItem
+    expect(screen.getByText("Light")).toHaveFocus();
+  });
+
+  it("MenuItem shortcut renders inside item", async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu>
+        <MenuTrigger>Open</MenuTrigger>
+        <MenuContent>
+          <MenuItem shortcut="⌘N">New File</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+    await user.click(screen.getByText("Open"));
+    expect(await screen.findByText("⌘N")).toBeInTheDocument();
   });
 });

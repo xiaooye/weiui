@@ -35,6 +35,7 @@
 @import "./elements/tree-view.css";
 @import "./elements/editor.css";
 @import "./elements/command-palette.css";
+@import "./elements/menu.css";
 @import "./elements/accordion.css";
 @import "./elements/transfer.css";
 @import "./elements/splitter.css";
