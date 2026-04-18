@@ -73,6 +73,24 @@ Components ship with the appropriate ARIA roles, states, and properties. You do 
 </span>
 ```
 
+### Live-region announcer
+
+For imperative announcements — copy-to-clipboard success, async save confirmations, form submissions — use the `announce` helper from `@weiui/headless`. It creates (once) a visually-hidden live region and writes your message into it, so assistive technology reads it aloud without moving focus.
+
+```tsx
+import { announce } from "@weiui/headless";
+
+async function onCopy(value: string) {
+  await navigator.clipboard.writeText(value);
+  announce("Copied to clipboard");
+}
+
+// Use "assertive" for urgent errors that should interrupt the current read-out.
+announce("Save failed — try again", "assertive");
+```
+
+The first call mounts a `<div role="status" aria-live="polite">` (or `role="alert" aria-live="assertive"`) on `document.body`. Subsequent calls reuse the same node so screen readers stay in sync with repeated updates.
+
 ## Motion Preferences
 
 All animations and transitions respect `prefers-reduced-motion`. When the user has enabled reduced motion in their OS settings, transitions are shortened or removed entirely.
