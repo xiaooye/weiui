@@ -886,9 +886,9 @@
 | Start / end icon slots | ✅ | ✅ | — | — |
 | Disabled | ✅ | ✅ | — | — |
 | Spinner inside loading state | ✅ | ✅ | Show Spinner when loading | ✅ shipped |
-| `asChild` (render-as) pattern for Link / router integration | ❌ | ✅ Radix Slot | Add `asChild` via Slot primitive | **P1** |
-| Icon-only variant (square) | ❌ | ✅ | Add `iconOnly` variant | **P1** |
-| Full-width variant | ❌ | ✅ | Add `fullWidth` | **P1** |
+| `asChild` (render-as) pattern for Link / router integration | ✅ | ✅ Radix Slot | `asChild` clones single child and forwards props + ref | ✅ shipped |
+| Icon-only variant (square) | ✅ | ✅ | `iconOnly` renders square padding + aspect-ratio 1/1 | ✅ shipped |
+| Full-width variant | ✅ | ✅ | `fullWidth` stretches to container via `wui-button--full-width` | ✅ shipped |
 | Type button default | ✅ | ✅ explicit `type="button"` default | Default to `type="button"` to avoid form-submit surprises | ✅ shipped |
 | `aria-label` required when icon-only | ⚠️ consumer-responsibility | ✅ dev-warning | Document pattern | **P2** |
 
@@ -902,10 +902,10 @@
 | Feature | WeiUI has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | `role="group"` wrapper | ✅ | ✅ | — | — |
-| Horizontal / vertical orientation | ❌ | ✅ | Add `orientation` | **P1** |
-| Attached (no gap, merged borders) vs spaced | ❌ | ✅ | Add `attached` variant | **P1** |
-| Size inheritance to children | ❌ | ✅ | Context-propagate size | **P1** |
-| Shared variant on children | ❌ | ✅ | Context-propagate variant | **P1** |
+| Horizontal / vertical orientation | ✅ | ✅ | `orientation` prop + `wui-button-group--vertical` | ✅ shipped |
+| Attached (no gap, merged borders) vs spaced | ✅ | ✅ | `variant="attached" \| "spaced"` via CSS modifier | ✅ shipped |
+| Size inheritance to children | ✅ | ✅ | `ButtonGroupContext` propagates `size` to child Buttons | ✅ shipped |
+| Shared variant on children | ✅ | ✅ | `ButtonGroupContext` carries `variant` for children | ✅ shipped |
 | Aria-label / label slot | ⚠️ consumer adds | ✅ | Expose `label` prop | **P2** |
 
 **Notes:** No P0s — it's structural. Size/variant propagation is the headline Mantine feature worth copying.
@@ -922,11 +922,11 @@
 | Custom visual (CSS-styled box + check icon) | ✅ | ✅ | Replace with CSS-styled check using ::before / mask | ✅ shipped |
 | Indeterminate state | ✅ | ✅ | Support `indeterminate` prop | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ via native `checked`/`defaultChecked` | ✅ | — | — |
-| Size variant | ❌ | ✅ | Add size | **P1** |
-| Color variant | ❌ | ✅ | Add color | **P1** |
-| Error / invalid state | ❌ | ✅ | Expose `invalid` → aria-invalid | **P1** |
-| Description slot | ❌ | ✅ | Support via Field composition | **P1** |
-| Disabled styling | ⚠️ native only | ✅ | Add data-disabled styling | **P1** |
+| Size variant | ✅ | ✅ | `size="sm" \| "md" \| "lg"` scales box + label | ✅ shipped |
+| Color variant | ✅ | ✅ | `color="primary" \| "success" \| "warning" \| "destructive"` via token-driven CSS modifier | ✅ shipped |
+| Error / invalid state | ✅ | ✅ | `invalid` + `error` wire `aria-invalid` and destructive border | ✅ shipped |
+| Description slot | ✅ | ✅ | `description` renders beneath label and wires `aria-describedby` | ✅ shipped |
+| Disabled styling | ✅ | ✅ | Native `:disabled` plus label styling via sibling selector | ✅ shipped |
 
 **Notes:** Checkbox is a stub — the visual is the browser default, which is a regression from the tokens/design system goal. Custom visual is P0 because the whole design-system promise assumes consistent styling. Indeterminate is P0 for data-table select-all.
 
@@ -943,11 +943,11 @@
 | Auto-generated name | ✅ | ✅ | — | — |
 | Custom visual (styled radio) | ✅ | ✅ | CSS-styled radio | ✅ shipped |
 | Arrow-key navigation within group | ✅ | ✅ | Add keyboard nav | ✅ shipped |
-| Size variant | ❌ | ✅ | Add size | **P1** |
-| Disabled on group (applies to all items) | ❌ | ✅ | Add `disabled` on group | **P1** |
-| Required / invalid forwarding | ❌ | ✅ | Add required + aria-required | **P1** |
-| Orientation (horizontal/vertical) | ❌ | ✅ | Add prop | **P1** |
-| Item description slot | ❌ | ✅ | Add inline description | **P1** |
+| Size variant | ✅ | ✅ | `size` on group propagates to items via `wui-radio-group--sm \| --lg` | ✅ shipped |
+| Disabled on group (applies to all items) | ✅ | ✅ | `disabled` on group forwarded via context; per-item disabled still honored | ✅ shipped |
+| Required / invalid forwarding | ✅ | ✅ | `required` / `invalid` on group forward `aria-required` / `aria-invalid` to every item | ✅ shipped |
+| Orientation (horizontal/vertical) | ✅ | ✅ | `orientation` prop toggles row vs column layout | ✅ shipped |
+| Item description slot | ✅ | ✅ | `description` on `RadioGroupItem` renders beneath and wires `aria-describedby` | ✅ shipped |
 
 **Notes:** Same as Checkbox — the native radio is unstyled and arrow-keys don't cycle (browsers do it per-name within form, but the roving tabindex is not correct). P0s align with Checkbox.
 
@@ -962,9 +962,9 @@
 | Forwarded ref | ✅ | ✅ | — | — |
 | Custom visual (track + thumb) | ✅ | ✅ | Replace with styled track/thumb | ✅ shipped |
 | Controlled + uncontrolled | ⚠️ native attrs | ✅ | — | — |
-| Size variant | ❌ | ✅ | Add size | **P1** |
-| On/off label slots | ❌ | ✅ | Add labels | **P1** |
-| Disabled styling | ⚠️ native only | ✅ | Add data-disabled | **P1** |
+| Size variant | ✅ | ✅ | `size="sm" \| "md" \| "lg"` scales track + thumb + label | ✅ shipped |
+| On/off label slots | ✅ | ✅ | `onLabel` / `offLabel` render inside the track | ✅ shipped |
+| Disabled styling | ✅ | ✅ | Explicit `data-disabled` on wrapper plus native `:disabled` — styles both input + label | ✅ shipped |
 | Thumb icon on state | ❌ | ✅ | Add optional icon slot | **P2** |
 
 **Notes:** Same stub story as Checkbox — the custom track/thumb visual is the entire value of the component.
@@ -982,9 +982,9 @@
 | Disabled per item + group | ✅ | ✅ | — | — |
 | Arrow-key nav within group | ✅ | ✅ | Add keyboard nav | ✅ shipped |
 | Roving tab index | ✅ | ✅ | Add roving tabindex | ✅ shipped |
-| Orientation horizontal/vertical | ❌ | ✅ | Add prop | **P1** |
+| Orientation horizontal/vertical | ✅ | ✅ | `orientation` prop toggles arrow-key axis + layout | ✅ shipped |
 | `loop` nav at ends | ❌ | ✅ | Add | **P2** |
-| Size variant | ❌ | ✅ | Add size | **P1** |
+| Size variant | ✅ | ✅ | `size="sm" \| "md" \| "lg"` scales item height + padding + font | ✅ shipped |
 
 **Notes:** Arrow-key nav + roving tabindex is the WAI-ARIA composite requirement. Both P0.
 
