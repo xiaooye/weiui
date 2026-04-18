@@ -7,9 +7,15 @@
     min-block-size: 44px; min-inline-size: 44px;
     display: inline-flex; align-items: center; justify-content: center;
   }
-  .wui-rating__star[data-filled] {
+  .wui-rating__star[data-filled],
+  .wui-rating__star[data-hover] {
     color: var(--wui-color-warning);
     text-shadow: 0 1px 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.12);
+  }
+  /* Hover preview is slightly lighter than the committed fill so users can
+   * tell "this is what you'd get" from "this is your current value". */
+  .wui-rating__star[data-hover]:not([data-filled]) {
+    color: color-mix(in oklch, var(--wui-color-warning) 75%, transparent);
   }
   .wui-rating__star[data-half] {
     background: linear-gradient(

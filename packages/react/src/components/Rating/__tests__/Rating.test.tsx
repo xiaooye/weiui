@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Rating } from "../Rating";
 
@@ -162,6 +162,58 @@ describe("Rating", () => {
       render(<Rating allowClear defaultValue={3} onChange={onChange} />);
       await user.click(screen.getByLabelText("4 stars"));
       expect(onChange).toHaveBeenCalledWith(4);
+    });
+  });
+
+  describe("hover preview (P1)", () => {
+    it("pointerEnter on star 4 marks stars 1-4 with data-hover", () => {
+      render(<Rating defaultValue={0} />);
+      const stars = screen.getAllByRole("radio");
+      fireEvent.pointerEnter(stars[3]!);
+      expect(stars[0]).toHaveAttribute("data-hover", "true");
+      expect(stars[1]).toHaveAttribute("data-hover", "true");
+      expect(stars[2]).toHaveAttribute("data-hover", "true");
+      expect(stars[3]).toHaveAttribute("data-hover", "true");
+      expect(stars[4]).not.toHaveAttribute("data-hover");
+    });
+
+    it("pointerLeave clears all data-hover attributes", () => {
+      render(<Rating defaultValue={0} />);
+      const stars = screen.getAllByRole("radio");
+      fireEvent.pointerEnter(stars[3]!);
+      expect(stars[2]).toHaveAttribute("data-hover", "true");
+      fireEvent.pointerLeave(stars[3]!);
+      expect(stars[0]).not.toHaveAttribute("data-hover");
+      expect(stars[1]).not.toHaveAttribute("data-hover");
+      expect(stars[2]).not.toHaveAttribute("data-hover");
+      expect(stars[3]).not.toHaveAttribute("data-hover");
+    });
+
+    it("disabled Rating does not set data-hover on pointerEnter", () => {
+      render(<Rating disabled defaultValue={0} />);
+      const stars = screen.getAllByRole("radio");
+      fireEvent.pointerEnter(stars[3]!);
+      stars.forEach((star) => {
+        expect(star).not.toHaveAttribute("data-hover");
+      });
+    });
+
+    it("readOnly Rating does not set data-hover on pointerEnter", () => {
+      render(<Rating readOnly defaultValue={2} />);
+      const stars = screen.getAllByRole("radio");
+      fireEvent.pointerEnter(stars[3]!);
+      stars.forEach((star) => {
+        expect(star).not.toHaveAttribute("data-hover");
+      });
+    });
+
+    it("value stays unchanged while hovering", () => {
+      render(<Rating defaultValue={2} />);
+      const stars = screen.getAllByRole("radio");
+      fireEvent.pointerEnter(stars[3]!);
+      // Hover does not change aria-checked.
+      expect(stars[1]).toHaveAttribute("aria-checked", "true");
+      expect(stars[3]).toHaveAttribute("aria-checked", "false");
     });
   });
 });

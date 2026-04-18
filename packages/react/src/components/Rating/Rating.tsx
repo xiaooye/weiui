@@ -46,7 +46,10 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
   ) => {
     const [internal, setInternal] = useState(defaultValue);
     const value = controlled ?? internal;
+    const [hoverValue, setHoverValue] = useState<number | null>(null);
     const starsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+    const isInteractive = !disabled && !readOnly;
 
     const setValue = (v: number) => {
       if (disabled || readOnly) return;
@@ -129,6 +132,9 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
           const full = i + 1;
           const isFilled = i < Math.floor(value);
           const isHalf = allowHalf && value - i === 0.5;
+          // Hover preview overrides the visual fill while the pointer is over
+          // an interactive rating. Keyboard and real value are unaffected.
+          const isHovered = hoverValue !== null && i < hoverValue;
           return (
             <button
               key={i}
@@ -139,6 +145,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
               className="wui-rating__star"
               data-filled={isFilled || undefined}
               data-half={isHalf || undefined}
+              data-hover={isHovered || undefined}
               role="radio"
               aria-checked={full === value}
               aria-label={
@@ -148,10 +155,16 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
               }
               onClick={(e) => handleClick(e, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
+              onPointerEnter={() => {
+                if (isInteractive) setHoverValue(full);
+              }}
+              onPointerLeave={() => {
+                if (isInteractive) setHoverValue(null);
+              }}
               tabIndex={i === activeIdx ? 0 : -1}
               disabled={disabled}
             >
-              {icon !== undefined ? icon : isFilled || isHalf ? "\u2605" : "\u2606"}
+              {icon !== undefined ? icon : isFilled || isHalf || isHovered ? "\u2605" : "\u2606"}
             </button>
           );
         })}
