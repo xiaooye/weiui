@@ -8,3 +8,4 @@ dist/
 apps/docs/public/search-index.json
 apps/docs/public/llms.txt
 apps/docs/public/llms-full.txt
+apps/docs/public/registry/
