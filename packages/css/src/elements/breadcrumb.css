@@ -26,4 +26,13 @@
     color: var(--wui-color-muted-foreground);
     user-select: none;
   }
+
+  .wui-breadcrumb__ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 1.5em;
+    color: var(--wui-color-muted-foreground);
+    list-style: none;
+  }
 }
