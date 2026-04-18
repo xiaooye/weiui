@@ -11,6 +11,13 @@ export interface PaginationProps {
 }
 
 function getPageRange(page: number, totalPages: number, siblings: number): (number | "...")[] {
+  // For small totalPages, show every page without truncation.
+  // Threshold: first + last + current + 2*siblings + 2 potential ellipses.
+  // With siblings=1 this is 7; below that, ellipses would be worse than listing.
+  if (totalPages <= 5 + siblings * 2) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
   const range: (number | "...")[] = [];
   const start = Math.max(2, page - siblings);
   const end = Math.min(totalPages - 1, page + siblings);

@@ -41,6 +41,15 @@ describe("Pagination", () => {
     expect(ellipses.length).toBeGreaterThanOrEqual(1);
   });
 
+  it("does not show ellipsis for small page counts (totalPages <= 7)", () => {
+    render(<Pagination page={4} totalPages={7} onPageChange={vi.fn()} />);
+    expect(screen.queryByText("\u2026")).not.toBeInTheDocument();
+    // All seven pages rendered
+    for (let i = 1; i <= 7; i++) {
+      expect(screen.getByText(String(i))).toBeInTheDocument();
+    }
+  });
+
   it("previous button calls onPageChange with page - 1", async () => {
     const user = userEvent.setup();
     const onPageChange = vi.fn();
