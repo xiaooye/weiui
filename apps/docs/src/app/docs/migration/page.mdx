@@ -1,12 +1,249 @@
 # Migration Guides
 
-Migration notes land here as major versions ship. WeiUI is pre-1.0; no breaking changes yet.
+WeiUI is pre-1.0 so no breaking changes have shipped yet between our own versions. What this page *does* cover is **migrating in from other popular component libraries** — the common renames, contract differences, and a11y surprises you'll hit.
 
-## v0 → v1 (planned)
+## From shadcn/ui to WeiUI
 
-- Component APIs will freeze at v1.0.0
-- Any breaking rename or prop removal between now and v1 will be documented here with the commit that introduced it
+Closest cousin. shadcn/ui and WeiUI share the "copy-paste-to-own" ethos (`weiui add <component>` mirrors `npx shadcn add`). Big differences:
 
-## Contributing a migration note
+- WeiUI ships a real CSS layer (`@weiui/css`) with cascade layers, OKLCH, AAA contrast — shadcn uses Tailwind utility classes.
+- WeiUI's headless layer (`@weiui/headless`) is standalone; shadcn depends on Radix Primitives.
+- WeiUI has tokens as a first-class package (`@weiui/tokens`) with build-time contrast validation.
 
-If you land a breaking change, append a section to this page in the same PR. Each section should include: what changed, why, and a codemod or sed recipe if possible.
+### Component name map
+
+| shadcn/ui       | WeiUI              | Notes                                                       |
+|-----------------|--------------------|-------------------------------------------------------------|
+| `Button`        | `Button`           | Same variants (`solid/outline/ghost/link`), plus `soft`.   |
+| `Input`         | `Input`            | WeiUI adds `clearable`, `prefix/suffix`, `showCount`.      |
+| `Label`         | `Label`            | WeiUI's `Label` works standalone or inside `<Field>`.      |
+| `Dialog`        | `Dialog`           | Same compound pattern.                                      |
+| `DropdownMenu`  | `Menu`             | Same roles; items are `<MenuItem>` not `<DropdownMenuItem>`.|
+| `Popover`       | `Popover`          | WeiUI adds `PopoverArrow` + modal + `onInteractOutside`.   |
+| `Tooltip`       | `Tooltip`          | WeiUI adds `TooltipProvider` for shared delay.             |
+| `Sheet`         | `Drawer`           | Name change; 4 sides supported.                             |
+| `Command`       | `CommandPalette`   | Built on `cmdk`; WeiUI adds recent items + shortcuts.      |
+| `Toast` (sonner)| `toast()` + `<Toaster>` | Promise helper included; same hover-pause UX.         |
+| `DropdownMenuCheckboxItem` | `MenuCheckboxItem` | Same semantics.                                 |
+| `ToggleGroup`   | `ToggleGroup`      | Same single/multiple API.                                   |
+| `Tabs`          | `Tabs`             | Same `value`/`onValueChange`; vertical orientation supported.|
+| `Select`        | `Select`           | Same compound pattern.                                      |
+| `Switch`        | `Switch`           | `onCheckedChange` instead of `onChange`.                   |
+
+### Before / after
+
+A shadcn button + dialog becomes:
+
+```tsx
+// Before (shadcn)
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="destructive">Delete</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Delete project?</DialogTitle>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
+// After (WeiUI)
+import { Button, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@weiui/react";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button color="destructive">Delete</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Delete project?</DialogTitle>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+### Behavioural differences
+
+- **Destructive buttons:** shadcn uses `variant="destructive"`. WeiUI keeps variant for visual style and adds `color="destructive"` so *color is orthogonal to variant*.
+- **Theming:** shadcn uses CSS variables driven by Tailwind config. WeiUI uses CSS variables driven by the tokens JSON. You can import `@weiui/css` without Tailwind.
+- **RTL:** WeiUI uses logical properties end-to-end. shadcn relies on Tailwind's logical utilities, which are opt-in.
+- **Reduced motion:** every WeiUI animation is wrapped in `@media (prefers-reduced-motion: no-preference)`. shadcn inherits whatever the consumer wrote.
+
+### Common pitfalls
+
+- shadcn's `cn()` helper is baked into WeiUI too (`@weiui/react` re-exports it from `utils/cn`). You don't need to copy it across.
+- `DialogDescription` ships but isn't strictly required — Dialog wires `aria-describedby` only when present.
+
+---
+
+## From MUI (v5/v6) to WeiUI
+
+MUI is heavier, opinionated about Material Design, and prescribes `sx` for styling. WeiUI is utility-first at the component level and token-driven at the style level.
+
+### Component name map
+
+| MUI                    | WeiUI                         | Notes                                                |
+|------------------------|-------------------------------|------------------------------------------------------|
+| `Button`               | `Button`                      | WeiUI uses `variant` + `color`; MUI uses `variant` + `color` too but semantics differ. |
+| `TextField`            | `Field` + `Input`             | WeiUI splits label + input; Field auto-wires a11y.  |
+| `Select` / `MenuItem`  | `Select` + `SelectItem`       | Compound pattern instead of prop-driven.            |
+| `Checkbox`             | `Checkbox`                    | `label` prop supported out of the box.              |
+| `Switch`               | `Switch`                      | Same.                                                |
+| `Radio` / `RadioGroup` | `RadioGroup` + `RadioGroupItem` | —                                                |
+| `Autocomplete`         | `AutoComplete`                | Server-driven or in-memory filtering.               |
+| `Dialog`               | `Dialog`                      | Compound pattern.                                   |
+| `Drawer`               | `Drawer`                      | 4 sides; same modal semantics.                      |
+| `Tooltip`              | `Tooltip`                     | —                                                   |
+| `Tabs` / `Tab`         | `Tabs` + `TabsTrigger`        | —                                                   |
+| `AppBar`               | `AppBar`                      | —                                                   |
+| `BottomNavigation`     | `BottomNav`                   | —                                                   |
+| `SpeedDial`            | `SpeedDial`                   | —                                                   |
+| `DataGrid` (pro)       | `DataTable`                   | TanStack Table underneath; free + MIT.              |
+| `Card` / `CardContent` | `Card` + `CardContent`        | Same slot names.                                    |
+| `Chip`                 | `Chip`                        | `onRemove` instead of `onDelete`.                   |
+| `Alert`                | `Alert`                       | WeiUI ships default icons + dismissible + action.   |
+| `Snackbar`             | `toast()` + `<Toaster>`       | Simpler queue; no provider wrapping.                |
+| `CircularProgress`     | `Spinner`                     | —                                                   |
+| `LinearProgress`       | `ProgressBar`                 | —                                                   |
+| `Skeleton`             | `Skeleton`                    | —                                                   |
+| `Stepper` / `Step`     | `Stepper` + `Step`            | Auto-infer indices from child order.                |
+| `Grid`                 | `Grid`                        | CSS Grid instead of flex 12-col.                    |
+| `Stack`                | `Stack`                       | Same.                                                |
+| `Container`            | `Container`                   | —                                                   |
+| `Divider`              | `Divider`                     | —                                                   |
+
+### Styling
+
+Drop `sx={{ mt: 2, color: "primary.main" }}` entirely. Replace with tokens:
+
+```tsx
+// Before (MUI)
+<Box sx={{ mt: 2, p: 3, bgcolor: "background.paper", borderRadius: 2 }}>...</Box>
+
+// After (WeiUI)
+<div style={{
+  marginBlockStart: "var(--wui-spacing-4)",
+  padding: "var(--wui-spacing-6)",
+  backgroundColor: "var(--wui-color-background)",
+  borderRadius: "var(--wui-shape-radius-md)",
+}}>...</div>
+```
+
+Better: use the primitives (`Stack`, `Card`, `Container`) instead of inline styles.
+
+### Theming
+
+```ts
+// Before (MUI theme object)
+const theme = createTheme({
+  palette: { primary: { main: "#1976d2" } },
+  typography: { fontFamily: "Inter" },
+});
+
+// After (WeiUI tokens JSON)
+// packages/tokens/tokens/color.json
+{
+  "color": {
+    "primary": { "500": { "$value": "oklch(0.62 0.19 250)", "$type": "color" } }
+  }
+}
+```
+
+The tokens JSON gets compiled to CSS custom properties at build time. Runtime theming is a JS import away.
+
+### Common pitfalls
+
+- MUI's `onChange` on many controls returns `(event, value)` — WeiUI returns just `value` for controls like Switch (`onCheckedChange`), Select (`onValueChange`), Tabs (`onValueChange`). Native `<input>`-based controls (Input, Checkbox, Textarea) still fire with the event so you access `e.target.value` / `e.target.checked`.
+- MUI's `<FormControl>` / `<InputLabel>` / `<FormHelperText>` is WeiUI's single `<Field>` with `<FieldLabel>` and `<FieldDescription>`. No provider required.
+- MUI's `Grid xs={6} md={4}` becomes WeiUI's `<Grid columns={{ base: 2, md: 3 }}>` — the child grows to fit.
+
+---
+
+## From Radix Primitives to WeiUI
+
+WeiUI's headless layer mirrors Radix's compound-component pattern closely. You're moving from unstyled primitives to styled components.
+
+### Component name map
+
+| Radix                        | WeiUI                                   | Notes                                                  |
+|------------------------------|------------------------------------------|--------------------------------------------------------|
+| `@radix-ui/react-dialog`     | `@weiui/react` `Dialog`                  | Same compound API.                                    |
+| `@radix-ui/react-dropdown-menu` | `@weiui/react` `Menu`                 | —                                                      |
+| `@radix-ui/react-popover`    | `@weiui/react` `Popover`                 | —                                                      |
+| `@radix-ui/react-tooltip`    | `@weiui/react` `Tooltip`                 | —                                                      |
+| `@radix-ui/react-tabs`       | `@weiui/react` `Tabs`                    | —                                                      |
+| `@radix-ui/react-accordion`  | `@weiui/react` `Accordion`               | —                                                      |
+| `@radix-ui/react-toggle-group`| `@weiui/react` `ToggleGroup`            | —                                                      |
+| `@radix-ui/react-select`     | `@weiui/react` `Select`                  | —                                                      |
+| `@radix-ui/react-hover-card` | `@weiui/react` `Popover` + trigger="hover"| WeiUI doesn't ship a separate HoverCard — pick Popover with hover behaviour. |
+| `@radix-ui/react-navigation-menu` | `@weiui/react` `Menu`                | —                                                      |
+| `@radix-ui/react-context-menu`| `@weiui/react` `Menu` on `contextmenu`  | WeiUI doesn't ship a separate ContextMenu primitive yet. |
+| `@radix-ui/react-portal`     | `@weiui/react` `Portal`                  | —                                                      |
+
+### Slot / asChild
+
+Radix popularised `asChild` for composition. WeiUI supports the same pattern where it makes sense:
+
+```tsx
+// Before (Radix)
+<Dialog.Trigger asChild>
+  <Link href="/profile">Open profile</Link>
+</Dialog.Trigger>
+
+// After (WeiUI) — identical
+<DialogTrigger asChild>
+  <Link href="/profile">Open profile</Link>
+</DialogTrigger>
+```
+
+### Imports
+
+The biggest ergonomic change — Radix distributes per-component packages; WeiUI is a single barrel:
+
+```tsx
+// Before (Radix)
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+// After (WeiUI)
+import {
+  Dialog, DialogTrigger, DialogContent,
+  Menu, MenuTrigger, MenuContent, MenuItem,
+} from "@weiui/react";
+```
+
+### Styling
+
+Radix primitives are unstyled; you bring your own CSS. WeiUI ships styles. If you want pure headless, depend on `@weiui/headless` only — same compound pattern, no styles included:
+
+```ts
+import { useDisclosure, useFocusTrap, Portal } from "@weiui/headless";
+```
+
+Then style with your own CSS or Tailwind.
+
+### Behavioural differences
+
+- Radix's `onOpenChange` fires on every mount-cycle change including keyboard-driven close. WeiUI matches this contract.
+- Radix's `modal` prop on Dialog toggles `aria-modal` + body scroll lock. WeiUI defaults Dialog to modal, and Drawer likewise.
+- Radix's `onEscapeKeyDown` / `onInteractOutside` preventable-event pattern is preserved in WeiUI — call `e.preventDefault()` to block close.
+
+### Common pitfalls
+
+- Radix's `Root` / `Trigger` / `Portal` / `Overlay` / `Content` pattern in Dialog has slightly shorter names in WeiUI: `Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogClose`. No explicit `Portal` or `Overlay` — they're inside `DialogContent`.
+- Radix's Select has an explicit `Value` and `Content > Viewport` structure. WeiUI flattens to `SelectTrigger > SelectValue` and `SelectContent > SelectItem`.
+- Dismissible state lives on the root (`<Dialog open onOpenChange>`). Trigger and Content are siblings that read from context.
+
+---
+
+## Codemods (roadmap)
+
+If you'd like automated renames, please file an issue with the lib you're migrating from — we plan to ship `@weiui/codemod` as a Post-1.0 milestone with shadcn / MUI / Radix preset transforms.
+
+## Still stuck?
+
+- For API questions, open a [GitHub issue](https://github.com/xiaooye/weiui/issues).
+- For accessibility regressions during migration, the checklist on [the accessibility page](/docs/accessibility) is the fastest way to confirm you didn't regress.
