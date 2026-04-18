@@ -2,6 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../utils/cn";
 
 export interface DividerProps extends HTMLAttributes<HTMLHRElement> {
+  /** Axis along which the divider is drawn. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
 }
 

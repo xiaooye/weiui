@@ -2,6 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../utils/cn";
 
 export interface CodeProps extends HTMLAttributes<HTMLElement> {
+  /** When false, renders as a block `<pre><code>`. @default true */
   inline?: boolean;
 }
 

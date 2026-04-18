@@ -2,7 +2,9 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface AspectRatioProps extends HTMLAttributes<HTMLDivElement> {
+  /** Aspect ratio as a number (width / height). @default 16 / 9 */
   ratio?: number;
+  /** Content constrained to the aspect ratio. */
   children: ReactNode;
 }
 

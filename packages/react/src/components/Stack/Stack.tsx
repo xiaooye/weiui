@@ -2,9 +2,13 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+  /** Stack content. */
   children: ReactNode;
+  /** Flex direction. @default "column" */
   direction?: "column" | "row";
+  /** Gap between children. Maps to a spacing token step (0–8). */
   gap?: number;
+  /** Allows children to wrap onto multiple lines. */
   wrap?: boolean;
 }
 

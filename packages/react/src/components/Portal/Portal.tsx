@@ -4,7 +4,9 @@ import { type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 export interface PortalProps {
+  /** Content rendered into the portal target. */
   children: ReactNode;
+  /** Portal target element. @default document.body */
   container?: Element | null;
 }
 

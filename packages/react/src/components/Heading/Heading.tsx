@@ -4,7 +4,9 @@ import { cn } from "../../utils/cn";
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+  /** Semantic heading level. Renders as h1–h6. @default 2 */
   level?: HeadingLevel;
+  /** Heading content. */
   children: ReactNode;
 }
 

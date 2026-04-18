@@ -27,14 +27,23 @@ interface ToggleGroupContextValue {
 const ToggleGroupContext = createContext<ToggleGroupContextValue | null>(null);
 
 export interface ToggleGroupProps {
+  /** Selection mode: one item or many. @default "single" */
   type?: "single" | "multiple";
+  /** Controlled selected value(s). Pair with onChange. */
   value?: string | string[];
+  /** Initial selected value(s) for uncontrolled mode. */
   defaultValue?: string | string[];
+  /** Called when the selection changes. */
   onChange?: (value: string | string[]) => void;
+  /** Disables interaction and applies the disabled styling. */
   disabled?: boolean;
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
+  /** ToggleGroupItem children. */
   children: ReactNode;
+  /** Accessible label for the toggle group. */
   label?: string;
+  /** Layout orientation. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
 }
 
@@ -178,9 +187,13 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
 ToggleGroup.displayName = "ToggleGroup";
 
 export interface ToggleGroupItemProps {
+  /** Unique value identifying this item. Reported to the ToggleGroup onChange. */
   value: string;
+  /** Disables this item independently of the group. */
   disabled?: boolean;
+  /** Item content — typically an icon or label. */
   children: ReactNode;
+  /** Additional CSS classes merged onto the item. */
   className?: string;
 }
 

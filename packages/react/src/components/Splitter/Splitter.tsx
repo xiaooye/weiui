@@ -5,14 +5,19 @@ import { cn } from "../../utils/cn";
 export type SplitterSizes = [number, number];
 
 export interface SplitterProps {
+  /** Split axis. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
+  /** Initial pane sizes as percentages totaling 100. @default [50, 50] */
   defaultSizes?: SplitterSizes;
   /** Controlled sizes. Pair with `onSizesChange`. */
   sizes?: SplitterSizes;
   /** Fires when the user drags or presses arrow keys on the separator. */
   onSizesChange?: (sizes: SplitterSizes) => void;
+  /** Minimum pane size as a percentage. @default 10 */
   minSize?: number;
+  /** The two pane children rendered on either side of the separator. */
   children: [ReactNode, ReactNode];
+  /** Additional CSS classes merged onto the root element. */
   className?: string;
 }
 

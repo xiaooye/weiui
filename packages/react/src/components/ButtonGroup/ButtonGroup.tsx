@@ -14,7 +14,9 @@ export function useButtonGroupContext() {
 }
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
+  /** Button children grouped together. */
   children: ReactNode;
+  /** Layout orientation. @default "horizontal" */
   orientation?: "horizontal" | "vertical";
   /** `attached` visually joins buttons; `spaced` keeps individual rounded corners with gap. */
   variant?: "attached" | "spaced";

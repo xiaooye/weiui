@@ -19,7 +19,9 @@ interface AccordionItemContextValue {
 const AccordionItemContext = createContext<AccordionItemContextValue | null>(null);
 
 export interface AccordionProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  /** Expansion mode — only one item at a time or many. @default "single" */
   type?: "single" | "multiple";
+  /** Initial expanded item values for uncontrolled mode. @default [] */
   defaultExpanded?: string[];
   /** Controlled expanded values. When provided, `defaultExpanded` is ignored. */
   value?: string[];
@@ -101,7 +103,9 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 Accordion.displayName = "Accordion";
 
 export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> {
+  /** Unique value identifying this item — reported to Accordion onValueChange. */
   value: string;
+  /** Item content — typically AccordionTrigger and AccordionContent. */
   children: ReactNode;
   /** When true, disables the item — trigger is disabled and keyboard nav skips it. */
   disabled?: boolean;

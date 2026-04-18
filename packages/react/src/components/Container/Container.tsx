@@ -2,7 +2,9 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+  /** Container content. */
   children: ReactNode;
+  /** Maximum inline size. Any CSS length (e.g. `"80ch"`, `"1200px"`). */
   maxWidth?: string;
 }
 
