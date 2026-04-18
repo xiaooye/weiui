@@ -1,6 +1,17 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } from "../Sidebar";
+import userEvent from "@testing-library/user-event";
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarItem,
+  SidebarTrigger,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarSubMenu,
+} from "../Sidebar";
 
 describe("Sidebar", () => {
   it("renders children", () => {
@@ -127,5 +138,139 @@ describe("SidebarItem — icon-only collapsed mode (P0)", () => {
     );
     const icon = screen.getByTestId("home-icon");
     expect(icon.parentElement?.className).toContain("wui-sidebar__icon");
+  });
+});
+
+describe("SidebarTrigger (P1)", () => {
+  it("renders as a toggle button", () => {
+    render(
+      <Sidebar>
+        <SidebarHeader>
+          <SidebarTrigger />
+        </SidebarHeader>
+      </Sidebar>,
+    );
+    expect(screen.getByRole("button", { name: /toggle sidebar/i })).toBeInTheDocument();
+  });
+
+  it("toggles collapsed state when clicked", async () => {
+    const user = userEvent.setup();
+    render(
+      <Sidebar data-testid="sb">
+        <SidebarHeader>
+          <SidebarTrigger />
+        </SidebarHeader>
+      </Sidebar>,
+    );
+    expect(screen.getByTestId("sb")).not.toHaveAttribute("data-collapsed");
+    await user.click(screen.getByRole("button", { name: /toggle sidebar/i }));
+    expect(screen.getByTestId("sb")).toHaveAttribute("data-collapsed");
+  });
+
+  it("reflects aria-expanded", async () => {
+    const user = userEvent.setup();
+    render(
+      <Sidebar>
+        <SidebarHeader>
+          <SidebarTrigger />
+        </SidebarHeader>
+      </Sidebar>,
+    );
+    const trigger = screen.getByRole("button", { name: /toggle sidebar/i });
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("fires onOpenChange from Sidebar", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(
+      <Sidebar onOpenChange={onOpenChange}>
+        <SidebarHeader>
+          <SidebarTrigger />
+        </SidebarHeader>
+      </Sidebar>,
+    );
+    await user.click(screen.getByRole("button", { name: /toggle sidebar/i }));
+    expect(onOpenChange).toHaveBeenCalled();
+  });
+});
+
+describe("SidebarGroup + SidebarGroupLabel (P1)", () => {
+  it("renders a role=group with label", () => {
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarItem>Dashboard</SidebarItem>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    expect(screen.getByRole("group")).toBeInTheDocument();
+    expect(screen.getByText("Workspace")).toBeInTheDocument();
+  });
+});
+
+describe("SidebarSubMenu (P1)", () => {
+  it("renders a collapsible submenu", async () => {
+    const user = userEvent.setup();
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarSubMenu label="Settings">
+            <SidebarItem>Profile</SidebarItem>
+            <SidebarItem>Billing</SidebarItem>
+          </SidebarSubMenu>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    // Closed by default
+    expect(screen.queryByText("Profile")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /settings/i }));
+    expect(screen.getByText("Profile")).toBeInTheDocument();
+  });
+
+  it("aria-expanded reflects open state", async () => {
+    const user = userEvent.setup();
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarSubMenu label="Settings" defaultOpen>
+            <SidebarItem>Profile</SidebarItem>
+          </SidebarSubMenu>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    const trigger = screen.getByRole("button", { name: /settings/i });
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+});
+
+describe("SidebarItem — tooltip when collapsed (P1)", () => {
+  it("renders title attribute when collapsed", () => {
+    render(
+      <Sidebar defaultOpen>
+        <SidebarContent>
+          <SidebarItem data-testid="item">Dashboard</SidebarItem>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    expect(screen.getByTestId("item")).toHaveAttribute("title", "Dashboard");
+  });
+
+  it("no title when expanded", () => {
+    render(
+      <Sidebar>
+        <SidebarContent>
+          <SidebarItem data-testid="item">Dashboard</SidebarItem>
+        </SidebarContent>
+      </Sidebar>,
+    );
+    expect(screen.getByTestId("item")).not.toHaveAttribute("title");
   });
 });
