@@ -1,8 +1,9 @@
 # WeiUI Polish Overhaul — Completion Summary
 
-**Shipped:** 2026-04-16 to 2026-04-17 (+ polish rounds 7–14 through 2026-04-17)
-**Total commits:** 182
-**Total tests:** 693 passing across all packages
+**Shipped:** 2026-04-16 to 2026-04-18 (+ polish rounds 7-14 through 2026-04-17, top-of-class Waves A-F through 2026-04-18)
+**Total commits:** 200+ (182 polish + 18 top-of-class Wave F + Wave A-E P1s)
+**Total tests:** 884 passing across all packages (up from 693 after Wave B-E + Wave F tests)
+**Docs quality:** 7 grouped pages rewritten to 4.0 / 5; 5 new pattern pages shipped; migration guide rewritten; per-component a11y checklist added.
 
 ## Waves shipped
 
