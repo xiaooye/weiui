@@ -236,4 +236,45 @@ describe("Slider", () => {
       expect(hidden).toHaveAttribute("value", "10");
     });
   });
+
+  describe("RTL (P1)", () => {
+    it("thumb position uses logical insetInlineStart, not physical left", () => {
+      render(
+        <div dir="rtl">
+          <Slider defaultValue={25} />
+        </div>,
+      );
+      const thumb = screen.getByRole("slider") as HTMLElement;
+      expect(thumb.style.insetInlineStart).toBe("25%");
+      expect(thumb.style.left).toBe("");
+      expect(thumb.style.right).toBe("");
+    });
+
+    it("fill position uses logical insetInlineStart / inlineSize under RTL", () => {
+      const { container } = render(
+        <div dir="rtl">
+          <Slider defaultValue={40} />
+        </div>,
+      );
+      const fill = container.querySelector<HTMLElement>(".wui-slider__fill")!;
+      expect(fill.style.insetInlineStart).toBe("0%");
+      expect(fill.style.inlineSize).toBe("40%");
+      expect(fill.style.left).toBe("");
+      expect(fill.style.width).toBe("");
+    });
+
+    it("marks use logical insetInlineStart under RTL", () => {
+      const { container } = render(
+        <div dir="rtl">
+          <Slider defaultValue={50} marks={[{ value: 0 }, { value: 100 }]} />
+        </div>,
+      );
+      const marks = container.querySelectorAll<HTMLElement>(".wui-slider__mark");
+      expect(marks).toHaveLength(2);
+      marks.forEach((mark) => {
+        expect(mark.style.insetInlineStart).not.toBe("");
+        expect(mark.style.left).toBe("");
+      });
+    });
+  });
 });
