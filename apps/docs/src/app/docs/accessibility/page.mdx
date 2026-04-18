@@ -132,3 +132,151 @@ Before shipping a component or page, verify:
 - [ ] Animations are suppressed under `prefers-reduced-motion: reduce`
 - [ ] Touch targets are at least 24×24px (44×44px recommended)
 - [ ] Form fields have associated labels and error messages linked via `aria-describedby`
+
+## Per-component testing checklist
+
+WeiUI bakes in ARIA defaults, but wiring things correctly at the consumer site still matters. Before shipping a page that uses these components, run through the component-specific checks below.
+
+### Dialog
+
+- [ ] Focus moves to the first focusable element inside when the Dialog opens.
+- [ ] `Escape` closes the Dialog (unless you `preventDefault` `onEscapeKeyDown`).
+- [ ] Clicking the scrim closes the Dialog (unless `onInteractOutside.preventDefault`).
+- [ ] Focus returns to the trigger after close.
+- [ ] Body scroll is locked while the Dialog is open.
+- [ ] `<DialogContent>` has `role="dialog"` and `aria-modal="true"`.
+- [ ] `<DialogTitle>` is present and linked via `aria-labelledby` (automatic when present).
+- [ ] Tab cycles within the Dialog; Shift+Tab cycles backward; no focus leaks to page chrome.
+
+### Drawer
+
+- [ ] All Dialog checks above.
+- [ ] The drawer slides from the correct `side` (start / end / top / bottom) and respects RTL.
+- [ ] Nested drawers stack properly and `Escape` closes the innermost one first.
+- [ ] Slide animation is disabled under `prefers-reduced-motion: reduce`.
+
+### Menu
+
+- [ ] `role="menu"` on the content; `role="menuitem"` on each item.
+- [ ] `ArrowDown`/`ArrowUp` navigates between items; `Home`/`End` jump to extremes.
+- [ ] Typeahead (any letter) jumps to the next item whose label starts with that letter.
+- [ ] Disabled items (`data-disabled`) are skipped during arrow navigation.
+- [ ] `Enter`/`Space` selects; `Escape` closes and returns focus to the trigger.
+- [ ] Sub-menus open on `ArrowRight` and close on `ArrowLeft`.
+- [ ] Menu content is rendered via a Portal so it never clips inside scroll ancestors.
+
+### Popover
+
+- [ ] Focus enters the popover content (configurable via `onOpenAutoFocus.preventDefault`).
+- [ ] `Escape` closes and returns focus to the trigger.
+- [ ] Outside click closes (configurable via `onInteractOutside.preventDefault`).
+- [ ] Arrow points at the trigger correctly when the popover flips to another side.
+- [ ] When `modal`, Tab is trapped inside; when not, Tab can exit to the page.
+
+### Tooltip
+
+- [ ] Tooltip appears on both hover *and* keyboard focus.
+- [ ] Pointer leave *and* blur dismiss it.
+- [ ] Content is linked via `aria-describedby` (not `aria-labelledby` — the element's own text is the label).
+- [ ] Does not contain interactive content (tooltips vanish; buttons inside can't be reached).
+- [ ] On touch, tap toggles; a second tap outside dismisses.
+
+### Tabs
+
+- [ ] `role="tablist"`, `role="tab"`, `role="tabpanel"` wired; `aria-selected`, `aria-controls`, `aria-labelledby` correctly cross-referenced.
+- [ ] Only the active tab is in the Tab sequence (roving `tabindex`).
+- [ ] Arrow keys follow orientation: Left/Right for horizontal, Up/Down for vertical.
+- [ ] `Home`/`End` jump to first / last.
+- [ ] Activation style (Enter/Space to activate vs auto-activate on focus) matches the expected pattern — WeiUI defaults to manual activation.
+
+### Select
+
+- [ ] `role="combobox"` on trigger with `aria-expanded`, `aria-controls`.
+- [ ] `role="listbox"` on content, `role="option"` on items, `aria-selected` on the current value.
+- [ ] `ArrowDown`/`ArrowUp` navigate, `Enter` selects, `Escape` closes.
+- [ ] Typeahead jumps to matching items.
+- [ ] Disabled options are skipped during navigation.
+
+### Checkbox / Switch
+
+- [ ] Label is associated (WeiUI supports `label` prop or wrap in `<Field>`).
+- [ ] `aria-checked` mirrors state; for Switch, `role="switch"`.
+- [ ] `Space` toggles (never `Enter` — that's the default submit).
+- [ ] Disabled state sets `aria-disabled` + `data-disabled`.
+- [ ] Indeterminate Checkbox sets `aria-checked="mixed"`.
+
+### RadioGroup
+
+- [ ] Group has `role="radiogroup"` and an accessible name (`aria-label` or `<FieldLabel>` in a wrapping Field).
+- [ ] Arrow keys move selection (which also moves focus).
+- [ ] Only the currently-selected (or first) radio is tabbable.
+- [ ] Disabled items skipped.
+
+### Input + Textarea + Field
+
+- [ ] Every input has a visible label or an `aria-label`.
+- [ ] `aria-invalid="true"` is set when the input is invalid (WeiUI's `invalid` prop + `<Field error>` both do this).
+- [ ] `aria-describedby` points at the hint + error message (auto-wired by `<Field>`).
+- [ ] `autocomplete` hint is populated for common fields (`email`, `name`, `new-password`, etc.).
+- [ ] On mobile, `inputmode` narrows the keyboard for numeric / email / tel fields.
+- [ ] Error message appears inline beside the field, not a distant banner.
+
+### Toast
+
+- [ ] `<Toaster>` mounted exactly once at the app root.
+- [ ] Each toast has `role="alert"` — announcements interrupt the current read-out.
+- [ ] Hover pauses auto-dismiss timers; focus entering the stack also pauses.
+- [ ] The close button has an `aria-label`.
+- [ ] Action buttons are reachable by keyboard inside the toast.
+
+### Data table
+
+- [ ] Rendered as a semantic `<table>` with `<thead>` / `<tbody>`.
+- [ ] Column headers use `<th scope="col">`.
+- [ ] Sortable headers expose `aria-sort` (`ascending` / `descending` / `none`).
+- [ ] Row-selection checkboxes have a per-row `aria-label` describing the row.
+- [ ] Empty state message is announced (rendered inside the tbody).
+- [ ] Pagination bar has `aria-label="Pagination"`.
+
+### Stepper
+
+- [ ] Active step carries `aria-current="step"`.
+- [ ] Completed / error / active state conveyed via data attributes (so SR ignores decorative check/bang glyphs).
+- [ ] `onStepClick` makes indicators keyboard-activatable (Enter + Space).
+- [ ] Connector lines are `aria-hidden="true"`.
+
+### Accordion
+
+- [ ] Trigger buttons have `aria-expanded` mirroring open state.
+- [ ] `aria-controls` points at the corresponding panel id.
+- [ ] Each panel is `role="region"` with `aria-labelledby` pointing at its trigger.
+- [ ] Arrow keys move between triggers (don't cycle through panel content).
+
+### Breadcrumb
+
+- [ ] Root is `<nav aria-label="Breadcrumb">`.
+- [ ] Active crumb carries `aria-current="page"`.
+- [ ] Separators are `aria-hidden="true"`.
+
+### Sidebar
+
+- [ ] Root is `<aside>` with `aria-label` (e.g. `"Main navigation"`).
+- [ ] Active item carries `aria-current="page"`.
+- [ ] When collapsed, labels remain in DOM (visually hidden).
+- [ ] Sub-menu toggles expose `aria-expanded` + `aria-controls`.
+
+### Progress
+
+- [ ] `role="progressbar"` with `aria-valuenow` (determinate) or omitted (indeterminate).
+- [ ] `aria-valuemin`/`aria-valuemax` set.
+- [ ] `aria-label` or `aria-labelledby` present.
+- [ ] Animation wrapped in `prefers-reduced-motion: no-preference`.
+
+### Tooltip / Popover / Menu portaling
+
+- [ ] Content renders inside `<body>` via Portal — never clipped by scrolling ancestors.
+- [ ] Tab doesn't leap to the portaled node from an unrelated trigger — focus management returns it to the trigger on close.
+
+---
+
+Running through this list before you ship catches the 80 % of a11y regressions. For the remaining 20 %, pair it with an automated run of `@axe-core/react` in tests and a spot-check with VoiceOver / NVDA on the most trafficked flows.
