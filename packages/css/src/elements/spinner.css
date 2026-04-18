@@ -16,4 +16,9 @@
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
+
+  .wui-spinner--primary { color: var(--wui-color-primary); }
+  .wui-spinner--success { color: var(--wui-color-success); }
+  .wui-spinner--warning { color: var(--wui-color-warning); }
+  .wui-spinner--destructive { color: var(--wui-color-destructive); }
 }

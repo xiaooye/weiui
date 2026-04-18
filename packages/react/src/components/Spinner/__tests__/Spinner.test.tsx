@@ -38,4 +38,30 @@ describe("Spinner", () => {
     expect(el).toHaveClass("wui-spinner");
     expect(el.className).not.toContain("animate-spin");
   });
+
+  // E.13 color variant
+  it("does not apply color class for default", () => {
+    render(<Spinner />);
+    expect(screen.getByRole("status").className).not.toContain("wui-spinner--default");
+  });
+
+  it("applies primary color class", () => {
+    render(<Spinner color="primary" />);
+    expect(screen.getByRole("status").className).toContain("wui-spinner--primary");
+  });
+
+  it("applies destructive color class", () => {
+    render(<Spinner color="destructive" />);
+    expect(screen.getByRole("status").className).toContain("wui-spinner--destructive");
+  });
+
+  it("applies success color class", () => {
+    render(<Spinner color="success" />);
+    expect(screen.getByRole("status").className).toContain("wui-spinner--success");
+  });
+
+  it("applies warning color class", () => {
+    render(<Spinner color="warning" />);
+    expect(screen.getByRole("status").className).toContain("wui-spinner--warning");
+  });
 });
