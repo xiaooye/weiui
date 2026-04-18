@@ -79,24 +79,30 @@ Addons visually attach to the input — they don't float inside it. For content 
 </Preview>
 
 ```tsx
-import { Eye, EyeOff } from "@weiui/icons";
-
 {/* Clearable */}
 <Input clearable value={name} onChange={e => setName(e.target.value)} />
 
 {/* Character count */}
 <Input maxLength={60} showCount value={msg} onChange={e => setMsg(e.target.value)} />
-
-{/* Password reveal */}
-<Input
-  type={show ? "text" : "password"}
-  suffix={
-    <button type="button" onClick={() => setShow(!show)} aria-label={show ? "Hide password" : "Show password"}>
-      {show ? <EyeOff size={16} /> : <Eye size={16} />}
-    </button>
-  }
-/>
 ```
+
+## Password and Search variants
+
+`<Input revealable type="password">` renders a built-in eye / eye-off toggle that switches between `password` and `text`. The button has `aria-pressed`, an `aria-label` that updates with state, and is included in the 44 × 44 px touch target.
+
+```tsx
+import { Input, SearchInput } from "@weiui/react";
+
+<Input revealable type="password" placeholder="Password" />
+```
+
+`<SearchInput>` is a thin preset that wires the magnifier glyph as the `startAddon` and forces `clearable` so users can wipe the query in one click. Use it instead of constructing the same chrome by hand.
+
+```tsx
+<SearchInput placeholder="Search components..." value={q} onChange={e => setQ(e.target.value)} />
+```
+
+Both variants compose with `<Field>` for label / hint / error wiring exactly like the base `Input`.
 
 ## Textarea
 
@@ -139,6 +145,7 @@ import { Field, Input } from "@weiui/react";
 | `size`        | `"sm" \| "md" \| "lg"`            | `"md"`   | Height variant                                    |
 | `invalid`     | `boolean`                         | `false`  | Error state — sets `aria-invalid="true"`          |
 | `clearable`   | `boolean`                         | `false`  | Show a clear button when the value is non-empty   |
+| `revealable`  | `boolean`                         | `false`  | Show a built-in show/hide toggle for `type="password"` |
 | `prefix`      | `ReactNode`                       | —        | Content inside the input, before the value        |
 | `suffix`      | `ReactNode`                       | —        | Content inside the input, after the value         |
 | `startAddon`  | `ReactNode`                       | —        | Joined block before the input                     |
