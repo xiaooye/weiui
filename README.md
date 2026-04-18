@@ -1,5 +1,7 @@
 # WeiUI
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 An accessibility-first design system with three consumption layers.
 
 - **CSS Layer** — Framework-agnostic CSS-only components. Zero JavaScript.
