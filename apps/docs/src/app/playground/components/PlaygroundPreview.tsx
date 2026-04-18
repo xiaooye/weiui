@@ -1,4 +1,15 @@
 "use client";
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Input,
+  Spinner,
+  Text,
+} from "@weiui/react";
 import type { ComponentDef } from "../lib/component-registry";
 
 interface Props {
@@ -8,75 +19,69 @@ interface Props {
 }
 
 export function PlaygroundPreview({ component, propValues, children }: Props) {
-  const cssClasses = buildCssClasses(component.name, propValues);
-
   return (
-    <div className="wui-card">
-      <div className="wui-card__header">
-        <span style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-medium)" }}>Preview</span>
-      </div>
-      <div className="wui-card__content" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "120px" }}>
-        {renderComponent(component.name, cssClasses, propValues, children)}
-      </div>
-    </div>
+    <Card className="wui-tool-preview">
+      <CardHeader>
+        <Text as="span" size="sm" weight="medium">
+          Preview
+        </Text>
+      </CardHeader>
+      <CardContent className="wui-tool-preview__stage">
+        {renderComponent(component.name, propValues, children)}
+      </CardContent>
+    </Card>
   );
 }
 
-function buildCssClasses(name: string, props: Record<string, string | boolean>): string {
-  const base = `wui-${name.toLowerCase()}`;
-  const classes = [base];
-
-  if (props.variant && typeof props.variant === "string") {
-    classes.push(`${base}--${props.variant}`);
-  }
-  if (props.size && typeof props.size === "string" && props.size !== "md") {
-    classes.push(`${base}--${props.size}`);
-  }
-  if (props.color && typeof props.color === "string" && props.color !== "primary") {
-    classes.push(`${base}--${props.color}`);
-  }
-
-  return classes.join(" ");
-}
-
-function renderComponent(name: string, cssClasses: string, props: Record<string, string | boolean>, children: string) {
+function renderComponent(
+  name: string,
+  props: Record<string, string | boolean>,
+  children: string,
+) {
   switch (name) {
     case "Button":
       return (
-        <button
-          type="button"
-          className={cssClasses}
-          disabled={!!props.disabled || !!props.loading}
-          data-disabled={props.disabled || undefined}
-          data-loading={props.loading || undefined}
+        <Button
+          variant={(props.variant as "solid" | "outline" | "ghost" | "soft" | "link") ?? "solid"}
+          size={(props.size as "sm" | "md" | "lg" | "xl") ?? "md"}
+          color={(props.color as "primary" | "destructive" | "success" | "warning") ?? "primary"}
+          disabled={!!props.disabled}
+          loading={!!props.loading}
         >
           {children}
-        </button>
+        </Button>
       );
     case "Input":
       return (
-        <input
-          className={cssClasses}
+        <Input
           placeholder={typeof props.placeholder === "string" ? props.placeholder : ""}
           disabled={!!props.disabled}
-          data-invalid={props.invalid || undefined}
+          invalid={!!props.invalid}
         />
       );
     case "Badge":
-      return <span className={cssClasses}>{children}</span>;
+      return (
+        <Badge
+          variant={(props.variant as "solid" | "soft" | "outline") ?? "solid"}
+          color={(props.color as "primary" | "destructive" | "success" | "warning") ?? "primary"}
+        >
+          {children}
+        </Badge>
+      );
     case "Alert":
-      return <div className={`${cssClasses}`} role="alert">{children}</div>;
+      return (
+        <Alert variant={(props.variant as "info" | "success" | "warning" | "destructive") ?? "info"}>
+          {children}
+        </Alert>
+      );
     case "Spinner":
       return (
-        <div
-          role="status"
-          className="wui-spinner"
-          style={{ width: props.size === "sm" ? "16px" : props.size === "lg" ? "32px" : "24px", height: props.size === "sm" ? "16px" : props.size === "lg" ? "32px" : "24px" }}
-        >
-          <span className="wui-sr-only">{typeof props.label === "string" ? props.label : "Loading"}</span>
-        </div>
+        <Spinner
+          size={(props.size as "sm" | "md" | "lg") ?? "md"}
+          label={typeof props.label === "string" ? props.label : "Loading"}
+        />
       );
     default:
-      return <div>{children}</div>;
+      return <Text>{children}</Text>;
   }
 }

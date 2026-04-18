@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Container, Grid, Heading, Stack, Text } from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
 import { type ComponentNode, createNode } from "./lib/component-tree";
 import { generateJsx, generateHtml } from "./lib/code-gen";
@@ -51,32 +52,39 @@ export default function ComposerPage() {
   return (
     <>
       <Header />
-      <main className="wui-tool-shell">
-        <header className="wui-tool-shell__header">
-          <h1 className="wui-tool-shell__title">Component Composer</h1>
-          <p className="wui-tool-shell__sub">
-            Drag components onto the canvas, edit their props, and export ready-to-ship JSX or HTML.
-          </p>
-        </header>
-
-        <div className="wui-tool-shell__layout wui-tool-shell__layout--composer">
-          <ComponentPalette onAdd={addNode} />
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
-            <Canvas
-              nodes={nodes}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-              onRemove={removeNode}
-              onMove={moveNode}
+      <Container maxWidth="80rem" className="wui-tool-shell">
+        <Stack direction="column" gap={6}>
+          <Stack direction="column" gap={2} className="wui-tool-shell__header">
+            <Heading level={1} className="wui-tool-shell__title">
+              Component Composer
+            </Heading>
+            <Text size="base" color="muted" className="wui-tool-shell__sub">
+              Drag components onto the canvas, edit their props, and export ready-to-ship JSX or HTML.
+            </Text>
+          </Stack>
+          <Grid
+            columns="180px minmax(0, 1fr) 240px"
+            gap={4}
+            className="wui-tool-shell__layout wui-tool-shell__layout--composer"
+          >
+            <ComponentPalette onAdd={addNode} />
+            <Stack direction="column" gap={4}>
+              <Canvas
+                nodes={nodes}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+                onRemove={removeNode}
+                onMove={moveNode}
+              />
+              <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
+            </Stack>
+            <PropsEditor
+              node={selectedNode}
+              onUpdate={(updates) => selectedNode && updateNode(selectedNode.id, updates)}
             />
-            <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
-          </div>
-          <PropsEditor
-            node={selectedNode}
-            onUpdate={(updates) => selectedNode && updateNode(selectedNode.id, updates)}
-          />
-        </div>
-      </main>
+          </Grid>
+        </Stack>
+      </Container>
     </>
   );
 }

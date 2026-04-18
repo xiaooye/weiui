@@ -1,4 +1,13 @@
 "use client";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@weiui/react";
 
 interface Props {
   code: string;
@@ -8,34 +17,35 @@ interface Props {
 
 export function CodeExport({ code, codeMode, onCodeModeChange }: Props) {
   return (
-    <div className="wui-card">
-      <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
-          <button
-            type="button"
-            className={`wui-button wui-button--${codeMode === "jsx" ? "soft" : "ghost"} wui-button--sm`}
-            style={{ minHeight: "28px" }}
-            onClick={() => onCodeModeChange("jsx")}
-          >JSX</button>
-          <button
-            type="button"
-            className={`wui-button wui-button--${codeMode === "html" ? "soft" : "ghost"} wui-button--sm`}
-            style={{ minHeight: "28px" }}
-            onClick={() => onCodeModeChange("html")}
-          >HTML</button>
-        </div>
-        <button
-          type="button"
-          className="wui-button wui-button--ghost wui-button--sm"
-          style={{ minHeight: "28px" }}
-          onClick={() => navigator.clipboard.writeText(code)}
-        >Copy</button>
-      </div>
-      <div className="wui-card__content">
-        <pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-sm)", overflow: "auto", minHeight: "60px" }}>
+    <Card>
+      <CardHeader>
+        <Stack direction="row" gap={3} className="wui-tool-code__header">
+          <ToggleGroup
+            type="single"
+            value={codeMode}
+            onChange={(v) => {
+              const next = Array.isArray(v) ? v[0] : v;
+              if (next) onCodeModeChange(next as "jsx" | "html");
+            }}
+            label="Output format"
+          >
+            <ToggleGroupItem value="jsx">JSX</ToggleGroupItem>
+            <ToggleGroupItem value="html">HTML</ToggleGroupItem>
+          </ToggleGroup>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigator.clipboard.writeText(code)}
+          >
+            Copy
+          </Button>
+        </Stack>
+      </CardHeader>
+      <CardContent>
+        <pre className="wui-tool-code__pre">
           <code>{code || "// Add components to see generated code"}</code>
         </pre>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

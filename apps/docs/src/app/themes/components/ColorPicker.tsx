@@ -1,4 +1,14 @@
 "use client";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Field,
+  Label,
+  Slider,
+  Stack,
+  Text,
+} from "@weiui/react";
 
 interface Props {
   hue: number;
@@ -8,54 +18,49 @@ interface Props {
 }
 
 export function ColorPicker({ hue, saturation, onHueChange, onSaturationChange }: Props) {
+  const color = `oklch(0.546 ${saturation.toFixed(3)} ${hue})`;
+
   return (
-    <div className="wui-card">
-      <div className="wui-card__header">
-        <span style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)" }}>Primary Color</span>
-      </div>
-      <div className="wui-card__content" style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
-        {/* Color preview swatch */}
-        <div style={{
-          width: "100%",
-          height: "60px",
-          borderRadius: "var(--wui-shape-radius-md)",
-          backgroundColor: `oklch(0.546 ${saturation.toFixed(3)} ${hue})`,
-        }} />
-
-        {/* Hue slider */}
-        <div>
-          <label htmlFor="theme-hue" style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
-            Hue: {Math.round(hue)}
-          </label>
-          <input
-            id="theme-hue"
-            type="range"
-            min={0}
-            max={360}
-            step={1}
-            value={hue}
-            onChange={(e) => onHueChange(Number(e.target.value))}
-            style={{ width: "100%", accentColor: `oklch(0.546 ${saturation.toFixed(3)} ${hue})` }}
+    <Card>
+      <CardHeader>
+        <Text as="span" size="sm" weight="semibold">
+          Primary Color
+        </Text>
+      </CardHeader>
+      <CardContent>
+        <Stack direction="column" gap={4}>
+          <div
+            className="wui-theme-swatch"
+            role="img"
+            aria-label={`Preview color ${color}`}
+            style={{ backgroundColor: color }}
           />
-        </div>
-
-        {/* Saturation slider */}
-        <div>
-          <label htmlFor="theme-chroma" style={{ fontSize: "var(--wui-font-size-xs)", fontWeight: "var(--wui-font-weight-medium)", display: "block", marginBottom: "var(--wui-spacing-1)" }}>
-            Chroma: {saturation.toFixed(3)}
-          </label>
-          <input
-            id="theme-chroma"
-            type="range"
-            min={0}
-            max={0.4}
-            step={0.005}
-            value={saturation}
-            onChange={(e) => onSaturationChange(Number(e.target.value))}
-            style={{ width: "100%" }}
-          />
-        </div>
-      </div>
-    </div>
+          <Field>
+            <Label htmlFor="theme-hue">Hue: {Math.round(hue)}</Label>
+            <Slider
+              id="theme-hue"
+              min={0}
+              max={360}
+              step={1}
+              value={hue}
+              onChange={(value) => onHueChange(value)}
+              aria-label="Hue"
+            />
+          </Field>
+          <Field>
+            <Label htmlFor="theme-chroma">Chroma: {saturation.toFixed(3)}</Label>
+            <Slider
+              id="theme-chroma"
+              min={0}
+              max={0.4}
+              step={0.005}
+              value={saturation}
+              onChange={(value) => onSaturationChange(value)}
+              aria-label="Chroma"
+            />
+          </Field>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }

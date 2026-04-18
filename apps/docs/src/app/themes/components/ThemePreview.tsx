@@ -1,4 +1,18 @@
 "use client";
+import {
+  Avatar,
+  AvatarFallback,
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  Heading,
+  Input,
+  Stack,
+  Text,
+} from "@weiui/react";
 import type { ThemeResult } from "../lib/theme-generator";
 
 interface Props {
@@ -6,7 +20,6 @@ interface Props {
 }
 
 export function ThemePreview({ theme }: Props) {
-  // Apply theme colors as CSS variables on the preview container
   const style = {
     "--wui-color-primary": theme.colors.primary,
     "--wui-color-primary-foreground": theme.colors.primaryForeground,
@@ -15,60 +28,86 @@ export function ThemePreview({ theme }: Props) {
 
   return (
     <div style={style}>
-      <div className="wui-card">
-        <div className="wui-card__header">
-          <span style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)" }}>Preview</span>
-        </div>
-        <div className="wui-card__content" style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-6)" }}>
-
-          {/* Buttons */}
-          <div>
-            <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Buttons</h3>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-3)" }}>
-              <button type="button" className="wui-button wui-button--solid">Solid</button>
-              <button type="button" className="wui-button wui-button--outline">Outline</button>
-              <button type="button" className="wui-button wui-button--ghost">Ghost</button>
-              <button type="button" className="wui-button wui-button--soft">Soft</button>
-            </div>
-          </div>
-
-          {/* Badges */}
-          <div>
-            <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Badges</h3>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-2)" }}>
-              <span className="wui-badge wui-badge--solid">Solid</span>
-              <span className="wui-badge wui-badge--soft">Soft</span>
-              <span className="wui-badge wui-badge--outline">Outline</span>
-            </div>
-          </div>
-
-          {/* Input */}
-          <div>
-            <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Input</h3>
-            <input className="wui-input" placeholder="Type something..." aria-label="Sample input" style={{ maxWidth: "300px" }} />
-          </div>
-
-          {/* Card */}
-          <div>
-            <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Card</h3>
-            <div className="wui-card" style={{ maxWidth: "300px" }}>
-              <div className="wui-card__header"><strong>Card Title</strong></div>
-              <div className="wui-card__content"><p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)" }}>Card content with custom theme.</p></div>
-              <div className="wui-card__footer"><button type="button" className="wui-button wui-button--solid wui-button--sm">Action</button></div>
-            </div>
-          </div>
-
-          {/* Avatar */}
-          <div>
-            <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Avatar</h3>
-            <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
-              <span className="wui-avatar wui-avatar--sm"><span className="wui-avatar__fallback">S</span></span>
-              <span className="wui-avatar"><span className="wui-avatar__fallback">M</span></span>
-              <span className="wui-avatar wui-avatar--lg"><span className="wui-avatar__fallback">L</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <Text as="span" size="sm" weight="semibold">
+            Preview
+          </Text>
+        </CardHeader>
+        <CardContent>
+          <Stack direction="column" gap={6}>
+            <Stack direction="column" gap={3}>
+              <Heading level={3} className="wui-theme-preview__section-title">
+                Buttons
+              </Heading>
+              <Stack direction="row" gap={3} wrap>
+                <Button variant="solid">Solid</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="soft">Soft</Button>
+              </Stack>
+            </Stack>
+            <Stack direction="column" gap={3}>
+              <Heading level={3} className="wui-theme-preview__section-title">
+                Badges
+              </Heading>
+              <Stack direction="row" gap={2} wrap>
+                <Badge variant="solid">Solid</Badge>
+                <Badge variant="soft">Soft</Badge>
+                <Badge variant="outline">Outline</Badge>
+              </Stack>
+            </Stack>
+            <Stack direction="column" gap={3}>
+              <Heading level={3} className="wui-theme-preview__section-title">
+                Input
+              </Heading>
+              <Input
+                placeholder="Type something..."
+                aria-label="Sample input"
+                className="wui-theme-preview__input"
+              />
+            </Stack>
+            <Stack direction="column" gap={3}>
+              <Heading level={3} className="wui-theme-preview__section-title">
+                Card
+              </Heading>
+              <Card className="wui-theme-preview__card">
+                <CardHeader>
+                  <Text as="span" weight="semibold">
+                    Card Title
+                  </Text>
+                </CardHeader>
+                <CardContent>
+                  <Text size="sm" color="muted">
+                    Card content with custom theme.
+                  </Text>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="solid" size="sm">
+                    Action
+                  </Button>
+                </CardFooter>
+              </Card>
+            </Stack>
+            <Stack direction="column" gap={3}>
+              <Heading level={3} className="wui-theme-preview__section-title">
+                Avatar
+              </Heading>
+              <Stack direction="row" gap={2}>
+                <Avatar size="sm">
+                  <AvatarFallback>S</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarFallback>M</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarFallback>L</AvatarFallback>
+                </Avatar>
+              </Stack>
+            </Stack>
+          </Stack>
+        </CardContent>
+      </Card>
     </div>
   );
 }

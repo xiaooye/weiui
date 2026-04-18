@@ -1,4 +1,12 @@
 "use client";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  Text,
+} from "@weiui/react";
 import { PALETTE_ITEMS, PALETTE_CATEGORIES } from "../lib/component-tree";
 
 interface Props {
@@ -7,53 +15,45 @@ interface Props {
 
 export function ComponentPalette({ onAdd }: Props) {
   return (
-    <div className="wui-card" style={{ height: "fit-content", maxHeight: "calc(100vh - 10rem)", overflowY: "auto" }}>
-      <div className="wui-card__header">
-        <span
-          style={{
-            fontSize: "var(--wui-font-size-sm)",
-            fontWeight: "var(--wui-font-weight-semibold)",
-          }}
-        >
-          Components · {PALETTE_ITEMS.length}
-        </span>
-      </div>
-      <div
-        className="wui-card__content"
-        style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)" }}
-      >
-        {PALETTE_CATEGORIES.map((category) => {
-          const items = PALETTE_ITEMS.filter((i) => i.category === category);
-          if (items.length === 0) return null;
-          return (
-            <div key={category} style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-1)" }}>
-              <div
-                style={{
-                  fontSize: "var(--wui-font-size-xs)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                  color: "var(--wui-color-muted-foreground)",
-                  fontWeight: "var(--wui-font-weight-semibold)",
-                  paddingInline: "var(--wui-spacing-1)",
-                }}
-              >
-                {category}
-              </div>
-              {items.map((item) => (
-                <button
-                  key={item.type}
-                  type="button"
-                  className="wui-button wui-button--ghost wui-button--sm"
-                  style={{ justifyContent: "flex-start", minHeight: "32px" }}
-                  onClick={() => onAdd(item.type)}
+    <Card className="wui-tool-palette">
+      <CardHeader>
+        <Text as="span" size="sm" weight="semibold">
+          Components {"\u00B7"} {PALETTE_ITEMS.length}
+        </Text>
+      </CardHeader>
+      <CardContent>
+        <Stack direction="column" gap={3}>
+          {PALETTE_CATEGORIES.map((category) => {
+            const items = PALETTE_ITEMS.filter((i) => i.category === category);
+            if (items.length === 0) return null;
+            return (
+              <Stack key={category} direction="column" gap={1}>
+                <Text
+                  as="span"
+                  size="xs"
+                  weight="semibold"
+                  color="muted"
+                  className="wui-tool-palette__category"
                 >
-                  + {item.label}
-                </button>
-              ))}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+                  {category}
+                </Text>
+                {items.map((item) => (
+                  <Button
+                    key={item.type}
+                    variant="ghost"
+                    size="sm"
+                    fullWidth
+                    onClick={() => onAdd(item.type)}
+                    className="wui-tool-palette__item"
+                  >
+                    + {item.label}
+                  </Button>
+                ))}
+              </Stack>
+            );
+          })}
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }

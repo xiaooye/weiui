@@ -1,4 +1,12 @@
 "use client";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  Text,
+} from "@weiui/react";
 import type { ComponentDef } from "../lib/component-registry";
 
 interface Props {
@@ -11,28 +19,35 @@ export function CodeOutput({ component, propValues, children }: Props) {
   const code = generateCode(component, propValues, children);
 
   return (
-    <div className="wui-card">
-      <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-medium)" }}>Code</span>
-        <button
-          type="button"
-          className="wui-button wui-button--ghost wui-button--sm"
-          onClick={() => navigator.clipboard.writeText(code)}
-          style={{ minHeight: "32px", minWidth: "auto" }}
-        >
-          Copy
-        </button>
-      </div>
-      <div className="wui-card__content">
-        <pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-sm)", overflow: "auto" }}>
+    <Card>
+      <CardHeader>
+        <Stack direction="row" gap={3} className="wui-tool-code__header">
+          <Text as="span" size="sm" weight="medium">
+            Code
+          </Text>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigator.clipboard.writeText(code)}
+          >
+            Copy
+          </Button>
+        </Stack>
+      </CardHeader>
+      <CardContent>
+        <pre className="wui-tool-code__pre">
           <code>{code}</code>
         </pre>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
-function generateCode(component: ComponentDef, propValues: Record<string, string | boolean>, children: string): string {
+function generateCode(
+  component: ComponentDef,
+  propValues: Record<string, string | boolean>,
+  children: string,
+): string {
   const props = component.props
     .filter((p) => propValues[p.name] !== p.defaultValue)
     .map((p) => {

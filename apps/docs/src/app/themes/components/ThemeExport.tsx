@@ -1,5 +1,14 @@
 "use client";
 import { useState } from "react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@weiui/react";
 import type { ThemeResult } from "../lib/theme-generator";
 
 interface Props {
@@ -9,24 +18,38 @@ interface Props {
 export function ThemeExport({ theme }: Props) {
   const [format, setFormat] = useState<"css" | "json">("css");
 
-  const output = format === "css"
-    ? theme.css
-    : JSON.stringify(theme.colors, null, 2);
+  const output = format === "css" ? theme.css : JSON.stringify(theme.colors, null, 2);
 
   return (
-    <div className="wui-card">
-      <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
-          <button type="button" className={`wui-button wui-button--${format === "css" ? "soft" : "ghost"} wui-button--sm`} style={{ minHeight: "28px" }} onClick={() => setFormat("css")}>CSS</button>
-          <button type="button" className={`wui-button wui-button--${format === "json" ? "soft" : "ghost"} wui-button--sm`} style={{ minHeight: "28px" }} onClick={() => setFormat("json")}>JSON</button>
-        </div>
-        <button type="button" className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px" }} onClick={() => navigator.clipboard.writeText(output)}>Copy</button>
-      </div>
-      <div className="wui-card__content">
-        <pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-xs)", overflow: "auto" }}>
+    <Card>
+      <CardHeader>
+        <Stack direction="row" gap={3} className="wui-tool-code__header">
+          <ToggleGroup
+            type="single"
+            value={format}
+            onChange={(v) => {
+              const next = Array.isArray(v) ? v[0] : v;
+              if (next) setFormat(next as "css" | "json");
+            }}
+            label="Export format"
+          >
+            <ToggleGroupItem value="css">CSS</ToggleGroupItem>
+            <ToggleGroupItem value="json">JSON</ToggleGroupItem>
+          </ToggleGroup>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigator.clipboard.writeText(output)}
+          >
+            Copy
+          </Button>
+        </Stack>
+      </CardHeader>
+      <CardContent>
+        <pre className="wui-tool-code__pre wui-tool-code__pre--xs">
           <code>{output}</code>
         </pre>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -191,13 +191,8 @@
 @layer wui-base {
   /* Shared shell for tool pages (Playground / Composer / Themes) */
   .wui-tool-shell {
-    max-inline-size: 80rem;
-    margin-inline: auto;
     padding-inline: var(--wui-spacing-6);
     padding-block: var(--wui-spacing-8);
-  }
-  .wui-tool-shell__header {
-    margin-block-end: var(--wui-spacing-6);
   }
   .wui-tool-shell__title {
     font-family: var(--wui-font-family-display);
@@ -206,34 +201,20 @@
     line-height: 1.15;
     letter-spacing: -0.025em;
     color: var(--wui-color-foreground);
-    margin-block-end: var(--wui-spacing-2);
+    margin: 0;
   }
   .wui-tool-shell__sub {
-    font-size: var(--wui-font-size-base);
-    color: var(--wui-color-muted-foreground);
     max-inline-size: 44rem;
   }
 
   /* Tool page layouts — collapse to single column on mobile */
-  .wui-tool-shell__layout {
-    display: grid;
-    gap: var(--wui-spacing-6);
-  }
-  .wui-tool-shell__layout--playground {
-    grid-template-columns: 200px minmax(0, 1fr) 280px;
-  }
-  .wui-tool-shell__layout--themes {
-    grid-template-columns: 300px minmax(0, 1fr);
-  }
   .wui-tool-shell__layout--composer {
-    grid-template-columns: 180px minmax(0, 1fr) 240px;
-    gap: var(--wui-spacing-4);
     min-block-size: 70vh;
   }
   @media (max-width: 1024px) {
     .wui-tool-shell__layout--playground,
     .wui-tool-shell__layout--composer {
-      grid-template-columns: 180px minmax(0, 1fr);
+      grid-template-columns: 180px minmax(0, 1fr) !important;
     }
   }
   @media (max-width: 768px) {
@@ -243,9 +224,113 @@
     .wui-tool-shell__layout--playground,
     .wui-tool-shell__layout--themes,
     .wui-tool-shell__layout--composer {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) !important;
       gap: var(--wui-spacing-4);
     }
+  }
+
+  .wui-tool-side__title {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-semibold);
+    color: var(--wui-color-muted-foreground);
+    margin: 0;
+  }
+  .wui-tool-side__item {
+    justify-content: flex-start;
+  }
+  .wui-tool-code__header {
+    align-items: center;
+    justify-content: space-between;
+  }
+  .wui-tool-code__pre {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-sm);
+    overflow: auto;
+    min-block-size: 60px;
+    margin: 0;
+  }
+  .wui-tool-code__pre--xs {
+    font-size: var(--wui-font-size-xs);
+  }
+
+  .wui-tool-palette {
+    height: fit-content;
+    max-block-size: calc(100vh - 10rem);
+    overflow-y: auto;
+  }
+  .wui-tool-palette__category {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-inline: var(--wui-spacing-1);
+  }
+  .wui-tool-palette__item {
+    justify-content: flex-start;
+  }
+
+  .wui-tool-preview__stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 120px;
+  }
+
+  .wui-tool-canvas__content {
+    min-block-size: 300px;
+  }
+  .wui-tool-canvas__empty {
+    min-block-size: 200px;
+  }
+  .wui-tool-canvas__node {
+    padding: var(--wui-spacing-2);
+    border: 2px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--wui-spacing-3);
+  }
+  .wui-tool-canvas__node[data-selected] {
+    border-color: var(--wui-color-primary);
+  }
+  .wui-tool-canvas__node:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-tool-canvas__node-body {
+    align-items: center;
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .wui-tool-canvas__node-input {
+    max-inline-size: 150px;
+  }
+  .wui-tool-canvas__node-divider {
+    inline-size: 100px;
+  }
+
+  .wui-theme-swatch {
+    inline-size: 100%;
+    block-size: 60px;
+    border-radius: var(--wui-shape-radius-md);
+  }
+  .wui-theme-preview__section-title {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-semibold);
+    margin: 0;
+  }
+  .wui-theme-preview__input {
+    max-inline-size: 300px;
+  }
+  .wui-theme-preview__card {
+    max-inline-size: 300px;
+  }
+  .wui-contrast-row {
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wui-contrast-row__pair {
+    flex: 1;
   }
 
   .wui-docs-shell {
