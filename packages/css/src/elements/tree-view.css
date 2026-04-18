@@ -79,4 +79,29 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .wui-tree__checkbox {
+    flex-shrink: 0;
+    inline-size: 16px;
+    block-size: 16px;
+    cursor: pointer;
+    accent-color: var(--wui-color-primary);
+  }
+  .wui-tree__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 20px;
+    block-size: 20px;
+    flex-shrink: 0;
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-tree__loading {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+    margin-inline-start: var(--wui-spacing-1);
+  }
+  .wui-tree__node[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

@@ -168,4 +168,104 @@ describe("TreeView", () => {
       expect(screen.getByText("Child 1")).toBeInTheDocument();
     });
   });
+
+  describe("multi-select (P1)", () => {
+    it("aria-multiselectable is true in multiple mode", () => {
+      render(<TreeView nodes={nodes} selectionMode="multiple" />);
+      expect(screen.getByRole("tree")).toHaveAttribute("aria-multiselectable", "true");
+    });
+
+    it("multi-select toggles ids via clicks", async () => {
+      const user = userEvent.setup();
+      const onSelectedIdsChange = vi.fn();
+      render(
+        <TreeView
+          nodes={nodes}
+          selectionMode="multiple"
+          defaultExpanded={["1"]}
+          onSelectedIdsChange={onSelectedIdsChange}
+        />,
+      );
+      await user.click(screen.getByText("Child 1"));
+      expect(onSelectedIdsChange).toHaveBeenLastCalledWith(["1.1"]);
+      await user.click(screen.getByText("Leaf"));
+      expect(onSelectedIdsChange).toHaveBeenLastCalledWith(["1.1", "2"]);
+    });
+  });
+
+  describe("checkboxes (P1)", () => {
+    it("renders a checkbox per node when checkboxes=true", () => {
+      render(
+        <TreeView nodes={nodes} checkboxes defaultExpanded={["1"]} selectionMode="multiple" />,
+      );
+      expect(screen.getAllByRole("checkbox").length).toBeGreaterThanOrEqual(4);
+    });
+
+    it("checking a parent selects all descendants (tri-state)", async () => {
+      const user = userEvent.setup();
+      const onSelectedIdsChange = vi.fn();
+      render(
+        <TreeView
+          nodes={nodes}
+          checkboxes
+          defaultExpanded={["1"]}
+          selectionMode="multiple"
+          onSelectedIdsChange={onSelectedIdsChange}
+        />,
+      );
+      const cb = screen.getByRole("checkbox", { name: /check root/i });
+      await user.click(cb);
+      const last = onSelectedIdsChange.mock.calls[onSelectedIdsChange.mock.calls.length - 1]![0];
+      expect(last).toEqual(expect.arrayContaining(["1", "1.1", "1.2"]));
+    });
+  });
+
+  describe("icon per node (P1)", () => {
+    it("renders the icon slot", () => {
+      render(
+        <TreeView
+          nodes={[{ id: "a", label: "A", icon: <span data-testid="icon-a">*</span> }]}
+        />,
+      );
+      expect(screen.getByTestId("icon-a")).toBeInTheDocument();
+    });
+  });
+
+  describe("typeahead (P1)", () => {
+    it("jumps focus to the next node whose label starts with typed letter", async () => {
+      const user = userEvent.setup();
+      const bigTree = [
+        { id: "a", label: "Apple" },
+        { id: "b", label: "Banana" },
+        { id: "c", label: "Cherry" },
+      ];
+      render(<TreeView nodes={bigTree} />);
+      await user.tab();
+      const appleBtn = screen.getByText("Apple").closest("button")!;
+      expect(appleBtn).toHaveFocus();
+      await user.keyboard("c");
+      const cherryBtn = screen.getByText("Cherry").closest("button")!;
+      expect(cherryBtn).toHaveFocus();
+    });
+  });
+
+  describe("lazy load (P1)", () => {
+    it("calls loadChildren when a branch without children is expanded", async () => {
+      const user = userEvent.setup();
+      const loadChildren = vi.fn(async () => [
+        { id: "x.1", label: "Loaded A" },
+        { id: "x.2", label: "Loaded B" },
+      ]);
+      render(
+        <TreeView
+          nodes={[{ id: "x", label: "Lazy", hasChildren: true }]}
+          loadChildren={loadChildren}
+        />,
+      );
+      await user.click(screen.getByText("Lazy"));
+      expect(loadChildren).toHaveBeenCalledTimes(1);
+      // Wait for promise + state update.
+      await screen.findByText("Loaded A");
+    });
+  });
 });
