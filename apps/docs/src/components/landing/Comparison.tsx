@@ -102,8 +102,8 @@ export function Comparison() {
         <table className="wui-home-compare__table">
           <thead>
             <tr>
-              <th></th>
-              {LIBS.map((lib) => <th key={lib.name}>{lib.name}</th>)}
+              <th scope="col"><span className="wui-sr-only">Feature</span></th>
+              {LIBS.map((lib) => <th key={lib.name} scope="col">{lib.name}</th>)}
             </tr>
           </thead>
           <tbody>

@@ -297,6 +297,11 @@
     color: var(--wui-color-muted-foreground);
     margin-block-end: var(--wui-spacing-3);
   }
+  .wui-home-footer__cols ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
   .wui-home-footer__cols a {
     display: block;
     font-size: var(--wui-font-size-sm);

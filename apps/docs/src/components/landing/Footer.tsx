@@ -11,25 +11,31 @@ export function Footer() {
           <span className="wui-home-footer__version">v{siteConfig.version}</span>
         </div>
         <div className="wui-home-footer__cols">
-          <div>
-            <h4>Docs</h4>
-            <Link href="/docs/getting-started">Installation</Link>
-            <Link href="/docs/components">Components</Link>
-            <Link href="/docs/typography">Typography</Link>
-            <Link href="/docs/colors">Colors</Link>
-          </div>
-          <div>
-            <h4>Tools</h4>
-            <Link href="/playground">Playground</Link>
-            <Link href="/composer">Composer</Link>
-            <Link href="/themes">Theme Builder</Link>
-          </div>
-          <div>
-            <h4>Project</h4>
-            <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
-            <Link href="/docs/changelog">Changelog</Link>
-            <Link href="/docs/migration">Migration</Link>
-          </div>
+          <nav aria-labelledby="wui-footer-docs-heading">
+            <h4 id="wui-footer-docs-heading">Docs</h4>
+            <ul>
+              <li><Link href="/docs/getting-started">Installation</Link></li>
+              <li><Link href="/docs/components">Components</Link></li>
+              <li><Link href="/docs/typography">Typography</Link></li>
+              <li><Link href="/docs/colors">Colors</Link></li>
+            </ul>
+          </nav>
+          <nav aria-labelledby="wui-footer-tools-heading">
+            <h4 id="wui-footer-tools-heading">Tools</h4>
+            <ul>
+              <li><Link href="/playground">Playground</Link></li>
+              <li><Link href="/composer">Composer</Link></li>
+              <li><Link href="/themes">Theme Builder</Link></li>
+            </ul>
+          </nav>
+          <nav aria-labelledby="wui-footer-project-heading">
+            <h4 id="wui-footer-project-heading">Project</h4>
+            <ul>
+              <li><a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">GitHub</a></li>
+              <li><Link href="/docs/changelog">Changelog</Link></li>
+              <li><Link href="/docs/migration">Migration</Link></li>
+            </ul>
+          </nav>
         </div>
       </div>
       <div className="wui-home-footer__bottom">
