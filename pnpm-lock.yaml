@@ -115,6 +115,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@weiui/mcp':
+        specifier: workspace:*
+        version: link:../mcp
       commander:
         specifier: ^13.1
         version: 13.1.0

@@ -55,6 +55,11 @@ export interface RegistryIndex {
 const REMOTE_BASE = "https://weiui.dev/registry";
 
 function defaultRegistryDir(): string {
+  // Explicit override for tests/dev environments where no local registry
+  // has been bundled into `node_modules/@weiui/mcp/registry/`.
+  if (process.env.WEIUI_MCP_REGISTRY_DIR) {
+    return process.env.WEIUI_MCP_REGISTRY_DIR;
+  }
   // `dist/registry-loader.js` → `dist/../registry` == `packages/mcp/registry`
   const here = dirname(fileURLToPath(import.meta.url));
   return resolve(here, "..", "registry");
