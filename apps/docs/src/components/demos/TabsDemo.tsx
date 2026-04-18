@@ -18,7 +18,7 @@ export function TabsDemo() {
         </TabsContent>
         <TabsContent value="features">
           <ul style={{ margin: 0, paddingInlineStart: "var(--wui-spacing-5)" }}>
-            <li>65 components</li>
+            <li>66 components</li>
             <li>WCAG AAA contrast</li>
             <li>Full keyboard support</li>
           </ul>
