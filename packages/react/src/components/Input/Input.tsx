@@ -91,9 +91,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const resolvedId = props.id ?? ctx?.fieldId;
     const resolvedDescribedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
     const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
+    const resolvedDisabled = props.disabled ?? ctx?.disabled;
 
     const currentValue = internalValue ?? "";
-    const showClear = clearable && typeof currentValue === "string" && currentValue.length > 0 && !props.disabled && !props.readOnly;
+    const showClear = clearable && typeof currentValue === "string" && currentValue.length > 0 && !resolvedDisabled && !props.readOnly;
     const countValue = currentValue.length;
 
     const inputEl = (
@@ -102,7 +103,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         className={cn(
           "wui-input",
           sizeClass,
-          props.disabled && "wui-input--disabled",
+          resolvedDisabled && "wui-input--disabled",
           (hasAddons || hasGroupChrome) && "wui-input--with-addons",
           !hasGroupChrome && className,
         )}
@@ -114,6 +115,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         onChange={handleChange}
         maxLength={maxLength}
         {...props}
+        disabled={resolvedDisabled}
         id={resolvedId}
       />
     );

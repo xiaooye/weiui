@@ -40,6 +40,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const resolvedId = props.id ?? ctx?.fieldId;
     const resolvedDescribedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
     const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
+    const resolvedDisabled = props.disabled ?? ctx?.disabled;
 
     const innerRef = useRef<HTMLTextAreaElement | null>(null);
     const setRefs = useCallback(
@@ -106,6 +107,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         maxLength={maxLength}
         rows={autosize ? minRows : props.rows}
         {...props}
+        disabled={resolvedDisabled}
         id={resolvedId}
       />
     );

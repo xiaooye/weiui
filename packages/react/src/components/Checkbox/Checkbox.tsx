@@ -65,6 +65,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const setRef = useCallback(mergeRefs<HTMLInputElement>(ref, innerRef), [ref]);
 
     const sizeClass = size === "sm" ? "wui-checkbox--sm" : size === "lg" ? "wui-checkbox--lg" : "";
+    const resolvedDisabled = props.disabled ?? ctx?.disabled;
     return (
       <div className={cn("wui-checkbox", sizeClass, className)}>
         <div className="wui-checkbox__row">
@@ -78,6 +79,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             data-invalid={isInvalid || undefined}
             aria-describedby={describedBy}
             {...props}
+            disabled={resolvedDisabled}
           />
           {label && (
             <label htmlFor={inputId} className="wui-checkbox__label">

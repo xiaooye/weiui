@@ -20,6 +20,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const inputId = id ?? ctx?.fieldId ?? generatedId;
     const describedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
     const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
+    const resolvedDisabled = props.disabled ?? ctx?.disabled;
     const sizeClass = size === "sm" ? "wui-switch--sm" : size === "lg" ? "wui-switch--lg" : "";
     const hasTrackLabels = onLabel != null || offLabel != null;
     return (
@@ -35,6 +36,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             data-invalid={resolvedInvalid || undefined}
             aria-describedby={describedBy}
             {...props}
+            disabled={resolvedDisabled}
           />
           {hasTrackLabels && (
             <>

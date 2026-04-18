@@ -17,9 +17,13 @@ export interface FieldContextValue {
   fieldId: string;
   descriptionId: string;
   errorId: string;
+  successId: string;
   hasDescription: boolean;
   hasError: boolean;
+  hasSuccess: boolean;
   required: boolean;
+  disabled: boolean;
+  validating: boolean;
 }
 
 const FieldContext = createContext<FieldContextValue | null>(null);
@@ -33,17 +37,26 @@ export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   /** Error message. When set, wires `aria-invalid`/`aria-describedby` and renders an alert. */
   error?: string;
+  /** Success message. When truthy (and no error), renders a success note and wires `aria-describedby`. */
+  success?: boolean | string;
+  /** When true, marks the field as validating (pending async check) and renders an inline indicator. */
+  validating?: boolean;
   /** Marks the field as required — shown in the label and mirrored to the input. */
   required?: boolean;
+  /** Disables the field — propagates `disabled` onto the nested input via context. */
+  disabled?: boolean;
 }
 
 export const Field = forwardRef<HTMLDivElement, FieldProps>(
-  ({ children, error, required = false, className, ...props }, ref) => {
+  ({ children, error, success, validating = false, required = false, disabled = false, className, ...props }, ref) => {
     const baseId = useId("field");
     const fieldId = `${baseId}-input`;
     const descriptionId = `${baseId}-desc`;
     const errorId = `${baseId}-error`;
+    const successId = `${baseId}-success`;
     const hasError = !!error;
+    const hasSuccessString = typeof success === "string" && success.length > 0;
+    const hasSuccess = !hasError && (success === true || hasSuccessString);
 
     // Detect whether a FieldDescription is present so consumers can wire aria-describedby cleanly.
     let hasDescription = false;
@@ -59,16 +72,38 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
           fieldId,
           descriptionId,
           errorId,
+          successId,
           hasDescription,
           hasError,
+          hasSuccess,
           required,
+          disabled,
+          validating,
         }}
       >
-        <div ref={ref} className={cn("wui-field", className)} {...props}>
+        <div
+          ref={ref}
+          className={cn("wui-field", className)}
+          data-disabled={disabled || undefined}
+          data-validating={validating || undefined}
+          data-invalid={hasError || undefined}
+          data-success={hasSuccess || undefined}
+          {...props}
+        >
           {children}
-          {error && (
+          {hasError && (
             <p id={errorId} className="wui-field__error" role="alert">
               {error}
+            </p>
+          )}
+          {!hasError && hasSuccessString && (
+            <p id={successId} className="wui-field__success">
+              {success as string}
+            </p>
+          )}
+          {validating && (
+            <p className="wui-field__validating" aria-live="polite">
+              Validating…
             </p>
           )}
         </div>
@@ -127,6 +162,7 @@ export function computeFieldDescribedBy(
   if (existing) ids.push(existing);
   if (ctx.hasDescription) ids.push(ctx.descriptionId);
   if (ctx.hasError) ids.push(ctx.errorId);
+  if (ctx.hasSuccess) ids.push(ctx.successId);
   return ids.length ? ids.join(" ") : undefined;
 }
 
@@ -148,6 +184,9 @@ export const FieldControl = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
       if (ctx.hasError && childProps["aria-invalid"] == null) {
         nextProps["aria-invalid"] = true;
       }
+      if (ctx.disabled && childProps.disabled == null) {
+        nextProps.disabled = true;
+      }
       content = cloneElement(child, nextProps);
     }
 
@@ -155,6 +194,7 @@ export const FieldControl = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
       <div
         ref={ref}
         data-invalid={ctx?.hasError || undefined}
+        data-disabled={ctx?.disabled || undefined}
         className={className}
         {...props}
       >

@@ -191,4 +191,116 @@ describe("Field", () => {
     );
     expect(screen.getByTestId("input")).toHaveAttribute("aria-invalid", "true");
   });
+
+  // E.7 — success + validating + disabled propagation
+  it("renders success message when success string is set and no error", () => {
+    render(
+      <Field success="Looks good">
+        <FieldLabel>Name</FieldLabel>
+      </Field>,
+    );
+    expect(screen.getByText("Looks good")).toBeInTheDocument();
+  });
+
+  it("does not render success when error is present", () => {
+    render(
+      <Field error="Required" success="Looks good">
+        <FieldLabel>Name</FieldLabel>
+      </Field>,
+    );
+    expect(screen.queryByText("Looks good")).not.toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveTextContent("Required");
+  });
+
+  it("renders validating indicator when validating", () => {
+    render(
+      <Field validating>
+        <FieldLabel>Name</FieldLabel>
+      </Field>,
+    );
+    expect(screen.getByText("Validating…")).toBeInTheDocument();
+  });
+
+  it("root has data-validating when validating", () => {
+    const { container } = render(
+      <Field validating data-testid="f">
+        <FieldLabel>Name</FieldLabel>
+      </Field>,
+    );
+    const root = container.querySelector(".wui-field");
+    expect(root).toHaveAttribute("data-validating");
+  });
+
+  it("root has data-success when success set and no error", () => {
+    const { container } = render(
+      <Field success="Ok">
+        <FieldLabel>Name</FieldLabel>
+      </Field>,
+    );
+    const root = container.querySelector(".wui-field");
+    expect(root).toHaveAttribute("data-success");
+  });
+
+  it("propagates disabled to nested Input via context", () => {
+    render(
+      <Field disabled>
+        <FieldLabel>Email</FieldLabel>
+        <Input data-testid="input" />
+      </Field>,
+    );
+    expect(screen.getByTestId("input")).toBeDisabled();
+  });
+
+  it("propagates disabled to nested Textarea", () => {
+    render(
+      <Field disabled>
+        <FieldLabel>Bio</FieldLabel>
+        <Textarea data-testid="ta" />
+      </Field>,
+    );
+    expect(screen.getByTestId("ta")).toBeDisabled();
+  });
+
+  it("explicit disabled on input still wins", () => {
+    render(
+      <Field>
+        <Input disabled={false} data-testid="input" />
+      </Field>,
+    );
+    expect(screen.getByTestId("input")).not.toBeDisabled();
+  });
+
+  it("FieldControl propagates disabled to the child via clone", () => {
+    render(
+      <Field disabled>
+        <FieldControl>
+          <input data-testid="input" />
+        </FieldControl>
+      </Field>,
+    );
+    expect(screen.getByTestId("input")).toBeDisabled();
+  });
+
+  it("FieldControl sets data-disabled when field is disabled", () => {
+    render(
+      <Field disabled>
+        <FieldControl data-testid="ctrl">
+          <input />
+        </FieldControl>
+      </Field>,
+    );
+    expect(screen.getByTestId("ctrl")).toHaveAttribute("data-disabled");
+  });
+
+  it("aria-describedby includes success id when success is set", () => {
+    render(
+      <Field success="Great">
+        <FieldLabel>Name</FieldLabel>
+        <Input data-testid="input" />
+      </Field>,
+    );
+    const input = screen.getByTestId("input");
+    const success = screen.getByText("Great");
+    expect(input.getAttribute("aria-describedby")).toContain(success.getAttribute("id"));
+  });
 });

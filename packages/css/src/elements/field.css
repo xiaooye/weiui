@@ -18,6 +18,22 @@
     margin: 0;
   }
 
+  .wui-field__success {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-success);
+    margin: 0;
+  }
+
+  .wui-field__validating {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+    margin: 0;
+  }
+
+  .wui-field[data-disabled] {
+    opacity: 0.6;
+  }
+
   .wui-field__required {
     color: var(--wui-color-destructive);
     margin-inline-start: var(--wui-spacing-1);
