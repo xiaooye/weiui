@@ -1,6 +1,25 @@
 {
   "name": "@weiui/cli",
   "version": "0.0.1",
+  "description": "WeiUI CLI — initialise projects, scaffold components (weiui add <name>), build and validate tokens.",
+  "author": "WeiUI Contributors",
+  "license": "MIT",
+  "homepage": "https://weiui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/cli"
+  },
+  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "keywords": [
+    "cli",
+    "weiui",
+    "design-system",
+    "scaffold",
+    "tokens",
+    "design-tokens",
+    "shadcn"
+  ],
   "type": "module",
   "bin": { "weiui": "./dist/index.js" },
   "files": ["dist", "README.md"],

@@ -1,6 +1,25 @@
 {
   "name": "@weiui/a11y",
   "version": "0.0.1",
+  "description": "Build-time accessibility helpers for WeiUI — OKLCH contrast scoring for WCAG AAA compliance.",
+  "author": "WeiUI Contributors",
+  "license": "MIT",
+  "homepage": "https://weiui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/a11y"
+  },
+  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "wcag",
+    "contrast",
+    "oklch",
+    "weiui",
+    "design-system"
+  ],
   "type": "module",
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }

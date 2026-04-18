@@ -1,6 +1,27 @@
 {
   "name": "@weiui/react",
   "version": "0.0.1",
+  "description": "WeiUI React component library — 65 styled components with WCAG AAA contrast, compound composition, controlled/uncontrolled patterns, and SSR-safe defaults.",
+  "author": "WeiUI Contributors",
+  "license": "MIT",
+  "homepage": "https://weiui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/react"
+  },
+  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "weiui",
+    "design-system",
+    "tailwind-variants",
+    "accessibility",
+    "wcag-aaa",
+    "ssr"
+  ],
   "type": "module",
   "exports": {
     ".": {

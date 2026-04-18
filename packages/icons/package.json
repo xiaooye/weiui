@@ -1,10 +1,30 @@
 {
   "name": "@weiui/icons",
   "version": "0.0.1",
+  "description": "WeiUI icon set — 61 tree-shakable Feather-style React SVG components with currentColor stroke.",
+  "author": "WeiUI Contributors",
+  "license": "MIT",
+  "homepage": "https://weiui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/icons"
+  },
+  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "keywords": [
+    "icons",
+    "svg",
+    "react",
+    "weiui",
+    "feather",
+    "design-system",
+    "tree-shakable"
+  ],
   "type": "module",
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
   },
+  "sideEffects": false,
   "files": ["dist", "README.md"],
   "scripts": {
     "generate": "tsx scripts/build.ts",

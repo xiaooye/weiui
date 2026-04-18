@@ -1,6 +1,25 @@
 {
   "name": "@weiui/tokens",
   "version": "0.0.1",
+  "description": "WeiUI design tokens — W3C Design Tokens Community Group JSON source-of-truth exported as CSS custom properties and TypeScript.",
+  "author": "WeiUI Contributors",
+  "license": "MIT",
+  "homepage": "https://weiui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "keywords": [
+    "design-tokens",
+    "tokens",
+    "weiui",
+    "oklch",
+    "w3c",
+    "css-custom-properties",
+    "design-system"
+  ],
   "type": "module",
   "exports": {
     "./tokens.css": "./dist/tokens.css",
