@@ -80,4 +80,45 @@ describe("Timeline", () => {
     expect(screen.getByText("italic").tagName).toBe("EM");
     expect(screen.getByText("Jan 1").tagName).toBe("TIME");
   });
+
+  describe("mode (P1)", () => {
+    it("default mode sets data-mode attribute", () => {
+      render(
+        <Timeline>
+          <TimelineItem title="x" />
+        </Timeline>,
+      );
+      expect(screen.getByRole("list")).toHaveAttribute("data-mode", "default");
+    });
+    it("alternate mode sets data-mode=alternate", () => {
+      render(
+        <Timeline mode="alternate">
+          <TimelineItem title="x" />
+        </Timeline>,
+      );
+      expect(screen.getByRole("list")).toHaveAttribute("data-mode", "alternate");
+    });
+  });
+
+  describe("color per item (P1)", () => {
+    it("applies data-color to the item", () => {
+      render(
+        <Timeline>
+          <TimelineItem title="x" color="success" data-testid="item" />
+        </Timeline>,
+      );
+      expect(screen.getByTestId("item")).toHaveAttribute("data-color", "success");
+    });
+  });
+
+  describe("custom dot (P1)", () => {
+    it("renders custom dot content", () => {
+      render(
+        <Timeline>
+          <TimelineItem title="x" dot={<span data-testid="dot-x">*</span>} />
+        </Timeline>,
+      );
+      expect(screen.getByTestId("dot-x")).toBeInTheDocument();
+    });
+  });
 });
