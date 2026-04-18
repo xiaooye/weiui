@@ -1,13 +1,16 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { AlertDemo } from "../../../../components/demos/AlertDemo";
+import { AlertDismissibleDemo } from "../../../../components/demos/AlertDismissibleDemo";
 import { SpinnerDemo } from "../../../../components/demos/SpinnerDemo";
 import { EmptyStateDemo } from "../../../../components/demos/EmptyStateDemo";
 
-# Feedback Components
+# Feedback
 
-Components for communicating status, loading states, and empty content to users.
+Components for communicating status, loading, and empty content. Each primitive is small, accessible by default, and composes cleanly with Cards, Dialogs, and layout containers.
 
 ## Alert
+
+Inline messaging that is not time-sensitive — confirm, warn, or explain. Every variant ships a default icon (customisable or set to `null`), and all four variants pass WCAG AAA contrast.
 
 <Preview label="Alert variants">
   <AlertDemo />
@@ -18,42 +21,68 @@ import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
 
 <Alert variant="info">
   <AlertTitle>Info</AlertTitle>
-  <AlertDescription>This is an informational message.</AlertDescription>
-</Alert>
-
-<Alert variant="success">
-  <AlertTitle>Success</AlertTitle>
-  <AlertDescription>Your changes have been saved.</AlertDescription>
-</Alert>
-
-<Alert variant="warning">
-  <AlertTitle>Warning</AlertTitle>
-  <AlertDescription>This action cannot be undone.</AlertDescription>
-</Alert>
-
-<Alert variant="destructive">
-  <AlertTitle>Error</AlertTitle>
-  <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+  <AlertDescription>We just updated our terms.</AlertDescription>
 </Alert>
 ```
 
-### Props
+### With action + dismiss
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| variant | `"info" \| "success" \| "warning" \| "destructive"` | `"info"` | Visual style |
-| children | `ReactNode` | — | Alert content |
+Provide a recovery path for the message (e.g. "Undo") and let users dismiss when they're done reading.
 
-### Accessibility
+<Preview label="Alert with action + dismiss">
+  <AlertDismissibleDemo />
+</Preview>
 
-- Alert uses `role="alert"` on the root so screen readers announce the message when it appears.
-- `<AlertTitle>` renders as a heading (`<h5>` by default) so assistive tech users can navigate to it via heading shortcuts.
-- Destructive variant is paired with an icon inside the content slot — never convey the severity by color alone.
-- Contrast for every variant is validated against the 7:1 AAA threshold at build time.
+```tsx
+<Alert
+  variant="info"
+  dismissible
+  onDismiss={() => setShown(false)}
+  action={<Button size="sm" variant="outline">Undo</Button>}
+>
+  <AlertTitle>Draft saved</AlertTitle>
+  <AlertDescription>Autosaved 12 seconds ago.</AlertDescription>
+</Alert>
+```
 
----
+### Hide or replace the icon
+
+```tsx
+{/* Remove the default icon */}
+<Alert variant="warning" icon={null}>
+  <AlertTitle>Heads up</AlertTitle>
+  <AlertDescription>No icon in this one.</AlertDescription>
+</Alert>
+
+{/* Swap in your own */}
+import { Zap } from "@weiui/icons";
+
+<Alert variant="info" icon={<Zap size={18} aria-hidden />}>
+  <AlertTitle>New feature</AlertTitle>
+  <AlertDescription>Workflows ship today.</AlertDescription>
+</Alert>
+```
+
+### Alert props
+
+| Prop          | Type                                                       | Default   | Description                                          |
+|---------------|------------------------------------------------------------|-----------|------------------------------------------------------|
+| `variant`     | `"info" \| "success" \| "warning" \| "destructive"`        | `"info"`  | Tone + default icon                                  |
+| `icon`        | `ReactNode \| null`                                        | default   | Replace icon or set `null` to hide                   |
+| `dismissible` | `boolean`                                                  | `false`   | Render a close "×" button                            |
+| `onDismiss`   | `() => void`                                               | —         | Fired when the close button is clicked               |
+| `action`      | `ReactNode`                                                | —         | Trailing action slot (usually a Button)              |
+
+### Alert accessibility
+
+- Root has `role="alert"` so screen readers announce when the Alert mounts. If the Alert is present on load (not inserted dynamically), consider using a plain Card instead.
+- `<AlertTitle>` is an `<h5>` — keep it concise and leading-focused.
+- The destructive variant carries an icon *and* a title so meaning is never conveyed by color alone.
+- The close button uses `aria-label="Dismiss"` and keyboard-dismisses on Enter/Space.
 
 ## Spinner
+
+An indeterminate loading indicator. Reach for it when a short action is in-flight (loading a table, saving a form). For long or multi-step operations, prefer `<ProgressBar>`.
 
 <Preview label="Spinner sizes">
   <SpinnerDemo />
@@ -63,54 +92,103 @@ import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
 import { Spinner } from "@weiui/react";
 
 <Spinner size="sm" />
-<Spinner size="md" />
+<Spinner size="md" label="Saving changes" />
 <Spinner size="lg" />
-<Spinner label="Saving changes" />
 ```
 
-### Props
+### Inline inside a button
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| size | `"sm" \| "md" \| "lg"` | `"md"` | Spinner size |
-| label | `string` | `"Loading"` | Accessible label (screen readers) |
+```tsx
+<Button disabled>
+  <Spinner size="sm" label="Submitting" /> Submitting…
+</Button>
+```
 
-### Accessibility
+### Overlay inside a loading region
 
-- `role="status"` announces the loading state to screen readers
-- `aria-label` set to the `label` prop
-- Visible label text hidden via `wui-sr-only`
-- Rotation animation is wrapped in `@media (prefers-reduced-motion: no-preference)` — users who prefer reduced motion see a static circle instead of a spin, while the `role="status"` announcement still plays
+```tsx
+<div style={{ position: "relative", minHeight: 240 }} aria-busy={loading}>
+  {loading && (
+    <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <Spinner size="lg" label="Loading projects" />
+    </div>
+  )}
+  <ProjectList data={data} />
+</div>
+```
 
----
+### Spinner props
+
+| Prop     | Type                              | Default      | Description                          |
+|----------|-----------------------------------|--------------|--------------------------------------|
+| `size`   | `"sm" \| "md" \| "lg"`            | `"md"`       | Diameter                             |
+| `label`  | `string`                          | `"Loading"`  | Screen-reader announcement           |
+
+### Spinner accessibility
+
+- Renders with `role="status"` + `aria-label={label}`. Polite assistive-tech announcement, not disruptive.
+- The visible label is kept in the DOM (inside `wui-sr-only`) so it still reaches screen readers; it is not rendered visually.
+- Spin animation is wrapped in `@media (prefers-reduced-motion: no-preference)` — users who prefer reduced motion see a static circle but still hear the status.
 
 ## EmptyState
 
-<Preview label="Empty state">
+Communicates absence of data with purpose — tell the user what's missing and what to do. Every empty state needs a title; description, illustration, and action are optional but recommended.
+
+<Preview label="Empty state with illustration + action">
   <EmptyStateDemo />
 </Preview>
 
 ```tsx
-import { EmptyState } from "@weiui/react";
+import { EmptyState, Button } from "@weiui/react";
 
 <EmptyState
-  title="No results found"
-  description="Try adjusting your search or filters."
-  action={<Button variant="outline">Clear filters</Button>}
+  title="No projects yet"
+  description="Create your first project to start collaborating with your team."
+  icon={<img src="/illustrations/empty.svg" alt="" />}
+  action={<Button>Create project</Button>}
 />
 ```
 
-### Props
+### Sizes and orientation
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| title | `string` | — | Required heading text |
-| description | `string` | — | Optional supporting text |
-| icon | `ReactNode` | — | Optional icon above the title |
-| action | `ReactNode` | — | Optional action element |
+```tsx
+<EmptyState size="sm" title="Nothing here" description="Add items to get started." />
+<EmptyState size="lg" title="No matches" description="Try different filters." />
+<EmptyState
+  orientation="horizontal"
+  title="Connect a repo"
+  description="Import a Git repository to deploy automatically."
+  action={<Button>Connect</Button>}
+/>
+```
 
-### Accessibility
+### EmptyState props
 
-- `title` renders inside an `<h3>` so keyboard users can jump to it with heading shortcuts.
-- Mark the decorative `icon` slot with `aria-hidden="true"` when you pass one — the `title` carries the meaning, and letting screen readers describe the glyph adds noise.
-- The action slot accepts any focusable element; pair it with a clear call to action (e.g. "Clear filters", "Add your first project") so screen reader users know how to recover from the empty state.
+| Prop           | Type                                  | Default      | Description                                               |
+|----------------|---------------------------------------|--------------|-----------------------------------------------------------|
+| `title`        | `string`                              | —            | Heading text (required)                                   |
+| `description`  | `string`                              | —            | Supporting text                                           |
+| `icon`         | `ReactNode`                           | —            | Optional illustration above the title                     |
+| `action`       | `ReactNode`                           | —            | Optional call-to-action slot                              |
+| `size`         | `"sm" \| "md" \| "lg"`                | `"md"`       | Controls title size, illustration scale, and spacing     |
+| `orientation`  | `"vertical" \| "horizontal"`          | `"vertical"` | Horizontal layouts work well inside cards or sidebars    |
+
+### EmptyState accessibility
+
+- `title` renders as an `<h3>` so screen-reader users can navigate the empty state via heading shortcuts.
+- Decorative illustrations should be passed as `<img alt="" aria-hidden />`. Let the title carry the meaning.
+- The action slot accepts any focusable element — prefer Buttons so the recovery path is obvious in the accessibility tree.
+- An empty data region should be wrapped with `role="region"` and an `aria-label` that matches the list it replaces (e.g. `"Projects"`) so screen readers can announce the change.
+
+## When to use which
+
+| Situation                                   | Component                    |
+|--------------------------------------------|------------------------------|
+| A transient confirmation ("Saved")          | Toast (→ [toast-chip-progress](/docs/components/toast-chip-progress)) |
+| An inline, non-blocking message             | **Alert**                    |
+| A destructive confirmation                  | Dialog (→ [overlays](/docs/components/overlays)) |
+| Short operation in progress                 | **Spinner**                  |
+| Measurable multi-step progress              | ProgressBar                  |
+| A list has no items                         | **EmptyState**               |
+
+Rule of thumb: if the user can dismiss it and keep working, use Alert. If the feedback is tied to a single in-flight action, use Spinner. If the screen has zero data to show, use EmptyState — never a lone "No results" paragraph.
