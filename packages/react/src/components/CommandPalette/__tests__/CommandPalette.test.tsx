@@ -148,3 +148,58 @@ describe("CommandPalette", () => {
     expect(screen.getByText("Outside")).not.toHaveFocus();
   });
 });
+
+describe("CommandPalette P1 additions", () => {
+  beforeEach(() => {
+    // jsdom's Storage prototype methods may be missing in some runs;
+    // restore a simple in-memory shim so tests work reliably.
+    const store = new Map<string, string>();
+    const mockStorage: Storage = {
+      get length() {
+        return store.size;
+      },
+      clear: () => store.clear(),
+      getItem: (k) => (store.has(k) ? store.get(k)! : null),
+      setItem: (k, v) => void store.set(k, String(v)),
+      removeItem: (k) => void store.delete(k),
+      key: (i) => Array.from(store.keys())[i] ?? null,
+    };
+    Object.defineProperty(window, "localStorage", {
+      value: mockStorage,
+      configurable: true,
+    });
+  });
+
+  it("shows recent items group when input is empty and recent storage exists", async () => {
+    window.localStorage.setItem("wui-cp-recent-demo", JSON.stringify(["go-home"]));
+    const recentItems = [
+      { id: "go-home", label: "Home", onSelect: vi.fn() },
+      { id: "go-settings", label: "Settings", onSelect: vi.fn() },
+    ];
+    render(<CommandPalette id="demo" open items={recentItems} onOpenChange={vi.fn()} />);
+    // Recent section header "Recent"
+    expect(await screen.findByText("Recent")).toBeInTheDocument();
+  });
+
+  it("renders per-item shortcut via Kbd", async () => {
+    const shortcutItems = [{ id: "save", label: "Save", shortcut: "⌘S", onSelect: vi.fn() }];
+    render(<CommandPalette id="demo2" open items={shortcutItems} onOpenChange={vi.fn()} />);
+    expect(await screen.findByText("⌘S")).toBeInTheDocument();
+  });
+
+  it("emptyState node renders when no results", async () => {
+    const user = userEvent.setup();
+    render(
+      <CommandPalette
+        id="demo3"
+        open
+        items={[{ id: "a", label: "Apple", onSelect: vi.fn() }]}
+        onOpenChange={vi.fn()}
+        emptyState={<div data-testid="empty">No matches found</div>}
+      />,
+    );
+    const input = await screen.findByRole("combobox");
+    await user.type(input, "zzzzz");
+    expect(await screen.findByTestId("empty")).toBeInTheDocument();
+  });
+});

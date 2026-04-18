@@ -28,8 +28,32 @@ export interface CommandPaletteProps {
   onOpenChange?: (open: boolean) => void;
   placeholder?: string;
   emptyText?: string;
+  emptyState?: ReactNode;
   className?: string;
   label?: string;
+  /** Persistent identifier for recent-items storage. */
+  id?: string;
+}
+
+function readRecent(storageKey: string): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeRecent(storageKey: string, ids: string[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(ids.slice(0, 5)));
+  } catch {
+    // no-op
+  }
 }
 
 export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
@@ -40,8 +64,10 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       onOpenChange,
       placeholder = "Type a command or search...",
       emptyText = "No results found.",
+      emptyState,
       className,
       label,
+      id: paletteId,
     },
     _ref,
   ) => {
@@ -57,13 +83,23 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
 
     const [query, setQuery] = useState("");
     const [highlightedIndex, setHighlightedIndex] = useState(0);
+    const [recentIds, setRecentIds] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
     const dialogRef = useRef<HTMLDivElement>(null);
     const previousFocusRef = useRef<HTMLElement | null>(null);
     const listboxId = useId();
 
+    const storageKey = paletteId ? `wui-cp-recent-${paletteId}` : null;
+
     // Focus trap keeps Tab inside the dialog
     useFocusTrap(dialogRef, isOpen);
+
+    // Load recent IDs when opened
+    useEffect(() => {
+      if (isOpen && storageKey) {
+        setRecentIds(readRecent(storageKey));
+      }
+    }, [isOpen, storageKey]);
 
     const filtered = items.filter(
       (item) =>
@@ -71,16 +107,27 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         item.group?.toLowerCase().includes(query.toLowerCase()),
     );
 
-    // Group items
+    // Build recent items list (only when input is empty)
+    const isInputEmpty = query.trim() === "";
+    const recentItems = isInputEmpty && recentIds.length > 0
+      ? (recentIds
+          .map((id) => items.find((it) => it.id === id))
+          .filter((it): it is CommandItem => Boolean(it)))
+      : [];
+
+    // Flatten for keyboard nav: recents first (if shown), then rest of filtered
+    // (deduped against recents).
+    const recentSet = new Set(recentItems.map((it) => it.id));
+    const restItems = filtered.filter((it) => !recentSet.has(it.id));
+    const flatItems = [...recentItems, ...restItems];
+
+    // Group the non-recent items
     const groups = new Map<string, CommandItem[]>();
-    for (const item of filtered) {
+    for (const item of restItems) {
       const group = item.group || "";
       if (!groups.has(group)) groups.set(group, []);
       groups.get(group)!.push(item);
     }
-
-    // Flatten for keyboard nav indexing
-    const flatItems = filtered;
 
     useEffect(() => {
       if (isOpen) {
@@ -105,6 +152,20 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       return () => document.removeEventListener("keydown", handleGlobalKey);
     }, [isOpen, setOpen]);
 
+    const selectItem = useCallback(
+      (item: CommandItem) => {
+        if (item.disabled) return;
+        item.onSelect?.();
+        if (storageKey) {
+          const next = [item.id, ...recentIds.filter((x) => x !== item.id)].slice(0, 5);
+          setRecentIds(next);
+          writeRecent(storageKey, next);
+        }
+        setOpen(false);
+      },
+      [recentIds, setOpen, storageKey],
+    );
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowDown":
@@ -126,8 +187,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         case "Enter":
           e.preventDefault();
           if (flatItems[highlightedIndex] && !flatItems[highlightedIndex]?.disabled) {
-            flatItems[highlightedIndex]?.onSelect?.();
-            setOpen(false);
+            selectItem(flatItems[highlightedIndex]!);
           }
           break;
         case "Escape":
@@ -138,10 +198,38 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
 
     if (!isOpen) return null;
 
-    const activeDescendant =
-      flatItems[highlightedIndex]
-        ? `${listboxId}-item-${flatItems[highlightedIndex].id}`
-        : undefined;
+    const activeDescendant = flatItems[highlightedIndex]
+      ? `${listboxId}-item-${flatItems[highlightedIndex].id}`
+      : undefined;
+
+    const hasAnyResults = flatItems.length > 0;
+
+    function renderItem(item: CommandItem) {
+      const flatIdx = flatItems.indexOf(item);
+      return (
+        <div
+          key={item.id}
+          id={`${listboxId}-item-${item.id}`}
+          className="wui-command__item"
+          role="option"
+          aria-selected={flatIdx === highlightedIndex}
+          aria-disabled={item.disabled || undefined}
+          data-highlighted={flatIdx === highlightedIndex || undefined}
+          data-disabled={item.disabled || undefined}
+          onClick={() => {
+            if (!item.disabled) selectItem(item);
+          }}
+        >
+          {item.icon && (
+            <span className="wui-command__item-icon" aria-hidden="true">
+              {item.icon}
+            </span>
+          )}
+          <span className="wui-command__item-label">{item.label}</span>
+          {item.shortcut && <span className="wui-command__item-shortcut">{item.shortcut}</span>}
+        </div>
+      );
+    }
 
     return (
       <Portal>
@@ -181,45 +269,23 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               />
             </div>
             <div className="wui-command__list" role="listbox" id={listboxId}>
-              {flatItems.length > 0 ? (
-                Array.from(groups.entries()).map(([groupName, groupItems]) => (
-                  <div key={groupName} role="group" aria-label={groupName || undefined}>
-                    {groupName && (
-                      <div className="wui-command__group-label">{groupName}</div>
-                    )}
-                    {groupItems.map((item) => {
-                      const flatIdx = flatItems.indexOf(item);
-                      return (
-                        <div
-                          key={item.id}
-                          id={`${listboxId}-item-${item.id}`}
-                          className="wui-command__item"
-                          role="option"
-                          aria-selected={flatIdx === highlightedIndex}
-                          aria-disabled={item.disabled || undefined}
-                          data-highlighted={flatIdx === highlightedIndex || undefined}
-                          data-disabled={item.disabled || undefined}
-                          onClick={() => {
-                            if (!item.disabled) {
-                              item.onSelect?.();
-                              setOpen(false);
-                            }
-                          }}
-                        >
-                          {item.icon && (
-                            <span className="wui-command__item-icon" aria-hidden="true">
-                              {item.icon}
-                            </span>
-                          )}
-                          <span className="wui-command__item-label">{item.label}</span>
-                          {item.shortcut && (
-                            <span className="wui-command__item-shortcut">{item.shortcut}</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))
+              {hasAnyResults ? (
+                <>
+                  {recentItems.length > 0 && (
+                    <div role="group" aria-label="Recent">
+                      <div className="wui-command__group-label">Recent</div>
+                      {recentItems.map((item) => renderItem(item))}
+                    </div>
+                  )}
+                  {Array.from(groups.entries()).map(([groupName, groupItems]) => (
+                    <div key={groupName} role="group" aria-label={groupName || undefined}>
+                      {groupName && <div className="wui-command__group-label">{groupName}</div>}
+                      {groupItems.map((item) => renderItem(item))}
+                    </div>
+                  ))}
+                </>
+              ) : emptyState ? (
+                emptyState
               ) : (
                 <div className="wui-command__empty">{emptyText}</div>
               )}

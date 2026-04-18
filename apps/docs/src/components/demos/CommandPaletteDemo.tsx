@@ -155,7 +155,7 @@ export function CommandPaletteDemo() {
         Or press <kbd>⌘</kbd> + <kbd>K</kbd>. {items.length} actions across 5 groups.
         Type to filter, arrow keys to navigate, Enter to select, Esc to close.
       </p>
-      <CommandPalette open={open} onOpenChange={setOpen} items={items} />
+      <CommandPalette id="docs-demo" open={open} onOpenChange={setOpen} items={items} />
     </div>
   );
 }
