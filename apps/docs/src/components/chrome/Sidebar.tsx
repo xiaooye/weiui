@@ -2,34 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Sidebar as WeiUISidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarItem,
+} from "@weiui/react";
 import { siteConfig } from "../../lib/site-config";
 
 export function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="wui-docs-sidebar" aria-label="Docs navigation">
-      {siteConfig.sidebarGroups.map((group) => (
-        <div key={group.title} className="wui-docs-sidebar__group">
-          <h4 className="wui-docs-sidebar__title">{group.title}</h4>
-          <ul className="wui-docs-sidebar__list">
+    <WeiUISidebar
+      aria-label="Docs navigation"
+      className="wui-docs-sidebar"
+      defaultOpen={false}
+    >
+      <SidebarContent>
+        {siteConfig.sidebarGroups.map((group) => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             {group.items.map((item) => {
               const active = pathname === item.href;
               return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="wui-docs-sidebar__link"
-                    aria-current={active ? "page" : undefined}
-                    data-active={active || undefined}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
+                <SidebarItem key={item.href} asChild active={active}>
+                  <Link href={item.href}>{item.label}</Link>
+                </SidebarItem>
               );
             })}
-          </ul>
-        </div>
-      ))}
-    </aside>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+    </WeiUISidebar>
   );
 }

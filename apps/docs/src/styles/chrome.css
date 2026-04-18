@@ -139,13 +139,14 @@
   }
   /* Override the mobile "display: none" rule so the sidebar renders inside the drawer */
   .wui-docs-mobile-nav__body .wui-docs-sidebar {
-    display: block;
+    display: flex;
     position: static;
     block-size: auto;
     border-inline-end: none;
     padding-block: 0;
     padding-inline: var(--wui-spacing-2);
     overflow-y: visible;
+    inline-size: 100%;
   }
 }
 
@@ -278,49 +279,26 @@
     min-inline-size: 0;
   }
 
-  /* Sidebar */
+  /* Docs sidebar (applies on top of @weiui/react Sidebar) */
   .wui-docs-sidebar {
     position: sticky;
     inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
     block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    inline-size: 100%;
     overflow-y: auto;
-    padding-block: var(--wui-spacing-6);
-    padding-inline: var(--wui-spacing-4);
-    border-inline-end: 1px solid var(--wui-color-border);
+    box-shadow: none;
+    border-inline-end: 0;
+    background-color: transparent;
   }
-  .wui-docs-sidebar__group + .wui-docs-sidebar__group {
-    margin-block-start: var(--wui-spacing-6);
-  }
-  .wui-docs-sidebar__title {
-    font-size: var(--wui-font-size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-semibold);
-    margin-block-end: var(--wui-spacing-2);
-  }
-  .wui-docs-sidebar__list {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .wui-docs-sidebar__link {
-    display: block;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
+  .wui-docs-sidebar .wui-sidebar__item {
+    min-block-size: 32px;
+    padding-block: var(--wui-spacing-1);
     font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
-    border-radius: var(--wui-shape-radius-base);
     text-decoration: none;
-    overflow-wrap: anywhere;
-    line-height: 1.4;
   }
-  .wui-docs-sidebar__link:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
-  }
-  .wui-docs-sidebar__link[data-active] {
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    font-weight: var(--wui-font-weight-medium);
+  .wui-docs-sidebar .wui-sidebar__group + .wui-sidebar__group {
+    margin-block-start: var(--wui-spacing-4);
+    padding-block-start: var(--wui-spacing-2);
   }
 
   /* TOC */

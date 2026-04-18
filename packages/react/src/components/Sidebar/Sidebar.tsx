@@ -3,9 +3,13 @@ import {
   createContext,
   useContext,
   forwardRef,
+  isValidElement,
+  cloneElement,
+  Children,
   useState,
   type HTMLAttributes,
   type ReactNode,
+  type ReactElement,
   type ButtonHTMLAttributes,
 } from "react";
 import { useDisclosure, type UseDisclosureProps } from "@weiui/headless";
@@ -75,14 +79,46 @@ export interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement
   icon?: ReactNode;
   /** Tooltip text shown when sidebar is collapsed (icon-only mode). Falls back to `children` string. */
   tooltip?: string;
+  /** When true, clone the single child element (e.g. a router Link) and forward sidebar item props. */
+  asChild?: boolean;
   children: ReactNode;
 }
 
 export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
-  ({ active, icon, tooltip, className, children, ...props }, ref) => {
+  ({ active, icon, tooltip, asChild = false, className, children, ...props }, ref) => {
     const ctx = useContext(SidebarContext);
     const isCollapsed = ctx?.isCollapsed ?? false;
     const tipText = tooltip ?? (typeof children === "string" ? children : undefined);
+
+    const content = (
+      <>
+        {icon && (
+          <span className="wui-sidebar__icon" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        <span className="wui-sidebar__label">
+          {asChild && isValidElement(children)
+            ? (children as ReactElement<{ children?: ReactNode }>).props.children
+            : children}
+        </span>
+      </>
+    );
+
+    if (asChild && isValidElement(children)) {
+      const child = Children.only(children) as ReactElement<Record<string, unknown>>;
+      const childProps = (child.props ?? {}) as { className?: string };
+      return cloneElement(child, {
+        ...props,
+        ref,
+        className: cn("wui-sidebar__item", childProps.className, className),
+        "data-active": active ? "" : undefined,
+        "aria-current": active ? "page" : undefined,
+        title: isCollapsed && tipText ? tipText : undefined,
+        children: content,
+      } as Record<string, unknown>);
+    }
+
     return (
       <button
         ref={ref}
@@ -93,12 +129,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
         title={isCollapsed && tipText ? tipText : undefined}
         {...props}
       >
-        {icon && (
-          <span className="wui-sidebar__icon" aria-hidden="true">
-            {icon}
-          </span>
-        )}
-        <span className="wui-sidebar__label">{children}</span>
+        {content}
       </button>
     );
   },
