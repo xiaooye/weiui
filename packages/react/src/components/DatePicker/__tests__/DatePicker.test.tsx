@@ -104,4 +104,76 @@ describe("DatePicker", () => {
     const style = dialog.getAttribute("style") || "";
     expect(style).toMatch(/position\s*:\s*absolute/i);
   });
+
+  describe("P1 features", () => {
+    it("typed input variant exposes a text input", () => {
+      render(<DatePicker variant="input" placeholder="MM/DD/YYYY" label="Date" />);
+      const inputs = screen.getAllByRole("textbox");
+      expect(inputs.length).toBeGreaterThan(0);
+    });
+
+    it("clearable renders clear button and resets value", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<DatePicker clearable value={new Date(2025, 0, 1)} onChange={onChange} />);
+      const clear = screen.getByLabelText("Clear date");
+      await user.click(clear);
+      expect(onChange).toHaveBeenCalledWith(null);
+    });
+
+    it("range mode renders two date fields and onRangeChange fires", async () => {
+      const user = userEvent.setup();
+      const onRangeChange = vi.fn();
+      render(<DatePicker mode="range" onRangeChange={onRangeChange} label="Range" />);
+      await user.click(screen.getByRole("button", { name: "Range" }));
+      const dialog = screen.getByRole("dialog");
+      const start = within(dialog).getByText("10", { selector: ".wui-calendar__day-btn" });
+      await user.click(start);
+      const end = within(dialog).getByText("20", { selector: ".wui-calendar__day-btn" });
+      await user.click(end);
+      expect(onRangeChange).toHaveBeenCalled();
+      const call = onRangeChange.mock.calls.at(-1)![0];
+      expect(Array.isArray(call)).toBe(true);
+      expect(call[0]).toBeInstanceOf(Date);
+      expect(call[1]).toBeInstanceOf(Date);
+    });
+
+    it("presets render clickable chips and clicking sets the value", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      const preset = new Date(2024, 5, 1);
+      render(
+        <DatePicker
+          onChange={onChange}
+          label="Date"
+          presets={[{ label: "Jun 1", value: preset }]}
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "Date" }));
+      await user.click(screen.getByRole("button", { name: "Jun 1" }));
+      expect(onChange).toHaveBeenCalledWith(preset);
+    });
+
+    it("year/month dropdowns render and can change the view", async () => {
+      const user = userEvent.setup();
+      render(<DatePicker label="Date" showYearMonthDropdowns />);
+      await user.click(screen.getByRole("button", { name: "Date" }));
+      const dialog = screen.getByRole("dialog");
+      const monthSelect = within(dialog).getByLabelText(/select month/i) as HTMLSelectElement;
+      const yearSelect = within(dialog).getByLabelText(/select year/i) as HTMLSelectElement;
+      expect(monthSelect.tagName).toBe("SELECT");
+      expect(yearSelect.tagName).toBe("SELECT");
+      await user.selectOptions(monthSelect, "0");
+      // month changed
+      expect(monthSelect).toHaveValue("0");
+    });
+
+    it("name prop renders hidden input", () => {
+      const { container } = render(
+        <DatePicker name="dob" value={new Date(2025, 0, 15)} />,
+      );
+      const hidden = container.querySelector('input[type="hidden"][name="dob"]');
+      expect(hidden).not.toBeNull();
+    });
+  });
 });

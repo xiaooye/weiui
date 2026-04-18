@@ -54,4 +54,49 @@
       transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
+
+  /* Year + month dropdowns */
+  .wui-calendar__dropdowns {
+    display: inline-flex;
+    gap: var(--wui-spacing-1);
+    align-items: center;
+  }
+  .wui-calendar__select {
+    padding-inline: var(--wui-spacing-2);
+    padding-block: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    background: transparent;
+    color: var(--wui-color-foreground);
+    border: 1px solid transparent;
+    border-radius: var(--wui-shape-radius-sm);
+    cursor: pointer;
+    min-block-size: 32px;
+  }
+  .wui-calendar__select:hover {
+    border-color: var(--wui-color-border);
+    background-color: var(--wui-color-muted);
+  }
+  .wui-calendar__select:focus-visible {
+    outline: 2px solid var(--wui-color-ring);
+    outline-offset: 1px;
+  }
+
+  /* Range mode */
+  .wui-calendar__day-btn[data-in-range] {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
+    border-radius: 0;
+  }
+  .wui-calendar__day-btn[data-range-start] {
+    border-start-start-radius: var(--wui-shape-radius-md);
+    border-end-start-radius: var(--wui-shape-radius-md);
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+  }
+  .wui-calendar__day-btn[data-range-end] {
+    border-start-end-radius: var(--wui-shape-radius-md);
+    border-end-end-radius: var(--wui-shape-radius-md);
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+  }
 }

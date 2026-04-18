@@ -38,4 +38,81 @@
       transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
+  .wui-date-picker__trigger-row {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+  }
+  .wui-date-picker__input-wrapper {
+    position: relative;
+    inline-size: 100%;
+  }
+  .wui-date-picker__input {
+    inline-size: 100%;
+    min-block-size: 44px;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    padding-inline-end: calc(var(--wui-spacing-6) + 8px);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    font-size: var(--wui-font-size-sm);
+    font-variant-numeric: tabular-nums;
+    box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
+  }
+  .wui-date-picker__input:focus-visible {
+    border-color: var(--wui-color-ring);
+    outline: 3px solid var(--wui-color-ring-soft);
+    outline-offset: 0;
+  }
+  .wui-date-picker__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 28px;
+    block-size: 28px;
+    background: transparent;
+    border: none;
+    border-radius: var(--wui-shape-radius-sm);
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-lg);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+  .wui-date-picker__clear:hover {
+    background-color: var(--wui-color-muted);
+    color: var(--wui-color-foreground);
+  }
+  .wui-date-picker__input-wrapper .wui-date-picker__clear {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--wui-spacing-2);
+    transform: translateY(-50%);
+  }
+  .wui-date-picker__presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wui-spacing-1);
+    padding: var(--wui-spacing-2);
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+  .wui-date-picker__preset {
+    padding-inline: var(--wui-spacing-2);
+    padding-block: var(--wui-spacing-1);
+    background: var(--wui-color-muted);
+    border: 1px solid transparent;
+    border-radius: var(--wui-shape-radius-full);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-foreground);
+    cursor: pointer;
+    min-block-size: 32px;
+  }
+  .wui-date-picker__preset:hover {
+    border-color: var(--wui-color-border);
+  }
+  .wui-date-picker__preset:focus-visible {
+    outline: 2px solid var(--wui-color-ring);
+    outline-offset: 1px;
+  }
 }

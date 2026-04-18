@@ -1,6 +1,27 @@
 "use client";
-import { forwardRef, useReducer, useId, useRef, type KeyboardEvent } from "react";
+import {
+  forwardRef,
+  useReducer,
+  useId,
+  useRef,
+  useEffect,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { cn } from "../../utils/cn";
+
+export interface CalendarDayInfo {
+  isToday: boolean;
+  isSelected: boolean;
+  isOutsideMonth: boolean;
+  isDisabled: boolean;
+  /** Only set when `mode="range"` and the day sits inside the selected span. */
+  isInRange?: boolean;
+  /** Whether this is the start of the current range selection. */
+  isRangeStart?: boolean;
+  /** Whether this is the end of the current range selection. */
+  isRangeEnd?: boolean;
+}
 
 export interface CalendarProps {
   value?: Date;
@@ -17,9 +38,28 @@ export interface CalendarProps {
   firstDayOfWeek?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   /** Optional predicate to disable arbitrary dates. */
   isDateDisabled?: (date: Date) => boolean;
+  /** "single" selects a date; "range" selects a [start, end] pair. */
+  mode?: "single" | "range";
+  /** Range-mode value. */
+  rangeValue?: [Date | null, Date | null];
+  /** Fires when a range selection changes. */
+  onRangeChange?: (range: [Date, Date]) => void;
+  /** Render dropdowns in the header for fast month/year navigation. */
+  showYearMonthDropdowns?: boolean;
+  /** Range of years to list in the year dropdown. Defaults to ±50. */
+  yearRange?: [number, number];
+  /** Replace the inner day cell UI with custom content. */
+  renderDay?: (date: Date, info: CalendarDayInfo) => ReactNode;
+  /** Focus the selected day (or today) on mount. */
+  autoFocus?: boolean;
 }
 
-type CalendarAction = { type: "PREV_MONTH" } | { type: "NEXT_MONTH" } | { type: "SET_VIEW"; year: number; month: number };
+type CalendarAction =
+  | { type: "PREV_MONTH" }
+  | { type: "NEXT_MONTH" }
+  | { type: "SET_VIEW"; year: number; month: number }
+  | { type: "SET_YEAR"; year: number }
+  | { type: "SET_MONTH"; month: number };
 
 interface CalendarState {
   viewYear: number;
@@ -30,25 +70,24 @@ function calendarReducer(state: CalendarState, action: CalendarAction): Calendar
   switch (action.type) {
     case "PREV_MONTH": {
       const m = state.viewMonth - 1;
-      return m < 0
-        ? { viewYear: state.viewYear - 1, viewMonth: 11 }
-        : { ...state, viewMonth: m };
+      return m < 0 ? { viewYear: state.viewYear - 1, viewMonth: 11 } : { ...state, viewMonth: m };
     }
     case "NEXT_MONTH": {
       const m = state.viewMonth + 1;
-      return m > 11
-        ? { viewYear: state.viewYear + 1, viewMonth: 0 }
-        : { ...state, viewMonth: m };
+      return m > 11 ? { viewYear: state.viewYear + 1, viewMonth: 0 } : { ...state, viewMonth: m };
     }
     case "SET_VIEW":
       return { viewYear: action.year, viewMonth: action.month };
+    case "SET_YEAR":
+      return { ...state, viewYear: action.year };
+    case "SET_MONTH":
+      return { ...state, viewMonth: action.month };
   }
 }
 
 const DEFAULT_WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 function getWeekdays(locale: string, firstDayOfWeek: number): string[] {
-  // Reference Sunday: 2023-01-01 was a Sunday.
   const base = new Date(2023, 0, 1);
   const out: string[] = [];
   try {
@@ -70,7 +109,6 @@ function getWeekdays(locale: string, firstDayOfWeek: number): string[] {
 function getDaysInMonth(year: number, month: number, firstDayOfWeek: number): Date[] {
   const days: Date[] = [];
   const startDay = new Date(year, month, 1).getDay();
-  // Offset so the first cell is firstDayOfWeek
   const offset = (startDay - firstDayOfWeek + 7) % 7;
   for (let i = offset - 1; i >= 0; i--) {
     days.push(new Date(year, month, -i));
@@ -115,10 +153,17 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       locale = "en-US",
       firstDayOfWeek = 0,
       isDateDisabled: isDateDisabledProp,
+      mode = "single",
+      rangeValue,
+      onRangeChange,
+      showYearMonthDropdowns,
+      yearRange,
+      renderDay,
+      autoFocus,
     },
     ref,
   ) => {
-    const initial = value ?? defaultValue ?? new Date();
+    const initial = value ?? defaultValue ?? (rangeValue?.[0] ?? new Date());
     const [state, dispatch] = useReducer(calendarReducer, {
       viewYear: initial.getFullYear(),
       viewMonth: initial.getMonth(),
@@ -139,6 +184,16 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     });
     const dayButtonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
+    // Track the pending range start so the second click completes the range.
+    const pendingStartRef = useRef<Date | null>(rangeValue?.[0] ?? null);
+
+    useEffect(() => {
+      if (!autoFocus) return;
+      const key = toKey(selectedDate ?? new Date());
+      const btn = dayButtonRefs.current.get(key);
+      btn?.focus();
+    }, [autoFocus]); // eslint-disable-line react-hooks/exhaustive-deps
+
     const isDayDisabled = (d: Date) => {
       if (disabled) return true;
       if (minDate && d < minDate) return true;
@@ -148,7 +203,6 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     };
 
     const focusDate = (target: Date) => {
-      // If target is outside current view, switch view first.
       const sameView =
         target.getFullYear() === state.viewYear && target.getMonth() === state.viewMonth;
       if (!sameView) {
@@ -158,7 +212,6 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
           month: target.getMonth(),
         });
       }
-      // Defer focus until after render so the target button exists in the DOM.
       queueMicrotask(() => {
         const btn = dayButtonRefs.current.get(toKey(target));
         btn?.focus();
@@ -185,7 +238,6 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
           next.setDate(day.getDate() - 7);
           break;
         case "Home": {
-          // Start of week based on firstDayOfWeek
           const dayOfWeek = day.getDay();
           const back = (dayOfWeek - firstDayOfWeek + 7) % 7;
           next = new Date(day);
@@ -214,6 +266,40 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       focusDate(next);
     };
 
+    const handleDayClick = (day: Date) => {
+      if (mode === "range") {
+        const start = pendingStartRef.current;
+        if (!start) {
+          pendingStartRef.current = day;
+          return;
+        }
+        const [a, b] = start < day ? [start, day] : [day, start];
+        pendingStartRef.current = null;
+        onRangeChange?.([a, b]);
+      } else {
+        onChange?.(day);
+      }
+    };
+
+    const yearsList = (() => {
+      const [minY, maxY] = yearRange ?? [state.viewYear - 50, state.viewYear + 50];
+      const out: number[] = [];
+      for (let y = minY; y <= maxY; y++) out.push(y);
+      return out;
+    })();
+
+    const monthNames = Array.from({ length: 12 }, (_, m) =>
+      new Date(state.viewYear, m, 1).toLocaleDateString(locale, { month: "long" }),
+    );
+
+    const rangeStart = rangeValue?.[0] ?? null;
+    const rangeEnd = rangeValue?.[1] ?? null;
+
+    const dayInRange = (d: Date) => {
+      if (mode !== "range" || !rangeStart || !rangeEnd) return false;
+      return d >= rangeStart && d <= rangeEnd;
+    };
+
     return (
       <div
         ref={ref}
@@ -230,9 +316,38 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
           >
             &lsaquo;
           </button>
-          <span className="wui-calendar__title" id={`${calendarId}-title`}>
-            {monthLabel}
-          </span>
+          {showYearMonthDropdowns ? (
+            <div className="wui-calendar__dropdowns">
+              <select
+                className="wui-calendar__select"
+                aria-label="Select month"
+                value={state.viewMonth}
+                onChange={(e) => dispatch({ type: "SET_MONTH", month: Number(e.target.value) })}
+              >
+                {monthNames.map((name, i) => (
+                  <option key={i} value={i}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="wui-calendar__select"
+                aria-label="Select year"
+                value={state.viewYear}
+                onChange={(e) => dispatch({ type: "SET_YEAR", year: Number(e.target.value) })}
+              >
+                {yearsList.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <span className="wui-calendar__title" id={`${calendarId}-title`}>
+              {monthLabel}
+            </span>
+          )}
           <button
             type="button"
             className="wui-calendar__nav"
@@ -263,6 +378,18 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                   const outside = day.getMonth() !== state.viewMonth;
                   const dayDisabled = isDayDisabled(day);
                   const selected = selectedDate ? isSameDay(day, selectedDate) : false;
+                  const isStart = rangeStart ? isSameDay(day, rangeStart) : false;
+                  const isEnd = rangeEnd ? isSameDay(day, rangeEnd) : false;
+                  const inRange = dayInRange(day);
+                  const info: CalendarDayInfo = {
+                    isToday: isToday(day),
+                    isSelected: selected || isStart || isEnd,
+                    isOutsideMonth: outside,
+                    isDisabled: dayDisabled,
+                    isInRange: inRange,
+                    isRangeStart: isStart,
+                    isRangeEnd: isEnd,
+                  };
                   return (
                     <td key={day.toISOString()} className="wui-calendar__day">
                       <button
@@ -272,18 +399,21 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                         }}
                         type="button"
                         className="wui-calendar__day-btn"
-                        data-selected={selected || undefined}
-                        data-today={isToday(day) || undefined}
+                        data-selected={info.isSelected || undefined}
+                        data-today={info.isToday || undefined}
                         data-outside={outside || undefined}
                         data-disabled={dayDisabled || undefined}
+                        data-in-range={inRange || undefined}
+                        data-range-start={isStart || undefined}
+                        data-range-end={isEnd || undefined}
                         disabled={dayDisabled}
                         aria-label={dayLabelFormatter.format(day)}
-                        aria-selected={selected}
-                        onClick={() => onChange?.(day)}
+                        aria-selected={info.isSelected}
+                        onClick={() => handleDayClick(day)}
                         onKeyDown={(e) => handleDayKeyDown(e, day)}
-                        tabIndex={selected ? 0 : -1}
+                        tabIndex={info.isSelected ? 0 : -1}
                       >
-                        {day.getDate()}
+                        {renderDay ? renderDay(day, info) : day.getDate()}
                       </button>
                     </td>
                   );
