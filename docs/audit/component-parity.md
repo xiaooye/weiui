@@ -44,11 +44,11 @@
 | Wave | Components | P0 gaps | P1 gaps | P2 gaps |
 |------|------------|---------|---------|---------|
 | 5a Input family | 7 | 0 ✅ shipped | 35 | 11 |
-| 5b Overlay | 7 | 0 ✅ shipped | 31 | 9 |
+| 5b Overlay | 7 | 0 ✅ shipped | 12 (19 shipped in Phase 6a) | 9 |
 | 5c Data/Nav | 12 | 0 ✅ shipped | 58 | 23 |
 | 5d Advanced | 9 | 0 ✅ shipped | 54 | 16 |
 | 5e Form + display | 16 | 0 ✅ shipped | 38 | 30 |
-| **Total** | **51** | **0** | **216** | **89** |
+| **Total** | **51** | **0** | **197** | **89** |
 
 **Recommended wave order:** 5a → 5b → 5c → 5d → 5e. Each wave closes when its P0 column reaches 0.
 
@@ -234,9 +234,9 @@
 | `aria-labelledby` / `aria-describedby` wired | ✅ | ✅ | — | — |
 | Portal rendering (render outside DOM tree) | ✅ | ✅ | Add Portal component, mount outside tree | ✅ shipped |
 | Overlay/backdrop component | ✅ DialogOverlay | ✅ DialogOverlay | Add Overlay part | ✅ shipped |
-| `modal={false}` non-modal variant | ❌ | ✅ | Add variant | **P1** |
-| Nested dialog stacking | ❌ | ✅ | Stack context | **P1** |
-| `onInteractOutside` / `onEscapeKeyDown` callbacks with preventable default | ❌ | ✅ | Add callbacks | **P1** |
+| `modal={false}` non-modal variant | ✅ | ✅ | Add variant | ✅ shipped |
+| Nested dialog stacking | ✅ | ✅ | Stack context | ✅ shipped |
+| `onInteractOutside` / `onEscapeKeyDown` callbacks with preventable default | ✅ | ✅ | Add callbacks | ✅ shipped |
 | `forceMount` for animation exit | ❌ | ✅ | Pass-through | **P2** |
 
 **Notes:** Portal is the dealbreaker — without it, a Dialog opened inside an overflow-hidden or transformed ancestor clips or positions wrong. This is the highest-priority overlay fix and Dialog, Drawer, Popover, Menu, Toast, CommandPalette, DatePicker all need it. Build a single `<Portal>` primitive and compose. The Overlay element is P0 in the same breath — current Dialog has no backdrop rendered (Drawer does), so clicking outside the content works but there's no scrim.
@@ -258,7 +258,8 @@
 | Swipe-to-dismiss (mobile) | ❌ | ✅ Vaul | Add gesture support | **P1** |
 | Snap points (partial open) | ❌ | ✅ Vaul | Out of scope for v1 | **P2** |
 | Non-modal (dismiss by interacting elsewhere without close) | ❌ | ✅ | Add variant | **P2** |
-| `onInteractOutside` preventable | ❌ | ✅ | Add callback | **P1** |
+| `onInteractOutside` preventable | ✅ | ✅ | Add callback | ✅ shipped |
+| `onEscapeKeyDown` preventable | ✅ | ✅ | Add callback | ✅ shipped |
 | Animations (slide-in/out) | ⚠️ CSS default | ✅ configurable | Already in CSS; confirm exit animation | **P1** |
 
 **Notes:** Portal is shared with Dialog. Swipe-to-dismiss is the expected mobile polish from Vaul — P1 because it's visible polish, not baseline correctness.
@@ -278,10 +279,11 @@
 | Controlled + uncontrolled open | ✅ via `open`/`onOpenChange` | ✅ | Expose `open`/`onOpenChange` via props | ✅ shipped |
 | Portal rendering | ✅ | ✅ | Same Portal primitive | ✅ shipped |
 | Configurable placement (side / align) | ✅ `side` + `align` props | ✅ 12 placements | Add `side` + `align` props | ✅ shipped |
-| Anchor arrow element | ❌ | ✅ `PopoverArrow` | Add Arrow part + Floating UI arrow middleware | **P1** |
-| Collision padding config | ❌ | ✅ | Add `collisionPadding` prop | **P1** |
-| Modal vs non-modal | ⚠️ always traps focus | ✅ toggle | Add `modal` prop (default false for popover) | **P1** |
-| `onOpenAutoFocus` / `onCloseAutoFocus` preventable | ❌ | ✅ | Add callbacks | **P1** |
+| Anchor arrow element | ✅ `PopoverArrow` | ✅ `PopoverArrow` | Add Arrow part + Floating UI arrow middleware | ✅ shipped |
+| Collision padding config | ✅ | ✅ | Add `collisionPadding` prop | ✅ shipped |
+| Modal vs non-modal | ✅ `modal` prop (default false) | ✅ toggle | Add `modal` prop (default false for popover) | ✅ shipped |
+| `onOpenAutoFocus` / `onCloseAutoFocus` preventable | ✅ | ✅ | Add callbacks | ✅ shipped |
+| `onInteractOutside` / `onEscapeKeyDown` preventable | ✅ | ✅ | Add callbacks | ✅ shipped |
 
 **Notes:** Popover has three P0s: (1) controlled open — the component can't be opened externally today; (2) Portal — see Dialog; (3) placement is hard-coded to `bottom-start` with no way for a consumer to override, so no "open above when near bottom of viewport" customisation. These are baseline for a Radix-quality popover.
 
@@ -298,11 +300,11 @@
 | Pointer / hover open | ✅ | ✅ | Wire `useHover` from floating-ui | ✅ shipped |
 | Keyboard focus open | ✅ | ✅ | Open on focusin, close on focusout | ✅ shipped |
 | Close delay / hover-out grace | ✅ via `closeDelay` prop | ✅ | Add close delay | ✅ shipped |
-| Provider for global delay config | ❌ | ✅ TooltipProvider | Add provider | **P1** |
+| Provider for global delay config | ✅ TooltipProvider | ✅ TooltipProvider | Add provider | ✅ shipped |
 | `role="tooltip"` + aria-describedby on trigger | ✅ auto-wired | ✅ auto-wired | Set `aria-describedby={tooltipId}` on trigger when open | ✅ shipped |
-| Side / align / offset config | ❌ | ✅ | Add props | **P1** |
-| Portal rendering | ❌ | ✅ | Portal primitive | **P1** |
-| Escape to close | ❌ | ✅ | Close on Escape | **P1** |
+| Side / align / offset config | ✅ | ✅ | Add props | ✅ shipped |
+| Portal rendering | ✅ | ✅ | Portal primitive | ✅ shipped |
+| Escape to close | ✅ | ✅ | Close on Escape | ✅ shipped |
 | Disabled-trigger tooltip passthrough | ❌ | ✅ | Expose `asChild` pattern | **P2** |
 
 **Notes:** Tooltip's P0s are about basic correctness: hover + focus should open it, keyboard users need it, and `aria-describedby` has to be wired for screen readers to announce the content. Without these three the component is broken. The delay plumbing exists already — piggyback on it.
@@ -322,13 +324,13 @@
 | Type-ahead (first-letter search) | ✅ | ✅ | Add typeahead buffer | ✅ shipped |
 | Disabled items skip over | ✅ `disabled` prop + skip logic | ✅ | Add `disabled` prop + skip logic | ✅ shipped |
 | Submenu / nested menu | ❌ | ✅ | Out of scope for v1 | **P2** |
-| CheckboxItem / RadioItem variants | ❌ | ✅ | Add variants | **P1** |
-| Shortcut display | ❌ | ✅ | Add `shortcut` slot | **P1** |
+| CheckboxItem / RadioItem variants | ✅ `MenuCheckboxItem` / `MenuRadioItem` | ✅ | Add variants | ✅ shipped |
+| Shortcut display | ✅ `shortcut` prop on items | ✅ | Add `shortcut` slot | ✅ shipped |
 | Floating placement | ✅ Floating UI via `side`/`align` | ✅ | Add Floating UI | ✅ shipped |
-| Portal rendering | ❌ | ✅ | Portal primitive | **P1** |
-| Label slot (group header) | ❌ | ✅ MenuLabel | Add MenuLabel | **P1** |
+| Portal rendering | ✅ | ✅ | Portal primitive | ✅ shipped |
+| Label slot (group header) | ✅ `MenuLabel` | ✅ MenuLabel | Add MenuLabel | ✅ shipped |
 | Group (role=group) | ❌ | ✅ MenuGroup | Add MenuGroup | **P2** |
-| Side / align / offset | ❌ | ✅ | Add props | **P1** |
+| Side / align / offset | ✅ | ✅ | Add props | ✅ shipped |
 
 **Notes:** Menu is arguably the overlay most behind Radix. Floating placement is P0 — the dropdown has no positioning logic and renders in place, which is wrong. Type-ahead is baseline for keyboard users. Submenus deferred to Wave 6.
 
@@ -346,12 +348,12 @@
 | Role=region live region | ✅ | ✅ | — | — |
 | Per-toast `role="alert"` | ✅ | ✅ | — | — |
 | Action button (`undo`-style) | ✅ | ✅ | Add `action` option | ✅ shipped |
-| Promise-based toast (loading → success/error) | ❌ | ✅ `toast.promise` | Add `toast.promise` | **P1** |
-| Stacking / expand on hover | ❌ | ✅ | Add stack behaviour | **P1** |
+| Promise-based toast (loading → success/error) | ✅ `toast.promise` | ✅ `toast.promise` | Add `toast.promise` | ✅ shipped |
+| Stacking / expand on hover | ✅ | ✅ | Add stack behaviour | ✅ shipped |
 | Swipe to dismiss (mobile) | ❌ | ✅ | Add gesture support | **P1** |
 | Position config (top/bottom × left/center/right) | ✅ `position` on Toaster | ✅ | Add `position` on Toaster | ✅ shipped |
-| Pause on hover / focus | ❌ | ✅ | Pause timer on hover | **P1** |
-| Rich content (JSX description) | ⚠️ description as string | ✅ ReactNode | Accept ReactNode | **P1** |
+| Pause on hover / focus | ✅ | ✅ | Pause timer on hover | ✅ shipped |
+| Rich content (JSX description) | ✅ ReactNode title & description | ✅ ReactNode | Accept ReactNode | ✅ shipped |
 | Dismiss programmatically by id | ✅ (`removeToast(id)`) | ✅ | — | — |
 | Max visible + queueing | ❌ | ✅ | Add `max` prop | **P2** |
 | Custom render | ❌ | ✅ | Add `render` option | **P2** |
@@ -371,17 +373,18 @@
 | Per-item shortcut display | ✅ | ✅ | — | — |
 | Disabled item skip | ✅ | ✅ | — | — |
 | Global hotkey (Cmd/Ctrl+K) | ✅ | ⚠️ manual in cmdk | — (bonus) | — |
-| Recent / frecency items | ❌ | ✅ | Add `recent` tracking + slot | **P1** |
+| Recent / frecency items | ✅ (via `id` + `localStorage`) | ✅ | Add `recent` tracking + slot | ✅ shipped |
 | Async filtering / loading state | ❌ | ✅ | Add `loading` prop | **P1** |
 | Per-item icon | ✅ | ✅ | Add `icon` field | ✅ shipped |
+| Per-item keyboard-shortcut display | ✅ `shortcut` field rendered | ✅ | Add shortcut slot | ✅ shipped |
 | Per-item keyboard-shortcut execution | ❌ (display only) | ✅ | Register each shortcut | **P1** |
 | Subpages / nested commands | ❌ | ✅ Raycast | Add `subItems` / nav stack | **P2** |
 | Fuzzy matching scoring | ⚠️ substring only | ✅ weighted fuzzy | Add fuzzy matcher (e.g. match-sorter) | **P1** |
 | Focus trap + return focus to trigger | ✅ focus trap + return focus | ✅ | Add focus trap, restore on close | ✅ shipped |
 | Portal rendering | ✅ | ✅ | Portal primitive | ✅ shipped |
-| Animation on open/close | ⚠️ none | ✅ | CSS animation with prefers-reduced-motion | **P1** |
+| Animation on open/close | ✅ CSS animation (prefers-reduced-motion guarded) | ✅ | CSS animation with prefers-reduced-motion | ✅ shipped |
 | Reset query on close | ✅ | ✅ | — | — |
-| Custom empty state | ⚠️ string only | ✅ ReactNode | Accept ReactNode | **P1** |
+| Custom empty state | ✅ `emptyState` ReactNode | ✅ ReactNode | Accept ReactNode | ✅ shipped |
 
 **Notes:** Per-item icon is P0 because command palettes without icons look unfinished next to Raycast/Arc/VSCode. Focus trap is P0 — Tab currently exits the palette into the page below. Portal is the usual overlay P0.
 
