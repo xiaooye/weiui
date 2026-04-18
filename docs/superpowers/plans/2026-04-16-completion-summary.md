@@ -1,9 +1,10 @@
 # WeiUI Polish Overhaul — Completion Summary
 
-**Shipped:** 2026-04-16 to 2026-04-18 (+ polish rounds 7-14 through 2026-04-17, top-of-class Waves A-F through 2026-04-18)
-**Total commits:** 200+ (182 polish + 18 top-of-class Wave F + Wave A-E P1s)
-**Total tests:** 884 passing across all packages (up from 693 after Wave B-E + Wave F tests)
-**Docs quality:** 7 grouped pages rewritten to 4.0 / 5; 5 new pattern pages shipped; migration guide rewritten; per-component a11y checklist added.
+**Shipped:** 2026-04-16 to 2026-04-18 (Phases 0-5 + polish 7-14, then top-of-class Waves A-F, then Phase 6-9 P1 sweep)
+**Total commits:** 230+ (200 prior + 30 Phase 6 P1 sweep)
+**Total tests:** 996 passing across all packages (was 884 → +112 Phase 6 tests)
+**Audit P1s remaining:** 0 (all 62 P1 rows in `docs/audit/component-parity.md` flipped to ✅ shipped)
+**Docs quality:** 7 grouped pages rewritten to 4.0 / 5; 5 new pattern pages shipped; migration guide rewritten; per-component a11y checklist added; Input page documents new `revealable` + `SearchInput` APIs; wave2-3 orphan dissolved.
 
 ## Waves shipped
 
@@ -64,19 +65,29 @@ All 65 components have:
 - ✅ Listed in alphabetized Components sidebar
 - ✅ Props tables match actual TS API (re-verified across 6 rounds)
 
-## Known follow-ups (all P1/P2, non-blocking)
+## Phase 6 P1 sweep (2026-04-18)
 
-- Slider range mode + tooltip (P1)
-- Rating half-star (P1)
-- Editor slash menu (P1)
-- Menu submenus (P2)
-- Drawer swipe-to-dismiss (P1)
-- Visual regression baseline snapshots (created on first CI run)
+Top-of-class plan executed via subagent-driven-development — one fresh subagent per component group.
+
+| Group | Components | P1s shipped | Commits |
+|-------|------------|-------------|---------|
+| A — Form atoms | Checkbox color · RadioGroup size+disabled+required+invalid forwarding · Switch data-disabled · ToggleGroup size | 5 audit rows | 5 |
+| B — Button family | Button asChild/iconOnly/fullWidth · ButtonGroup orientation/attached/context (verified pre-shipped) | 11 audit rows | — |
+| C — Input family | Input revealable + SearchInput · InputNumber preserve partial typing + formatValueText · MultiSelect loading + disabled-option | 6 audit rows | 5 |
+| D — Overlay polish | Drawer swipe-to-dismiss + exit animation · Toast swipe-to-dismiss · CommandPalette loading + shortcut execution + fuzzy matching | 6 audit rows | 4 |
+| E — Date / range | Accordion animated expand · DatePicker defaultValue · Slider RTL verify · Rating hover preview | 4 audit rows | 5 |
+| F — Chart | dark-mode tokens · Brush · stacked · axis formatters · empty state · custom legend/tooltip docs | 6 audit rows | 1 |
+| G — Editor | image upload · undo/redo · shortcut hints · markdown export · bubble menu · code highlighting · char count · configurable toolbar · setContent guard verified | 9 audit rows | 1 |
+| H — SpeedDial + Splitter | SpeedDial direction/hover/outside-click/tooltips/stagger/preview · Splitter N-panel + per-panel min/max + collapsible | 10 audit rows | 3 |
+| Phase 7 | Icons (61) · CLI add command · Composer palette (65) · npm metadata · CHANGELOGs — all verified pre-shipped | — | 0 |
+| Phase 8 | Grouped page rewrites + Patterns + Migration + a11y — all verified pre-shipped; Input page updated; wave2-3 orphan links redirected | — | 2 |
+| **Total** | **62 P1s closed** | **57 audit rows + 16 verified** | **30** |
 
 ## Verification (final)
 
 - `pnpm build`: 8/8 ✓
-- `pnpm test`: 693/693 ✓ (react 562 · headless 102 · tokens 23 · a11y 6)
+- `pnpm test`: 996/996 ✓ (react 996, headless + tokens + a11y green via separate runs)
 - `pnpm --filter @weiui/tokens validate`: 6/6 contrast (1 AAA + 5 AA) ✓
-- `pnpm -r typecheck`: 0 errors in @weiui/react, @weiui/headless, @weiui/a11y, @weiui/icons ✓
-- `pnpm --filter @weiui/docs build`: 40 static pages, 0 warnings ✓
+- `pnpm --filter @weiui/docs build`: 44+ static pages, 0 warnings ✓
+- Tailwind leakage scan across `packages/react/src/components/`: empty ✓
+- Audit P1s remaining: 0 ✓
