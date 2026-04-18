@@ -196,5 +196,67 @@ describe("MultiSelect", () => {
       await user.keyboard("{Backspace}");
       expect(onChange).toHaveBeenLastCalledWith(["react"]);
     });
+
+    it("shows a spinner and announces Loading when loading=true", async () => {
+      const user = userEvent.setup();
+      render(<MultiSelect options={[]} loading label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      const live = screen.getByRole("status");
+      expect(live).toBeInTheDocument();
+      expect(live.textContent).toMatch(/loading/i);
+    });
+
+    it("hides options and renders skeleton while loading", async () => {
+      const user = userEvent.setup();
+      render(<MultiSelect options={options} loading label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      expect(screen.queryByRole("option", { name: "React" })).not.toBeInTheDocument();
+    });
+
+    it("respects disabled options on click (no selection)", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      const disabledOpts = [
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue", disabled: true },
+      ];
+      render(<MultiSelect options={disabledOpts} onChange={onChange} label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      await user.click(screen.getByRole("option", { name: "Vue" }));
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it("renders aria-disabled and data-disabled on disabled options", async () => {
+      const user = userEvent.setup();
+      const disabledOpts = [
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue", disabled: true },
+      ];
+      render(<MultiSelect options={disabledOpts} label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      const vue = screen.getByRole("option", { name: "Vue" });
+      expect(vue).toHaveAttribute("aria-disabled", "true");
+      expect(vue).toHaveAttribute("data-disabled", "true");
+    });
+
+    it("skips disabled options during ArrowDown navigation", async () => {
+      const user = userEvent.setup();
+      const disabledOpts = [
+        { value: "a", label: "Alpha" },
+        { value: "b", label: "Beta", disabled: true },
+        { value: "c", label: "Charlie" },
+      ];
+      render(<MultiSelect options={disabledOpts} label="Fw" />);
+      const trigger = screen.getByRole("combobox");
+      await user.click(trigger);
+      // First ArrowDown highlights Alpha.
+      await user.keyboard("{ArrowDown}");
+      const alpha = screen.getByText("Alpha").closest("[role='option']")!;
+      expect(alpha).toHaveAttribute("data-highlighted", "true");
+      // Next ArrowDown should skip Beta (disabled) and land on Charlie.
+      await user.keyboard("{ArrowDown}");
+      const charlie = screen.getByText("Charlie").closest("[role='option']")!;
+      expect(charlie).toHaveAttribute("data-highlighted", "true");
+    });
   });
 });

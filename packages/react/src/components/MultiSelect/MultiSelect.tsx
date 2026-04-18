@@ -2,12 +2,15 @@
 import { Fragment, forwardRef, useState, useRef, useId } from "react";
 import { cn } from "../../utils/cn";
 import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
+import { Spinner } from "../Spinner/Spinner";
 
 export interface MultiSelectOption {
   value: string;
   label: string;
   /** Group name — pair with `grouped` prop on the root to render group headings. */
   group?: string;
+  /** When true, the option is not selectable and is skipped during keyboard navigation. */
+  disabled?: boolean;
 }
 
 export interface MultiSelectProps {
@@ -37,6 +40,12 @@ export interface MultiSelectProps {
   selectAll?: boolean;
   /** Render group headings based on `option.group`. */
   grouped?: boolean;
+  /**
+   * Shows a loading state inside the dropdown (spinner + "Loading…" live
+   * region) in place of options. The search input stays enabled so the
+   * consumer can keep typing while data is fetched.
+   */
+  loading?: boolean;
 }
 
 export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
@@ -55,6 +64,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       onCreate,
       selectAll,
       grouped,
+      loading,
     },
     ref,
   ) => {
@@ -76,6 +86,8 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     };
 
     const toggle = (val: string) => {
+      const opt = options.find((o) => o.value === val);
+      if (opt?.disabled) return;
       if (selected.includes(val)) {
         setSelected(selected.filter((v) => v !== val));
       } else {
@@ -128,20 +140,40 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       handleKeyDown(e);
     };
 
+    /** Returns the next non-disabled index in `dir` direction, or -1 if none. */
+    const stepHighlighted = (from: number, dir: 1 | -1) => {
+      let i = from + dir;
+      while (i >= 0 && i < filtered.length) {
+        if (!filtered[i]?.disabled) return i;
+        i += dir;
+      }
+      // No movable target — stay put if the current cursor is non-disabled,
+      // else fall back to the first non-disabled index.
+      if (from >= 0 && from < filtered.length && !filtered[from]?.disabled) return from;
+      const firstEnabled = filtered.findIndex((o) => !o.disabled);
+      return firstEnabled;
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
           if (!isOpen) {
             setIsOpen(true);
-            setHighlightedIndex(0);
+            setHighlightedIndex(stepHighlighted(-1, 1));
           } else {
-            setHighlightedIndex((p) => Math.min(p + 1, filtered.length - 1));
+            setHighlightedIndex((p) => {
+              const next = stepHighlighted(p, 1);
+              return next === -1 ? p : next;
+            });
           }
           break;
         case "ArrowUp":
           e.preventDefault();
-          setHighlightedIndex((p) => Math.max(p - 1, 0));
+          setHighlightedIndex((p) => {
+            const prev = stepHighlighted(p, -1);
+            return prev === -1 ? p : prev;
+          });
           break;
         case "Enter":
         case " ":
@@ -150,7 +182,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
             toggle(filtered[highlightedIndex].value);
           } else if (!isOpen) {
             setIsOpen(true);
-            setHighlightedIndex(0);
+            setHighlightedIndex(stepHighlighted(-1, 1));
           }
           break;
         case "Escape":
@@ -176,8 +208,10 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
         className="wui-multi-select__option"
         role="option"
         aria-selected={selected.includes(opt.value)}
+        aria-disabled={opt.disabled || undefined}
         data-selected={selected.includes(opt.value) || undefined}
         data-highlighted={highlightedIndex === i || undefined}
+        data-disabled={opt.disabled || undefined}
         onClick={() => toggle(opt.value)}
       >
         {opt.label}
@@ -249,44 +283,53 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 onKeyDown={handleSearchKeyDown}
                 onClick={(e) => e.stopPropagation()}
               />
-              {selectAll && (
-                <div
-                  className="wui-multi-select__option wui-multi-select__option--all"
-                  role="option"
-                  aria-selected={allSelected}
-                  data-selected={allSelected || undefined}
-                  onClick={handleSelectAll}
-                >
-                  {allSelected ? "Deselect all" : "Select all"}
+              {loading ? (
+                <div className="wui-multi-select__loading" role="status" aria-live="polite">
+                  <Spinner size="sm" label="" aria-hidden="true" />
+                  <span>Loading…</span>
                 </div>
-              )}
-              {grouped
-                ? groupedOptions.map((bucket) => (
-                    <Fragment key={bucket.group ?? "__ungrouped"}>
-                      {bucket.group && (
-                        <div className="wui-multi-select__group" role="presentation">
-                          {bucket.group}
-                        </div>
-                      )}
-                      {bucket.items.map((opt) => {
-                        const i = filtered.indexOf(opt);
-                        return renderOption(opt, i);
-                      })}
-                    </Fragment>
-                  ))
-                : filtered.map((opt, i) => renderOption(opt, i))}
-              {creatable && filter.trim().length > 0 && filtered.length === 0 && (
-                <div
-                  className="wui-multi-select__option wui-multi-select__option--create"
-                  role="option"
-                  aria-selected={false}
-                  onClick={() => {
-                    onCreate?.(filter.trim());
-                    setFilter("");
-                  }}
-                >
-                  Create "{filter.trim()}"
-                </div>
+              ) : (
+                <>
+                  {selectAll && (
+                    <div
+                      className="wui-multi-select__option wui-multi-select__option--all"
+                      role="option"
+                      aria-selected={allSelected}
+                      data-selected={allSelected || undefined}
+                      onClick={handleSelectAll}
+                    >
+                      {allSelected ? "Deselect all" : "Select all"}
+                    </div>
+                  )}
+                  {grouped
+                    ? groupedOptions.map((bucket) => (
+                        <Fragment key={bucket.group ?? "__ungrouped"}>
+                          {bucket.group && (
+                            <div className="wui-multi-select__group" role="presentation">
+                              {bucket.group}
+                            </div>
+                          )}
+                          {bucket.items.map((opt) => {
+                            const i = filtered.indexOf(opt);
+                            return renderOption(opt, i);
+                          })}
+                        </Fragment>
+                      ))
+                    : filtered.map((opt, i) => renderOption(opt, i))}
+                  {creatable && filter.trim().length > 0 && filtered.length === 0 && (
+                    <div
+                      className="wui-multi-select__option wui-multi-select__option--create"
+                      role="option"
+                      aria-selected={false}
+                      onClick={() => {
+                        onCreate?.(filter.trim());
+                        setFilter("");
+                      }}
+                    >
+                      Create "{filter.trim()}"
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
