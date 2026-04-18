@@ -1,0 +1,23 @@
+/* packages/css/src/elements/text.css */
+@layer wui-elements {
+  .wui-text { line-height: var(--wui-font-lineHeight-normal); }
+
+  /* Sizes */
+  .wui-text--xs   { font-size: var(--wui-font-size-xs); }
+  .wui-text--sm   { font-size: var(--wui-font-size-sm); }
+  .wui-text--base { font-size: var(--wui-font-size-base); }
+  .wui-text--lg   { font-size: var(--wui-font-size-lg); }
+  .wui-text--xl   { font-size: var(--wui-font-size-xl); }
+
+  /* Colors */
+  .wui-text--muted       { color: var(--wui-color-muted-foreground); }
+  .wui-text--primary     { color: var(--wui-color-primary); }
+  .wui-text--destructive { color: var(--wui-color-destructive); }
+  .wui-text--success     { color: var(--wui-color-success); }
+
+  /* Weights */
+  .wui-text--weight-regular  { font-weight: var(--wui-font-weight-regular); }
+  .wui-text--weight-medium   { font-weight: var(--wui-font-weight-medium); }
+  .wui-text--weight-semibold { font-weight: var(--wui-font-weight-semibold); }
+  .wui-text--weight-bold     { font-weight: var(--wui-font-weight-bold); }
+}

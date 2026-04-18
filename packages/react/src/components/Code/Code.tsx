@@ -11,21 +11,13 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
       return (
         <code
           ref={ref}
-          className={cn(
-            "font-mono text-sm bg-[var(--wui-color-muted)] px-[var(--wui-spacing-1)] py-[var(--wui-spacing-0\\.5)] rounded-[var(--wui-shape-radius-sm)]",
-            className,
-          )}
+          className={cn("wui-code", className)}
           {...props}
         />
       );
     }
     return (
-      <pre
-        className={cn(
-          "font-mono text-sm bg-[var(--wui-color-muted)] p-[var(--wui-spacing-4)] rounded-[var(--wui-shape-radius-md)] overflow-x-auto",
-          className,
-        )}
-      >
+      <pre className={cn("wui-code-block", className)}>
         <code ref={ref} {...props} />
       </pre>
     );

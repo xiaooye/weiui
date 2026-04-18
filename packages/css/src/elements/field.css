@@ -1,0 +1,25 @@
+/* packages/css/src/elements/field.css */
+@layer wui-elements {
+  .wui-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-1\.5);
+  }
+
+  .wui-field__description {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-muted-foreground);
+    margin: 0;
+  }
+
+  .wui-field__error {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-destructive);
+    margin: 0;
+  }
+
+  .wui-field__required {
+    color: var(--wui-color-destructive);
+    margin-inline-start: var(--wui-spacing-1);
+  }
+}

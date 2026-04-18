@@ -1,0 +1,28 @@
+/* packages/css/src/elements/code.css */
+@layer wui-elements {
+  .wui-code {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-sm);
+    background-color: var(--wui-color-muted);
+    padding-inline: var(--wui-spacing-1);
+    padding-block: var(--wui-spacing-0\.5);
+    border-radius: var(--wui-shape-radius-sm);
+  }
+
+  .wui-code-block {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-sm);
+    background-color: var(--wui-color-muted);
+    padding: var(--wui-spacing-4);
+    border-radius: var(--wui-shape-radius-md);
+    overflow-x: auto;
+    line-height: var(--wui-font-lineHeight-normal);
+  }
+
+  .wui-code-block > code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+}

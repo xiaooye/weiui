@@ -13,16 +13,13 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex flex-col items-center justify-center text-center p-[var(--wui-spacing-8)] gap-[var(--wui-spacing-3)]",
-          className,
-        )}
+        className={cn("wui-empty-state", className)}
         {...props}
       >
-        {icon && <div className="text-[var(--wui-color-muted-foreground)]">{icon}</div>}
-        <h3 className="font-semibold text-lg">{title}</h3>
-        {description && <p className="text-sm text-[var(--wui-color-muted-foreground)]">{description}</p>}
-        {action && <div className="mt-[var(--wui-spacing-2)]">{action}</div>}
+        {icon && <div className="wui-empty-state__icon">{icon}</div>}
+        <h3 className="wui-empty-state__title">{title}</h3>
+        {description && <p className="wui-empty-state__description">{description}</p>}
+        {action && <div className="wui-empty-state__action">{action}</div>}
       </div>
     );
   },

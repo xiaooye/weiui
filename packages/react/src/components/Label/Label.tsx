@@ -7,9 +7,9 @@ export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(
   ({ required, children, className, ...props }, ref) => (
-    <label ref={ref} className={cn("text-sm font-medium", className)} {...props}>
+    <label ref={ref} className={cn("wui-label", className)} {...props}>
       {children}
-      {required && <span aria-hidden="true" className="text-[var(--wui-color-destructive)] ml-1">*</span>}
+      {required && <span aria-hidden="true" className="wui-label__required">*</span>}
     </label>
   ),
 );

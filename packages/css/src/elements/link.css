@@ -1,0 +1,18 @@
+/* packages/css/src/elements/link.css */
+@layer wui-elements {
+  .wui-link {
+    color: var(--wui-color-primary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .wui-link:hover {
+    color: color-mix(in oklch, var(--wui-color-primary) 80%, transparent);
+  }
+
+  .wui-link:focus-visible {
+    outline: var(--wui-shape-border-width-medium) solid var(--wui-color-ring);
+    outline-offset: 2px;
+    border-radius: var(--wui-shape-radius-sm);
+  }
+}

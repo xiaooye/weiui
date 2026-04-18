@@ -22,24 +22,24 @@ describe("Alert", () => {
   it("applies variant class for destructive", () => {
     render(<Alert variant="destructive">Error</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("border-[var(--wui-color-destructive)]");
+    expect(el.className).toContain("wui-alert--destructive");
   });
 
   it("applies variant class for success", () => {
     render(<Alert variant="success">Success</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("border-[var(--wui-color-success)]");
+    expect(el.className).toContain("wui-alert--success");
   });
 
   it("applies variant class for warning", () => {
     render(<Alert variant="warning">Warning</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("border-[var(--wui-color-warning)]");
+    expect(el.className).toContain("wui-alert--warning");
   });
 
   it("default variant is info", () => {
     render(<Alert>Info</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("border-[var(--wui-color-primary)]");
+    expect(el.className).toContain("wui-alert--info");
   });
 });

@@ -1,0 +1,37 @@
+/* packages/css/src/elements/alert.css */
+@layer wui-elements {
+  .wui-alert {
+    display: flex;
+    gap: var(--wui-spacing-3);
+    padding: var(--wui-spacing-4);
+    border-radius: var(--wui-shape-radius-md);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+  }
+
+  .wui-alert--info {
+    border-color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 5%, transparent);
+  }
+  .wui-alert--success {
+    border-color: var(--wui-color-success);
+    background-color: color-mix(in oklch, var(--wui-color-success) 5%, transparent);
+  }
+  .wui-alert--warning {
+    border-color: var(--wui-color-warning);
+    background-color: color-mix(in oklch, var(--wui-color-warning) 5%, transparent);
+  }
+  .wui-alert--destructive {
+    border-color: var(--wui-color-destructive);
+    background-color: color-mix(in oklch, var(--wui-color-destructive) 5%, transparent);
+  }
+
+  .wui-alert__title {
+    font-weight: var(--wui-font-weight-semibold);
+    line-height: var(--wui-font-lineHeight-tight);
+  }
+
+  .wui-alert__description {
+    font-size: var(--wui-font-size-sm);
+    line-height: var(--wui-font-lineHeight-normal);
+  }
+}

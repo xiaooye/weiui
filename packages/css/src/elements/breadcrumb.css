@@ -1,0 +1,29 @@
+/* packages/css/src/elements/breadcrumb.css */
+@layer wui-elements {
+  .wui-breadcrumb__list {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .wui-breadcrumb__item {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    color: var(--wui-color-muted-foreground);
+  }
+
+  .wui-breadcrumb__item[aria-current="page"] {
+    color: var(--wui-color-foreground);
+    font-weight: var(--wui-font-weight-medium);
+  }
+
+  .wui-breadcrumb__separator {
+    color: var(--wui-color-muted-foreground);
+    user-select: none;
+  }
+}

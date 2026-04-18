@@ -64,10 +64,10 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
           required,
         }}
       >
-        <div ref={ref} className={cn("flex flex-col gap-[var(--wui-spacing-1\\.5)]", className)} {...props}>
+        <div ref={ref} className={cn("wui-field", className)} {...props}>
           {children}
           {error && (
-            <p id={errorId} className="text-sm text-[var(--wui-color-destructive)]" role="alert">
+            <p id={errorId} className="wui-field__error" role="alert">
               {error}
             </p>
           )}
@@ -86,11 +86,11 @@ export const FieldLabel = forwardRef<HTMLLabelElement, HTMLAttributes<HTMLLabelE
       <label
         ref={ref}
         htmlFor={ctx?.fieldId}
-        className={cn("text-sm font-medium", className)}
+        className={cn("wui-label", className)}
         {...props}
       >
         {children}
-        {ctx?.required && <span aria-hidden="true" className="text-[var(--wui-color-destructive)] ml-1">*</span>}
+        {ctx?.required && <span aria-hidden="true" className="wui-label__required">*</span>}
       </label>
     );
   },
@@ -105,7 +105,7 @@ export const FieldDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<
       <p
         ref={ref}
         id={ctx?.descriptionId}
-        className={cn("text-sm text-[var(--wui-color-muted-foreground)]", className)}
+        className={cn("wui-field__description", className)}
         {...props}
       />
     );

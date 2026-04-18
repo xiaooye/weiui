@@ -1,0 +1,15 @@
+/* packages/css/src/elements/kbd.css */
+@layer wui-elements {
+  .wui-kbd {
+    font-family: var(--wui-font-family-mono);
+    font-size: var(--wui-font-size-xs);
+    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    background-color: var(--wui-color-muted);
+    padding-inline: var(--wui-spacing-1\.5);
+    padding-block: var(--wui-spacing-0\.5);
+    border-radius: var(--wui-shape-radius-sm);
+    color: var(--wui-color-foreground);
+    display: inline-block;
+    line-height: var(--wui-font-lineHeight-tight);
+  }
+}

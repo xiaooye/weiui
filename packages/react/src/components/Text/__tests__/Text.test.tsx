@@ -20,37 +20,37 @@ describe("Text", () => {
 
   it("applies text-sm for size='sm'", () => {
     render(<Text size="sm">Small</Text>);
-    expect(screen.getByText("Small").className).toContain("text-sm");
+    expect(screen.getByText("Small").className).toContain("wui-text--sm");
   });
 
   it("applies text-xl for size='xl'", () => {
     render(<Text size="xl">XL</Text>);
-    expect(screen.getByText("XL").className).toContain("text-xl");
+    expect(screen.getByText("XL").className).toContain("wui-text--xl");
   });
 
   it("applies muted color class", () => {
     render(<Text color="muted">Muted</Text>);
-    expect(screen.getByText("Muted").className).toContain("--wui-color-muted-foreground");
+    expect(screen.getByText("Muted").className).toContain("wui-text--muted");
   });
 
   it("applies primary color class", () => {
     render(<Text color="primary">Primary</Text>);
-    expect(screen.getByText("Primary").className).toContain("--wui-color-primary");
+    expect(screen.getByText("Primary").className).toContain("wui-text--primary");
   });
 
   it("applies destructive color class", () => {
     render(<Text color="destructive">Error</Text>);
-    expect(screen.getByText("Error").className).toContain("--wui-color-destructive");
+    expect(screen.getByText("Error").className).toContain("wui-text--destructive");
   });
 
   it("applies success color class", () => {
     render(<Text color="success">OK</Text>);
-    expect(screen.getByText("OK").className).toContain("--wui-color-success");
+    expect(screen.getByText("OK").className).toContain("wui-text--success");
   });
 
   it("applies weight class when specified", () => {
     render(<Text weight="bold">Bold</Text>);
-    expect(screen.getByText("Bold").className).toContain("font-bold");
+    expect(screen.getByText("Bold").className).toContain("wui-text--weight-bold");
   });
 
   it("merges custom className", () => {

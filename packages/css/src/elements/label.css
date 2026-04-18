@@ -1,0 +1,14 @@
+/* packages/css/src/elements/label.css */
+@layer wui-elements {
+  .wui-label {
+    font-size: var(--wui-font-size-sm);
+    font-weight: var(--wui-font-weight-medium);
+    line-height: var(--wui-font-lineHeight-normal);
+    color: var(--wui-color-foreground);
+  }
+
+  .wui-label__required {
+    color: var(--wui-color-destructive);
+    margin-inline-start: var(--wui-spacing-1);
+  }
+}

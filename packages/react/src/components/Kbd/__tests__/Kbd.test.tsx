@@ -9,9 +9,9 @@ describe("Kbd", () => {
     expect(screen.getByText("Ctrl").tagName).toBe("KBD");
   });
 
-  it("applies font-mono class", () => {
+  it("applies wui-kbd class", () => {
     render(<Kbd>Ctrl</Kbd>);
-    expect(screen.getByText("Ctrl").className).toContain("font-mono");
+    expect(screen.getByText("Ctrl").className).toContain("wui-kbd");
   });
 
   it("merges custom className", () => {

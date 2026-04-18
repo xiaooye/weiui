@@ -7,8 +7,8 @@ export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
 
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
   ({ children, className, ...props }, ref) => (
-    <nav ref={ref} aria-label="Breadcrumb" className={className} {...props}>
-      <ol className="flex items-center gap-[var(--wui-spacing-1)] text-sm">{children}</ol>
+    <nav ref={ref} aria-label="Breadcrumb" className={cn("wui-breadcrumb", className)} {...props}>
+      <ol className="wui-breadcrumb__list">{children}</ol>
     </nav>
   ),
 );
@@ -23,7 +23,7 @@ export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   ({ children, active, className, ...props }, ref) => (
     <li
       ref={ref}
-      className={cn("flex items-center gap-[var(--wui-spacing-1)]", className)}
+      className={cn("wui-breadcrumb__item", className)}
       aria-current={active ? "page" : undefined}
       {...props}
     >
@@ -35,7 +35,7 @@ BreadcrumbItem.displayName = "BreadcrumbItem";
 
 export const BreadcrumbSeparator = forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanElement>>(
   ({ children = "/", className, ...props }, ref) => (
-    <span ref={ref} aria-hidden="true" className={cn("text-[var(--wui-color-muted-foreground)]", className)} {...props}>
+    <span ref={ref} aria-hidden="true" className={cn("wui-breadcrumb__separator", className)} {...props}>
       {children}
     </span>
   ),

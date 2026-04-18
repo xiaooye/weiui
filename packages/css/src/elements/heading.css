@@ -1,0 +1,17 @@
+/* packages/css/src/elements/heading.css */
+@layer wui-elements {
+  .wui-heading {
+    font-family: inherit;
+    font-weight: var(--wui-font-weight-semibold);
+    line-height: var(--wui-font-lineHeight-tight);
+    letter-spacing: var(--wui-font-letterSpacing-tight);
+    margin: 0;
+  }
+
+  .wui-heading--1 { font-size: var(--wui-font-size-4xl); font-weight: var(--wui-font-weight-bold); }
+  .wui-heading--2 { font-size: var(--wui-font-size-3xl); }
+  .wui-heading--3 { font-size: var(--wui-font-size-2xl); }
+  .wui-heading--4 { font-size: var(--wui-font-size-xl); }
+  .wui-heading--5 { font-size: var(--wui-font-size-lg); }
+  .wui-heading--6 { font-size: var(--wui-font-size-base); }
+}
