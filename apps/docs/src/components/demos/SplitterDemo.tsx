@@ -20,8 +20,8 @@ export function SplitterDemo() {
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)", width: "100%" }}>
       <div style={{ height: "220px", width: "100%" }}>
         <Splitter sizes={sizes} onSizesChange={setSizes}>
-          <div style={panelStyle}>Nav ({Math.round(sizes[0])}%)</div>
-          <div style={panelStyle}>Editor ({Math.round(sizes[1])}%)</div>
+          <div style={panelStyle}>Nav ({Math.round(sizes[0] ?? 0)}%)</div>
+          <div style={panelStyle}>Editor ({Math.round(sizes[1] ?? 0)}%)</div>
         </Splitter>
       </div>
       <p

@@ -13,8 +13,10 @@ import {
 } from "react";
 import { cn } from "../../utils/cn";
 
-/** Tuple form retained for backward compatibility with the 2-panel API. */
-export type SplitterSizes = [number, number];
+/** Sizes array — one entry per panel (percentage of total, summing to 100).
+ *  Generalised to N panels in the multi-panel API; 2-panel callers can still
+ *  treat it as `[number, number]`. */
+export type SplitterSizes = number[];
 
 export interface SplitterPanelProps {
   /** Panel content. */
