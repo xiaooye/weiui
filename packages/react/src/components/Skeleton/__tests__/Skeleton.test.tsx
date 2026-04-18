@@ -53,4 +53,58 @@ describe("Skeleton", () => {
     render(<Skeleton data-testid="skel" />);
     expect(screen.getByTestId("skel")).toHaveClass("wui-skeleton");
   });
+
+  // E.16 visible + width/height + count
+  it("renders children when visible is false", () => {
+    render(
+      <Skeleton visible={false}>
+        <span data-testid="content">Loaded</span>
+      </Skeleton>,
+    );
+    expect(screen.getByTestId("content")).toBeInTheDocument();
+    expect(document.querySelector(".wui-skeleton")).not.toBeInTheDocument();
+  });
+
+  it("renders the skeleton when visible is true (default)", () => {
+    render(
+      <Skeleton data-testid="skel">
+        <span>Loaded</span>
+      </Skeleton>,
+    );
+    expect(screen.getByTestId("skel")).toBeInTheDocument();
+  });
+
+  it("applies width and height as CSS lengths (number → px)", () => {
+    render(<Skeleton width={120} height={24} data-testid="skel" />);
+    const el = screen.getByTestId("skel");
+    expect(el.style.inlineSize).toBe("120px");
+    expect(el.style.blockSize).toBe("24px");
+  });
+
+  it("passes string width/height through unchanged", () => {
+    render(<Skeleton width="50%" height="2rem" data-testid="skel" />);
+    const el = screen.getByTestId("skel");
+    expect(el.style.inlineSize).toBe("50%");
+    expect(el.style.blockSize).toBe("2rem");
+  });
+
+  it("renders a single block by default", () => {
+    const { container } = render(<Skeleton />);
+    expect(container.querySelectorAll(".wui-skeleton").length).toBe(1);
+  });
+
+  it("renders N blocks when count is set", () => {
+    const { container } = render(<Skeleton count={4} />);
+    expect(container.querySelectorAll(".wui-skeleton").length).toBe(4);
+  });
+
+  it("applies width/height to each block when count > 1", () => {
+    const { container } = render(<Skeleton count={3} width={100} height={10} />);
+    const blocks = container.querySelectorAll(".wui-skeleton");
+    expect(blocks.length).toBe(3);
+    blocks.forEach((b) => {
+      expect((b as HTMLElement).style.inlineSize).toBe("100px");
+      expect((b as HTMLElement).style.blockSize).toBe("10px");
+    });
+  });
 });
