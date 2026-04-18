@@ -128,7 +128,10 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
 );
 AccordionItem.displayName = "AccordionItem";
 
-export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {}
+export interface AccordionTriggerProps extends HTMLAttributes<HTMLButtonElement> {
+  /** Optional override of item-level `disabled`. */
+  disabled?: boolean;
+}
 
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ className, children, disabled: disabledProp, ...props }, ref) => {
