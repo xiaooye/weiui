@@ -15,6 +15,7 @@ export function ComponentPalette({ onAdd }: Props) {
         {PALETTE_ITEMS.map((item) => (
           <button
             key={item.type}
+            type="button"
             className="wui-button wui-button--ghost wui-button--sm"
             style={{ justifyContent: "flex-start", minHeight: "32px" }}
             onClick={() => onAdd(item.type)}

@@ -38,6 +38,7 @@ export default function PlaygroundPage() {
               {COMPONENTS.map((comp) => (
                 <li key={comp.name}>
                   <button
+                    type="button"
                     className={`wui-button wui-button--${selectedComponent.name === comp.name ? "soft" : "ghost"}`}
                     style={{ width: "100%", justifyContent: "flex-start", minHeight: "36px" }}
                     onClick={() => handleComponentChange(comp)}

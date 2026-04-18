@@ -12,17 +12,20 @@ export function CodeExport({ code, codeMode, onCodeModeChange }: Props) {
       <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
           <button
+            type="button"
             className={`wui-button wui-button--${codeMode === "jsx" ? "soft" : "ghost"} wui-button--sm`}
             style={{ minHeight: "28px" }}
             onClick={() => onCodeModeChange("jsx")}
           >JSX</button>
           <button
+            type="button"
             className={`wui-button wui-button--${codeMode === "html" ? "soft" : "ghost"} wui-button--sm`}
             style={{ minHeight: "28px" }}
             onClick={() => onCodeModeChange("html")}
           >HTML</button>
         </div>
         <button
+          type="button"
           className="wui-button wui-button--ghost wui-button--sm"
           style={{ minHeight: "28px" }}
           onClick={() => navigator.clipboard.writeText(code)}

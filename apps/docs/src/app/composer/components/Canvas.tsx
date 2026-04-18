@@ -40,9 +40,9 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
                   {renderPreview(node)}
                 </div>
                 <div style={{ display: "flex", gap: "var(--wui-spacing-1)" }}>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "up"); }} disabled={i === 0}>^</button>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "down"); }} disabled={i === nodes.length - 1}>v</button>
-                  <button className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0, color: "var(--wui-color-destructive)" }} onClick={(e) => { e.stopPropagation(); onRemove(node.id); }}>x</button>
+                  <button type="button" aria-label="Move up" className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "up"); }} disabled={i === 0}>^</button>
+                  <button type="button" aria-label="Move down" className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0 }} onClick={(e) => { e.stopPropagation(); onMove(node.id, "down"); }} disabled={i === nodes.length - 1}>v</button>
+                  <button type="button" aria-label="Remove" className="wui-button wui-button--ghost wui-button--sm" style={{ minHeight: "28px", minWidth: "28px", padding: 0, color: "var(--wui-color-destructive)" }} onClick={(e) => { e.stopPropagation(); onRemove(node.id); }}>x</button>
                 </div>
               </div>
             ))}
@@ -55,7 +55,7 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
 
 function renderPreview(node: ComponentNode) {
   switch (node.type) {
-    case "Button": return <button className={`wui-button wui-button--${node.props.variant || "solid"} wui-button--sm`}>{node.children}</button>;
+    case "Button": return <button type="button" className={`wui-button wui-button--${node.props.variant || "solid"} wui-button--sm`}>{node.children}</button>;
     case "Input": return <input className="wui-input wui-input--sm" placeholder={String(node.props.placeholder || "")} readOnly style={{ maxWidth: "150px" }} />;
     case "Badge": return <span className={`wui-badge wui-badge--${node.props.variant || "solid"}`}>{node.children}</span>;
     case "Card": return <span style={{ fontSize: "var(--wui-font-size-sm)" }}>Card: {node.children}</span>;

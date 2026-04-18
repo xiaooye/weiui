@@ -44,6 +44,7 @@ function renderComponent(name: string, cssClasses: string, props: Record<string,
     case "Button":
       return (
         <button
+          type="button"
           className={cssClasses}
           disabled={!!props.disabled || !!props.loading}
           data-disabled={props.disabled || undefined}
@@ -69,7 +70,7 @@ function renderComponent(name: string, cssClasses: string, props: Record<string,
       return (
         <div
           role="status"
-          className="inline-block animate-spin rounded-full border-2 border-current border-r-transparent"
+          className="wui-spinner"
           style={{ width: props.size === "sm" ? "16px" : props.size === "lg" ? "32px" : "24px", height: props.size === "sm" ? "16px" : props.size === "lg" ? "32px" : "24px" }}
         >
           <span className="wui-sr-only">{typeof props.label === "string" ? props.label : "Loading"}</span>

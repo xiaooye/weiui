@@ -15,6 +15,7 @@ export function CodeOutput({ component, propValues, children }: Props) {
       <div className="wui-card__header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-medium)" }}>Code</span>
         <button
+          type="button"
           className="wui-button wui-button--ghost wui-button--sm"
           onClick={() => navigator.clipboard.writeText(code)}
           style={{ minHeight: "32px", minWidth: "auto" }}

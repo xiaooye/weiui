@@ -25,10 +25,10 @@ export function ThemePreview({ theme }: Props) {
           <div>
             <h3 style={{ fontSize: "var(--wui-font-size-sm)", fontWeight: "var(--wui-font-weight-semibold)", marginBottom: "var(--wui-spacing-3)" }}>Buttons</h3>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--wui-spacing-3)" }}>
-              <button className="wui-button wui-button--solid">Solid</button>
-              <button className="wui-button wui-button--outline">Outline</button>
-              <button className="wui-button wui-button--ghost">Ghost</button>
-              <button className="wui-button wui-button--soft">Soft</button>
+              <button type="button" className="wui-button wui-button--solid">Solid</button>
+              <button type="button" className="wui-button wui-button--outline">Outline</button>
+              <button type="button" className="wui-button wui-button--ghost">Ghost</button>
+              <button type="button" className="wui-button wui-button--soft">Soft</button>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ export function ThemePreview({ theme }: Props) {
             <div className="wui-card" style={{ maxWidth: "300px" }}>
               <div className="wui-card__header"><strong>Card Title</strong></div>
               <div className="wui-card__content"><p style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-muted-foreground)" }}>Card content with custom theme.</p></div>
-              <div className="wui-card__footer"><button className="wui-button wui-button--solid wui-button--sm">Action</button></div>
+              <div className="wui-card__footer"><button type="button" className="wui-button wui-button--solid wui-button--sm">Action</button></div>
             </div>
           </div>
 
