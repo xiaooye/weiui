@@ -72,4 +72,26 @@ describe("Checkbox", () => {
     const cb = screen.getByRole("checkbox") as HTMLInputElement;
     expect(cb.indeterminate).toBe(false);
   });
+
+  it("renders a description below the label when provided", () => {
+    render(<Checkbox label="Subscribe" description="We'll email you weekly digests." />);
+    const desc = screen.getByText("We'll email you weekly digests.");
+    expect(desc).toBeInTheDocument();
+    const cb = screen.getByRole("checkbox");
+    expect(cb).toHaveAttribute("aria-describedby", desc.id);
+  });
+
+  it("renders an error message and marks the input invalid when `error` is a string", () => {
+    render(<Checkbox label="Accept" error="You must accept" />);
+    const err = screen.getByText("You must accept");
+    expect(err).toBeInTheDocument();
+    const cb = screen.getByRole("checkbox");
+    expect(cb).toHaveAttribute("aria-invalid", "true");
+    expect(cb).toHaveAttribute("aria-describedby", expect.stringContaining(err.id));
+  });
+
+  it("error={true} still marks invalid without rendering an error message", () => {
+    render(<Checkbox label="Accept" error />);
+    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-invalid", "true");
+  });
 });

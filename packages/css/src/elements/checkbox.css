@@ -1,11 +1,28 @@
 @layer wui-elements {
   .wui-checkbox {
     display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--wui-spacing-1);
+    min-block-size: 44px;
+    cursor: pointer;
+  }
+  .wui-checkbox__row {
+    display: inline-flex;
     align-items: center;
     gap: var(--wui-spacing-2);
-    min-block-size: 44px;
-    min-inline-size: 44px;
-    cursor: pointer;
+  }
+  .wui-checkbox__description {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+    padding-inline-start: calc(20px + var(--wui-spacing-2));
+    margin: 0;
+  }
+  .wui-checkbox__error {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-destructive);
+    padding-inline-start: calc(20px + var(--wui-spacing-2));
+    margin: 0;
   }
   .wui-checkbox__input {
     appearance: none;
