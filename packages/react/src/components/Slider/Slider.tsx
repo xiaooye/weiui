@@ -10,6 +10,11 @@ import { cn } from "../../utils/cn";
 
 type SliderValue = number | [number, number];
 
+export interface SliderMark {
+  value: number;
+  label?: string;
+}
+
 export interface SliderProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   min?: number;
@@ -30,6 +35,12 @@ export interface SliderProps
   label?: string;
   showTooltip?: boolean;
   formatTooltip?: (value: number) => string;
+  /** Layout axis. Defaults to `horizontal`. */
+  orientation?: "horizontal" | "vertical";
+  /** Discrete tick marks rendered along the track. */
+  marks?: SliderMark[];
+  /** Form field name. Renders a hidden input so the value submits with a <form>. */
+  name?: string;
 }
 
 const isRange = (v: SliderValue): v is [number, number] => Array.isArray(v);
@@ -49,6 +60,9 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
       label,
       showTooltip = false,
       formatTooltip,
+      orientation = "horizontal",
+      marks,
+      name,
       className,
       ...props
     },
@@ -62,6 +76,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
     const activeThumbRef = useRef<0 | 1>(0);
     const [hoveredThumb, setHoveredThumb] = useState<0 | 1 | null>(null);
     const [draggingThumb, setDraggingThumb] = useState<0 | 1 | null>(null);
+
+    const isVertical = orientation === "vertical";
 
     const clamp = (n: number) => {
       const stepped = Math.round(n / step) * step;
@@ -82,22 +98,21 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
     );
 
     const valueFromPointer = useCallback(
-      (clientX: number) => {
+      (clientX: number, clientY: number) => {
         if (!trackRef.current) return min;
         const rect = trackRef.current.getBoundingClientRect();
-        const ratio = Math.max(
-          0,
-          Math.min(1, (clientX - rect.left) / rect.width),
-        );
+        const ratio = isVertical
+          ? Math.max(0, Math.min(1, 1 - (clientY - rect.top) / rect.height))
+          : Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
         return clamp(min + ratio * (max - min));
       },
-      [min, max, step],
+      [isVertical, min, max, step],
     );
 
     const updateFromPointer = useCallback(
-      (clientX: number, thumb?: 0 | 1) => {
+      (clientX: number, clientY: number, thumb?: 0 | 1) => {
         if (disabled) return;
-        const next = valueFromPointer(clientX);
+        const next = valueFromPointer(clientX, clientY);
         if (isRange(value)) {
           const idx =
             thumb ??
@@ -105,7 +120,6 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
           activeThumbRef.current = idx;
           const pair: [number, number] = [...value];
           pair[idx] = next;
-          // Keep [low, high] order
           if (pair[0] > pair[1]) pair.reverse();
           commit(pair);
         } else {
@@ -127,6 +141,12 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         case "ArrowLeft":
         case "ArrowDown":
           next = Math.max(min, current - step);
+          break;
+        case "PageUp":
+          next = Math.min(max, current + step * 10);
+          break;
+        case "PageDown":
+          next = Math.max(min, current - step * 10);
           break;
         case "Home":
           next = min;
@@ -154,6 +174,9 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
       const showTip =
         showTooltip && (hoveredThumb === thumb || draggingThumb === thumb);
       const tipText = formatTooltip ? formatTooltip(v) : String(v);
+      const positionStyle = isVertical
+        ? { insetBlockEnd: `${pct}%` }
+        : { insetInlineStart: `${pct}%` };
       return (
         <div
           key={thumb}
@@ -163,6 +186,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
           aria-valuenow={v}
           aria-valuemin={min}
           aria-valuemax={max}
+          aria-valuetext={formatTooltip ? formatTooltip(v) : undefined}
+          aria-orientation={orientation}
           aria-label={
             label
               ? isRange(value)
@@ -172,7 +197,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
           }
           aria-disabled={disabled || undefined}
           data-thumb={thumb}
-          style={{ insetInlineStart: `${pct}%` }}
+          style={positionStyle}
           onKeyDown={handleKeyDown(thumb)}
           onPointerEnter={() => setHoveredThumb(thumb)}
           onPointerLeave={() => setHoveredThumb((h) => (h === thumb ? null : h))}
@@ -190,44 +215,61 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
     const fillStart = isRange(value) ? percent(value[0]) : 0;
     const fillEnd = isRange(value) ? percent(value[1]) : percent(value as number);
+    const fillStyle = isVertical
+      ? { insetBlockEnd: `${fillStart}%`, blockSize: `${fillEnd - fillStart}%` }
+      : { insetInlineStart: `${fillStart}%`, inlineSize: `${fillEnd - fillStart}%` };
+
+    const hiddenValue = isRange(value) ? `${value[0]},${value[1]}` : String(value);
 
     return (
       <div
         ref={ref}
-        className={cn("wui-slider", className)}
+        className={cn("wui-slider", isVertical && "wui-slider--vertical", className)}
         data-disabled={disabled || undefined}
         data-mode={mode}
+        data-orientation={orientation}
         onPointerDown={(e) => {
           if (disabled) return;
           if (isRange(value)) {
-            updateFromPointer(e.clientX);
+            updateFromPointer(e.clientX, e.clientY);
             setDraggingThumb(activeThumbRef.current);
             (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
           } else {
-            updateFromPointer(e.clientX);
+            updateFromPointer(e.clientX, e.clientY);
             setDraggingThumb(0);
             (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
           }
         }}
         onPointerMove={(e) => {
           if (disabled || e.buttons === 0 || draggingThumb === null) return;
-          updateFromPointer(e.clientX, draggingThumb);
+          updateFromPointer(e.clientX, e.clientY, draggingThumb);
         }}
         onPointerUp={() => setDraggingThumb(null)}
         onPointerCancel={() => setDraggingThumb(null)}
         {...props}
       >
         <div ref={trackRef} className="wui-slider__track">
-          <div
-            className="wui-slider__fill"
-            style={{
-              insetInlineStart: `${fillStart}%`,
-              inlineSize: `${fillEnd - fillStart}%`,
-            }}
-          />
+          <div className="wui-slider__fill" style={fillStyle} />
+          {marks?.map((mark) => {
+            const pct = percent(mark.value);
+            const markStyle = isVertical
+              ? { insetBlockEnd: `${pct}%` }
+              : { insetInlineStart: `${pct}%` };
+            return (
+              <div
+                key={mark.value}
+                className="wui-slider__mark"
+                style={markStyle}
+                aria-hidden="true"
+              >
+                {mark.label && <span className="wui-slider__mark-label">{mark.label}</span>}
+              </div>
+            );
+          })}
           {renderThumb(0)}
           {isRange(value) ? renderThumb(1) : null}
         </div>
+        {name && <input type="hidden" name={name} value={hiddenValue} readOnly />}
       </div>
     );
   },

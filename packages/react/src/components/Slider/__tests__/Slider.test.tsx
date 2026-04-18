@@ -187,4 +187,53 @@ describe("Slider", () => {
       expect(tip?.textContent).toBe("42%");
     });
   });
+
+  describe("P1 features", () => {
+    it("orientation=vertical applies modifier class and aria", () => {
+      const { container } = render(<Slider orientation="vertical" defaultValue={50} />);
+      expect(container.querySelector(".wui-slider--vertical")).not.toBeNull();
+      expect(screen.getByRole("slider")).toHaveAttribute("aria-orientation", "vertical");
+    });
+
+    it("marks render tick marks with labels", () => {
+      const { container } = render(
+        <Slider defaultValue={50} marks={[{ value: 0, label: "Low" }, { value: 100, label: "High" }]} />,
+      );
+      expect(container.querySelectorAll(".wui-slider__mark").length).toBe(2);
+      expect(screen.getByText("Low")).toBeInTheDocument();
+      expect(screen.getByText("High")).toBeInTheDocument();
+    });
+
+    it("PageUp increases by step*10", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<Slider defaultValue={20} step={2} onChange={onChange} />);
+      const thumb = screen.getByRole("slider");
+      thumb.focus();
+      await user.keyboard("{PageUp}");
+      expect(onChange).toHaveBeenCalledWith(40);
+    });
+
+    it("PageDown decreases by step*10", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<Slider defaultValue={50} step={2} onChange={onChange} />);
+      const thumb = screen.getByRole("slider");
+      thumb.focus();
+      await user.keyboard("{PageDown}");
+      expect(onChange).toHaveBeenCalledWith(30);
+    });
+
+    it("aria-valuetext uses formatTooltip when provided", () => {
+      render(<Slider defaultValue={42} formatTooltip={(v) => `${v}%`} />);
+      expect(screen.getByRole("slider")).toHaveAttribute("aria-valuetext", "42%");
+    });
+
+    it("name prop renders hidden input for form submit", () => {
+      const { container } = render(<Slider defaultValue={10} name="volume" />);
+      const hidden = container.querySelector('input[type="hidden"][name="volume"]');
+      expect(hidden).not.toBeNull();
+      expect(hidden).toHaveAttribute("value", "10");
+    });
+  });
 });
