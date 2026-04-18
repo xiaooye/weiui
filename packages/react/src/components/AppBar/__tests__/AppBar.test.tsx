@@ -64,4 +64,34 @@ describe("AppBar", () => {
     expect(link.tagName).toBe("BUTTON");
     expect(link).toHaveAttribute("type", "button");
   });
+
+  describe("position variant (P1)", () => {
+    it("defaults to sticky", () => {
+      render(<AppBar>x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-position", "sticky");
+    });
+    it("supports fixed position", () => {
+      render(<AppBar position="fixed">x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-position", "fixed");
+    });
+    it("supports static position", () => {
+      render(<AppBar position="static">x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-position", "static");
+    });
+  });
+
+  describe("color variant (P1)", () => {
+    it("defaults to surface", () => {
+      render(<AppBar>x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-color", "surface");
+    });
+    it("supports primary color", () => {
+      render(<AppBar color="primary">x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-color", "primary");
+    });
+    it("supports transparent color", () => {
+      render(<AppBar color="transparent">x</AppBar>);
+      expect(screen.getByRole("banner")).toHaveAttribute("data-color", "transparent");
+    });
+  });
 });

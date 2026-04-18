@@ -1,13 +1,26 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
+export type AppBarPosition = "static" | "sticky" | "fixed";
+export type AppBarColor = "surface" | "primary" | "transparent";
+
 export interface AppBarProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
+  /** Positioning mode. Default `sticky`. */
+  position?: AppBarPosition;
+  /** Color variant. Default `surface`. */
+  color?: AppBarColor;
 }
 
 export const AppBar = forwardRef<HTMLElement, AppBarProps>(
-  ({ className, children, ...props }, ref) => (
-    <header ref={ref} className={cn("wui-app-bar", className)} {...props}>
+  ({ className, children, position = "sticky", color = "surface", ...props }, ref) => (
+    <header
+      ref={ref}
+      className={cn("wui-app-bar", className)}
+      data-position={position}
+      data-color={color}
+      {...props}
+    >
       {children}
     </header>
   ),

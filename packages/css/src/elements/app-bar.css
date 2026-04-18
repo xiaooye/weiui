@@ -7,9 +7,37 @@
     background-color: var(--wui-color-background);
     border-block-end: 1px solid var(--wui-color-border);
     box-shadow: var(--wui-elevation-2);
+    z-index: var(--wui-zIndex-sticky);
+  }
+  .wui-app-bar[data-position="sticky"] {
     position: sticky;
     inset-block-start: 0;
-    z-index: var(--wui-zIndex-sticky);
+  }
+  .wui-app-bar[data-position="fixed"] {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+  }
+  .wui-app-bar[data-position="static"] {
+    position: static;
+  }
+  .wui-app-bar[data-color="primary"] {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-on-primary);
+    border-block-end-color: color-mix(in oklch, var(--wui-color-primary) 60%, transparent);
+  }
+  .wui-app-bar[data-color="primary"] .wui-app-bar__link {
+    color: color-mix(in oklch, var(--wui-color-on-primary) 80%, transparent);
+  }
+  .wui-app-bar[data-color="primary"] .wui-app-bar__link:hover,
+  .wui-app-bar[data-color="primary"] .wui-app-bar__link[data-active] {
+    color: var(--wui-color-on-primary);
+    background-color: color-mix(in oklch, var(--wui-color-on-primary) 12%, transparent);
+  }
+  .wui-app-bar[data-color="transparent"] {
+    background-color: transparent;
+    border-block-end: 0;
+    box-shadow: none;
   }
   .wui-app-bar__brand {
     font-weight: var(--wui-font-weight-bold);
@@ -54,6 +82,13 @@
     align-items: center;
     gap: var(--wui-spacing-2);
     margin-inline-start: auto;
+  }
+
+  /* Responsive: hide primary nav under small breakpoint so consumer can render a Drawer-based menu. */
+  @media (max-width: 48rem) {
+    .wui-app-bar__nav {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
