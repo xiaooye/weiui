@@ -2,6 +2,7 @@ import { createRef } from "react";
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ButtonGroup } from "../ButtonGroup";
+import { Button } from "../../Button/Button";
 
 describe("ButtonGroup", () => {
   it("renders children", () => {
@@ -63,5 +64,39 @@ describe("ButtonGroup", () => {
       </ButtonGroup>,
     );
     expect(screen.getByRole("group", { name: "actions" })).toBeInTheDocument();
+  });
+
+  it("applies vertical orientation class", () => {
+    render(
+      <ButtonGroup orientation="vertical">
+        <button>A</button>
+      </ButtonGroup>,
+    );
+    const group = screen.getByRole("group");
+    expect(group).toHaveClass("wui-button-group--vertical");
+    expect(group).toHaveAttribute("data-orientation", "vertical");
+  });
+
+  it("applies spaced variant class", () => {
+    render(
+      <ButtonGroup variant="spaced">
+        <button>A</button>
+      </ButtonGroup>,
+    );
+    const group = screen.getByRole("group");
+    expect(group).toHaveClass("wui-button-group--spaced");
+    expect(group).toHaveAttribute("data-variant", "spaced");
+  });
+
+  it("propagates size to child Buttons without their own size", () => {
+    render(
+      <ButtonGroup size="sm">
+        <Button>A</Button>
+        <Button size="lg">B</Button>
+      </ButtonGroup>,
+    );
+    const [a, b] = screen.getAllByRole("button");
+    expect(a.className).toContain("wui-button--sm");
+    expect(b.className).toContain("wui-button--lg");
   });
 });

@@ -3,6 +3,7 @@ import { Children, cloneElement, forwardRef, isValidElement, type ReactElement }
 import { cn } from "../../utils/cn";
 import { buttonVariants, type ButtonVariants } from "../../variants/button";
 import { Spinner } from "../Spinner/Spinner";
+import { useButtonGroupContext } from "../ButtonGroup/ButtonGroup";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   ButtonVariants & {
@@ -25,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       children,
       variant = "solid",
-      size = "md",
+      size,
       color = "primary",
       loading = false,
       disabled,
@@ -40,9 +41,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const spinnerSize = size === "lg" ? "md" : "sm";
+    const groupCtx = useButtonGroupContext();
+    const resolvedSize = size ?? groupCtx?.size ?? "md";
+    const spinnerSize = resolvedSize === "lg" ? "md" : "sm";
     const classes = cn(
-      buttonVariants({ variant, size, color }),
+      buttonVariants({ variant, size: resolvedSize, color }),
       iconOnly && "wui-button--icon-only",
       fullWidth && "wui-button--full-width",
       className,
