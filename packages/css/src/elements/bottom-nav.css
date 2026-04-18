@@ -40,8 +40,36 @@
     outline: 3px solid var(--wui-color-ring);
     outline-offset: -3px;
   }
+  .wui-bottom-nav__icon-wrapper {
+    position: relative;
+    display: inline-flex;
+  }
   .wui-bottom-nav__icon {
     font-size: var(--wui-font-size-xl);
+  }
+  .wui-bottom-nav__badge {
+    position: absolute;
+    inset-block-start: -4px;
+    inset-inline-end: -8px;
+    min-inline-size: 16px;
+    block-size: 16px;
+    padding-inline: 4px;
+    border-radius: 8px;
+    background-color: var(--wui-color-danger);
+    color: var(--wui-color-on-danger, #fff);
+    font-size: 10px;
+    font-weight: var(--wui-font-weight-semibold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  /* Label display modes */
+  .wui-bottom-nav[data-show-labels="never"] .wui-bottom-nav__label {
+    display: none;
+  }
+  .wui-bottom-nav[data-show-labels="active"] .wui-bottom-nav__label:not([data-active]) {
+    display: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
