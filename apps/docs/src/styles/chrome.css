@@ -111,17 +111,7 @@
     border-block-end: 1px solid var(--wui-color-border);
     margin-block-end: var(--wui-spacing-4);
   }
-  /* Override the mobile "display: none" rule so the sidebar renders inside the drawer */
-  .wui-docs-mobile-nav__body .wui-docs-sidebar {
-    display: flex;
-    position: static;
-    block-size: auto;
-    border-inline-end: none;
-    padding-block: 0;
-    padding-inline: var(--wui-spacing-2);
-    overflow-y: visible;
-    inline-size: 100%;
-  }
+  /* mobile-nav body sidebar override moved to @layer wui-elements at end of file */
 }
 
 @layer wui-base {
@@ -340,27 +330,8 @@
     min-inline-size: 0;
   }
 
-  /* Docs sidebar (applies on top of @weiui/react Sidebar) */
-  .wui-docs-sidebar {
-    position: sticky;
-    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
-    inline-size: 100%;
-    overflow-y: auto;
-    box-shadow: none;
-    border-inline-end: 0;
-    background-color: transparent;
-  }
-  .wui-docs-sidebar .wui-sidebar__item {
-    min-block-size: 32px;
-    padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
-    text-decoration: none;
-  }
-  .wui-docs-sidebar .wui-sidebar__group + .wui-sidebar__group {
-    margin-block-start: var(--wui-spacing-4);
-    padding-block-start: var(--wui-spacing-2);
-  }
+  /* Docs sidebar overrides moved to @layer wui-elements at end of file
+     (needs higher cascade-layer priority than library's .wui-sidebar). */
 
   /* TOC */
   .wui-docs-toc {
@@ -649,5 +620,51 @@
   .wui-landing-hero__sub {
     max-inline-size: 40rem;
     margin-inline: auto;
+  }
+}
+
+/*
+ * Docs-specific Sidebar overrides.
+ * The library's .wui-sidebar rules live in @layer wui-elements — higher
+ * cascade-layer priority than @layer wui-base — so docs overrides must
+ * also live in @layer wui-elements to actually win. Without this, the
+ * library's position:sticky / 100vh / inline-size:16rem / shadow / border
+ * always apply and the docs sidebar renders at viewport top, always
+ * visible, with chrome that doesn't match the grid layout.
+ */
+@layer wui-elements {
+  .wui-docs-sidebar {
+    position: sticky;
+    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
+    block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    inline-size: 100%;
+    overflow-y: auto;
+    box-shadow: none;
+    border-inline-end: 0;
+    background-color: transparent;
+  }
+  .wui-docs-sidebar .wui-sidebar__item {
+    min-block-size: 32px;
+    padding-block: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-sm);
+    text-decoration: none;
+  }
+  .wui-docs-sidebar .wui-sidebar__group + .wui-sidebar__group {
+    margin-block-start: var(--wui-spacing-4);
+    padding-block-start: var(--wui-spacing-2);
+  }
+  @media (max-width: 768px) {
+    .wui-docs-shell .wui-docs-sidebar { display: none; }
+  }
+  /* Inside the mobile nav drawer, force the sidebar to render as normal flow */
+  .wui-docs-mobile-nav__body .wui-docs-sidebar {
+    display: flex;
+    position: static;
+    block-size: auto;
+    border-inline-end: none;
+    padding-block: 0;
+    padding-inline: var(--wui-spacing-2);
+    overflow-y: visible;
+    inline-size: 100%;
   }
 }
