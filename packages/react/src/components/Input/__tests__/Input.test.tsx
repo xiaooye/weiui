@@ -100,5 +100,35 @@ describe("Input", () => {
       await user.type(input, "hi");
       expect(screen.getByText("2 / 10")).toBeInTheDocument();
     });
+
+    it("password with revealable shows a toggle button", () => {
+      render(<Input type="password" revealable aria-label="Password" />);
+      expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
+    });
+
+    it("password toggle flips the input type and aria-pressed", async () => {
+      const user = userEvent.setup();
+      const { container } = render(
+        <Input type="password" revealable defaultValue="secret" aria-label="Password" />,
+      );
+      const input = container.querySelector("input");
+      expect(input).toHaveAttribute("type", "password");
+
+      const toggle = screen.getByRole("button", { name: "Show password" });
+      expect(toggle).toHaveAttribute("aria-pressed", "false");
+
+      await user.click(toggle);
+      expect(input).toHaveAttribute("type", "text");
+      const hideToggle = screen.getByRole("button", { name: "Hide password" });
+      expect(hideToggle).toHaveAttribute("aria-pressed", "true");
+
+      await user.click(hideToggle);
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("password without revealable does not render a toggle", () => {
+      render(<Input type="password" aria-label="Password" />);
+      expect(screen.queryByRole("button", { name: /password/i })).not.toBeInTheDocument();
+    });
   });
 });
