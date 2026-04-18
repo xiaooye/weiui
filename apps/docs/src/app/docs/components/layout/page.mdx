@@ -5,10 +5,11 @@ import { GridDemo } from "../../../../components/demos/GridDemo";
 import { DividerDemo } from "../../../../components/demos/DividerDemo";
 import { SpacerDemo } from "../../../../components/demos/SpacerDemo";
 import { AspectRatioDemo } from "../../../../components/demos/AspectRatioDemo";
+import { SplitterDemo } from "../../../../components/demos/SplitterDemo";
 
-# Layout Components
+# Layout
 
-Container, Stack, Grid, Divider, Spacer, and AspectRatio — six layout primitives for composing page structure.
+Container, Stack, Grid, Divider, Spacer, AspectRatio, and Splitter — seven layout primitives for composing page structure.
 
 ---
 
@@ -212,9 +213,64 @@ import { AspectRatio } from "@weiui/react";
 
 ---
 
+## Splitter
+
+Resizable split panes, horizontal or vertical, driven by a draggable handle with arrow-key support. Use for code editors, dashboards with a side rail you want the user to widen, or previews paired with source.
+
+<Preview label="Splitter — horizontal panes">
+  <SplitterDemo />
+</Preview>
+
+```tsx
+import { Splitter } from "@weiui/react";
+
+<Splitter defaultSizes={[60, 40]} style={{ height: 400 }}>
+  <div>Left panel</div>
+  <div>Right panel</div>
+</Splitter>
+
+<Splitter orientation="vertical" minSize={20}>
+  <div>Top</div>
+  <div>Bottom</div>
+</Splitter>
+```
+
+### Controlled sizes
+
+Both panes can be driven from outside via `sizes` + `onSizesChange`. Sizes are an array of percentages that must sum to 100.
+
+```tsx
+const [sizes, setSizes] = useState<[number, number]>([30, 70]);
+
+<Splitter sizes={sizes} onSizesChange={setSizes}>
+  <Nav />
+  <Editor />
+</Splitter>
+```
+
+### Splitter props
+
+| Prop             | Type                                  | Default         | Description                                          |
+|------------------|---------------------------------------|-----------------|------------------------------------------------------|
+| `orientation`    | `"horizontal" \| "vertical"`          | `"horizontal"`  | Axis                                                 |
+| `sizes`          | `[number, number]`                    | —               | Controlled pane sizes (percentages, sum to 100)      |
+| `defaultSizes`   | `[number, number]`                    | `[50, 50]`      | Initial uncontrolled sizes                           |
+| `onSizesChange`  | `(sizes: [number, number]) => void`   | —               | Fires when the user drags or keyboard-resizes        |
+| `minSize`        | `number`                              | `10`            | Minimum percentage per pane                          |
+
+### Splitter accessibility
+
+- Handle carries `role="separator"` with `aria-orientation`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`.
+- Arrow keys resize in 5% steps (Left/Right for horizontal; Up/Down for vertical).
+- `minSize` bounds both sides — the separator stops at the permitted range.
+- Focus ring renders on the handle so keyboard users can see the drag target.
+
+---
+
 ## Accessibility
 
-- All six primitives render semantic HTML and forward `...props`, so you can pass `role`, `aria-*`, and `data-*` attributes straight through.
+- All seven primitives render semantic HTML and forward `...props`, so you can pass `role`, `aria-*`, and `data-*` attributes straight through.
 - `Divider` with `decorative={false}` exposes `role="separator"` and supports `aria-orientation`; the decorative default hides it from assistive tech so layout dividers don't clutter announcements.
 - Layout primitives use logical CSS properties (`padding-inline-*`, `margin-block-*`), so RTL documents mirror correctly with no extra configuration.
 - `AspectRatio` uses the native `aspect-ratio` CSS property rather than a padding hack, so media inside stays sharp at any zoom level.
+- `Splitter` is keyboard-resizable; non-mouse users are never stuck with the default split.

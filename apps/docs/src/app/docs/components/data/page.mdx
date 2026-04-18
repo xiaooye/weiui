@@ -4,10 +4,12 @@ import { ChartBarDemo } from "../../../../components/demos/ChartBarDemo";
 import { ChartLineDemo } from "../../../../components/demos/ChartLineDemo";
 import { ChartAreaPieRadarDemo } from "../../../../components/demos/ChartAreaPieRadarDemo";
 import { TreeViewDemo } from "../../../../components/demos/TreeViewDemo";
+import { PaginationDemo } from "../../../../components/demos/PaginationDemo";
+import { TransferDemo } from "../../../../components/demos/TransferDemo";
 
-# Data Components
+# Data
 
-DataTable, Charts, and TreeView for data-heavy interfaces.
+DataTable, Charts, TreeView, Pagination, and Transfer for data-heavy interfaces.
 
 ---
 
@@ -265,3 +267,92 @@ const [expanded, setExpanded] = useState<string[]>(["src"]);
 - `aria-expanded` on branch nodes
 - Keyboard: ArrowDown/Up to navigate, ArrowRight to expand, ArrowLeft to collapse, Home/End, Enter/Space to select
 - 44px minimum touch target per node
+
+---
+
+## Pagination
+
+Paginate long lists with ellipsis for large page counts. Works standalone or paired with `<DataTable manualPagination>` for server-driven tables.
+
+<Preview label="Pagination">
+  <PaginationDemo />
+</Preview>
+
+```tsx
+import { Pagination } from "@weiui/react";
+
+<Pagination page={3} totalPages={20} onPageChange={setPage} />
+<Pagination page={1} totalPages={100} onPageChange={setPage} siblingCount={2} />
+```
+
+### Pagination props
+
+| Prop            | Type                            | Default  | Description                          |
+|-----------------|---------------------------------|----------|--------------------------------------|
+| `page`          | `number`                        | —        | Current 1-indexed page               |
+| `totalPages`    | `number`                        | —        | Total page count                     |
+| `onPageChange`  | `(page: number) => void`        | —        | Page change handler                  |
+| `siblingCount`  | `number`                        | `1`      | Pages shown around the current one   |
+
+### Pagination accessibility
+
+- Root is `<nav aria-label="Pagination">`.
+- Current page button carries `aria-current="page"`.
+- Prev / Next expose `aria-label` so screen readers announce the action, not the glyph.
+- Ellipses are `aria-hidden="true"` — visual cue only.
+
+---
+
+## Transfer
+
+Dual-list with items moved between a source and target. Use for multi-select when both the pool and the selection must stay visible (permissions, playlist, feature pickers).
+
+<Preview label="Transfer">
+  <TransferDemo />
+</Preview>
+
+```tsx
+import { Transfer } from "@weiui/react";
+
+<Transfer
+  sourceItems={[
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue" },
+    { value: "angular", label: "Angular" },
+  ]}
+  onChange={(source, target) => console.log({ source, target })}
+/>
+```
+
+### Controlled target values
+
+Drive the selected side from outside with `targetValues` + `onTargetValuesChange`:
+
+```tsx
+const [selected, setSelected] = useState<string[]>(["react"]);
+
+<Transfer
+  sourceItems={allFrameworks}
+  targetValues={selected}
+  onTargetValuesChange={setSelected}
+/>
+```
+
+### Transfer props
+
+| Prop                    | Type                               | Default       | Description                                            |
+|-------------------------|------------------------------------|---------------|--------------------------------------------------------|
+| `sourceItems`           | `TransferItem[]`                   | —             | Full set of items available                            |
+| `targetItems`           | `TransferItem[]`                   | `[]`          | Initial items on the target side (uncontrolled only)   |
+| `targetValues`          | `string[]`                         | —             | Controlled target values                               |
+| `onTargetValuesChange`  | `(values: string[]) => void`       | —             | Fires when target changes                              |
+| `onChange`              | `(source, target) => void`         | —             | Full source + target snapshot                          |
+| `sourceTitle`           | `string`                           | `"Available"` | Heading over source list                               |
+| `targetTitle`           | `string`                           | `"Selected"`  | Heading over target list                               |
+
+### Transfer accessibility
+
+- Each list is `role="listbox"` + `aria-multiselectable="true"`; rows are `role="option"` with `aria-selected`.
+- Lists carry `aria-label="Available items"` / `"Selected items"` so screen readers announce which side they are on.
+- Wrapped in `role="group"` with `aria-label="Transfer list"` to form a named landmark.
+- Move buttons: `aria-label="Move selected to target"` / `"Move selected to source"`.

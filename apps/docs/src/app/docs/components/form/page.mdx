@@ -4,10 +4,12 @@ import { SwitchDemo } from "../../../../components/demos/SwitchDemo";
 import { RadioGroupDemo } from "../../../../components/demos/RadioGroupDemo";
 import { FieldDemo } from "../../../../components/demos/FieldDemo";
 import { SelectDemo } from "../../../../components/demos/SelectDemo";
+import { ToggleGroupDemo } from "../../../../components/demos/ToggleGroupDemo";
+import { ButtonGroupDemo } from "../../../../components/demos/ButtonGroupDemo";
 
 # Form Selection
 
-Checkbox, Switch, RadioGroup, and Select — accessible form selection controls.
+Checkbox, Switch, RadioGroup, Select, ToggleGroup, ButtonGroup, and Field — accessible form-selection and grouping controls.
 
 ## Checkbox
 
@@ -238,3 +240,87 @@ The child input can be any component that reads the `FieldContext` — `Input`, 
 - `FieldDescription` gets an id which is combined into `aria-describedby`
 - `error` renders an inline error region and sets `aria-invalid="true"` on the input
 - Works with screen readers out of the box — no manual ARIA plumbing required
+
+---
+
+## ToggleGroup
+
+Grouped toggle buttons — single or multi-select — with full roving-tabindex keyboard support. Use for segmented controls (view modes, text alignment, toolbar toggles).
+
+<Preview label="ToggleGroup single and multi">
+  <ToggleGroupDemo />
+</Preview>
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
+
+{/* One active at a time */}
+<ToggleGroup type="single" defaultValue="left">
+  <ToggleGroupItem value="left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+
+{/* Any combination active */}
+<ToggleGroup type="multiple" defaultValue={["bold"]}>
+  <ToggleGroupItem value="bold">B</ToggleGroupItem>
+  <ToggleGroupItem value="italic">I</ToggleGroupItem>
+  <ToggleGroupItem value="underline">U</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### ToggleGroup props
+
+| Prop           | Type                                      | Default     | Description                                  |
+|----------------|-------------------------------------------|-------------|----------------------------------------------|
+| `type`         | `"single" \| "multiple"`                  | `"single"`  | Cardinality                                  |
+| `value`        | `string \| string[]`                      | —           | Controlled selected value(s)                 |
+| `defaultValue` | `string \| string[]`                      | —           | Initial uncontrolled value(s)                |
+| `onChange`     | `(value: string \| string[]) => void`     | —           | Fires when selection changes                 |
+| `disabled`     | `boolean`                                 | `false`     | Disables every item                          |
+| `label`        | `string`                                  | —           | Sets `aria-label` on the group               |
+
+### ToggleGroup keyboard + a11y
+
+- ArrowLeft / ArrowRight (or ArrowUp / ArrowDown) rove focus; Home / End jump to extremes.
+- Enter / Space toggle the focused item.
+- `type="single"`: `role="radiogroup"` + `role="radio"` with `aria-checked`.
+- `type="multiple"`: `role="group"` + `role="button"` with `aria-pressed`.
+- Roving `tabindex` — only the focused (or first) item is in the Tab sequence.
+- Disabled items are skipped during arrow-key navigation.
+
+---
+
+## ButtonGroup
+
+Group related buttons with shared borders — visually communicates "these actions belong together" without mandating selection semantics.
+
+<Preview label="ButtonGroup">
+  <ButtonGroupDemo />
+</Preview>
+
+```tsx
+import { ButtonGroup, Button } from "@weiui/react";
+
+<ButtonGroup>
+  <Button variant="outline">Copy</Button>
+  <Button variant="outline">Cut</Button>
+  <Button variant="outline">Paste</Button>
+</ButtonGroup>
+```
+
+### ButtonGroup accessibility
+
+- Renders `<div role="group">` so assistive tech announces the buttons as a related set.
+- Pair with `aria-label` when the purpose isn't clear from children (e.g. `aria-label="Clipboard actions"`).
+- Unlike `ToggleGroup`, ButtonGroup doesn't manage selection — every child button keeps its own semantics and tab stop.
+
+### ToggleGroup vs ButtonGroup vs RadioGroup
+
+| Need                                                 | Use             |
+|------------------------------------------------------|-----------------|
+| Pick one option from 2-5 (view mode, theme, size)    | **ToggleGroup type="single"** or RadioGroup |
+| Toggle multiple independent options (B I U)          | **ToggleGroup type="multiple"** |
+| Pick one option from many (≥ 6) or in a narrow space | Select          |
+| Group of related independent actions (Copy/Cut/Paste)| **ButtonGroup** |
+| Single boolean toggle                                | Switch          |

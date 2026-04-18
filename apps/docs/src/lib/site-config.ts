@@ -48,7 +48,6 @@ export const siteConfig = {
         { href: "/docs/components/input", label: "Input" },
         { href: "/docs/components/kbd", label: "Kbd" },
         { href: "/docs/components/layout", label: "Layout" },
-        { href: "/docs/components/wave2-3", label: "More (Wave 2+3)" },
         { href: "/docs/components/navigation", label: "Navigation" },
         { href: "/docs/components/overlays", label: "Overlays" },
         { href: "/docs/components/portal", label: "Portal" },
