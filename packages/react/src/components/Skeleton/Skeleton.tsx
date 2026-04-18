@@ -2,6 +2,7 @@ import { forwardRef, Fragment, type HTMLAttributes, type ReactNode } from "react
 import { cn } from "../../utils/cn";
 
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
+  /** Shape variant. @default "rect" */
   variant?: "text" | "circle" | "rect";
   /**
    * When `visible` is false, renders `children` instead of the skeleton —
@@ -15,6 +16,7 @@ export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   height?: string | number;
   /** Render `count` identical skeleton blocks (stacked). Defaults to 1. */
   count?: number;
+  /** Content rendered in place of the skeleton when `visible` is false. */
   children?: ReactNode;
 }
 

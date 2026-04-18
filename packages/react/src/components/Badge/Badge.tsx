@@ -2,8 +2,11 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Badge content. */
   children: ReactNode;
+  /** Visual style variant. @default "solid" */
   variant?: "solid" | "soft" | "outline";
+  /** Color scheme. @default "primary" */
   color?: "primary" | "destructive" | "success" | "warning";
   /** Visual size. Controls font size and padding. */
   size?: "sm" | "md" | "lg";

@@ -5,7 +5,9 @@ import { cn } from "../../utils/cn";
 export type AlertVariant = "info" | "success" | "warning" | "destructive";
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+  /** Severity variant. @default "info" */
   variant?: AlertVariant;
+  /** Alert body content. */
   children: ReactNode;
   /** Icon override. Defaults to a variant-specific glyph. Pass `null` to hide. */
   icon?: ReactNode | null;

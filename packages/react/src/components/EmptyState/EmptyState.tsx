@@ -6,8 +6,11 @@ export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
   icon?: ReactNode;
   /** Larger illustration rendered above the icon/title (e.g. SVG hero). */
   illustration?: ReactNode;
+  /** Heading text. */
   title: string;
+  /** Secondary text shown below the title. */
   description?: string;
+  /** Action content rendered below the description — typically a button. */
   action?: ReactNode;
   /** Visual scale. Defaults to `md`. */
   size?: "sm" | "md" | "lg";

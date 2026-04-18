@@ -5,7 +5,9 @@ import { cn } from "../../utils/cn";
 export type SpinnerColor = "default" | "primary" | "success" | "warning" | "destructive";
 
 export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
+  /** Size variant. @default "md" */
   size?: "sm" | "md" | "lg";
+  /** Accessible label announced by screen readers. @default "Loading" */
   label?: string;
   /** Visual color. `default` uses `currentColor`. */
   color?: SpinnerColor;

@@ -2,11 +2,17 @@ import { forwardRef } from "react";
 import { cn } from "../../utils/cn";
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Current progress value. @default 0 */
   value?: number;
+  /** Maximum value. @default 100 */
   max?: number;
+  /** Size variant. @default "md" */
   size?: "sm" | "md" | "lg";
+  /** Color scheme. @default "primary" */
   color?: "primary" | "success" | "destructive" | "warning";
+  /** Shows an indeterminate animation (progress is unknown). */
   indeterminate?: boolean;
+  /** Accessible label for the progress bar. */
   label?: string;
   /** When true, overlays the percent (e.g. "42%") centered above the bar. Ignored for indeterminate. */
   showLabel?: boolean;

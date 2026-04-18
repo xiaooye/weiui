@@ -10,6 +10,7 @@ import {
 import { cn } from "../../utils/cn";
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  /** Card content — typically CardHeader, CardBody, and CardFooter. */
   children: ReactNode;
   /** Visual style. Defaults to `elevated`. */
   variant?: "elevated" | "outlined" | "filled";

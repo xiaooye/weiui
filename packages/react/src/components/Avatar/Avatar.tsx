@@ -10,6 +10,7 @@ import {
 import { cn } from "../../utils/cn";
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Size variant. @default "md" */
   size?: "sm" | "md" | "lg" | "xl";
   /** Display name. Used to auto-generate initials when no image/children are provided. */
   name?: string;
@@ -19,6 +20,7 @@ export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   src?: string;
   /** Alt text for the image. Defaults to `name`. */
   alt?: string;
+  /** Custom fallback content rendered when no image source is set or the image fails to load. */
   children?: ReactNode;
 }
 
@@ -100,6 +102,7 @@ AvatarFallback.displayName = "AvatarFallback";
 export interface AvatarGroupProps extends HTMLAttributes<HTMLDivElement> {
   /** Maximum number of avatars to show before collapsing into `+N`. */
   max?: number;
+  /** Avatar children to display in the group. */
   children: ReactNode;
 }
 
