@@ -74,3 +74,14 @@ New components must meet these criteria:
 - CSS classes: `wui-{component}`, `wui-{component}__{element}`, `wui-{component}--{modifier}`
 - CSS properties: `--wui-{category}-{name}`
 - Files: PascalCase for components, kebab-case for hooks and CSS
+
+## AI-usage surface
+
+Six integration points for AI assistants. When modifying components, keep them in sync:
+
+1. **Registry JSON** (generated) — regenerated on `pnpm --filter @weiui/docs build` from JSDoc + MDX. Don't hand-edit `apps/docs/public/registry/*.json`.
+2. **llms.txt / llms-full.txt** (generated) — same. Source of truth is each doc page's MDX.
+3. **@weiui/mcp tools** — if you add a new tool, mirror its logic into a `@weiui/cli` command so CLI and MCP stay in parity.
+4. **JSDoc coverage** — new Props fields must have JSDoc descriptions. Run `pnpm check-jsdoc`; fails CI below 95%.
+5. **AGENTS.md** — update when import rules or heavy-component subpaths change.
+6. **`/docs/ai-guide`** — user-facing mirror of AGENTS.md; keep them in sync.

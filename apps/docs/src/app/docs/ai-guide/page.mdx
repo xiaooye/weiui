@@ -1,0 +1,120 @@
+# AI Guide
+
+WeiUI is designed to be consumed by both humans and AI assistants. This page is the user-facing mirror of [`AGENTS.md`](https://github.com/xiaooye/weiui/blob/main/AGENTS.md) at the repo root — point your AI agent at either.
+
+## Why AI-first?
+
+Every component ships with JSDoc-typed props, a machine-readable registry, an llms.txt/llms-full.txt feed, a Model Context Protocol (MCP) server, and a CLI that mirrors the MCP tools. That means an AI assistant can discover components, read their schema, copy a working example, and lint your usage — all without ever reading raw source.
+
+## Rules
+
+### 1. Import from `@weiui/react`
+
+Heavy components live on dedicated subpaths so consumers who never touch them pay nothing:
+
+- `@weiui/react/editor` — Editor
+- `@weiui/react/data-table` — DataTable
+- `@weiui/react/chart` — BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart
+
+### 2. Style via `wui-*` classes or component variants
+
+Never emit Tailwind utilities in consumer code.
+
+```tsx
+// Bad — reaches inside the component contract
+<Button className="inline-flex items-center">
+
+// Good — uses the public variant API
+<Button variant="solid" size="md">
+```
+
+### 3. Compound components must live inside their root
+
+- `<DialogOverlay>` only inside `<Dialog>`
+- `<TabsList>` / `<TabsTrigger>` / `<TabsContent>` only inside `<Tabs>`
+
+### 4. Icon-only buttons require `aria-label`
+
+```tsx
+<Button iconOnly aria-label="Delete row">
+  <TrashIcon />
+</Button>
+```
+
+### 5. Prefer controlled-or-uncontrolled via `value`/`defaultValue` pairs
+
+Every form component accepts both. Pick one.
+
+## Discovery surfaces
+
+- [Components index](/docs/components) — human-browsable catalog.
+- `/registry/<Name>.json` — per-component machine-readable schema.
+- `/llms-full.txt` — single-file snapshot of every docs page.
+- `@weiui/mcp` — MCP server with live introspection.
+
+### MCP server config
+
+Add to your agent's MCP config (Claude Desktop, Cursor, Windsurf, etc.):
+
+```json
+{
+  "mcpServers": {
+    "weiui": {
+      "command": "npx",
+      "args": ["-y", "@weiui/mcp"]
+    }
+  }
+}
+```
+
+The server exposes five tools: `list_components`, `get_component`, `search_components`, `get_example`, and `check_usage`.
+
+## CLI commands
+
+The `@weiui/cli` package mirrors every MCP tool so you can use the same surface from your terminal or build scripts.
+
+### `list`
+
+Print every component name, one per line.
+
+```bash
+npx @weiui/cli list
+```
+
+### `describe <Name>`
+
+Print the component's JSON schema (props, variants, examples, a11y notes).
+
+```bash
+npx @weiui/cli describe Button
+```
+
+### `examples <Name>`
+
+Print a ready-to-paste code sample.
+
+```bash
+npx @weiui/cli examples Dialog
+```
+
+### `add <Name>`
+
+Scaffold the component source into `src/components/ui/` (shadcn-style ownership).
+
+```bash
+npx @weiui/cli add Button
+```
+
+### `check-usage <file>`
+
+Lint a consumer file against the AGENTS.md rules — flags Tailwind utility leaks on components, misplaced compound parts, missing `aria-label` on icon-only buttons.
+
+```bash
+npx @weiui/cli check-usage src/app/page.tsx
+```
+
+## Further reading
+
+- [`AGENTS.md`](https://github.com/xiaooye/weiui/blob/main/AGENTS.md) — the raw contract
+- [CLI reference](/docs/cli) — full command surface including `init`, `audit`
+- [Accessibility](/docs/accessibility) — the rules AI assistants enforce

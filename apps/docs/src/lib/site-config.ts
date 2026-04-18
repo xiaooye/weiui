@@ -72,6 +72,7 @@ export const siteConfig = {
       title: "Resources",
       items: [
         { href: "/docs/cli", label: "CLI" },
+        { href: "/docs/ai-guide", label: "AI Guide" },
         { href: "/docs/changelog", label: "Changelog" },
         { href: "/docs/migration", label: "Migration" },
       ],
