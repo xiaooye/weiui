@@ -21,4 +21,12 @@
     inline-size: calc(100vw - 2rem);
     z-index: var(--wui-zIndex-modal);
   }
+  .wui-dialog__content--sm { max-inline-size: 24rem; }
+  .wui-dialog__content--md { max-inline-size: 32rem; }
+  .wui-dialog__content--lg { max-inline-size: 48rem; }
+  .wui-dialog__content--full {
+    max-inline-size: none;
+    inline-size: calc(100vw - 2rem);
+    max-block-size: calc(100vh - 2rem);
+  }
 }

@@ -45,7 +45,7 @@ export { EmptyState, type EmptyStateProps } from "./components/EmptyState";
 export {
   Dialog, DialogTrigger, DialogContent, DialogOverlay, DialogTitle, DialogDescription, DialogClose,
   type DialogProps, type DialogTriggerProps, type DialogContentProps, type DialogOverlayProps,
-  type DialogTitleProps, type DialogDescriptionProps, type DialogCloseProps,
+  type DialogTitleProps, type DialogDescriptionProps, type DialogCloseProps, type DialogSize,
 } from "./components/Dialog";
 export {
   Tooltip, TooltipTrigger, TooltipContent, TooltipArrow,

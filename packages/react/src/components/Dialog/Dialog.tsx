@@ -94,11 +94,14 @@ export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
 );
 DialogOverlay.displayName = "DialogOverlay";
 
+export type DialogSize = "sm" | "md" | "lg" | "full";
+
 export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  size?: DialogSize;
 }
 
-export function DialogContent({ children, className, onKeyDown, ...props }: DialogContentProps) {
+export function DialogContent({ children, className, onKeyDown, size = "md", ...props }: DialogContentProps) {
   const { isOpen, onClose, contentId, titleId, descriptionId } = useDialogContext();
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -137,7 +140,7 @@ export function DialogContent({ children, className, onKeyDown, ...props }: Dial
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className={cn("wui-dialog__content", className)}
+        className={cn("wui-dialog__content", `wui-dialog__content--${size}`, className)}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
             e.stopPropagation();

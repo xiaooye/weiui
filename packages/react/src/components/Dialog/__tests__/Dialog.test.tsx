@@ -81,4 +81,25 @@ describe("Dialog (react)", () => {
     // DialogClose is the first focusable button inside content
     expect(document.activeElement).toBe(screen.getByText("Close"));
   });
+
+  it("applies size modifier class (default md)", async () => {
+    const user = userEvent.setup();
+    render(<TestDialog />);
+    await user.click(screen.getByText("Open"));
+    expect(screen.getByRole("dialog")).toHaveClass("wui-dialog__content--md");
+  });
+
+  it("applies explicit size modifier class (lg)", async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent size="lg">
+          <DialogClose>Close</DialogClose>
+        </DialogContent>
+      </Dialog>,
+    );
+    await user.click(screen.getByText("Open"));
+    expect(screen.getByRole("dialog")).toHaveClass("wui-dialog__content--lg");
+  });
 });
