@@ -70,4 +70,43 @@ describe("ColorPicker", () => {
     const input = screen.getByLabelText("Color value (hex or oklch)") as HTMLInputElement;
     expect(input.value).toContain("oklch");
   });
+
+  describe("P1 features", () => {
+    it("alpha slider renders when showAlpha", () => {
+      render(<ColorPicker defaultValue="#ff0000" showAlpha />);
+      expect(screen.getByLabelText("Alpha")).toBeInTheDocument();
+    });
+
+    it("alpha slider reports changes", () => {
+      const onChange = vi.fn();
+      render(<ColorPicker defaultValue="#ff0000" showAlpha onChange={onChange} />);
+      const alpha = screen.getByLabelText("Alpha") as HTMLInputElement;
+      fireEvent.change(alpha, { target: { value: "0.5" } });
+      expect(onChange).toHaveBeenCalled();
+    });
+
+    it("format toggle renders segmented control with current format", () => {
+      render(<ColorPicker defaultValue="#ff0000" showFormatToggle />);
+      expect(screen.getByRole("radio", { name: /hex/i })).toBeInTheDocument();
+      expect(screen.getByRole("radio", { name: /rgb/i })).toBeInTheDocument();
+      expect(screen.getByRole("radio", { name: /hsl/i })).toBeInTheDocument();
+      expect(screen.getByRole("radio", { name: /oklch/i })).toBeInTheDocument();
+    });
+
+    it("variant=inline still renders the pad inline", () => {
+      const { container } = render(<ColorPicker variant="inline" defaultValue="#ff0000" />);
+      expect(container.querySelector(".wui-color-picker--inline")).not.toBeNull();
+    });
+
+    it("announces the selected color to a live region", async () => {
+      const user = userEvent.setup();
+      render(
+        <ColorPicker defaultValue="#000000" swatches={["#ff0000"]} />,
+      );
+      await user.click(screen.getByRole("option", { name: "#ff0000" }));
+      const live = document.querySelector('[aria-live="polite"][data-wui-color-picker-live]');
+      expect(live).not.toBeNull();
+      expect(live?.textContent).toMatch(/ff0000|color/i);
+    });
+  });
 });
