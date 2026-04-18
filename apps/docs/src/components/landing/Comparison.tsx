@@ -87,15 +87,19 @@ const LIBS: Lib[] = [
 
 function Cell({ value }: { value: boolean | string }) {
   if (value === true)
-    return <Badge variant="soft" color="success" size="sm" aria-label="Yes">{"\u2713"}</Badge>;
+    return (
+      <Badge variant="soft" color="success" size="sm" aria-label="Yes">
+        {"\u2713"}
+      </Badge>
+    );
   if (value === false)
     return (
-      <Badge variant="outline" size="sm" aria-label="No" className="wui-home-compare__no">
+      <Badge variant="outline" size="sm" aria-label="No">
         {"\u2013"}
       </Badge>
     );
   return (
-    <Badge variant="soft" color="warning" size="sm" className="wui-home-compare__partial">
+    <Badge variant="soft" color="warning" size="sm">
       {value}
     </Badge>
   );

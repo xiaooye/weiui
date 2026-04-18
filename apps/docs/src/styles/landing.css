@@ -151,14 +151,10 @@
 }
 
 @layer wui-base {
-  /* Comparison */
-  .wui-home-compare { padding-block: var(--wui-spacing-12); }
+  /* Comparison — Card wraps a semantic table */
   .wui-home-compare__wrap {
     overflow-x: auto;
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    background-color: var(--wui-surface-raised);
-    box-shadow: var(--wui-elevation-1);
+    padding: 0;
   }
   .wui-home-compare__table {
     inline-size: 100%;
@@ -167,7 +163,8 @@
   }
   .wui-home-compare__table th,
   .wui-home-compare__table td {
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-3);
+    padding-inline: var(--wui-spacing-4);
+    padding-block: var(--wui-spacing-3);
     text-align: start;
     border-block-end: 1px solid var(--wui-color-border);
   }
@@ -180,32 +177,22 @@
     color: var(--wui-color-muted-foreground);
     text-align: center;
   }
-  .wui-home-compare__table thead th:first-child { text-align: start; }
+  .wui-home-compare__table thead th:first-child {
+    text-align: start;
+  }
   .wui-home-compare__table tbody th {
     font-weight: var(--wui-font-weight-medium);
     color: var(--wui-color-foreground);
   }
-  .wui-home-compare__table tbody td { text-align: center; }
-  .wui-home-compare__yes {
-    color: var(--wui-color-success);
-    font-size: var(--wui-font-size-lg);
-  }
-  .wui-home-compare__no {
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-lg);
-  }
-  .wui-home-compare__partial {
-    display: inline-block;
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-warning);
-    font-style: italic;
+  .wui-home-compare__table tbody td {
+    text-align: center;
   }
 
   /* Install snippet */
-  .wui-home-install { padding-block: var(--wui-spacing-12); }
   .wui-home-install__wrap {
     max-inline-size: 48rem;
     margin-inline: auto;
+    padding: 0;
   }
 
   /* Footer — composed with Stack + Link + Divider */
