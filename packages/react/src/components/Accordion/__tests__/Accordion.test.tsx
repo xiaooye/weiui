@@ -16,7 +16,7 @@ describe("Accordion", () => {
     expect(screen.getByRole("button", { name: /Title 1/i })).toBeInTheDocument();
   });
 
-  it("content is hidden by default", () => {
+  it("content panel is rendered but marked closed by default", () => {
     render(
       <Accordion type="single">
         <AccordionItem value="item1">
@@ -25,10 +25,14 @@ describe("Accordion", () => {
         </AccordionItem>
       </Accordion>,
     );
-    expect(screen.queryByText("Content 1")).not.toBeInTheDocument();
+    // Content stays in the DOM so CSS can animate closed→open.
+    const panel = screen.getByRole("region", { hidden: true });
+    expect(panel).toBeInTheDocument();
+    expect(panel).toHaveAttribute("data-state", "closed");
+    expect(panel).toHaveAttribute("inert");
   });
 
-  it("clicking trigger shows content", async () => {
+  it("clicking trigger shows content and flips data-state to open", async () => {
     const user = userEvent.setup();
     render(
       <Accordion type="single">
@@ -40,7 +44,10 @@ describe("Accordion", () => {
     );
 
     await user.click(screen.getByRole("button", { name: /Title 1/i }));
-    expect(screen.getByText("Content 1")).toBeInTheDocument();
+    const panel = screen.getByRole("region");
+    expect(panel).toHaveAttribute("data-state", "open");
+    expect(panel).not.toHaveAttribute("inert");
+    expect(panel).toHaveTextContent("Content 1");
   });
 
   describe("single mode", () => {
@@ -59,12 +66,18 @@ describe("Accordion", () => {
         </Accordion>,
       );
 
-      await user.click(screen.getByRole("button", { name: /Title 1/i }));
-      expect(screen.getByText("Content 1")).toBeInTheDocument();
+      const triggers = screen.getAllByRole("button");
+      const panels = document.querySelectorAll(".wui-accordion__content");
+      expect(panels).toHaveLength(2);
 
-      await user.click(screen.getByRole("button", { name: /Title 2/i }));
-      expect(screen.queryByText("Content 1")).not.toBeInTheDocument();
-      expect(screen.getByText("Content 2")).toBeInTheDocument();
+      await user.click(triggers[0]!);
+      expect(panels[0]).toHaveAttribute("data-state", "open");
+      expect(panels[1]).toHaveAttribute("data-state", "closed");
+
+      await user.click(triggers[1]!);
+      // Single mode: first panel closes, second opens.
+      expect(panels[0]).toHaveAttribute("data-state", "closed");
+      expect(panels[1]).toHaveAttribute("data-state", "open");
     });
   });
 
@@ -86,8 +99,9 @@ describe("Accordion", () => {
 
       await user.click(screen.getByRole("button", { name: /Title 1/i }));
       await user.click(screen.getByRole("button", { name: /Title 2/i }));
-      expect(screen.getByText("Content 1")).toBeInTheDocument();
-      expect(screen.getByText("Content 2")).toBeInTheDocument();
+      const panels = document.querySelectorAll(".wui-accordion__content");
+      expect(panels[0]).toHaveAttribute("data-state", "open");
+      expect(panels[1]).toHaveAttribute("data-state", "open");
     });
   });
 
@@ -100,7 +114,9 @@ describe("Accordion", () => {
         </AccordionItem>
       </Accordion>,
     );
-    expect(screen.getByText("Content 1")).toBeInTheDocument();
+    const panel = screen.getByRole("region");
+    expect(panel).toHaveAttribute("data-state", "open");
+    expect(panel).toHaveTextContent("Content 1");
   });
 
   it("trigger has aria-expanded reflecting state", async () => {
@@ -133,8 +149,49 @@ describe("Accordion", () => {
     );
 
     await user.click(screen.getByRole("button", { name: /Title 1/i }));
-    expect(screen.getByRole("region")).toBeInTheDocument();
-    expect(screen.getByRole("region")).toHaveTextContent("Content 1");
+    const panel = screen.getByRole("region");
+    expect(panel).toBeInTheDocument();
+    expect(panel).toHaveTextContent("Content 1");
+  });
+
+  describe("animated expand keeps content in DOM (P1)", () => {
+    it("closed panel is still present in the DOM with data-state=closed and inert", () => {
+      render(
+        <Accordion type="single">
+          <AccordionItem value="item1">
+            <AccordionTrigger>Title 1</AccordionTrigger>
+            <AccordionContent>Content 1</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      // Query by id to bypass the aria-hidden filter from `inert`.
+      const panel = document.querySelector(".wui-accordion__content");
+      expect(panel).not.toBeNull();
+      expect(panel).toHaveAttribute("data-state", "closed");
+      expect(panel).toHaveAttribute("inert");
+      expect(panel).toHaveTextContent("Content 1");
+    });
+
+    it("toggles data-state between closed and open on click", async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion type="single">
+          <AccordionItem value="item1">
+            <AccordionTrigger>Title 1</AccordionTrigger>
+            <AccordionContent>Content 1</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      const trigger = screen.getByRole("button", { name: /Title 1/i });
+      const panel = document.querySelector(".wui-accordion__content")!;
+      expect(panel).toHaveAttribute("data-state", "closed");
+      await user.click(trigger);
+      expect(panel).toHaveAttribute("data-state", "open");
+      expect(panel).not.toHaveAttribute("inert");
+      await user.click(trigger);
+      expect(panel).toHaveAttribute("data-state", "closed");
+      expect(panel).toHaveAttribute("inert");
+    });
   });
 
   describe("controlled value (P0)", () => {
@@ -147,7 +204,9 @@ describe("Accordion", () => {
           </AccordionItem>
         </Accordion>,
       );
-      expect(screen.getByText("Content 1")).toBeInTheDocument();
+      const panel = screen.getByRole("region");
+      expect(panel).toHaveAttribute("data-state", "open");
+      expect(panel).toHaveTextContent("Content 1");
     });
 
     it("doesn't change internal state when controlled and click happens", async () => {
@@ -162,7 +221,8 @@ describe("Accordion", () => {
       );
 
       await user.click(screen.getByRole("button", { name: /Title 1/i }));
-      expect(screen.queryByText("Content 1")).not.toBeInTheDocument();
+      const panel = document.querySelector(".wui-accordion__content")!;
+      expect(panel).toHaveAttribute("data-state", "closed");
     });
 
     it("calls onValueChange with new expanded ids", async () => {
@@ -190,7 +250,8 @@ describe("Accordion", () => {
           </AccordionItem>
         </Accordion>,
       );
-      expect(screen.queryByText("Content 1")).not.toBeInTheDocument();
+      let panel = document.querySelector(".wui-accordion__content")!;
+      expect(panel).toHaveAttribute("data-state", "closed");
 
       rerender(
         <Accordion type="single" value={["item1"]}>
@@ -200,7 +261,8 @@ describe("Accordion", () => {
           </AccordionItem>
         </Accordion>,
       );
-      expect(screen.getByText("Content 1")).toBeInTheDocument();
+      panel = document.querySelector(".wui-accordion__content")!;
+      expect(panel).toHaveAttribute("data-state", "open");
     });
   });
 
@@ -304,7 +366,8 @@ describe("Accordion", () => {
       );
       const btn = screen.getByRole("button", { name: /Trigger B/i });
       await user.click(btn);
-      expect(screen.queryByText("Content B")).not.toBeInTheDocument();
+      const panel = document.querySelector(".wui-accordion__content")!;
+      expect(panel).toHaveAttribute("data-state", "closed");
     });
 
     it("adds data-disabled to the item wrapper", () => {

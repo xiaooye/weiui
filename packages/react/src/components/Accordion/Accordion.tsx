@@ -178,8 +178,11 @@ export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps
     const item = useContext(AccordionItemContext);
     if (!accordion || !item) throw new Error("AccordionContent must be used within Accordion > AccordionItem");
 
-    if (!accordion.expandedItems.has(item.value)) return null;
+    const isOpen = accordion.expandedItems.has(item.value);
 
+    // Always render the panel — keeps content in the DOM so CSS can animate
+    // the closed→open transition. `inert` prevents hidden content from being
+    // focusable or clickable, and conveys aria-hidden semantics.
     return (
       <div
         ref={ref}
@@ -187,9 +190,11 @@ export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps
         className={cn("wui-accordion__content", className)}
         role="region"
         aria-labelledby={item.triggerId}
+        data-state={isOpen ? "open" : "closed"}
+        inert={!isOpen}
         {...props}
       >
-        {children}
+        <div className="wui-accordion__content-inner">{children}</div>
       </div>
     );
   },

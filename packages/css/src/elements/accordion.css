@@ -45,12 +45,32 @@
   .wui-accordion__trigger[aria-expanded="true"] .wui-accordion__icon {
     transform: rotate(180deg);
   }
+  /*
+   * Animated expand — grid-template-rows 0fr→1fr pattern.
+   * The outer `.wui-accordion__content` is the grid container; the inner
+   * `.wui-accordion__content-inner` is the single row. Animating the track
+   * size gives a smooth height transition without knowing the content height.
+   */
   .wui-accordion__content {
-    padding-block: var(--wui-spacing-3);
-    padding-inline: var(--wui-spacing-4);
+    display: grid;
+    grid-template-rows: 1fr;
     font-size: var(--wui-font-size-sm);
     color: var(--wui-color-muted-foreground);
   }
+  .wui-accordion__content-inner {
+    overflow: hidden;
+    min-block-size: 0;
+    padding-block: var(--wui-spacing-3);
+    padding-inline: var(--wui-spacing-4);
+  }
+  .wui-accordion__content[data-state="closed"] {
+    grid-template-rows: 0fr;
+  }
+  .wui-accordion__content[data-state="closed"] .wui-accordion__content-inner {
+    padding-block: 0;
+    visibility: hidden;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .wui-accordion__trigger {
       transition-property: background-color, color;
@@ -60,6 +80,16 @@
     .wui-accordion__icon {
       transition-property: transform;
       transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-accordion__content {
+      transition-property: grid-template-rows;
+      transition-duration: var(--wui-motion-duration-base);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-accordion__content-inner {
+      transition-property: padding-block, visibility;
+      transition-duration: var(--wui-motion-duration-base);
       transition-timing-function: var(--wui-motion-easing-standard);
     }
   }
