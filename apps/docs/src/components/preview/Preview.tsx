@@ -1,6 +1,21 @@
 "use client";
 
-import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import {
+  Button,
+  Code,
+  Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Text,
+  ToggleGroup,
+  ToggleGroupItem,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@weiui/react";
 import { PreviewFrame } from "./PreviewFrame";
 
 export interface PreviewProps {
@@ -9,7 +24,7 @@ export interface PreviewProps {
   label?: string;
 }
 
-type ViewportPreset = "100%" | 768 | 375;
+type ViewportPreset = "100%" | "768" | "375";
 type TabId = "preview" | "code";
 
 export function Preview({ children, code, label }: PreviewProps) {
@@ -18,9 +33,6 @@ export function Preview({ children, code, label }: PreviewProps) {
   const [theme, setTheme] = useState<"inherit" | "light" | "dark">("inherit");
   const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
   const [viewport, setViewport] = useState<ViewportPreset>("100%");
-  const uid = useId();
-  const tabId = (t: TabId) => `${uid}-tab-${t}`;
-  const panelId = (t: TabId) => `${uid}-panel-${t}`;
 
   const onCopy = async () => {
     if (!code) return;
@@ -28,167 +40,112 @@ export function Preview({ children, code, label }: PreviewProps) {
       await navigator.clipboard.writeText(code);
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
-    } catch {}
+    } catch {
+      /* ignored */
+    }
   };
 
   const isolated = theme !== "inherit" || dir !== "ltr" || viewport !== "100%";
 
-  const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      e.preventDefault();
-      setTab((t) => (t === "preview" ? "code" : "preview"));
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      setTab("preview");
-    } else if (e.key === "End") {
-      e.preventDefault();
-      setTab("code");
-    }
-  };
-
   return (
     <div className="wui-preview">
-      <div className="wui-preview__header">
-        {label && <span className="wui-preview__label">{label}</span>}
+      <Tabs value={tab} onValueChange={(v) => setTab(v as TabId)}>
+        <Stack direction="row" gap={3} wrap className="wui-preview__header">
+          {label && (
+            <Text as="span" size="sm" weight="medium" className="wui-preview__label">
+              {label}
+            </Text>
+          )}
+          {code ? (
+            <TabsList aria-label={label ? `${label} view` : "Preview view"}>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+              <TabsTrigger value="code">Code</TabsTrigger>
+            </TabsList>
+          ) : null}
+          <Stack direction="row" gap={2} wrap className="wui-preview__actions">
+            {tab === "preview" && (
+              <>
+                <ToggleGroup
+                  type="single"
+                  value={theme}
+                  onChange={(v) => {
+                    const next = Array.isArray(v) ? v[0] : v;
+                    if (next) setTheme(next as "inherit" | "light" | "dark");
+                  }}
+                  label="Theme"
+                >
+                  <ToggleGroupItem value="inherit">Auto</ToggleGroupItem>
+                  <ToggleGroupItem value="light">Light</ToggleGroupItem>
+                  <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
+                </ToggleGroup>
+                <ToggleGroup
+                  type="single"
+                  value={dir}
+                  onChange={(v) => {
+                    const next = Array.isArray(v) ? v[0] : v;
+                    if (next) setDir(next as "ltr" | "rtl");
+                  }}
+                  label="Direction"
+                >
+                  <ToggleGroupItem value="ltr">LTR</ToggleGroupItem>
+                  <ToggleGroupItem value="rtl">RTL</ToggleGroupItem>
+                </ToggleGroup>
+                <ToggleGroup
+                  type="single"
+                  value={viewport}
+                  onChange={(v) => {
+                    const next = Array.isArray(v) ? v[0] : v;
+                    if (next) setViewport(next as ViewportPreset);
+                  }}
+                  label="Viewport"
+                >
+                  <ToggleGroupItem value="100%">Full</ToggleGroupItem>
+                  <ToggleGroupItem value="768">768</ToggleGroupItem>
+                  <ToggleGroupItem value="375">375</ToggleGroupItem>
+                </ToggleGroup>
+              </>
+            )}
+            {code && (
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    onClick={onCopy}
+                    aria-label={copied ? "Copied" : "Copy code"}
+                  >
+                    <span aria-hidden="true">{copied ? "\u2713" : "\u29C9"}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{copied ? "Copied" : "Copy code"}</TooltipContent>
+              </Tooltip>
+            )}
+          </Stack>
+        </Stack>
+        <TabsContent value="preview" className="wui-preview__stage-wrap">
+          {isolated ? (
+            <div className="wui-preview__stage wui-preview__stage--frame">
+              <PreviewFrame
+                theme={theme === "inherit" ? "system" : theme}
+                dir={dir}
+                width={viewport === "100%" ? "100%" : Number(viewport)}
+              >
+                {children}
+              </PreviewFrame>
+            </div>
+          ) : (
+            <div className="wui-preview__stage">{children}</div>
+          )}
+        </TabsContent>
         {code && (
-          <div className="wui-preview__tabs" role="tablist" aria-label={label ? `${label} view` : "Preview view"}>
-            <button
-              type="button"
-              role="tab"
-              id={tabId("preview")}
-              aria-selected={tab === "preview"}
-              aria-controls={panelId("preview")}
-              tabIndex={tab === "preview" ? 0 : -1}
-              onClick={() => setTab("preview")}
-              onKeyDown={onTabKeyDown}
-              className="wui-preview__tab"
-              data-active={tab === "preview" || undefined}
-            >
-              Preview
-            </button>
-            <button
-              type="button"
-              role="tab"
-              id={tabId("code")}
-              aria-selected={tab === "code"}
-              aria-controls={panelId("code")}
-              tabIndex={tab === "code" ? 0 : -1}
-              onClick={() => setTab("code")}
-              onKeyDown={onTabKeyDown}
-              className="wui-preview__tab"
-              data-active={tab === "code" || undefined}
-            >
-              Code
-            </button>
-          </div>
+          <TabsContent value="code" className="wui-preview__code-wrap">
+            <pre className="wui-preview__code">
+              <Code>{code}</Code>
+            </pre>
+          </TabsContent>
         )}
-        <div className="wui-preview__actions">
-          {tab === "preview" && (
-            <>
-              <SegmentToggle
-                value={theme}
-                options={[
-                  { value: "inherit", label: "Auto" },
-                  { value: "light", label: "Light" },
-                  { value: "dark", label: "Dark" },
-                ]}
-                onChange={setTheme}
-                aria-label="Theme"
-              />
-              <SegmentToggle
-                value={dir}
-                options={[
-                  { value: "ltr", label: "LTR" },
-                  { value: "rtl", label: "RTL" },
-                ]}
-                onChange={setDir}
-                aria-label="Direction"
-              />
-              <SegmentToggle
-                value={viewport}
-                options={[
-                  { value: "100%", label: "Full" },
-                  { value: 768, label: "768" },
-                  { value: 375, label: "375" },
-                ]}
-                onChange={setViewport}
-                aria-label="Viewport"
-              />
-            </>
-          )}
-          {code && (
-            <button
-              type="button"
-              onClick={onCopy}
-              className="wui-preview__copy"
-              aria-label={copied ? "Copied" : "Copy code"}
-            >
-              {copied ? "✓" : "⧉"}
-            </button>
-          )}
-        </div>
-      </div>
-      {tab === "preview" ? (
-        isolated ? (
-          <div
-            className="wui-preview__stage wui-preview__stage--frame"
-            role={code ? "tabpanel" : undefined}
-            id={code ? panelId("preview") : undefined}
-            aria-labelledby={code ? tabId("preview") : undefined}
-          >
-            <PreviewFrame
-              theme={theme === "inherit" ? "system" : theme}
-              dir={dir}
-              width={viewport}
-            >
-              {children}
-            </PreviewFrame>
-          </div>
-        ) : (
-          <div
-            className="wui-preview__stage"
-            role={code ? "tabpanel" : undefined}
-            id={code ? panelId("preview") : undefined}
-            aria-labelledby={code ? tabId("preview") : undefined}
-          >
-            {children}
-          </div>
-        )
-      ) : (
-        <pre
-          className="wui-preview__code"
-          role="tabpanel"
-          id={panelId("code")}
-          aria-labelledby={tabId("code")}
-        ><code>{code}</code></pre>
-      )}
-    </div>
-  );
-}
-
-interface SegmentToggleProps<T extends string | number> {
-  value: T;
-  options: Array<{ value: T; label: string }>;
-  onChange: (v: T) => void;
-  "aria-label": string;
-}
-
-function SegmentToggle<T extends string | number>({ value, options, onChange, ...rest }: SegmentToggleProps<T>) {
-  return (
-    <div className="wui-preview__segment" role="radiogroup" aria-label={rest["aria-label"]}>
-      {options.map((opt) => (
-        <button
-          key={String(opt.value)}
-          type="button"
-          role="radio"
-          aria-checked={value === opt.value}
-          onClick={() => onChange(opt.value)}
-          className="wui-preview__segment-item"
-          data-active={value === opt.value || undefined}
-        >
-          {opt.label}
-        </button>
-      ))}
+      </Tabs>
     </div>
   );
 }

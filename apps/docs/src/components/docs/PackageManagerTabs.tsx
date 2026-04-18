@@ -1,9 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import {
+  Button,
+  Code,
+  Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@weiui/react";
 
 interface Props {
-  command: string; // e.g. "add @weiui/react"
+  command: string;
 }
 
 const MANAGERS = [
@@ -36,35 +48,48 @@ export function PackageManagerTabs({ command }: Props) {
       await navigator.clipboard.writeText(full);
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
-    } catch {}
+    } catch {
+      /* ignored */
+    }
   };
 
   return (
-    <div className="wui-pm-tabs">
-      <div className="wui-pm-tabs__row" role="tablist">
-        {MANAGERS.map((m) => (
-          <button
-            key={m.id}
-            type="button"
-            role="tab"
-            aria-selected={active === m.id}
-            onClick={() => setActive(m.id)}
-            data-active={active === m.id || undefined}
-            className="wui-pm-tabs__tab"
-          >
-            {m.label}
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={onCopy}
-          className="wui-pm-tabs__copy"
-          aria-label={copied ? "Copied" : "Copy command"}
-        >
-          {copied ? "✓" : "⧉"}
-        </button>
-      </div>
-      <pre className="wui-pm-tabs__cmd"><code>{full}</code></pre>
-    </div>
+    <Tabs
+      value={active}
+      onValueChange={(v) => setActive(v as ManagerId)}
+      className="wui-pm-tabs"
+    >
+      <Stack direction="row" gap={2} className="wui-pm-tabs__row">
+        <TabsList className="wui-pm-tabs__list">
+          {MANAGERS.map((m) => (
+            <TabsTrigger key={m.id} value={m.id}>
+              {m.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
+              onClick={onCopy}
+              aria-label={copied ? "Copied" : "Copy command"}
+              className="wui-pm-tabs__copy"
+            >
+              <span aria-hidden="true">{copied ? "\u2713" : "\u29C9"}</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{copied ? "Copied" : "Copy command"}</TooltipContent>
+        </Tooltip>
+      </Stack>
+      {MANAGERS.map((m) => (
+        <TabsContent key={m.id} value={m.id} className="wui-pm-tabs__panel">
+          <pre className="wui-pm-tabs__cmd">
+            <Code>{`${m.prefix} ${command}`}</Code>
+          </pre>
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 }
