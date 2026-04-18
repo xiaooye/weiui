@@ -31,15 +31,19 @@ Finish the two interactive tool pages (`/playground` and `/composer`) so they ac
 - Dark/light theme toggle for the preview area (independent of the docs site's theme).
 - Responsive preview size presets (mobile / tablet / desktop / full).
 
-**Composer** — drag-to-add multi-component canvas:
+**Composer** — real 2D page builder (NOT a vertical tree editor):
 - All 65 components renderable in the canvas (not just 9).
-- Nested component hierarchy (Card can contain Button + Text + Field).
-- Drag-and-drop from palette to canvas; reorder within canvas; drag into containers.
+- **True 2D layout via structural primitives** — components arrange horizontally AND vertically using WeiUI's existing `Stack` (direction `row | column`), `Grid` (columns, gap), and `Container` as the composition primitives. No free x/y positioning; all layouts compile to responsive flex/grid.
+- **Edge-aware drag-and-drop** — dropping a palette item (or moving an existing node) onto another component shows **4 drop zones** (top / right / bottom / left) + **1 center zone** (insert as child of a container). Dropping left/right on a row-direction Stack inserts as sibling in that direction; dropping top/bottom does the same for column-direction. Dropping on a leaf auto-wraps both the target and the dragged item in a new Stack with inferred direction.
+- **WYSIWYG canvas** — the canvas IS a live render of the tree using real WeiUI components. What you see is what the exported code renders. Selection outlines draw over the real DOM.
+- **Inline layout editing** — selecting a `Stack`, `Grid`, or `Container` exposes direct-manipulation controls for `direction`, `gap`, `align`, `justify`, `columns` without leaving the canvas (overlay chips rendered next to the selection outline). Click the direction chip to toggle row↔column.
+- **Responsive breakpoint presets** — canvas width selector (375 / 768 / 1024 / 1280 / full) to preview how the layout reflows. No breakpoint-specific props editing in v1 (roadmap).
+- Nested component hierarchy (Card can contain Stack containing Button + Text + Field — unlimited depth).
 - Schema-aware props editor (enum dropdowns, number inputs, color pickers) powered by the same registry JSON the AI-first work already produced.
 - Full-file code export: JSX with imports + a valid standalone HTML snippet with the right CSS imports.
 - State persistence (localStorage; URL for share-only flow).
-- Keyboard shortcuts: Delete (remove), Ctrl/Cmd+D (duplicate), Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z (undo/redo).
-- Template gallery (5 starter templates: login form, settings page, dashboard card, pricing grid, empty state).
+- Keyboard shortcuts: Delete (remove), Ctrl/Cmd+D (duplicate), Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z (undo/redo), arrow keys to nudge selection between siblings, Tab/Shift+Tab to move selection up/down the tree.
+- Template gallery (5 starter templates: login form, settings page, dashboard card, pricing grid, empty state) — each a fully composed tree using real Stack/Grid.
 - CodeSandbox / StackBlitz "Open in" export.
 
 **Shared infrastructure:**
@@ -49,12 +53,13 @@ Finish the two interactive tool pages (`/playground` and `/composer`) so they ac
 
 ### Out of scope
 
-- Visual / Figma-style canvas with arbitrary x/y positioning. Composer stays list-based with nesting; a future spec can upgrade to a visual grid.
+- **Absolute x/y pixel positioning** (Figma-style free canvas). All layouts go through structural primitives (`Stack`, `Grid`, `Container`) that compile to responsive flex/grid. This is a deliberate design choice — users can compose real-world responsive pages, not just pixel-locked mockups.
+- **Per-breakpoint prop overrides** ("variant on mobile, different on desktop"). v1 previews responsive behavior at different viewport widths but doesn't let users write breakpoint-specific props. Roadmap: add `props: { base: {...}, md: {...}, lg: {...} }` schema.
 - AI-assisted generation ("describe what you want and get a layout"). Future spec.
 - Import of Figma frames or existing React code.
 - Collaborative editing, comments, version history beyond undo/redo.
 - Full theme builder integration in Composer (the `/themes` page already does this; cross-linking is enough).
-- Snap guides, rulers, grid overlays on the canvas.
+- Snap guides, rulers, grid overlays beyond what the `Grid` component's natural cell boundaries provide.
 
 ---
 
@@ -263,46 +268,72 @@ URL format: `?c=Dialog&p=eyJ2YXJpYW50IjoibWQifQ==&t=dark&v=tablet`.
 
 ### 4.2 Composer
 
-**Layout (3-column grid):**
+**Layout (3-column grid with WYSIWYG canvas in the middle):**
 
 ```
-┌──────────────┬────────────────────────────────┬──────────────┐
-│              │                                │              │
-│   Palette    │         Canvas (nested)        │    Props     │
-│              │                                │              │
-│  [Search]    │  ▾ Card                        │  variant ▼   │
-│  [Template▼] │    ▾ Stack gap=4               │              │
-│              │      ─ Heading: "Sign in"      │  size ▼      │
-│  ▸ Form      │      ▾ Field                   │              │
-│  ▸ Overlay   │        ─ Label: "Email"        │  (select a   │
-│    Dialog    │        ─ Input placeholder=…   │   node to    │
-│    Drawer    │      ▾ Field                   │   edit)      │
-│    Popover   │        ─ Label: "Password"     │              │
-│  ▸ Data      │        ─ Input type="password" │              │
-│              │      ─ Button: "Continue"      │              │
-│  ──────────  │                                │              │
-│  Templates   │  [JSX][TSX][HTML] [Copy] [📦] │              │
-│  · Login     │  import { Card, Stack, … }    │              │
-│  · Settings  │  export default function App() │             │
-│  · Dashboard │    return (                   │              │
-│              │      <Card>…</Card>            │              │
-│  [⌘D ⌫ ↶ ↷]  │    );                          │              │
-└──────────────┴────────────────────────────────┴──────────────┘
+┌──────────────┬─────────────────────────────────────┬──────────────┐
+│              │  Canvas  [375|768|1024|1280|full]  │              │
+│   Palette    │  ┌───────────────────────────────┐  │    Props     │
+│              │  │                               │  │              │
+│  [Search]    │  │  ┌─ Card ─────────────────┐   │  │  Card        │
+│  ▸ Form      │  │  │                        │   │  │  direction ▼ │
+│  ▸ Overlay   │  │  │  Heading: "Sign in"    │   │  │  gap: 4      │
+│  ▸ Data      │  │  │                        │   │  │              │
+│              │  │  │  ┌─ Stack col gap=3 ─┐ │   │  │  Selection   │
+│  ─ Layout ─  │  │  │  │                   │ │   │  │  outline +   │
+│    Card      │  │  │  │  Email:  [_____] │ │   │  │  drop zones  │
+│    Stack     │  │  │  │  Pass:   [_____] │ │   │  │  visible     │
+│    Grid      │  │  │  │                   │ │   │  │  around      │
+│    Container │  │  │  │  [ Continue ]     │ │   │  │  selected    │
+│              │  │  │  └───────────────────┘ │   │  │  node.       │
+│  Templates   │  │  └────────────────────────┘   │  │              │
+│  · Login     │  │                               │  │              │
+│  · Settings  │  └───────────────────────────────┘  │              │
+│              │                                     │              │
+│  [⌘D ⌫ ↶ ↷]  │  [Tree] [Code] [Export]            │              │
+│              │  ▾ Card                             │              │
+│              │    ▾ Stack column gap=3             │              │
+│              │      ─ Heading "Sign in"            │              │
+│              │      ▾ Field "Email"                │              │
+│              │      ▾ Field "Password"             │              │
+│              │      ─ Button "Continue"            │              │
+└──────────────┴─────────────────────────────────────┴──────────────┘
 ```
+
+The canvas shows the **real rendered output** (WYSIWYG). Below the canvas, a tab lets you flip to an **outline tree** view for quick restructuring (same interactive model as Composer's previous design), or to the **code** view. Selecting a node on the canvas shows:
+
+1. **Selection outline** (1px primary border, 2px offset) around the selected node's bounding box.
+2. **Directional drop zones** that appear on hover while dragging:
+   - Top edge (half-height strip)
+   - Right edge (half-width strip)
+   - Bottom edge (half-height strip)
+   - Left edge (half-width strip)
+   - Center (remaining area) — insert-as-child, only for container nodes (Card, Stack, Grid, Container, Dialog, Drawer, Accordion, Tabs).
+3. **Layout chips** (for container nodes only): direction toggle (row/column icon), gap number input, columns input (for Grid), align / justify pickers. Chips float next to the selection outline.
+4. **Context menu** (right-click): duplicate, delete, wrap-in-Stack, wrap-in-Card, convert-to-row, convert-to-column.
 
 **Key features:**
 
-1. **Palette** — same category structure as Playground's selector. Drag handle on each item (React DnD + HTML5 drag/drop). Click-to-add fallback for accessibility.
+1. **Palette** — same category structure as Playground's selector. Drag handle on each item (HTML5 native drag). Click-to-add fallback for accessibility (inserts as sibling of current selection or last root child).
 
-2. **Canvas as outline tree** — renders the `ComponentNode` tree as an indented outline. Each row has: disclosure triangle (if container), type label (e.g., `Card`), inline text editor (if leaf with `text`), action icons (duplicate, delete). Drop zones between rows and inside container rows. Selected row highlights; clicking selects.
+2. **WYSIWYG canvas** — the canvas renders the tree using real WeiUI components in a container sized to the chosen viewport preset. Each rendered node gets a dev-only invisible overlay (`<div className="wui-composer__node-hit">`) absolutely positioned over it via `getBoundingClientRect`, capturing pointer events for selection + drop. This keeps the real DOM (and layout) intact while letting Composer intercept interactions.
 
-3. **Drag-and-drop:**
-   - Palette → canvas: drag a palette entry into any container node (or root) to insert as a child. Drop indicator animates.
-   - Reorder within container: drag a canvas row vertically; sibling rows shift.
-   - Reparent: drag a canvas row into a different container.
-   - Tree depth cap: 10 levels (prevents runaway nesting).
+3. **Edge-aware drag-and-drop:**
+   - Palette → canvas: hover over any rendered node. The overlay shows **4 edge strips + 1 center** drop zones. The zone that the pointer is over highlights (thin primary bar on the edge, or center area lights up for containers). Drop there to insert.
+   - Drop semantics:
+     - **Edge drops** (top/right/bottom/left): insert the new node as a sibling of the target in that direction. If the target's parent is a `Stack` with matching direction (`row` for left/right drops; `column` for top/bottom drops), insert there. Otherwise, wrap the target + dragged item in a new `Stack` with the inferred direction (`row` for horizontal edges, `column` for vertical edges) and replace the target with the wrapper.
+     - **Center drop** (container nodes only): insert the new node as the last child of the container.
+   - Reparent: dragging an existing canvas node follows the same semantics. Moving *into* its own descendant is blocked.
+   - Tree depth cap: 10 levels.
 
-4. **Preview render under the outline** — below the outline tree, render the actual composition (calls `renderNode()`). Live updates as props change. Toggle to hide if tree is deep.
+4. **Inline layout chips** — when a container node (Card, Stack, Grid, Container, Dialog, Drawer, Accordion, Tabs, Tab panels) is selected, a floating chip toolbar anchors to the selection outline:
+   - **Stack:** direction toggle (↔ row / ↕ column), gap slider (0–12), align-items dropdown, justify-content dropdown.
+   - **Grid:** columns input (number), gap slider.
+   - **Card:** padding slider.
+   - **Container:** max-inline-size presets (sm/md/lg/full).
+   Changes apply immediately to `props`, which updates the canvas render.
+
+5. **Viewport presets** — a toolbar above the canvas: 375, 768, 1024, 1280, full. Sets `max-inline-size` on the canvas stage. Good for checking responsive reflow without needing breakpoint-specific props.
 
 5. **Props editor** — same schema-driven controls as Playground. Shows props for the selected node; empty state when nothing selected.
 
@@ -402,15 +433,17 @@ The spec is done when:
 
 Plan file: `docs/superpowers/plans/2026-04-18-composer-playground-completion.md`.
 
-Eight tasks, each shipping incrementally usable output:
+Ten tasks, each shipping incrementally usable output:
 
 1. **Shared schema loader + prop-controls library.** `component-schema-loader.ts` + 7 `ControlX` components.
 2. **Playground: 65-component renderer + generate-code with imports.** Replaces the 5-case switch; code output now compiles.
 3. **Playground: schema-driven PropsPanel + URL/localStorage state + copy toast.** Every prop editable; shareable URLs.
 4. **Playground: theme + viewport toggles + search/category grouping.** Polish features.
-5. **Composer: nested `ComponentNode` tree + outline canvas + live preview.** Replaces the flat list.
-6. **Composer: drag-and-drop + keyboard shortcuts + undo/redo.** Core editing UX.
-7. **Composer: schema-driven PropsEditor + full-file code export + template gallery.** Production-ready export.
-8. **Composer: CodeSandbox / StackBlitz integration + final verification + tests.**
+5. **Composer: nested `ComponentNode` tree reducer + outline tree view + undo/redo.** Data model foundation.
+6. **Composer: WYSIWYG canvas with selection overlay.** Renders real components; tracks bounding boxes; draws selection outlines.
+7. **Composer: edge-aware drag-and-drop + wrap-in-Stack logic.** The page-builder piece — components go horizontally, vertically, into containers; leaf drops auto-wrap in Stack.
+8. **Composer: inline layout chips + viewport presets + schema-driven PropsEditor.** Direct-manipulation layout editing.
+9. **Composer: keyboard shortcuts + full-file code export + template gallery.** Production-ready export.
+10. **Composer: CodeSandbox / StackBlitz integration + final verification + E2E tests.**
 
 Each task ends with `pnpm build && pnpm test && pnpm --filter @weiui/docs build` green. The plan file spells out bite-sized TDD steps per task.

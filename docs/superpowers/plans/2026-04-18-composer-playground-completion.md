@@ -967,7 +967,7 @@ export default function PlaygroundPage() {
 
 ---
 
-## Task 5: Composer — nested `ComponentNode` tree + outline canvas + live preview
+## Task 5: Composer — nested `ComponentNode` tree reducer + outline tree view + undo/redo
 
 **Files:**
 - Create: `apps/docs/src/app/composer/lib/tree.ts`
@@ -1122,42 +1122,420 @@ Replaces Canvas.tsx with an indented tree view. Each row has chevron (if contain
 
 ### Step 5: Commit
 
-`feat(docs): Composer nested tree + outline canvas + undo/redo`.
+`feat(docs): Composer nested tree reducer + outline tree view + undo/redo`.
 
 ---
 
-## Task 6: Composer — drag-and-drop + keyboard shortcuts
+## Task 6: Composer — WYSIWYG canvas with selection overlay
 
 **Files:**
-- Create: `apps/docs/src/app/composer/lib/dnd.ts` (HTML5 DnD helpers)
+- Create: `apps/docs/src/app/composer/lib/selection-overlay.tsx` — renders selection outline + overlay hit-targets
+- Create: `apps/docs/src/app/composer/components/WysiwygCanvas.tsx` — viewport-sized stage rendering the real tree
+- Create: `apps/docs/src/app/composer/lib/__tests__/selection.test.tsx`
+- Update: `apps/docs/src/app/composer/page.tsx` — replace/swap between outline tree and WYSIWYG canvas via a tab
+
+### Design
+
+**The canvas is a 2-layer stack:**
+
+1. **Real render layer** — calls `renderPreview(tree)` from Task 5 inside a `<div>` sized to the current viewport preset (default: full width). Every rendered node is given `data-composer-id={node.id}` via a wrapping `<div>` with `display: contents` so it participates in the real layout without taking up space itself (or, for components that don't support extra DOM, attach the id to the component's outermost rendered element via `useRef` + post-render sync).
+
+2. **Overlay layer** — absolutely-positioned `<div>` on top, matching the canvas bounding box. On every render of the real layer, measure each `[data-composer-id]` element's `getBoundingClientRect()` and keep a `Map<nodeId, Rect>` in state (updated via `ResizeObserver` + `MutationObserver` to catch re-layout).
+
+3. For the **selected node**, draw a 1px primary outline + 4 edge strips + 1 center zone (for containers). The strips are actual `<div>`s that capture `pointerover`/`pointerdown` events; the rest of the overlay is `pointer-events: none` so clicks fall through to the real components (useful for text editing, toggling internal state in a Tab, etc.).
+
+### Step 1: Failing test
+
+```tsx
+it("measures node rectangles on mount and exposes them via context", async () => {
+  const { container } = render(
+    <Composer initialTree={[makeNode("Card", {}, undefined, [makeNode("Button", { children: "Hi" })])]} />,
+  );
+  // After layout settles:
+  await waitFor(() => {
+    const rects = readSelectionRects(container); // test util exposed from selection-overlay
+    expect(rects.size).toBeGreaterThan(0);
+  });
+});
+```
+
+Test scaffolding is thin in jsdom (no real layout), so this test primarily asserts that the overlay rect map exists and matches the count of rendered nodes. Full layout verification lives in the Playwright e2e test in Task 10.
+
+### Step 2: Implement selection-overlay.tsx
+
+- Measures rects via `getBoundingClientRect()` after every tree change.
+- Uses `ResizeObserver` on the canvas root to re-measure on layout changes (viewport preset toggle, prop changes).
+- Exposes `<SelectionOutline rect={rect} />` that draws 1px solid `var(--wui-color-primary)` with `pointer-events: none`.
+
+### Step 3: Implement WysiwygCanvas.tsx
+
+```tsx
+"use client";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { renderPreview } from "../lib/render-preview";
+import type { ComponentNode } from "../lib/tree";
+import { SelectionOverlay } from "../lib/selection-overlay";
+
+interface WysiwygCanvasProps {
+  tree: ComponentNode[];
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+  viewport: "375" | "768" | "1024" | "1280" | "full";
+}
+
+export function WysiwygCanvas({ tree, selectedId, onSelect, viewport }: WysiwygCanvasProps) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const maxSize = viewport === "full" ? "100%" : `${viewport}px`;
+  return (
+    <div className="wui-composer__canvas">
+      <div className="wui-composer__stage" ref={stageRef} style={{ maxInlineSize: maxSize }}>
+        {tree.map((n) => renderPreview(n))}
+      </div>
+      <SelectionOverlay stageRef={stageRef} tree={tree} selectedId={selectedId} onSelect={onSelect} />
+    </div>
+  );
+}
+```
+
+### Step 4: Viewport preset toolbar
+
+Above the canvas: WeiUI `ToggleGroup` with values `375 | 768 | 1024 | 1280 | full`. State stored in `page.tsx` + serialized into localStorage along with the tree.
+
+### Step 5: Commit
+
+```
+feat(docs): Composer WYSIWYG canvas with selection overlay + viewport presets
+```
+
+---
+
+## Task 7: Composer — edge-aware drag-and-drop + wrap-in-Stack logic
+
+**Files:**
+- Create: `apps/docs/src/app/composer/lib/drop-zones.tsx` — renders 4 edges + 1 center on the overlay
+- Create: `apps/docs/src/app/composer/lib/drop-logic.ts` — pure functions for insertion strategy (sibling/wrap/child)
+- Create: `apps/docs/src/app/composer/lib/__tests__/drop-logic.test.ts`
+- Wire into `WysiwygCanvas.tsx` and `ComponentPalette.tsx`
+
+### The crux: drop-logic.ts
+
+Given a `dropTarget: ComponentNode`, `edge: "top" | "right" | "bottom" | "left" | "center"`, and the `newNode: ComponentNode`, return a reducer action.
+
+```ts
+import type { ComponentNode, TreeAction } from "./tree";
+import { makeNode } from "./tree";
+
+const CONTAINERS = new Set(["Card", "Stack", "Grid", "Container", "Dialog", "Drawer", "Accordion", "Tabs"]);
+
+export interface DropContext {
+  targetId: string;
+  targetParent: ComponentNode | null; // null => root
+  targetParentList: ComponentNode[];
+  targetIndex: number;
+}
+
+/**
+ * Compute the reducer action for a drop. Handles:
+ *  - center drop on container → INSERT as last child
+ *  - edge drop where parent Stack matches direction → INSERT as sibling
+ *  - edge drop where parent Stack direction mismatches → wrap both in new Stack, then insert
+ *  - edge drop on root (no parent) → INSERT as sibling at root
+ */
+export function computeDropAction(
+  ctx: DropContext,
+  edge: "top" | "right" | "bottom" | "left" | "center",
+  newNode: ComponentNode,
+  targetNode: ComponentNode,
+): TreeAction[] {
+  // Center on container → child
+  if (edge === "center" && CONTAINERS.has(targetNode.type)) {
+    return [{ type: "INSERT", parentId: targetNode.id, index: targetNode.children.length, node: newNode }];
+  }
+
+  const wantedDir = edge === "left" || edge === "right" ? "row" : "column";
+  const insertAfter = edge === "right" || edge === "bottom";
+
+  // Parent is a Stack matching direction → simple sibling insert
+  if (ctx.targetParent?.type === "Stack" && (ctx.targetParent.props.direction ?? "column") === wantedDir) {
+    return [{
+      type: "INSERT",
+      parentId: ctx.targetParent.id,
+      index: ctx.targetIndex + (insertAfter ? 1 : 0),
+      node: newNode,
+    }];
+  }
+
+  // Parent is root or non-matching container → wrap target + newNode in a new Stack
+  const wrapStack = makeNode("Stack", { direction: wantedDir, gap: 3 }, undefined);
+  // The reducer needs a "WRAP" action OR we can do this as sequence:
+  //   1) DELETE target, 2) INSERT the new Stack at target's position containing [target, newNode] in order
+  // We'll use a compound action type `WRAP_WITH`:
+  return [{
+    type: "WRAP_WITH",
+    nodeId: targetNode.id,
+    wrapperType: "Stack",
+    wrapperProps: { direction: wantedDir, gap: 3 },
+    siblingNode: newNode,
+    siblingBefore: !insertAfter,
+  }];
+}
+```
+
+**Extend `tree.ts` with `WRAP_WITH` action:**
+
+```ts
+// In TreeAction union:
+| { type: "WRAP_WITH"; nodeId: string; wrapperType: string; wrapperProps: Record<string, unknown>; siblingNode: ComponentNode; siblingBefore: boolean }
+```
+
+Handler: remove target, insert a new node of `wrapperType` with `wrapperProps` in target's position, `children = siblingBefore ? [sibling, target] : [target, sibling]`. Preserves undo/redo via the same `pushPast` mechanism.
+
+### Step 1: Failing test for drop-logic
+
+```ts
+import { describe, it, expect } from "vitest";
+import { computeDropAction } from "../drop-logic";
+import { makeNode } from "../tree";
+
+describe("computeDropAction", () => {
+  it("center drop on Card inserts as child", () => {
+    const card = makeNode("Card");
+    const newNode = makeNode("Button", { children: "Hi" });
+    const actions = computeDropAction(
+      { targetId: card.id, targetParent: null, targetParentList: [card], targetIndex: 0 },
+      "center",
+      newNode,
+      card,
+    );
+    expect(actions[0]).toMatchObject({ type: "INSERT", parentId: card.id });
+  });
+
+  it("right-edge drop on node in row-Stack inserts as sibling in Stack", () => {
+    const child = makeNode("Button");
+    const stack = makeNode("Stack", { direction: "row" });
+    stack.children = [child];
+    const newNode = makeNode("Button", { children: "Other" });
+    const actions = computeDropAction(
+      { targetId: child.id, targetParent: stack, targetParentList: stack.children, targetIndex: 0 },
+      "right",
+      newNode,
+      child,
+    );
+    expect(actions[0]).toMatchObject({ type: "INSERT", parentId: stack.id, index: 1 });
+  });
+
+  it("right-edge drop on root node wraps in Stack(row)", () => {
+    const target = makeNode("Button");
+    const newNode = makeNode("Badge");
+    const actions = computeDropAction(
+      { targetId: target.id, targetParent: null, targetParentList: [target], targetIndex: 0 },
+      "right",
+      newNode,
+      target,
+    );
+    expect(actions[0]).toMatchObject({ type: "WRAP_WITH", wrapperType: "Stack" });
+    expect(actions[0].wrapperProps).toMatchObject({ direction: "row" });
+  });
+
+  it("top-edge drop on node in column-Stack inserts as sibling before", () => {
+    const child = makeNode("Heading");
+    const stack = makeNode("Stack", { direction: "column" });
+    stack.children = [child];
+    const newNode = makeNode("Text");
+    const actions = computeDropAction(
+      { targetId: child.id, targetParent: stack, targetParentList: stack.children, targetIndex: 0 },
+      "top",
+      newNode,
+      child,
+    );
+    expect(actions[0]).toMatchObject({ type: "INSERT", parentId: stack.id, index: 0 });
+  });
+});
+```
+
+### Step 2: drop-zones.tsx
+
+5 absolutely-positioned divs overlaying a rect:
+
+```tsx
+export function DropZones({ rect, isContainer, onDrop }: {
+  rect: DOMRect;
+  isContainer: boolean;
+  onDrop: (edge: "top" | "right" | "bottom" | "left" | "center") => void;
+}) {
+  const handle = (edge: "top" | "right" | "bottom" | "left" | "center") => (e: React.DragEvent) => {
+    e.preventDefault();
+    onDrop(edge);
+  };
+  return (
+    <>
+      <div className="wui-composer__drop wui-composer__drop--top"    style={zoneStyle(rect, "top")}    onDragOver={(e) => e.preventDefault()} onDrop={handle("top")} />
+      <div className="wui-composer__drop wui-composer__drop--right"  style={zoneStyle(rect, "right")}  onDragOver={(e) => e.preventDefault()} onDrop={handle("right")} />
+      <div className="wui-composer__drop wui-composer__drop--bottom" style={zoneStyle(rect, "bottom")} onDragOver={(e) => e.preventDefault()} onDrop={handle("bottom")} />
+      <div className="wui-composer__drop wui-composer__drop--left"   style={zoneStyle(rect, "left")}   onDragOver={(e) => e.preventDefault()} onDrop={handle("left")} />
+      {isContainer && (
+        <div className="wui-composer__drop wui-composer__drop--center" style={zoneStyle(rect, "center")} onDragOver={(e) => e.preventDefault()} onDrop={handle("center")} />
+      )}
+    </>
+  );
+}
+```
+
+`zoneStyle` computes a rect: top/right/bottom/left take a 30% slice of the parent rect along the corresponding edge; center takes the remaining middle area.
+
+### Step 3: Wire into palette + canvas
+
+Palette items set `dataTransfer.setData("application/x-weiui-node", JSON.stringify(makeNode(type)))` on drag start. Existing canvas nodes set the same payload + `dataTransfer.setData("application/x-weiui-move", nodeId)` to distinguish.
+
+On drop, read both, call `computeDropAction`, dispatch the action(s) to the reducer. For moves, emit a `MOVE` action instead when the new location is inside an existing container (same-direction case).
+
+### Step 4: Visual feedback
+
+- During drag: all drop zones render a `color-mix(in oklch, var(--wui-color-primary) 8%, transparent)` background.
+- The zone currently under the pointer: `var(--wui-color-primary)` 20% with a 3px primary-colored border on the corresponding edge.
+- Accessibility: drop zones have `aria-label="Insert <type> to the right of <targetName>"` so screen reader users know what they're dropping into.
+
+### Step 5: Commit
+
+```
+feat(docs): Composer edge-aware drag-and-drop with auto-wrap-in-Stack
+```
+
+---
+
+## Task 8: Composer — inline layout chips + viewport presets + schema-driven PropsEditor
+
+**Files:**
+- Create: `apps/docs/src/app/composer/components/LayoutChips.tsx`
+- Rewrite: `apps/docs/src/app/composer/components/PropsEditor.tsx` (schema-driven, uses shared `prop-controls`)
+- Update: `WysiwygCanvas.tsx` to render `<LayoutChips>` anchored to selection
+
+### LayoutChips component
+
+For each known container type, render a floating toolbar next to the selection outline:
+
+- **Stack**: direction toggle (`ToggleGroup` with row/column options) + gap slider (0–12) + align dropdown + justify dropdown.
+- **Grid**: columns input (number 1–12) + gap slider.
+- **Card**: padding slider.
+- **Container**: max-size preset dropdown.
+- **Dialog/Drawer**: no inline chips (modal, not relevant in canvas view).
+- **Accordion/Tabs**: no inline chips (structural).
+
+All controls dispatch `UPDATE_PROPS` to the tree reducer.
+
+```tsx
+export function LayoutChips({ node, position, onUpdate }: { node: ComponentNode; position: { x: number; y: number }; onUpdate: (props: Record<string, unknown>) => void }) {
+  if (node.type === "Stack") {
+    return (
+      <div className="wui-composer__chips" style={{ left: position.x, top: position.y }}>
+        <ToggleGroup
+          type="single"
+          value={(node.props.direction as string) ?? "column"}
+          onValueChange={(v) => onUpdate({ ...node.props, direction: v })}
+        >
+          <ToggleGroupItem value="row">↔</ToggleGroupItem>
+          <ToggleGroupItem value="column">↕</ToggleGroupItem>
+        </ToggleGroup>
+        <input type="number" min={0} max={12} value={Number(node.props.gap ?? 2)} onChange={(e) => onUpdate({ ...node.props, gap: Number(e.target.value) })} />
+      </div>
+    );
+  }
+  // ...Grid, Card, Container
+  return null;
+}
+```
+
+### PropsEditor schema-driven
+
+Same treatment as Playground's PropsPanel (Task 3). When a node is selected, look up its schema and render prop controls via `inferControl`. Dispatches `UPDATE_PROPS` to the reducer.
+
+### Commit
+
+```
+feat(docs): Composer inline layout chips + schema-driven props editor
+```
+
+---
+
+## Task 9: Composer — keyboard shortcuts + full-file code export + template gallery
+
+**Files:**
 - Create: `apps/docs/src/app/composer/lib/keyboard-shortcuts.ts`
-- Wire into `ComponentPalette.tsx` and `Canvas.tsx`
+- Create: `apps/docs/src/app/composer/lib/generate-code.ts` (JSX/TSX/HTML full-file emitter for nested trees with layout primitives)
+- Create 5 template JSON files under `apps/docs/src/app/composer/lib/templates/`
+- Rewrite: `apps/docs/src/app/composer/components/ComponentPalette.tsx` to include a "Templates" section that dispatches `LOAD` actions
+- Rewrite: `apps/docs/src/app/composer/components/CodeExport.tsx` to call the new generator + toast on copy + download button
+- Deprecate old `lib/code-gen.ts`
 
-Native HTML5 DnD: `draggable={true}` on palette items; `onDragStart` sets dataTransfer with node type; canvas rows / drop zones have `onDragOver` + `onDrop` that dispatch `INSERT` or `MOVE` actions. Keyboard shortcuts hook registers on `main` and dispatches reducer actions based on the currently-selected node id.
+### keyboard-shortcuts.ts
 
-Commit: `feat(docs): Composer drag-and-drop + keyboard shortcuts (Ctrl+D, Del, Undo/Redo)`.
+Registers on the document:
+- `Delete` / `Backspace` (when selection on canvas, not in an input) → `DELETE` the selected node
+- `Ctrl/Cmd+D` → `DUPLICATE`
+- `Ctrl/Cmd+Z` → `UNDO`
+- `Ctrl/Cmd+Shift+Z` (or `Ctrl+Y`) → `REDO`
+- Arrow keys while a canvas node is selected → move selection to prev/next sibling
+- `Tab` / `Shift+Tab` → move selection to first child / parent
+- `Escape` → deselect
+
+### generate-code.ts
+
+Walks the tree recursively. Collects unique imports grouped by path (main barrel + subpaths via registry `subpathImport` lookup). Emits:
+- **JSX / TSX**: imports grouped at top, then the tree serialized with 2-space indent per depth, wrapped in `export default function Composition() { return (…); }` when `componentWrap=true`.
+- **HTML**: full `<!DOCTYPE html>` document with CDN `<link>` for tokens + CSS; tree rendered using `wui-*` classes on plain HTML tags (e.g., `<button class="wui-button wui-button--solid">`); Stack becomes `<div class="wui-stack wui-stack--row">`; Grid becomes `<div class="wui-grid">` with inline `style="--wui-grid-cols: 3"`.
+
+### Template JSONs
+
+Each template is a hand-authored `ComponentNode[]` tree. Example `login-form.json`:
+
+```json
+[
+  {
+    "id": "t1",
+    "type": "Card",
+    "props": {},
+    "children": [
+      {
+        "id": "t2",
+        "type": "Stack",
+        "props": { "direction": "column", "gap": 4 },
+        "children": [
+          { "id": "t3", "type": "Heading", "props": { "level": 2 }, "children": [], "text": "Sign in" },
+          {
+            "id": "t4",
+            "type": "Field",
+            "props": { "label": "Email" },
+            "children": [
+              { "id": "t5", "type": "Input", "props": { "type": "email", "placeholder": "you@example.com" }, "children": [] }
+            ]
+          },
+          {
+            "id": "t6",
+            "type": "Field",
+            "props": { "label": "Password" },
+            "children": [
+              { "id": "t7", "type": "Input", "props": { "type": "password" }, "children": [] }
+            ]
+          },
+          { "id": "t8", "type": "Button", "props": { "variant": "solid" }, "children": [], "text": "Continue" }
+        ]
+      }
+    ]
+  }
+]
+```
+
+Five templates: `login-form`, `settings-page`, `dashboard-card`, `pricing-grid`, `empty-state`.
+
+### Commit
+
+```
+feat(docs): Composer keyboard shortcuts + full-file code export + 5 starter templates
+```
 
 ---
 
-## Task 7: Composer — schema-driven PropsEditor + full-file code export + template gallery
-
-**Files:**
-- Rewrite: `apps/docs/src/app/composer/components/PropsEditor.tsx` to use `ComponentSchema` + shared `prop-controls`.
-- Create: `apps/docs/src/app/composer/lib/generate-code.ts` (JSX/TSX/HTML full-file emitter for nested trees).
-- Create 5 template JSON files under `apps/docs/src/app/composer/lib/templates/`.
-- Rewrite: `apps/docs/src/app/composer/components/ComponentPalette.tsx` to include a "Templates" section that dispatches `LOAD` actions.
-- Rewrite: `apps/docs/src/app/composer/components/CodeExport.tsx` to call the new generator + toast on copy + download button.
-- Deprecate old `lib/code-gen.ts`.
-
-`generate-code.ts` walks the tree; collects unique imports grouped by path (main barrel + subpaths); emits a full component file when `componentWrap: true`. Indentation scales with depth.
-
-Template JSONs are hand-authored `ComponentNode[]` snapshots for the 5 starter templates listed in the spec.
-
-Commit: `feat(docs): Composer schema-driven props + full-file code export + 5 templates`.
-
----
-
-## Task 8: Composer — CodeSandbox/StackBlitz integration + final verification + E2E tests
+## Task 10: Composer — CodeSandbox/StackBlitz integration + final verification + E2E tests
 
 **Files:**
 - Create: `apps/docs/src/app/composer/lib/codesandbox-export.ts`
@@ -1220,13 +1598,13 @@ Commit: `feat(docs): Composer CodeSandbox/StackBlitz export + Playground/Compose
 
 1. **Spec coverage** (against `docs/superpowers/specs/2026-04-18-composer-playground-completion-design.md`):
    - §4.1 Playground every feature → Tasks 2 (renderer + code gen), 3 (props panel + state), 4 (toggles + search) ✓
-   - §4.2 Composer every feature → Tasks 5 (tree + canvas), 6 (DnD + shortcuts), 7 (props editor + export + templates), 8 (sandbox export + e2e) ✓
+   - §4.2 Composer every feature — including the page-builder layout semantics → Tasks 5 (tree reducer + outline tree), 6 (WYSIWYG canvas + selection), 7 (edge-aware DnD + wrap-in-Stack), 8 (layout chips + props editor), 9 (keyboard + code export + templates), 10 (sandbox export + e2e) ✓
    - §3 shared infrastructure → Task 1 ✓
    - §5 success criteria 1–12 → covered across all tasks
 
-2. **Placeholder scan:** Every task has bite-sized steps with complete code (generators, reducers, controls). Task 7's code-gen function is described at a high level because its body is a recursive walk of the reducer output — the reducer implementation in Task 5 is complete, so Task 7's generator is mechanical. Template JSONs are hand-authored — acceptable since their structure is small and stable.
+2. **Placeholder scan:** Every task has bite-sized steps with complete code (generators, reducers, drop-logic pure function, selection overlay). Template JSONs are hand-authored — acceptable since their structure is small and stable.
 
-3. **Type consistency:** `ComponentNode` defined once in Task 5's `tree.ts`; `ComponentSchema` / `PropSchema` defined once in Task 1's `component-schema-loader.ts`; both types referenced by Playground (Tasks 2–4) and Composer (Tasks 5–8) via relative imports. `ControlKind` + all 7 `Control<Kind>Props` interfaces defined once in Task 1 and consumed by both pages.
+3. **Type consistency:** `ComponentNode` defined once in Task 5's `tree.ts`; `TreeAction` extended with `WRAP_WITH` in Task 7; `ComponentSchema` / `PropSchema` defined once in Task 1's `component-schema-loader.ts`; both types referenced by Playground (Tasks 2–4) and Composer (Tasks 5–10) via relative imports. `ControlKind` + all 7 `Control<Kind>Props` interfaces defined once in Task 1 and consumed by both pages.
 
 ## Execution handoff
 
