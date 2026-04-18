@@ -6,11 +6,33 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 
-import { defaultLoadIndex } from "./registry-loader.js";
+import { defaultLoadIndex, defaultLoadComponent } from "./registry-loader.js";
 import { listComponents } from "./tools/list-components.js";
+import { getComponent } from "./tools/get-component.js";
+import { searchComponents } from "./tools/search-components.js";
+import { getExample } from "./tools/get-example.js";
+import { checkUsage } from "./tools/check-usage.js";
 
 const listComponentsInputSchema = z.object({
   category: z.string().optional(),
+});
+
+const getComponentInputSchema = z.object({
+  name: z.string(),
+});
+
+const searchComponentsInputSchema = z.object({
+  query: z.string(),
+  limit: z.number().int().positive().optional(),
+});
+
+const getExampleInputSchema = z.object({
+  name: z.string(),
+  variant: z.string().optional(),
+});
+
+const checkUsageInputSchema = z.object({
+  code: z.string(),
 });
 
 export interface CreateServerOptions {
@@ -22,6 +44,7 @@ export interface CreateServerOptions {
  */
 export function createServer(options: CreateServerOptions = {}): Server {
   const loadIndex = defaultLoadIndex(options.registryDir);
+  const loadComponent = defaultLoadComponent(options.registryDir);
 
   const server = new Server(
     { name: "@weiui/mcp", version: "0.0.1" },
@@ -44,6 +67,69 @@ export function createServer(options: CreateServerOptions = {}): Server {
           },
         },
       },
+      {
+        name: "get_component",
+        description:
+          "Return the full registry schema for one component: props, examples, accessibility notes, and import path.",
+        inputSchema: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            name: {
+              type: "string",
+              description: "PascalCase component name (e.g. 'Button').",
+            },
+          },
+        },
+      },
+      {
+        name: "search_components",
+        description:
+          "Ranked full-text search over component name, description, and category. Returns top-N matches.",
+        inputSchema: {
+          type: "object",
+          required: ["query"],
+          properties: {
+            query: { type: "string", description: "Free-text query." },
+            limit: {
+              type: "integer",
+              description: "Maximum number of results. Default 10.",
+              minimum: 1,
+            },
+          },
+        },
+      },
+      {
+        name: "get_example",
+        description:
+          "Fetch a canonical code sample for a component. Pass `variant` to select a specific labeled example.",
+        inputSchema: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            name: {
+              type: "string",
+              description: "PascalCase component name.",
+            },
+            variant: {
+              type: "string",
+              description: "Example label (case-insensitive). Defaults to first example.",
+            },
+          },
+        },
+      },
+      {
+        name: "check_usage",
+        description:
+          "Lint a TSX snippet for common WeiUI mistakes: Tailwind utility leakage, heavy-component imports from the main barrel, and icon-only Button without aria-label.",
+        inputSchema: {
+          type: "object",
+          required: ["code"],
+          properties: {
+            code: { type: "string", description: "Raw TSX source to lint." },
+          },
+        },
+      },
     ],
   }));
 
@@ -53,9 +139,31 @@ export function createServer(options: CreateServerOptions = {}): Server {
     if (name === "list_components") {
       const input = listComponentsInputSchema.parse(args ?? {});
       const result = await listComponents({ loadIndex }, input);
-      return {
-        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-      };
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === "get_component") {
+      const input = getComponentInputSchema.parse(args ?? {});
+      const result = await getComponent({ loadComponent }, input);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === "search_components") {
+      const input = searchComponentsInputSchema.parse(args ?? {});
+      const result = await searchComponents({ loadIndex }, input);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === "get_example") {
+      const input = getExampleInputSchema.parse(args ?? {});
+      const result = await getExample({ loadComponent }, input);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    if (name === "check_usage") {
+      const input = checkUsageInputSchema.parse(args ?? {});
+      const result = await checkUsage({}, input);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
 
     throw new Error(`Unknown tool: ${name}`);
