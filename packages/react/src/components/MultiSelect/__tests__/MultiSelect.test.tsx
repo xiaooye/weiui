@@ -139,4 +139,62 @@ describe("MultiSelect", () => {
     const listbox = screen.getByRole("listbox");
     expect(listbox.style.position).toBe("absolute");
   });
+
+  describe("P1 features", () => {
+    it("max limits selection to N values", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<MultiSelect options={options} max={2} onChange={onChange} label="Frameworks" />);
+      await user.click(screen.getByRole("combobox"));
+      await user.click(screen.getByRole("option", { name: "React" }));
+      await user.click(screen.getByRole("option", { name: "Vue" }));
+      await user.click(screen.getByRole("option", { name: "Angular" }));
+      // Third selection rejected
+      expect(onChange).toHaveBeenLastCalledWith(["react", "vue"]);
+    });
+
+    it("creatable lets you add a value not in options", async () => {
+      const user = userEvent.setup();
+      const onCreate = vi.fn();
+      render(<MultiSelect options={options} creatable onCreate={onCreate} label="Frameworks" />);
+      await user.click(screen.getByRole("combobox"));
+      const search = screen.getByPlaceholderText(/search/i);
+      await user.type(search, "Svelte");
+      await user.keyboard("{Enter}");
+      expect(onCreate).toHaveBeenCalledWith("Svelte");
+    });
+
+    it("selectAll toggles all options at once", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<MultiSelect options={options} selectAll onChange={onChange} label="Frameworks" />);
+      await user.click(screen.getByRole("combobox"));
+      await user.click(screen.getByRole("option", { name: /select all/i }));
+      expect(onChange).toHaveBeenCalledWith(["react", "vue", "angular"]);
+    });
+
+    it("grouped renders group headings", async () => {
+      const user = userEvent.setup();
+      const grouped = [
+        { value: "react", label: "React", group: "JS" },
+        { value: "vue", label: "Vue", group: "JS" },
+        { value: "svelte", label: "Svelte", group: "Compiler" },
+      ];
+      render(<MultiSelect options={grouped} grouped label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      expect(screen.getByText("JS")).toBeInTheDocument();
+      expect(screen.getByText("Compiler")).toBeInTheDocument();
+    });
+
+    it("backspace with empty search removes last tag", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(<MultiSelect options={options} defaultValue={["react", "vue"]} onChange={onChange} label="Fw" />);
+      await user.click(screen.getByRole("combobox"));
+      const search = screen.getByPlaceholderText(/search/i);
+      search.focus();
+      await user.keyboard("{Backspace}");
+      expect(onChange).toHaveBeenLastCalledWith(["react"]);
+    });
+  });
 });

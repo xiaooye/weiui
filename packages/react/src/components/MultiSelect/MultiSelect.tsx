@@ -1,10 +1,17 @@
 "use client";
-import { forwardRef, useState, useRef, useId } from "react";
+import { Fragment, forwardRef, useState, useRef, useId } from "react";
 import { cn } from "../../utils/cn";
 import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
 
+export interface MultiSelectOption {
+  value: string;
+  label: string;
+  /** Group name — pair with `grouped` prop on the root to render group headings. */
+  group?: string;
+}
+
 export interface MultiSelectProps {
-  options: { value: string; label: string }[];
+  options: MultiSelectOption[];
   value?: string[];
   defaultValue?: string[];
   onChange?: (value: string[]) => void;
@@ -12,6 +19,16 @@ export interface MultiSelectProps {
   disabled?: boolean;
   className?: string;
   label?: string;
+  /** Maximum number of values that may be selected. */
+  max?: number;
+  /** Allow typing a value that isn't in `options` and creating it on Enter. */
+  creatable?: boolean;
+  /** Fires when a value typed into search is submitted via Enter (creatable mode). */
+  onCreate?: (value: string) => void;
+  /** Render a "Select all" row at the top of the dropdown. */
+  selectAll?: boolean;
+  /** Render group headings based on `option.group`. */
+  grouped?: boolean;
 }
 
 export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
@@ -25,6 +42,11 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       disabled,
       className,
       label,
+      max,
+      creatable,
+      onCreate,
+      selectAll,
+      grouped,
     },
     ref,
   ) => {
@@ -46,16 +68,57 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     };
 
     const toggle = (val: string) => {
-      setSelected(
-        selected.includes(val)
-          ? selected.filter((v) => v !== val)
-          : [...selected, val],
-      );
+      if (selected.includes(val)) {
+        setSelected(selected.filter((v) => v !== val));
+      } else {
+        if (max !== undefined && selected.length >= max) return;
+        setSelected([...selected, val]);
+      }
+    };
+
+    const handleSelectAll = () => {
+      const allValues = options.map((o) => o.value);
+      const allSelected = allValues.every((v) => selected.includes(v));
+      if (allSelected) {
+        setSelected([]);
+      } else {
+        const capped = max !== undefined ? allValues.slice(0, max) : allValues;
+        setSelected(capped);
+      }
     };
 
     const filtered = options.filter((o) =>
       o.label.toLowerCase().includes(filter.toLowerCase()),
     );
+
+    // Build grouped rendering buckets if enabled.
+    const groupedOptions: Array<{ group?: string; items: MultiSelectOption[] }> = [];
+    if (grouped) {
+      const map = new Map<string | undefined, MultiSelectOption[]>();
+      for (const opt of filtered) {
+        const key = opt.group;
+        if (!map.has(key)) map.set(key, []);
+        map.get(key)!.push(opt);
+      }
+      for (const [group, items] of map) groupedOptions.push({ group, items });
+    }
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace" && filter.length === 0 && selected.length > 0) {
+        e.preventDefault();
+        setSelected(selected.slice(0, -1));
+        return;
+      }
+      if (e.key === "Enter") {
+        if (creatable && filter.trim().length > 0 && filtered.length === 0) {
+          e.preventDefault();
+          onCreate?.(filter.trim());
+          setFilter("");
+          return;
+        }
+      }
+      handleKeyDown(e);
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
@@ -93,6 +156,25 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       isOpen && highlightedIndex >= 0 && filtered[highlightedIndex]
         ? `${listboxId}-opt-${highlightedIndex}`
         : undefined;
+
+    const allOptionValues = options.map((o) => o.value);
+    const allSelected =
+      allOptionValues.length > 0 && allOptionValues.every((v) => selected.includes(v));
+
+    const renderOption = (opt: MultiSelectOption, i: number) => (
+      <div
+        key={opt.value}
+        id={`${listboxId}-opt-${i}`}
+        className="wui-multi-select__option"
+        role="option"
+        aria-selected={selected.includes(opt.value)}
+        data-selected={selected.includes(opt.value) || undefined}
+        data-highlighted={highlightedIndex === i || undefined}
+        onClick={() => toggle(opt.value)}
+      >
+        {opt.label}
+      </div>
+    );
 
     return (
       <div
@@ -156,23 +238,48 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                   setFilter(e.target.value);
                   setHighlightedIndex(0);
                 }}
-                onKeyDown={handleKeyDown}
+                onKeyDown={handleSearchKeyDown}
                 onClick={(e) => e.stopPropagation()}
               />
-              {filtered.map((opt, i) => (
+              {selectAll && (
                 <div
-                  key={opt.value}
-                  id={`${listboxId}-opt-${i}`}
-                  className="wui-multi-select__option"
+                  className="wui-multi-select__option wui-multi-select__option--all"
                   role="option"
-                  aria-selected={selected.includes(opt.value)}
-                  data-selected={selected.includes(opt.value) || undefined}
-                  data-highlighted={highlightedIndex === i || undefined}
-                  onClick={() => toggle(opt.value)}
+                  aria-selected={allSelected}
+                  data-selected={allSelected || undefined}
+                  onClick={handleSelectAll}
                 >
-                  {opt.label}
+                  {allSelected ? "Deselect all" : "Select all"}
                 </div>
-              ))}
+              )}
+              {grouped
+                ? groupedOptions.map((bucket) => (
+                    <Fragment key={bucket.group ?? "__ungrouped"}>
+                      {bucket.group && (
+                        <div className="wui-multi-select__group" role="presentation">
+                          {bucket.group}
+                        </div>
+                      )}
+                      {bucket.items.map((opt) => {
+                        const i = filtered.indexOf(opt);
+                        return renderOption(opt, i);
+                      })}
+                    </Fragment>
+                  ))
+                : filtered.map((opt, i) => renderOption(opt, i))}
+              {creatable && filter.trim().length > 0 && filtered.length === 0 && (
+                <div
+                  className="wui-multi-select__option wui-multi-select__option--create"
+                  role="option"
+                  aria-selected={false}
+                  onClick={() => {
+                    onCreate?.(filter.trim());
+                    setFilter("");
+                  }}
+                >
+                  Create "{filter.trim()}"
+                </div>
+              )}
             </div>
           )}
         </div>

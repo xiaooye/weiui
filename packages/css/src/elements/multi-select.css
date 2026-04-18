@@ -69,4 +69,22 @@
   .wui-multi-select__search::placeholder {
     color: var(--wui-color-muted-foreground);
   }
+  .wui-multi-select__option--all {
+    font-weight: var(--wui-font-weight-medium);
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+  .wui-multi-select__option--create {
+    font-style: italic;
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-multi-select__group {
+    padding-block: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-3);
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-medium);
+    color: var(--wui-color-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+  }
 }
