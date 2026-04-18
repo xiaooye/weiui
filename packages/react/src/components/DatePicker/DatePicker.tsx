@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
+import { useOutsideClick, useFloatingMenu, useControllable } from "@weiui/headless";
 import { Calendar } from "../Calendar";
 import { Portal } from "../Portal";
 
@@ -21,6 +21,8 @@ export interface DatePickerPreset {
 export interface DatePickerProps {
   /** Controlled date value in single-mode. Pair with onChange. */
   value?: Date;
+  /** Uncontrolled initial value in single-mode. Ignored when `value` is set. */
+  defaultValue?: Date;
   /** Called when the selected date changes in single-mode. */
   onChange?: (date: Date | null) => void;
   /** Placeholder text shown when empty. */
@@ -91,6 +93,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
       value,
+      defaultValue,
       onChange,
       placeholder = "Select date...",
       disabled,
@@ -116,7 +119,15 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const calendarId = useId();
-    const [typedValue, setTypedValue] = useState(value ? formatDate(value, locale) : "");
+
+    // Controlled + uncontrolled single-mode value. `null` means "no date".
+    const [currentValue, setCurrentValue] = useControllable<Date | null>({
+      value: value ?? undefined,
+      defaultValue: defaultValue ?? null,
+      onChange,
+    });
+
+    const [typedValue, setTypedValue] = useState(currentValue ? formatDate(currentValue, locale) : "");
     const [pendingRange, setPendingRange] = useState<[Date | null, Date | null]>(
       rangeValue ?? [null, null],
     );
@@ -131,7 +142,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const floatingRef = useRef<HTMLDivElement | null>(null);
     useOutsideClick(floatingRef, () => setIsOpen(false), isOpen, containerRef);
 
-    const displayValue = value ? formatDate(value, locale) : null;
+    const displayValue = currentValue ? formatDate(currentValue, locale) : null;
 
     const setFloatingRef = (el: HTMLDivElement | null) => {
       (floatingRef as MutableRefObject<HTMLDivElement | null>).current = el;
@@ -143,7 +154,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         setPendingRange([preset.value[0], preset.value[1]]);
         onRangeChange?.([preset.value[0], preset.value[1]]);
       } else {
-        onChange?.(preset.value);
+        setCurrentValue(preset.value);
       }
       setIsOpen(false);
     };
@@ -155,8 +166,8 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         const b = r[1] ? r[1].toISOString() : "";
         return `${a},${b}`;
       }
-      return value ? value.toISOString() : "";
-    }, [mode, rangeValue, pendingRange, value]);
+      return currentValue ? currentValue.toISOString() : "";
+    }, [mode, rangeValue, pendingRange, currentValue]);
 
     const calendar = (
       <>
@@ -176,11 +187,11 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           </div>
         )}
         <Calendar
-          value={mode === "single" ? value : undefined}
+          value={mode === "single" ? (currentValue ?? undefined) : undefined}
           rangeValue={mode === "range" ? (rangeValue ?? pendingRange) : undefined}
           mode={mode}
           onChange={(date) => {
-            onChange?.(date);
+            setCurrentValue(date);
             setTypedValue(formatDate(date, locale));
             setIsOpen(false);
           }}
@@ -216,24 +227,24 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               onChange={(e) => setTypedValue(e.target.value)}
               onBlur={() => {
                 const parsed = parseTypedDate(typedValue);
-                if (parsed) onChange?.(parsed);
+                if (parsed) setCurrentValue(parsed);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   const parsed = parseTypedDate(typedValue);
-                  if (parsed) onChange?.(parsed);
+                  if (parsed) setCurrentValue(parsed);
                 }
               }}
               onFocus={() => setIsOpen(true)}
             />
-            {clearable && (typedValue || value) && (
+            {clearable && (typedValue || currentValue) && (
               <button
                 type="button"
                 className="wui-date-picker__clear"
                 aria-label="Clear date"
                 onClick={() => {
                   setTypedValue("");
-                  onChange?.(null);
+                  setCurrentValue(null);
                 }}
                 tabIndex={-1}
               >
@@ -258,12 +269,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           >
             {displayValue || <span className="wui-date-picker__placeholder">{placeholder}</span>}
           </button>
-          {clearable && value && (
+          {clearable && currentValue && (
             <button
               type="button"
               className="wui-date-picker__clear"
               aria-label="Clear date"
-              onClick={() => onChange?.(null)}
+              onClick={() => setCurrentValue(null)}
               tabIndex={-1}
             >
               &times;

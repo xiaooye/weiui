@@ -175,5 +175,30 @@ describe("DatePicker", () => {
       const hidden = container.querySelector('input[type="hidden"][name="dob"]');
       expect(hidden).not.toBeNull();
     });
+
+    it("defaultValue sets initial displayed date without consumer wiring value", () => {
+      render(<DatePicker defaultValue={new Date(2024, 0, 15)} placeholder="Pick date" label="Date" />);
+      const trigger = screen.getByRole("button", { name: "Date" });
+      expect(trigger).toHaveTextContent("Jan 15, 2024");
+    });
+
+    it("uncontrolled: selecting a date in the popover updates the trigger text and fires onChange", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      render(
+        <DatePicker defaultValue={new Date(2024, 0, 15)} onChange={onChange} label="Date" />,
+      );
+      const trigger = screen.getByRole("button", { name: "Date" });
+      expect(trigger).toHaveTextContent("Jan 15, 2024");
+      await user.click(trigger);
+      const dialog = screen.getByRole("dialog");
+      const day20 = within(dialog).getByText("20", { selector: ".wui-calendar__day-btn" });
+      await user.click(day20);
+      // Internal state advanced without consumer holding `value`.
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange.mock.calls[0]![0]).toBeInstanceOf(Date);
+      const triggerAfter = screen.getByRole("button", { name: "Date" });
+      expect(triggerAfter).toHaveTextContent("Jan 20, 2024");
+    });
   });
 });
