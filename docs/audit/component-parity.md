@@ -255,12 +255,12 @@
 | Overlay/backdrop | ✅ | ✅ | — | — |
 | Escape + outside click | ✅ | ✅ | — | — |
 | Portal rendering | ✅ | ✅ | Same Portal primitive | ✅ shipped |
-| Swipe-to-dismiss (mobile) | ❌ | ✅ Vaul | Add gesture support | **P1** |
+| Swipe-to-dismiss (mobile) | ✅ pointer drag + flick | ✅ Vaul | Add gesture support | ✅ shipped |
 | Snap points (partial open) | ❌ | ✅ Vaul | Out of scope for v1 | **P2** |
 | Non-modal (dismiss by interacting elsewhere without close) | ❌ | ✅ | Add variant | **P2** |
 | `onInteractOutside` preventable | ✅ | ✅ | Add callback | ✅ shipped |
 | `onEscapeKeyDown` preventable | ✅ | ✅ | Add callback | ✅ shipped |
-| Animations (slide-in/out) | ⚠️ CSS default | ✅ configurable | Already in CSS; confirm exit animation | **P1** |
+| Animations (slide-in/out) | ✅ in + exit via data-state | ✅ configurable | Slide-in + slide-out keyframes tied to `data-state` | ✅ shipped |
 
 **Notes:** Portal is shared with Dialog. Swipe-to-dismiss is the expected mobile polish from Vaul — P1 because it's visible polish, not baseline correctness.
 
@@ -350,7 +350,7 @@
 | Action button (`undo`-style) | ✅ | ✅ | Add `action` option | ✅ shipped |
 | Promise-based toast (loading → success/error) | ✅ `toast.promise` | ✅ `toast.promise` | Add `toast.promise` | ✅ shipped |
 | Stacking / expand on hover | ✅ | ✅ | Add stack behaviour | ✅ shipped |
-| Swipe to dismiss (mobile) | ❌ | ✅ | Add gesture support | **P1** |
+| Swipe to dismiss (mobile) | ✅ pointer drag + flick | ✅ | Add gesture support | ✅ shipped |
 | Position config (top/bottom × left/center/right) | ✅ `position` on Toaster | ✅ | Add `position` on Toaster | ✅ shipped |
 | Pause on hover / focus | ✅ | ✅ | Pause timer on hover | ✅ shipped |
 | Rich content (JSX description) | ✅ ReactNode title & description | ✅ ReactNode | Accept ReactNode | ✅ shipped |
@@ -374,12 +374,12 @@
 | Disabled item skip | ✅ | ✅ | — | — |
 | Global hotkey (Cmd/Ctrl+K) | ✅ | ⚠️ manual in cmdk | — (bonus) | — |
 | Recent / frecency items | ✅ (via `id` + `localStorage`) | ✅ | Add `recent` tracking + slot | ✅ shipped |
-| Async filtering / loading state | ❌ | ✅ | Add `loading` prop | **P1** |
+| Async filtering / loading state | ✅ `loading` prop | ✅ | Add `loading` prop | ✅ shipped |
 | Per-item icon | ✅ | ✅ | Add `icon` field | ✅ shipped |
 | Per-item keyboard-shortcut display | ✅ `shortcut` field rendered | ✅ | Add shortcut slot | ✅ shipped |
-| Per-item keyboard-shortcut execution | ❌ (display only) | ✅ | Register each shortcut | **P1** |
+| Per-item keyboard-shortcut execution | ✅ Cmd/Ctrl/Shift/Alt + key | ✅ | Register each shortcut | ✅ shipped |
 | Subpages / nested commands | ❌ | ✅ Raycast | Add `subItems` / nav stack | **P2** |
-| Fuzzy matching scoring | ⚠️ substring only | ✅ weighted fuzzy | Add fuzzy matcher (e.g. match-sorter) | **P1** |
+| Fuzzy matching scoring | ✅ match-sorter over label+group | ✅ weighted fuzzy | Add fuzzy matcher (e.g. match-sorter) | ✅ shipped |
 | Focus trap + return focus to trigger | ✅ focus trap + return focus | ✅ | Add focus trap, restore on close | ✅ shipped |
 | Portal rendering | ✅ | ✅ | Portal primitive | ✅ shipped |
 | Animation on open/close | ✅ CSS animation (prefers-reduced-motion guarded) | ✅ | CSS animation with prefers-reduced-motion | ✅ shipped |
