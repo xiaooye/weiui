@@ -1,23 +1,30 @@
 import { Preview } from "../../../../components/preview/Preview";
 import { DrawerDemo } from "../../../../components/demos/DrawerDemo";
 import { SidebarDemo } from "../../../../components/demos/SidebarDemo";
+import { SidebarGroupedDemo } from "../../../../components/demos/SidebarGroupedDemo";
 
 # Sidebar & Drawer
 
-Navigation panels and slide-in overlays for app layouts.
+Navigation panels (**Sidebar**) are persistent app chrome — they sit beside your content and stay. Drawers (**Drawer**) are transient overlays that slide in on demand.
 
 ---
 
 ## Sidebar
 
-A collapsible navigation panel that sticks to the viewport edge.
+A persistent navigation panel docked to the viewport's inline-start edge. Supports collapse to icon-only width, nested sub-menus, grouped sections, and a built-in trigger button.
 
-<Preview label="Sidebar">
+<Preview label="Flat sidebar">
   <SidebarDemo />
 </Preview>
 
 ```tsx
-import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } from "@weiui/react";
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarItem,
+} from "@weiui/react";
 
 <Sidebar aria-label="Main navigation">
   <SidebarHeader>App Name</SidebarHeader>
@@ -29,57 +36,143 @@ import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem } fr
 </Sidebar>
 ```
 
-### Sidebar Props
+### Grouped sidebar with sub-menus
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| open | `boolean` | — | Controls whether the sidebar is collapsed to icons only (`true`) or expanded with full labels (`false`). |
-| defaultOpen | `boolean` | `false` | Initial collapsed state (uncontrolled). Default is expanded. |
-| onOpenChange | `(open: boolean) => void` | — | Called when the collapsed state toggles. |
+Break up long item lists with `SidebarGroup` + `SidebarGroupLabel`. Use `SidebarSubMenu` to nest items one level deep with a collapsible parent.
 
-### Collapsed (icon-only) mode
-
-When the sidebar is collapsed, labels are visually hidden and the sidebar narrows to fit icons only — the layout transition is CSS-driven so the adjacent content reflows without layout shift. Screen readers still announce the full label via `aria-label`.
+<Preview label="Grouped sidebar with a nested sub-menu">
+  <SidebarGroupedDemo />
+</Preview>
 
 ```tsx
-<Sidebar defaultOpen>
+import {
+  Sidebar, SidebarContent, SidebarHeader,
+  SidebarGroup, SidebarGroupLabel, SidebarSubMenu, SidebarItem,
+} from "@weiui/react";
+
+<Sidebar aria-label="Admin navigation">
+  <SidebarHeader>Admin</SidebarHeader>
   <SidebarContent>
-    <SidebarItem icon={<HomeIcon />}>Home</SidebarItem>
-    <SidebarItem icon={<SettingsIcon />}>Settings</SidebarItem>
+    <SidebarGroup>
+      <SidebarGroupLabel>Overview</SidebarGroupLabel>
+      <SidebarItem active>Dashboard</SidebarItem>
+      <SidebarItem>Reports</SidebarItem>
+    </SidebarGroup>
+    <SidebarGroup>
+      <SidebarGroupLabel>People</SidebarGroupLabel>
+      <SidebarItem>Users</SidebarItem>
+      <SidebarSubMenu label="Teams">
+        <SidebarItem>Engineering</SidebarItem>
+        <SidebarItem>Design</SidebarItem>
+      </SidebarSubMenu>
+    </SidebarGroup>
   </SidebarContent>
 </Sidebar>
 ```
 
-Toggle by flipping `open` / calling `onOpenChange`. In CSS, the mode is a `data-collapsed` attribute — you can target it (e.g. `.wui-sidebar[data-collapsed] .brand-text { display: none }`) to tailor the visual further.
+### Collapsed (icon-only) mode with tooltips
 
-### SidebarItem Props
+When collapsed, labels are visually hidden but remain in the DOM for screen readers. Pair items with `Tooltip` so hovering an icon shows its label to sighted users too:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| active | `boolean` | `false` | Highlights as current page; sets `aria-current="page"`. |
-| icon | `ReactNode` | — | Icon rendered before the label; remains visible in collapsed mode. |
+```tsx
+<Sidebar open={false} aria-label="App">
+  <SidebarContent>
+    <Tooltip content="Dashboard">
+      <SidebarItem icon={<Home />} active />
+    </Tooltip>
+    <Tooltip content="Settings">
+      <SidebarItem icon={<Settings />} />
+    </Tooltip>
+  </SidebarContent>
+</Sidebar>
+```
 
-### Accessibility
+### Mobile: turn the Sidebar into a sheet
 
-- Root renders a semantic `<aside>` — always pass an `aria-label` (e.g. `"Main navigation"`) so screen readers can distinguish it from other asides on the page.
-- Active items set `aria-current="page"` so assistive tech announces the current location.
-- Labels stay in the DOM during collapsed mode (visually hidden via `wui-sr-only`), so screen readers keep announcing each item's name even when only icons are visible.
-- Arrow-key navigation works on items that opt into list semantics; standard Tab order applies for the default button-list pattern.
+On narrow viewports, prefer rendering the Sidebar inside a Drawer from the start-side so users can reveal it via a menu button:
+
+```tsx
+<Drawer side="start">
+  <DrawerTrigger>
+    <Button variant="ghost" aria-label="Open menu"><Menu /></Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <Sidebar aria-label="Mobile navigation">
+      ...
+    </Sidebar>
+  </DrawerContent>
+</Drawer>
+```
+
+### Sidebar + Drawer: full dashboard template
+
+```tsx
+<AppBar sticky>
+  <DrawerTrigger>
+    <Button variant="ghost" aria-label="Open menu"><Menu /></Button>
+  </DrawerTrigger>
+  <strong>Acme Dashboard</strong>
+</AppBar>
+
+<div style={{ display: "grid", gridTemplateColumns: "240px 1fr" }}>
+  <Sidebar aria-label="Dashboard navigation">
+    {/* items */}
+  </Sidebar>
+  <main>
+    {/* page content */}
+  </main>
+</div>
+
+<Drawer side="end">
+  <DrawerContent>
+    <DrawerHeader>Notifications</DrawerHeader>
+    {/* stream */}
+  </DrawerContent>
+</Drawer>
+```
+
+### Sidebar props
+
+| Prop           | Type                               | Default  | Description                                                |
+|----------------|------------------------------------|----------|------------------------------------------------------------|
+| `open`         | `boolean`                          | —        | Controlled collapsed state (`true` = expanded)             |
+| `defaultOpen`  | `boolean`                          | `true`   | Initial uncontrolled state                                 |
+| `onOpenChange` | `(open: boolean) => void`          | —        | Fired when collapse toggles                                |
+
+### Sub-component props
+
+| Component            | Prop          | Type          | Description                                             |
+|----------------------|---------------|---------------|---------------------------------------------------------|
+| `SidebarItem`        | `active`      | `boolean`     | Marks as current page (sets `aria-current="page"`)      |
+| `SidebarItem`        | `icon`        | `ReactNode`   | Icon visible in both expanded and collapsed states      |
+| `SidebarSubMenu`     | `label`       | `ReactNode`   | Header of the collapsible child group                   |
+| `SidebarSubMenu`     | `defaultOpen` | `boolean`     | Start open or closed                                    |
+
+### Sidebar accessibility
+
+- Root is a semantic `<aside>` — always pass `aria-label` so multiple asides are distinguishable.
+- Active item carries `aria-current="page"` per ARIA Authoring Practices.
+- Labels stay in the DOM even when collapsed (visually hidden via `wui-sr-only`).
+- Sub-menu toggles expose `aria-expanded` + `aria-controls`; Enter/Space expand and collapse.
+- Tab order follows DOM order; arrow keys navigate within `SidebarSubMenu` groups.
 
 ---
 
 ## Drawer
 
-A slide-in panel from any edge with overlay and focus trap.
+A transient panel that slides in from any edge, renders in a Portal, traps focus while open, and closes on Escape + overlay click. Four sides (`start`, `end`, `top`, `bottom` — respecting writing-mode) and safe to nest.
 
-<Preview label="Drawer">
+<Preview label="Right-side drawer">
   <DrawerDemo />
 </Preview>
 
 ```tsx
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerClose } from "@weiui/react";
+import {
+  Drawer, DrawerTrigger, DrawerContent,
+  DrawerHeader, DrawerClose,
+} from "@weiui/react";
 
-<Drawer side="right">
+<Drawer side="end">
   <DrawerTrigger>Open Drawer</DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>Settings</DrawerHeader>
@@ -89,21 +182,87 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerClose } from 
 </Drawer>
 ```
 
-### Props
+### All four sides
 
-`side` and open-state props live on the `<Drawer>` root.
+```tsx
+<Drawer side="start">…</Drawer>    {/* logical left / right-to-left aware */}
+<Drawer side="end">…</Drawer>      {/* logical right */}
+<Drawer side="top">…</Drawer>
+<Drawer side="bottom">…</Drawer>
+```
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| side | `"left" \| "right" \| "top" \| "bottom"` | `"right"` | Slide direction |
-| open | `boolean` | — | Controlled open state |
-| defaultOpen | `boolean` | `false` | Initial uncontrolled state |
-| onOpenChange | `(open: boolean) => void` | — | Open/close callback |
+### Nested drawers
 
-### Accessibility
+Nested drawers stack — the outer one stays visible and shifts back slightly (CSS peek effect) when the inner opens. Close bubbles outward:
 
-- `role="dialog"` with `aria-modal="true"` on content
-- Focus trap while open, Escape to close
-- Focus returns to trigger on close
-- Slide animation respects `prefers-reduced-motion`
-- Rendered via Portal, so the drawer is never clipped by a scrolling parent and sits above all app chrome
+```tsx
+<Drawer side="end">
+  <DrawerTrigger>Filters</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>Filters</DrawerHeader>
+    <Drawer side="end">
+      <DrawerTrigger>Advanced</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>Advanced filters</DrawerHeader>
+        {/* ... */}
+      </DrawerContent>
+    </Drawer>
+  </DrawerContent>
+</Drawer>
+```
+
+### Intercepting close
+
+Use `onInteractOutside` and `onEscapeKeyDown` to prompt for unsaved changes:
+
+```tsx
+<DrawerContent
+  onEscapeKeyDown={(e) => {
+    if (dirty) e.preventDefault();
+  }}
+  onInteractOutside={(e) => {
+    if (dirty) e.preventDefault();
+  }}
+>
+  ...
+</DrawerContent>
+```
+
+### Drawer props
+
+| Prop              | Type                                              | Default  | Description                                         |
+|-------------------|---------------------------------------------------|----------|-----------------------------------------------------|
+| `side`            | `"start" \| "end" \| "top" \| "bottom"`           | `"end"`  | Edge to slide in from (logical)                     |
+| `open`            | `boolean`                                         | —        | Controlled open state                               |
+| `defaultOpen`     | `boolean`                                         | `false`  | Initial uncontrolled state                          |
+| `onOpenChange`    | `(open: boolean) => void`                         | —        | Fires on open/close                                 |
+
+### DrawerContent props
+
+| Prop                  | Type                     | Description                                        |
+|-----------------------|--------------------------|----------------------------------------------------|
+| `onInteractOutside`   | `(e: MouseEvent) => void`| Click outside; call `preventDefault` to block close |
+| `onEscapeKeyDown`     | `(e: KeyboardEvent) => void` | Escape key; call `preventDefault` to block close |
+
+### Drawer accessibility
+
+- `role="dialog"` + `aria-modal="true"` on content.
+- Focus trap while open; Escape closes (unless prevented).
+- Focus returns to the trigger on close.
+- Body scroll locked; inner scroll inside the drawer works freely.
+- Slide animation is wrapped in `@media (prefers-reduced-motion: no-preference)` — reduced-motion users see an instant swap.
+- Rendered through a Portal so the drawer is never clipped by a scrolling or `overflow: hidden` ancestor.
+
+---
+
+## Sidebar vs Drawer
+
+| Need                                              | Use                |
+|---------------------------------------------------|--------------------|
+| Persistent primary navigation                     | **Sidebar**        |
+| Transient panel triggered by a button             | **Drawer**         |
+| Mobile nav menu                                   | Sidebar inside Drawer |
+| Filter / settings tray that overlays the page     | **Drawer**         |
+| Detail view of a selected list item (replace, not overlay) | Panel / route — not Drawer |
+
+Rule of thumb: if the panel is present 95 % of the time, it's a Sidebar. If users summon it, it's a Drawer.

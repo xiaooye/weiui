@@ -114,7 +114,9 @@ export { DatePicker, type DatePickerProps } from "./components/DatePicker";
 // Layout components - Sidebar + Drawer
 export {
   Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarItem,
-  type SidebarProps, type SidebarItemProps,
+  SidebarTrigger, SidebarGroup, SidebarGroupLabel, SidebarSubMenu,
+  type SidebarProps, type SidebarItemProps, type SidebarTriggerProps,
+  type SidebarGroupProps, type SidebarGroupLabelProps, type SidebarSubMenuProps,
 } from "./components/Sidebar";
 export {
   Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerClose,
