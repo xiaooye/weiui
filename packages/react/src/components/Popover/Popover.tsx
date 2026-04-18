@@ -60,11 +60,17 @@ function usePopoverContext(): PopoverContextValue {
 }
 
 export interface PopoverProps extends UseDisclosureProps {
+  /** PopoverTrigger / PopoverContent / PopoverArrow sub-components. */
   children: ReactNode;
+  /** Preferred side of the trigger to position the popover on. @default "bottom" */
   side?: PopoverSide;
+  /** Alignment along the chosen side. @default "start" */
   align?: PopoverAlign;
+  /** Distance in pixels between trigger and content. @default 8 */
   offset?: number;
+  /** Viewport padding (px) used by collision detection when flipping/shifting. @default 8 */
   collisionPadding?: number;
+  /** When true, traps focus inside the popover while open. @default false */
   modal?: boolean;
 }
 
@@ -105,6 +111,7 @@ export function Popover({
 Popover.displayName = "Popover";
 
 export interface PopoverTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Trigger content (typically a `<Button>`). */
   children: ReactNode;
 }
 
@@ -138,10 +145,15 @@ export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>
 PopoverTrigger.displayName = "PopoverTrigger";
 
 export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Popover body content. */
   children: ReactNode;
+  /** Called when a pointerdown fires outside the popover. Call `event.preventDefault()` to keep it open. */
   onInteractOutside?: (event: MouseEvent) => void;
+  /** Called when Escape is pressed. Call `event.preventDefault()` to keep the popover open. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void;
+  /** Called after open before initial auto-focus. Call `event.preventDefault()` to skip focusing. */
   onOpenAutoFocus?: (event: Event) => void;
+  /** Called before focus returns to the trigger on close. Call `event.preventDefault()` to skip restore. */
   onCloseAutoFocus?: (event: Event) => void;
 }
 
@@ -229,6 +241,7 @@ export function PopoverContent({
 PopoverContent.displayName = "PopoverContent";
 
 export interface PopoverCloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Button content (text or icon). */
   children: ReactNode;
 }
 
@@ -253,6 +266,7 @@ export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(
 PopoverClose.displayName = "PopoverClose";
 
 export interface PopoverArrowProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Arrow size in pixels. @default 8 */
   size?: number;
 }
 

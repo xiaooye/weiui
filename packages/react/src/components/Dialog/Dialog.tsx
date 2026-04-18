@@ -42,7 +42,9 @@ function useDialogContext(): DialogContextValue {
 }
 
 export interface DialogProps extends UseDisclosureProps {
+  /** DialogTrigger / DialogContent / DialogOverlay sub-components. */
   children: ReactNode;
+  /** When true, renders a modal overlay and traps focus inside the dialog. @default true */
   modal?: boolean;
 }
 
@@ -74,6 +76,7 @@ export function Dialog({ children, modal = true, ...disclosureProps }: DialogPro
 }
 
 export interface DialogTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Trigger content (typically a `<Button>`). */
   children: ReactNode;
 }
 
@@ -124,9 +127,13 @@ DialogOverlay.displayName = "DialogOverlay";
 export type DialogSize = "sm" | "md" | "lg" | "full";
 
 export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Dialog body — typically includes `DialogTitle`, `DialogDescription`, and `DialogClose`. */
   children: ReactNode;
+  /** Width preset for the dialog panel. @default "md" */
   size?: DialogSize;
+  /** Called when a pointerdown fires outside the dialog content. Call `event.preventDefault()` to keep it open. */
   onInteractOutside?: (event: MouseEvent) => void;
+  /** Called when Escape is pressed. Call `event.preventDefault()` to keep the dialog open. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }
 
@@ -222,6 +229,7 @@ export function DialogContent({
 }
 
 export interface DialogTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+  /** Title text. Rendered in an `<h2>` wired to the dialog's `aria-labelledby`. */
   children: ReactNode;
 }
 
@@ -231,6 +239,7 @@ export function DialogTitle({ children, ...props }: DialogTitleProps) {
 }
 
 export interface DialogDescriptionProps extends HTMLAttributes<HTMLParagraphElement> {
+  /** Description text. Rendered in a `<p>` wired to the dialog's `aria-describedby`. */
   children: ReactNode;
 }
 
@@ -240,6 +249,7 @@ export function DialogDescription({ children, ...props }: DialogDescriptionProps
 }
 
 export interface DialogCloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Button content (text or icon). */
   children: ReactNode;
 }
 

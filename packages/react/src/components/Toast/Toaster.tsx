@@ -8,6 +8,7 @@ export type ToasterPosition =
   | "bottom-left" | "bottom-center" | "bottom-right";
 
 export interface ToasterProps {
+  /** Viewport corner where toasts stack. @default "bottom-right" */
   position?: ToasterPosition;
 }
 

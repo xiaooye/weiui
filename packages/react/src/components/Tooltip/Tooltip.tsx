@@ -44,8 +44,11 @@ const TooltipProviderContext = createContext<TooltipProviderValue>({
 });
 
 export interface TooltipProviderProps {
+  /** Subtree that shares the delay configuration. */
   children: ReactNode;
+  /** Milliseconds to wait before opening on hover/focus. @default 700 */
   delayDuration?: number;
+  /** Window after closing during which another tooltip opens with no delay. @default 300 */
   skipDelayDuration?: number;
 }
 
@@ -83,11 +86,17 @@ function useTooltipContext(): TooltipContextValue {
 }
 
 export interface TooltipProps {
+  /** TooltipTrigger / TooltipContent / TooltipArrow sub-components. */
   children: ReactNode;
+  /** Milliseconds to wait before opening. Overrides the provider value. */
   delay?: number;
+  /** Milliseconds to wait before closing after pointer leaves. @default 0 */
   closeDelay?: number;
+  /** Preferred side of the trigger to position the tooltip on. @default "top" */
   side?: TooltipSide;
+  /** Alignment along the chosen side. @default "center" */
   align?: TooltipAlign;
+  /** Distance in pixels between trigger and content. @default 8 */
   offset?: number;
 }
 
@@ -179,6 +188,7 @@ export function Tooltip({
 Tooltip.displayName = "Tooltip";
 
 export interface TooltipTriggerProps {
+  /** Single child element the tooltip attaches to (hover/focus handlers are cloned onto it). */
   children: ReactNode;
 }
 
@@ -213,6 +223,7 @@ export function TooltipTrigger({ children }: TooltipTriggerProps) {
 TooltipTrigger.displayName = "TooltipTrigger";
 
 export interface TooltipContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Tooltip text/content. */
   children: ReactNode;
 }
 
@@ -238,6 +249,7 @@ export function TooltipContent({ children, style, ...props }: TooltipContentProp
 TooltipContent.displayName = "TooltipContent";
 
 export interface TooltipArrowProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Arrow size in pixels. @default 8 */
   size?: number;
 }
 

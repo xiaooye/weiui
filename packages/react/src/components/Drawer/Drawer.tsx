@@ -31,7 +31,9 @@ function useDrawerContext(): DrawerContextValue {
 }
 
 export interface DrawerProps extends UseDisclosureProps {
+  /** DrawerTrigger / DrawerContent / DrawerClose sub-components. */
   children: ReactNode;
+  /** Edge the drawer slides in from. @default "right" */
   side?: DrawerSide;
 }
 
@@ -46,6 +48,7 @@ export function Drawer({ children, side = "right", ...disclosureProps }: DrawerP
 }
 
 export interface DrawerTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Trigger content (typically a `<Button>`). */
   children: ReactNode;
 }
 
@@ -73,8 +76,11 @@ export const DrawerTrigger = forwardRef<HTMLButtonElement, DrawerTriggerProps>(
 DrawerTrigger.displayName = "DrawerTrigger";
 
 export interface DrawerContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Drawer body content. */
   children: ReactNode;
+  /** Called when a pointerdown fires outside the drawer content. Call `event.preventDefault()` to keep it open. */
   onInteractOutside?: (event: MouseEvent) => void;
+  /** Called when Escape is pressed. Call `event.preventDefault()` to keep the drawer open. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }
 
@@ -176,6 +182,7 @@ export const DrawerFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
 DrawerFooter.displayName = "DrawerFooter";
 
 export interface DrawerCloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Button content (text or icon). */
   children: ReactNode;
 }
 

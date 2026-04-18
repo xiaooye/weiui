@@ -23,13 +23,21 @@ export interface CommandItem {
 }
 
 export interface CommandPaletteProps {
+  /** Commands shown in the palette. Items may include `group`, `shortcut`, and `onSelect`. */
   items: CommandItem[];
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Called when the palette is opened or closed. */
   onOpenChange?: (open: boolean) => void;
+  /** Placeholder text for the search input. */
   placeholder?: string;
+  /** Text shown when the query yields no matches. */
   emptyText?: string;
+  /** Custom node to render in place of `emptyText`. */
   emptyState?: ReactNode;
+  /** Additional CSS classes merged onto the palette root. */
   className?: string;
+  /** Accessible name for the dialog. */
   label?: string;
   /** Persistent identifier for recent-items storage. */
   id?: string;

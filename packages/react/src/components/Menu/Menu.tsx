@@ -55,9 +55,13 @@ function toPlacement(side: MenuSide, align: MenuAlign): FloatingPlacement {
 }
 
 export interface MenuProps {
+  /** MenuTrigger / MenuContent and menu items. */
   children: ReactNode;
+  /** Preferred side of the trigger to position the menu on. @default "bottom" */
   side?: MenuSide;
+  /** Alignment along the chosen side. @default "start" */
   align?: MenuAlign;
+  /** Distance in pixels between trigger and menu. @default 4 */
   offset?: number;
 }
 
@@ -99,6 +103,7 @@ export function Menu({ children, side = "bottom", align = "start", offset = 4 }:
 Menu.displayName = "Menu";
 
 export interface MenuTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Trigger content (typically a `<Button>`). */
   children: ReactNode;
 }
 
@@ -148,6 +153,7 @@ function findNextEnabled(
 }
 
 export interface MenuContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Menu items (MenuItem / MenuCheckboxItem / MenuRadioItem / MenuSeparator / MenuLabel). */
   children: ReactNode;
 }
 
@@ -292,9 +298,13 @@ export function MenuContent({ children, className, style, onKeyDown, ...props }:
 MenuContent.displayName = "MenuContent";
 
 export interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
+  /** Item label. */
   children: ReactNode;
+  /** Called when the item is activated (click or Enter/Space). */
   onSelect?: () => void;
+  /** Disables interaction and skips the item in keyboard navigation. */
   disabled?: boolean;
+  /** Keyboard shortcut hint rendered at the end of the item (e.g. "⌘ K"). */
   shortcut?: string;
   /** Internal: injected by MenuContent */
   _menuIndex?: number;
@@ -353,10 +363,15 @@ export function MenuItem({
 MenuItem.displayName = "MenuItem";
 
 export interface MenuCheckboxItemProps extends HTMLAttributes<HTMLDivElement> {
+  /** Item label. */
   children: ReactNode;
+  /** Whether the item is currently checked. */
   checked: boolean;
+  /** Called when the item is toggled with the new checked state. */
   onCheckedChange?: (checked: boolean) => void;
+  /** Disables interaction and skips the item in keyboard navigation. */
   disabled?: boolean;
+  /** Keyboard shortcut hint rendered at the end of the item. */
   shortcut?: string;
   /** Internal: injected by MenuContent */
   _menuIndex?: number;
@@ -415,11 +430,17 @@ export function MenuCheckboxItem({
 MenuCheckboxItem.displayName = "MenuCheckboxItem";
 
 export interface MenuRadioItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
+  /** Item label. */
   children: ReactNode;
+  /** Value reported when this item is selected. */
   value: string;
+  /** Whether this item is the currently selected radio option. */
   checked?: boolean;
+  /** Called with the item's `value` when activated. */
   onSelect?: (value: string) => void;
+  /** Disables interaction and skips the item in keyboard navigation. */
   disabled?: boolean;
+  /** Keyboard shortcut hint rendered at the end of the item. */
   shortcut?: string;
   /** Internal: injected by MenuContent */
   _menuIndex?: number;
@@ -479,6 +500,7 @@ export function MenuRadioItem({
 MenuRadioItem.displayName = "MenuRadioItem";
 
 export interface MenuLabelProps extends HTMLAttributes<HTMLDivElement> {
+  /** Group heading text. */
   children: ReactNode;
 }
 
