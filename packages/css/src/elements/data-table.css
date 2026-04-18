@@ -33,10 +33,15 @@
   .wui-data-table__sort-icon {
     display: inline-flex;
     margin-inline-start: var(--wui-spacing-1);
-    opacity: 0.5;
+    opacity: 0.4;
+    font-size: 0.875em;
+    line-height: 1;
+    color: var(--wui-color-muted-foreground);
   }
   .wui-data-table__sort-icon[data-active] {
     opacity: 1;
+    color: var(--wui-color-primary);
+    font-weight: var(--wui-font-weight-bold);
   }
   .wui-data-table td {
     padding-block: var(--wui-spacing-3);
