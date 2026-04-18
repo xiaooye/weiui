@@ -9,13 +9,16 @@
     "dev": "turbo run dev",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "check-jsdoc": "tsx scripts/check-jsdoc-coverage.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["lightningcss-cli"]
   },
   "devDependencies": {
     "@changesets/cli": "^2.29",
+    "ts-morph": "^28.0.0",
+    "tsx": "^4.21.0",
     "turbo": "^2.4",
     "typescript": "^5.8",
     "vitest": "^3.1"
