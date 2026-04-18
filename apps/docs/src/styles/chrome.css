@@ -349,47 +349,24 @@
     margin-block-end: var(--wui-spacing-6);
   }
 
-  /* Pager */
+  /* Pager — Grid+Card stack (styled primitives) */
   .wui-docs-pager {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: var(--wui-spacing-4);
     margin-block-start: var(--wui-spacing-12);
     padding-block-start: var(--wui-spacing-6);
     border-block-start: 1px solid var(--wui-color-border);
   }
-  .wui-docs-pager a {
-    display: flex; flex-direction: column; gap: var(--wui-spacing-1);
+  .wui-docs-pager__card {
     padding: var(--wui-spacing-4);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
     text-decoration: none;
     color: inherit;
+    display: block;
   }
-  .wui-docs-pager__next { text-align: end; }
-  .wui-docs-pager__direction {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .wui-docs-pager__card--next {
+    text-align: end;
   }
-  .wui-docs-pager__label {
-    font-size: var(--wui-font-size-base);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
-  }
-  .wui-docs-pager a:hover {
+  .wui-docs-pager__card:hover {
     border-color: var(--wui-color-primary);
     background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
-  }
-
-  /* Edit link */
-  .wui-docs-edit-link {
-    display: inline-block;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
-    text-decoration: none;
-    margin-block-start: var(--wui-spacing-8);
-  }
-  .wui-docs-edit-link:hover {
-    color: var(--wui-color-primary);
   }
 }
 

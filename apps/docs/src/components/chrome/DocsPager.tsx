@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { Card, Grid, Stack, Text } from "@weiui/react";
 import { siteConfig, type SidebarItem } from "../../lib/site-config";
 
 export function DocsPager() {
@@ -15,19 +16,45 @@ export function DocsPager() {
   const next = allItems[idx + 1];
 
   return (
-    <nav className="wui-docs-pager" aria-label="Pager">
+    <Grid
+      columns={2}
+      gap={4}
+      role="navigation"
+      aria-label="Pager"
+      className="wui-docs-pager"
+    >
       {prev ? (
-        <Link href={prev.href} className="wui-docs-pager__prev">
-          <span className="wui-docs-pager__direction">← Previous</span>
-          <span className="wui-docs-pager__label">{prev.label}</span>
-        </Link>
-      ) : <span />}
+        <Card variant="outlined" asChild className="wui-docs-pager__card">
+          <NextLink href={prev.href}>
+            <Stack direction="column" gap={1}>
+              <Text size="xs" color="muted">
+                {"\u2190"} Previous
+              </Text>
+              <Text size="base" weight="medium">
+                {prev.label}
+              </Text>
+            </Stack>
+          </NextLink>
+        </Card>
+      ) : (
+        <span />
+      )}
       {next ? (
-        <Link href={next.href} className="wui-docs-pager__next">
-          <span className="wui-docs-pager__direction">Next →</span>
-          <span className="wui-docs-pager__label">{next.label}</span>
-        </Link>
-      ) : <span />}
-    </nav>
+        <Card variant="outlined" asChild className="wui-docs-pager__card wui-docs-pager__card--next">
+          <NextLink href={next.href}>
+            <Stack direction="column" gap={1}>
+              <Text size="xs" color="muted">
+                Next {"\u2192"}
+              </Text>
+              <Text size="base" weight="medium">
+                {next.label}
+              </Text>
+            </Stack>
+          </NextLink>
+        </Card>
+      ) : (
+        <span />
+      )}
+    </Grid>
   );
 }

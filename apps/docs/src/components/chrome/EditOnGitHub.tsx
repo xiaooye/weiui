@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { Button } from "@weiui/react";
 import { siteConfig } from "../../lib/site-config";
 
 export function EditOnGitHub() {
@@ -11,13 +12,16 @@ export function EditOnGitHub() {
       : `apps/docs/src/app${pathname}/page.mdx`;
   const url = `${siteConfig.githubUrl}/edit/main/${relative}`;
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noreferrer"
+    <Button
+      asChild
+      variant="ghost"
+      size="sm"
       className="wui-docs-edit-link"
+      endIcon={<span aria-hidden="true">{"\u2197"}</span>}
     >
-      Edit on GitHub →
-    </a>
+      <a href={url} target="_blank" rel="noreferrer">
+        Edit on GitHub
+      </a>
+    </Button>
   );
 }

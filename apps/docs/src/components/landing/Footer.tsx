@@ -1,47 +1,118 @@
-import Link from "next/link";
+"use client";
+import NextLink from "next/link";
+import {
+  Container,
+  Divider,
+  Heading,
+  Link,
+  Stack,
+  Text,
+} from "@weiui/react";
 import { siteConfig } from "../../lib/site-config";
+
+interface FooterLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
+const DOCS_LINKS: FooterLink[] = [
+  { href: "/docs/getting-started", label: "Installation" },
+  { href: "/docs/components", label: "Components" },
+  { href: "/docs/typography", label: "Typography" },
+  { href: "/docs/colors", label: "Colors" },
+];
+
+const TOOL_LINKS: FooterLink[] = [
+  { href: "/playground", label: "Playground" },
+  { href: "/composer", label: "Composer" },
+  { href: "/themes", label: "Theme Builder" },
+];
+
+const PROJECT_LINKS: FooterLink[] = [
+  { href: siteConfig.githubUrl, label: "GitHub", external: true },
+  { href: "/docs/changelog", label: "Changelog" },
+  { href: "/docs/migration", label: "Migration" },
+];
+
+function LinkColumn({
+  title,
+  links,
+  id,
+}: {
+  title: string;
+  links: FooterLink[];
+  id: string;
+}) {
+  return (
+    <Stack direction="column" gap={3} aria-labelledby={id}>
+      <Heading level={4} id={id} className="wui-home-footer__col-title">
+        {title}
+      </Heading>
+      <Stack direction="column" gap={2}>
+        {links.map((link) =>
+          link.external ? (
+            <Link
+              key={link.href}
+              href={link.href}
+              underline="hover"
+              showExternalIcon={false}
+            >
+              {link.label}
+            </Link>
+          ) : (
+            <Link key={link.href} asChild underline="hover">
+              <NextLink href={link.href}>{link.label}</NextLink>
+            </Link>
+          ),
+        )}
+      </Stack>
+    </Stack>
+  );
+}
 
 export function Footer() {
   return (
     <footer className="wui-home-footer">
-      <div className="wui-home-footer__inner">
-        <div className="wui-home-footer__brand">
-          <span className="wui-home-footer__logo" aria-hidden="true">◐</span>
-          <span>{siteConfig.name}</span>
-          <span className="wui-home-footer__version">v{siteConfig.version}</span>
-        </div>
-        <div className="wui-home-footer__cols">
-          <nav aria-labelledby="wui-footer-docs-heading">
-            <h4 id="wui-footer-docs-heading">Docs</h4>
-            <ul>
-              <li><Link href="/docs/getting-started">Installation</Link></li>
-              <li><Link href="/docs/components">Components</Link></li>
-              <li><Link href="/docs/typography">Typography</Link></li>
-              <li><Link href="/docs/colors">Colors</Link></li>
-            </ul>
-          </nav>
-          <nav aria-labelledby="wui-footer-tools-heading">
-            <h4 id="wui-footer-tools-heading">Tools</h4>
-            <ul>
-              <li><Link href="/playground">Playground</Link></li>
-              <li><Link href="/composer">Composer</Link></li>
-              <li><Link href="/themes">Theme Builder</Link></li>
-            </ul>
-          </nav>
-          <nav aria-labelledby="wui-footer-project-heading">
-            <h4 id="wui-footer-project-heading">Project</h4>
-            <ul>
-              <li><a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">GitHub</a></li>
-              <li><Link href="/docs/changelog">Changelog</Link></li>
-              <li><Link href="/docs/migration">Migration</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-      <div className="wui-home-footer__bottom">
-        <span>© 2026 WeiUI. MIT License.</span>
-        <span>Made with WeiUI.</span>
-      </div>
+      <Container maxWidth="72rem" className="wui-home-footer__inner">
+        <Stack direction="column" gap={8}>
+          <Stack direction="row" gap={8} wrap className="wui-home-footer__cols">
+            <Stack direction="column" gap={3} className="wui-home-footer__brand">
+              <Stack direction="row" gap={2}>
+                <Text
+                  as="span"
+                  size="xl"
+                  color="primary"
+                  aria-hidden="true"
+                >
+                  {"\u25D0"}
+                </Text>
+                <Text as="span" size="lg" weight="semibold">
+                  {siteConfig.name}
+                </Text>
+                <Text as="span" size="sm" color="muted">
+                  v{siteConfig.version}
+                </Text>
+              </Stack>
+              <Text size="sm" color="muted">
+                {siteConfig.description}
+              </Text>
+            </Stack>
+            <LinkColumn title="Docs" links={DOCS_LINKS} id="wui-footer-docs-heading" />
+            <LinkColumn title="Tools" links={TOOL_LINKS} id="wui-footer-tools-heading" />
+            <LinkColumn title="Project" links={PROJECT_LINKS} id="wui-footer-project-heading" />
+          </Stack>
+          <Divider />
+          <Stack direction="row" gap={4} wrap className="wui-home-footer__bottom">
+            <Text size="sm" color="muted">
+              {"\u00A9"} 2026 WeiUI. MIT License.
+            </Text>
+            <Text size="sm" color="muted">
+              Made with WeiUI.
+            </Text>
+          </Stack>
+        </Stack>
+      </Container>
     </footer>
   );
 }
