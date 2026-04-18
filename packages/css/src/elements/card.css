@@ -36,7 +36,7 @@
     .wui-card--interactive {
       transition-property: transform, box-shadow, border-color;
       transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-timing-function: var(--wui-motion-easing-emphasized);
     }
     .wui-card--interactive:hover {
       transform: translateY(-2px);

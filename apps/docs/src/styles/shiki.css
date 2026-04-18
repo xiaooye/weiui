@@ -1,7 +1,13 @@
 @layer wui-base {
   figure[data-rehype-pretty-code-figure] {
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
+    background:
+      linear-gradient(var(--wui-surface-sunken), var(--wui-surface-sunken)) padding-box,
+      linear-gradient(
+        135deg,
+        color-mix(in oklch, var(--wui-color-primary) 20%, var(--wui-color-border)),
+        var(--wui-color-border)
+      ) border-box;
+    border: 1px solid transparent;
     border-radius: var(--wui-shape-radius-lg);
     overflow: hidden;
     margin-block: var(--wui-spacing-4);
