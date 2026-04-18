@@ -2,9 +2,13 @@ import { useState, useCallback } from "react";
 import { Keys } from "../utils/keyboard";
 
 export interface UseKeyboardNavProps {
+  /** Total number of navigable items. */
   itemCount: number;
+  /** Navigation axis determining which arrow keys step between items. @default "vertical" */
   orientation?: "horizontal" | "vertical";
+  /** When true, arrow keys wrap around at the ends. @default true */
   loop?: boolean;
+  /** Called when the user activates the current item with Enter or Space. */
   onSelect?: (index: number) => void;
 }
 

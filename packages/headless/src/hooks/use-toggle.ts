@@ -2,8 +2,11 @@ import { useControllable } from "./use-controllable";
 import { useCallback } from "react";
 
 export interface UseToggleProps {
+  /** Initial pressed state for uncontrolled mode. @default false */
   defaultPressed?: boolean;
+  /** Controlled pressed state. Pair with onPressedChange. */
   pressed?: boolean;
+  /** Called when the pressed state changes. */
   onPressedChange?: (pressed: boolean) => void;
 }
 

@@ -2,8 +2,11 @@ import { useControllable } from "./use-controllable";
 import { useCallback } from "react";
 
 export interface UseDisclosureProps {
+  /** Initial open state for uncontrolled mode. @default false */
   defaultOpen?: boolean;
+  /** Controlled open state. Pair with onOpenChange. */
   open?: boolean;
+  /** Called when the open state changes. */
   onOpenChange?: (open: boolean) => void;
 }
 
