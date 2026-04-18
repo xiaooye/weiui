@@ -11,9 +11,9 @@ export function InputSizesDemo() {
         gap: "var(--wui-spacing-3)",
       }}
     >
-      <Input size="sm" placeholder="Small" style={{ maxWidth: "240px" }} />
-      <Input size="md" placeholder="Medium (default)" style={{ maxWidth: "240px" }} />
-      <Input size="lg" placeholder="Large" style={{ maxWidth: "240px" }} />
+      <Input size="sm" aria-label="Small input" placeholder="Small" style={{ maxWidth: "240px" }} />
+      <Input size="md" aria-label="Medium input" placeholder="Medium (default)" style={{ maxWidth: "240px" }} />
+      <Input size="lg" aria-label="Large input" placeholder="Large" style={{ maxWidth: "240px" }} />
     </div>
   );
 }

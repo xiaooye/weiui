@@ -11,10 +11,10 @@ export function InputStatesDemo() {
         gap: "var(--wui-spacing-3)",
       }}
     >
-      <Input placeholder="Default" style={{ maxWidth: "240px" }} />
-      <Input invalid placeholder="Invalid" style={{ maxWidth: "240px" }} />
-      <Input disabled placeholder="Disabled" style={{ maxWidth: "240px" }} />
-      <Input readOnly defaultValue="Read only" style={{ maxWidth: "240px" }} />
+      <Input aria-label="Default input" placeholder="Default" style={{ maxWidth: "240px" }} />
+      <Input invalid aria-label="Invalid input" placeholder="Invalid" style={{ maxWidth: "240px" }} />
+      <Input disabled aria-label="Disabled input" placeholder="Disabled" style={{ maxWidth: "240px" }} />
+      <Input readOnly aria-label="Read-only input" defaultValue="Read only" style={{ maxWidth: "240px" }} />
     </div>
   );
 }
