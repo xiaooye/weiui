@@ -15,4 +15,37 @@
   .wui-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--wui-font-size-base); }
   .wui-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--wui-font-size-lg); }
   .wui-avatar--square { border-radius: var(--wui-shape-radius-md); }
+
+  .wui-avatar--primary {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 18%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-avatar--success {
+    background-color: color-mix(in oklch, var(--wui-color-success) 18%, transparent);
+    color: var(--wui-color-success);
+  }
+  .wui-avatar--warning {
+    background-color: color-mix(in oklch, var(--wui-color-warning) 18%, transparent);
+    color: var(--wui-color-warning);
+  }
+  .wui-avatar--destructive {
+    background-color: color-mix(in oklch, var(--wui-color-destructive) 18%, transparent);
+    color: var(--wui-color-destructive);
+  }
+
+  .wui-avatar-group {
+    display: inline-flex;
+    align-items: center;
+  }
+  .wui-avatar-group > .wui-avatar {
+    box-shadow: 0 0 0 2px var(--wui-color-background);
+  }
+  .wui-avatar-group > .wui-avatar + .wui-avatar {
+    margin-inline-start: calc(var(--wui-spacing-2) * -1);
+  }
+  .wui-avatar--overflow {
+    background-color: var(--wui-color-muted);
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-xs);
+  }
 }

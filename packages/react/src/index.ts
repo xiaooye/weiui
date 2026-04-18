@@ -33,7 +33,14 @@ export { Spacer } from "./components/Spacer";
 export { AspectRatio, type AspectRatioProps } from "./components/AspectRatio";
 export { Card, CardHeader, CardContent, CardFooter, type CardProps } from "./components/Card";
 export { Badge, type BadgeProps } from "./components/Badge";
-export { Avatar, AvatarImage, AvatarFallback, type AvatarProps } from "./components/Avatar";
+export {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarGroup,
+  type AvatarProps,
+  type AvatarGroupProps,
+} from "./components/Avatar";
 export { Code, type CodeProps } from "./components/Code";
 export { Kbd } from "./components/Kbd";
 export { Skeleton, type SkeletonProps } from "./components/Skeleton";
