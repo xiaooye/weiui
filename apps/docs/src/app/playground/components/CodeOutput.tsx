@@ -9,11 +9,10 @@ import {
   toast,
 } from "@weiui/react";
 import { generateCode, type CodeGenOptions } from "../lib/generate-code";
+import type { ComponentSchema } from "../../../lib/component-schema-loader";
 
 interface Props {
-  componentName: string;
-  importPath: string;
-  subpathImport: string | null;
+  schema: ComponentSchema;
   props: Record<string, unknown>;
   options?: CodeGenOptions;
 }
@@ -23,15 +22,14 @@ const DEFAULT_OPTIONS: CodeGenOptions = {
   includeImports: true,
 };
 
-export function CodeOutput({
-  componentName,
-  importPath,
-  subpathImport,
-  props,
-  options,
-}: Props) {
+export function CodeOutput({ schema, props, options }: Props) {
   const code = generateCode(
-    { component: componentName, props, importPath, subpathImport },
+    {
+      component: schema.name,
+      props,
+      importPath: schema.importPath,
+      subpathImport: schema.subpathImport,
+    },
     options ?? DEFAULT_OPTIONS,
   );
 

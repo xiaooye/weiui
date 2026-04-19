@@ -1,133 +1,100 @@
 "use client";
+import type { ComponentSchema } from "../../../lib/component-schema-loader";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  Field,
-  Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Stack,
-  Text,
-} from "@weiui/react";
-export interface PropDef {
-  name: string;
-  type: "select" | "boolean" | "text";
-  options?: string[];
-  defaultValue: string | boolean;
+  ControlString,
+  ControlNumber,
+  ControlBool,
+  ControlEnum,
+  ControlColor,
+  ControlObject,
+  ControlReactNode,
+} from "../../../components/prop-controls";
+import { inferControl, extractEnumOptions } from "../../../components/prop-controls/infer-control";
+
+export interface PropsPanelProps {
+  schema: ComponentSchema;
+  values: Record<string, unknown>;
+  onChange: (next: Record<string, unknown>) => void;
 }
 
-export interface ComponentDef {
-  name: string;
-  category: string;
-  props: PropDef[];
-  defaultChildren: string;
-}
-
-interface Props {
-  component: ComponentDef;
-  propValues: Record<string, string | boolean>;
-  onPropChange: (name: string, value: string | boolean) => void;
-  children: string;
-  onChildrenChange: (value: string) => void;
-}
-
-export function PropsPanel({
-  component,
-  propValues,
-  onPropChange,
-  children,
-  onChildrenChange,
-}: Props) {
+export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
+  const setProp = (name: string, v: unknown) => onChange({ ...values, [name]: v });
   return (
-    <Card>
-      <CardHeader>
-        <Text as="span" size="sm" weight="medium">
-          Props
-        </Text>
-      </CardHeader>
-      <CardContent>
-        <Stack direction="column" gap={3}>
-          {component.defaultChildren !== "" && (
-            <Field>
-              <Label htmlFor="prop-children">children</Label>
-              <Input
-                id="prop-children"
-                size="sm"
-                value={children}
-                onChange={(e) => onChildrenChange(e.target.value)}
-              />
-            </Field>
-          )}
-          {component.props.map((prop) => (
-            <PropControl
-              key={prop.name}
-              prop={prop}
-              value={propValues[prop.name]!}
-              onChange={(v) => onPropChange(prop.name, v)}
+    <div className="wui-playground__props">
+      {schema.props.map((p) => {
+        const kind = inferControl(p);
+        const common = { label: p.name, description: p.description };
+        if (kind === "enum") {
+          const opts = extractEnumOptions(p.type);
+          return (
+            <ControlEnum
+              key={p.name}
+              {...common}
+              value={(values[p.name] as string) ?? p.default?.replace(/"/g, "") ?? opts[0] ?? ""}
+              options={opts}
+              onChange={(v) => setProp(p.name, v)}
             />
-          ))}
-        </Stack>
-      </CardContent>
-    </Card>
+          );
+        }
+        if (kind === "number") {
+          return (
+            <ControlNumber
+              key={p.name}
+              {...common}
+              value={Number(values[p.name] ?? 0)}
+              onChange={(v) => setProp(p.name, v)}
+            />
+          );
+        }
+        if (kind === "bool") {
+          return (
+            <ControlBool
+              key={p.name}
+              {...common}
+              value={Boolean(values[p.name])}
+              onChange={(v) => setProp(p.name, v)}
+            />
+          );
+        }
+        if (kind === "color") {
+          return (
+            <ControlColor
+              key={p.name}
+              {...common}
+              value={(values[p.name] as string) ?? ""}
+              onChange={(v) => setProp(p.name, v)}
+            />
+          );
+        }
+        if (kind === "object") {
+          return (
+            <ControlObject
+              key={p.name}
+              {...common}
+              value={values[p.name]}
+              onChange={(v) => setProp(p.name, v)}
+            />
+          );
+        }
+        if (kind === "reactnode") {
+          return (
+            <ControlReactNode
+              key={p.name}
+              {...common}
+              value={(values[p.name] as string) ?? ""}
+              onChange={(v) => setProp(p.name, v)}
+            />
+          );
+        }
+        return (
+          <ControlString
+            key={p.name}
+            {...common}
+            value={(values[p.name] as string) ?? ""}
+            onChange={(v) => setProp(p.name, v)}
+          />
+        );
+      })}
+    </div>
   );
-}
-
-function PropControl({
-  prop,
-  value,
-  onChange,
-}: {
-  prop: PropDef;
-  value: string | boolean;
-  onChange: (v: string | boolean) => void;
-}) {
-  switch (prop.type) {
-    case "select":
-      return (
-        <Field>
-          <Label htmlFor={`prop-${prop.name}`}>{prop.name}</Label>
-          <Select value={String(value)} onValueChange={(v) => onChange(v)}>
-            <SelectTrigger id={`prop-${prop.name}`}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {prop.options?.map((opt) => (
-                <SelectItem key={opt} value={opt}>
-                  {opt}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
-      );
-    case "boolean":
-      return (
-        <Stack direction="row" gap={2}>
-          <Checkbox
-            id={`prop-${prop.name}`}
-            checked={!!value}
-            onChange={(e) => onChange(e.target.checked)}
-          />
-          <Label htmlFor={`prop-${prop.name}`}>{prop.name}</Label>
-        </Stack>
-      );
-    case "text":
-      return (
-        <Field>
-          <Label htmlFor={`prop-${prop.name}`}>{prop.name}</Label>
-          <Input
-            id={`prop-${prop.name}`}
-            size="sm"
-            value={String(value)}
-            onChange={(e) => onChange(e.target.value)}
-          />
-        </Field>
-      );
-  }
 }

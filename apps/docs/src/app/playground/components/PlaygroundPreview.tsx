@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader, Text } from "@weiui/react";
 import { renderComponent } from "../lib/render-component";
 
 interface Props {
-  componentName: string;
+  component: string;
   props: Record<string, unknown>;
 }
 
-export function PlaygroundPreview({ componentName, props }: Props) {
+export function PlaygroundPreview({ component, props }: Props) {
   return (
     <Card className="wui-tool-preview">
       <CardHeader>
@@ -16,7 +16,7 @@ export function PlaygroundPreview({ componentName, props }: Props) {
         </Text>
       </CardHeader>
       <CardContent className="wui-tool-preview__stage">
-        {renderComponent(componentName, props)}
+        {renderComponent(component, props)}
       </CardContent>
     </Card>
   );
