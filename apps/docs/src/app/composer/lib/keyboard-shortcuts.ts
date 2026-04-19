@@ -1,13 +1,17 @@
 import { useEffect } from "react";
-import type { TreeAction } from "./tree";
+import type { TreeAction, ComponentNode } from "./tree";
+import { useInteractionManager } from "./interaction-manager";
+import { nextSelection, keyToNavKey } from "./keyboard-nav";
+import { findNode, findPath } from "./tree-path";
 
-export interface ShortcutHandlers {
-  selectedId: string | null;
+export interface UseComposerShortcutsArgs {
+  tree: ComponentNode[];
   dispatch: (action: TreeAction) => void;
-  onDeselect: () => void;
+  onCopy: () => void;
+  onPaste: () => void;
 }
 
-function isTypingInInput(target: EventTarget | null): boolean {
+function isTyping(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
   const tag = target.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
@@ -15,16 +19,47 @@ function isTypingInInput(target: EventTarget | null): boolean {
 }
 
 export function useComposerShortcuts({
-  selectedId,
+  tree,
   dispatch,
-  onDeselect,
-}: ShortcutHandlers): void {
+  onCopy,
+  onPaste,
+}: UseComposerShortcutsArgs): void {
+  const im = useInteractionManager();
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (isTypingInInput(e.target)) return;
+      if (isTyping(e.target)) return;
       const mod = e.ctrlKey || e.metaKey;
+
       if (e.key === "Escape") {
-        onDeselect();
+        if (im.state.commandPaletteOpen) im.closeCommandPalette();
+        else im.clearSelection();
+        return;
+      }
+
+      const navKey = keyToNavKey(e);
+      if (navKey) {
+        e.preventDefault();
+        const next = nextSelection(tree, im.state.selection.primary, navKey);
+        if (next) im.select(next, "replace");
+        return;
+      }
+
+      const primary = im.state.selection.primary;
+      if (primary && (e.key === "Delete" || e.key === "Backspace")) {
+        e.preventDefault();
+        for (const id of im.state.selection.all) {
+          dispatch({ type: "DELETE", nodeId: id });
+        }
+        im.clearSelection();
+        return;
+      }
+
+      if (mod && e.key.toLowerCase() === "d" && primary) {
+        e.preventDefault();
+        for (const id of im.state.selection.all) {
+          dispatch({ type: "DUPLICATE", nodeId: id });
+        }
         return;
       }
       if (mod && e.key.toLowerCase() === "z" && !e.shiftKey) {
@@ -32,31 +67,43 @@ export function useComposerShortcuts({
         dispatch({ type: "UNDO" });
         return;
       }
-      if (mod && e.shiftKey && e.key.toLowerCase() === "z") {
+      if (
+        (mod && e.shiftKey && e.key.toLowerCase() === "z") ||
+        (mod && e.key.toLowerCase() === "y")
+      ) {
         e.preventDefault();
         dispatch({ type: "REDO" });
         return;
       }
-      if (mod && e.key.toLowerCase() === "y") {
-        // Windows-style redo
+      if (mod && e.key.toLowerCase() === "c" && primary) {
         e.preventDefault();
-        dispatch({ type: "REDO" });
+        onCopy();
         return;
       }
-      if (!selectedId) return;
-      if (e.key === "Delete" || e.key === "Backspace") {
+      if (mod && e.key.toLowerCase() === "v") {
         e.preventDefault();
-        dispatch({ type: "DELETE", nodeId: selectedId });
-        onDeselect();
+        onPaste();
         return;
       }
-      if (mod && e.key.toLowerCase() === "d") {
+      if (mod && e.key.toLowerCase() === "p") {
         e.preventDefault();
-        dispatch({ type: "DUPLICATE", nodeId: selectedId });
+        im.setPreviewMode(!im.state.previewMode);
+        return;
+      }
+      if (mod && e.key.toLowerCase() === "a" && primary) {
+        e.preventDefault();
+        const path = findPath(tree, primary);
+        if (path) {
+          const siblings = path.parentId
+            ? (findNode(tree, path.parentId)?.children ?? [])
+            : tree;
+          for (const s of siblings) im.select(s.id, "add");
+        }
         return;
       }
     };
+
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [selectedId, dispatch, onDeselect]);
+  }, [tree, dispatch, onCopy, onPaste, im]);
 }

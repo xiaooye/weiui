@@ -98,12 +98,6 @@ function ComposerShell() {
     };
   }, [selectedNode?.type]);
 
-  useComposerShortcuts({
-    selectedId,
-    dispatch,
-    onDeselect: im.clearSelection,
-  });
-
   const canUndo = state.past.length > 0;
   const canRedo = state.future.length > 0;
   const onUndo = () => dispatch({ type: "UNDO" });
@@ -254,6 +248,17 @@ function ComposerShell() {
       `Pasted ${fresh.length} node${fresh.length === 1 ? "" : "s"}`,
     );
   };
+
+  useComposerShortcuts({
+    tree: state.tree,
+    dispatch,
+    onCopy: () => {
+      void copy();
+    },
+    onPaste: () => {
+      void paste();
+    },
+  });
 
   const commands = buildCommands({
     tree: state.tree,
