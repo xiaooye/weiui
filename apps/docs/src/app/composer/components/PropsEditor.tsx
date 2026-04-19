@@ -1,6 +1,11 @@
 "use client";
+import { Fragment } from "react";
 import {
   Badge,
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbSeparator,
   Card,
   CardContent,
   CardHeader,
@@ -92,6 +97,57 @@ function classifyProp(prop: PropSchema, kind: ControlKind): PropGroup {
     return "behavior";
   }
   return "advanced";
+}
+
+type BreadcrumbEntry =
+  | { node: ComponentNode; isEllipsis?: false }
+  | { isEllipsis: true };
+
+/**
+ * Render the Composer breadcrumb using the WeiUI `<Breadcrumb>` primitive.
+ * Collapses the middle to first + ellipsis + last-3 when path > 5 deep.
+ */
+function renderBreadcrumb(
+  ancestors: ComponentNode[],
+  onSelect?: (id: string) => void,
+) {
+  if (ancestors.length <= 1) return null;
+
+  const display: BreadcrumbEntry[] =
+    ancestors.length <= 5
+      ? ancestors.map((n) => ({ node: n }))
+      : [
+          { node: ancestors[0]! },
+          { isEllipsis: true },
+          ...ancestors.slice(-3).map((n) => ({ node: n })),
+        ];
+
+  return (
+    <Breadcrumb>
+      {display.map((entry, i) => (
+        <Fragment key={i}>
+          {i > 0 ? <BreadcrumbSeparator /> : null}
+          <BreadcrumbItem>
+            {entry.isEllipsis ? (
+              <BreadcrumbEllipsis />
+            ) : i === display.length - 1 || !onSelect ? (
+              <Text as="span" size="xs" weight="semibold">
+                {entry.node.type}
+              </Text>
+            ) : (
+              <button
+                type="button"
+                className="wui-composer__crumb-link"
+                onClick={() => onSelect(entry.node.id)}
+              >
+                {entry.node.type}
+              </button>
+            )}
+          </BreadcrumbItem>
+        </Fragment>
+      ))}
+    </Breadcrumb>
+  );
 }
 
 export function PropsEditor({
@@ -212,52 +268,14 @@ export function PropsEditor({
     );
   };
 
-  const crumbs = ancestors && ancestors.length > 1 ? ancestors : null;
-
   return (
     <Card className="wui-composer__props">
       <CardHeader>
         <Stack direction="column" gap={1}>
-          {crumbs ? (
-            <nav
-              className="wui-composer__props-breadcrumb"
-              aria-label="Selected node path"
-            >
-              {crumbs.map((a, i) => {
-                const isCurrent = i === crumbs.length - 1;
-                return (
-                  <span key={a.id} className="wui-composer__props-crumb">
-                    {i > 0 ? (
-                      <span
-                        className="wui-composer__props-crumb-sep"
-                        aria-hidden="true"
-                      >
-                        {"\u203A"}
-                      </span>
-                    ) : null}
-                    {isCurrent || !onSelect ? (
-                      <Text
-                        as="span"
-                        size="xs"
-                        weight={isCurrent ? "semibold" : "regular"}
-                        color={isCurrent ? undefined : "muted"}
-                      >
-                        {a.type}
-                      </Text>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => onSelect(a.id)}
-                        className="wui-composer__props-crumb-link"
-                      >
-                        {a.type}
-                      </button>
-                    )}
-                  </span>
-                );
-              })}
-            </nav>
-          ) : null}
+          {renderBreadcrumb(
+            ancestors ?? [],
+            onSelect ? (id) => onSelect(id) : undefined,
+          )}
           <div className="wui-composer__props-heading">
             <Text as="span" size="sm" weight="semibold">
               {node.type} Props

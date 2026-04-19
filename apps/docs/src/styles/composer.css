@@ -226,28 +226,10 @@
     align-items: center;
     gap: var(--wui-spacing-2);
   }
-  /* Breadcrumb above the heading: root > ... > selected. Each non-leaf is a
-     button that selects that ancestor — gives users an escape hatch out of a
-     deeply-nested leaf to reach the containing Stack / Card / Grid. */
-  .wui-composer__props-breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    padding-block-end: var(--wui-spacing-1);
-  }
-  .wui-composer__props-crumb {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--wui-spacing-1);
-  }
-  .wui-composer__props-crumb-sep {
-    color: var(--wui-color-muted-foreground);
-    opacity: 0.6;
-  }
-  .wui-composer__props-crumb-link {
+  /* Ancestor crumb: button inside <Breadcrumb> that jumps selection to that
+     ancestor — gives users an escape hatch out of a deeply-nested leaf to
+     reach the containing Stack / Card / Grid. */
+  .wui-composer__crumb-link {
     font: inherit;
     color: var(--wui-color-muted-foreground);
     background: transparent;
@@ -256,11 +238,11 @@
     cursor: pointer;
     border-radius: var(--wui-shape-radius-sm);
   }
-  .wui-composer__props-crumb-link:hover {
+  .wui-composer__crumb-link:hover {
     color: var(--wui-color-foreground);
     text-decoration: underline;
   }
-  .wui-composer__props-crumb-link:focus-visible {
+  .wui-composer__crumb-link:focus-visible {
     outline: 2px solid var(--wui-color-ring);
     outline-offset: 2px;
   }
