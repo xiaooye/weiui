@@ -1,4 +1,7 @@
-export interface ComponentNode {
+// @deprecated — migrate to ./tree.ts. This legacy shape (flat list, string children)
+// is kept only for PropsEditor until Task 8 replaces it with the schema-driven panel.
+// New code must use `ComponentNode` from ./tree.ts.
+export interface LegacyComponentNode {
   id: string;
   type: string;
   props: Record<string, string | boolean>;
@@ -114,7 +117,8 @@ export const PALETTE_ITEMS: PaletteItem[] = [
 ];
 
 let counter = 0;
-export function createNode(type: string): ComponentNode {
+/** @deprecated — produces the legacy flat shape. New code should use `makeNode` from ./tree.ts. */
+export function createNode(type: string): LegacyComponentNode {
   const item = PALETTE_ITEMS.find((i) => i.type === type);
   return {
     id: `node-${++counter}`,
@@ -123,6 +127,10 @@ export function createNode(type: string): ComponentNode {
     children: item?.defaultChildren ?? "",
   };
 }
+
+// Re-export the new tree primitives so consumers migrating incrementally can import from one place.
+export type { ComponentNode } from "./tree";
+export { makeNode, treeReducer, INITIAL_TREE } from "./tree";
 
 export const PALETTE_CATEGORIES: PaletteCategory[] = [
   "Actions",

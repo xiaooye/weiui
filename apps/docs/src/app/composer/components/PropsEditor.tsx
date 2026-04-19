@@ -11,11 +11,11 @@ import {
   Stack,
   Text,
 } from "@weiui/react";
-import type { ComponentNode } from "../lib/component-tree";
+import type { LegacyComponentNode } from "../lib/component-tree";
 
 interface Props {
-  node: ComponentNode | null;
-  onUpdate: (updates: Partial<ComponentNode>) => void;
+  node: LegacyComponentNode | null;
+  onUpdate: (updates: Partial<LegacyComponentNode>) => void;
 }
 
 export function PropsEditor({ node, onUpdate }: Props) {

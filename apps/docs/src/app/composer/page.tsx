@@ -1,8 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { Container, Grid, Heading, Stack, Text } from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
-import { type ComponentNode, createNode } from "./lib/component-tree";
+import type { LegacyComponentNode } from "./lib/component-tree";
+import { PALETTE_ITEMS } from "./lib/component-tree";
+import {
+  INITIAL_TREE,
+  makeNode,
+  treeReducer,
+  type ComponentNode,
+} from "./lib/tree";
 import { generateJsx, generateHtml } from "./lib/code-gen";
 import { Canvas } from "./components/Canvas";
 import { ComponentPalette } from "./components/ComponentPalette";
@@ -10,44 +17,73 @@ import { PropsEditor } from "./components/PropsEditor";
 import { CodeExport } from "./components/CodeExport";
 
 export default function ComposerPage() {
-  const [nodes, setNodes] = useState<ComponentNode[]>([]);
+  const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [codeMode, setCodeMode] = useState<"jsx" | "html">("jsx");
 
-  const selectedNode = nodes.find((n) => n.id === selectedId) ?? null;
+  const selectedNode = findNode(state.tree, selectedId);
+  const selectedLegacy = selectedNode ? toLegacy(selectedNode) : null;
 
   const addNode = (type: string) => {
-    const node = createNode(type);
-    setNodes((prev) => [...prev, node]);
+    const item = PALETTE_ITEMS.find((i) => i.type === type);
+    const node = makeNode(
+      type,
+      { ...(item?.defaultProps ?? {}) },
+      item?.defaultChildren ?? undefined,
+    );
+    dispatch({
+      type: "INSERT",
+      parentId: null,
+      index: state.tree.length,
+      node,
+    });
     setSelectedId(node.id);
   };
 
-  const removeNode = (id: string) => {
-    setNodes((prev) => prev.filter((n) => n.id !== id));
+  const deleteNode = (id: string) => {
+    dispatch({ type: "DELETE", nodeId: id });
     if (selectedId === id) setSelectedId(null);
   };
 
+  const duplicateNode = (id: string) => {
+    dispatch({ type: "DUPLICATE", nodeId: id });
+  };
+
   const moveNode = (id: string, direction: "up" | "down") => {
-    setNodes((prev) => {
-      const idx = prev.findIndex((n) => n.id === id);
-      if (idx === -1) return prev;
-      const newIdx = direction === "up" ? idx - 1 : idx + 1;
-      if (newIdx < 0 || newIdx >= prev.length) return prev;
-      const copy = [...prev];
-      const temp = copy[idx]!;
-      copy[idx] = copy[newIdx]!;
-      copy[newIdx] = temp;
-      return copy;
+    const path = findPath(state.tree, id);
+    if (!path) return;
+    const siblings = getSiblings(state.tree, path.parentId);
+    const newIndex = direction === "up" ? path.index - 1 : path.index + 1;
+    if (newIndex < 0 || newIndex >= siblings.length) return;
+    dispatch({
+      type: "MOVE",
+      nodeId: id,
+      newParentId: path.parentId,
+      newIndex,
     });
   };
 
-  const updateNode = (id: string, updates: Partial<ComponentNode>) => {
-    setNodes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, ...updates } : n)),
-    );
+  const updateSelected = (updates: Partial<LegacyComponentNode>) => {
+    if (!selectedNode) return;
+    if (updates.props) {
+      dispatch({
+        type: "UPDATE_PROPS",
+        nodeId: selectedNode.id,
+        props: updates.props,
+      });
+    }
+    if (typeof updates.children === "string") {
+      dispatch({
+        type: "UPDATE_TEXT",
+        nodeId: selectedNode.id,
+        text: updates.children,
+      });
+    }
   };
 
-  const code = codeMode === "jsx" ? generateJsx(nodes) : generateHtml(nodes);
+  const flatForCodeGen = state.tree.map(toLegacy);
+  const code =
+    codeMode === "jsx" ? generateJsx(flatForCodeGen) : generateHtml(flatForCodeGen);
 
   return (
     <>
@@ -70,21 +106,63 @@ export default function ComposerPage() {
             <ComponentPalette onAdd={addNode} />
             <Stack direction="column" gap={4}>
               <Canvas
-                nodes={nodes}
+                tree={state.tree}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
-                onRemove={removeNode}
+                onDelete={deleteNode}
+                onDuplicate={duplicateNode}
                 onMove={moveNode}
               />
               <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
             </Stack>
-            <PropsEditor
-              node={selectedNode}
-              onUpdate={(updates) => selectedNode && updateNode(selectedNode.id, updates)}
-            />
+            <PropsEditor node={selectedLegacy} onUpdate={updateSelected} />
           </Grid>
         </Stack>
       </Container>
     </>
   );
+}
+
+function findNode(tree: ComponentNode[], id: string | null): ComponentNode | null {
+  if (!id) return null;
+  for (const n of tree) {
+    if (n.id === id) return n;
+    const inner = findNode(n.children, id);
+    if (inner) return inner;
+  }
+  return null;
+}
+
+function findPath(
+  tree: ComponentNode[],
+  id: string,
+  parentId: string | null = null,
+): { parentId: string | null; index: number } | null {
+  for (let i = 0; i < tree.length; i++) {
+    const n = tree[i]!;
+    if (n.id === id) return { parentId, index: i };
+    const inner = findPath(n.children, id, n.id);
+    if (inner) return inner;
+  }
+  return null;
+}
+
+function getSiblings(tree: ComponentNode[], parentId: string | null): ComponentNode[] {
+  if (parentId === null) return tree;
+  const parent = findNode(tree, parentId);
+  return parent ? parent.children : [];
+}
+
+function toLegacy(node: ComponentNode): LegacyComponentNode {
+  const legacyProps: Record<string, string | boolean> = {};
+  for (const [k, v] of Object.entries(node.props)) {
+    if (typeof v === "boolean") legacyProps[k] = v;
+    else if (v != null) legacyProps[k] = String(v);
+  }
+  return {
+    id: node.id,
+    type: node.type,
+    props: legacyProps,
+    children: node.text ?? "",
+  };
 }

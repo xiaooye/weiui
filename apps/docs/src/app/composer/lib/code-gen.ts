@@ -1,10 +1,10 @@
-import type { ComponentNode } from "./component-tree";
+import type { LegacyComponentNode } from "./component-tree";
 
-export function generateJsx(nodes: ComponentNode[]): string {
+export function generateJsx(nodes: LegacyComponentNode[]): string {
   return nodes.map(nodeToJsx).join("\n");
 }
 
-function nodeToJsx(node: ComponentNode): string {
+function nodeToJsx(node: LegacyComponentNode): string {
   const propsStr = Object.entries(node.props)
     .filter(([, v]) => v !== "" && v !== false)
     .map(([k, v]) => (typeof v === "boolean" ? k : `${k}="${v}"`))
@@ -16,11 +16,11 @@ function nodeToJsx(node: ComponentNode): string {
   return `${open}${node.children}</${node.type}>`;
 }
 
-export function generateHtml(nodes: ComponentNode[]): string {
+export function generateHtml(nodes: LegacyComponentNode[]): string {
   return nodes.map(nodeToHtml).join("\n");
 }
 
-function nodeToHtml(node: ComponentNode): string {
+function nodeToHtml(node: LegacyComponentNode): string {
   const typeToClass: Record<string, string> = {
     Button: "wui-button wui-button--solid",
     Input: "wui-input",

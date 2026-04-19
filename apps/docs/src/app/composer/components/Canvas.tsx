@@ -1,107 +1,61 @@
 "use client";
 import {
-  Avatar,
-  AvatarFallback,
-  Badge,
   Button,
   Card,
   CardContent,
   CardHeader,
-  Divider,
   EmptyState,
-  Input,
   Stack,
   Text,
 } from "@weiui/react";
-import type { ComponentNode } from "../lib/component-tree";
+import type { ComponentNode } from "../lib/tree";
 
 interface Props {
-  nodes: ComponentNode[];
+  tree: ComponentNode[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  onRemove: (id: string) => void;
+  onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
   onMove: (id: string, direction: "up" | "down") => void;
 }
 
-export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props) {
+export function Canvas({
+  tree,
+  selectedId,
+  onSelect,
+  onDelete,
+  onDuplicate,
+  onMove,
+}: Props) {
   return (
     <Card className="wui-tool-canvas">
       <CardHeader>
         <Text as="span" size="sm" weight="semibold">
-          Canvas
+          Outline
         </Text>
       </CardHeader>
       <CardContent className="wui-tool-canvas__content">
-        {nodes.length === 0 ? (
+        {tree.length === 0 ? (
           <EmptyState
             className="wui-tool-canvas__empty"
             title="Empty canvas"
             description="Click components on the left to add them here."
           />
         ) : (
-          <Stack direction="column" gap={2}>
-            {nodes.map((node, i) => (
-              <div
+          <Stack direction="column" gap={1} role="tree" aria-label="Component outline">
+            {tree.map((node, i) => (
+              <OutlineRow
                 key={node.id}
-                role="button"
-                tabIndex={0}
-                aria-pressed={selectedId === node.id}
-                aria-label={`Select ${node.type}`}
-                onClick={() => onSelect(node.id)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    onSelect(node.id);
-                  }
-                }}
-                className="wui-tool-canvas__node"
-                data-selected={selectedId === node.id || undefined}
-              >
-                <Stack direction="row" gap={2} className="wui-tool-canvas__node-body">
-                  {renderPreview(node)}
-                </Stack>
-                <Stack direction="row" gap={1}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    iconOnly
-                    aria-label="Move up"
-                    disabled={i === 0}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onMove(node.id, "up");
-                    }}
-                  >
-                    <span aria-hidden="true">{"\u2191"}</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    iconOnly
-                    aria-label="Move down"
-                    disabled={i === nodes.length - 1}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onMove(node.id, "down");
-                    }}
-                  >
-                    <span aria-hidden="true">{"\u2193"}</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    iconOnly
-                    color="destructive"
-                    aria-label="Remove"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onRemove(node.id);
-                    }}
-                  >
-                    <span aria-hidden="true">{"\u00D7"}</span>
-                  </Button>
-                </Stack>
-              </div>
+                node={node}
+                depth={0}
+                index={i}
+                siblingCount={tree.length}
+                selectedId={selectedId}
+                onSelect={onSelect}
+                onDelete={onDelete}
+                onDuplicate={onDuplicate}
+                onMove={onMove}
+              />
             ))}
           </Stack>
         )}
@@ -110,68 +64,138 @@ export function Canvas({ nodes, selectedId, onSelect, onRemove, onMove }: Props)
   );
 }
 
-function renderPreview(node: ComponentNode) {
-  switch (node.type) {
-    case "Button":
-      return (
-        <Button
-          variant={
-            (node.props.variant as "solid" | "outline" | "ghost" | "soft" | "link") ?? "solid"
+interface RowProps {
+  node: ComponentNode;
+  depth: number;
+  index: number;
+  siblingCount: number;
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  onMove: (id: string, direction: "up" | "down") => void;
+}
+
+function OutlineRow({
+  node,
+  depth,
+  index,
+  siblingCount,
+  selectedId,
+  onSelect,
+  onDelete,
+  onDuplicate,
+  onMove,
+}: RowProps) {
+  const hasChildren = node.children.length > 0;
+  const isSelected = selectedId === node.id;
+  const textPreview = node.text ? truncate(node.text, 40) : "";
+
+  return (
+    <>
+      <div
+        role="treeitem"
+        aria-selected={isSelected}
+        aria-level={depth + 1}
+        tabIndex={0}
+        onClick={() => onSelect(node.id)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect(node.id);
           }
-          size="sm"
-        >
-          {node.children}
-        </Button>
-      );
-    case "Input":
-      return (
-        <Input
-          size="sm"
-          placeholder={String(node.props.placeholder || "")}
-          aria-label="Composer Input preview"
-          readOnly
-          className="wui-tool-canvas__node-input"
-        />
-      );
-    case "Badge":
-      return (
-        <Badge variant={(node.props.variant as "solid" | "soft" | "outline") ?? "solid"}>
-          {node.children}
-        </Badge>
-      );
-    case "Card":
-      return (
-        <Text as="span" size="sm">
-          Card: {node.children}
-        </Text>
-      );
-    case "Avatar":
-      return (
-        <Avatar size="sm">
-          <AvatarFallback>{node.children}</AvatarFallback>
-        </Avatar>
-      );
-    case "Alert":
-      return (
-        <Text as="span" size="sm">
-          Alert: {node.children}
-        </Text>
-      );
-    case "Divider":
-      return <Divider className="wui-tool-canvas__node-divider" />;
-    case "Heading":
-      return (
-        <Text as="span" size="sm" weight="semibold">
-          {node.children}
-        </Text>
-      );
-    case "Text":
-      return (
-        <Text as="span" size="sm" color="muted">
-          {node.children}
-        </Text>
-      );
-    default:
-      return <Text as="span">{node.type}</Text>;
-  }
+        }}
+        className="wui-tool-canvas__node"
+        data-selected={isSelected || undefined}
+        style={{ paddingInlineStart: `${depth * 16}px` }}
+      >
+        <Stack direction="row" gap={2} className="wui-tool-canvas__node-body">
+          <span aria-hidden="true" className="wui-tool-canvas__chevron">
+            {hasChildren ? "\u25BE" : "\u00B7"}
+          </span>
+          <Text as="span" size="sm" weight="medium">
+            {node.type}
+          </Text>
+          {textPreview ? (
+            <Text as="span" size="sm" color="muted">
+              {textPreview}
+            </Text>
+          ) : null}
+        </Stack>
+        <Stack direction="row" gap={1}>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            aria-label="Duplicate"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDuplicate(node.id);
+            }}
+          >
+            <span aria-hidden="true">{"\u29C9"}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            aria-label="Move up"
+            disabled={index === 0}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMove(node.id, "up");
+            }}
+          >
+            <span aria-hidden="true">{"\u2191"}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            aria-label="Move down"
+            disabled={index === siblingCount - 1}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMove(node.id, "down");
+            }}
+          >
+            <span aria-hidden="true">{"\u2193"}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            color="destructive"
+            aria-label="Delete"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(node.id);
+            }}
+          >
+            <span aria-hidden="true">{"\u00D7"}</span>
+          </Button>
+        </Stack>
+      </div>
+      {hasChildren
+        ? node.children.map((child, childIndex) => (
+            <OutlineRow
+              key={child.id}
+              node={child}
+              depth={depth + 1}
+              index={childIndex}
+              siblingCount={node.children.length}
+              selectedId={selectedId}
+              onSelect={onSelect}
+              onDelete={onDelete}
+              onDuplicate={onDuplicate}
+              onMove={onMove}
+            />
+          ))
+        : null}
+    </>
+  );
+}
+
+function truncate(s: string, max: number): string {
+  return s.length <= max ? s : `${s.slice(0, max - 1)}\u2026`;
 }
