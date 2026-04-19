@@ -41,6 +41,7 @@ import { WysiwygCanvas } from "./components/WysiwygCanvas";
 import { DragGhost } from "./components/DragGhost";
 import { ContextMenu } from "./components/ContextMenu";
 import { ResizableShell } from "./components/ResizableShell";
+import { ComposerAppBar } from "./components/ComposerAppBar";
 import { fetchAllSchemas, fetchSchema } from "../../lib/component-schema-client";
 import type { ComponentSchema } from "../../lib/component-schema-loader";
 
@@ -102,6 +103,11 @@ function ComposerShell() {
     dispatch,
     onDeselect: im.clearSelection,
   });
+
+  const canUndo = state.past.length > 0;
+  const canRedo = state.future.length > 0;
+  const onUndo = () => dispatch({ type: "UNDO" });
+  const onRedo = () => dispatch({ type: "REDO" });
 
   const addNode = (type: string) => {
     const item = PALETTE_ITEMS.find((i) => i.type === type);
@@ -321,6 +327,13 @@ function ComposerShell() {
             }
             canvas={
               <Stack direction="column" gap={4}>
+                <ComposerAppBar
+                  canUndo={canUndo}
+                  canRedo={canRedo}
+                  onUndo={onUndo}
+                  onRedo={onRedo}
+                  onOpenPalette={im.openCommandPalette}
+                />
                 <Tabs
                   value={view}
                   onValueChange={(v) => setView(v as "design" | "outline")}

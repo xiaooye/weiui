@@ -19,6 +19,7 @@ import { DropZones } from "../lib/drop-zones";
 import type { ComponentNode, TreeAction } from "../lib/tree";
 import { useInteractionManager } from "../lib/interaction-manager";
 import { CHIP_CONTAINERS, LayoutChips } from "./LayoutChips";
+import { Rulers } from "./Rulers";
 
 export type { ViewportPreset } from "../lib/interaction-manager";
 
@@ -47,6 +48,7 @@ export function WysiwygCanvas({
   const im = useInteractionManager();
   const selectedId = im.state.selection.primary;
   const viewport = im.state.viewport;
+  const scale = im.state.zoom / 100;
   const stageRef = useRef<HTMLDivElement>(null);
   const rects = useComposerRects(stageRef, tree);
   const maxInlineSize = viewport === "full" ? "100%" : `${viewport}px`;
@@ -74,11 +76,19 @@ export function WysiwygCanvas({
       : null;
 
   const onStageClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (im.state.previewMode) return;
     const target = (e.target as HTMLElement).closest<HTMLElement>(
       "[data-composer-id]",
     );
-    if (target && target.dataset.composerId) {
-      im.select(target.dataset.composerId, "replace");
+    if (target?.dataset.composerId) {
+      const mode = e.shiftKey
+        ? "add"
+        : e.metaKey || e.ctrlKey
+          ? "toggle"
+          : "replace";
+      im.select(target.dataset.composerId, mode);
+    } else if (tree.length > 0) {
+      im.select(tree[0]!.id, "replace");
     } else {
       im.clearSelection();
     }
@@ -219,13 +229,23 @@ export function WysiwygCanvas({
       <div
         className="wui-composer__stage"
         ref={stageRef}
-        style={{ maxInlineSize, position: "relative" }}
+        data-preview={im.state.previewMode || undefined}
+        style={{
+          maxInlineSize,
+          position: "relative",
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
         onClick={onStageClick}
         onDoubleClick={onStageDoubleClick}
         onContextMenu={onStageContextMenu}
         onMouseOver={onStageMouseOver}
         onMouseLeave={onStageMouseLeave}
       >
+        <Rulers
+          enabled={im.state.rulers && !im.state.previewMode}
+          stageRef={stageRef}
+        />
         {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
         {renderTree(tree)}
         <div
@@ -236,9 +256,15 @@ export function WysiwygCanvas({
             pointerEvents: "none",
           }}
         >
-          {mouseHoverRect ? <HoverOutline rect={mouseHoverRect} /> : null}
-          {selectedRect && <SelectionOutline rect={selectedRect} />}
-          {drag && activeIndicator?.betweenIndex != null
+          {!im.state.previewMode && mouseHoverRect ? (
+            <HoverOutline rect={mouseHoverRect} />
+          ) : null}
+          {!im.state.previewMode && selectedRect && (
+            <SelectionOutline rect={selectedRect} />
+          )}
+          {!im.state.previewMode &&
+          drag &&
+          activeIndicator?.betweenIndex != null
             ? (() => {
                 const parent = findNode(tree, activeIndicator.targetId);
                 if (!parent) return null;
@@ -255,7 +281,7 @@ export function WysiwygCanvas({
                 );
               })()
             : null}
-          {isDragging && hoverRect ? (
+          {!im.state.previewMode && isDragging && hoverRect ? (
             <DropZones
               rect={hoverRect}
               isContainer={isContainer}
@@ -264,7 +290,10 @@ export function WysiwygCanvas({
               onEdgeEnter={() => {}}
             />
           ) : null}
-          {showChips && selectedNode && onUpdateProps ? (
+          {!im.state.previewMode &&
+          showChips &&
+          selectedNode &&
+          onUpdateProps ? (
             <LayoutChips
               node={selectedNode}
               onUpdate={(props) => onUpdateProps(selectedNode.id, props)}

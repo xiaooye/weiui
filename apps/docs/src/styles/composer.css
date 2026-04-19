@@ -280,6 +280,50 @@
     display: flex;
     gap: var(--wui-spacing-2);
   }
+
+  .wui-composer__appbar {
+    display: flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+    flex-wrap: wrap;
+    padding-block: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-3);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    background-color: var(--wui-color-card, var(--wui-color-background));
+  }
+  .wui-composer__appbar-sep {
+    inline-size: 1px;
+    block-size: 1.5rem;
+    background-color: var(--wui-color-border);
+  }
+  .wui-composer__appbar-spacer {
+    flex: 1;
+  }
+  .wui-composer__appbar-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-xs);
+  }
+
+  .wui-composer__ruler {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .wui-composer__ruler--top {
+    top: -20px;
+    left: 0;
+  }
+  .wui-composer__ruler--left {
+    left: -20px;
+    top: 0;
+  }
+
+  .wui-composer__stage[data-preview="true"] {
+    background-image: none;
+  }
 }
 
 @layer wui-utilities {
