@@ -18,6 +18,7 @@ interface Props {
 }
 
 function setDragPreview(e: DragEvent<HTMLElement>, label: string) {
+  if (!e.dataTransfer) return;
   const ghost = document.createElement("div");
   ghost.textContent = label;
   Object.assign(ghost.style, {
@@ -50,6 +51,7 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
   );
 
   const onDragStart = (e: DragEvent<HTMLButtonElement>, type: string) => {
+    if (!e.dataTransfer) return;
     const item = PALETTE_ITEMS.find((i) => i.type === type);
     const node = makeNode(
       type,

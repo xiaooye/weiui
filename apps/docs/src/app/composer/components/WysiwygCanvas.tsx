@@ -38,6 +38,7 @@ export interface WysiwygCanvasProps {
 }
 
 function parseDraggedNode(e: DragEvent): ComponentNode | null {
+  if (!e.dataTransfer) return null;
   const raw = e.dataTransfer.getData("application/x-weiui-node");
   if (!raw) return null;
   try {
