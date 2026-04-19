@@ -34,7 +34,7 @@ import { findNode, findAncestors, findPath } from "./lib/tree-path";
 import { useComposerShortcuts } from "./lib/keyboard-shortcuts";
 import { buildCommands } from "./lib/commands";
 import { remapIds, serialiseNodes, deserialiseNodes } from "./lib/clipboard";
-import { Canvas } from "./components/Canvas";
+import { OutlineTree } from "./components/OutlineTree";
 import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
 import { CodeExport, type CodeMode } from "./components/CodeExport";
@@ -117,31 +117,6 @@ function ComposerShell() {
       node,
     });
     im.select(node.id, "replace");
-  };
-
-  const deleteNode = (id: string) => {
-    dispatch({ type: "DELETE", nodeId: id });
-    if (selectedId === id) im.clearSelection();
-  };
-
-  const duplicateNode = (id: string) => {
-    dispatch({ type: "DUPLICATE", nodeId: id });
-  };
-
-  const moveNode = (id: string, direction: "up" | "down") => {
-    const path = findPath(state.tree, id);
-    if (!path) return;
-    const siblings = path.parentId
-      ? (findNode(state.tree, path.parentId)?.children ?? [])
-      : state.tree;
-    const newIndex = direction === "up" ? path.index - 1 : path.index + 1;
-    if (newIndex < 0 || newIndex >= siblings.length) return;
-    dispatch({
-      type: "MOVE",
-      nodeId: id,
-      newParentId: path.parentId,
-      newIndex,
-    });
   };
 
   const applyDropActions = (actions: TreeAction[]) => {
@@ -386,14 +361,7 @@ function ComposerShell() {
                   />
                 </TabsContent>
                 <TabsContent value="outline">
-                  <Canvas
-                    tree={state.tree}
-                    selectedId={selectedId}
-                    onSelect={(id) => im.select(id, "replace")}
-                    onDelete={deleteNode}
-                    onDuplicate={duplicateNode}
-                    onMove={moveNode}
-                  />
+                  <OutlineTree tree={state.tree} />
                 </TabsContent>
               </Tabs>
               <CodeExport
