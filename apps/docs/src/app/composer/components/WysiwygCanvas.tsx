@@ -12,6 +12,7 @@ import {
 } from "../lib/drop-logic";
 import { DropZones } from "../lib/drop-zones";
 import type { ComponentNode, TreeAction } from "../lib/tree";
+import { CHIP_CONTAINERS, LayoutChips } from "./LayoutChips";
 
 export type ViewportPreset = "375" | "768" | "1024" | "1280" | "full";
 
@@ -32,6 +33,7 @@ export interface WysiwygCanvasProps {
   onSelect: (id: string | null) => void;
   viewport: ViewportPreset;
   onDropActions?: (actions: TreeAction[]) => void;
+  onUpdateProps?: (id: string, props: Record<string, unknown>) => void;
 }
 
 function parseDraggedNode(e: DragEvent): ComponentNode | null {
@@ -54,11 +56,18 @@ export function WysiwygCanvas({
   onSelect,
   viewport,
   onDropActions,
+  onUpdateProps,
 }: WysiwygCanvasProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const rects = useComposerRects(stageRef, tree);
   const maxInlineSize = viewport === "full" ? "100%" : `${viewport}px`;
   const selectedRect = selectedId ? rects.get(selectedId) ?? null : null;
+  const selectedNode = selectedId ? findNode(tree, selectedId) : null;
+  const showChips =
+    selectedNode != null &&
+    selectedRect != null &&
+    onUpdateProps != null &&
+    CHIP_CONTAINERS.has(selectedNode.type);
 
   const [hoverNodeId, setHoverNodeId] = useState<string | null>(null);
   const [activeEdge, setActiveEdge] = useState<Edge | null>(null);
@@ -213,6 +222,13 @@ export function WysiwygCanvas({
               onDrop={onZoneDrop}
               activeEdge={activeEdge}
               onEdgeEnter={setActiveEdge}
+            />
+          ) : null}
+          {showChips && selectedNode && selectedRect && onUpdateProps ? (
+            <LayoutChips
+              node={selectedNode}
+              rect={selectedRect}
+              onUpdate={(props) => onUpdateProps(selectedNode.id, props)}
             />
           ) : null}
         </div>

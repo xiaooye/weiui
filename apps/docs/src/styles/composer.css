@@ -38,6 +38,35 @@
     border-radius: var(--wui-shape-radius-sm);
   }
 
+  /* Inline layout chips — floating toolbar anchored near the selected node.
+     Positioning supplied inline; this rule handles the visual chrome. */
+  .wui-composer__chips {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+    padding-block: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-2);
+    background-color: var(--wui-color-popover, var(--wui-color-background));
+    color: var(--wui-color-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    box-shadow: var(--wui-shadow-md);
+    z-index: 10;
+  }
+
+  .wui-composer__chip-input {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-1);
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+  }
+
+  .wui-composer__chip-input input,
+  .wui-composer__chip-input select {
+    inline-size: 4rem;
+  }
+
   /* View toggle row above the canvas */
   .wui-composer__viewport-bar {
     display: flex;

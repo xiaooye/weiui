@@ -1,5 +1,5 @@
 "use client";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   Container,
   Grid,
@@ -29,6 +29,8 @@ import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
 import { CodeExport } from "./components/CodeExport";
 import { WysiwygCanvas, type ViewportPreset } from "./components/WysiwygCanvas";
+import { fetchSchema } from "../../lib/component-schema-client";
+import type { ComponentSchema } from "../../lib/component-schema-loader";
 
 export default function ComposerPage() {
   const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
@@ -36,9 +38,27 @@ export default function ComposerPage() {
   const [codeMode, setCodeMode] = useState<"jsx" | "html">("jsx");
   const [viewport, setViewport] = useState<ViewportPreset>("full");
   const [view, setView] = useState<"design" | "outline">("design");
+  const [selectedSchema, setSelectedSchema] = useState<ComponentSchema | null>(null);
 
   const selectedNode = findNode(state.tree, selectedId);
-  const selectedLegacy = selectedNode ? toLegacy(selectedNode) : null;
+
+  useEffect(() => {
+    if (!selectedNode) {
+      setSelectedSchema(null);
+      return;
+    }
+    let cancelled = false;
+    fetchSchema(selectedNode.type)
+      .then((s) => {
+        if (!cancelled) setSelectedSchema(s);
+      })
+      .catch(() => {
+        if (!cancelled) setSelectedSchema(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedNode?.type]);
 
   const addNode = (type: string) => {
     const item = PALETTE_ITEMS.find((i) => i.type === type);
@@ -92,22 +112,12 @@ export default function ComposerPage() {
     }
   };
 
-  const updateSelected = (updates: Partial<LegacyComponentNode>) => {
-    if (!selectedNode) return;
-    if (updates.props) {
-      dispatch({
-        type: "UPDATE_PROPS",
-        nodeId: selectedNode.id,
-        props: updates.props,
-      });
-    }
-    if (typeof updates.children === "string") {
-      dispatch({
-        type: "UPDATE_TEXT",
-        nodeId: selectedNode.id,
-        text: updates.children,
-      });
-    }
+  const updateNodeProps = (id: string, props: Record<string, unknown>) => {
+    dispatch({ type: "UPDATE_PROPS", nodeId: id, props });
+  };
+
+  const updateNodeText = (id: string, text: string) => {
+    dispatch({ type: "UPDATE_TEXT", nodeId: id, text });
   };
 
   const flatForCodeGen = state.tree.map(toLegacy);
@@ -170,6 +180,7 @@ export default function ComposerPage() {
                     onSelect={setSelectedId}
                     viewport={viewport}
                     onDropActions={applyDropActions}
+                    onUpdateProps={updateNodeProps}
                   />
                 </TabsContent>
                 <TabsContent value="outline">
@@ -185,7 +196,16 @@ export default function ComposerPage() {
               </Tabs>
               <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
             </Stack>
-            <PropsEditor node={selectedLegacy} onUpdate={updateSelected} />
+            <PropsEditor
+              schema={selectedSchema}
+              node={selectedNode}
+              onUpdateProps={(props) =>
+                selectedNode && updateNodeProps(selectedNode.id, props)
+              }
+              onUpdateText={(text) =>
+                selectedNode && updateNodeText(selectedNode.id, text)
+              }
+            />
           </Grid>
         </Stack>
       </Container>

@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
   EmptyState,
   Field,
   Input,
@@ -11,14 +10,35 @@ import {
   Stack,
   Text,
 } from "@weiui/react";
-import type { LegacyComponentNode } from "../lib/component-tree";
+import type { ComponentSchema } from "../../../lib/component-schema-loader";
+import {
+  ControlBool,
+  ControlColor,
+  ControlEnum,
+  ControlNumber,
+  ControlObject,
+  ControlReactNode,
+  ControlString,
+} from "../../../components/prop-controls";
+import {
+  extractEnumOptions,
+  inferControl,
+} from "../../../components/prop-controls/infer-control";
+import type { ComponentNode } from "../lib/tree";
 
-interface Props {
-  node: LegacyComponentNode | null;
-  onUpdate: (updates: Partial<LegacyComponentNode>) => void;
+export interface PropsEditorProps {
+  schema: ComponentSchema | null;
+  node: ComponentNode | null;
+  onUpdateProps: (props: Record<string, unknown>) => void;
+  onUpdateText: (text: string) => void;
 }
 
-export function PropsEditor({ node, onUpdate }: Props) {
+export function PropsEditor({
+  schema,
+  node,
+  onUpdateProps,
+  onUpdateText,
+}: PropsEditorProps) {
   if (!node) {
     return (
       <Card>
@@ -33,6 +53,14 @@ export function PropsEditor({ node, onUpdate }: Props) {
     );
   }
 
+  const setProp = (name: string, value: unknown) => {
+    onUpdateProps({ ...node.props, [name]: value });
+  };
+
+  // The "children" prop in schemas is handled by the dedicated text editor
+  // below; skip it in the main prop list to avoid duplication.
+  const editableProps = schema?.props.filter((p) => p.name !== "children") ?? [];
+
   return (
     <Card>
       <CardHeader>
@@ -43,40 +71,96 @@ export function PropsEditor({ node, onUpdate }: Props) {
       <CardContent>
         <Stack direction="column" gap={3}>
           <Field>
-            <Label htmlFor={`composer-${node.id}-children`}>children</Label>
+            <Label htmlFor={`composer-${node.id}-text`}>text</Label>
             <Input
-              id={`composer-${node.id}-children`}
+              id={`composer-${node.id}-text`}
               size="sm"
-              value={node.children}
-              onChange={(e) => onUpdate({ children: e.target.value })}
+              value={node.text ?? ""}
+              onChange={(e) => onUpdateText(e.currentTarget.value)}
             />
           </Field>
-          {Object.entries(node.props).map(([key, value]) => {
-            const inputId = `composer-${node.id}-${key}`;
-            return (
-              <Field key={key}>
-                <Label htmlFor={inputId}>{key}</Label>
-                {typeof value === "boolean" ? (
-                  <Checkbox
-                    id={inputId}
-                    checked={value}
-                    onChange={(e) =>
-                      onUpdate({ props: { ...node.props, [key]: e.target.checked } })
-                    }
+          {schema ? (
+            editableProps.map((p) => {
+              const kind = inferControl(p);
+              const common = { label: p.name, description: p.description };
+              const raw = node.props[p.name];
+              if (kind === "enum") {
+                const opts = extractEnumOptions(p.type);
+                const fallback = p.default?.replace(/"/g, "") ?? opts[0] ?? "";
+                return (
+                  <ControlEnum
+                    key={p.name}
+                    {...common}
+                    value={typeof raw === "string" ? raw : fallback}
+                    options={opts}
+                    onChange={(v) => setProp(p.name, v)}
                   />
-                ) : (
-                  <Input
-                    id={inputId}
-                    size="sm"
-                    value={String(value)}
-                    onChange={(e) =>
-                      onUpdate({ props: { ...node.props, [key]: e.target.value } })
-                    }
+                );
+              }
+              if (kind === "number") {
+                return (
+                  <ControlNumber
+                    key={p.name}
+                    {...common}
+                    value={Number(raw ?? 0)}
+                    onChange={(v) => setProp(p.name, v)}
                   />
-                )}
-              </Field>
-            );
-          })}
+                );
+              }
+              if (kind === "bool") {
+                return (
+                  <ControlBool
+                    key={p.name}
+                    {...common}
+                    value={Boolean(raw)}
+                    onChange={(v) => setProp(p.name, v)}
+                  />
+                );
+              }
+              if (kind === "color") {
+                return (
+                  <ControlColor
+                    key={p.name}
+                    {...common}
+                    value={typeof raw === "string" ? raw : ""}
+                    onChange={(v) => setProp(p.name, v)}
+                  />
+                );
+              }
+              if (kind === "object") {
+                return (
+                  <ControlObject
+                    key={p.name}
+                    {...common}
+                    value={raw}
+                    onChange={(v) => setProp(p.name, v)}
+                  />
+                );
+              }
+              if (kind === "reactnode") {
+                return (
+                  <ControlReactNode
+                    key={p.name}
+                    {...common}
+                    value={typeof raw === "string" ? raw : ""}
+                    onChange={(v) => setProp(p.name, v)}
+                  />
+                );
+              }
+              return (
+                <ControlString
+                  key={p.name}
+                  {...common}
+                  value={typeof raw === "string" ? raw : ""}
+                  onChange={(v) => setProp(p.name, v)}
+                />
+              );
+            })
+          ) : (
+            <Text size="xs" color="muted">
+              Loading schema…
+            </Text>
+          )}
         </Stack>
       </CardContent>
     </Card>
