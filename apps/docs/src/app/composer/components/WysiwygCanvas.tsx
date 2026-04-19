@@ -97,6 +97,23 @@ export function WysiwygCanvas({
     }
   };
 
+  // Double-click walks up to the selected node's parent so users can escape
+  // out of a deeply-nested leaf and reach a Stack / Card / Grid container.
+  const onStageDoubleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const target = (e.target as HTMLElement).closest<HTMLElement>(
+      "[data-composer-id]",
+    );
+    const clickedId = target?.dataset.composerId ?? null;
+    if (!clickedId) return;
+    // Walk up to the first ancestor [data-composer-id]
+    const parent =
+      target?.parentElement?.closest<HTMLElement>("[data-composer-id]");
+    if (parent?.dataset.composerId) {
+      e.preventDefault();
+      onSelect(parent.dataset.composerId);
+    }
+  };
+
   const onStageMouseOver = (e: MouseEvent<HTMLDivElement>) => {
     if (isDragging) return;
     const el = (e.target as HTMLElement).closest<HTMLElement>(
@@ -219,6 +236,7 @@ export function WysiwygCanvas({
         ref={stageRef}
         style={{ maxInlineSize, position: "relative" }}
         onClick={onStageClick}
+        onDoubleClick={onStageDoubleClick}
         onMouseOver={onStageMouseOver}
         onMouseLeave={onStageMouseLeave}
         onDragEnter={onStageDragEnter}

@@ -34,6 +34,9 @@ import type { ComponentNode } from "../lib/tree";
 export interface PropsEditorProps {
   schema: ComponentSchema | null;
   node: ComponentNode | null;
+  /** Root-to-selected path (inclusive). Used to render a clickable breadcrumb. */
+  ancestors?: ComponentNode[];
+  onSelect?: (id: string | null) => void;
   onUpdateProps: (props: Record<string, unknown>) => void;
   onUpdateText: (text: string) => void;
 }
@@ -94,6 +97,8 @@ function classifyProp(prop: PropSchema, kind: ControlKind): PropGroup {
 export function PropsEditor({
   schema,
   node,
+  ancestors,
+  onSelect,
   onUpdateProps,
   onUpdateText,
 }: PropsEditorProps) {
@@ -207,10 +212,52 @@ export function PropsEditor({
     );
   };
 
+  const crumbs = ancestors && ancestors.length > 1 ? ancestors : null;
+
   return (
     <Card className="wui-composer__props">
       <CardHeader>
         <Stack direction="column" gap={1}>
+          {crumbs ? (
+            <nav
+              className="wui-composer__props-breadcrumb"
+              aria-label="Selected node path"
+            >
+              {crumbs.map((a, i) => {
+                const isCurrent = i === crumbs.length - 1;
+                return (
+                  <span key={a.id} className="wui-composer__props-crumb">
+                    {i > 0 ? (
+                      <span
+                        className="wui-composer__props-crumb-sep"
+                        aria-hidden="true"
+                      >
+                        {"\u203A"}
+                      </span>
+                    ) : null}
+                    {isCurrent || !onSelect ? (
+                      <Text
+                        as="span"
+                        size="xs"
+                        weight={isCurrent ? "semibold" : "regular"}
+                        color={isCurrent ? undefined : "muted"}
+                      >
+                        {a.type}
+                      </Text>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => onSelect(a.id)}
+                        className="wui-composer__props-crumb-link"
+                      >
+                        {a.type}
+                      </button>
+                    )}
+                  </span>
+                );
+              })}
+            </nav>
+          ) : null}
           <div className="wui-composer__props-heading">
             <Text as="span" size="sm" weight="semibold">
               {node.type} Props

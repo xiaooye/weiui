@@ -223,6 +223,8 @@ export default function ComposerPage() {
             <PropsEditor
               schema={selectedSchema}
               node={selectedNode}
+              ancestors={findAncestors(state.tree, selectedId)}
+              onSelect={setSelectedId}
               onUpdateProps={(props) =>
                 selectedNode && updateNodeProps(selectedNode.id, props)
               }
@@ -265,4 +267,22 @@ function getSiblings(tree: ComponentNode[], parentId: string | null): ComponentN
   if (parentId === null) return tree;
   const parent = findNode(tree, parentId);
   return parent ? parent.children : [];
+}
+
+/** Root-to-node path (inclusive). Empty when id not found. */
+function findAncestors(
+  tree: ComponentNode[],
+  id: string | null,
+): ComponentNode[] {
+  if (!id) return [];
+  const walk = (list: ComponentNode[], trail: ComponentNode[]): ComponentNode[] | null => {
+    for (const n of list) {
+      const next = [...trail, n];
+      if (n.id === id) return next;
+      const inner = walk(n.children, next);
+      if (inner) return inner;
+    }
+    return null;
+  };
+  return walk(tree, []) ?? [];
 }
