@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useReducer, useState } from "react";
 import {
+  CommandPalette,
   Container,
   Grid,
   Heading,
@@ -13,6 +14,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
   Toaster,
+  toast,
 } from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
 import { PALETTE_ITEMS } from "./lib/component-tree";
@@ -30,6 +32,8 @@ import {
 } from "./lib/interaction-manager";
 import { findNode, findAncestors, findPath } from "./lib/tree-path";
 import { useComposerShortcuts } from "./lib/keyboard-shortcuts";
+import { buildCommands } from "./lib/commands";
+import { remapIds, serialiseNodes, deserialiseNodes } from "./lib/clipboard";
 import { Canvas } from "./components/Canvas";
 import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
@@ -164,11 +168,147 @@ function ComposerShell() {
     im.clearSelection();
   };
 
+  const commands = buildCommands({
+    tree: state.tree,
+    selection: im.state.selection,
+    previewMode: im.state.previewMode,
+    dispatch: {
+      insertAtRoot: addNode,
+      deleteSelected: () => {
+        for (const id of im.state.selection.all) {
+          dispatch({ type: "DELETE", nodeId: id });
+        }
+        im.clearSelection();
+      },
+      duplicate: () => {
+        for (const id of im.state.selection.all) {
+          dispatch({ type: "DUPLICATE", nodeId: id });
+        }
+      },
+      wrap: (kind) => {
+        const primary = im.state.selection.primary;
+        if (!primary) return;
+        const path = findPath(state.tree, primary);
+        const node = findNode(state.tree, primary);
+        if (!path || !node) return;
+        const wrapperType = kind === "Card" ? "Card" : "Stack";
+        const wrapperProps =
+          kind === "Stack-row"
+            ? { direction: "row", gap: 3 }
+            : kind === "Stack-column"
+              ? { direction: "column", gap: 3 }
+              : {};
+        dispatch({
+          type: "WRAP_WITH",
+          nodeId: primary,
+          wrapperType,
+          wrapperProps,
+          siblingNode: {
+            id: "unused",
+            type: "__noop__",
+            props: {},
+            children: [],
+          },
+          siblingBefore: false,
+        });
+      },
+      loadTemplate,
+      selectParent: () => {
+        const primary = im.state.selection.primary;
+        if (!primary) return;
+        const path = findPath(state.tree, primary);
+        if (path?.parentId) im.select(path.parentId, "replace");
+      },
+      setPreview: im.setPreviewMode,
+      copy: async () => {
+        const nodes = [...im.state.selection.all]
+          .map((id) => findNode(state.tree, id))
+          .filter((n): n is ComponentNode => n != null);
+        if (!nodes.length) return;
+        im.setClipboard(nodes);
+        try {
+          await navigator.clipboard.writeText(serialiseNodes(nodes));
+        } catch {
+          /* clipboard blocked; in-memory is enough */
+        }
+        toast.success(
+          `Copied ${nodes.length} node${nodes.length === 1 ? "" : "s"}`,
+        );
+      },
+      paste: async () => {
+        let payload: ComponentNode[] = im.state.clipboard;
+        if (!payload.length) {
+          try {
+            const json = await navigator.clipboard.readText();
+            payload = deserialiseNodes(json);
+          } catch {
+            /* ignore */
+          }
+        }
+        if (!payload.length) return;
+        const fresh = remapIds(payload);
+        const primary = im.state.selection.primary;
+        if (primary) {
+          const path = findPath(state.tree, primary);
+          if (path) {
+            let idx = path.index + 1;
+            for (const n of fresh) {
+              dispatch({
+                type: "INSERT",
+                parentId: path.parentId,
+                index: idx++,
+                node: n,
+              });
+            }
+          }
+        } else {
+          for (const n of fresh) {
+            dispatch({
+              type: "INSERT",
+              parentId: null,
+              index: state.tree.length,
+              node: n,
+            });
+          }
+        }
+        toast.success(
+          `Pasted ${fresh.length} node${fresh.length === 1 ? "" : "s"}`,
+        );
+      },
+    },
+  });
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        im.openCommandPalette();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [im]);
+
   return (
     <>
       <Header />
       <Toaster />
       <DragGhost />
+      <CommandPalette
+        id="composer-commands"
+        items={commands.map((c) => ({
+          id: c.id,
+          label: c.label,
+          group: c.group,
+          shortcut: c.shortcut,
+          onSelect: c.run,
+        }))}
+        open={im.state.commandPaletteOpen}
+        onOpenChange={(o) =>
+          o ? im.openCommandPalette() : im.closeCommandPalette()
+        }
+        placeholder="Type a command or search for a component"
+      />
       <Container maxWidth="80rem" className="wui-tool-shell">
         <Stack direction="column" gap={6}>
           <Stack direction="column" gap={2} className="wui-tool-shell__header">
