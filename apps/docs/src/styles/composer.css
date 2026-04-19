@@ -269,6 +269,17 @@
   .wui-composer__drag-ghost {
     transform: translateZ(0);
   }
+
+  .wui-composer__mobile-shell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-3);
+    inline-size: 100%;
+  }
+  .wui-composer__mobile-toolbar {
+    display: flex;
+    gap: var(--wui-spacing-2);
+  }
 }
 
 @layer wui-utilities {

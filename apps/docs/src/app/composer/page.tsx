@@ -3,7 +3,6 @@ import { useEffect, useReducer, useState } from "react";
 import {
   CommandPalette,
   Container,
-  Grid,
   Heading,
   Stack,
   Tabs,
@@ -41,6 +40,7 @@ import { CodeExport, type CodeMode } from "./components/CodeExport";
 import { WysiwygCanvas } from "./components/WysiwygCanvas";
 import { DragGhost } from "./components/DragGhost";
 import { ContextMenu } from "./components/ContextMenu";
+import { ResizableShell } from "./components/ResizableShell";
 import { fetchAllSchemas, fetchSchema } from "../../lib/component-schema-client";
 import type { ComponentSchema } from "../../lib/component-schema-loader";
 
@@ -315,75 +315,79 @@ function ComposerShell() {
               Drag components onto the canvas, edit their props, and export ready-to-ship JSX, TSX or HTML.
             </Text>
           </Stack>
-          <Grid
-            columns="220px minmax(0, 1fr) 300px"
-            gap={4}
-            className="wui-tool-shell__layout wui-tool-shell__layout--composer"
-          >
-            <ComponentPalette onAdd={addNode} onLoadTemplate={loadTemplate} />
-            <Stack direction="column" gap={4}>
-              <Tabs
-                value={view}
-                onValueChange={(v) => setView(v as "design" | "outline")}
-              >
-                <Stack
-                  direction="row"
-                  gap={3}
-                  className="wui-composer__viewport-bar"
+          <ResizableShell
+            palette={
+              <ComponentPalette onAdd={addNode} onLoadTemplate={loadTemplate} />
+            }
+            canvas={
+              <Stack direction="column" gap={4}>
+                <Tabs
+                  value={view}
+                  onValueChange={(v) => setView(v as "design" | "outline")}
                 >
-                  <TabsList aria-label="Canvas view">
-                    <TabsTrigger value="design">Design</TabsTrigger>
-                    <TabsTrigger value="outline">Outline</TabsTrigger>
-                  </TabsList>
-                  {view === "design" ? (
-                    <ToggleGroup
-                      type="single"
-                      value={im.state.viewport}
-                      onChange={(v) =>
-                        im.setViewport((v as ViewportPreset) || "full")
-                      }
-                      label="Viewport width"
-                      size="sm"
-                    >
-                      <ToggleGroupItem value="375">375</ToggleGroupItem>
-                      <ToggleGroupItem value="768">768</ToggleGroupItem>
-                      <ToggleGroupItem value="1024">1024</ToggleGroupItem>
-                      <ToggleGroupItem value="1280">1280</ToggleGroupItem>
-                      <ToggleGroupItem value="full">Full</ToggleGroupItem>
-                    </ToggleGroup>
-                  ) : null}
-                </Stack>
-                <TabsContent value="design">
-                  <WysiwygCanvas
-                    tree={state.tree}
-                    onDropActions={applyDropActions}
-                    onUpdateProps={updateNodeProps}
-                  />
-                </TabsContent>
-                <TabsContent value="outline">
-                  <OutlineTree tree={state.tree} />
-                </TabsContent>
-              </Tabs>
-              <CodeExport
-                tree={state.tree}
-                schemas={schemas}
-                codeMode={codeMode}
-                onCodeModeChange={setCodeMode}
+                  <Stack
+                    direction="row"
+                    gap={3}
+                    className="wui-composer__viewport-bar"
+                  >
+                    <TabsList aria-label="Canvas view">
+                      <TabsTrigger value="design">Design</TabsTrigger>
+                      <TabsTrigger value="outline">Outline</TabsTrigger>
+                    </TabsList>
+                    {view === "design" ? (
+                      <ToggleGroup
+                        type="single"
+                        value={im.state.viewport}
+                        onChange={(v) =>
+                          im.setViewport((v as ViewportPreset) || "full")
+                        }
+                        label="Viewport width"
+                        size="sm"
+                      >
+                        <ToggleGroupItem value="375">375</ToggleGroupItem>
+                        <ToggleGroupItem value="768">768</ToggleGroupItem>
+                        <ToggleGroupItem value="1024">1024</ToggleGroupItem>
+                        <ToggleGroupItem value="1280">1280</ToggleGroupItem>
+                        <ToggleGroupItem value="full">Full</ToggleGroupItem>
+                      </ToggleGroup>
+                    ) : null}
+                  </Stack>
+                  <TabsContent value="design">
+                    <WysiwygCanvas
+                      tree={state.tree}
+                      onDropActions={applyDropActions}
+                      onUpdateProps={updateNodeProps}
+                    />
+                  </TabsContent>
+                  <TabsContent value="outline">
+                    <OutlineTree tree={state.tree} />
+                  </TabsContent>
+                </Tabs>
+                <CodeExport
+                  tree={state.tree}
+                  schemas={schemas}
+                  codeMode={codeMode}
+                  onCodeModeChange={setCodeMode}
+                />
+              </Stack>
+            }
+            props={
+              <PropsEditor
+                schema={selectedSchema}
+                node={selectedNode}
+                ancestors={findAncestors(state.tree, selectedId ?? "")}
+                onSelect={(id) =>
+                  id ? im.select(id, "replace") : im.clearSelection()
+                }
+                onUpdateProps={(p) =>
+                  selectedNode && updateNodeProps(selectedNode.id, p)
+                }
+                onUpdateText={(text) =>
+                  selectedNode && updateNodeText(selectedNode.id, text)
+                }
               />
-            </Stack>
-            <PropsEditor
-              schema={selectedSchema}
-              node={selectedNode}
-              ancestors={findAncestors(state.tree, selectedId ?? "")}
-              onSelect={(id) => (id ? im.select(id, "replace") : im.clearSelection())}
-              onUpdateProps={(props) =>
-                selectedNode && updateNodeProps(selectedNode.id, props)
-              }
-              onUpdateText={(text) =>
-                selectedNode && updateNodeText(selectedNode.id, text)
-              }
-            />
-          </Grid>
+            }
+          />
         </Stack>
       </Container>
     </>
