@@ -10,6 +10,7 @@ import "../styles/shiki.css";
 import "../styles/chrome.css";
 import "../styles/preview.css";
 import "../styles/landing.css";
+import "../styles/playground.css";
 
 const inter = Inter({
   subsets: ["latin"],

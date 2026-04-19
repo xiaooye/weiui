@@ -1,0 +1,109 @@
+@layer wui-base {
+  /* Component selector — search + accordion-grouped list */
+  .wui-playground-selector {
+    align-self: start;
+    max-block-size: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+  .wui-playground-selector__accordion {
+    border: none;
+  }
+  .wui-playground-selector__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--wui-spacing-2);
+    padding-inline: var(--wui-spacing-2);
+    min-block-size: 44px;
+  }
+  .wui-playground-selector__category {
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--wui-color-muted-foreground);
+  }
+  .wui-playground-selector__count {
+    font-size: var(--wui-font-size-xs);
+    color: var(--wui-color-muted-foreground);
+    font-variant-numeric: tabular-nums;
+  }
+  .wui-playground-selector__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-1);
+    padding-block: var(--wui-spacing-1);
+    padding-inline-start: var(--wui-spacing-2);
+  }
+  .wui-playground-selector__item {
+    all: unset;
+    display: block;
+    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--wui-spacing-2);
+    min-block-size: 44px;
+    border-radius: var(--wui-shape-radius-md);
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-foreground);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .wui-playground-selector__item:hover {
+    background-color: var(--wui-color-muted);
+  }
+  .wui-playground-selector__item:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+  .wui-playground-selector__item[data-selected] {
+    background-color: var(--wui-color-primary);
+    color: var(--wui-color-primary-foreground);
+    font-weight: var(--wui-font-weight-medium);
+  }
+
+  /* Preview toolbar (theme + viewport toggles) */
+  .wui-playground__toolbar {
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+
+  /* Preview stage — hosts the rendered component; theme + viewport scope */
+  .wui-playground__preview-stage {
+    --wui-playground-viewport-max: 100%;
+    inline-size: 100%;
+    max-inline-size: var(--wui-playground-viewport-max);
+    margin-inline: auto;
+    background-color: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    box-sizing: border-box;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-playground__preview-stage {
+      transition-property: max-inline-size;
+      transition-duration: var(--wui-motion-duration-base);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+  }
+  .wui-playground__preview-stage[data-theme="dark"] {
+    color-scheme: dark;
+  }
+  /* When forced to light, override parent .dark tokens locally to restore
+     the light palette. Mirror the override set from @weiui/tokens. */
+  .wui-playground__preview-stage[data-theme="light"] {
+    color-scheme: light;
+    --wui-color-primary: oklch(0.546 0.245 263);
+    --wui-color-primary-foreground: oklch(1 0 0);
+    --wui-color-background: oklch(1 0 0);
+    --wui-color-foreground: oklch(0.145 0.010 240);
+    --wui-color-muted: oklch(0.967 0.003 240);
+    --wui-color-muted-foreground: oklch(0.551 0.018 240);
+    --wui-color-card: oklch(1 0 0);
+    --wui-color-card-foreground: oklch(0.145 0.010 240);
+    --wui-color-border: oklch(0.928 0.006 240);
+    --wui-color-ring: oklch(0.546 0.245 263);
+    --wui-surface-raised: oklch(1 0 0);
+    --wui-surface-overlay: oklch(1 0 0);
+    --wui-surface-sunken: oklch(0.985 0.002 240);
+  }
+}
