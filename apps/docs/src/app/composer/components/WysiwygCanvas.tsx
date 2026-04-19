@@ -4,6 +4,7 @@ import { renderTree } from "../lib/render-preview";
 import {
   SelectionOutline,
   useComposerRects,
+  type Rect,
 } from "../lib/selection-overlay";
 import {
   computeDropAction,
@@ -72,12 +73,17 @@ export function WysiwygCanvas({
   const [hoverNodeId, setHoverNodeId] = useState<string | null>(null);
   const [activeEdge, setActiveEdge] = useState<Edge | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [mouseHoverId, setMouseHoverId] = useState<string | null>(null);
   const dragCounter = useRef(0);
 
   const hoverNode = hoverNodeId
     ? findNode(tree, hoverNodeId)
     : null;
   const hoverRect = hoverNodeId ? rects.get(hoverNodeId) ?? null : null;
+  const mouseHoverRect: Rect | null =
+    mouseHoverId && mouseHoverId !== selectedId
+      ? rects.get(mouseHoverId) ?? null
+      : null;
 
   const onStageClick = (e: MouseEvent<HTMLDivElement>) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(
@@ -88,6 +94,18 @@ export function WysiwygCanvas({
     } else {
       onSelect(null);
     }
+  };
+
+  const onStageMouseOver = (e: MouseEvent<HTMLDivElement>) => {
+    if (isDragging) return;
+    const el = (e.target as HTMLElement).closest<HTMLElement>(
+      "[data-composer-id]",
+    );
+    setMouseHoverId(el?.dataset.composerId ?? null);
+  };
+
+  const onStageMouseLeave = () => {
+    setMouseHoverId(null);
   };
 
   const onStageDragEnter = (e: DragEvent<HTMLDivElement>) => {
@@ -101,6 +119,7 @@ export function WysiwygCanvas({
     }
     dragCounter.current += 1;
     setIsDragging(true);
+    setMouseHoverId(null);
     // Update hover target based on the element under the cursor.
     const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(
       "[data-composer-id]",
@@ -197,6 +216,8 @@ export function WysiwygCanvas({
         ref={stageRef}
         style={{ maxInlineSize, position: "relative" }}
         onClick={onStageClick}
+        onMouseOver={onStageMouseOver}
+        onMouseLeave={onStageMouseLeave}
         onDragEnter={onStageDragEnter}
         onDragOver={onStageDragOver}
         onDragLeave={onStageDragLeave}
@@ -214,6 +235,7 @@ export function WysiwygCanvas({
             pointerEvents: "none",
           }}
         >
+          {mouseHoverRect ? <HoverOutline rect={mouseHoverRect} /> : null}
           {selectedRect && <SelectionOutline rect={selectedRect} />}
           {isDragging && hoverRect ? (
             <DropZones
@@ -237,10 +259,55 @@ export function WysiwygCanvas({
   );
 }
 
+function HoverOutline({ rect }: { rect: Rect }) {
+  return (
+    <div
+      className="wui-composer__hover-outline"
+      style={{
+        position: "absolute",
+        insetBlockStart: rect.top,
+        insetInlineStart: rect.left,
+        inlineSize: rect.width,
+        blockSize: rect.height,
+        pointerEvents: "none",
+      }}
+      aria-hidden="true"
+    />
+  );
+}
+
 function EmptyCanvas() {
   return (
-    <div className="wui-composer__empty" aria-hidden="true">
-      Drag a component from the palette to start building.
+    <div className="wui-composer__empty" role="note">
+      <svg
+        className="wui-composer__empty-icon"
+        viewBox="0 0 48 48"
+        width="48"
+        height="48"
+        aria-hidden="true"
+      >
+        <rect
+          x="8"
+          y="8"
+          width="32"
+          height="32"
+          rx="4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeDasharray="4 3"
+        />
+        <path
+          d="M16 24h16M24 16v16"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+      <strong className="wui-composer__empty-title">Start composing</strong>
+      <span className="wui-composer__empty-sub">
+        Drag a component from the palette, or click a template.
+      </span>
     </div>
   );
 }

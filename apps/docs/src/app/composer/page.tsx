@@ -157,7 +157,7 @@ export default function ComposerPage() {
             </Text>
           </Stack>
           <Grid
-            columns="180px minmax(0, 1fr) 240px"
+            columns="220px minmax(0, 1fr) 300px"
             gap={4}
             className="wui-tool-shell__layout wui-tool-shell__layout--composer"
           >

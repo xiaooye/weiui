@@ -1,10 +1,10 @@
 "use client";
-import type { DragEvent } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
+  Input,
   Stack,
   Text,
 } from "@weiui/react";
@@ -17,7 +17,38 @@ interface Props {
   onLoadTemplate?: (tree: ComponentNode[]) => void;
 }
 
+function setDragPreview(e: DragEvent<HTMLElement>, label: string) {
+  const ghost = document.createElement("div");
+  ghost.textContent = label;
+  Object.assign(ghost.style, {
+    padding: "6px 10px",
+    background: "var(--wui-color-primary)",
+    color: "var(--wui-color-primary-foreground)",
+    borderRadius: "6px",
+    fontSize: "12px",
+    fontWeight: "600",
+    position: "absolute",
+    top: "-1000px",
+    pointerEvents: "none",
+    boxShadow: "var(--wui-shadow-md)",
+  } satisfies Partial<CSSStyleDeclaration>);
+  document.body.appendChild(ghost);
+  e.dataTransfer.setDragImage(ghost, 0, 0);
+  window.setTimeout(() => {
+    if (ghost.parentNode) ghost.parentNode.removeChild(ghost);
+  }, 0);
+}
+
 export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
+  const matches = (label: string) => q === "" || label.toLowerCase().includes(q);
+
+  const filteredTemplates = useMemo(
+    () => (q === "" ? TEMPLATES : TEMPLATES.filter((t) => matches(t.label))),
+    [q],
+  );
+
   const onDragStart = (e: DragEvent<HTMLButtonElement>, type: string) => {
     const item = PALETTE_ITEMS.find((i) => i.type === type);
     const node = makeNode(
@@ -27,18 +58,30 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
     );
     e.dataTransfer.setData("application/x-weiui-node", JSON.stringify(node));
     e.dataTransfer.effectAllowed = "copy";
+    setDragPreview(e, item?.label ?? type);
   };
 
   return (
     <Card className="wui-tool-palette">
       <CardHeader>
-        <Text as="span" size="sm" weight="semibold">
-          Components {"\u00B7"} {PALETTE_ITEMS.length}
-        </Text>
+        <Stack direction="column" gap={2}>
+          <Text as="span" size="sm" weight="semibold">
+            Components {"\u00B7"} {PALETTE_ITEMS.length}
+          </Text>
+          <Input
+            type="search"
+            size="sm"
+            value={query}
+            onChange={(e) => setQuery(e.currentTarget.value)}
+            placeholder="Search..."
+            aria-label="Filter components"
+            className="wui-tool-palette__search"
+          />
+        </Stack>
       </CardHeader>
       <CardContent>
         <Stack direction="column" gap={3}>
-          {onLoadTemplate ? (
+          {onLoadTemplate && filteredTemplates.length > 0 ? (
             <Stack direction="column" gap={1}>
               <Text
                 as="span"
@@ -49,23 +92,23 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
               >
                 Templates
               </Text>
-              {TEMPLATES.map((tpl) => (
-                <Button
+              {filteredTemplates.map((tpl) => (
+                <button
+                  type="button"
                   key={tpl.id}
-                  variant="ghost"
-                  size="sm"
-                  fullWidth
                   onClick={() => onLoadTemplate(tpl.tree)}
                   className="wui-tool-palette__item"
                   title={tpl.description}
                 >
                   {tpl.label}
-                </Button>
+                </button>
               ))}
             </Stack>
           ) : null}
           {PALETTE_CATEGORIES.map((category) => {
-            const items = PALETTE_ITEMS.filter((i) => i.category === category);
+            const items = PALETTE_ITEMS.filter(
+              (i) => i.category === category && matches(i.label),
+            );
             if (items.length === 0) return null;
             return (
               <Stack key={category} direction="column" gap={1}>
@@ -79,22 +122,29 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
                   {category}
                 </Text>
                 {items.map((item) => (
-                  <Button
+                  <button
+                    type="button"
                     key={item.type}
-                    variant="ghost"
-                    size="sm"
-                    fullWidth
                     onClick={() => onAdd(item.type)}
                     draggable
                     onDragStart={(e) => onDragStart(e, item.type)}
                     className="wui-tool-palette__item"
                   >
-                    + {item.label}
-                  </Button>
+                    {item.label}
+                  </button>
                 ))}
               </Stack>
             );
           })}
+          {q !== "" &&
+          filteredTemplates.length === 0 &&
+          PALETTE_ITEMS.filter((i) => matches(i.label)).length === 0 ? (
+            <Text size="xs" color="muted">
+              No matches for {"\u201C"}
+              {query}
+              {"\u201D"}.
+            </Text>
+          ) : null}
         </Stack>
       </CardContent>
     </Card>
