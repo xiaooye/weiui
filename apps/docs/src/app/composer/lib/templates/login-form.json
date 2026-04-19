@@ -1,0 +1,56 @@
+[
+  {
+    "id": "login-card",
+    "type": "Card",
+    "props": {},
+    "children": [
+      {
+        "id": "login-stack",
+        "type": "Stack",
+        "props": { "direction": "column", "gap": 4 },
+        "children": [
+          {
+            "id": "login-heading",
+            "type": "Heading",
+            "props": { "level": 2 },
+            "children": [],
+            "text": "Sign in"
+          },
+          {
+            "id": "login-field-email",
+            "type": "Field",
+            "props": { "label": "Email" },
+            "children": [
+              {
+                "id": "login-input-email",
+                "type": "Input",
+                "props": { "type": "email", "placeholder": "you@example.com" },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "login-field-password",
+            "type": "Field",
+            "props": { "label": "Password" },
+            "children": [
+              {
+                "id": "login-input-password",
+                "type": "Input",
+                "props": { "type": "password", "placeholder": "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "login-button",
+            "type": "Button",
+            "props": { "variant": "solid", "fullWidth": true },
+            "children": [],
+            "text": "Continue"
+          }
+        ]
+      }
+    ]
+  }
+]

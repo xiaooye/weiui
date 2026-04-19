@@ -1,0 +1,76 @@
+[
+  {
+    "id": "settings-container",
+    "type": "Container",
+    "props": { "maxWidth": "40rem" },
+    "children": [
+      {
+        "id": "settings-stack",
+        "type": "Stack",
+        "props": { "direction": "column", "gap": 5 },
+        "children": [
+          {
+            "id": "settings-heading",
+            "type": "Heading",
+            "props": { "level": 1 },
+            "children": [],
+            "text": "Settings"
+          },
+          {
+            "id": "settings-field-name",
+            "type": "Field",
+            "props": { "label": "Display name" },
+            "children": [
+              {
+                "id": "settings-input-name",
+                "type": "Input",
+                "props": { "placeholder": "Jane Doe" },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "settings-field-email",
+            "type": "Field",
+            "props": { "label": "Email" },
+            "children": [
+              {
+                "id": "settings-input-email",
+                "type": "Input",
+                "props": { "type": "email", "placeholder": "jane@example.com" },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "settings-divider",
+            "type": "Divider",
+            "props": {},
+            "children": []
+          },
+          {
+            "id": "settings-footer",
+            "type": "Stack",
+            "props": { "direction": "row", "gap": 3, "justify": "end" },
+            "children": [
+              {
+                "id": "settings-cancel",
+                "type": "Button",
+                "props": { "variant": "ghost" },
+                "children": [],
+                "text": "Cancel"
+              },
+              {
+                "id": "settings-save",
+                "type": "Button",
+                "props": { "variant": "solid" },
+                "children": [],
+                "text": "Save"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

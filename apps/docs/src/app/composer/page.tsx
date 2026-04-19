@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import {
   Container,
   Grid,
@@ -14,7 +14,6 @@ import {
   ToggleGroupItem,
 } from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
-import type { LegacyComponentNode } from "./lib/component-tree";
 import { PALETTE_ITEMS } from "./lib/component-tree";
 import {
   INITIAL_TREE,
@@ -23,24 +22,39 @@ import {
   type ComponentNode,
   type TreeAction,
 } from "./lib/tree";
-import { generateJsx, generateHtml } from "./lib/code-gen";
+import { useComposerShortcuts } from "./lib/keyboard-shortcuts";
 import { Canvas } from "./components/Canvas";
 import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
-import { CodeExport } from "./components/CodeExport";
+import { CodeExport, type CodeMode } from "./components/CodeExport";
 import { WysiwygCanvas, type ViewportPreset } from "./components/WysiwygCanvas";
-import { fetchSchema } from "../../lib/component-schema-client";
+import { fetchAllSchemas, fetchSchema } from "../../lib/component-schema-client";
 import type { ComponentSchema } from "../../lib/component-schema-loader";
 
 export default function ComposerPage() {
   const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [codeMode, setCodeMode] = useState<"jsx" | "html">("jsx");
+  const [codeMode, setCodeMode] = useState<CodeMode>("jsx");
   const [viewport, setViewport] = useState<ViewportPreset>("full");
   const [view, setView] = useState<"design" | "outline">("design");
   const [selectedSchema, setSelectedSchema] = useState<ComponentSchema | null>(null);
+  const [schemas, setSchemas] = useState<ComponentSchema[]>([]);
 
   const selectedNode = findNode(state.tree, selectedId);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchAllSchemas()
+      .then((list) => {
+        if (!cancelled) setSchemas(list);
+      })
+      .catch(() => {
+        if (!cancelled) setSchemas([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!selectedNode) {
@@ -59,6 +73,10 @@ export default function ComposerPage() {
       cancelled = true;
     };
   }, [selectedNode?.type]);
+
+  const onDeselect = useCallback(() => setSelectedId(null), []);
+
+  useComposerShortcuts({ selectedId, dispatch, onDeselect });
 
   const addNode = (type: string) => {
     const item = PALETTE_ITEMS.find((i) => i.type === type);
@@ -120,9 +138,10 @@ export default function ComposerPage() {
     dispatch({ type: "UPDATE_TEXT", nodeId: id, text });
   };
 
-  const flatForCodeGen = state.tree.map(toLegacy);
-  const code =
-    codeMode === "jsx" ? generateJsx(flatForCodeGen) : generateHtml(flatForCodeGen);
+  const loadTemplate = (tree: ComponentNode[]) => {
+    dispatch({ type: "LOAD", tree });
+    setSelectedId(null);
+  };
 
   return (
     <>
@@ -134,7 +153,7 @@ export default function ComposerPage() {
               Component Composer
             </Heading>
             <Text size="base" color="muted" className="wui-tool-shell__sub">
-              Drag components onto the canvas, edit their props, and export ready-to-ship JSX or HTML.
+              Drag components onto the canvas, edit their props, and export ready-to-ship JSX, TSX or HTML.
             </Text>
           </Stack>
           <Grid
@@ -142,7 +161,7 @@ export default function ComposerPage() {
             gap={4}
             className="wui-tool-shell__layout wui-tool-shell__layout--composer"
           >
-            <ComponentPalette onAdd={addNode} />
+            <ComponentPalette onAdd={addNode} onLoadTemplate={loadTemplate} />
             <Stack direction="column" gap={4}>
               <Tabs
                 value={view}
@@ -194,7 +213,12 @@ export default function ComposerPage() {
                   />
                 </TabsContent>
               </Tabs>
-              <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
+              <CodeExport
+                tree={state.tree}
+                schemas={schemas}
+                codeMode={codeMode}
+                onCodeModeChange={setCodeMode}
+              />
             </Stack>
             <PropsEditor
               schema={selectedSchema}
@@ -241,18 +265,4 @@ function getSiblings(tree: ComponentNode[], parentId: string | null): ComponentN
   if (parentId === null) return tree;
   const parent = findNode(tree, parentId);
   return parent ? parent.children : [];
-}
-
-function toLegacy(node: ComponentNode): LegacyComponentNode {
-  const legacyProps: Record<string, string | boolean> = {};
-  for (const [k, v] of Object.entries(node.props)) {
-    if (typeof v === "boolean") legacyProps[k] = v;
-    else if (v != null) legacyProps[k] = String(v);
-  }
-  return {
-    id: node.id,
-    type: node.type,
-    props: legacyProps,
-    children: node.text ?? "",
-  };
 }

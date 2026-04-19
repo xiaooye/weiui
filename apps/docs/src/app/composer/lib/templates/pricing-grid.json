@@ -1,0 +1,198 @@
+[
+  {
+    "id": "pricing-grid",
+    "type": "Grid",
+    "props": { "columns": 3, "gap": 4 },
+    "children": [
+      {
+        "id": "pricing-card-1",
+        "type": "Card",
+        "props": {},
+        "children": [
+          {
+            "id": "pricing-stack-1",
+            "type": "Stack",
+            "props": { "direction": "column", "gap": 3 },
+            "children": [
+              {
+                "id": "pricing-heading-1",
+                "type": "Heading",
+                "props": { "level": 3 },
+                "children": [],
+                "text": "Starter"
+              },
+              {
+                "id": "pricing-price-1",
+                "type": "Text",
+                "props": { "size": "xl", "weight": "bold" },
+                "children": [],
+                "text": "$0 / month"
+              },
+              {
+                "id": "pricing-feats-1",
+                "type": "Stack",
+                "props": { "direction": "column", "gap": 2 },
+                "children": [
+                  {
+                    "id": "pricing-f1-1",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "1 project"
+                  },
+                  {
+                    "id": "pricing-f1-2",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Community support"
+                  },
+                  {
+                    "id": "pricing-f1-3",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "1 GB storage"
+                  }
+                ]
+              },
+              {
+                "id": "pricing-btn-1",
+                "type": "Button",
+                "props": { "variant": "outline", "fullWidth": true },
+                "children": [],
+                "text": "Start free"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pricing-card-2",
+        "type": "Card",
+        "props": {},
+        "children": [
+          {
+            "id": "pricing-stack-2",
+            "type": "Stack",
+            "props": { "direction": "column", "gap": 3 },
+            "children": [
+              {
+                "id": "pricing-heading-2",
+                "type": "Heading",
+                "props": { "level": 3 },
+                "children": [],
+                "text": "Pro"
+              },
+              {
+                "id": "pricing-price-2",
+                "type": "Text",
+                "props": { "size": "xl", "weight": "bold" },
+                "children": [],
+                "text": "$19 / month"
+              },
+              {
+                "id": "pricing-feats-2",
+                "type": "Stack",
+                "props": { "direction": "column", "gap": 2 },
+                "children": [
+                  {
+                    "id": "pricing-f2-1",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Unlimited projects"
+                  },
+                  {
+                    "id": "pricing-f2-2",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Priority support"
+                  },
+                  {
+                    "id": "pricing-f2-3",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "50 GB storage"
+                  }
+                ]
+              },
+              {
+                "id": "pricing-btn-2",
+                "type": "Button",
+                "props": { "variant": "solid", "fullWidth": true },
+                "children": [],
+                "text": "Upgrade"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pricing-card-3",
+        "type": "Card",
+        "props": {},
+        "children": [
+          {
+            "id": "pricing-stack-3",
+            "type": "Stack",
+            "props": { "direction": "column", "gap": 3 },
+            "children": [
+              {
+                "id": "pricing-heading-3",
+                "type": "Heading",
+                "props": { "level": 3 },
+                "children": [],
+                "text": "Enterprise"
+              },
+              {
+                "id": "pricing-price-3",
+                "type": "Text",
+                "props": { "size": "xl", "weight": "bold" },
+                "children": [],
+                "text": "Contact us"
+              },
+              {
+                "id": "pricing-feats-3",
+                "type": "Stack",
+                "props": { "direction": "column", "gap": 2 },
+                "children": [
+                  {
+                    "id": "pricing-f3-1",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Custom SSO"
+                  },
+                  {
+                    "id": "pricing-f3-2",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Dedicated manager"
+                  },
+                  {
+                    "id": "pricing-f3-3",
+                    "type": "Text",
+                    "props": {},
+                    "children": [],
+                    "text": "Custom SLA"
+                  }
+                ]
+              },
+              {
+                "id": "pricing-btn-3",
+                "type": "Button",
+                "props": { "variant": "outline", "fullWidth": true },
+                "children": [],
+                "text": "Talk to sales"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

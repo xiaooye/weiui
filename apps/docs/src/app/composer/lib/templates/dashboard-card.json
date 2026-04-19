@@ -1,0 +1,64 @@
+[
+  {
+    "id": "dash-card",
+    "type": "Card",
+    "props": {},
+    "children": [
+      {
+        "id": "dash-stack",
+        "type": "Stack",
+        "props": { "direction": "column", "gap": 3 },
+        "children": [
+          {
+            "id": "dash-heading",
+            "type": "Heading",
+            "props": { "level": 3 },
+            "children": [],
+            "text": "Weekly sales"
+          },
+          {
+            "id": "dash-text",
+            "type": "Text",
+            "props": { "color": "muted" },
+            "children": [],
+            "text": "Up 12% from last week"
+          },
+          {
+            "id": "dash-progress",
+            "type": "ProgressBar",
+            "props": { "value": 72 },
+            "children": []
+          },
+          {
+            "id": "dash-chip-row",
+            "type": "Stack",
+            "props": { "direction": "row", "gap": 2 },
+            "children": [
+              {
+                "id": "dash-chip-1",
+                "type": "Chip",
+                "props": {},
+                "children": [],
+                "text": "North"
+              },
+              {
+                "id": "dash-chip-2",
+                "type": "Chip",
+                "props": {},
+                "children": [],
+                "text": "South"
+              },
+              {
+                "id": "dash-chip-3",
+                "type": "Chip",
+                "props": {},
+                "children": [],
+                "text": "East"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

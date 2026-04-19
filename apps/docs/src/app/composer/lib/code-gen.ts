@@ -1,3 +1,9 @@
+/**
+ * @deprecated — use `./generate-code.ts` instead, which walks the nested
+ * `ComponentNode[]` tree, groups imports (main barrel + subpaths), and emits
+ * JSX / TSX / full HTML. This legacy flat-shape generator is kept only so
+ * that any remaining consumer can migrate incrementally.
+ */
 import type { LegacyComponentNode } from "./component-tree";
 
 export function generateJsx(nodes: LegacyComponentNode[]): string {
