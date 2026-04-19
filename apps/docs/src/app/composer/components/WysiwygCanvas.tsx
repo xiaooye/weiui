@@ -111,6 +111,7 @@ export function WysiwygCanvas({
 
   const onStageDragEnter = (e: DragEvent<HTMLDivElement>) => {
     // Only react to our own drag types.
+    if (!e.dataTransfer) return;
     const types = e.dataTransfer.types;
     if (
       !types.includes("application/x-weiui-node") &&
@@ -131,6 +132,7 @@ export function WysiwygCanvas({
   };
 
   const onStageDragOver = (e: DragEvent<HTMLDivElement>) => {
+    if (!e.dataTransfer) return;
     const types = e.dataTransfer.types;
     if (
       !types.includes("application/x-weiui-node") &&
