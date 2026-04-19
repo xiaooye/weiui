@@ -15,7 +15,19 @@ import {
   Stack,
   Text,
 } from "@weiui/react";
-import type { ComponentDef, PropDef } from "../lib/component-registry";
+export interface PropDef {
+  name: string;
+  type: "select" | "boolean" | "text";
+  options?: string[];
+  defaultValue: string | boolean;
+}
+
+export interface ComponentDef {
+  name: string;
+  category: string;
+  props: PropDef[];
+  defaultChildren: string;
+}
 
 interface Props {
   component: ComponentDef;

@@ -6,17 +6,43 @@ import {
   CardHeader,
   Stack,
   Text,
+  toast,
 } from "@weiui/react";
-import type { ComponentDef } from "../lib/component-registry";
+import { generateCode, type CodeGenOptions } from "../lib/generate-code";
 
 interface Props {
-  component: ComponentDef;
-  propValues: Record<string, string | boolean>;
-  children: string;
+  componentName: string;
+  importPath: string;
+  subpathImport: string | null;
+  props: Record<string, unknown>;
+  options?: CodeGenOptions;
 }
 
-export function CodeOutput({ component, propValues, children }: Props) {
-  const code = generateCode(component, propValues, children);
+const DEFAULT_OPTIONS: CodeGenOptions = {
+  target: "jsx",
+  includeImports: true,
+};
+
+export function CodeOutput({
+  componentName,
+  importPath,
+  subpathImport,
+  props,
+  options,
+}: Props) {
+  const code = generateCode(
+    { component: componentName, props, importPath, subpathImport },
+    options ?? DEFAULT_OPTIONS,
+  );
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast.success("Copied to clipboard");
+    } catch {
+      toast.error("Copy failed");
+    }
+  };
 
   return (
     <Card>
@@ -25,11 +51,7 @@ export function CodeOutput({ component, propValues, children }: Props) {
           <Text as="span" size="sm" weight="medium">
             Code
           </Text>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigator.clipboard.writeText(code)}
-          >
+          <Button variant="ghost" size="sm" onClick={handleCopy}>
             Copy
           </Button>
         </Stack>
@@ -41,27 +63,4 @@ export function CodeOutput({ component, propValues, children }: Props) {
       </CardContent>
     </Card>
   );
-}
-
-function generateCode(
-  component: ComponentDef,
-  propValues: Record<string, string | boolean>,
-  children: string,
-): string {
-  const props = component.props
-    .filter((p) => propValues[p.name] !== p.defaultValue)
-    .map((p) => {
-      const val = propValues[p.name];
-      if (typeof val === "boolean") return val ? p.name : "";
-      return `${p.name}="${val}"`;
-    })
-    .filter(Boolean)
-    .join(" ");
-
-  const propsStr = props ? ` ${props}` : "";
-
-  if (!children) {
-    return `<${component.name}${propsStr} />`;
-  }
-  return `<${component.name}${propsStr}>${children}</${component.name}>`;
 }

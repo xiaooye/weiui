@@ -1,6 +1,6 @@
 "use client";
 import { Button, Heading, Stack } from "@weiui/react";
-import type { ComponentDef } from "../lib/component-registry";
+import type { ComponentDef } from "./PropsPanel";
 
 interface Props {
   components: ComponentDef[];
