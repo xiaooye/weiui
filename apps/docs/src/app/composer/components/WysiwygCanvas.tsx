@@ -54,7 +54,6 @@ export function WysiwygCanvas({
   const selectedNode = selectedId ? findNode(tree, selectedId) : null;
   const showChips =
     selectedNode != null &&
-    selectedRect != null &&
     onUpdateProps != null &&
     CHIP_CONTAINERS.has(selectedNode.type);
 
@@ -253,10 +252,9 @@ export function WysiwygCanvas({
               onEdgeEnter={() => {}}
             />
           ) : null}
-          {showChips && selectedNode && selectedRect && onUpdateProps ? (
+          {showChips && selectedNode && onUpdateProps ? (
             <LayoutChips
               node={selectedNode}
-              rect={selectedRect}
               onUpdate={(props) => onUpdateProps(selectedNode.id, props)}
             />
           ) : null}
