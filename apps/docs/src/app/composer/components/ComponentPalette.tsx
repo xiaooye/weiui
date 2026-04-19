@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState, type DragEvent } from "react";
+import { useMemo, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -21,6 +21,8 @@ import {
 } from "../lib/component-tree";
 import { makeNode, type ComponentNode } from "../lib/tree";
 import { TEMPLATES } from "../lib/templates";
+import { usePointerDrag } from "../lib/pointer-drag";
+import { useInteractionManager } from "../lib/interaction-manager";
 
 interface Props {
   onAdd: (type: string) => void;
@@ -32,27 +34,44 @@ const DEFAULT_EXPANDED: PaletteCategory[] = ["Actions", "Form", "Layout"];
 /** Accordion value for the pinned Templates section. */
 const TEMPLATES_VALUE = "__templates";
 
-function setDragPreview(e: DragEvent<HTMLElement>, label: string) {
-  if (!e.dataTransfer) return;
-  const ghost = document.createElement("div");
-  ghost.textContent = label;
-  Object.assign(ghost.style, {
-    padding: "6px 10px",
-    background: "var(--wui-color-primary)",
-    color: "var(--wui-color-primary-foreground)",
-    borderRadius: "6px",
-    fontSize: "12px",
-    fontWeight: "600",
-    position: "absolute",
-    top: "-1000px",
-    pointerEvents: "none",
-    boxShadow: "var(--wui-shadow-md)",
-  } satisfies Partial<CSSStyleDeclaration>);
-  document.body.appendChild(ghost);
-  e.dataTransfer.setDragImage(ghost, 0, 0);
-  window.setTimeout(() => {
-    if (ghost.parentNode) ghost.parentNode.removeChild(ghost);
-  }, 0);
+function PaletteButton({
+  item,
+  onAdd,
+  category,
+}: {
+  item: PaletteItem;
+  onAdd: (type: string) => void;
+  category: PaletteCategory;
+}) {
+  const im = useInteractionManager();
+  const { onPointerDown } = usePointerDrag<HTMLButtonElement>({
+    onDragStart: ({ x, y }) => {
+      const node = makeNode(
+        item.type,
+        { ...(item.defaultProps ?? {}) },
+        item.defaultChildren || undefined,
+      );
+      im.startDrag({ kind: "palette", payload: node, pointer: { x, y } });
+    },
+    onDragMove: (p) => im.updateDragPointer(p),
+    onDragEnd: () => im.endDrag(),
+    onClick: () => onAdd(item.type),
+  });
+  return (
+    <button
+      type="button"
+      className="wui-tool-palette__item"
+      onPointerDown={onPointerDown}
+    >
+      <span
+        className="wui-tool-palette__icon"
+        data-category={category.toLowerCase()}
+      >
+        {item.label[0]}
+      </span>
+      <span className="wui-tool-palette__label">{item.label}</span>
+    </button>
+  );
 }
 
 export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
@@ -91,19 +110,6 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
     }
     return matching;
   }, [q, expanded, grouped, filteredTemplates.length]);
-
-  const onDragStart = (e: DragEvent<HTMLButtonElement>, type: string) => {
-    if (!e.dataTransfer) return;
-    const item = PALETTE_ITEMS.find((i) => i.type === type);
-    const node = makeNode(
-      type,
-      { ...(item?.defaultProps ?? {}) },
-      item?.defaultChildren || undefined,
-    );
-    e.dataTransfer.setData("application/x-weiui-node", JSON.stringify(node));
-    e.dataTransfer.effectAllowed = "copy";
-    setDragPreview(e, item?.label ?? type);
-  };
 
   const totalFiltered =
     filteredTemplates.length +
@@ -197,24 +203,12 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
                 <AccordionContent>
                   <div className="wui-tool-palette__list">
                     {items.map((item) => (
-                      <button
-                        type="button"
+                      <PaletteButton
                         key={item.type}
-                        onClick={() => onAdd(item.type)}
-                        draggable
-                        onDragStart={(e) => onDragStart(e, item.type)}
-                        className="wui-tool-palette__item"
-                      >
-                        <span
-                          className="wui-tool-palette__icon"
-                          data-category={category.toLowerCase()}
-                        >
-                          {item.label[0]}
-                        </span>
-                        <span className="wui-tool-palette__label">
-                          {item.label}
-                        </span>
-                      </button>
+                        item={item}
+                        onAdd={onAdd}
+                        category={category}
+                      />
                     ))}
                   </div>
                 </AccordionContent>

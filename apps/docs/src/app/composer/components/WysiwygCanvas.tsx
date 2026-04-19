@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, type DragEvent, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { renderTree } from "../lib/render-preview";
 import {
   SelectionOutline,
@@ -11,6 +11,7 @@ import {
   locateNode,
   type Edge,
 } from "../lib/drop-logic";
+import { computeDropIndicator } from "../lib/compute-drop-indicators";
 import { DropZones } from "../lib/drop-zones";
 import type { ComponentNode, TreeAction } from "../lib/tree";
 import { useInteractionManager } from "../lib/interaction-manager";
@@ -35,21 +36,6 @@ export interface WysiwygCanvasProps {
   onUpdateProps?: (id: string, props: Record<string, unknown>) => void;
 }
 
-function parseDraggedNode(e: DragEvent): ComponentNode | null {
-  if (!e.dataTransfer) return null;
-  const raw = e.dataTransfer.getData("application/x-weiui-node");
-  if (!raw) return null;
-  try {
-    const parsed = JSON.parse(raw) as ComponentNode;
-    if (parsed && typeof parsed === "object" && typeof parsed.id === "string") {
-      return parsed;
-    }
-  } catch {
-    return null;
-  }
-  return null;
-}
-
 export function WysiwygCanvas({
   tree,
   onDropActions,
@@ -71,13 +57,12 @@ export function WysiwygCanvas({
 
   const [hoverNodeId, setHoverNodeId] = useState<string | null>(null);
   const [activeEdge, setActiveEdge] = useState<Edge | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [mouseHoverId, setMouseHoverId] = useState<string | null>(null);
-  const dragCounter = useRef(0);
 
-  const hoverNode = hoverNodeId
-    ? findNode(tree, hoverNodeId)
-    : null;
+  const drag = im.state.drag;
+  const isDragging = drag != null;
+
+  const hoverNode = hoverNodeId ? findNode(tree, hoverNodeId) : null;
   const hoverRect = hoverNodeId ? rects.get(hoverNodeId) ?? null : null;
   const mouseHoverRect: Rect | null =
     mouseHoverId && mouseHoverId !== selectedId
@@ -124,103 +109,92 @@ export function WysiwygCanvas({
     setMouseHoverId(null);
   };
 
-  const onStageDragEnter = (e: DragEvent<HTMLDivElement>) => {
-    // Only react to our own drag types.
-    if (!e.dataTransfer) return;
-    const types = e.dataTransfer.types;
-    if (
-      !types.includes("application/x-weiui-node") &&
-      !types.includes("application/x-weiui-move")
-    ) {
-      return;
-    }
-    dragCounter.current += 1;
-    setIsDragging(true);
-    setMouseHoverId(null);
-    // Update hover target based on the element under the cursor.
-    const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(
-      "[data-composer-id]",
-    );
-    if (el?.dataset.composerId) {
-      setHoverNodeId(el.dataset.composerId);
-    }
-  };
+  // While a drag session is active, track pointer moves/up globally. On pointerup
+  // we run the drop-indicator + drop-action pipeline and dispatch tree actions.
+  useEffect(() => {
+    if (!drag) return;
 
-  const onStageDragOver = (e: DragEvent<HTMLDivElement>) => {
-    if (!e.dataTransfer) return;
-    const types = e.dataTransfer.types;
-    if (
-      !types.includes("application/x-weiui-node") &&
-      !types.includes("application/x-weiui-move")
-    ) {
-      return;
-    }
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
-    const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(
-      "[data-composer-id]",
-    );
-    if (el?.dataset.composerId && el.dataset.composerId !== hoverNodeId) {
-      setHoverNodeId(el.dataset.composerId);
-      setActiveEdge(null);
-    }
-  };
+    const commitDrop = (pointer: { x: number; y: number }) => {
+      if (drag.kind !== "palette") return;
+      const newNode = drag.payload as ComponentNode;
+      const indicator = computeDropIndicator({
+        tree,
+        rects,
+        pointer,
+        containers: CONTAINERS,
+      });
+      if (!indicator) {
+        onDropActions?.([
+          {
+            type: "INSERT",
+            parentId: null,
+            index: tree.length,
+            node: newNode,
+          },
+        ]);
+        return;
+      }
+      if (indicator.betweenIndex != null) {
+        onDropActions?.([
+          {
+            type: "INSERT",
+            parentId: indicator.targetId,
+            index: indicator.betweenIndex,
+            node: newNode,
+          },
+        ]);
+        return;
+      }
+      const ctx = locateNode(tree, indicator.targetId);
+      const targetNode = findNode(tree, indicator.targetId);
+      if (!ctx || !targetNode || !indicator.edge) return;
+      const actions = computeDropAction(
+        ctx,
+        indicator.edge,
+        newNode,
+        targetNode,
+      );
+      if (actions.length > 0) onDropActions?.(actions);
+    };
 
-  const onStageDragLeave = () => {
-    dragCounter.current = Math.max(0, dragCounter.current - 1);
-    if (dragCounter.current === 0) {
-      setIsDragging(false);
+    const onMove = (e: PointerEvent) => {
+      const pointer = { x: e.clientX, y: e.clientY };
+      im.updateDragPointer(pointer);
+      const el = document
+        .elementFromPoint(pointer.x, pointer.y)
+        ?.closest<HTMLElement>("[data-composer-id]");
+      const id = el?.dataset.composerId ?? null;
+      setHoverNodeId(id);
+      if (id && rects.get(id)) {
+        const indicator = computeDropIndicator({
+          tree,
+          rects,
+          pointer,
+          containers: CONTAINERS,
+        });
+        setActiveEdge(indicator?.edge ?? null);
+      } else {
+        setActiveEdge(null);
+      }
+    };
+
+    const onUp = (e: PointerEvent) => {
+      const pointer = { x: e.clientX, y: e.clientY };
+      commitDrop(pointer);
+      im.endDrag();
       setHoverNodeId(null);
       setActiveEdge(null);
-    }
-  };
+    };
 
-  const resetDragState = () => {
-    dragCounter.current = 0;
-    setIsDragging(false);
-    setHoverNodeId(null);
-    setActiveEdge(null);
-  };
-
-  const dispatchDrop = (actions: TreeAction[]) => {
-    if (actions.length === 0) return;
-    onDropActions?.(actions);
-  };
-
-  const onStageDrop = (e: DragEvent<HTMLDivElement>) => {
-    // Drop anywhere on the stage that wasn't caught by a DropZone:
-    // append to the root.
-    e.preventDefault();
-    const newNode = parseDraggedNode(e);
-    if (newNode) {
-      dispatchDrop([
-        {
-          type: "INSERT",
-          parentId: null,
-          index: tree.length,
-          node: newNode,
-        },
-      ]);
-    }
-    resetDragState();
-  };
-
-  const onZoneDrop = (edge: Edge, e: DragEvent) => {
-    const newNode = parseDraggedNode(e);
-    if (!newNode || !hoverNodeId) {
-      resetDragState();
-      return;
-    }
-    const ctx = locateNode(tree, hoverNodeId);
-    const targetNode = findNode(tree, hoverNodeId);
-    if (!ctx || !targetNode) {
-      resetDragState();
-      return;
-    }
-    const actions = computeDropAction(ctx, edge, newNode, targetNode);
-    dispatchDrop(actions);
-    resetDragState();
-  };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+    // drag is a stable reference object — listening on its identity is fine.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drag]);
 
   const isContainer = hoverNode ? CONTAINERS.has(hoverNode.type) : false;
 
@@ -237,14 +211,8 @@ export function WysiwygCanvas({
         onDoubleClick={onStageDoubleClick}
         onMouseOver={onStageMouseOver}
         onMouseLeave={onStageMouseLeave}
-        onDragEnter={onStageDragEnter}
-        onDragOver={onStageDragOver}
-        onDragLeave={onStageDragLeave}
-        onDrop={onStageDrop}
       >
-        {tree.length === 0 && !isDragging ? (
-          <EmptyCanvas />
-        ) : null}
+        {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
         {renderTree(tree)}
         <div
           className="wui-composer__overlay"
@@ -260,9 +228,9 @@ export function WysiwygCanvas({
             <DropZones
               rect={hoverRect}
               isContainer={isContainer}
-              onDrop={onZoneDrop}
+              onDrop={() => {}}
               activeEdge={activeEdge}
-              onEdgeEnter={setActiveEdge}
+              onEdgeEnter={() => {}}
             />
           ) : null}
           {showChips && selectedNode && selectedRect && onUpdateProps ? (
