@@ -184,4 +184,84 @@ describe("treeReducer", () => {
     const b = makeNode("Button");
     expect(a.id).not.toBe(b.id);
   });
+
+  it("WRAP_WITH wraps target at root with sibling after", () => {
+    const target = makeNode("Button");
+    const sibling = makeNode("Badge");
+    const s = insert(INITIAL_TREE, null, 0, target);
+    const next = treeReducer(s, {
+      type: "WRAP_WITH",
+      nodeId: target.id,
+      wrapperType: "Stack",
+      wrapperProps: { direction: "row", gap: 3 },
+      siblingNode: sibling,
+      siblingBefore: false,
+    });
+    expect(next.tree).toHaveLength(1);
+    const wrapper = next.tree[0]!;
+    expect(wrapper.type).toBe("Stack");
+    expect(wrapper.props).toEqual({ direction: "row", gap: 3 });
+    expect(wrapper.children).toHaveLength(2);
+    expect(wrapper.children[0]!.id).toBe(target.id);
+    expect(wrapper.children[1]!.id).toBe(sibling.id);
+  });
+
+  it("WRAP_WITH places sibling before when siblingBefore=true", () => {
+    const target = makeNode("Heading");
+    const sibling = makeNode("Text");
+    const s = insert(INITIAL_TREE, null, 0, target);
+    const next = treeReducer(s, {
+      type: "WRAP_WITH",
+      nodeId: target.id,
+      wrapperType: "Stack",
+      wrapperProps: { direction: "column" },
+      siblingNode: sibling,
+      siblingBefore: true,
+    });
+    const wrapper = next.tree[0]!;
+    expect(wrapper.children[0]!.id).toBe(sibling.id);
+    expect(wrapper.children[1]!.id).toBe(target.id);
+  });
+
+  it("WRAP_WITH preserves position in a nested parent", () => {
+    const card = makeNode("Card");
+    const a = makeNode("Button");
+    const b = makeNode("Input");
+    const c = makeNode("Badge");
+    let s = insert(INITIAL_TREE, null, 0, card);
+    s = insert(s, card.id, 0, a);
+    s = insert(s, card.id, 1, b);
+    s = insert(s, card.id, 2, c);
+    const sibling = makeNode("Divider");
+    const next = treeReducer(s, {
+      type: "WRAP_WITH",
+      nodeId: b.id,
+      wrapperType: "Stack",
+      wrapperProps: { direction: "row" },
+      siblingNode: sibling,
+      siblingBefore: false,
+    });
+    const children = next.tree[0]!.children;
+    expect(children).toHaveLength(3);
+    expect(children[0]!.id).toBe(a.id);
+    expect(children[1]!.type).toBe("Stack");
+    expect(children[1]!.children[0]!.id).toBe(b.id);
+    expect(children[1]!.children[1]!.id).toBe(sibling.id);
+    expect(children[2]!.id).toBe(c.id);
+  });
+
+  it("WRAP_WITH is a no-op when target id is unknown", () => {
+    const a = makeNode("Button");
+    const s = insert(INITIAL_TREE, null, 0, a);
+    const sibling = makeNode("Badge");
+    const next = treeReducer(s, {
+      type: "WRAP_WITH",
+      nodeId: "missing",
+      wrapperType: "Stack",
+      wrapperProps: {},
+      siblingNode: sibling,
+      siblingBefore: false,
+    });
+    expect(next).toBe(s);
+  });
 });

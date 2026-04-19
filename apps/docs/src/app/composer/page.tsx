@@ -21,6 +21,7 @@ import {
   makeNode,
   treeReducer,
   type ComponentNode,
+  type TreeAction,
 } from "./lib/tree";
 import { generateJsx, generateHtml } from "./lib/code-gen";
 import { Canvas } from "./components/Canvas";
@@ -76,6 +77,19 @@ export default function ComposerPage() {
       newParentId: path.parentId,
       newIndex,
     });
+  };
+
+  const applyDropActions = (actions: TreeAction[]) => {
+    for (const action of actions) {
+      dispatch(action);
+    }
+    // Select the dropped node so the props panel updates immediately.
+    const first = actions[0];
+    if (first?.type === "INSERT") {
+      setSelectedId(first.node.id);
+    } else if (first?.type === "WRAP_WITH") {
+      setSelectedId(first.siblingNode.id);
+    }
   };
 
   const updateSelected = (updates: Partial<LegacyComponentNode>) => {
@@ -155,6 +169,7 @@ export default function ComposerPage() {
                     selectedId={selectedId}
                     onSelect={setSelectedId}
                     viewport={viewport}
+                    onDropActions={applyDropActions}
                   />
                 </TabsContent>
                 <TabsContent value="outline">

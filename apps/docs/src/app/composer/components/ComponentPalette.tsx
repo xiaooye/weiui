@@ -1,4 +1,5 @@
 "use client";
+import type { DragEvent } from "react";
 import {
   Button,
   Card,
@@ -8,12 +9,24 @@ import {
   Text,
 } from "@weiui/react";
 import { PALETTE_ITEMS, PALETTE_CATEGORIES } from "../lib/component-tree";
+import { makeNode } from "../lib/tree";
 
 interface Props {
   onAdd: (type: string) => void;
 }
 
 export function ComponentPalette({ onAdd }: Props) {
+  const onDragStart = (e: DragEvent<HTMLButtonElement>, type: string) => {
+    const item = PALETTE_ITEMS.find((i) => i.type === type);
+    const node = makeNode(
+      type,
+      { ...(item?.defaultProps ?? {}) },
+      item?.defaultChildren || undefined,
+    );
+    e.dataTransfer.setData("application/x-weiui-node", JSON.stringify(node));
+    e.dataTransfer.effectAllowed = "copy";
+  };
+
   return (
     <Card className="wui-tool-palette">
       <CardHeader>
@@ -44,6 +57,8 @@ export function ComponentPalette({ onAdd }: Props) {
                     size="sm"
                     fullWidth
                     onClick={() => onAdd(item.type)}
+                    draggable
+                    onDragStart={(e) => onDragStart(e, item.type)}
                     className="wui-tool-palette__item"
                   >
                     + {item.label}

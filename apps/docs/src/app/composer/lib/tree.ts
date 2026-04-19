@@ -13,6 +13,14 @@ export type TreeAction =
   | { type: "UPDATE_PROPS"; nodeId: string; props: Record<string, unknown> }
   | { type: "UPDATE_TEXT"; nodeId: string; text: string }
   | { type: "DUPLICATE"; nodeId: string }
+  | {
+      type: "WRAP_WITH";
+      nodeId: string;
+      wrapperType: string;
+      wrapperProps: Record<string, unknown>;
+      siblingNode: ComponentNode;
+      siblingBefore: boolean;
+    }
   | { type: "LOAD"; tree: ComponentNode[] }
   | { type: "UNDO" }
   | { type: "REDO" };
@@ -137,6 +145,21 @@ export function treeReducer(state: TreeState, action: TreeAction): TreeState {
         cloneWithNewIds(removed),
       );
       return pushPast(withClone);
+    }
+    case "WRAP_WITH": {
+      const path = findPath(state.tree, action.nodeId);
+      if (!path) return state;
+      const { next: without, removed } = removeById(state.tree, action.nodeId);
+      if (!removed) return state;
+      const wrapper: ComponentNode = {
+        id: newId(),
+        type: action.wrapperType,
+        props: action.wrapperProps,
+        children: action.siblingBefore
+          ? [action.siblingNode, removed]
+          : [removed, action.siblingNode],
+      };
+      return pushPast(insertAt(without, path.parentId, path.index, wrapper));
     }
     case "LOAD":
       return pushPast(action.tree);

@@ -45,4 +45,38 @@
     align-items: center;
     gap: var(--wui-spacing-3);
   }
+
+  /* Hint shown on an empty canvas */
+  .wui-composer__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 12rem;
+    padding: var(--wui-spacing-6);
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-sm);
+    border: 1px dashed var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    text-align: center;
+  }
+}
+
+@layer wui-utilities {
+  /* Edge-aware drop zones overlaid on a hovered component during drag.
+     Positioning is supplied inline (computed from the node's rect). */
+  .wui-composer__drop {
+    pointer-events: none;
+    transition: background-color 120ms ease, outline-color 120ms ease;
+  }
+  .wui-composer__canvas[data-dragging="true"] .wui-composer__drop {
+    pointer-events: auto;
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    outline: 1px dashed
+      color-mix(in oklch, var(--wui-color-primary) 40%, transparent);
+    outline-offset: -2px;
+  }
+  .wui-composer__canvas[data-dragging="true"] .wui-composer__drop--active {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 20%, transparent);
+    outline: 2px solid var(--wui-color-primary);
+  }
 }
