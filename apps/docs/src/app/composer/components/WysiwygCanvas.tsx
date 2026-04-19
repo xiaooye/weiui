@@ -113,6 +113,17 @@ export function WysiwygCanvas({
     setMouseHoverId(null);
   };
 
+  const onStageContextMenu = (e: MouseEvent<HTMLDivElement>) => {
+    const target = (e.target as HTMLElement).closest<HTMLElement>(
+      "[data-composer-id]",
+    );
+    const id = target?.dataset.composerId;
+    if (!id) return;
+    e.preventDefault();
+    im.select(id, "replace");
+    im.openContextMenu({ id, x: e.clientX, y: e.clientY });
+  };
+
   // While a drag session is active, track pointer moves/up globally. On pointerup
   // we run the drop-indicator + drop-action pipeline and dispatch tree actions.
   useEffect(() => {
@@ -211,6 +222,7 @@ export function WysiwygCanvas({
         style={{ maxInlineSize, position: "relative" }}
         onClick={onStageClick}
         onDoubleClick={onStageDoubleClick}
+        onContextMenu={onStageContextMenu}
         onMouseOver={onStageMouseOver}
         onMouseLeave={onStageMouseLeave}
       >
