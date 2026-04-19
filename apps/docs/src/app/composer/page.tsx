@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   Container,
   Grid,
@@ -12,6 +12,7 @@ import {
   Text,
   ToggleGroup,
   ToggleGroupItem,
+  Toaster,
 } from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
 import { PALETTE_ITEMS } from "./lib/component-tree";
@@ -22,25 +23,42 @@ import {
   type ComponentNode,
   type TreeAction,
 } from "./lib/tree";
+import {
+  InteractionProvider,
+  useInteractionManager,
+  type ViewportPreset,
+} from "./lib/interaction-manager";
+import { findNode, findAncestors, findPath } from "./lib/tree-path";
 import { useComposerShortcuts } from "./lib/keyboard-shortcuts";
 import { Canvas } from "./components/Canvas";
 import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
 import { CodeExport, type CodeMode } from "./components/CodeExport";
-import { WysiwygCanvas, type ViewportPreset } from "./components/WysiwygCanvas";
+import { WysiwygCanvas } from "./components/WysiwygCanvas";
+import { DragGhost } from "./components/DragGhost";
 import { fetchAllSchemas, fetchSchema } from "../../lib/component-schema-client";
 import type { ComponentSchema } from "../../lib/component-schema-loader";
 
 export default function ComposerPage() {
+  return (
+    <InteractionProvider>
+      <ComposerShell />
+    </InteractionProvider>
+  );
+}
+
+function ComposerShell() {
   const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const im = useInteractionManager();
+  const selectedId = im.state.selection.primary;
   const [codeMode, setCodeMode] = useState<CodeMode>("jsx");
-  const [viewport, setViewport] = useState<ViewportPreset>("full");
   const [view, setView] = useState<"design" | "outline">("design");
-  const [selectedSchema, setSelectedSchema] = useState<ComponentSchema | null>(null);
+  const [selectedSchema, setSelectedSchema] = useState<ComponentSchema | null>(
+    null,
+  );
   const [schemas, setSchemas] = useState<ComponentSchema[]>([]);
 
-  const selectedNode = findNode(state.tree, selectedId);
+  const selectedNode = findNode(state.tree, selectedId ?? "");
 
   useEffect(() => {
     let cancelled = false;
@@ -74,9 +92,11 @@ export default function ComposerPage() {
     };
   }, [selectedNode?.type]);
 
-  const onDeselect = useCallback(() => setSelectedId(null), []);
-
-  useComposerShortcuts({ selectedId, dispatch, onDeselect });
+  useComposerShortcuts({
+    selectedId,
+    dispatch,
+    onDeselect: im.clearSelection,
+  });
 
   const addNode = (type: string) => {
     const item = PALETTE_ITEMS.find((i) => i.type === type);
@@ -91,12 +111,12 @@ export default function ComposerPage() {
       index: state.tree.length,
       node,
     });
-    setSelectedId(node.id);
+    im.select(node.id, "replace");
   };
 
   const deleteNode = (id: string) => {
     dispatch({ type: "DELETE", nodeId: id });
-    if (selectedId === id) setSelectedId(null);
+    if (selectedId === id) im.clearSelection();
   };
 
   const duplicateNode = (id: string) => {
@@ -106,7 +126,9 @@ export default function ComposerPage() {
   const moveNode = (id: string, direction: "up" | "down") => {
     const path = findPath(state.tree, id);
     if (!path) return;
-    const siblings = getSiblings(state.tree, path.parentId);
+    const siblings = path.parentId
+      ? (findNode(state.tree, path.parentId)?.children ?? [])
+      : state.tree;
     const newIndex = direction === "up" ? path.index - 1 : path.index + 1;
     if (newIndex < 0 || newIndex >= siblings.length) return;
     dispatch({
@@ -121,12 +143,11 @@ export default function ComposerPage() {
     for (const action of actions) {
       dispatch(action);
     }
-    // Select the dropped node so the props panel updates immediately.
     const first = actions[0];
     if (first?.type === "INSERT") {
-      setSelectedId(first.node.id);
+      im.select(first.node.id, "replace");
     } else if (first?.type === "WRAP_WITH") {
-      setSelectedId(first.siblingNode.id);
+      im.select(first.siblingNode.id, "replace");
     }
   };
 
@@ -140,12 +161,14 @@ export default function ComposerPage() {
 
   const loadTemplate = (tree: ComponentNode[]) => {
     dispatch({ type: "LOAD", tree });
-    setSelectedId(null);
+    im.clearSelection();
   };
 
   return (
     <>
       <Header />
+      <Toaster />
+      <DragGhost />
       <Container maxWidth="80rem" className="wui-tool-shell">
         <Stack direction="column" gap={6}>
           <Stack direction="column" gap={2} className="wui-tool-shell__header">
@@ -179,8 +202,10 @@ export default function ComposerPage() {
                   {view === "design" ? (
                     <ToggleGroup
                       type="single"
-                      value={viewport}
-                      onChange={(v) => setViewport((v as ViewportPreset) || "full")}
+                      value={im.state.viewport}
+                      onChange={(v) =>
+                        im.setViewport((v as ViewportPreset) || "full")
+                      }
                       label="Viewport width"
                       size="sm"
                     >
@@ -195,9 +220,6 @@ export default function ComposerPage() {
                 <TabsContent value="design">
                   <WysiwygCanvas
                     tree={state.tree}
-                    selectedId={selectedId}
-                    onSelect={setSelectedId}
-                    viewport={viewport}
                     onDropActions={applyDropActions}
                     onUpdateProps={updateNodeProps}
                   />
@@ -206,7 +228,7 @@ export default function ComposerPage() {
                   <Canvas
                     tree={state.tree}
                     selectedId={selectedId}
-                    onSelect={setSelectedId}
+                    onSelect={(id) => im.select(id, "replace")}
                     onDelete={deleteNode}
                     onDuplicate={duplicateNode}
                     onMove={moveNode}
@@ -223,8 +245,8 @@ export default function ComposerPage() {
             <PropsEditor
               schema={selectedSchema}
               node={selectedNode}
-              ancestors={findAncestors(state.tree, selectedId)}
-              onSelect={setSelectedId}
+              ancestors={findAncestors(state.tree, selectedId ?? "")}
+              onSelect={(id) => (id ? im.select(id, "replace") : im.clearSelection())}
               onUpdateProps={(props) =>
                 selectedNode && updateNodeProps(selectedNode.id, props)
               }
@@ -237,52 +259,4 @@ export default function ComposerPage() {
       </Container>
     </>
   );
-}
-
-function findNode(tree: ComponentNode[], id: string | null): ComponentNode | null {
-  if (!id) return null;
-  for (const n of tree) {
-    if (n.id === id) return n;
-    const inner = findNode(n.children, id);
-    if (inner) return inner;
-  }
-  return null;
-}
-
-function findPath(
-  tree: ComponentNode[],
-  id: string,
-  parentId: string | null = null,
-): { parentId: string | null; index: number } | null {
-  for (let i = 0; i < tree.length; i++) {
-    const n = tree[i]!;
-    if (n.id === id) return { parentId, index: i };
-    const inner = findPath(n.children, id, n.id);
-    if (inner) return inner;
-  }
-  return null;
-}
-
-function getSiblings(tree: ComponentNode[], parentId: string | null): ComponentNode[] {
-  if (parentId === null) return tree;
-  const parent = findNode(tree, parentId);
-  return parent ? parent.children : [];
-}
-
-/** Root-to-node path (inclusive). Empty when id not found. */
-function findAncestors(
-  tree: ComponentNode[],
-  id: string | null,
-): ComponentNode[] {
-  if (!id) return [];
-  const walk = (list: ComponentNode[], trail: ComponentNode[]): ComponentNode[] | null => {
-    for (const n of list) {
-      const next = [...trail, n];
-      if (n.id === id) return next;
-      const inner = walk(n.children, next);
-      if (inner) return inner;
-    }
-    return null;
-  };
-  return walk(tree, []) ?? [];
 }

@@ -13,9 +13,10 @@ import {
 } from "../lib/drop-logic";
 import { DropZones } from "../lib/drop-zones";
 import type { ComponentNode, TreeAction } from "../lib/tree";
+import { useInteractionManager } from "../lib/interaction-manager";
 import { CHIP_CONTAINERS, LayoutChips } from "./LayoutChips";
 
-export type ViewportPreset = "375" | "768" | "1024" | "1280" | "full";
+export type { ViewportPreset } from "../lib/interaction-manager";
 
 const CONTAINERS = new Set([
   "Card",
@@ -30,9 +31,6 @@ const CONTAINERS = new Set([
 
 export interface WysiwygCanvasProps {
   tree: ComponentNode[];
-  selectedId: string | null;
-  onSelect: (id: string | null) => void;
-  viewport: ViewportPreset;
   onDropActions?: (actions: TreeAction[]) => void;
   onUpdateProps?: (id: string, props: Record<string, unknown>) => void;
 }
@@ -54,12 +52,12 @@ function parseDraggedNode(e: DragEvent): ComponentNode | null {
 
 export function WysiwygCanvas({
   tree,
-  selectedId,
-  onSelect,
-  viewport,
   onDropActions,
   onUpdateProps,
 }: WysiwygCanvasProps) {
+  const im = useInteractionManager();
+  const selectedId = im.state.selection.primary;
+  const viewport = im.state.viewport;
   const stageRef = useRef<HTMLDivElement>(null);
   const rects = useComposerRects(stageRef, tree);
   const maxInlineSize = viewport === "full" ? "100%" : `${viewport}px`;
@@ -91,9 +89,9 @@ export function WysiwygCanvas({
       "[data-composer-id]",
     );
     if (target && target.dataset.composerId) {
-      onSelect(target.dataset.composerId);
+      im.select(target.dataset.composerId, "replace");
     } else {
-      onSelect(null);
+      im.clearSelection();
     }
   };
 
@@ -110,7 +108,7 @@ export function WysiwygCanvas({
       target?.parentElement?.closest<HTMLElement>("[data-composer-id]");
     if (parent?.dataset.composerId) {
       e.preventDefault();
-      onSelect(parent.dataset.composerId);
+      im.select(parent.dataset.composerId, "replace");
     }
   };
 

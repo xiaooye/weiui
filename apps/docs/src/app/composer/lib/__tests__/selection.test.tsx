@@ -1,21 +1,36 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { render, screen, act } from "@testing-library/react";
 import { WysiwygCanvas } from "../../components/WysiwygCanvas";
 import { makeNode } from "../tree";
+import {
+  InteractionProvider,
+  useInteractionManager,
+} from "../interaction-manager";
+import type { ComponentNode } from "../tree";
+
+type Api = ReturnType<typeof useInteractionManager>;
+
+function renderWithProvider(tree: ComponentNode[]) {
+  let api: Api | null = null;
+  function Capture() {
+    api = useInteractionManager();
+    return null;
+  }
+  const result = render(
+    <InteractionProvider>
+      <Capture />
+      <WysiwygCanvas tree={tree} />
+    </InteractionProvider>,
+  );
+  return { ...result, getApi: () => api as Api };
+}
 
 describe("WysiwygCanvas", () => {
   it("mounts and wraps every node with a data-composer-id attribute", () => {
     const btn = makeNode("Button", { variant: "solid" }, "Click me");
     const input = makeNode("Input", { placeholder: "name" });
 
-    const { container } = render(
-      <WysiwygCanvas
-        tree={[btn, input]}
-        selectedId={null}
-        onSelect={() => {}}
-        viewport="full"
-      />,
-    );
+    const { container } = renderWithProvider([btn, input]);
 
     const wrapped = container.querySelectorAll("[data-composer-id]");
     const ids = Array.from(wrapped).map((el) =>
@@ -25,85 +40,59 @@ describe("WysiwygCanvas", () => {
     expect(ids).toContain(input.id);
   });
 
-  it("calls onSelect with the node id when a wrapped component is clicked", () => {
+  it("selects via the interaction manager when a wrapped component is clicked", () => {
     const btn = makeNode("Button", {}, "Click me");
-    const onSelect = vi.fn();
 
-    const { container } = render(
-      <WysiwygCanvas
-        tree={[btn]}
-        selectedId={null}
-        onSelect={onSelect}
-        viewport="full"
-      />,
-    );
+    const { container, getApi } = renderWithProvider([btn]);
 
     const wrapper = container.querySelector<HTMLElement>(
       `[data-composer-id="${btn.id}"]`,
     );
     expect(wrapper).not.toBeNull();
-    // Simulate click bubbling up from an inner child (the real rendered button).
     const inner =
       (wrapper!.firstElementChild as HTMLElement | null) ?? wrapper!;
-    inner.click();
-    expect(onSelect).toHaveBeenCalledWith(btn.id);
+    act(() => {
+      inner.click();
+    });
+    expect(getApi().state.selection.primary).toBe(btn.id);
   });
 
-  it("calls onSelect(null) when clicking the empty stage", () => {
-    const onSelect = vi.fn();
-
-    const { container } = render(
-      <WysiwygCanvas
-        tree={[]}
-        selectedId={null}
-        onSelect={onSelect}
-        viewport="full"
-      />,
-    );
+  it("clears selection when clicking the empty stage", () => {
+    const { container, getApi } = renderWithProvider([]);
+    act(() => {
+      getApi().select("seed-id", "replace");
+    });
+    expect(getApi().state.selection.primary).toBe("seed-id");
 
     const stage = container.querySelector<HTMLElement>(
       ".wui-composer__stage",
     );
     expect(stage).not.toBeNull();
-    stage!.click();
-    expect(onSelect).toHaveBeenCalledWith(null);
+    act(() => {
+      stage!.click();
+    });
+    expect(getApi().state.selection.primary).toBeNull();
   });
 
   it("applies the viewport preset as maxInlineSize on the stage", () => {
-    const { container, rerender } = render(
-      <WysiwygCanvas
-        tree={[]}
-        selectedId={null}
-        onSelect={() => {}}
-        viewport="375"
-      />,
-    );
+    const { container, getApi } = renderWithProvider([]);
     const stage = container.querySelector<HTMLElement>(
       ".wui-composer__stage",
     )!;
+    act(() => {
+      getApi().setViewport("375");
+    });
     expect(stage.style.maxInlineSize).toBe("375px");
 
-    rerender(
-      <WysiwygCanvas
-        tree={[]}
-        selectedId={null}
-        onSelect={() => {}}
-        viewport="full"
-      />,
-    );
+    act(() => {
+      getApi().setViewport("full");
+    });
     expect(stage.style.maxInlineSize).toBe("100%");
   });
 
   it("renders the component tree content (smoke test: button text appears)", () => {
     const btn = makeNode("Button", {}, "Hello");
-    render(
-      <WysiwygCanvas
-        tree={[btn]}
-        selectedId={null}
-        onSelect={() => {}}
-        viewport="full"
-      />,
-    );
+    renderWithProvider([btn]);
     expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 });
