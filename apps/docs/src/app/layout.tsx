@@ -11,6 +11,7 @@ import "../styles/chrome.css";
 import "../styles/preview.css";
 import "../styles/landing.css";
 import "../styles/playground.css";
+import "../styles/composer.css";
 
 const inter = Inter({
   subsets: ["latin"],

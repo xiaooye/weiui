@@ -1,0 +1,48 @@
+@layer wui-base {
+  /* Composer WYSIWYG canvas — frame around the stage */
+  .wui-composer__canvas {
+    position: relative;
+    inline-size: 100%;
+    min-block-size: 20rem;
+    padding: var(--wui-spacing-4);
+    background-color: var(--wui-color-muted);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-lg);
+    overflow: auto;
+  }
+
+  /* Stage — the sized drawing surface. `position: relative` is set inline so
+     absolutely-positioned overlay rects anchor against it. */
+  .wui-composer__stage {
+    inline-size: 100%;
+    margin-inline: auto;
+    min-block-size: 16rem;
+    padding: var(--wui-spacing-4);
+    background-color: var(--wui-color-background);
+    color: var(--wui-color-foreground);
+    border: 1px solid var(--wui-color-border);
+    border-radius: var(--wui-shape-radius-md);
+    box-sizing: border-box;
+  }
+
+  /* Overlay sits on top of the stage; hit-testing disabled so clicks fall
+     through to real components. */
+  .wui-composer__overlay {
+    /* positioning set inline; kept here only to document intent */
+  }
+
+  /* Selection outline — drawn as a real outline so it doesn't expand the box. */
+  .wui-composer__selection-outline {
+    outline: 2px solid var(--wui-color-primary);
+    outline-offset: 2px;
+    border-radius: var(--wui-shape-radius-sm);
+  }
+
+  /* View toggle row above the canvas */
+  .wui-composer__viewport-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--wui-spacing-3);
+  }
+}

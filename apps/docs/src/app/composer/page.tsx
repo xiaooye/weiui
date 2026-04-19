@@ -1,6 +1,18 @@
 "use client";
 import { useReducer, useState } from "react";
-import { Container, Grid, Heading, Stack, Text } from "@weiui/react";
+import {
+  Container,
+  Grid,
+  Heading,
+  Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Text,
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@weiui/react";
 import { Header } from "../../components/chrome/Header";
 import type { LegacyComponentNode } from "./lib/component-tree";
 import { PALETTE_ITEMS } from "./lib/component-tree";
@@ -15,11 +27,14 @@ import { Canvas } from "./components/Canvas";
 import { ComponentPalette } from "./components/ComponentPalette";
 import { PropsEditor } from "./components/PropsEditor";
 import { CodeExport } from "./components/CodeExport";
+import { WysiwygCanvas, type ViewportPreset } from "./components/WysiwygCanvas";
 
 export default function ComposerPage() {
   const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [codeMode, setCodeMode] = useState<"jsx" | "html">("jsx");
+  const [viewport, setViewport] = useState<ViewportPreset>("full");
+  const [view, setView] = useState<"design" | "outline">("design");
 
   const selectedNode = findNode(state.tree, selectedId);
   const selectedLegacy = selectedNode ? toLegacy(selectedNode) : null;
@@ -105,14 +120,54 @@ export default function ComposerPage() {
           >
             <ComponentPalette onAdd={addNode} />
             <Stack direction="column" gap={4}>
-              <Canvas
-                tree={state.tree}
-                selectedId={selectedId}
-                onSelect={setSelectedId}
-                onDelete={deleteNode}
-                onDuplicate={duplicateNode}
-                onMove={moveNode}
-              />
+              <Tabs
+                value={view}
+                onValueChange={(v) => setView(v as "design" | "outline")}
+              >
+                <Stack
+                  direction="row"
+                  gap={3}
+                  className="wui-composer__viewport-bar"
+                >
+                  <TabsList aria-label="Canvas view">
+                    <TabsTrigger value="design">Design</TabsTrigger>
+                    <TabsTrigger value="outline">Outline</TabsTrigger>
+                  </TabsList>
+                  {view === "design" ? (
+                    <ToggleGroup
+                      type="single"
+                      value={viewport}
+                      onChange={(v) => setViewport((v as ViewportPreset) || "full")}
+                      label="Viewport width"
+                      size="sm"
+                    >
+                      <ToggleGroupItem value="375">375</ToggleGroupItem>
+                      <ToggleGroupItem value="768">768</ToggleGroupItem>
+                      <ToggleGroupItem value="1024">1024</ToggleGroupItem>
+                      <ToggleGroupItem value="1280">1280</ToggleGroupItem>
+                      <ToggleGroupItem value="full">Full</ToggleGroupItem>
+                    </ToggleGroup>
+                  ) : null}
+                </Stack>
+                <TabsContent value="design">
+                  <WysiwygCanvas
+                    tree={state.tree}
+                    selectedId={selectedId}
+                    onSelect={setSelectedId}
+                    viewport={viewport}
+                  />
+                </TabsContent>
+                <TabsContent value="outline">
+                  <Canvas
+                    tree={state.tree}
+                    selectedId={selectedId}
+                    onSelect={setSelectedId}
+                    onDelete={deleteNode}
+                    onDuplicate={duplicateNode}
+                    onMove={moveNode}
+                  />
+                </TabsContent>
+              </Tabs>
               <CodeExport code={code} codeMode={codeMode} onCodeModeChange={setCodeMode} />
             </Stack>
             <PropsEditor node={selectedLegacy} onUpdate={updateSelected} />
