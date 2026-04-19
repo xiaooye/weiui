@@ -11,7 +11,10 @@ import {
   locateNode,
   type Edge,
 } from "../lib/drop-logic";
-import { computeDropIndicator } from "../lib/compute-drop-indicators";
+import {
+  computeDropIndicator,
+  type DropIndicator,
+} from "../lib/compute-drop-indicators";
 import { DropZones } from "../lib/drop-zones";
 import type { ComponentNode, TreeAction } from "../lib/tree";
 import { useInteractionManager } from "../lib/interaction-manager";
@@ -57,6 +60,8 @@ export function WysiwygCanvas({
 
   const [hoverNodeId, setHoverNodeId] = useState<string | null>(null);
   const [activeEdge, setActiveEdge] = useState<Edge | null>(null);
+  const [activeIndicator, setActiveIndicator] =
+    useState<DropIndicator | null>(null);
   const [mouseHoverId, setMouseHoverId] = useState<string | null>(null);
 
   const drag = im.state.drag;
@@ -165,17 +170,14 @@ export function WysiwygCanvas({
         ?.closest<HTMLElement>("[data-composer-id]");
       const id = el?.dataset.composerId ?? null;
       setHoverNodeId(id);
-      if (id && rects.get(id)) {
-        const indicator = computeDropIndicator({
-          tree,
-          rects,
-          pointer,
-          containers: CONTAINERS,
-        });
-        setActiveEdge(indicator?.edge ?? null);
-      } else {
-        setActiveEdge(null);
-      }
+      const indicator = computeDropIndicator({
+        tree,
+        rects,
+        pointer,
+        containers: CONTAINERS,
+      });
+      setActiveIndicator(indicator);
+      setActiveEdge(indicator?.edge ?? null);
     };
 
     const onUp = (e: PointerEvent) => {
@@ -184,6 +186,7 @@ export function WysiwygCanvas({
       im.endDrag();
       setHoverNodeId(null);
       setActiveEdge(null);
+      setActiveIndicator(null);
     };
 
     window.addEventListener("pointermove", onMove);
@@ -224,6 +227,23 @@ export function WysiwygCanvas({
         >
           {mouseHoverRect ? <HoverOutline rect={mouseHoverRect} /> : null}
           {selectedRect && <SelectionOutline rect={selectedRect} />}
+          {drag && activeIndicator?.betweenIndex != null
+            ? (() => {
+                const parent = findNode(tree, activeIndicator.targetId);
+                if (!parent) return null;
+                const isRow =
+                  (parent.props.direction as string) === "row" ||
+                  parent.type === "Grid";
+                return (
+                  <BetweenDropIndicator
+                    parent={parent}
+                    index={activeIndicator.betweenIndex}
+                    rects={rects}
+                    isRow={isRow}
+                  />
+                );
+              })()
+            : null}
           {isDragging && hoverRect ? (
             <DropZones
               rect={hoverRect}
@@ -324,6 +344,52 @@ function EmptyCanvas() {
         </li>
       </ol>
     </div>
+  );
+}
+
+function BetweenDropIndicator({
+  parent,
+  index,
+  rects,
+  isRow,
+}: {
+  parent: ComponentNode;
+  index: number;
+  rects: Map<string, Rect>;
+  isRow: boolean;
+}) {
+  const prev = parent.children[index - 1];
+  const curr = parent.children[index];
+  const rPrev = prev ? rects.get(prev.id) ?? null : null;
+  const rCurr = curr ? rects.get(curr.id) ?? null : null;
+  if (!rPrev && !rCurr) return null;
+  const style: React.CSSProperties = isRow
+    ? {
+        position: "absolute",
+        top: rPrev?.top ?? rCurr!.top,
+        left: rPrev ? rPrev.left + rPrev.width : rCurr!.left,
+        width: 2,
+        height: rPrev?.height ?? rCurr!.height,
+        background: "var(--wui-color-primary)",
+        borderRadius: 2,
+        pointerEvents: "none",
+      }
+    : {
+        position: "absolute",
+        top: rPrev ? rPrev.top + rPrev.height : rCurr!.top,
+        left: rPrev?.left ?? rCurr!.left,
+        height: 2,
+        width: rPrev?.width ?? rCurr!.width,
+        background: "var(--wui-color-primary)",
+        borderRadius: 2,
+        pointerEvents: "none",
+      };
+  return (
+    <div
+      className="wui-composer__between-drop"
+      style={style}
+      aria-hidden="true"
+    />
   );
 }
 

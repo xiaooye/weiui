@@ -275,6 +275,18 @@
     padding-block-end: var(--wui-spacing-1);
     border-block-end: 1px solid var(--wui-color-border);
   }
+
+  /* Between-siblings drop indicator — a 2px primary line at the sibling
+     boundary the pointer is nearest to during a drag. Mutually exclusive
+     with the edge drop zones (indicator state picks one or the other). */
+  .wui-composer__between-drop {
+    z-index: 2;
+  }
+
+  /* Drag ghost — follows the pointer via fixed positioning (see DragGhost). */
+  .wui-composer__drag-ghost {
+    transform: translateZ(0);
+  }
 }
 
 @layer wui-utilities {
