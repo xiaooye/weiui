@@ -232,11 +232,29 @@
     letter-spacing: 0.05em;
     padding-inline: var(--wui-spacing-1);
   }
+
+  /* Accordion-as-palette overrides live in @layer wui-elements at the bottom
+     of this file — they must beat the library's own accordion chrome. See
+     the note alongside .wui-docs-sidebar for the same layering rationale. */
+
+  .wui-tool-palette__trigger-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wui-spacing-2);
+  }
+
+  .wui-tool-palette__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-1);
+  }
+
   /* Dense palette entry — native <button> so we skip heavier Button padding. */
   .wui-tool-palette__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    gap: var(--wui-spacing-2);
     inline-size: 100%;
     min-block-size: 1.75rem;
     padding-block: var(--wui-spacing-1);
@@ -261,6 +279,86 @@
   }
   .wui-tool-palette__item:active {
     cursor: grabbing;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-tool-palette__item {
+      transition-property: background-color, border-color, transform;
+      transition-duration: var(--wui-motion-duration-fast);
+      transition-timing-function: var(--wui-motion-easing-standard);
+    }
+    .wui-tool-palette__item:hover {
+      transform: translateX(1px);
+    }
+  }
+
+  /* First-letter icon badge — category hue provides at-a-glance grouping. */
+  .wui-tool-palette__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border-radius: var(--wui-shape-radius-sm);
+    background-color: var(--wui-color-muted);
+    color: var(--wui-color-muted-foreground);
+    font-size: var(--wui-font-size-xs);
+    font-weight: var(--wui-font-weight-semibold);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .wui-tool-palette__icon[data-category="actions"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.18 25) 18%, transparent);
+    color: oklch(0.55 0.18 25);
+  }
+  .wui-tool-palette__icon[data-category="form"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.14 240) 18%, transparent);
+    color: oklch(0.55 0.14 240);
+  }
+  .wui-tool-palette__icon[data-category="display"] {
+    background-color: color-mix(in oklch, oklch(0.7 0.15 160) 18%, transparent);
+    color: oklch(0.5 0.15 160);
+  }
+  .wui-tool-palette__icon[data-category="feedback"] {
+    background-color: color-mix(in oklch, oklch(0.7 0.16 60) 18%, transparent);
+    color: oklch(0.55 0.16 60);
+  }
+  .wui-tool-palette__icon[data-category="navigation"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.15 280) 18%, transparent);
+    color: oklch(0.55 0.15 280);
+  }
+  .wui-tool-palette__icon[data-category="overlay"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.14 320) 18%, transparent);
+    color: oklch(0.55 0.14 320);
+  }
+  .wui-tool-palette__icon[data-category="layout"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.15 300) 18%, transparent);
+    color: oklch(0.55 0.15 300);
+  }
+  .wui-tool-palette__icon[data-category="typography"] {
+    background-color: color-mix(in oklch, oklch(0.7 0.12 40) 18%, transparent);
+    color: oklch(0.5 0.12 40);
+  }
+  .wui-tool-palette__icon[data-category="data"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.15 200) 18%, transparent);
+    color: oklch(0.5 0.15 200);
+  }
+  .wui-tool-palette__icon[data-category="media"] {
+    background-color: color-mix(in oklch, oklch(0.65 0.18 350) 18%, transparent);
+    color: oklch(0.55 0.18 350);
+  }
+  .wui-tool-palette__icon--template {
+    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    color: var(--wui-color-primary);
+  }
+  .wui-tool-palette__item--template {
+    font-weight: var(--wui-font-weight-medium);
+  }
+  .wui-tool-palette__label {
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .wui-tool-preview__stage {
@@ -698,5 +796,62 @@
     padding-inline: var(--wui-spacing-2);
     overflow-y: visible;
     inline-size: 100%;
+  }
+
+  /*
+   * Accordion-as-palette overrides — same layering trick as the sidebar.
+   * The library's .wui-accordion rules live in @layer wui-elements; these
+   * overrides must also live here to actually win. Strips the heavy
+   * standalone-widget chrome so the Accordion reads as a lightweight
+   * collapsible-category list inside the palette Card.
+   */
+  .wui-tool-palette__accordion.wui-accordion {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    background-color: transparent;
+  }
+  .wui-tool-palette__accordion .wui-accordion__item {
+    border-block-end: 0;
+    border-radius: var(--wui-shape-radius-sm);
+    margin-block-end: var(--wui-spacing-1);
+  }
+  .wui-tool-palette__accordion .wui-accordion__trigger {
+    min-block-size: 2rem;
+    padding-block: var(--wui-spacing-1);
+    padding-inline: var(--wui-spacing-2);
+    font-size: var(--wui-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--wui-font-weight-semibold);
+    color: var(--wui-color-muted-foreground);
+    border-radius: var(--wui-shape-radius-sm);
+  }
+  .wui-tool-palette__accordion .wui-accordion__trigger:hover {
+    color: var(--wui-color-foreground);
+    background-color: var(--wui-color-muted);
+  }
+  .wui-tool-palette__accordion .wui-accordion__trigger[aria-expanded="true"] {
+    color: var(--wui-color-foreground);
+    background-color: transparent;
+  }
+  .wui-tool-palette__accordion .wui-accordion__content-inner {
+    padding-block: var(--wui-spacing-1);
+    padding-inline: 0;
+  }
+
+  /* Templates section pinned at the top — distinct accent hue. */
+  .wui-tool-palette__section--templates .wui-accordion__trigger {
+    color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+  }
+  .wui-tool-palette__section--templates .wui-accordion__trigger:hover {
+    color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 14%, transparent);
+  }
+  .wui-tool-palette__section--templates .wui-accordion__trigger[aria-expanded="true"] {
+    color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
   }
 }

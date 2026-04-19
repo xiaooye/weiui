@@ -282,33 +282,61 @@ function EmptyCanvas() {
     <div className="wui-composer__empty" role="note">
       <svg
         className="wui-composer__empty-icon"
-        viewBox="0 0 48 48"
-        width="48"
-        height="48"
+        viewBox="0 0 80 80"
+        width="80"
+        height="80"
         aria-hidden="true"
       >
         <rect
-          x="8"
-          y="8"
-          width="32"
-          height="32"
-          rx="4"
+          x="12"
+          y="12"
+          width="56"
+          height="56"
+          rx="8"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeDasharray="4 3"
+          strokeDasharray="6 4"
         />
         <path
-          d="M16 24h16M24 16v16"
+          d="M28 40h24M40 28v24"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.5"
           strokeLinecap="round"
         />
       </svg>
-      <strong className="wui-composer__empty-title">Start composing</strong>
+      <strong className="wui-composer__empty-title">
+        Your canvas is empty
+      </strong>
       <span className="wui-composer__empty-sub">
-        Drag a component from the palette, or click a template.
+        Build anything — 65 components ready to drop.
       </span>
+      <ol className="wui-composer__empty-steps" aria-label="Getting started">
+        <li className="wui-composer__empty-step">
+          <span className="wui-composer__empty-step-num" aria-hidden="true">
+            1
+          </span>
+          <span className="wui-composer__empty-step-text">
+            Pick a component from the palette
+          </span>
+        </li>
+        <li className="wui-composer__empty-step">
+          <span className="wui-composer__empty-step-num" aria-hidden="true">
+            2
+          </span>
+          <span className="wui-composer__empty-step-text">
+            Drop it on the canvas
+          </span>
+        </li>
+        <li className="wui-composer__empty-step">
+          <span className="wui-composer__empty-step-num" aria-hidden="true">
+            3
+          </span>
+          <span className="wui-composer__empty-step-text">
+            Edit props on the right
+          </span>
+        </li>
+      </ol>
     </div>
   );
 }

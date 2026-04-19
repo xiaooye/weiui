@@ -46,7 +46,9 @@ describe("LayoutChips", () => {
     expect(screen.getByRole("toolbar", { name: "Stack layout" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Horizontal" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Vertical" })).toBeInTheDocument();
-    expect(screen.getByLabelText("Gap")).toHaveValue(3);
+    // The Slider thumb carries the "Gap" label + aria-valuenow.
+    const gapThumb = screen.getByRole("slider", { name: "Gap" });
+    expect(gapThumb).toHaveAttribute("aria-valuenow", "3");
   });
 
   it("Stack direction toggle dispatches onUpdate with merged props", async () => {
@@ -58,35 +60,40 @@ describe("LayoutChips", () => {
     expect(onUpdate).toHaveBeenCalledWith({ direction: "row", gap: 2 });
   });
 
-  it("Stack gap input dispatches numeric onUpdate", async () => {
+  it("Stack gap slider dispatches numeric onUpdate via keyboard", async () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const stack = makeNode("Stack", { direction: "row", gap: 2 });
     render(<ChipsHarness initial={stack} onUpdate={onUpdate} />);
-    const gapInput = screen.getByLabelText("Gap");
-    await user.clear(gapInput);
-    await user.type(gapInput, "5");
-    // After typing, the most recent call should carry gap: 5.
-    expect(onUpdate).toHaveBeenLastCalledWith({ direction: "row", gap: 5 });
+    const gapThumb = screen.getByRole("slider", { name: "Gap" });
+    gapThumb.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(onUpdate).toHaveBeenLastCalledWith({ direction: "row", gap: 3 });
   });
 
-  it("renders columns + gap inputs for Grid", () => {
+  it("renders columns + gap sliders for Grid", () => {
     const grid = makeNode("Grid", { columns: 4, gap: 2 });
     render(<LayoutChips node={grid} rect={rect} onUpdate={() => {}} />);
     expect(screen.getByRole("toolbar", { name: "Grid layout" })).toBeInTheDocument();
-    expect(screen.getByLabelText("Columns")).toHaveValue(4);
-    expect(screen.getByLabelText("Gap")).toHaveValue(2);
+    expect(screen.getByRole("slider", { name: "Columns" })).toHaveAttribute(
+      "aria-valuenow",
+      "4",
+    );
+    expect(screen.getByRole("slider", { name: "Gap" })).toHaveAttribute(
+      "aria-valuenow",
+      "2",
+    );
   });
 
-  it("Grid columns input dispatches numeric onUpdate preserving other props", async () => {
+  it("Grid columns slider dispatches numeric onUpdate preserving other props", async () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const grid = makeNode("Grid", { columns: 3, gap: 2 });
     render(<ChipsHarness initial={grid} onUpdate={onUpdate} />);
-    const cols = screen.getByLabelText("Columns");
-    await user.clear(cols);
-    await user.type(cols, "6");
-    expect(onUpdate).toHaveBeenLastCalledWith({ columns: 6, gap: 2 });
+    const cols = screen.getByRole("slider", { name: "Columns" });
+    cols.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(onUpdate).toHaveBeenLastCalledWith({ columns: 4, gap: 2 });
   });
 
   it("renders a max-width select for Container", () => {

@@ -1,6 +1,6 @@
 "use client";
 import type { CSSProperties } from "react";
-import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
+import { Slider, ToggleGroup, ToggleGroupItem } from "@weiui/react";
 import type { ComponentNode } from "../lib/tree";
 import type { Rect } from "../lib/selection-overlay";
 
@@ -49,7 +49,8 @@ interface ChipsProps {
 
 function StackChips({ node, style, onUpdate }: ChipsProps) {
   const direction = typeof node.props.direction === "string" ? node.props.direction : "column";
-  const gap = typeof node.props.gap === "number" ? node.props.gap : Number(node.props.gap ?? 2);
+  const gapRaw = typeof node.props.gap === "number" ? node.props.gap : Number(node.props.gap ?? 2);
+  const gap = Number.isFinite(gapRaw) ? gapRaw : 2;
 
   const onDirectionChange = (v: string | string[]) => {
     const next = Array.isArray(v) ? v[0] : v;
@@ -79,18 +80,24 @@ function StackChips({ node, style, onUpdate }: ChipsProps) {
           {"\u2195"}
         </ToggleGroupItem>
       </ToggleGroup>
-      <label className="wui-composer__chip-input">
-        <span>gap</span>
-        <input
-          type="number"
+      <div className="wui-composer__chip-slider">
+        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+          gap
+        </span>
+        <Slider
           min={0}
           max={12}
-          value={Number.isFinite(gap) ? gap : 2}
-          onChange={(e) => onUpdate({ ...node.props, gap: Number(e.currentTarget.value) })}
-          className="wui-input wui-input--sm"
-          aria-label="Gap"
+          step={1}
+          value={gap}
+          onChange={(next) => onUpdate({ ...node.props, gap: next })}
+          label="Gap"
+          showTooltip
+          className="wui-composer__chip-slider-track"
         />
-      </label>
+        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+          {gap}
+        </span>
+      </div>
     </div>
   );
 }
@@ -100,7 +107,9 @@ function GridChips({ node, style, onUpdate }: ChipsProps) {
   const columns = typeof columnsRaw === "number"
     ? columnsRaw
     : Number(columnsRaw ?? 3);
-  const gap = typeof node.props.gap === "number" ? node.props.gap : Number(node.props.gap ?? 2);
+  const gapRaw = typeof node.props.gap === "number" ? node.props.gap : Number(node.props.gap ?? 2);
+  const safeCols = Number.isFinite(columns) ? columns : 3;
+  const gap = Number.isFinite(gapRaw) ? gapRaw : 2;
 
   return (
     <div
@@ -109,30 +118,42 @@ function GridChips({ node, style, onUpdate }: ChipsProps) {
       role="toolbar"
       aria-label="Grid layout"
     >
-      <label className="wui-composer__chip-input">
-        <span>cols</span>
-        <input
-          type="number"
+      <div className="wui-composer__chip-slider">
+        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+          cols
+        </span>
+        <Slider
           min={1}
           max={12}
-          value={Number.isFinite(columns) ? columns : 3}
-          onChange={(e) => onUpdate({ ...node.props, columns: Number(e.currentTarget.value) })}
-          className="wui-input wui-input--sm"
-          aria-label="Columns"
+          step={1}
+          value={safeCols}
+          onChange={(next) => onUpdate({ ...node.props, columns: next })}
+          label="Columns"
+          showTooltip
+          className="wui-composer__chip-slider-track"
         />
-      </label>
-      <label className="wui-composer__chip-input">
-        <span>gap</span>
-        <input
-          type="number"
+        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+          {safeCols}
+        </span>
+      </div>
+      <div className="wui-composer__chip-slider">
+        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+          gap
+        </span>
+        <Slider
           min={0}
           max={12}
-          value={Number.isFinite(gap) ? gap : 2}
-          onChange={(e) => onUpdate({ ...node.props, gap: Number(e.currentTarget.value) })}
-          className="wui-input wui-input--sm"
-          aria-label="Gap"
+          step={1}
+          value={gap}
+          onChange={(next) => onUpdate({ ...node.props, gap: next })}
+          label="Gap"
+          showTooltip
+          className="wui-composer__chip-slider-track"
         />
-      </label>
+        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+          {gap}
+        </span>
+      </div>
     </div>
   );
 }
@@ -152,7 +173,7 @@ function ContainerChips({ node, style, onUpdate }: ChipsProps) {
         <select
           value={maxWidth}
           onChange={(e) => onUpdate({ ...node.props, maxWidth: e.currentTarget.value })}
-          className="wui-input wui-input--sm"
+          className="wui-composer__chip-select"
           aria-label="Max width"
         >
           <option value="20rem">sm</option>
