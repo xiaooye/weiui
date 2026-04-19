@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Button,
   Card,
@@ -11,6 +11,7 @@ import {
   ToggleGroupItem,
 } from "@weiui/react";
 import { generateCode, makeSchemaResolver } from "../lib/generate-code";
+import { openInCodeSandbox } from "../lib/codesandbox-export";
 import type { ComponentNode } from "../lib/tree";
 import type { ComponentSchema } from "../../../lib/component-schema-loader";
 
@@ -78,6 +79,22 @@ export function CodeExport({ tree, schemas, codeMode, onCodeModeChange }: Props)
     URL.revokeObjectURL(url);
   };
 
+  const [opening, setOpening] = useState(false);
+
+  const handleOpenInCodeSandbox = async () => {
+    setOpening(true);
+    try {
+      const url = await openInCodeSandbox(tree, schemas);
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      toast.error(
+        "Failed to open CodeSandbox: " + (err as Error).message,
+      );
+    } finally {
+      setOpening(false);
+    }
+  };
+
   const emptyCode = tree.length === 0;
 
   return (
@@ -112,6 +129,14 @@ export function CodeExport({ tree, schemas, codeMode, onCodeModeChange }: Props)
             disabled={emptyCode}
           >
             Download
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleOpenInCodeSandbox}
+            disabled={emptyCode || opening}
+          >
+            {opening ? "Opening…" : "Open in CodeSandbox"}
           </Button>
         </Stack>
       </CardHeader>
