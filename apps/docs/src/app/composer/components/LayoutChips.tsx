@@ -9,6 +9,7 @@ import {
   ToggleGroupItem,
 } from "@weiui/react";
 import type { ComponentNode } from "../lib/tree";
+import { useInteractionManager } from "../lib/interaction-manager";
 
 /** Component types that receive inline layout chips. */
 export const CHIP_CONTAINERS = new Set(["Stack", "Grid", "Container"]);
@@ -30,6 +31,8 @@ export interface LayoutChipsProps {
  */
 export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
   const anchorRef = useRef<HTMLButtonElement>(null);
+  const im = useInteractionManager();
+  const isDragging = im.state.drag != null;
 
   useEffect(() => {
     const anchor = anchorRef.current;
@@ -66,7 +69,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
   }, [node.id]);
 
   return (
-    <Popover open side="top" offset={8} align="start">
+    <Popover open={!isDragging} side="top" offset={8} align="start">
       <PopoverTrigger
         ref={anchorRef}
         aria-hidden="true"

@@ -1,9 +1,15 @@
 import { describe, it, expect, vi } from "vitest";
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LayoutChips } from "../LayoutChips";
 import { makeNode, type ComponentNode } from "../../lib/tree";
+import { InteractionProvider } from "../../lib/interaction-manager";
+
+/** Renders `ui` inside the InteractionProvider LayoutChips now depends on. */
+function renderWithInteraction(ui: ReactElement) {
+  return render(<InteractionProvider>{ui}</InteractionProvider>);
+}
 
 /**
  * Wrapper that threads onUpdate back into node.props so controlled inputs
@@ -31,14 +37,14 @@ function ChipsHarness({
 describe("LayoutChips", () => {
   it("renders nothing for non-container types", () => {
     const btn = makeNode("Button", {});
-    render(<LayoutChips node={btn} onUpdate={() => {}} />);
+    renderWithInteraction(<LayoutChips node={btn} onUpdate={() => {}} />);
     // Container types render a toolbar; non-containers render no chips panel.
     expect(screen.queryByRole("toolbar")).toBeNull();
   });
 
   it("renders direction + gap controls for Stack", () => {
     const stack = makeNode("Stack", { direction: "column", gap: 3 });
-    render(<LayoutChips node={stack} onUpdate={() => {}} />);
+    renderWithInteraction(<LayoutChips node={stack} onUpdate={() => {}} />);
     expect(screen.getByRole("toolbar", { name: "Stack layout" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Horizontal" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Vertical" })).toBeInTheDocument();
@@ -51,7 +57,7 @@ describe("LayoutChips", () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const stack = makeNode("Stack", { direction: "column", gap: 2 });
-    render(<LayoutChips node={stack} onUpdate={onUpdate} />);
+    renderWithInteraction(<LayoutChips node={stack} onUpdate={onUpdate} />);
     await user.click(screen.getByRole("button", { name: "Horizontal" }));
     expect(onUpdate).toHaveBeenCalledWith({ direction: "row", gap: 2 });
   });
@@ -60,7 +66,7 @@ describe("LayoutChips", () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const stack = makeNode("Stack", { direction: "row", gap: 2 });
-    render(<ChipsHarness initial={stack} onUpdate={onUpdate} />);
+    renderWithInteraction(<ChipsHarness initial={stack} onUpdate={onUpdate} />);
     const gapThumb = screen.getByRole("slider", { name: "Gap" });
     gapThumb.focus();
     await user.keyboard("{ArrowRight}");
@@ -69,7 +75,7 @@ describe("LayoutChips", () => {
 
   it("renders columns + gap sliders for Grid", () => {
     const grid = makeNode("Grid", { columns: 4, gap: 2 });
-    render(<LayoutChips node={grid} onUpdate={() => {}} />);
+    renderWithInteraction(<LayoutChips node={grid} onUpdate={() => {}} />);
     expect(screen.getByRole("toolbar", { name: "Grid layout" })).toBeInTheDocument();
     expect(screen.getByRole("slider", { name: "Columns" })).toHaveAttribute(
       "aria-valuenow",
@@ -85,7 +91,7 @@ describe("LayoutChips", () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const grid = makeNode("Grid", { columns: 3, gap: 2 });
-    render(<ChipsHarness initial={grid} onUpdate={onUpdate} />);
+    renderWithInteraction(<ChipsHarness initial={grid} onUpdate={onUpdate} />);
     const cols = screen.getByRole("slider", { name: "Columns" });
     cols.focus();
     await user.keyboard("{ArrowRight}");
@@ -94,7 +100,7 @@ describe("LayoutChips", () => {
 
   it("renders a max-width select for Container", () => {
     const container = makeNode("Container", { maxWidth: "40rem" });
-    render(<LayoutChips node={container} onUpdate={() => {}} />);
+    renderWithInteraction(<LayoutChips node={container} onUpdate={() => {}} />);
     expect(screen.getByRole("toolbar", { name: "Container layout" })).toBeInTheDocument();
     const select = screen.getByLabelText("Max width");
     expect(select).toHaveValue("40rem");
@@ -104,7 +110,7 @@ describe("LayoutChips", () => {
     const user = userEvent.setup();
     const onUpdate = vi.fn();
     const container = makeNode("Container", { maxWidth: "40rem" });
-    render(<LayoutChips node={container} onUpdate={onUpdate} />);
+    renderWithInteraction(<LayoutChips node={container} onUpdate={onUpdate} />);
     await user.selectOptions(screen.getByLabelText("Max width"), "80rem");
     expect(onUpdate).toHaveBeenCalledWith({ maxWidth: "80rem" });
   });
