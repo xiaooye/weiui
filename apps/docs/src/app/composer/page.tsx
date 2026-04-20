@@ -42,6 +42,7 @@ import { DragGhost } from "./components/DragGhost";
 import { ContextMenu } from "./components/ContextMenu";
 import { ResizableShell } from "./components/ResizableShell";
 import { ComposerAppBar } from "./components/ComposerAppBar";
+import { ShortcutHelp } from "./components/ShortcutHelp";
 import { fetchAllSchemas, fetchSchema } from "../../lib/component-schema-client";
 import type { ComponentSchema } from "../../lib/component-schema-loader";
 
@@ -311,6 +312,10 @@ function ComposerShell() {
         onDuplicate={duplicateSelected}
         onSelectParent={selectParent}
         onWrap={wrap}
+      />
+      <ShortcutHelp
+        open={im.state.shortcutHelpOpen}
+        onOpenChange={(o) => (o ? im.openShortcutHelp() : im.closeShortcutHelp())}
       />
       <Container maxWidth="80rem" className="wui-tool-shell">
         <Stack direction="column" gap={6}>

@@ -37,6 +37,12 @@ export function useComposerShortcuts({
         return;
       }
 
+      if (e.key === "?" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        im.openShortcutHelp();
+        return;
+      }
+
       const navKey = keyToNavKey(e);
       if (navKey) {
         e.preventDefault();

@@ -38,6 +38,7 @@ export interface InteractionState {
   clipboard: ComponentNode[];
   drag: DragSession | null;
   commandPaletteOpen: boolean;
+  shortcutHelpOpen: boolean;
   contextMenu: ContextMenuState | null;
   previewMode: boolean;
   zoom: ZoomLevel;
@@ -55,6 +56,8 @@ type Action =
   | { type: "set-clipboard"; nodes: ComponentNode[] }
   | { type: "open-command-palette" }
   | { type: "close-command-palette" }
+  | { type: "open-shortcut-help" }
+  | { type: "close-shortcut-help" }
   | { type: "open-context-menu"; menu: ContextMenuState }
   | { type: "close-context-menu" }
   | { type: "set-preview-mode"; value: boolean }
@@ -68,6 +71,7 @@ const initialState: InteractionState = {
   clipboard: [],
   drag: null,
   commandPaletteOpen: false,
+  shortcutHelpOpen: false,
   contextMenu: null,
   previewMode: false,
   zoom: 100,
@@ -114,6 +118,10 @@ function reducer(state: InteractionState, action: Action): InteractionState {
       return { ...state, commandPaletteOpen: true };
     case "close-command-palette":
       return { ...state, commandPaletteOpen: false };
+    case "open-shortcut-help":
+      return { ...state, shortcutHelpOpen: true };
+    case "close-shortcut-help":
+      return { ...state, shortcutHelpOpen: false };
     case "open-context-menu":
       return { ...state, contextMenu: action.menu };
     case "close-context-menu":
@@ -145,6 +153,8 @@ interface InteractionApi {
   setClipboard(nodes: ComponentNode[]): void;
   openCommandPalette(): void;
   closeCommandPalette(): void;
+  openShortcutHelp(): void;
+  closeShortcutHelp(): void;
   openContextMenu(menu: ContextMenuState): void;
   closeContextMenu(): void;
   setPreviewMode(value: boolean): void;
@@ -172,6 +182,8 @@ export function InteractionProvider({ children }: { children: ReactNode }) {
       setClipboard: (nodes) => dispatch({ type: "set-clipboard", nodes }),
       openCommandPalette: () => dispatch({ type: "open-command-palette" }),
       closeCommandPalette: () => dispatch({ type: "close-command-palette" }),
+      openShortcutHelp: () => dispatch({ type: "open-shortcut-help" }),
+      closeShortcutHelp: () => dispatch({ type: "close-shortcut-help" }),
       openContextMenu: (menu) => dispatch({ type: "open-context-menu", menu }),
       closeContextMenu: () => dispatch({ type: "close-context-menu" }),
       setPreviewMode: (value) => dispatch({ type: "set-preview-mode", value }),
