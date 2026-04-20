@@ -3,6 +3,7 @@ import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { AppToaster } from "../components/chrome/AppToaster";
+import { RouteToastReset } from "../components/chrome/RouteToastReset";
 import "@weiui/tokens/tokens.css";
 import "@weiui/css";
 import "../styles/fonts.css";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <AppToaster />
+        <RouteToastReset />
         <Analytics />
       </body>
     </html>

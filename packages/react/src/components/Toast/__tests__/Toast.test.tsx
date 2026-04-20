@@ -66,6 +66,32 @@ describe("toast-store", () => {
     const toasts = getToasts();
     expect(toasts[toasts.length - 1]!.duration).toBe(5000);
   });
+
+  it("toast.dismiss() with no arg clears all toasts", () => {
+    addToast({ title: "A", variant: "default" });
+    addToast({ title: "B", variant: "default" });
+    expect(getToasts()).toHaveLength(2);
+    toast.dismiss();
+    expect(getToasts()).toHaveLength(0);
+  });
+
+  it("toast.dismiss(id) removes a single toast", () => {
+    const keep = addToast({ title: "Keep", variant: "default" });
+    const drop = addToast({ title: "Drop", variant: "default" });
+    toast.dismiss(drop);
+    const remaining = getToasts();
+    expect(remaining).toHaveLength(1);
+    expect(remaining[0]!.id).toBe(keep);
+  });
+
+  it("toast.dismiss() notifies subscribers", () => {
+    addToast({ title: "A", variant: "default" });
+    const listener = vi.fn();
+    const unsub = subscribe(listener);
+    toast.dismiss();
+    expect(listener).toHaveBeenCalledTimes(1);
+    unsub();
+  });
 });
 
 describe("Toaster", () => {

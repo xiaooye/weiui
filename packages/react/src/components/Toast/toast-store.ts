@@ -57,6 +57,14 @@ toast.error = (title: ReactNode, opts?: Partial<Omit<ToastItem, "id" | "title" |
   addToast({ title, variant: "destructive", ...opts });
 toast.warning = (title: ReactNode, opts?: Partial<Omit<ToastItem, "id" | "title" | "variant">>) =>
   addToast({ title, variant: "warning", ...opts });
+toast.dismiss = (id?: string) => {
+  if (id) {
+    removeToast(id);
+    return;
+  }
+  toasts = [];
+  emit();
+};
 
 type PromiseMessages<T> = {
   loading: ReactNode;
