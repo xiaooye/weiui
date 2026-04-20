@@ -77,6 +77,142 @@ import { Button, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle
 - shadcn's `cn()` helper is baked into WeiUI too (`@weiui/react` re-exports it from `utils/cn`). You don't need to copy it across.
 - `DialogDescription` ships but isn't strictly required — Dialog wires `aria-describedby` only when present.
 
+### Snippet gallery (shadcn/ui to WeiUI)
+
+#### Button
+
+```tsx
+// shadcn/ui
+import { Button } from "@/components/ui/button";
+
+<Button variant="default" size="sm">Save</Button>
+<Button variant="destructive">Delete</Button>
+<Button variant="outline">Cancel</Button>
+<Button variant="ghost">Close</Button>
+```
+
+```tsx
+// @weiui/react
+import { Button } from "@weiui/react";
+
+<Button variant="solid" size="sm">Save</Button>
+<Button variant="solid" color="destructive">Delete</Button>
+<Button variant="outline">Cancel</Button>
+<Button variant="ghost">Close</Button>
+```
+
+Key differences: `variant="default"` becomes `variant="solid"`; `variant="destructive"` becomes `variant="solid" color="destructive"` (color is a separate axis in WeiUI).
+
+#### Dialog
+
+```tsx
+// shadcn/ui
+import {
+  Dialog, DialogContent, DialogDescription, DialogFooter,
+  DialogHeader, DialogTitle, DialogTrigger,
+} from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Confirm</DialogTitle>
+      <DialogDescription>Are you sure?</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button>Yes</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+```tsx
+// @weiui/react
+import {
+  Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger,
+  Stack, Button,
+} from "@weiui/react";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogTitle>Confirm</DialogTitle>
+    <DialogDescription>Are you sure?</DialogDescription>
+    <Stack direction="row" gap={2} style={{ justifyContent: "flex-end" }}>
+      <Button>Yes</Button>
+    </Stack>
+  </DialogContent>
+</Dialog>
+```
+
+WeiUI drops `DialogHeader` / `DialogFooter` — use `<Stack>` for layout.
+
+#### Form Field
+
+```tsx
+// shadcn/ui (with react-hook-form)
+<FormField
+  control={form.control}
+  name="email"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Email</FormLabel>
+      <FormControl><Input {...field} /></FormControl>
+      <FormDescription>We'll never share it.</FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+```
+
+```tsx
+// @weiui/react
+<Field label="Email" description="We'll never share it." error={errors.email?.message}>
+  <Input {...register("email")} />
+</Field>
+```
+
+WeiUI collapses the 7-element shadcn pattern into one `<Field>` that auto-wires `id`, `aria-describedby`, `aria-invalid` on its child.
+
+#### Menu
+
+```tsx
+// shadcn/ui
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuShortcut, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button>Options</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Edit <DropdownMenuShortcut>⌘E</DropdownMenuShortcut></DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+```tsx
+// @weiui/react
+import { Menu, MenuTrigger, MenuContent, MenuItem } from "@weiui/react";
+
+<Menu>
+  <MenuTrigger asChild>
+    <Button>Options</Button>
+  </MenuTrigger>
+  <MenuContent>
+    <MenuItem shortcut="⌘E">Edit</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+Rename: `DropdownMenu*` becomes `Menu*`. `DropdownMenuShortcut` is replaced by the `shortcut` prop on `MenuItem`.
+
 ---
 
 ## From MUI (v5/v6) to WeiUI
@@ -160,6 +296,133 @@ The tokens JSON gets compiled to CSS custom properties at build time. Runtime th
 - MUI's `<FormControl>` / `<InputLabel>` / `<FormHelperText>` is WeiUI's single `<Field>` with `<FieldLabel>` and `<FieldDescription>`. No provider required.
 - MUI's `Grid xs={6} md={4}` becomes WeiUI's `<Grid columns={{ base: 2, md: 3 }}>` — the child grows to fit.
 
+### Snippet gallery (MUI to WeiUI)
+
+#### Button
+
+```tsx
+// MUI
+import Button from "@mui/material/Button";
+
+<Button variant="contained" size="small">Save</Button>
+<Button variant="contained" color="error">Delete</Button>
+<Button variant="outlined">Cancel</Button>
+<Button variant="text">Close</Button>
+```
+
+```tsx
+// @weiui/react
+import { Button } from "@weiui/react";
+
+<Button variant="solid" size="sm">Save</Button>
+<Button variant="solid" color="destructive">Delete</Button>
+<Button variant="outline">Cancel</Button>
+<Button variant="ghost">Close</Button>
+```
+
+Key differences: `variant="contained"` becomes `variant="solid"`; `variant="text"` becomes `variant="ghost"`; `color="error"` becomes `color="destructive"`. Sizes: `small/medium/large` become `sm/md/lg`.
+
+#### Dialog
+
+```tsx
+// MUI
+import {
+  Dialog, DialogActions, DialogContent, DialogContentText,
+  DialogTitle, Button,
+} from "@mui/material";
+
+<Dialog open={open} onClose={handleClose}>
+  <DialogTitle>Confirm</DialogTitle>
+  <DialogContent>
+    <DialogContentText>Are you sure?</DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose}>Cancel</Button>
+    <Button onClick={handleConfirm}>Yes</Button>
+  </DialogActions>
+</Dialog>
+```
+
+```tsx
+// @weiui/react
+import {
+  Dialog, DialogContent, DialogDescription, DialogTitle,
+  Stack, Button,
+} from "@weiui/react";
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent>
+    <DialogTitle>Confirm</DialogTitle>
+    <DialogDescription>Are you sure?</DialogDescription>
+    <Stack direction="row" gap={2} style={{ justifyContent: "flex-end" }}>
+      <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+      <Button onClick={handleConfirm}>Yes</Button>
+    </Stack>
+  </DialogContent>
+</Dialog>
+```
+
+MUI's `open`/`onClose` pair becomes a single `open`/`onOpenChange` contract. `DialogContentText` becomes `DialogDescription`; `DialogActions` becomes a plain `<Stack>`.
+
+#### Form Field
+
+```tsx
+// MUI
+import { FormControl, InputLabel, Input, FormHelperText } from "@mui/material";
+
+<FormControl error={!!errors.email}>
+  <InputLabel htmlFor="email">Email</InputLabel>
+  <Input id="email" {...register("email")} aria-describedby="email-help" />
+  <FormHelperText id="email-help">
+    {errors.email?.message ?? "We'll never share it."}
+  </FormHelperText>
+</FormControl>
+```
+
+```tsx
+// @weiui/react
+import { Field, Input } from "@weiui/react";
+
+<Field label="Email" description="We'll never share it." error={errors.email?.message}>
+  <Input {...register("email")} />
+</Field>
+```
+
+MUI's four-element `<FormControl>` + `<InputLabel>` + input + `<FormHelperText>` collapses into one `<Field>`. `id`, `htmlFor`, `aria-describedby`, and `aria-invalid` are auto-wired.
+
+#### Menu
+
+```tsx
+// MUI
+import { Menu, MenuItem, Button } from "@mui/material";
+
+const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+<Button onClick={(e) => setAnchorEl(e.currentTarget)}>Options</Button>
+<Menu anchorEl={anchorEl} open={!!anchorEl} onClose={() => setAnchorEl(null)}>
+  <MenuItem onClick={handleEdit}>
+    Edit
+    <span style={{ marginInlineStart: "auto" }}>⌘E</span>
+  </MenuItem>
+</Menu>
+```
+
+```tsx
+// @weiui/react
+import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "@weiui/react";
+
+<Menu>
+  <MenuTrigger asChild>
+    <Button>Options</Button>
+  </MenuTrigger>
+  <MenuContent>
+    <MenuItem shortcut="⌘E" onSelect={handleEdit}>Edit</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+No anchor-element plumbing. `MenuTrigger` handles positioning; `shortcut` is a first-class prop. MUI's `onClick` becomes `onSelect` (fires for keyboard + pointer).
+
 ---
 
 ## From Radix Primitives to WeiUI
@@ -236,6 +499,141 @@ Then style with your own CSS or Tailwind.
 - Radix's `Root` / `Trigger` / `Portal` / `Overlay` / `Content` pattern in Dialog has slightly shorter names in WeiUI: `Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogClose`. No explicit `Portal` or `Overlay` — they're inside `DialogContent`.
 - Radix's Select has an explicit `Value` and `Content > Viewport` structure. WeiUI flattens to `SelectTrigger > SelectValue` and `SelectContent > SelectItem`.
 - Dismissible state lives on the root (`<Dialog open onOpenChange>`). Trigger and Content are siblings that read from context.
+
+### Snippet gallery (Radix to WeiUI)
+
+#### Button
+
+Radix doesn't ship a `Button` primitive — you'd style your own `<button>` or use a third-party one. WeiUI gives you one directly:
+
+```tsx
+// Radix (no primitive — typical hand-rolled)
+<button
+  type="button"
+  className="my-button my-button--solid my-button--sm"
+>
+  Save
+</button>
+```
+
+```tsx
+// @weiui/react
+import { Button } from "@weiui/react";
+
+<Button variant="solid" size="sm">Save</Button>
+<Button variant="solid" color="destructive">Delete</Button>
+<Button variant="outline">Cancel</Button>
+<Button variant="ghost">Close</Button>
+```
+
+If you were using shadcn on top of Radix, the Button migration matches the shadcn section above.
+
+#### Dialog
+
+```tsx
+// Radix
+import * as Dialog from "@radix-ui/react-dialog";
+
+<Dialog.Root>
+  <Dialog.Trigger asChild>
+    <button>Open</button>
+  </Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay className="overlay" />
+    <Dialog.Content className="content">
+      <Dialog.Title>Confirm</Dialog.Title>
+      <Dialog.Description>Are you sure?</Dialog.Description>
+      <Dialog.Close asChild><button>Cancel</button></Dialog.Close>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+```tsx
+// @weiui/react
+import {
+  Dialog, DialogTrigger, DialogContent, DialogTitle,
+  DialogDescription, DialogClose, Button,
+} from "@weiui/react";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogTitle>Confirm</DialogTitle>
+    <DialogDescription>Are you sure?</DialogDescription>
+    <DialogClose asChild><Button variant="ghost">Cancel</Button></DialogClose>
+  </DialogContent>
+</Dialog>
+```
+
+`Dialog.Root` is just `Dialog`. No explicit `Portal` or `Overlay` — they're baked into `DialogContent`. Styling is included, so you don't need custom class names.
+
+#### Form Field
+
+Radix doesn't ship a `Field` wrapper — you wire labels manually with `@radix-ui/react-label`:
+
+```tsx
+// Radix
+import * as Label from "@radix-ui/react-label";
+
+<div>
+  <Label.Root htmlFor="email">Email</Label.Root>
+  <input id="email" aria-describedby="email-desc" aria-invalid={!!error} />
+  <span id="email-desc">
+    {error ?? "We'll never share it."}
+  </span>
+</div>
+```
+
+```tsx
+// @weiui/react
+import { Field, Input } from "@weiui/react";
+
+<Field label="Email" description="We'll never share it." error={error}>
+  <Input />
+</Field>
+```
+
+WeiUI's `<Field>` generates the `id`, wires `htmlFor` on the label, sets `aria-describedby` / `aria-invalid` on the child input, and ships matching styles.
+
+#### Menu
+
+```tsx
+// Radix
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger asChild>
+    <button>Options</button>
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Portal>
+    <DropdownMenu.Content>
+      <DropdownMenu.Item onSelect={handleEdit}>
+        Edit
+        <div style={{ marginInlineStart: "auto" }}>⌘E</div>
+      </DropdownMenu.Item>
+    </DropdownMenu.Content>
+  </DropdownMenu.Portal>
+</DropdownMenu.Root>
+```
+
+```tsx
+// @weiui/react
+import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "@weiui/react";
+
+<Menu>
+  <MenuTrigger asChild>
+    <Button>Options</Button>
+  </MenuTrigger>
+  <MenuContent>
+    <MenuItem shortcut="⌘E" onSelect={handleEdit}>Edit</MenuItem>
+  </MenuContent>
+</Menu>
+```
+
+`DropdownMenu.*` becomes `Menu*`. `Portal` is implicit. `shortcut` is a first-class prop on `MenuItem` — no manual layout needed.
 
 ---
 
