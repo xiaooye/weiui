@@ -69,7 +69,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
   }, [node.id]);
 
   return (
-    <Popover open={!isDragging} side="top" offset={8} align="start">
+    <Popover open={!isDragging} side="top" offset={8} align="start" stickyOnScroll>
       <PopoverTrigger
         ref={anchorRef}
         aria-hidden="true"

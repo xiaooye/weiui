@@ -49,6 +49,7 @@ interface PopoverContextValue {
   arrowRef: MutableRefObject<HTMLElement | null>;
   arrowData: { x?: number; y?: number } | undefined;
   placement: string;
+  stickyOnScroll: boolean;
 }
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
@@ -72,6 +73,13 @@ export interface PopoverProps extends UseDisclosureProps {
   collisionPadding?: number;
   /** When true, traps focus inside the popover while open. @default false */
   modal?: boolean;
+  /**
+   * When true, popover stays open while ancestors scroll. Default: false
+   * (popover closes on scroll to avoid stale anchor positions).
+   * Opt in when the consumer keeps the anchor rect in sync with scroll
+   * (e.g. via ResizeObserver on a live target).
+   */
+  stickyOnScroll?: boolean;
 }
 
 export function Popover({
@@ -81,6 +89,7 @@ export function Popover({
   offset = 8,
   collisionPadding = 8,
   modal = false,
+  stickyOnScroll = false,
   ...disclosureProps
 }: PopoverProps) {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure(disclosureProps);
@@ -101,7 +110,7 @@ export function Popover({
     <PopoverContext.Provider
       value={{
         isOpen, onOpen, onClose, onToggle, popoverId, triggerId, refs, floatingStyles,
-        modal, arrowRef, arrowData: middlewareData.arrow, placement,
+        modal, arrowRef, arrowData: middlewareData.arrow, placement, stickyOnScroll,
       }}
     >
       {children}
@@ -167,7 +176,8 @@ export function PopoverContent({
   onCloseAutoFocus,
   ...props
 }: PopoverContentProps) {
-  const { isOpen, onClose, popoverId, refs, floatingStyles, modal } = usePopoverContext();
+  const { isOpen, onClose, popoverId, refs, floatingStyles, modal, stickyOnScroll } =
+    usePopoverContext();
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
@@ -192,6 +202,21 @@ export function PopoverContent({
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [isOpen, onClose, onInteractOutside]);
+
+  // Close on ancestor scroll — floating-ui position goes stale once the
+  // anchor's scroll container moves. Consumers that track the anchor live
+  // (e.g. via ResizeObserver) opt out with `stickyOnScroll`.
+  useEffect(() => {
+    if (!isOpen) return;
+    if (stickyOnScroll) return;
+    function onScroll(e: Event) {
+      const content = contentRef.current;
+      if (content && content.contains(e.target as Node)) return;
+      onClose();
+    }
+    document.addEventListener("scroll", onScroll, { capture: true, passive: true });
+    return () => document.removeEventListener("scroll", onScroll, { capture: true });
+  }, [isOpen, stickyOnScroll, onClose]);
 
   useEffect(() => {
     if (isOpen) {

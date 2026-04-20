@@ -152,4 +152,53 @@ describe("Popover P1 additions", () => {
     // Popover should remain open because preventDefault was called
     expect(screen.getByText("Body")).toBeInTheDocument();
   });
+
+  it("closes on ancestor scroll by default (anchor position goes stale)", async () => {
+    const onOpenChange = vi.fn();
+    render(
+      <div data-testid="scroller">
+        <Popover open onOpenChange={onOpenChange}>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Body</PopoverContent>
+        </Popover>
+      </div>,
+    );
+    await screen.findByText("Body");
+    // Dispatch a scroll event on an ancestor — capture-phase listener catches it.
+    const scroller = screen.getByTestId("scroller");
+    scroller.dispatchEvent(new Event("scroll", { bubbles: true }));
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("stickyOnScroll keeps popover open on ancestor scroll", async () => {
+    const onOpenChange = vi.fn();
+    render(
+      <div data-testid="scroller">
+        <Popover open onOpenChange={onOpenChange} stickyOnScroll>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent>Body</PopoverContent>
+        </Popover>
+      </div>,
+    );
+    await screen.findByText("Body");
+    const scroller = screen.getByTestId("scroller");
+    scroller.dispatchEvent(new Event("scroll", { bubbles: true }));
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+  });
+
+  it("scrolls inside popover content do not close it", async () => {
+    const onOpenChange = vi.fn();
+    render(
+      <Popover open onOpenChange={onOpenChange}>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverContent>
+          <div data-testid="inner">Body</div>
+        </PopoverContent>
+      </Popover>,
+    );
+    const inner = await screen.findByTestId("inner");
+    inner.dispatchEvent(new Event("scroll", { bubbles: true }));
+    expect(onOpenChange).not.toHaveBeenCalled();
+  });
 });
