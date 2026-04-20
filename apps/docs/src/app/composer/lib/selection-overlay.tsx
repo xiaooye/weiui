@@ -15,9 +15,11 @@ export interface Rect {
  * pixels relative to the stage's top-left corner.
  *
  * Re-measures when the stage resizes (ResizeObserver), the window resizes
- * (viewport preset toggle), the tree changes identity, or the stage's
+ * (viewport preset toggle), the tree changes identity, the stage's
  * transform scale changes (zoom toggle — since `transform: scale()` does
- * not fire the ResizeObserver).
+ * not fire the ResizeObserver), or child nodes / style / class attributes
+ * inside the stage mutate (MutationObserver — so overlays never flash
+ * with stale rects in the frame after a tree mutation).
  */
 export function useComposerRects(
   stageRef: RefObject<HTMLDivElement | null>,
@@ -59,9 +61,20 @@ export function useComposerRects(
         ? new ResizeObserver(measure)
         : null;
     ro?.observe(stage);
+    const mo =
+      typeof MutationObserver !== "undefined"
+        ? new MutationObserver(measure)
+        : null;
+    mo?.observe(stage, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
     window.addEventListener("resize", measure);
     return () => {
       ro?.disconnect();
+      mo?.disconnect();
       window.removeEventListener("resize", measure);
     };
   }, [stageRef, tree, scale]);
