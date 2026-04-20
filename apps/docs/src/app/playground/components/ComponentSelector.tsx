@@ -2,10 +2,13 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
-  Heading,
+  Badge,
+  Card,
+  CardContent,
+  CardHeader,
   SearchInput,
   Stack,
   Text,
@@ -130,75 +133,99 @@ export function ComponentSelector({ selected, onSelect }: Props) {
 
   const loading = schemas === null;
   const empty = !loading && filteredGroups.length === 0;
+  const totalCount = (schemas ?? []).length;
 
   return (
-    <Stack direction="column" gap={3} className="wui-playground-selector">
-      <Heading level={3} className="wui-tool-side__title">
-        Components
-      </Heading>
-      <SearchInput
-        size="sm"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search components"
-        aria-label="Search components"
-      />
-      {loading ? (
-        <Text size="sm" color="muted">
-          Loading…
-        </Text>
-      ) : empty ? (
-        <Text size="sm" color="muted">
-          No components match.
-        </Text>
-      ) : (
-        <Accordion
-          type="single"
-          value={expanded}
-          onValueChange={setExpanded}
-          className="wui-playground-selector__accordion"
-        >
-          {filteredGroups.map((group) => (
-            <AccordionItem key={group.category} value={group.category}>
-              <AccordionTrigger className="wui-playground-selector__trigger">
-                <span className="wui-playground-selector__category">
-                  {group.category}
-                </span>
-                <span className="wui-playground-selector__count">
-                  {group.items.length}
-                </span>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div
-                  ref={(el) => {
-                    listsRef.current.set(group.category, el);
-                  }}
-                  className="wui-playground-selector__list"
-                >
-                  {group.items.map((schema) => {
-                    const isSelected = schema.name === selected;
-                    return (
-                      <button
-                        key={schema.name}
-                        type="button"
-                        className="wui-playground-selector__item"
-                        data-selected={isSelected || undefined}
-                        aria-current={isSelected ? "true" : undefined}
-                        onClick={() => onSelect(schema.name)}
-                        onKeyDown={(e) =>
-                          handleItemKeyDown(e, group.category, schema.name)
-                        }
-                      >
-                        {schema.name}
-                      </button>
-                    );
-                  })}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      )}
-    </Stack>
+    <Card className="wui-playground-selector">
+      <CardHeader>
+        <Stack direction="column" gap={2}>
+          <Text as="span" size="sm" weight="semibold">
+            Components {"\u00B7"} {totalCount}
+          </Text>
+          <SearchInput
+            size="sm"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search components"
+            aria-label="Search components"
+            className="wui-playground-selector__search"
+          />
+        </Stack>
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <Text size="sm" color="muted">
+            Loading…
+          </Text>
+        ) : empty ? (
+          <Text size="sm" color="muted">
+            No components match.
+          </Text>
+        ) : (
+          <Accordion
+            type="multiple"
+            value={expanded}
+            onValueChange={setExpanded}
+            className="wui-playground-selector__accordion"
+          >
+            {filteredGroups.map((group) => (
+              <AccordionItem
+                key={group.category}
+                value={group.category}
+                className="wui-playground-selector__section"
+                data-category={group.category.toLowerCase()}
+              >
+                <AccordionTrigger className="wui-playground-selector__trigger">
+                  <span className="wui-playground-selector__trigger-label">
+                    <span className="wui-playground-selector__category">
+                      {group.category}
+                    </span>
+                    <Badge variant="soft" size="sm">
+                      {group.items.length}
+                    </Badge>
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div
+                    ref={(el) => {
+                      listsRef.current.set(group.category, el);
+                    }}
+                    className="wui-playground-selector__list"
+                  >
+                    {group.items.map((schema) => {
+                      const isSelected = schema.name === selected;
+                      return (
+                        <button
+                          key={schema.name}
+                          type="button"
+                          className="wui-playground-selector__item"
+                          data-selected={isSelected || undefined}
+                          aria-current={isSelected ? "true" : undefined}
+                          onClick={() => onSelect(schema.name)}
+                          onKeyDown={(e) =>
+                            handleItemKeyDown(e, group.category, schema.name)
+                          }
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="wui-playground-selector__icon"
+                            data-category={group.category.toLowerCase()}
+                          >
+                            {schema.name[0]}
+                          </span>
+                          <span className="wui-playground-selector__label">
+                            {schema.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+      </CardContent>
+    </Card>
   );
 }
