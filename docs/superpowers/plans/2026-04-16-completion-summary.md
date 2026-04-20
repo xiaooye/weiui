@@ -91,3 +91,43 @@ Top-of-class plan executed via subagent-driven-development — one fresh subagen
 - `pnpm --filter @weiui/docs build`: 44+ static pages, 0 warnings ✓
 - Tailwind leakage scan across `packages/react/src/components/`: empty ✓
 - Audit P1s remaining: 0 ✓
+
+## Polish pass — 2026-04-20
+
+Plan: `docs/superpowers/plans/2026-04-20-full-polish-pass.md` (30 tasks).
+
+**Tasks shipped (1–27):**
+
+1. Zoom ↔ selection-overlay alignment (`437ea66`)
+2. Rect measurements stale after tree mutation — MutationObserver (`44138f3`)
+3. WRAP_SINGLE reducer action (`039c5a9`)
+4. Reorder drag on canvas (`6f45bc4`)
+5. Cancel drag on Escape (`4239dc3`)
+6. Error boundary around rendered tree (`a6c4a3d`)
+7. Palette sticky search + collapse default (`24082d1`)
+8. CommandPalette recents pinned (`92823a4`)
+9. Context-menu edge flipping (`d42e215`)
+10. Drop zones — stronger visual feedback (`8e751b7`)
+11. LayoutChips fade during drag (`53330b0`)
+12. Outline tree drag-reorder (`139097f`)
+13. Stage theme — real token override (`afdbaf5`)
+14. Rulers align with zoom (`bd35b6e`)
+15. Keyboard-shortcut help (?) dialog (`be648a4`)
+16. Preview mode fade transition (`b5c6135`)
+17. Playground component selector — Accordion + search (`3ad1102`)
+18. Playground share-link feedback verified (no-op)
+19. Playground props panel grouped sections (`d1ec820`)
+20. "Edit in Composer" deep-link on Preview (`79668f4`)
+21. Accessibility per-component checklist (`aaffad5`)
+22. Migration before/after snippets (`58b5833`)
+23. Home hero copy tightened (`8305562`)
+24. Virtual-anchor helper extraction (`43d5a08`)
+25. Popover auto-close on ancestor scroll (`525d77b`)
+26. Toast clear on route change (`5ccb46e`)
+27. Icons stroke normalization (no-op — already normalized) (`e4c337e`)
+
+**Tests:** 136 docs / 1002 react — all green.  
+**Build:** `pnpm --filter @weiui/docs build` clean, 49 static pages.  
+**Tailwind leakage scan:** clean.
+
+Remaining tasks 28-30 (this commit + final verification + smoke suite) complete the pass.
