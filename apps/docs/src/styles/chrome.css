@@ -224,6 +224,14 @@
     max-block-size: calc(100vh - 10rem);
     overflow-y: auto;
   }
+  /* Keep the search + title visible while the body scrolls. */
+  .wui-tool-palette .wui-card__header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    background-color: var(--wui-color-card, var(--wui-color-background));
+    border-block-end: 1px solid var(--wui-color-border);
+  }
   .wui-tool-palette__search {
     inline-size: 100%;
   }

@@ -30,7 +30,7 @@ interface Props {
 }
 
 /** Categories expanded by default — high-signal, everything else collapsed. */
-const DEFAULT_EXPANDED: PaletteCategory[] = ["Actions", "Form", "Layout"];
+const DEFAULT_EXPANDED: PaletteCategory[] = ["Actions"];
 /** Accordion value for the pinned Templates section. */
 const TEMPLATES_VALUE = "__templates";
 
