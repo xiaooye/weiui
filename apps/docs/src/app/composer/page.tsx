@@ -31,7 +31,7 @@ import {
 } from "./lib/interaction-manager";
 import { findNode, findAncestors, findPath } from "./lib/tree-path";
 import { useComposerShortcuts } from "./lib/keyboard-shortcuts";
-import { buildCommands } from "./lib/commands";
+import { buildCommands, noteCommandUsed } from "./lib/commands";
 import { remapIds, serialiseNodes, deserialiseNodes } from "./lib/clipboard";
 import { OutlineTree } from "./components/OutlineTree";
 import { ComponentPalette } from "./components/ComponentPalette";
@@ -293,7 +293,10 @@ function ComposerShell() {
           label: c.label,
           group: c.group,
           shortcut: c.shortcut,
-          onSelect: c.run,
+          onSelect: () => {
+            noteCommandUsed(c.id);
+            c.run();
+          },
         }))}
         open={im.state.commandPaletteOpen}
         onOpenChange={(o) =>

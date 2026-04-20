@@ -1,7 +1,28 @@
-import { describe, it, expect } from "vitest";
-import { buildCommands } from "../commands";
+import { beforeEach, describe, it, expect, vi } from "vitest";
+import { buildCommands, noteCommandUsed } from "../commands";
 import { makeNode } from "../tree";
 import { PALETTE_ITEMS } from "../component-tree";
+
+// Node 25's built-in stub localStorage lacks methods — install a real in-memory shim
+function installLocalStorage() {
+  const store = new Map<string, string>();
+  const shim = {
+    getItem: (k: string) => store.get(k) ?? null,
+    setItem: (k: string, v: string) => void store.set(k, String(v)),
+    removeItem: (k: string) => void store.delete(k),
+    clear: () => store.clear(),
+    key: (i: number) => Array.from(store.keys())[i] ?? null,
+    get length() {
+      return store.size;
+    },
+  };
+  vi.stubGlobal("localStorage", shim);
+  Object.defineProperty(window, "localStorage", {
+    value: shim,
+    configurable: true,
+    writable: true,
+  });
+}
 
 const dispatch = {
   insertAtRoot: () => {},
@@ -43,5 +64,32 @@ describe("buildCommands", () => {
   it("View commands include preview toggle", () => {
     const cmds = buildCommands({ tree, selection: { primary: null, all: new Set() }, dispatch });
     expect(cmds.some((c) => c.group === "View" && c.label.includes("preview"))).toBe(true);
+  });
+});
+
+describe("buildCommands recents", () => {
+  beforeEach(() => {
+    installLocalStorage();
+    localStorage.clear();
+  });
+
+  it("promotes notedCommand ids to a Recent group", () => {
+    const dispatch = {
+      insertAtRoot: () => {}, deleteSelected: () => {}, duplicate: () => {},
+      wrap: () => {}, loadTemplate: () => {}, selectParent: () => {},
+      setPreview: () => {}, copy: () => {}, paste: () => {},
+    };
+    const tree = [makeNode("Card")];
+    // No recents yet — groups don't include Recent
+    let cmds = buildCommands({ tree, selection: { primary: null, all: new Set() }, dispatch });
+    expect(cmds.some((c) => c.group === "Recent")).toBe(false);
+    // Note an Add command
+    noteCommandUsed("add-Button");
+    cmds = buildCommands({ tree, selection: { primary: null, all: new Set() }, dispatch });
+    const recents = cmds.filter((c) => c.group === "Recent");
+    expect(recents).toHaveLength(1);
+    expect(recents[0]!.id).toBe("add-Button");
+    // Recent should be FIRST in the list
+    expect(cmds[0]!.id).toBe("add-Button");
   });
 });

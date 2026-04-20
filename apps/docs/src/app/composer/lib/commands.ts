@@ -3,6 +3,32 @@ import { TEMPLATES } from "./templates";
 import type { ComponentNode } from "./tree";
 import type { Selection } from "./interaction-manager";
 
+const RECENTS_KEY = "wui-composer-command-recents";
+const MAX_RECENTS = 5;
+
+function readRecents(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(RECENTS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((s): s is string => typeof s === "string").slice(0, MAX_RECENTS);
+  } catch {
+    return [];
+  }
+}
+
+export function noteCommandUsed(id: string): void {
+  if (typeof window === "undefined") return;
+  const prev = readRecents().filter((x) => x !== id);
+  const next = [id, ...prev].slice(0, MAX_RECENTS);
+  try {
+    localStorage.setItem(RECENTS_KEY, JSON.stringify(next));
+  } catch {
+    /* ignore */
+  }
+}
+
 export interface BuildCommandsDispatch {
   insertAtRoot: (type: string) => void;
   deleteSelected: () => void;
@@ -18,7 +44,7 @@ export interface BuildCommandsDispatch {
 export interface Command {
   id: string;
   label: string;
-  group: "Add" | "Template" | "Edit" | "View";
+  group: "Recent" | "Add" | "Template" | "Edit" | "View";
   shortcut?: string;
   run: () => void;
 }
@@ -78,5 +104,14 @@ export function buildCommands({
     run: () => dispatch.setPreview(!previewMode),
   });
 
-  return out;
+  const recents = readRecents();
+  if (recents.length === 0) return out;
+  const byId = new Map(out.map((c) => [c.id, c] as const));
+  const recentIds = new Set(recents);
+  const recentCmds: Command[] = recents
+    .map((id) => byId.get(id))
+    .filter((c): c is Command => c != null)
+    .map((c) => ({ ...c, group: "Recent" as const }));
+  const rest = out.filter((c) => !recentIds.has(c.id));
+  return [...recentCmds, ...rest];
 }
