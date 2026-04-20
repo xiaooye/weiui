@@ -87,6 +87,21 @@ export function ComposerAppBar({
           ))}
         </ToggleGroup>
         <span className="wui-composer__appbar-sep" aria-hidden="true" />
+        <ToggleGroup
+          type="single"
+          size="sm"
+          value={im.state.theme}
+          onChange={(v) => {
+            const val = Array.isArray(v) ? v[0] : v;
+            im.setTheme((val as "auto" | "light" | "dark") || "auto");
+          }}
+          label="Stage theme"
+        >
+          <ToggleGroupItem value="auto">Auto</ToggleGroupItem>
+          <ToggleGroupItem value="light">Light</ToggleGroupItem>
+          <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
+        </ToggleGroup>
+        <span className="wui-composer__appbar-sep" aria-hidden="true" />
         <label className="wui-composer__appbar-switch">
           <Switch
             checked={im.state.previewMode}

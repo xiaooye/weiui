@@ -230,6 +230,7 @@ export function WysiwygCanvas({
         className="wui-composer__stage"
         ref={stageRef}
         data-preview={im.state.previewMode || undefined}
+        data-theme={im.state.theme !== "auto" ? im.state.theme : undefined}
         style={{
           maxInlineSize,
           position: "relative",
