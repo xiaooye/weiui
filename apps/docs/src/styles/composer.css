@@ -330,12 +330,34 @@
   }
 
   /* Stage-local theme override — lets the composer preview in a specific
-     theme independent of the docs-site theme. */
+     theme independent of the docs-site theme. Values copied verbatim from
+     @weiui/tokens (primitives/color.json + dark-mode.ts) so the stage swaps
+     real primitives, not just color-scheme. */
   .wui-composer__stage[data-theme="light"] {
     color-scheme: light;
+    --wui-color-background: oklch(1 0 0);
+    --wui-color-foreground: oklch(0.145 0.010 240);
+    --wui-color-muted: oklch(0.967 0.003 240);
+    --wui-color-muted-foreground: oklch(0.446 0.018 240);
+    --wui-color-border: oklch(0.928 0.006 240);
+    --wui-color-card: oklch(1 0 0);
+    --wui-color-card-foreground: oklch(0.145 0.010 240);
+    --wui-color-primary: oklch(0.546 0.245 263);
+    --wui-color-primary-foreground: oklch(1 0 0);
+    --wui-color-ring: oklch(0.546 0.245 263);
   }
   .wui-composer__stage[data-theme="dark"] {
     color-scheme: dark;
+    --wui-color-background: oklch(0.145 0.010 240);
+    --wui-color-foreground: oklch(0.985 0.002 240);
+    --wui-color-muted: oklch(0.279 0.015 240);
+    --wui-color-muted-foreground: oklch(0.732 0.015 240);
+    --wui-color-border: oklch(0.372 0.017 240);
+    --wui-color-card: oklch(0.208 0.012 240);
+    --wui-color-card-foreground: oklch(0.985 0.002 240);
+    --wui-color-primary: oklch(0.623 0.214 262);
+    --wui-color-primary-foreground: oklch(0.145 0.010 240);
+    --wui-color-ring: oklch(0.623 0.214 262);
   }
 }
 
