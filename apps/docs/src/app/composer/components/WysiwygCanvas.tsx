@@ -152,7 +152,7 @@ export function WysiwygCanvas({
           pointer: { x: ev.clientX, y: ev.clientY },
         });
       }
-      if (started) im.updateDragPointer({ x: ev.clientX, y: ev.clientY });
+      if (started && im.state.drag) im.updateDragPointer({ x: ev.clientX, y: ev.clientY });
     };
     const onUp = (ev: PointerEvent) => {
       window.removeEventListener("pointermove", onMove);
@@ -298,8 +298,18 @@ export function WysiwygCanvas({
       setActiveIndicator(indicator);
       setActiveEdge(indicator?.edge ?? null);
     };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        im.endDrag();
+      }
+    };
     window.addEventListener("pointermove", onMove);
-    return () => window.removeEventListener("pointermove", onMove);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("keydown", onKey);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drag != null]);
 

@@ -57,9 +57,12 @@ function PaletteButton({
     onDragEnd: (p) => {
       // Commit at the release point FIRST (while state.drag is still live),
       // then clear the drag session. Race-free: the stage's commit handler
-      // lives in a ref updated on every render.
-      im.commitRef.current?.(p);
-      im.endDrag();
+      // lives in a ref updated on every render. Guard with state.drag so a
+      // cancelled drag (e.g. Escape) doesn't commit on pointerup.
+      if (im.state.drag) {
+        im.commitRef.current?.(p);
+        im.endDrag();
+      }
     },
     onClick: () => onAdd(item.type),
   });
