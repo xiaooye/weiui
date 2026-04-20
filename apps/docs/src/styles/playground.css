@@ -235,3 +235,19 @@
     padding-inline: 0;
   }
 }
+
+@layer wui-base {
+  /* Props panel sections — mirrors Composer's Appearance/Behavior/Advanced
+     grouping so dense prop lists get visual hierarchy. */
+  .wui-playground__props-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wui-spacing-2);
+  }
+  .wui-playground__props-section-title {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-block-end: var(--wui-spacing-1);
+    border-block-end: 1px solid var(--wui-color-border);
+  }
+}
