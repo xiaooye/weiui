@@ -329,6 +329,19 @@
     background-image: none;
   }
 
+  /* Preview-mode overlay fade — chrome (selection/hover outlines, chips,
+     drop zones) softens out when the stage flips to preview, giving a less
+     jarring transition than an instant hide. Uses :has() to key off the
+     sibling stage's data-preview flag. Modern browsers only (Chrome 105+,
+     Safari 15.4+, Firefox 121+) — acceptable for the composer tool.
+     Reduced-motion users get an instant swap via UA default. */
+  .wui-composer__overlay {
+    transition: opacity 200ms ease;
+  }
+  .wui-composer__stage-wrap:has(.wui-composer__stage[data-preview="true"]) .wui-composer__overlay {
+    opacity: 0;
+  }
+
   /* Stage-local theme override — lets the composer preview in a specific
      theme independent of the docs-site theme. Values copied verbatim from
      @weiui/tokens (primitives/color.json + dark-mode.ts) so the stage swaps
