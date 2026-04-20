@@ -263,6 +263,10 @@
      with the edge drop zones (indicator state picks one or the other). */
   .wui-composer__between-drop {
     z-index: 2;
+    background: var(--wui-color-primary);
+    box-shadow: 0 0 0 2px
+      color-mix(in oklch, var(--wui-color-primary) 40%, transparent);
+    border-radius: 2px;
   }
 
   /* Drag ghost — follows the pointer via fixed positioning (see DragGhost). */
@@ -350,7 +354,23 @@
     outline-offset: -2px;
   }
   .wui-composer__canvas[data-dragging="true"] .wui-composer__drop--active {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 20%, transparent);
-    outline: 2px solid var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--wui-color-primary) 35%, transparent);
+    outline: 3px solid var(--wui-color-primary);
+    outline-offset: -3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wui-composer__canvas[data-dragging="true"] .wui-composer__drop--active {
+      animation: wui-composer-drop-pulse 800ms ease-in-out infinite;
+    }
+    @keyframes wui-composer-drop-pulse {
+      0%,
+      100% {
+        outline-offset: -3px;
+      }
+      50% {
+        outline-offset: 0;
+      }
+    }
   }
 }
