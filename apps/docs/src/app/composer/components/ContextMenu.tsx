@@ -6,8 +6,9 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@weiui/react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useInteractionManager } from "../lib/interaction-manager";
+import { useVirtualAnchor } from "../../../lib/virtual-anchor";
 
 export type WrapKind = "Stack-row" | "Stack-column" | "Card";
 
@@ -69,12 +70,21 @@ function ContextMenuInner({
   onWrap,
   onClose,
 }: ContextMenuInnerProps) {
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const { anchorRef, openAt } = useVirtualAnchor();
 
-  // Programmatically click the invisible trigger on mount to open the Menu.
+  // Viewport-aware clamping so the menu doesn't clip off-screen near edges.
+  const MENU_W = 240;
+  const MENU_H = 320;
+  const viewportW = typeof window !== "undefined" ? window.innerWidth : 1440;
+  const viewportH = typeof window !== "undefined" ? window.innerHeight : 900;
+  const clampedX = Math.min(x, viewportW - MENU_W);
+  const clampedY = Math.min(y, viewportH - 80);
+  const side: "top" | "bottom" = y > viewportH - MENU_H ? "top" : "bottom";
+
+  // Position the invisible anchor at the pointer and open the Menu.
   useEffect(() => {
-    triggerRef.current?.click();
-  }, []);
+    openAt(clampedX, clampedY);
+  }, [clampedX, clampedY, openAt]);
 
   // Close our context-menu state on outside pointerdown or Escape, matching
   // the internal lifecycle of <Menu> so both stay in sync.
@@ -86,7 +96,7 @@ function ContextMenuInner({
       const menuEl = document.querySelector<HTMLElement>('[role="menu"]');
       if (menuEl && menuEl.contains(target)) return;
       // Ignore clicks on our invisible trigger itself
-      if (triggerRef.current && triggerRef.current.contains(target)) return;
+      if (anchorRef.current && anchorRef.current.contains(target)) return;
       onClose();
     }
     function onKeyDown(e: KeyboardEvent) {
@@ -98,46 +108,16 @@ function ContextMenuInner({
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [onClose]);
+  }, [onClose, anchorRef]);
 
   const select = (fn: () => void) => () => {
     fn();
     onClose();
   };
 
-  // Viewport-aware clamping so the menu doesn't clip off-screen near edges.
-  const MENU_W = 240;
-  const MENU_H = 320;
-  const viewportW = typeof window !== "undefined" ? window.innerWidth : 1440;
-  const viewportH = typeof window !== "undefined" ? window.innerHeight : 900;
-  const clampedX = Math.min(x, viewportW - MENU_W);
-  const clampedY = Math.min(y, viewportH - 80);
-  const side: "top" | "bottom" = y > viewportH - MENU_H ? "top" : "bottom";
-
-  // The trigger is an invisible fixed-position button so the floating-ui
-  // anchor lives at the pointer.
-  const triggerStyle: React.CSSProperties = {
-    position: "fixed",
-    top: `${clampedY}px`,
-    left: `${clampedX}px`,
-    width: 0,
-    height: 0,
-    padding: 0,
-    margin: 0,
-    border: 0,
-    background: "transparent",
-    pointerEvents: "none",
-    opacity: 0,
-  };
-
   return (
     <Menu side={side} align="start">
-      <MenuTrigger
-        ref={triggerRef}
-        aria-hidden="true"
-        tabIndex={-1}
-        style={triggerStyle}
-      >
+      <MenuTrigger ref={anchorRef} aria-hidden="true" tabIndex={-1}>
         <span />
       </MenuTrigger>
       <MenuContent>
