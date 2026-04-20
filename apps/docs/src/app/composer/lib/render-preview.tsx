@@ -20,6 +20,7 @@ function renderWrapped(node: ComponentNode): ReactNode {
     {
       key: node.id,
       "data-composer-id": node.id,
+      "data-composer-draggable": "true",
       style: { display: "contents" },
     },
     el,

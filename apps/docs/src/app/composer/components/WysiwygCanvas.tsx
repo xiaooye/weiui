@@ -1,5 +1,11 @@
 "use client";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { renderTree } from "../lib/render-preview";
 import {
   SelectionOutline,
@@ -123,6 +129,43 @@ export function WysiwygCanvas({
     setMouseHoverId(null);
   };
 
+  // Pointer-down on any rendered node starts a reorder-drag session after a
+  // 4px movement threshold. Sub-threshold presses fall through to onClick so
+  // click-to-select keeps working. No preventDefault — we want the click to fire.
+  const onStagePointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (im.state.previewMode || e.button !== 0) return;
+    const target = (e.target as HTMLElement).closest<HTMLElement>(
+      "[data-composer-draggable='true']",
+    );
+    if (!target?.dataset.composerId) return;
+    const id = target.dataset.composerId;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let started = false;
+
+    const onMove = (ev: PointerEvent) => {
+      if (!started && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 4) {
+        started = true;
+        im.startDrag({
+          kind: "reorder",
+          payload: [id],
+          pointer: { x: ev.clientX, y: ev.clientY },
+        });
+      }
+      if (started) im.updateDragPointer({ x: ev.clientX, y: ev.clientY });
+    };
+    const onUp = (ev: PointerEvent) => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      if (started && im.state.drag) {
+        im.commitRef.current?.({ x: ev.clientX, y: ev.clientY });
+        im.endDrag();
+      }
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+
   const onStageContextMenu = (e: MouseEvent<HTMLDivElement>) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>(
       "[data-composer-id]",
@@ -139,41 +182,95 @@ export function WysiwygCanvas({
   // BEFORE clearing drag state, so we always have a live drag session here.
   im.commitRef.current = (pointer: { x: number; y: number }) => {
     const d = im.state.drag;
-    if (!d || d.kind !== "palette") return;
-    const newNode = d.payload as ComponentNode;
-    const indicator = computeDropIndicator({
-      tree,
-      rects,
-      pointer,
-      containers: CONTAINERS,
-    });
-    if (!indicator) {
-      onDropActions?.([
-        { type: "INSERT", parentId: null, index: tree.length, node: newNode },
-      ]);
+    if (!d) return;
+    if (d.kind === "palette") {
+      const newNode = d.payload as ComponentNode;
+      const indicator = computeDropIndicator({
+        tree,
+        rects,
+        pointer,
+        containers: CONTAINERS,
+      });
+      if (!indicator) {
+        onDropActions?.([
+          { type: "INSERT", parentId: null, index: tree.length, node: newNode },
+        ]);
+        return;
+      }
+      if (indicator.betweenIndex != null) {
+        onDropActions?.([
+          {
+            type: "INSERT",
+            parentId: indicator.targetId,
+            index: indicator.betweenIndex,
+            node: newNode,
+          },
+        ]);
+        return;
+      }
+      const ctx = locateNode(tree, indicator.targetId);
+      const targetNode = findNode(tree, indicator.targetId);
+      if (!ctx || !targetNode || !indicator.edge) return;
+      const actions = computeDropAction(
+        ctx,
+        indicator.edge,
+        newNode,
+        targetNode,
+      );
+      if (actions.length > 0) onDropActions?.(actions);
       return;
     }
-    if (indicator.betweenIndex != null) {
-      onDropActions?.([
-        {
-          type: "INSERT",
-          parentId: indicator.targetId,
-          index: indicator.betweenIndex,
-          node: newNode,
-        },
-      ]);
+    if (d.kind === "reorder") {
+      const movedId = (d.payload as string[])[0];
+      if (!movedId) return;
+      // Compute descendants for self-drop prevention.
+      const descendants = new Set<string>();
+      const collect = (n: ComponentNode) => {
+        descendants.add(n.id);
+        n.children.forEach(collect);
+      };
+      const moved = findNode(tree, movedId);
+      if (moved) collect(moved);
+
+      const indicator = computeDropIndicator({
+        tree,
+        rects,
+        pointer,
+        containers: CONTAINERS,
+      });
+      if (!indicator) return;
+      if (descendants.has(indicator.targetId)) return; // block drop into self/descendant
+
+      if (indicator.betweenIndex != null) {
+        onDropActions?.([
+          {
+            type: "MOVE",
+            nodeId: movedId,
+            newParentId: indicator.targetId,
+            newIndex: indicator.betweenIndex,
+          },
+        ]);
+        return;
+      }
+      if (indicator.edge === "center") {
+        const target = findNode(tree, indicator.targetId);
+        if (!target) return;
+        onDropActions?.([
+          {
+            type: "MOVE",
+            nodeId: movedId,
+            newParentId: indicator.targetId,
+            newIndex: target.children.length,
+          },
+        ]);
+        return;
+      }
+      // Edge drops (top/right/bottom/left) — computeDropAction returns
+      // INSERT / WRAP_WITH actions designed for fresh nodes from the palette,
+      // not MOVE equivalents. v1 of reorder-drag treats edge drops as a
+      // no-op; between-index and center drops cover the primary use cases.
       return;
     }
-    const ctx = locateNode(tree, indicator.targetId);
-    const targetNode = findNode(tree, indicator.targetId);
-    if (!ctx || !targetNode || !indicator.edge) return;
-    const actions = computeDropAction(
-      ctx,
-      indicator.edge,
-      newNode,
-      targetNode,
-    );
-    if (actions.length > 0) onDropActions?.(actions);
   };
 
   // While a drag session is active, track pointer moves to update the
@@ -231,6 +328,7 @@ export function WysiwygCanvas({
           onClick={onStageClick}
           onDoubleClick={onStageDoubleClick}
           onContextMenu={onStageContextMenu}
+          onPointerDown={onStagePointerDown}
           onMouseOver={onStageMouseOver}
           onMouseLeave={onStageMouseLeave}
         >
