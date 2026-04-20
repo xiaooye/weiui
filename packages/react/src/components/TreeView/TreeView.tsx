@@ -361,6 +361,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
           key={node.id}
           className="wui-tree__item"
           role="treeitem"
+          data-tree-node-id={node.id}
           aria-expanded={hasChildren ? isExpanded : undefined}
           aria-selected={isSelected}
           aria-disabled={node.disabled || undefined}
