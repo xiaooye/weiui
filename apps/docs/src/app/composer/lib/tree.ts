@@ -21,6 +21,12 @@ export type TreeAction =
       siblingNode: ComponentNode;
       siblingBefore: boolean;
     }
+  | {
+      type: "WRAP_SINGLE";
+      nodeId: string;
+      wrapperType: string;
+      wrapperProps: Record<string, unknown>;
+    }
   | { type: "LOAD"; tree: ComponentNode[] }
   | { type: "UNDO" }
   | { type: "REDO" };
@@ -158,6 +164,19 @@ export function treeReducer(state: TreeState, action: TreeAction): TreeState {
         children: action.siblingBefore
           ? [action.siblingNode, removed]
           : [removed, action.siblingNode],
+      };
+      return pushPast(insertAt(without, path.parentId, path.index, wrapper));
+    }
+    case "WRAP_SINGLE": {
+      const path = findPath(state.tree, action.nodeId);
+      if (!path) return state;
+      const { next: without, removed } = removeById(state.tree, action.nodeId);
+      if (!removed) return state;
+      const wrapper: ComponentNode = {
+        id: newId(),
+        type: action.wrapperType,
+        props: action.wrapperProps,
+        children: [removed],
       };
       return pushPast(insertAt(without, path.parentId, path.index, wrapper));
     }

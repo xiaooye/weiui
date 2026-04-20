@@ -250,6 +250,46 @@ describe("treeReducer", () => {
     expect(children[2]!.id).toBe(c.id);
   });
 
+  it("WRAP_SINGLE wraps target in a new parent without adding a sibling", () => {
+    const btn = makeNode("Button");
+    const inserted = treeReducer(INITIAL_TREE, {
+      type: "INSERT",
+      parentId: null,
+      index: 0,
+      node: btn,
+    });
+    const wrapped = treeReducer(inserted, {
+      type: "WRAP_SINGLE",
+      nodeId: btn.id,
+      wrapperType: "Card",
+      wrapperProps: { padding: 4 },
+    });
+    expect(wrapped.tree).toHaveLength(1);
+    expect(wrapped.tree[0]!.type).toBe("Card");
+    expect(wrapped.tree[0]!.props).toEqual({ padding: 4 });
+    expect(wrapped.tree[0]!.children).toHaveLength(1);
+    expect(wrapped.tree[0]!.children[0]!.id).toBe(btn.id);
+  });
+
+  it("WRAP_SINGLE preserves position when wrapping a nested node", () => {
+    const btn1 = makeNode("Button");
+    const btn2 = makeNode("Button");
+    const stack = makeNode("Stack");
+    stack.children = [btn1, btn2];
+    const s = treeReducer(INITIAL_TREE, { type: "INSERT", parentId: null, index: 0, node: stack });
+    const wrapped = treeReducer(s, {
+      type: "WRAP_SINGLE",
+      nodeId: btn2.id,
+      wrapperType: "Card",
+      wrapperProps: {},
+    });
+    const stackInTree = wrapped.tree[0]!;
+    expect(stackInTree.children).toHaveLength(2);
+    expect(stackInTree.children[0]!.id).toBe(btn1.id);
+    expect(stackInTree.children[1]!.type).toBe("Card");
+    expect(stackInTree.children[1]!.children[0]!.id).toBe(btn2.id);
+  });
+
   it("WRAP_WITH is a no-op when target id is unknown", () => {
     const a = makeNode("Button");
     const s = insert(INITIAL_TREE, null, 0, a);

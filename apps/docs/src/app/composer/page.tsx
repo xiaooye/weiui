@@ -171,17 +171,10 @@ function ComposerShell() {
           ? { direction: "column", gap: 3 }
           : {};
     dispatch({
-      type: "WRAP_WITH",
+      type: "WRAP_SINGLE",
       nodeId: primary,
       wrapperType,
       wrapperProps,
-      siblingNode: {
-        id: "unused",
-        type: "__noop__",
-        props: {},
-        children: [],
-      },
-      siblingBefore: false,
     });
   };
 
