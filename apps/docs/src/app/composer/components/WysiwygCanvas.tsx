@@ -26,6 +26,7 @@ import type { ComponentNode, TreeAction } from "../lib/tree";
 import { useInteractionManager } from "../lib/interaction-manager";
 import { CHIP_CONTAINERS, LayoutChips } from "./LayoutChips";
 import { Rulers } from "./Rulers";
+import { TreeErrorBoundary } from "./TreeErrorBoundary";
 
 export type { ViewportPreset } from "../lib/interaction-manager";
 
@@ -347,7 +348,7 @@ export function WysiwygCanvas({
             stageRef={stageRef}
           />
           {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
-          {renderTree(tree)}
+          <TreeErrorBoundary>{renderTree(tree)}</TreeErrorBoundary>
         </div>
         {/*
          * The overlay must NOT inherit the stage's scale() transform — we
