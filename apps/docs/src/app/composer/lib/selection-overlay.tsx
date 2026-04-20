@@ -11,14 +11,18 @@ export interface Rect {
 
 /**
  * Measures bounding rects of every `[data-composer-id]` element inside a stage,
- * returning them keyed by composer node id and expressed relative to the stage.
+ * returning them keyed by composer node id and expressed in screen-space
+ * pixels relative to the stage's top-left corner.
  *
- * Re-measures when the stage resizes (ResizeObserver) or the window resizes
- * (viewport preset toggle). Also re-runs whenever `tree` changes identity.
+ * Re-measures when the stage resizes (ResizeObserver), the window resizes
+ * (viewport preset toggle), the tree changes identity, or the stage's
+ * transform scale changes (zoom toggle — since `transform: scale()` does
+ * not fire the ResizeObserver).
  */
 export function useComposerRects(
   stageRef: RefObject<HTMLDivElement | null>,
   tree: ComponentNode[],
+  scale: number = 1,
 ): Map<string, Rect> {
   const [rects, setRects] = useState<Map<string, Rect>>(new Map());
 
@@ -60,7 +64,7 @@ export function useComposerRects(
       ro?.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [stageRef, tree]);
+  }, [stageRef, tree, scale]);
 
   return rects;
 }

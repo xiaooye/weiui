@@ -50,7 +50,7 @@ export function WysiwygCanvas({
   const viewport = im.state.viewport;
   const scale = im.state.zoom / 100;
   const stageRef = useRef<HTMLDivElement>(null);
-  const rects = useComposerRects(stageRef, tree);
+  const rects = useComposerRects(stageRef, tree, scale);
   const maxInlineSize = viewport === "full" ? "100%" : `${viewport}px`;
   const selectedRect = selectedId ? rects.get(selectedId) ?? null : null;
   const selectedNode = selectedId ? findNode(tree, selectedId) : null;
@@ -214,28 +214,39 @@ export function WysiwygCanvas({
       data-dragging={isDragging ? "true" : undefined}
     >
       <div
-        className="wui-composer__stage"
-        ref={stageRef}
-        data-preview={im.state.previewMode || undefined}
-        data-theme={im.state.theme !== "auto" ? im.state.theme : undefined}
-        style={{
-          maxInlineSize,
-          position: "relative",
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-        }}
-        onClick={onStageClick}
-        onDoubleClick={onStageDoubleClick}
-        onContextMenu={onStageContextMenu}
-        onMouseOver={onStageMouseOver}
-        onMouseLeave={onStageMouseLeave}
+        className="wui-composer__stage-wrap"
+        style={{ position: "relative", maxInlineSize }}
       >
-        <Rulers
-          enabled={im.state.rulers && !im.state.previewMode}
-          stageRef={stageRef}
-        />
-        {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
-        {renderTree(tree)}
+        <div
+          className="wui-composer__stage"
+          ref={stageRef}
+          data-preview={im.state.previewMode || undefined}
+          data-theme={im.state.theme !== "auto" ? im.state.theme : undefined}
+          style={{
+            maxInlineSize,
+            position: "relative",
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+          onClick={onStageClick}
+          onDoubleClick={onStageDoubleClick}
+          onContextMenu={onStageContextMenu}
+          onMouseOver={onStageMouseOver}
+          onMouseLeave={onStageMouseLeave}
+        >
+          <Rulers
+            enabled={im.state.rulers && !im.state.previewMode}
+            stageRef={stageRef}
+          />
+          {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
+          {renderTree(tree)}
+        </div>
+        {/*
+         * The overlay must NOT inherit the stage's scale() transform — we
+         * render it as a sibling of the stage, positioned in the stage's
+         * pre-scale coord space (which is how useComposerRects returns its
+         * rects).
+         */}
         <div
           className="wui-composer__overlay"
           style={{
