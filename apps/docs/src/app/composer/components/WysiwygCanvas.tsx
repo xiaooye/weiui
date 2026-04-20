@@ -346,6 +346,7 @@ export function WysiwygCanvas({
           <Rulers
             enabled={im.state.rulers && !im.state.previewMode}
             stageRef={stageRef}
+            zoom={im.state.zoom}
           />
           {tree.length === 0 && !isDragging ? <EmptyCanvas /> : null}
           <TreeErrorBoundary>{renderTree(tree)}</TreeErrorBoundary>

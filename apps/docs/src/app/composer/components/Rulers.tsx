@@ -4,9 +4,10 @@ import { useEffect, useRef } from "react";
 export interface RulersProps {
   enabled: boolean;
   stageRef: React.RefObject<HTMLDivElement | null>;
+  zoom?: number;
 }
 
-export function Rulers({ enabled, stageRef }: RulersProps) {
+export function Rulers({ enabled, stageRef, zoom = 100 }: RulersProps) {
   const topRef = useRef<HTMLCanvasElement>(null);
   const leftRef = useRef<HTMLCanvasElement>(null);
 
@@ -16,9 +17,10 @@ export function Rulers({ enabled, stageRef }: RulersProps) {
     const top = topRef.current;
     const left = leftRef.current;
     if (!stage || !top || !left) return;
+    const scale = zoom / 100;
     const draw = () => {
-      const w = stage.clientWidth;
-      const h = stage.clientHeight;
+      const w = stage.clientWidth * scale;
+      const h = stage.clientHeight * scale;
       top.width = w;
       top.height = 20;
       left.width = 20;
@@ -49,7 +51,7 @@ export function Rulers({ enabled, stageRef }: RulersProps) {
     const ro = new ResizeObserver(draw);
     ro.observe(stage);
     return () => ro.disconnect();
-  }, [enabled, stageRef]);
+  }, [enabled, stageRef, zoom]);
 
   if (!enabled) return null;
 
