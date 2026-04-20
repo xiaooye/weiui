@@ -29,10 +29,10 @@ export function Hero() {
             v{siteConfig.version} {"\u00B7"} Pre-release
           </Badge>
           <Heading level={1} className="wui-landing-hero__title">
-            A design system that earns its place.
+            The design system that ships everything.
           </Heading>
           <Text size="lg" color="muted" className="wui-landing-hero__sub">
-            Three consumption layers. WCAG AAA enforcement. OKLCH tokens. Designer-friendly.
+            Tokens {"\u00B7"} CSS {"\u00B7"} Headless {"\u00B7"} React {"\u00B7"} WCAG AAA {"\u00B7"} Batteries included.
           </Text>
           <Stack direction="row" gap={3} wrap className="wui-landing-hero__cta">
             <Button asChild variant="solid" size="lg">
