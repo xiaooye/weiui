@@ -105,12 +105,21 @@ function ContextMenuInner({
     onClose();
   };
 
+  // Viewport-aware clamping so the menu doesn't clip off-screen near edges.
+  const MENU_W = 240;
+  const MENU_H = 320;
+  const viewportW = typeof window !== "undefined" ? window.innerWidth : 1440;
+  const viewportH = typeof window !== "undefined" ? window.innerHeight : 900;
+  const clampedX = Math.min(x, viewportW - MENU_W);
+  const clampedY = Math.min(y, viewportH - 80);
+  const side: "top" | "bottom" = y > viewportH - MENU_H ? "top" : "bottom";
+
   // The trigger is an invisible fixed-position button so the floating-ui
   // anchor lives at the pointer.
   const triggerStyle: React.CSSProperties = {
     position: "fixed",
-    top: `${y}px`,
-    left: `${x}px`,
+    top: `${clampedY}px`,
+    left: `${clampedX}px`,
     width: 0,
     height: 0,
     padding: 0,
@@ -122,7 +131,7 @@ function ContextMenuInner({
   };
 
   return (
-    <Menu side="bottom" align="start">
+    <Menu side={side} align="start">
       <MenuTrigger
         ref={triggerRef}
         aria-hidden="true"
