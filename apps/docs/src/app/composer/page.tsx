@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { Suspense, useEffect, useReducer, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   CommandPalette,
   Container,
@@ -49,7 +50,9 @@ import type { ComponentSchema } from "../../lib/component-schema-loader";
 export default function ComposerPage() {
   return (
     <InteractionProvider>
-      <ComposerShell />
+      <Suspense fallback={null}>
+        <ComposerShell />
+      </Suspense>
     </InteractionProvider>
   );
 }
@@ -57,6 +60,8 @@ export default function ComposerPage() {
 function ComposerShell() {
   const [state, dispatch] = useReducer(treeReducer, INITIAL_TREE);
   const im = useInteractionManager();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const selectedId = im.state.selection.primary;
   const [codeMode, setCodeMode] = useState<CodeMode>("jsx");
   const [view, setView] = useState<"design" | "outline">("design");
@@ -281,6 +286,15 @@ function ComposerShell() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [im]);
+
+  useEffect(() => {
+    const add = searchParams?.get("add");
+    if (!add) return;
+    if (!PALETTE_ITEMS.some((p) => p.type === add)) return;
+    addNode(add);
+    router.replace("/composer");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return (
     <>

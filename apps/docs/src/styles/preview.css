@@ -20,6 +20,21 @@
     margin-inline-start: auto;
     align-items: center;
   }
+  .wui-preview__edit-link {
+    font-size: var(--wui-font-size-sm);
+    color: var(--wui-color-primary);
+    text-decoration: none;
+    padding-inline: var(--wui-spacing-2);
+    padding-block: var(--wui-spacing-1);
+    border-radius: var(--wui-shape-radius-sm);
+  }
+  .wui-preview__edit-link:hover {
+    text-decoration: underline;
+  }
+  .wui-preview__edit-link:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
   .wui-preview__stage-wrap {
     padding: 0;
   }

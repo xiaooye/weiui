@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import {
   Button,
   Code,
@@ -16,23 +17,29 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@weiui/react";
+import { PALETTE_ITEMS } from "../../app/composer/lib/component-tree";
 import { PreviewFrame } from "./PreviewFrame";
 
 export interface PreviewProps {
   children: ReactNode;
   code?: string;
   label?: string;
+  component?: string;
 }
 
 type ViewportPreset = "100%" | "768" | "375";
 type TabId = "preview" | "code";
 
-export function Preview({ children, code, label }: PreviewProps) {
+export function Preview({ children, code, label, component }: PreviewProps) {
   const [tab, setTab] = useState<TabId>("preview");
   const [copied, setCopied] = useState(false);
   const [theme, setTheme] = useState<"inherit" | "light" | "dark">("inherit");
   const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
   const [viewport, setViewport] = useState<ViewportPreset>("100%");
+
+  const isComposable =
+    component !== undefined &&
+    PALETTE_ITEMS.some((p) => p.type === component);
 
   const onCopy = async () => {
     if (!code) return;
@@ -121,6 +128,14 @@ export function Preview({ children, code, label }: PreviewProps) {
                 <TooltipContent>{copied ? "Copied" : "Copy code"}</TooltipContent>
               </Tooltip>
             )}
+            {isComposable ? (
+              <Link
+                href={`/composer?add=${encodeURIComponent(component!)}`}
+                className="wui-preview__edit-link"
+              >
+                Edit in Composer <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
           </Stack>
         </Stack>
         <TabsContent value="preview" className="wui-preview__stage-wrap">
