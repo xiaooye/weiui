@@ -54,7 +54,13 @@ function PaletteButton({
       im.startDrag({ kind: "palette", payload: node, pointer: { x, y } });
     },
     onDragMove: (p) => im.updateDragPointer(p),
-    onDragEnd: () => im.endDrag(),
+    onDragEnd: (p) => {
+      // Commit at the release point FIRST (while state.drag is still live),
+      // then clear the drag session. Race-free: the stage's commit handler
+      // lives in a ref updated on every render.
+      im.commitRef.current?.(p);
+      im.endDrag();
+    },
     onClick: () => onAdd(item.type),
   });
   return (

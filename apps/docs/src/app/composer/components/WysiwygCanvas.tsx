@@ -134,62 +134,64 @@ export function WysiwygCanvas({
     im.openContextMenu({ id, x: e.clientX, y: e.clientY });
   };
 
-  // While a drag session is active, track pointer moves/up globally. On pointerup
-  // we run the drop-indicator + drop-action pipeline and dispatch tree actions.
+  // Register the drop-commit callback with the interaction manager on every
+  // render (ref-based — no re-render churn). Palette's onDragEnd calls this
+  // BEFORE clearing drag state, so we always have a live drag session here.
+  im.commitRef.current = (pointer: { x: number; y: number }) => {
+    const d = im.state.drag;
+    if (!d || d.kind !== "palette") return;
+    const newNode = d.payload as ComponentNode;
+    const indicator = computeDropIndicator({
+      tree,
+      rects,
+      pointer,
+      containers: CONTAINERS,
+    });
+    if (!indicator) {
+      onDropActions?.([
+        { type: "INSERT", parentId: null, index: tree.length, node: newNode },
+      ]);
+      return;
+    }
+    if (indicator.betweenIndex != null) {
+      onDropActions?.([
+        {
+          type: "INSERT",
+          parentId: indicator.targetId,
+          index: indicator.betweenIndex,
+          node: newNode,
+        },
+      ]);
+      return;
+    }
+    const ctx = locateNode(tree, indicator.targetId);
+    const targetNode = findNode(tree, indicator.targetId);
+    if (!ctx || !targetNode || !indicator.edge) return;
+    const actions = computeDropAction(
+      ctx,
+      indicator.edge,
+      newNode,
+      targetNode,
+    );
+    if (actions.length > 0) onDropActions?.(actions);
+  };
+
+  // While a drag session is active, track pointer moves to update the
+  // visual indicators (hover outline, edge/between highlight). The actual
+  // drop commit is handled via commitRef above — called by palette's onDragEnd.
   useEffect(() => {
-    if (!drag) return;
-
-    const commitDrop = (pointer: { x: number; y: number }) => {
-      if (drag.kind !== "palette") return;
-      const newNode = drag.payload as ComponentNode;
-      const indicator = computeDropIndicator({
-        tree,
-        rects,
-        pointer,
-        containers: CONTAINERS,
-      });
-      if (!indicator) {
-        onDropActions?.([
-          {
-            type: "INSERT",
-            parentId: null,
-            index: tree.length,
-            node: newNode,
-          },
-        ]);
-        return;
-      }
-      if (indicator.betweenIndex != null) {
-        onDropActions?.([
-          {
-            type: "INSERT",
-            parentId: indicator.targetId,
-            index: indicator.betweenIndex,
-            node: newNode,
-          },
-        ]);
-        return;
-      }
-      const ctx = locateNode(tree, indicator.targetId);
-      const targetNode = findNode(tree, indicator.targetId);
-      if (!ctx || !targetNode || !indicator.edge) return;
-      const actions = computeDropAction(
-        ctx,
-        indicator.edge,
-        newNode,
-        targetNode,
-      );
-      if (actions.length > 0) onDropActions?.(actions);
-    };
-
+    if (!drag) {
+      setHoverNodeId(null);
+      setActiveEdge(null);
+      setActiveIndicator(null);
+      return;
+    }
     const onMove = (e: PointerEvent) => {
       const pointer = { x: e.clientX, y: e.clientY };
-      im.updateDragPointer(pointer);
       const el = document
         .elementFromPoint(pointer.x, pointer.y)
         ?.closest<HTMLElement>("[data-composer-id]");
-      const id = el?.dataset.composerId ?? null;
-      setHoverNodeId(id);
+      setHoverNodeId(el?.dataset.composerId ?? null);
       const indicator = computeDropIndicator({
         tree,
         rects,
@@ -199,25 +201,10 @@ export function WysiwygCanvas({
       setActiveIndicator(indicator);
       setActiveEdge(indicator?.edge ?? null);
     };
-
-    const onUp = (e: PointerEvent) => {
-      const pointer = { x: e.clientX, y: e.clientY };
-      commitDrop(pointer);
-      im.endDrag();
-      setHoverNodeId(null);
-      setActiveEdge(null);
-      setActiveIndicator(null);
-    };
-
     window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-    };
-    // drag is a stable reference object — listening on its identity is fine.
+    return () => window.removeEventListener("pointermove", onMove);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drag]);
+  }, [drag != null]);
 
   const isContainer = hoverNode ? CONTAINERS.has(hoverNode.type) : false;
 

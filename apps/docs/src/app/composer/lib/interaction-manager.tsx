@@ -1,6 +1,16 @@
 "use client";
-import { createContext, useContext, useMemo, useReducer, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useReducer,
+  useRef,
+  type MutableRefObject,
+  type ReactNode,
+} from "react";
 import type { ComponentNode } from "./tree";
+
+export type CommitHandler = (pointer: { x: number; y: number }) => void;
 
 export type SelectMode = "replace" | "add" | "toggle";
 export type ZoomLevel = 50 | 75 | 100 | 125 | 150;
@@ -123,6 +133,10 @@ function reducer(state: InteractionState, action: Action): InteractionState {
 
 interface InteractionApi {
   state: InteractionState;
+  /** Ref holding the stage's drop-commit callback. Palette's pointerup calls
+   *  `commitRef.current?.(pointer)` before `endDrag()`. Using a ref avoids
+   *  re-render churn and race conditions between palette and stage effects. */
+  commitRef: MutableRefObject<CommitHandler | null>;
   select(id: string, mode: SelectMode): void;
   clearSelection(): void;
   startDrag(session: DragSession): void;
@@ -144,10 +158,12 @@ const Context = createContext<InteractionApi | null>(null);
 
 export function InteractionProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const commitRef = useRef<CommitHandler | null>(null);
 
   const api = useMemo<InteractionApi>(
     () => ({
       state,
+      commitRef,
       select: (id, mode) => dispatch({ type: "select", id, mode }),
       clearSelection: () => dispatch({ type: "clear-selection" }),
       startDrag: (session) => dispatch({ type: "start-drag", session }),
