@@ -21,15 +21,24 @@
     "cascade-layers",
     "wcag-aaa"
   ],
+  "bin": {
+    "weiui-css": "./dist/config-cli.mjs"
+  },
   "exports": {
     ".": "./dist/weiui.css",
     "./weiui.css": "./dist/weiui.css",
     "./reset.css": "./dist/reset.css",
-    "./elements/*": "./dist/elements/*"
+    "./base.css": "./dist/base.css",
+    "./a11y/*": "./dist/a11y/*",
+    "./elements/*": "./dist/elements/*",
+    "./utilities/*": "./dist/utilities/*",
+    "./bundle-manifest.json": "./dist/bundle-manifest.json",
+    "./config": "./dist/config.mjs"
   },
   "files": ["dist", "README.md"],
   "scripts": {
-    "build": "postcss src/index.css -o dist/weiui.css && lightningcss --minify dist/weiui.css -o dist/weiui.min.css"
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test-build.mjs"
   },
   "devDependencies": {
     "postcss": "^8.5",
