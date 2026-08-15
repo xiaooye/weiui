@@ -3,6 +3,7 @@ name: CSS Foundation
 on:
   pull_request:
     paths:
+      - 'packages/a11y/**'
       - 'packages/tokens/**'
       - 'packages/css/**'
       - 'AGENTS.md'
@@ -11,6 +12,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'packages/a11y/**'
       - 'packages/tokens/**'
       - 'packages/css/**'
       - '.github/workflows/css-foundation.yml'
@@ -30,6 +32,8 @@ jobs:
           cache: pnpm
       - name: Install
         run: pnpm install --frozen-lockfile
+      - name: Build accessibility dependency
+        run: pnpm --filter @weiui/a11y build
       - name: Build tokens
         run: pnpm --filter @weiui/tokens build
       - name: Test tokens
