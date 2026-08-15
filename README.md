@@ -2,9 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-An accessibility-first design system with three consumption layers.
+An accessibility-first design system with framework-agnostic styling, optional framework layers, and a build-time configuration layer.
 
-- **CSS Layer** — Framework-agnostic CSS-only components. Zero JavaScript.
+- **CSS Layer** — Framework-agnostic CSS-only components. Zero browser JavaScript.
+- **Config Layer** — Deterministic on-demand CSS bundle selection, dependency closure, and provenance. Build-time only.
 - **Headless Layer** — React hooks with accessible behavior. Unstyled.
 - **React Layer** — Fully styled React components with variant system.
 
@@ -16,6 +17,7 @@ An accessibility-first design system with three consumption layers.
 - 44px minimum touch targets
 - Full keyboard navigation (WAI-ARIA patterns)
 - CSS cascade layers (no `!important`)
+- Config-driven minimal CSS bundles with deterministic fingerprints
 - 65+ React components across Wave 1, 2, and 3
 - Compound components (Accordion, Menu, Select, Tabs, Dialog, Popover, Tooltip, Stepper, Timeline, Sidebar, Drawer, and more)
 - Tree-shakable — heavy deps (Editor, DataTable, Charts) live on dedicated subpath imports
@@ -33,6 +35,25 @@ pnpm add @weiui/tokens @weiui/css
 
 <button class="wui-button wui-button--solid">Click me</button>
 ```
+
+For a smaller CSS surface, add `weiui.config.json` and generate a bundle:
+
+```json
+{
+  "schema": "weiui_css_config_v1",
+  "foundation": true,
+  "a11y": ["focus", "motion", "sr-only"],
+  "elements": ["button", "input", "card"],
+  "utilities": [],
+  "output": "src/styles/weiui.generated.css"
+}
+```
+
+```bash
+pnpm exec weiui-css bundle
+```
+
+The config tool runs at build time; the emitted product CSS still requires zero WeiUI JavaScript in the browser.
 
 ```tsx
 // React usage
@@ -53,11 +74,11 @@ import { BarChart, LineChart } from "@weiui/react/chart";
 | Package | Description |
 |---------|-------------|
 | `@weiui/tokens` | Design tokens (CSS, TS, JSON) |
-| `@weiui/css` | CSS-only components and utilities |
+| `@weiui/css` | CSS-only components, config-driven bundle tooling, and utilities |
 | `@weiui/headless` | Headless React hooks and compound components |
 | `@weiui/react` | Styled React components |
 | `@weiui/icons` | SVG icon set as React components |
-| `@weiui/cli` | CLI for initialization and token management |
+| `@weiui/cli` | CLI for initialization, component discovery, and token management |
 | `@weiui/a11y` | Accessibility validation utilities |
 
 ## Documentation
