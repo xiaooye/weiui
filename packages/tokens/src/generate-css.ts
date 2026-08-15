@@ -1,12 +1,15 @@
 import type { FlatToken } from "./types";
 
+export const CASCADE_LAYER_ORDER =
+  "@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;";
+
 export function pathToCssVar(path: string[]): string {
   const name = path.join("-").replace(/\./g, "\\.");
   return `--wui-${name}`;
 }
 
 export function generateCss(tokens: FlatToken[]): string {
-  const lines: string[] = ["@layer wui-tokens {", "  :root {"];
+  const lines: string[] = [CASCADE_LAYER_ORDER, "", "@layer wui-tokens {", "  :root {"];
   for (const { path, token } of tokens) {
     lines.push(`    ${pathToCssVar(path)}: ${token.$value};`);
   }

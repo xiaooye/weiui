@@ -1,0 +1,48 @@
+name: CSS Foundation
+
+on:
+  pull_request:
+    paths:
+      - 'packages/a11y/**'
+      - 'packages/tokens/**'
+      - 'packages/css/**'
+      - 'AGENTS.md'
+      - '.changeset/**'
+      - '.github/workflows/css-foundation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packages/a11y/**'
+      - 'packages/tokens/**'
+      - 'packages/css/**'
+      - '.github/workflows/css-foundation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  css-foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build accessibility dependency
+        run: pnpm --filter @weiui/a11y build
+      - name: Build tokens
+        run: pnpm --filter @weiui/tokens build
+      - name: Test tokens
+        run: pnpm --filter @weiui/tokens test
+      - name: Validate token contrast
+        run: pnpm --filter @weiui/tokens validate
+      - name: Build CSS foundation
+        run: pnpm --filter @weiui/css build
+      - name: Verify consumer theme cascade contract
+        run: |
+          grep -F '@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;' packages/tokens/dist/tokens.css
+          grep -F '@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;' packages/css/dist/weiui.css

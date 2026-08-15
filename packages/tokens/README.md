@@ -16,7 +16,13 @@ pnpm add @weiui/tokens
 @import "@weiui/tokens/tokens.css";
 ```
 
-Applies all tokens as CSS custom properties on `:root` (light) and `.dark` (dark mode).
+Applies all tokens as CSS custom properties on `:root` (light) and `.dark` (dark mode). The generated CSS also registers WeiUI's canonical cascade order, including the `wui-theme` slot used by branded consumers:
+
+```css
+@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;
+```
+
+A product theme should override semantic `--wui-*` properties in `@layer wui-theme` rather than modify the generated token bundle.
 
 ### TypeScript
 

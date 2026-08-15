@@ -1,5 +1,5 @@
 /* packages/css/src/index.css */
-@layer wui-reset, wui-tokens, wui-base, wui-elements, wui-utilities;
+@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;
 
 @import "./reset.css";
 @import "./base.css";
