@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { generateCss, pathToCssVar } from "../generate-css";
+import { CASCADE_LAYER_ORDER, generateCss, pathToCssVar } from "../generate-css";
 import type { FlatToken } from "../types";
 
 describe("pathToCssVar", () => {
@@ -13,6 +13,12 @@ describe("pathToCssVar", () => {
 });
 
 describe("generateCss", () => {
+  it("registers the canonical cascade order before token declarations", () => {
+    const css = generateCss([]);
+    expect(css.startsWith(CASCADE_LAYER_ORDER)).toBe(true);
+    expect(CASCADE_LAYER_ORDER).toContain("wui-tokens, wui-theme, wui-base");
+  });
+
   it("generates CSS with @layer and :root", () => {
     const tokens: FlatToken[] = [
       { path: ["color", "primary"], token: { $value: "oklch(0.546 0.245 263)" } },
