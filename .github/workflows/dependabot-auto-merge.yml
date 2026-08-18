@@ -19,7 +19,7 @@ jobs:
       - name: Resolve eligible Dependabot pull request
         id: pr
         env:
-          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           RUN_PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
           HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
@@ -66,12 +66,29 @@ jobs:
           echo "eligible=true" >> "$GITHUB_OUTPUT"
           echo "number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
-      - name: Approve Dependabot pull request
+      - name: Validate owner merge token
         if: steps.pr.outputs.eligible == 'true'
         env:
           GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
-          PR_NUMBER: ${{ steps.pr.outputs.number }}
-        run: gh pr review "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --approve || true
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "DEPENDABOT_MERGE_TOKEN is missing."
+            exit 1
+          fi
+
+          LOGIN=$(gh api user --jq '.login')
+          if [ "$LOGIN" != "$GITHUB_REPOSITORY_OWNER" ]; then
+            echo "DEPENDABOT_MERGE_TOKEN authenticates as '$LOGIN', expected '$GITHUB_REPOSITORY_OWNER'."
+            exit 1
+          fi
+
+          CAN_PUSH=$(gh api "repos/$GITHUB_REPOSITORY" --jq '.permissions.push')
+          if [ "$CAN_PUSH" != "true" ]; then
+            echo "DEPENDABOT_MERGE_TOKEN does not have push access to $GITHUB_REPOSITORY."
+            exit 1
+          fi
+
+          echo "Owner merge token is valid for $GITHUB_REPOSITORY."
 
       - name: Squash merge Dependabot pull request
         if: steps.pr.outputs.eligible == 'true'
