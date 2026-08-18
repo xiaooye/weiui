@@ -45,6 +45,6 @@
     "postcss-cli": "^11.0",
     "postcss-import": "^16.1",
     "postcss-nesting": "^13.0",
-    "lightningcss-cli": "^1.29"
+    "lightningcss-cli": "^1.33"
   }
 }
