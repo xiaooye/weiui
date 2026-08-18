@@ -152,8 +152,8 @@ importers:
   packages/css:
     devDependencies:
       lightningcss-cli:
-        specifier: ^1.29
-        version: 1.32.0
+        specifier: ^1.33
+        version: 1.33.0
       postcss:
         specifier: ^8.5
         version: 8.5.10
@@ -366,6 +366,10 @@ packages:
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/code-frame@7.29.7':
+    resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/compat-data@7.29.0':
     resolution: {integrity: sha512-T1NCJqT/j9+cn8fvkt7jtwbLBfLC/1y1c7NtCeXFRgzGTsafi68MRv8yzkYSapBnFA6L3U2VSc02ciDzoAJhJg==}
     engines: {node: '>=6.9.0'}
@@ -408,6 +412,10 @@ packages:
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-validator-identifier@7.29.7':
+    resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-option@7.27.1':
     resolution: {integrity: sha512-YvjJow9FxbhFFKDSuFnVCe2WxXk1zWc22fFePVNEaWJEu8IrZVlda6N0uHwzZrUM1il7NC9Mlp4MaJYbYd9JSg==}
     engines: {node: '>=6.9.0'}
@@ -435,6 +443,10 @@ packages:
 
   '@babel/runtime@7.29.2':
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
@@ -1555,6 +1567,9 @@ packages:
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
+  '@types/mdx@2.0.14':
+    resolution: {integrity: sha512-T48PeuJtvLosNTPVhfnIp3i/n3a4g4Bad7YCq5k64D4u7NwDrAotikQ+5+sjtUvBmxCMlbo3dVL+C2dP0rWHzg==}
+
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
@@ -1586,6 +1601,7 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
 
   '@vercel/analytics@2.0.1':
     resolution: {integrity: sha512-MTQG6V9qQrt1tsDeF+2Uoo5aPjqbVPys1xvnIftXSJYG2SrwXRHnqEvVoYID7BTruDz4lCd2Z7rM1BdkUehk2g==}
@@ -2516,78 +2532,78 @@ packages:
   jsonfile@6.2.0:
     resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
 
-  lightningcss-cli-android-arm64@1.32.0:
-    resolution: {integrity: sha512-4O3QY+VdgpBZLIq4crcKOEPVAXX0p7zDoykuTVstRtyolg9XU8CntdtbxcMPSC4SkzAuM/W4KsnPAzmv6Jb5LA==}
+  lightningcss-cli-android-arm64@1.33.0:
+    resolution: {integrity: sha512-c0Xd7Gxaw3mNOyrb9ET1JH3JjuB69GY/6pHO4vgwEbIoHCXAt6DBg6kxr5t/oZL9LRxdnZCXF+o0Evz6kuR/xA==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [android]
 
-  lightningcss-cli-darwin-arm64@1.32.0:
-    resolution: {integrity: sha512-Xx+zeD7bDKJZwbd1N63TJfIUHEtYspf+tqObdnQEJEvZAwmGfA4iEGrkCRT8R57tDRBDSXg3XHMDDvo/cq7gBQ==}
+  lightningcss-cli-darwin-arm64@1.33.0:
+    resolution: {integrity: sha512-sso5hSFPis7ldw2FcBopsZviSVAXWRGX8ybUwMhQHssTlERenQJ88WihZs08tCdSnQULo2kunnrGhh4VjRw8Fg==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [darwin]
 
-  lightningcss-cli-darwin-x64@1.32.0:
-    resolution: {integrity: sha512-fYWANZ8RJDpI0tBcPQ7oBOYihfXmgDBHR4lZ6d4z7rcRLlZAOeI00mTO0IXAKfSm/UgnatjM4aBuNlLh8L9noA==}
+  lightningcss-cli-darwin-x64@1.33.0:
+    resolution: {integrity: sha512-/aDYpMv2QKpJoSIwvwpIs4tIX9SCU894eospSm55FR5MxDZkJDy4fEX6elsXkHCBDqbAknb4qd2h/oDMLTC4Ew==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [darwin]
 
-  lightningcss-cli-freebsd-x64@1.32.0:
-    resolution: {integrity: sha512-TJm7z1Ghvo9FKAza2KvfkFgH/9rcV1xAhCYQZlLrV0CiuTZ17uzLobBWb9oelGWUG+wTnEs6XEl4h/ve61YySg==}
+  lightningcss-cli-freebsd-x64@1.33.0:
+    resolution: {integrity: sha512-kK9u4IEAvt3+1m7lkloyfZNfXykXq2vCH7lgZ5aEqa8VuBZYqvcAIQ4Qt1593QJxbko9HEKUP0erdSxw7k7eFw==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [freebsd]
 
-  lightningcss-cli-linux-arm-gnueabihf@1.32.0:
-    resolution: {integrity: sha512-/jS9L5p3eexs5QJvARiDGxibz1umKJmmtff86fWXl3r7RbEUFrMAD4q1WhAR7DurRFgc1YWld6r0mX1YHEYttA==}
+  lightningcss-cli-linux-arm-gnueabihf@1.33.0:
+    resolution: {integrity: sha512-4bHmUlYCb8WKdPKx2yhk8y/kD034JVuUatDMWav0uU/hEIYJrxPimWBJJ4w2lgpcWchVnk/Kuihs4vaLjO/ozw==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm]
     os: [linux]
 
-  lightningcss-cli-linux-arm64-gnu@1.32.0:
-    resolution: {integrity: sha512-PSdjwcRtSrJpsaqnY3ebnCfDOJ5ePi8s/0ItL3CX1b1Eu0iy44xo7MjgES1ZOQ2ntOthPRqaGsbAiVBLbgFLYQ==}
+  lightningcss-cli-linux-arm64-gnu@1.33.0:
+    resolution: {integrity: sha512-DkYmkBix3icAZKZsxGsjBAj59CIV0zflZtsT66lCPd2z3OqBLJlhKRrw4TlAW7mIkYeOEYWKVz/G00ZGXNse4A==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  lightningcss-cli-linux-arm64-musl@1.32.0:
-    resolution: {integrity: sha512-t6DdpXFtEdonZHzRgH8cmqhC2o4tl0KrD33cDBBniJz5TmWS20MJxb4YEr4WqBLksqW8GE399HJo+g8/YVuKcA==}
+  lightningcss-cli-linux-arm64-musl@1.33.0:
+    resolution: {integrity: sha512-euNOhzo1ysRl719HfFzRe9r9usWO2Z/Nb8RnmqXxb/kvzOgAv2BcflpoTu6tWhSrbHX6YS/WP6mMFrmII6T7Hw==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  lightningcss-cli-linux-x64-gnu@1.32.0:
-    resolution: {integrity: sha512-QMQllbHYkbkQ4N+v8OGExQlGHBc3YZIcKlVkYucQQj66thkFQsRjmv8p5q3iCB0inNsCoSZ8lBspugkU1iPlPg==}
+  lightningcss-cli-linux-x64-gnu@1.33.0:
+    resolution: {integrity: sha512-9Q4DAglm17bLhA+HZPB+vxjrHXdhR/8U44zyc8MQNA5Rw+tisvcoR/lv4iuBUFn2qreYVRWQq0wP0rgdhTSxyQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  lightningcss-cli-linux-x64-musl@1.32.0:
-    resolution: {integrity: sha512-dMSWdk4kMAi5f+J1xetxRCDQOvPix2whT0UdjuwP8r/5Xcdl2SQU/c80MQzu1S82kVDEANs1vHVEHp/+26LUnA==}
+  lightningcss-cli-linux-x64-musl@1.33.0:
+    resolution: {integrity: sha512-+EobHdqxQ21SUMF8OU0qcizNIrLpPDaPTKQCaGbra9gL3NrW3ELG+exZl5y+WzJsEjLZ0hhjbCFjHUL/03H2JA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  lightningcss-cli-win32-arm64-msvc@1.32.0:
-    resolution: {integrity: sha512-MJo22OqSp9FLV10nTRDJQhP6zkEBFqBFQe9mnjfCs+G1Ft+QimIPmC+gBqZHFXveOBOsjFLzU72q0FPvRWFmZQ==}
+  lightningcss-cli-win32-arm64-msvc@1.33.0:
+    resolution: {integrity: sha512-iwQ+8rHQy3ewC4c43Ik3UZ8TCC/rjShP3r/8TOPw4fT8wQmW7dS3BNNHPK+LWz9qNrObATJ4MZEEZVRneckOBw==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [win32]
 
-  lightningcss-cli-win32-x64-msvc@1.32.0:
-    resolution: {integrity: sha512-nOBHLPeePXZpGR4Ptp+gkOIkr9pxlq2dFmO954ol5zBi/iOKxuD1hUTIQ7aG+ldKIx4eH9jwoTfZ6owUkm1paA==}
+  lightningcss-cli-win32-x64-msvc@1.33.0:
+    resolution: {integrity: sha512-sgtNPw2gxnY8OzCCMTKCkHSIiBYb/wfXLpLMmDIJFzcX2OETY+VOnQd7OBHx+hVSlrMU7iWL6oJ5rc+nQwteVA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [win32]
 
-  lightningcss-cli@1.32.0:
-    resolution: {integrity: sha512-IFb/ChmSEbeWU3xeRybR6WFlJXCvfDS84//PUzLrRACgvoWrwRJBmcPS9azSo7LMh5QqEuyKanPBByhKM5z01Q==}
+  lightningcss-cli@1.33.0:
+    resolution: {integrity: sha512-/tBcBZlBFFxy1iYKDC/HSH/NEjv7Frq6dmDVKRbhGJQI/gFJIJ1/4ZXclxJkd0eEjBjDc5MY0YugHcvJVVGJVg==}
     engines: {node: '>= 12.0.0'}
     hasBin: true
 
@@ -3934,6 +3950,12 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
+  '@babel/code-frame@7.29.7':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.29.7
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
   '@babel/compat-data@7.29.0': {}
 
   '@babel/core@7.29.0':
@@ -3996,6 +4018,8 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
+  '@babel/helper-validator-identifier@7.29.7': {}
+
   '@babel/helper-validator-option@7.27.1': {}
 
   '@babel/helpers@7.29.2':
@@ -4018,6 +4042,8 @@ snapshots:
       '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/runtime@7.29.2': {}
+
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -4503,7 +4529,7 @@ snapshots:
 
   '@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.5)':
     dependencies:
-      '@types/mdx': 2.0.13
+      '@types/mdx': 2.0.14
       '@types/react': 19.2.14
       react: 19.2.5
     optional: true
@@ -4734,8 +4760,8 @@ snapshots:
 
   '@testing-library/dom@10.4.1':
     dependencies:
-      '@babel/code-frame': 7.29.0
-      '@babel/runtime': 7.29.2
+      '@babel/code-frame': 7.29.7
+      '@babel/runtime': 7.29.7
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       dom-accessibility-api: 0.5.16
@@ -5070,6 +5096,9 @@ snapshots:
   '@types/mdurl@2.0.0': {}
 
   '@types/mdx@2.0.13': {}
+
+  '@types/mdx@2.0.14':
+    optional: true
 
   '@types/ms@2.1.0': {}
 
@@ -6083,54 +6112,54 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  lightningcss-cli-android-arm64@1.32.0:
+  lightningcss-cli-android-arm64@1.33.0:
     optional: true
 
-  lightningcss-cli-darwin-arm64@1.32.0:
+  lightningcss-cli-darwin-arm64@1.33.0:
     optional: true
 
-  lightningcss-cli-darwin-x64@1.32.0:
+  lightningcss-cli-darwin-x64@1.33.0:
     optional: true
 
-  lightningcss-cli-freebsd-x64@1.32.0:
+  lightningcss-cli-freebsd-x64@1.33.0:
     optional: true
 
-  lightningcss-cli-linux-arm-gnueabihf@1.32.0:
+  lightningcss-cli-linux-arm-gnueabihf@1.33.0:
     optional: true
 
-  lightningcss-cli-linux-arm64-gnu@1.32.0:
+  lightningcss-cli-linux-arm64-gnu@1.33.0:
     optional: true
 
-  lightningcss-cli-linux-arm64-musl@1.32.0:
+  lightningcss-cli-linux-arm64-musl@1.33.0:
     optional: true
 
-  lightningcss-cli-linux-x64-gnu@1.32.0:
+  lightningcss-cli-linux-x64-gnu@1.33.0:
     optional: true
 
-  lightningcss-cli-linux-x64-musl@1.32.0:
+  lightningcss-cli-linux-x64-musl@1.33.0:
     optional: true
 
-  lightningcss-cli-win32-arm64-msvc@1.32.0:
+  lightningcss-cli-win32-arm64-msvc@1.33.0:
     optional: true
 
-  lightningcss-cli-win32-x64-msvc@1.32.0:
+  lightningcss-cli-win32-x64-msvc@1.33.0:
     optional: true
 
-  lightningcss-cli@1.32.0:
+  lightningcss-cli@1.33.0:
     dependencies:
       detect-libc: 2.1.2
     optionalDependencies:
-      lightningcss-cli-android-arm64: 1.32.0
-      lightningcss-cli-darwin-arm64: 1.32.0
-      lightningcss-cli-darwin-x64: 1.32.0
-      lightningcss-cli-freebsd-x64: 1.32.0
-      lightningcss-cli-linux-arm-gnueabihf: 1.32.0
-      lightningcss-cli-linux-arm64-gnu: 1.32.0
-      lightningcss-cli-linux-arm64-musl: 1.32.0
-      lightningcss-cli-linux-x64-gnu: 1.32.0
-      lightningcss-cli-linux-x64-musl: 1.32.0
-      lightningcss-cli-win32-arm64-msvc: 1.32.0
-      lightningcss-cli-win32-x64-msvc: 1.32.0
+      lightningcss-cli-android-arm64: 1.33.0
+      lightningcss-cli-darwin-arm64: 1.33.0
+      lightningcss-cli-darwin-x64: 1.33.0
+      lightningcss-cli-freebsd-x64: 1.33.0
+      lightningcss-cli-linux-arm-gnueabihf: 1.33.0
+      lightningcss-cli-linux-arm64-gnu: 1.33.0
+      lightningcss-cli-linux-arm64-musl: 1.33.0
+      lightningcss-cli-linux-x64-gnu: 1.33.0
+      lightningcss-cli-linux-x64-musl: 1.33.0
+      lightningcss-cli-win32-arm64-msvc: 1.33.0
+      lightningcss-cli-win32-x64-msvc: 1.33.0
 
   lilconfig@3.1.3: {}
 
