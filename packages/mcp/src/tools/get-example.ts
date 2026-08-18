@@ -1,41 +1,7 @@
-import type {
-  RegistryComponentSchema,
-  RegistryExampleSchema,
-} from "../registry-loader.js";
-
-export interface GetExampleDeps {
-  loadComponent: (name: string) => Promise<RegistryComponentSchema>;
-}
-
-export interface GetExampleInput {
-  /** PascalCase component name. */
-  name: string;
-  /** Example label to match (case-insensitive). First example when omitted. */
-  variant?: string;
-}
-
-export interface GetExampleOutput {
-  example: RegistryExampleSchema | null;
-}
-
-/**
- * Return a single canonical example for a component. With no `variant`,
- * the first example is returned; otherwise the first example whose label
- * matches (case-insensitive) is chosen.
- */
-export async function getExample(
-  deps: GetExampleDeps,
-  input: GetExampleInput,
-): Promise<GetExampleOutput> {
-  const component = await deps.loadComponent(input.name);
-  const examples = component.examples ?? [];
-  if (examples.length === 0) return { example: null };
-
-  if (!input.variant) {
-    return { example: examples[0] ?? null };
-  }
-
-  const needle = input.variant.toLowerCase();
-  const match = examples.find((e) => e.label.toLowerCase() === needle);
-  return { example: match ?? null };
-}
+import type { RegistryComponentSchema, RegistryExampleSchema } from "../registry-loader.js";
+import type { WeiFramework } from "@weiui/core/registry";
+export interface GetExampleDeps { loadComponent:(name:string)=>Promise<RegistryComponentSchema>; }
+export interface GetExampleInput { name:string; variant?:string; framework?:WeiFramework; }
+export interface GetExampleOutput { example:RegistryExampleSchema|null; }
+function runtimeExample(component:RegistryComponentSchema,framework:WeiFramework):RegistryExampleSchema|null{if(!component.runtime?.frameworks[framework])return null;const name=component.name;if(framework==="elements")return{label:"Elements",code:`import { defineAll } from "@weiui/elements";\nimport "@weiui/css";\ndefineAll();\n\n<wui-${name.replace(/([a-z0-9])([A-Z])/g,"$1-$2").toLowerCase()}></wui-${name.replace(/([a-z0-9])([A-Z])/g,"$1-$2").toLowerCase()}>`};if(framework==="vue")return{label:"Vue",code:`<script setup lang="ts">\nimport { ${name} } from "@weiui/vue";\nimport "@weiui/css";\n</script>\n<template><${name} /></template>`};if(framework==="svelte")return{label:"Svelte",code:`<script lang="ts">\n  import { ${name} } from "@weiui/svelte";\n  import "@weiui/css";\n</script>\n<${name} />`};return{label:framework==="solid"?"Solid":"React",code:`import { ${name} } from "@weiui/${framework}";\nimport "@weiui/css";\n\n<${name} />`}}
+export async function getExample(deps:GetExampleDeps,input:GetExampleInput):Promise<GetExampleOutput>{const component=await deps.loadComponent(input.name);if(input.framework&&input.framework!=="react")return{example:runtimeExample(component,input.framework)};const examples=component.examples??[];if(!input.variant)return{example:examples[0]??runtimeExample(component,"react")};const needle=input.variant.toLowerCase();return{example:examples.find(example=>example.label.toLowerCase()===needle)??null}}

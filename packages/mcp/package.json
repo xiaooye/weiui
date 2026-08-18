@@ -1,12 +1,12 @@
 {
   "name": "@weiui/mcp",
-  "version": "0.0.1",
-  "description": "Model Context Protocol server for WeiUI — lets AI agents introspect components.",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for framework-neutral WeiUI component metadata and examples.",
   "author": "Wei",
   "license": "MIT",
   "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui" },
   "homepage": "https://weiui.dev",
-  "keywords": ["weiui", "mcp", "ai", "agent", "react", "components"],
+  "keywords": ["weiui", "mcp", "ai", "agent", "components", "react", "vue", "solid", "svelte", "web-components"],
   "type": "module",
   "bin": { "weiui-mcp": "./dist/index.js" },
   "exports": {
@@ -25,14 +25,6 @@
     "test": "vitest run",
     "prepack": "node -e \"try { require('fs').cpSync('../../apps/docs/public/registry', './registry', { recursive: true }) } catch (e) {}\""
   },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "zod": "^3.23.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "tsup": "^8.3",
-    "typescript": "^5.8",
-    "vitest": "^4.1"
-  }
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.0.0", "@weiui/core": "workspace:*", "zod": "^3.23.0" },
+  "devDependencies": { "@types/node": "^20", "tsup": "^8.3", "typescript": "^5.8", "vitest": "^4.1" }
 }
