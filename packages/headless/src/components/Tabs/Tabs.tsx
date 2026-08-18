@@ -19,7 +19,7 @@ export function Tabs({ children, defaultValue = "", value, onValueChange, ...res
     createTabsController({ id: baseId, defaultValue, onValueChange: (next) => callbackRef.current?.(next) }),
   );
   useEffect(() => {
-    if (value !== undefined && state.value !== value) controller.store.setState({ value });
+    if (value !== undefined && state.value !== value) controller.syncValue(value);
   }, [controller, state.value, value]);
   const activeValue = value ?? state.value;
   return (
