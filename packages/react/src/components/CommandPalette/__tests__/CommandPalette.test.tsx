@@ -64,8 +64,6 @@ describe("CommandPalette", () => {
     const onOpenChange = vi.fn();
     render(<CommandPalette items={items} open={true} onOpenChange={onOpenChange} />);
 
-    // First non-disabled item (Home, index 0) is highlighted by default.
-    // Fire Enter on the input to trigger selection.
     const input = screen.getByRole("combobox");
     await user.type(input, "{Enter}");
 
@@ -94,8 +92,6 @@ describe("CommandPalette", () => {
     const user = userEvent.setup();
     render(<CommandPalette items={items} open={true} onOpenChange={vi.fn()} />);
 
-    // Send navigation directly to the combobox rather than depending on the
-    // requestAnimationFrame focus handoff, which is intentionally asynchronous.
     const input = screen.getByRole("combobox");
     await user.type(input, "{ArrowDown}{ArrowDown}{ArrowDown}");
 
@@ -126,7 +122,6 @@ describe("CommandPalette", () => {
     ];
     render(<CommandPalette items={withIcons} open={true} onOpenChange={vi.fn()} />);
     expect(screen.getByTestId("icon-home")).toBeInTheDocument();
-    // item-icon wrapper has aria-hidden
     const iconSpan = screen.getByTestId("icon-home").parentElement!;
     expect(iconSpan).toHaveAttribute("aria-hidden", "true");
   });
@@ -165,7 +160,9 @@ describe("CommandPalette", () => {
 
   it("shows Spinner and announces loading via aria-live when loading=true", () => {
     render(<CommandPalette items={items} open={true} onOpenChange={vi.fn()} loading />);
-    expect(screen.getByText("Loading…")).toBeInTheDocument();
+    const status = screen.getByRole("status", { name: "Loading…" });
+    expect(status).toBeInTheDocument();
+    expect(status.parentElement).toHaveAttribute("aria-live", "polite");
   });
 
   it("keeps the filter input enabled while loading", () => {
@@ -175,7 +172,7 @@ describe("CommandPalette", () => {
 
   it("uses custom loadingLabel", () => {
     render(<CommandPalette items={items} open={true} onOpenChange={vi.fn()} loading loadingLabel="Searching…" />);
-    expect(screen.getByText("Searching…")).toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "Searching…" })).toBeInTheDocument();
   });
 
   it("invokes an item's onSelect when its shortcut is pressed while open", () => {
