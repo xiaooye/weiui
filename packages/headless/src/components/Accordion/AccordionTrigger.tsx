@@ -22,6 +22,9 @@ export function AccordionTrigger({ children, onClick, ...props }: AccordionTrigg
           onClick?.(e);
         }}
         {...props}
+        data-wui-component="accordion"
+        data-part="trigger"
+        data-state={isExpanded ? "open" : "closed"}
       >
         {children}
       </button>
