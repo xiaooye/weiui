@@ -3,13 +3,19 @@ name: Refresh migration lock
 on:
   push:
     branches: [feat/multi-framework-runtime]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   refresh:
-    if: ${{ !contains(github.event.head_commit.message, 'chore(lock): refresh multi-runtime workspace') }}
+    if: >-
+      ${{
+        (github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore(lock): refresh multi-runtime workspace')) ||
+        (github.event_name == 'pull_request' && github.head_ref == 'feat/multi-framework-runtime')
+      }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
