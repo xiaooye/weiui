@@ -10,6 +10,54 @@ permissions:
   contents: read
 
 jobs:
+  complete-svelte-rename:
+    if: github.event_name == 'pull_request' && github.head_ref == 'rename/civaria'
+    name: Complete Svelte rename (temporary)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rename/civaria
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Rewrite missed Svelte public namespace and harden legacy audit
+        shell: python
+        run: |
+          from pathlib import Path
+
+          for path in Path('packages/svelte/src').glob('*.svelte'):
+              source = path.read_text()
+              source = source.replace('@weiui/', '@civaria/')
+              source = source.replace('--wui-', '--civ-')
+              source = source.replace('data-wui-', 'data-civaria-')
+              source = source.replace('wui-', 'civ-')
+              source = source.replace('Wui', 'Civ')
+              source = source.replace('WUI', 'CIV')
+              path.write_text(source)
+
+          checker = Path('scripts/check-civaria-legacy.mjs')
+          source = checker.read_text()
+          source = source.replace('".svg",".toml"', '".svg",".svelte",".toml"')
+          source = source.replace('const skipFiles=new Set(["apps/docs/wrangler.jsonc","scripts/civaria-rename.mjs","scripts/check-civaria-legacy.mjs"]);', 'const skipFiles=new Set(["apps/docs/wrangler.jsonc","scripts/check-civaria-legacy.mjs"]);')
+          source = source.replace('if(skipFiles.has(r)||r==="pnpm-lock.yaml")continue;', 'if(skipFiles.has(r))continue;')
+          checker.write_text(source)
+      - name: Verify hardened zero-legacy gate
+        run: node scripts/check-civaria-legacy.mjs
+      - name: Commit deterministic Svelte completion
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/svelte/src scripts/check-civaria-legacy.mjs
+          git diff --cached --quiet && exit 0
+          git commit -m "fix(svelte): complete Civaria namespace migration"
+          git push origin HEAD:rename/civaria
+
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build, Test & Runtime Contracts
