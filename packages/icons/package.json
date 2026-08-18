@@ -4,7 +4,8 @@
   "description": "WeiUI icon set — 61 tree-shakable Feather-style React SVG components with currentColor stroke.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",
