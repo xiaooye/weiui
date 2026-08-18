@@ -9,9 +9,7 @@ export interface TabsContentProps extends HTMLAttributes<HTMLDivElement> {
 export function TabsContent({ value, children, ...props }: TabsContentProps) {
   const { activeValue, baseId } = useTabsContext();
   const isActive = activeValue === value;
-
   if (!isActive) return null;
-
   return (
     <div
       role="tabpanel"
@@ -19,6 +17,10 @@ export function TabsContent({ value, children, ...props }: TabsContentProps) {
       aria-labelledby={`${baseId}-trigger-${value}`}
       tabIndex={0}
       {...props}
+      data-wui-component="tabs"
+      data-part="content"
+      data-state="active"
+      data-selected=""
     >
       {children}
     </div>
