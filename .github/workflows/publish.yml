@@ -45,6 +45,8 @@ jobs:
         run: pnpm build
 
       - name: Verify npm registry ownership and target availability
+        id: registry
+        continue-on-error: true
         run: node scripts/check-civaria-registry.mjs
 
       - name: Validate npm dry-run tarballs for every publishable package
@@ -110,6 +112,12 @@ jobs:
           NODE
           ./node_modules/.bin/civaria --help
           ./node_modules/.bin/civaria-mcp --help
+
+      - name: Enforce npm registry gate
+        if: steps.registry.outcome != 'success'
+        run: |
+          echo "Packaging and clean-consumer verification passed, but npm bootstrap/ownership/version preflight is still blocked."
+          exit 1
 
   release:
     name: Release
