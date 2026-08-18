@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "tsx scripts/build-llms-txt.ts && tsx scripts/build-search-index.ts && tsx scripts/build-registry.ts && next build",
+    "cf:build": "pnpm --filter \"@weiui/docs...\" run build && pnpm dlx @opennextjs/cloudflare@1.20.2 build",
+    "cf:deploy": "pnpm dlx wrangler@4.123.0 deploy",
     "start": "next start",
     "test": "vitest run",
     "test:e2e": "playwright test",
