@@ -10,45 +10,6 @@ permissions:
   contents: read
 
 jobs:
-  complete-svelte-rename:
-    if: github.event_name == 'pull_request' && github.head_ref == 'rename/civaria'
-    name: Complete Svelte rename (temporary)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: rename/civaria
-      - name: Rewrite missed Svelte public namespace
-        shell: python
-        run: |
-          from pathlib import Path
-          old_brand = 'wei' + 'ui'
-          old_scope = '@' + old_brand + '/'
-          old_short = 'w' + 'ui-'
-          old_data = 'data-' + old_short
-          changed = 0
-          for path in Path('packages/svelte/src').glob('*.svelte'):
-              source = path.read_text()
-              migrated = source.replace(old_scope, '@civaria/')
-              migrated = migrated.replace('--' + old_short, '--civ-')
-              migrated = migrated.replace(old_data, 'data-civaria-')
-              migrated = migrated.replace(old_short, 'civ-')
-              if migrated != source:
-                  path.write_text(migrated)
-                  changed += 1
-          print(f'Migrated {changed} Svelte source files')
-      - name: Commit deterministic Svelte completion
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/svelte/src
-          git diff --cached --quiet && exit 0
-          git commit -m "fix(svelte): complete Civaria namespace migration"
-          git push origin HEAD:rename/civaria
-
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build, Test & Runtime Contracts
