@@ -28,32 +28,26 @@ jobs:
       - name: Enforce package boundaries
         run: pnpm check:boundaries
       - name: Build all packages and docs
-        id: build
+        run: pnpm build
+      - name: Run unit and adapter contract tests
+        id: tests
         continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
-          pnpm build 2>&1 | tee /tmp/weiui-build.log
+          pnpm test 2>&1 | tee /tmp/weiui-tests.log
           echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
-      - name: Surface build diagnostics
-        if: steps.build.outputs.exit_code != '0'
+      - name: Surface test diagnostics
+        if: steps.tests.outputs.exit_code != '0'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const lines = fs.readFileSync('/tmp/weiui-build.log', 'utf8').split('\n');
-            const tail = lines.slice(-220).join('\n').replace(/```/g, '``\\`');
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `<!-- runtime-build-diagnostics -->\nBuild diagnostics for ${context.sha}:\n\n\`\`\`text\n${tail}\n\`\`\``
-            });
-      - name: Fail build gate
-        if: steps.build.outputs.exit_code != '0'
+            const tail = fs.readFileSync('/tmp/weiui-tests.log', 'utf8').split('\n').slice(-240).join('\n').replace(/```/g, '``\\`');
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body: `<!-- runtime-test-diagnostics -->\nTest diagnostics for ${context.sha}:\n\n\`\`\`text\n${tail}\n\`\`\`` });
+      - name: Fail test gate
+        if: steps.tests.outputs.exit_code != '0'
         run: exit 1
-      - name: Run unit and adapter contract tests
-        run: pnpm test
       - name: Verify required cross-runtime parity
         run: pnpm check:parity
       - name: Verify SSR/import safety
@@ -91,7 +85,25 @@ jobs:
           node-version: 22
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - name: Build before type checks
+        id: typebuild
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          pnpm build 2>&1 | tee /tmp/weiui-type-build.log
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+      - name: Surface type-build diagnostics
+        if: steps.typebuild.outputs.exit_code != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const tail = fs.readFileSync('/tmp/weiui-type-build.log', 'utf8').split('\n').slice(-240).join('\n').replace(/```/g, '``\\`');
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body: `<!-- runtime-typebuild-diagnostics -->\nType-build diagnostics for ${context.sha}:\n\n\`\`\`text\n${tail}\n\`\`\`` });
+      - name: Fail type-build gate
+        if: steps.typebuild.outputs.exit_code != '0'
+        run: exit 1
       - name: TypeScript strict checks
         run: |
           pnpm exec tsc -p packages/core/tsconfig.json --noEmit
