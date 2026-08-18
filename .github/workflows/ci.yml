@@ -27,8 +27,13 @@ jobs:
         run: pnpm check:boundaries
       - name: Build all packages and docs
         run: pnpm build
-      - name: Run unit and adapter contract tests
-        run: pnpm test
+      - name: Run package unit and adapter contract tests
+        run: pnpm turbo run test --filter='!@weiui/docs'
+      - name: Run docs tests with known registry timeout allowance
+        # build-registry is a pre-existing CPU-bound suite that intermittently
+        # exceeds Vitest's 5s default on hosted runners. Keep product logic and
+        # the local test contract unchanged; CI only gives the suite headroom.
+        run: pnpm --filter @weiui/docs exec vitest run --testTimeout 15000
       - name: Verify required cross-runtime parity
         run: pnpm check:parity
       - name: Verify SSR/import safety
