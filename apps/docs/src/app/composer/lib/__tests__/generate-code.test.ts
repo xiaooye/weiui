@@ -3,7 +3,7 @@ import { generateCode, makeSchemaResolver, type ImportResolver } from "../genera
 import { makeNode, type ComponentNode } from "../tree";
 
 const mainBarrel: ImportResolver = {
-  resolveImport: () => "@weiui/react",
+  resolveImport: () => "civaria",
 };
 
 describe("generateCode — jsx", () => {
@@ -14,7 +14,7 @@ describe("generateCode — jsx", () => {
       ] },
     ];
     const out = generateCode(tree, mainBarrel, { target: "jsx" });
-    expect(out).toContain('import { Button, Card } from "@weiui/react";');
+    expect(out).toContain('import { Button, Card } from "civaria";');
     expect(out).toContain("<Card>");
     expect(out).toContain("<Button>Click</Button>");
     expect(out).toContain("</Card>");
@@ -22,8 +22,8 @@ describe("generateCode — jsx", () => {
 
   it("uses subpath import when resolver returns a subpath", () => {
     const resolver = makeSchemaResolver([
-      { name: "Editor", importPath: "@weiui/react/editor", subpathImport: "@weiui/react/editor" },
-      { name: "Card", importPath: "@weiui/react", subpathImport: null },
+      { name: "Editor", importPath: "civaria/editor", subpathImport: "civaria/editor" },
+      { name: "Card", importPath: "civaria", subpathImport: null },
     ]);
     const tree: ComponentNode[] = [
       { ...makeNode("Card"), children: [
@@ -31,11 +31,11 @@ describe("generateCode — jsx", () => {
       ] },
     ];
     const out = generateCode(tree, resolver, { target: "jsx" });
-    expect(out).toContain('import { Card } from "@weiui/react";');
-    expect(out).toContain('import { Editor } from "@weiui/react/editor";');
+    expect(out).toContain('import { Card } from "civaria";');
+    expect(out).toContain('import { Editor } from "civaria/editor";');
     // Main barrel import must come first.
-    const mainIdx = out.indexOf("@weiui/react\"");
-    const subIdx = out.indexOf("@weiui/react/editor");
+    const mainIdx = out.indexOf("civaria\"");
+    const subIdx = out.indexOf("civaria/editor");
     expect(mainIdx).toBeLessThan(subIdx);
   });
 
@@ -77,7 +77,7 @@ describe("generateCode — jsx", () => {
   it("componentWrap emits `export default function Composition`", () => {
     const tree: ComponentNode[] = [makeNode("Button", {}, "Ok")];
     const out = generateCode(tree, mainBarrel, { target: "tsx", componentWrap: true });
-    expect(out).toContain('import { Button } from "@weiui/react";');
+    expect(out).toContain('import { Button } from "civaria";');
     expect(out).toContain("export default function Composition()");
     expect(out).toContain("return (");
     expect(out).toContain("<Button>Ok</Button>");
@@ -109,8 +109,8 @@ describe("generateCode — html", () => {
     const tree: ComponentNode[] = [makeNode("Button", { variant: "solid" }, "Go")];
     const out = generateCode(tree, mainBarrel, { target: "html" });
     expect(out).toContain("<!DOCTYPE html>");
-    expect(out).toContain('<link rel="stylesheet" href="https://weiui.dev/weiui.min.css"');
-    expect(out).toContain('<button class="wui-button wui-button--solid">Go</button>');
+    expect(out).toContain('<link rel="stylesheet" href="https://civaria.dev/civaria.min.css"');
+    expect(out).toContain('<button class="civ-button civ-button--solid">Go</button>');
   });
 
   it("adds Stack direction modifier class", () => {
@@ -118,7 +118,7 @@ describe("generateCode — html", () => {
       makeNode("Stack", { direction: "row" }),
     ];
     const out = generateCode(tree, mainBarrel, { target: "html" });
-    expect(out).toContain("wui-stack--row");
+    expect(out).toContain("civ-stack--row");
   });
 
   it("emits comment placeholder for components without HTML equivalent", () => {
@@ -137,11 +137,11 @@ describe("generateCode — html", () => {
 describe("makeSchemaResolver", () => {
   it("returns subpathImport when present, else importPath, else main barrel", () => {
     const r = makeSchemaResolver([
-      { name: "DataTable", importPath: "@weiui/react/data-table", subpathImport: "@weiui/react/data-table" },
-      { name: "Button", importPath: "@weiui/react", subpathImport: null },
+      { name: "DataTable", importPath: "civaria/data-table", subpathImport: "civaria/data-table" },
+      { name: "Button", importPath: "civaria", subpathImport: null },
     ]);
-    expect(r.resolveImport("DataTable")).toBe("@weiui/react/data-table");
-    expect(r.resolveImport("Button")).toBe("@weiui/react");
-    expect(r.resolveImport("Unknown")).toBe("@weiui/react");
+    expect(r.resolveImport("DataTable")).toBe("civaria/data-table");
+    expect(r.resolveImport("Button")).toBe("civaria");
+    expect(r.resolveImport("Unknown")).toBe("civaria");
   });
 });

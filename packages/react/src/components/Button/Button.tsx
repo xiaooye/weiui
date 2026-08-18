@@ -46,8 +46,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const spinnerSize = resolvedSize === "lg" ? "md" : "sm";
     const classes = cn(
       buttonVariants({ variant, size: resolvedSize, color }),
-      iconOnly && "wui-button--icon-only",
-      fullWidth && "wui-button--full-width",
+      iconOnly && "civ-button--icon-only",
+      fullWidth && "civ-button--full-width",
       className,
     );
 
@@ -74,13 +74,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && (
-          <span className="wui-button-icon" aria-hidden={false}>
+          <span className="civ-button-icon" aria-hidden={false}>
             <Spinner size={spinnerSize} />
           </span>
         )}
-        {!loading && startIcon && <span className="wui-button-icon">{startIcon}</span>}
-        <span className="wui-button-label">{children}</span>
-        {endIcon && <span className="wui-button-icon">{endIcon}</span>}
+        {!loading && startIcon && <span className="civ-button-icon">{startIcon}</span>}
+        <span className="civ-button-label">{children}</span>
+        {endIcon && <span className="civ-button-icon">{endIcon}</span>}
       </button>
     );
   },

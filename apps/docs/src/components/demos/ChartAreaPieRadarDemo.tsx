@@ -1,6 +1,6 @@
 "use client";
 
-import { AreaChart, PieChart, DonutChart, RadarChart } from "@weiui/react/chart";
+import { AreaChart, PieChart, DonutChart, RadarChart } from "civaria/chart";
 
 const AREA_DATA = [
   { name: "Q1", users: 1200 },
@@ -26,7 +26,7 @@ const RADAR_DATA = [
 const gridStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-  gap: "var(--wui-spacing-4)",
+  gap: "var(--civ-spacing-4)",
   width: "100%",
 };
 

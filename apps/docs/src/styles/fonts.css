@@ -1,15 +1,15 @@
-@layer wui-base {
+@layer civ-base {
   :root {
-    --wui-font-family-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
-    --wui-font-family-display: var(--font-display), Georgia, serif;
-    --wui-font-family-mono: var(--font-mono), "SF Mono", Consolas, monospace;
+    --civ-font-family-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+    --civ-font-family-display: var(--font-display), Georgia, serif;
+    --civ-font-family-mono: var(--font-mono), "SF Mono", Consolas, monospace;
   }
   body {
-    font-family: var(--wui-font-family-sans);
+    font-family: var(--civ-font-family-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-  .wui-display {
-    font-family: var(--wui-font-family-display);
+  .civ-display {
+    font-family: var(--civ-font-family-display);
     letter-spacing: -0.02em;
   }
 }

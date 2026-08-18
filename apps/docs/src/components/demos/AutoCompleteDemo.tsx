@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AutoComplete } from "@weiui/react";
+import { AutoComplete } from "civaria";
 
 const options = [
   { value: "js", label: "JavaScript" },
@@ -21,7 +21,7 @@ export function AutoCompleteDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         inlineSize: "280px",
       }}
     >
@@ -35,8 +35,8 @@ export function AutoCompleteDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         {value

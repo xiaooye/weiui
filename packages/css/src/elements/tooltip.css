@@ -1,25 +1,25 @@
-@layer wui-elements {
-  .wui-tooltip {
+@layer civ-elements {
+  .civ-tooltip {
     position: relative;
     display: inline-flex;
   }
 
-  .wui-tooltip__trigger {
+  .civ-tooltip__trigger {
     display: inline-flex;
   }
 
-  .wui-tooltip__content {
+  .civ-tooltip__content {
     position: absolute;
-    inset-block-end: calc(100% + var(--wui-spacing-2));
+    inset-block-end: calc(100% + var(--civ-spacing-2));
     inset-inline-start: 50%;
     transform: translateX(-50%);
     z-index: 50;
     max-inline-size: 20rem;
-    padding: var(--wui-spacing-2) var(--wui-spacing-3);
-    color: var(--wui-color-background);
-    background: var(--wui-color-foreground);
-    border-radius: var(--wui-shape-radius-sm);
-    font-size: var(--wui-font-size-sm);
+    padding: var(--civ-spacing-2) var(--civ-spacing-3);
+    color: var(--civ-color-background);
+    background: var(--civ-color-foreground);
+    border-radius: var(--civ-shape-radius-sm);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.35;
     white-space: nowrap;
   }

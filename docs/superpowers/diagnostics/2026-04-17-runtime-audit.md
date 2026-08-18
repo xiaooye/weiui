@@ -7,7 +7,7 @@
 > per-page fixes. This document remains for historical context — it is
 > no longer an open TODO list.
 
-Runtime diagnostic of the WeiUI docs site (`apps/docs`) and the exported `@weiui/react` components that the docs try to document. Build succeeds (`pnpm --filter @weiui/docs build` passes, 43 pages generated), so issues are structural / behavioural rather than compile-time.
+Runtime diagnostic of the Civaria docs site (`apps/docs`) and the exported `civaria` components that the docs try to document. Build succeeds (`pnpm --filter @civaria/docs build` passes, 43 pages generated), so issues are structural / behavioural rather than compile-time.
 
 A single telltale: the Next.js build report shows 585 B First-Load JS for pages that *should* have heavy interactive components (`color-picker`, `command-palette`, `date-time` DatePicker portion, `editor`, `overlays`, `portal`, `kbd`, `data`, `toast-chip-progress`). Pages with real client components show 1.83 kB. Those 585 B pages ship no client JS = there is no live demo on them.
 
@@ -21,18 +21,18 @@ A single telltale: the Next.js build report shows 585 B First-Load JS for pages 
 - **Also:** `apps/docs/src/app/docs/layout.tsx` (same — no `<Toaster />`).
 - **Root cause:** `Toaster` is a `"use client"` component that subscribes to the toast store and is the only thing that renders toasts. Without it in the tree, `toast()`, `toast.success()`, `toast.error()`, `toast.warning()` all update `toast-store.ts` but nothing ever renders. The docs page for Toast (`toast-chip-progress/page.mdx`) also has no live demo — it only shows code.
 - **Evidence:** `Toast/Toaster.tsx:14` uses `useSyncExternalStore(subscribe, getToasts, getToasts)`. Store pushes via `emit()` (`toast-store.ts:23`), but with no `<Toaster />` subscriber there is no listener triggered to render DOM.
-- **Fix:** Add `<Toaster />` to `apps/docs/src/app/layout.tsx` body (after `{children}` and before `<Analytics />`). Docs package has no `@weiui/react` dependency yet — must also be added.
+- **Fix:** Add `<Toaster />` to `apps/docs/src/app/layout.tsx` body (after `{children}` and before `<Analytics />`). Docs package has no `civaria` dependency yet — must also be added.
 
-### 2. `apps/docs/package.json` does not depend on `@weiui/react`
+### 2. `apps/docs/package.json` does not depend on `civaria`
 
-- **File:** `apps/docs/package.json` — deps are only `@weiui/css`, `@weiui/tokens`, `cmdk`, `next`, `react`, `react-dom`, `@vercel/analytics`, `rehype-pretty-code`, `shiki`.
-- **Root cause:** MDX pages show `import { ... } from "@weiui/react"` — but *every one of those imports is inside a fenced ```tsx code block*, not an actual MDX import at the top of the file. There is no mechanism to render a real WeiUI React component in docs because the package isn't a dependency.
-- **Impact:** Every complaint in this round flows from this — Toast, DatePicker, ColorPicker, CommandPalette, Editor, AutoComplete, MultiSelect, FileUpload, Dialog, Popover, Menu, Kbd, Chart, DataTable, TreeView, Portal — all pages rely on either raw HTML mockups (`className="wui-*"`) or on code-fence prose. None instantiate live components.
-- **Fix:** Add `"@weiui/react": "workspace:*"` to `apps/docs/package.json` dependencies and run `pnpm install`.
+- **File:** `apps/docs/package.json` — deps are only `@civaria/css`, `@civaria/tokens`, `cmdk`, `next`, `react`, `react-dom`, `@vercel/analytics`, `rehype-pretty-code`, `shiki`.
+- **Root cause:** MDX pages show `import { ... } from "civaria"` — but *every one of those imports is inside a fenced ```tsx code block*, not an actual MDX import at the top of the file. There is no mechanism to render a real Civaria React component in docs because the package isn't a dependency.
+- **Impact:** Every complaint in this round flows from this — Toast, DatePicker, ColorPicker, CommandPalette, Editor, AutoComplete, MultiSelect, FileUpload, Dialog, Popover, Menu, Kbd, Chart, DataTable, TreeView, Portal — all pages rely on either raw HTML mockups (`className="civ-*"`) or on code-fence prose. None instantiate live components.
+- **Fix:** Add `"civaria": "workspace:*"` to `apps/docs/package.json` dependencies and run `pnpm install`.
 
 ### 3. No live demos on 10+ component pages (user complaints 1–3, 5–9, 11, 12)
 
-All these pages are 585 B First-Load (= static) and their `@weiui/react` "imports" are inside triple-backtick code fences only:
+All these pages are 585 B First-Load (= static) and their `civaria` "imports" are inside triple-backtick code fences only:
 
 | Page | Path | What user sees |
 |------|------|----------------|
@@ -46,8 +46,8 @@ All these pages are 585 B First-Load (= static) and their `@weiui/react` "import
 | Color Picker | `apps/docs/src/app/docs/components/color-picker/page.mdx` | Code prose only. No SV pad. |
 | DatePicker | `apps/docs/src/app/docs/components/date-time/page.mdx` | Calendar is a *static HTML mock* (buttons are inert, "15" is hardcoded as selected). DatePicker section below is code prose only — no popover, no trigger, no demo. |
 | Advanced Inputs (AutoComplete, MultiSelect, FileUpload) | `apps/docs/src/app/docs/components/advanced-inputs/page.mdx` | Slider / Rating / InputNumber / InputOTP are inert HTML (no state, no keyboard, no drag). AutoComplete, MultiSelect, FileUpload are code-prose only — no dropdowns rendered. |
-- **Root cause (shared):** pages use raw HTML `wui-*` classes to fake the visual; state-driven components like DatePicker, CommandPalette, Editor, ColorPicker, DataTable etc. cannot be faked by HTML — they *must* be the real React components.
-- **Fix:** On a per-page basis, import the actual React component and render it inside `<Preview>` (or a light wrapper). Requires issue #2 (add `@weiui/react` dep) first.
+- **Root cause (shared):** pages use raw HTML `civ-*` classes to fake the visual; state-driven components like DatePicker, CommandPalette, Editor, ColorPicker, DataTable etc. cannot be faked by HTML — they *must* be the real React components.
+- **Fix:** On a per-page basis, import the actual React component and render it inside `<Preview>` (or a light wrapper). Requires issue #2 (add `civaria` dep) first.
 
 ### 4. "On this page" TOC links are unstable / broken across navigations
 
@@ -74,19 +74,19 @@ All these pages are 585 B First-Load (= static) and their `@weiui/react` "import
 
 - **Files:** `apps/docs/src/components/chrome/Breadcrumbs.tsx:21` and `apps/docs/src/styles/chrome.css:266-281`.
 - **Root cause:** The template renders `<span aria-hidden="true">/</span>` between segments but no CSS selector targets that span. The separator therefore inherits full `color` and body-size `font-size`, while siblings are muted. Result: the "/" looks heavier than surrounding text and the spacing is uniform (no emphasis around the separator). Hover-state underline on breadcrumb links also underlines the whole line because there is no explicit display/line-height set.
-- **Fix:** Add a style on `.wui-docs-breadcrumbs li > span[aria-hidden]` (or give the separator a class like `wui-docs-breadcrumbs__sep`) with muted color, reduced font-size, and tighter margin. Consider replacing `/` with `›` or a chevron SVG.
+- **Fix:** Add a style on `.civ-docs-breadcrumbs li > span[aria-hidden]` (or give the separator a class like `civ-docs-breadcrumbs__sep`) with muted color, reduced font-size, and tighter margin. Consider replacing `/` with `›` or a chevron SVG.
 
 ### 7. Date-time / Calendar "Preview" is static HTML pretending to be a calendar
 
 - **File:** `apps/docs/src/app/docs/components/date-time/page.mdx:13-63`.
 - **Root cause:** The preview is raw `<table>` with hard-coded "April 2026" and "15" as `data-selected`. Navigation arrows (`&lsaquo;`, `&rsaquo;`) are `<button>` elements with no `onClick`; clicking them does nothing. Keyboard navigation from the MDX Calendar page description doesn't work because there is no `Calendar` component on the page.
-- **Fix:** Replace with `<Calendar defaultValue={new Date()} />` inside the Preview (requires `@weiui/react` dep). Same pattern goes for the DatePicker section below.
+- **Fix:** Replace with `<Calendar defaultValue={new Date()} />` inside the Preview (requires `civaria` dep). Same pattern goes for the DatePicker section below.
 
 ### 8. Command Palette doc page has zero demo
 
 - **File:** `apps/docs/src/app/docs/components/command-palette/page.mdx`.
-- **Root cause:** Entire page is prose + tables. The actual `@weiui/react` `CommandPalette` component (`packages/react/src/components/CommandPalette/CommandPalette.tsx`) has global Cmd+K hotkey and would be the perfect demo but is never mounted.
-- **Note:** The docs chrome *does* ship its own Cmd+K (`apps/docs/src/components/chrome/CommandPalette.tsx`) using `cmdk` library, but that's a docs search — not the WeiUI component. This probably adds to the user's confusion.
+- **Root cause:** Entire page is prose + tables. The actual `civaria` `CommandPalette` component (`packages/react/src/components/CommandPalette/CommandPalette.tsx`) has global Cmd+K hotkey and would be the perfect demo but is never mounted.
+- **Note:** The docs chrome *does* ship its own Cmd+K (`apps/docs/src/components/chrome/CommandPalette.tsx`) using `cmdk` library, but that's a docs search — not the Civaria component. This probably adds to the user's confusion.
 - **Fix:** Render `<CommandPalette items={demoItems} />` on the page with a preview block explaining it's triggered by Cmd+K / a demo button.
 
 ### 9. Editor page has no TipTap editor mounted
@@ -135,11 +135,11 @@ All these pages are 585 B First-Load (= static) and their `@weiui/react` "import
 
 ## Structural / docs-chrome issues
 
-### 16. Docs search's CommandPalette references `.wui-cmdk-title` class that has no CSS rule
+### 16. Docs search's CommandPalette references `.civ-cmdk-title` class that has no CSS rule
 
 - **File:** `apps/docs/src/components/chrome/CommandPalette.tsx:53`.
-- **Root cause:** Template renders `<span className="wui-cmdk-title">{item.title}</span>` but `chrome.css` defines no `.wui-cmdk-title` selector. The title therefore inherits default font-size / weight and does not line up visually with `.wui-cmdk-href` which *is* styled. Spacing looks wrong.
-- **Fix:** Add `.wui-cmdk-title` rule (font-size: sm, weight: medium, color: foreground) in `chrome.css`.
+- **Root cause:** Template renders `<span className="civ-cmdk-title">{item.title}</span>` but `chrome.css` defines no `.civ-cmdk-title` selector. The title therefore inherits default font-size / weight and does not line up visually with `.civ-cmdk-href` which *is* styled. Spacing looks wrong.
+- **Fix:** Add `.civ-cmdk-title` rule (font-size: sm, weight: medium, color: foreground) in `chrome.css`.
 
 ### 17. `<span />` in DocsPager produces empty grid cell without visual balance
 
@@ -147,7 +147,7 @@ All these pages are 585 B First-Load (= static) and their `@weiui/react` "import
 - **Not strictly broken**, but when only one side is present, an empty `<span />` is still a grid child and leaves a hollow area. Worth changing to `null` or wrapping appropriately.
 - **Fix:** Return only the present link, or collapse grid columns when one side is missing.
 
-### 18. Preview's `.wui-preview__stage` flex layout collapses wide demos
+### 18. Preview's `.civ-preview__stage` flex layout collapses wide demos
 
 - **File:** `apps/docs/src/styles/preview.css:62-68`.
 - **Root cause:** `display: flex; flex-wrap: wrap; gap: ...; align-items: center;` is fine for rows of buttons, but wide demos (e.g. a ToggleGroup or AppBar) would want `align-items: stretch` / `flex-direction: column` in some cases. Also, fixed `min-block-size: 96px` can squish vertical demos. Not blocking, a polish item.
@@ -162,13 +162,13 @@ As per user complaint. Muted-tone, chevron-style separator, and removing default
 
 ### 20. Sidebar sticky positioning may clip during mobile resize
 
-- **File:** `apps/docs/src/styles/chrome.css:181-189`. Uses `block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px))`. Hard-coded 36px + spacing-3 + 1px pretends to know the header's computed height. If the header gains a second row (e.g. announcement bar), sidebar overflows. Not a current bug, but brittle.
+- **File:** `apps/docs/src/styles/chrome.css:181-189`. Uses `block-size: calc(100vh - (var(--civ-spacing-3) * 2 + 36px + 1px))`. Hard-coded 36px + spacing-3 + 1px pretends to know the header's computed height. If the header gains a second row (e.g. announcement bar), sidebar overflows. Not a current bug, but brittle.
 
 ### 21. TOC "On this page" is hidden below 1024px — users on small laptops lose it
 
 - **File:** `apps/docs/src/styles/chrome.css:169`. Breakpoint hides TOC. On 1280–1400 px displays the three-column layout is fine, but a 13" MacBook at 1440x900 with sidebar open often falls under the 1024 threshold after scaling. Consider raising breakpoint to 1280 or adding a collapsed TOC button.
 
-### 22. `@weiui/docs` has no dark-mode hand-off for MDX code blocks on RTL
+### 22. `@civaria/docs` has no dark-mode hand-off for MDX code blocks on RTL
 
 - **Files:** MDX pages rely on `rehype-pretty-code` generating two themes. In RTL preview isolation (PreviewFrame iframe), the iframe rewrites the body but copies the host's stylesheets — the shiki CSS should apply. However the Preview iframe mutates `doc.open() / doc.write() / doc.close()` which is a *sync* write; downstream `createPortal` for children runs on next render. Combined with the `useUseContainer` bug (#5), RTL preview in Code tab may show untransformed code. Minor.
 
@@ -176,7 +176,7 @@ As per user complaint. Muted-tone, chevron-style separator, and removing default
 
 ## Missing demos summary
 
-All need a live React demo (requires `@weiui/react` dependency in docs package):
+All need a live React demo (requires `civaria` dependency in docs package):
 
 | Page | Component(s) to import | Minimal demo |
 |------|------------------------|--------------|
@@ -196,7 +196,7 @@ All need a live React demo (requires `@weiui/react` dependency in docs package):
 ## Fix plan (priority order)
 
 ### P0 — must do before any polish work
-1. Add `"@weiui/react": "workspace:*"` to `apps/docs/package.json`. Run `pnpm install`. Verify build still passes.
+1. Add `"civaria": "workspace:*"` to `apps/docs/package.json`. Run `pnpm install`. Verify build still passes.
 2. Add `<Toaster />` to `apps/docs/src/app/layout.tsx` body, after `{children}`.
 3. Add `rehype-slug` (and optionally `rehype-autolink-headings`) to `apps/docs/next.config.ts` rehype plugin list, before `rehype-pretty-code` (order: slug first so pretty-code runs on marked-up HTML).
 4. Remove the client-side `if (!node.id)` slug-fill block in `apps/docs/src/components/chrome/TableOfContents.tsx` (rely on server-rendered IDs).
@@ -216,8 +216,8 @@ All need a live React demo (requires `@weiui/react` dependency in docs package):
 6. Fix `useUseContainer` → `useState` in `PreviewFrame.tsx`.
 
 ### P2 — polish
-7. Style breadcrumb separator (`wui-docs-breadcrumbs__sep` class + muted color + `›` glyph).
-8. Add `.wui-cmdk-title` rule in `chrome.css`.
+7. Style breadcrumb separator (`civ-docs-breadcrumbs__sep` class + muted color + `›` glyph).
+8. Add `.civ-cmdk-title` rule in `chrome.css`.
 9. Consider raising TOC breakpoint from 1024 → 1280 px.
 10. DocsPager — return `null` instead of empty `<span />`.
 
@@ -237,4 +237,4 @@ All need a live React demo (requires `@weiui/react` dependency in docs package):
 
 **Total concrete issues: 22.**
 
-Everything traces back to one root cause: `@weiui/docs` does not depend on `@weiui/react` and no toast/portal/etc. is ever mounted. Fix that, mount `<Toaster />`, then work through the page-by-page demo rewrites.
+Everything traces back to one root cause: `@civaria/docs` does not depend on `civaria` and no toast/portal/etc. is ever mounted. Fix that, mount `<Toaster />`, then work through the page-by-page demo rewrites.

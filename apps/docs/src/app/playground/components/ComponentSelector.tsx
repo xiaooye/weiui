@@ -12,7 +12,7 @@ import {
   SearchInput,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import {
   fetchAllSchemas,
   type ComponentSchema,
@@ -109,7 +109,7 @@ export function ComponentSelector({ selected, onSelect }: Props) {
     const list = listsRef.current.get(category);
     if (!list) return;
     const buttons = Array.from(
-      list.querySelectorAll<HTMLButtonElement>(".wui-playground-selector__item"),
+      list.querySelectorAll<HTMLButtonElement>(".civ-playground-selector__item"),
     );
     const idx = buttons.findIndex((b) => b === event.currentTarget);
     if (idx < 0) return;
@@ -136,7 +136,7 @@ export function ComponentSelector({ selected, onSelect }: Props) {
   const totalCount = (schemas ?? []).length;
 
   return (
-    <Card className="wui-playground-selector">
+    <Card className="civ-playground-selector">
       <CardHeader>
         <Stack direction="column" gap={2}>
           <Text as="span" size="sm" weight="semibold">
@@ -148,7 +148,7 @@ export function ComponentSelector({ selected, onSelect }: Props) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search components"
             aria-label="Search components"
-            className="wui-playground-selector__search"
+            className="civ-playground-selector__search"
           />
         </Stack>
       </CardHeader>
@@ -166,18 +166,18 @@ export function ComponentSelector({ selected, onSelect }: Props) {
             type="multiple"
             value={expanded}
             onValueChange={setExpanded}
-            className="wui-playground-selector__accordion"
+            className="civ-playground-selector__accordion"
           >
             {filteredGroups.map((group) => (
               <AccordionItem
                 key={group.category}
                 value={group.category}
-                className="wui-playground-selector__section"
+                className="civ-playground-selector__section"
                 data-category={group.category.toLowerCase()}
               >
-                <AccordionTrigger className="wui-playground-selector__trigger">
-                  <span className="wui-playground-selector__trigger-label">
-                    <span className="wui-playground-selector__category">
+                <AccordionTrigger className="civ-playground-selector__trigger">
+                  <span className="civ-playground-selector__trigger-label">
+                    <span className="civ-playground-selector__category">
                       {group.category}
                     </span>
                     <Badge variant="soft" size="sm">
@@ -190,7 +190,7 @@ export function ComponentSelector({ selected, onSelect }: Props) {
                     ref={(el) => {
                       listsRef.current.set(group.category, el);
                     }}
-                    className="wui-playground-selector__list"
+                    className="civ-playground-selector__list"
                   >
                     {group.items.map((schema) => {
                       const isSelected = schema.name === selected;
@@ -198,7 +198,7 @@ export function ComponentSelector({ selected, onSelect }: Props) {
                         <button
                           key={schema.name}
                           type="button"
-                          className="wui-playground-selector__item"
+                          className="civ-playground-selector__item"
                           data-selected={isSelected || undefined}
                           aria-current={isSelected ? "true" : undefined}
                           onClick={() => onSelect(schema.name)}
@@ -208,12 +208,12 @@ export function ComponentSelector({ selected, onSelect }: Props) {
                         >
                           <span
                             aria-hidden="true"
-                            className="wui-playground-selector__icon"
+                            className="civ-playground-selector__icon"
                             data-category={group.category.toLowerCase()}
                           >
                             {schema.name[0]}
                           </span>
-                          <span className="wui-playground-selector__label">
+                          <span className="civ-playground-selector__label">
                             {schema.name}
                           </span>
                         </button>

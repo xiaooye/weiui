@@ -21,7 +21,7 @@ describe("Stepper", () => {
         <Step label="One" />
       </Stepper>,
     );
-    expect(screen.getByTestId("stepper").className).toContain("wui-stepper--vertical");
+    expect(screen.getByTestId("stepper").className).toContain("civ-stepper--vertical");
   });
 
   describe("auto step index (P0)", () => {
@@ -34,12 +34,12 @@ describe("Stepper", () => {
         </Stepper>,
       );
       // Indicators should show 1, 2, 3 in order
-      const stepOne = screen.getByText("Step one").closest(".wui-step");
-      const stepTwo = screen.getByText("Step two").closest(".wui-step");
-      const stepThree = screen.getByText("Step three").closest(".wui-step");
-      expect(stepOne?.querySelector(".wui-step__indicator")?.textContent).toBe("1");
-      expect(stepTwo?.querySelector(".wui-step__indicator")?.textContent).toBe("2");
-      expect(stepThree?.querySelector(".wui-step__indicator")?.textContent).toBe("3");
+      const stepOne = screen.getByText("Step one").closest(".civ-step");
+      const stepTwo = screen.getByText("Step two").closest(".civ-step");
+      const stepThree = screen.getByText("Step three").closest(".civ-step");
+      expect(stepOne?.querySelector(".civ-step__indicator")?.textContent).toBe("1");
+      expect(stepTwo?.querySelector(".civ-step__indicator")?.textContent).toBe("2");
+      expect(stepThree?.querySelector(".civ-step__indicator")?.textContent).toBe("3");
     });
 
     it("sets aria-current=step on the active step (index 1)", () => {
@@ -50,7 +50,7 @@ describe("Stepper", () => {
           <Step label="C" />
         </Stepper>,
       );
-      const b = screen.getByText("B").closest(".wui-step");
+      const b = screen.getByText("B").closest(".civ-step");
       expect(b).toHaveAttribute("aria-current", "step");
     });
 
@@ -62,11 +62,11 @@ describe("Stepper", () => {
           <Step label="C" />
         </Stepper>,
       );
-      const a = screen.getByText("A").closest(".wui-step");
-      const b = screen.getByText("B").closest(".wui-step");
+      const a = screen.getByText("A").closest(".civ-step");
+      const b = screen.getByText("B").closest(".civ-step");
       expect(a).toHaveAttribute("data-completed", "");
       expect(b).toHaveAttribute("data-completed", "");
-      expect(a?.querySelector(".wui-step__indicator")?.textContent).toBe("\u2713");
+      expect(a?.querySelector(".civ-step__indicator")?.textContent).toBe("\u2713");
     });
 
     it("honours explicit index when provided", () => {
@@ -75,7 +75,7 @@ describe("Stepper", () => {
           <Step label="A" index={5} />
         </Stepper>,
       );
-      const a = screen.getByText("A").closest(".wui-step");
+      const a = screen.getByText("A").closest(".civ-step");
       expect(a).toHaveAttribute("aria-current", "step");
     });
 
@@ -125,9 +125,9 @@ describe("Stepper", () => {
           <Step label="B" error />
         </Stepper>,
       );
-      const b = screen.getByText("B").closest(".wui-step");
+      const b = screen.getByText("B").closest(".civ-step");
       expect(b).toHaveAttribute("data-error");
-      expect(b?.querySelector(".wui-step__indicator")?.textContent).toBe("!");
+      expect(b?.querySelector(".civ-step__indicator")?.textContent).toBe("!");
     });
 
     it("custom errorIcon overrides default", () => {
@@ -137,8 +137,8 @@ describe("Stepper", () => {
           <Step label="B" error errorIcon="X" />
         </Stepper>,
       );
-      const b = screen.getByText("B").closest(".wui-step");
-      expect(b?.querySelector(".wui-step__indicator")?.textContent).toBe("X");
+      const b = screen.getByText("B").closest(".civ-step");
+      expect(b?.querySelector(".civ-step__indicator")?.textContent).toBe("X");
     });
   });
 

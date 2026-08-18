@@ -29,7 +29,7 @@ function registryDir(): string {
     join(process.cwd(), "..", "public/registry"),
   ];
   for (const c of candidates) if (existsSync(c)) return c;
-  throw new Error("component registry not found; run `pnpm --filter @weiui/docs build` first");
+  throw new Error("component registry not found; run `pnpm --filter @civaria/docs build` first");
 }
 
 export function loadAllSchemas(): ComponentSchema[] {

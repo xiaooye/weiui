@@ -1,1 +1,1 @@
-export { WuiCheckboxElement, defineCheckbox } from "./index.js";
+export { CivCheckboxElement, defineCheckbox } from "./index.js";

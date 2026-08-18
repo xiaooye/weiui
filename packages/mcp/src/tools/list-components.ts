@@ -1,5 +1,5 @@
 import type { RegistryIndex } from "../registry-loader.js";
-import type { WeiFramework } from "@weiui/core/registry";
+import type { WeiFramework } from "@civaria/core/registry";
 export interface ListComponentsDeps { loadIndex:()=>Promise<RegistryIndex>; }
 export interface ListComponentsInput { category?:string; framework?:WeiFramework; }
 export interface ListComponentsOutput { components:RegistryIndex["components"]; }

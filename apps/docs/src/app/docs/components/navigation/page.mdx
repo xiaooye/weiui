@@ -23,7 +23,7 @@ Hierarchical "you are here" trail. The root renders as `<nav aria-label="Breadcr
 ```tsx
 import {
   Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbEllipsis,
-} from "@weiui/react";
+} from "civaria";
 
 <Breadcrumb>
   <BreadcrumbItem><a href="/">Home</a></BreadcrumbItem>
@@ -76,7 +76,7 @@ In-page content switcher. Supports horizontal + vertical orientation, arrow-key 
 </Preview>
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@weiui/react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "civaria";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -134,10 +134,10 @@ Floating action menu anchored to a trigger. Rendered through a Portal with Float
 </Preview>
 
 ```tsx
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "civaria";
 
 <Menu>
-  <MenuTrigger className="wui-button wui-button--outline">Actions</MenuTrigger>
+  <MenuTrigger className="civ-button civ-button--outline">Actions</MenuTrigger>
   <MenuContent>
     <MenuItem onSelect={() => edit()}>Edit</MenuItem>
     <MenuItem onSelect={() => duplicate()}>Duplicate</MenuItem>
@@ -188,7 +188,7 @@ Paged navigation for long lists. Supports controlled current page, configurable 
 </Preview>
 
 ```tsx
-import { Pagination } from "@weiui/react";
+import { Pagination } from "civaria";
 
 const [page, setPage] = useState(1);
 
@@ -222,7 +222,7 @@ Top-of-page chrome with a title, optional toolbar, and sticky behaviour. Renders
 </Preview>
 
 ```tsx
-import { AppBar, Button } from "@weiui/react";
+import { AppBar, Button } from "civaria";
 
 <AppBar sticky>
   <strong>Acme</strong>
@@ -252,7 +252,7 @@ Mobile-first bottom navigation. Five-icon limit, one active at a time, designed 
 </Preview>
 
 ```tsx
-import { BottomNav, BottomNavItem } from "@weiui/react";
+import { BottomNav, BottomNavItem } from "civaria";
 
 <BottomNav value={tab} onValueChange={setTab}>
   <BottomNavItem value="home" icon={<Home />}>Home</BottomNavItem>
@@ -272,8 +272,8 @@ A floating action button (FAB) that expands into a cluster of secondary actions.
 </Preview>
 
 ```tsx
-import { SpeedDial, SpeedDialAction } from "@weiui/react";
-import { Plus, Edit, Share } from "@weiui/icons";
+import { SpeedDial, SpeedDialAction } from "civaria";
+import { Plus, Edit, Share } from "@civaria/icons";
 
 <SpeedDial icon={<Plus />}>
   <SpeedDialAction label="Edit" icon={<Edit />} onClick={…} />
@@ -292,10 +292,10 @@ Styled anchor with optional external-link semantics.
 </Preview>
 
 ```tsx
-import { Link } from "@weiui/react";
+import { Link } from "civaria";
 
 <Link href="/docs">Documentation</Link>
-<Link href="https://github.com/weiui" external>GitHub</Link>
+<Link href="https://github.com/civaria" external>GitHub</Link>
 ```
 
 ### Link props
@@ -312,13 +312,13 @@ import { Link } from "@weiui/react";
 All link-accepting components use the native `<a>` underneath. To swap in Next.js `<Link>`, React Router's `<NavLink>`, or TanStack Router's `<Link>`, use the `asChild` pattern where available or render the router link as the child of a `Button variant="link"` / `Link`:
 
 ```tsx
-import { Link as WuiLink } from "@weiui/react";
+import { Link as CivLink } from "civaria";
 import NextLink from "next/link";
 
 {/* Next.js — prefetch + client nav */}
-<WuiLink asChild>
+<CivLink asChild>
   <NextLink href="/docs">Documentation</NextLink>
-</WuiLink>
+</CivLink>
 
 {/* React Router */}
 import { NavLink } from "react-router-dom";
@@ -328,7 +328,7 @@ import { NavLink } from "react-router-dom";
 </Button>
 ```
 
-The router controls navigation (prefetch, scroll restoration, nested layouts) while WeiUI contributes the visual and a11y contract.
+The router controls navigation (prefetch, scroll restoration, nested layouts) while Civaria contributes the visual and a11y contract.
 
 ---
 
@@ -339,4 +339,4 @@ The router controls navigation (prefetch, scroll restoration, nested layouts) wh
 - **Top nav → Drawer on mobile:** hide the AppBar links behind a Drawer (see [Sidebar & Drawer](/docs/components/sidebar-drawer)).
 - **Pagination → "Load more" on mobile:** swap to a single `<Button>` that appends the next page to the list; keeps thumb effort low.
 
-Use container queries (every WeiUI Card supports them) to switch patterns at the right *component* width, not viewport width.
+Use container queries (every Civaria Card supports them) to switch patterns at the right *component* width, not viewport width.

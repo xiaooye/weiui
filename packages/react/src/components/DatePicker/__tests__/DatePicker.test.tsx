@@ -25,7 +25,7 @@ describe("DatePicker", () => {
     // Find a day button inside the dialog and click it
     const dialog = screen.getByRole("dialog");
     const dayButton = within(dialog).getByText("15", {
-      selector: ".wui-calendar__day-btn",
+      selector: ".civ-calendar__day-btn",
     });
     await user.click(dayButton);
     expect(onChange).toHaveBeenCalledTimes(1);
@@ -127,9 +127,9 @@ describe("DatePicker", () => {
       render(<DatePicker mode="range" onRangeChange={onRangeChange} label="Range" />);
       await user.click(screen.getByRole("button", { name: "Range" }));
       const dialog = screen.getByRole("dialog");
-      const start = within(dialog).getByText("10", { selector: ".wui-calendar__day-btn" });
+      const start = within(dialog).getByText("10", { selector: ".civ-calendar__day-btn" });
       await user.click(start);
-      const end = within(dialog).getByText("20", { selector: ".wui-calendar__day-btn" });
+      const end = within(dialog).getByText("20", { selector: ".civ-calendar__day-btn" });
       await user.click(end);
       expect(onRangeChange).toHaveBeenCalled();
       const call = onRangeChange.mock.calls.at(-1)![0];
@@ -192,7 +192,7 @@ describe("DatePicker", () => {
       expect(trigger).toHaveTextContent("Jan 15, 2024");
       await user.click(trigger);
       const dialog = screen.getByRole("dialog");
-      const day20 = within(dialog).getByText("20", { selector: ".wui-calendar__day-btn" });
+      const day20 = within(dialog).getByText("20", { selector: ".civ-calendar__day-btn" });
       await user.click(day20);
       // Internal state advanced without consumer holding `value`.
       expect(onChange).toHaveBeenCalledTimes(1);

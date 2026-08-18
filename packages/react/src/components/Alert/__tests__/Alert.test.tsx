@@ -23,37 +23,37 @@ describe("Alert", () => {
   it("applies variant class for destructive", () => {
     render(<Alert variant="destructive">Error</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("wui-alert--destructive");
+    expect(el.className).toContain("civ-alert--destructive");
   });
 
   it("applies variant class for success", () => {
     render(<Alert variant="success">Success</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("wui-alert--success");
+    expect(el.className).toContain("civ-alert--success");
   });
 
   it("applies variant class for warning", () => {
     render(<Alert variant="warning">Warning</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("wui-alert--warning");
+    expect(el.className).toContain("civ-alert--warning");
   });
 
   it("default variant is info", () => {
     render(<Alert>Info</Alert>);
     const el = screen.getByRole("alert");
-    expect(el.className).toContain("wui-alert--info");
+    expect(el.className).toContain("civ-alert--info");
   });
 
   // E.11 icon + dismissible + action
   it("renders a default icon for each variant", () => {
     const { rerender } = render(<Alert>i</Alert>);
-    expect(screen.getByRole("alert").querySelector(".wui-alert__icon")).toBeInTheDocument();
+    expect(screen.getByRole("alert").querySelector(".civ-alert__icon")).toBeInTheDocument();
     rerender(<Alert variant="success">s</Alert>);
-    expect(screen.getByRole("alert").querySelector(".wui-alert__icon")).toBeInTheDocument();
+    expect(screen.getByRole("alert").querySelector(".civ-alert__icon")).toBeInTheDocument();
     rerender(<Alert variant="warning">w</Alert>);
-    expect(screen.getByRole("alert").querySelector(".wui-alert__icon")).toBeInTheDocument();
+    expect(screen.getByRole("alert").querySelector(".civ-alert__icon")).toBeInTheDocument();
     rerender(<Alert variant="destructive">d</Alert>);
-    expect(screen.getByRole("alert").querySelector(".wui-alert__icon")).toBeInTheDocument();
+    expect(screen.getByRole("alert").querySelector(".civ-alert__icon")).toBeInTheDocument();
   });
 
   it("custom icon overrides the default", () => {
@@ -63,7 +63,7 @@ describe("Alert", () => {
 
   it("icon={null} hides the icon", () => {
     render(<Alert icon={null}>msg</Alert>);
-    expect(screen.getByRole("alert").querySelector(".wui-alert__icon")).not.toBeInTheDocument();
+    expect(screen.getByRole("alert").querySelector(".civ-alert__icon")).not.toBeInTheDocument();
   });
 
   it("does not render close button by default", () => {

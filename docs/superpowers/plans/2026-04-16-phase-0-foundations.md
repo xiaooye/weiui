@@ -66,7 +66,7 @@ describe("shadow scale", () => {
 
 - [ ] **Step 2: Run the test, confirm it fails**
 
-Run: `pnpm --filter @weiui/tokens test -- generate-css.test.ts`
+Run: `pnpm --filter @civaria/tokens test -- generate-css.test.ts`
 Expected: FAIL — current shape.json has only `xs, sm, md, lg, xl` and `xs` uses `oklch` but order/keys differ.
 
 - [ ] **Step 3: Replace the shadow block in shape.json**
@@ -88,18 +88,18 @@ Open `packages/tokens/src/primitives/shape.json` and replace the `"shadow"` obje
 
 - [ ] **Step 4: Run the test, confirm it passes**
 
-Run: `pnpm --filter @weiui/tokens test -- generate-css.test.ts`
+Run: `pnpm --filter @civaria/tokens test -- generate-css.test.ts`
 Expected: PASS
 
 - [ ] **Step 5: Rebuild tokens and verify output**
 
-Run: `pnpm --filter @weiui/tokens build`
+Run: `pnpm --filter @civaria/tokens build`
 Open `packages/tokens/dist/tokens.css` and confirm these lines exist:
 
 ```
---wui-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
---wui-shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.18);
---wui-shadow-inset: inset 0 2px 4px 0 oklch(0 0 0 / 0.05);
+--civ-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+--civ-shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.18);
+--civ-shadow-inset: inset 0 2px 4px 0 oklch(0 0 0 / 0.05);
 ```
 
 - [ ] **Step 6: Commit**
@@ -147,7 +147,7 @@ describe("motion scale", () => {
 
 - [ ] **Step 2: Run the test, confirm it fails**
 
-Run: `pnpm --filter @weiui/tokens test -- generate-css.test.ts`
+Run: `pnpm --filter @civaria/tokens test -- generate-css.test.ts`
 Expected: FAIL — missing `base`, `slower`, and the four new easing keys.
 
 - [ ] **Step 3: Replace the motion block in motion.json**
@@ -185,19 +185,19 @@ Old names (`normal`, `default`, `in`, `out`, `inOut`, `spring`, `entrance`) are 
 
 - [ ] **Step 4: Run the test, confirm it passes**
 
-Run: `pnpm --filter @weiui/tokens test -- generate-css.test.ts`
+Run: `pnpm --filter @civaria/tokens test -- generate-css.test.ts`
 Expected: PASS
 
 - [ ] **Step 5: Rebuild and verify**
 
-Run: `pnpm --filter @weiui/tokens build`
+Run: `pnpm --filter @civaria/tokens build`
 Open `packages/tokens/dist/tokens.css` and confirm these lines:
 
 ```
---wui-motion-duration-base: 180ms;
---wui-motion-duration-slower: 400ms;
---wui-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
---wui-motion-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
+--civ-motion-duration-base: 180ms;
+--civ-motion-duration-slower: 400ms;
+--civ-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+--civ-motion-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
 ```
 
 - [ ] **Step 6: Commit**
@@ -250,7 +250,7 @@ describe("semantic elevation and surface tokens", () => {
 
 - [ ] **Step 2: Run the test, confirm it fails**
 
-Run: `pnpm --filter @weiui/tokens test -- generate-css.test.ts`
+Run: `pnpm --filter @civaria/tokens test -- generate-css.test.ts`
 Expected: FAIL — no elevation/surface/ring-soft yet.
 
 - [ ] **Step 3: Replace semantic.json with the extended version**
@@ -270,7 +270,7 @@ Replace entire `packages/tokens/src/semantic.json` with:
     "card-foreground":    { "$value": "{color.neutral.950}" },
     "border":             { "$value": "{color.neutral.200}" },
     "ring":               { "$value": "{color.blue.600}" },
-    "ring-soft":          { "$value": "oklch(from var(--wui-color-ring) l c h / 0.35)" },
+    "ring-soft":          { "$value": "oklch(from var(--civ-color-ring) l c h / 0.35)" },
     "destructive":            { "$value": "oklch(0.577 0.245 27.33)" },
     "destructive-foreground": { "$value": "{color.neutral.0}" },
     "success":                { "$value": "oklch(0.517 0.176 149.57)" },
@@ -309,18 +309,18 @@ Find the existing `const darkOverrides: Array<[string, string]>` (or equivalent 
 
 - [ ] **Step 5: Run the test, confirm it passes**
 
-Run: `pnpm --filter @weiui/tokens test`
+Run: `pnpm --filter @civaria/tokens test`
 Expected: all green.
 
 - [ ] **Step 6: Rebuild and verify**
 
-Run: `pnpm --filter @weiui/tokens build`
+Run: `pnpm --filter @civaria/tokens build`
 Open `packages/tokens/dist/tokens.css` and confirm:
 
 ```
---wui-color-ring-soft: oklch(from var(--wui-color-ring) l c h / 0.35);
---wui-surface-raised: oklch(1 0 0);
---wui-elevation-1: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+--civ-color-ring-soft: oklch(from var(--civ-color-ring) l c h / 0.35);
+--civ-surface-raised: oklch(1 0 0);
+--civ-elevation-1: 0 1px 2px 0 oklch(0 0 0 / 0.04);
 ```
 
 - [ ] **Step 7: Commit**
@@ -348,7 +348,7 @@ Expected: all existing tests pass.
 
 - [ ] **Step 3: Run contrast validation**
 
-Run: `pnpm --filter @weiui/tokens validate`
+Run: `pnpm --filter @civaria/tokens validate`
 Expected: PASS with no contrast warnings.
 
 If any step fails, stop and report the failure — do not proceed to polish tasks.
@@ -377,10 +377,10 @@ Follow it exactly. Deviations need explicit justification in the PR.
 Add an inset 1px highlight for Volt-style depth:
 
 ```css
-.wui-button--solid {
-  background-color: var(--wui-color-primary);
-  color: var(--wui-color-primary-foreground);
-  box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+.civ-button--solid {
+  background-color: var(--civ-color-primary);
+  color: var(--civ-color-primary-foreground);
+  box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
 }
 ```
 
@@ -390,14 +390,14 @@ Motion-safe translateY + shadow bump:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .wui-button:hover {
+  .civ-button:hover {
     transform: translateY(-1px);
-    box-shadow: var(--wui-shadow-sm),
-                inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.15);
+    box-shadow: var(--civ-shadow-sm),
+                inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.15);
   }
-  .wui-button:active {
+  .civ-button:active {
     transform: translateY(0);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.10);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.10);
   }
 }
 ```
@@ -407,12 +407,12 @@ Motion-safe translateY + shadow bump:
 Soft inner shadow at rest; sharper focus ring with color-mix transition. No hover lift.
 
 ```css
-.wui-input {
+.civ-input {
   box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
 }
-.wui-input:focus-within {
-  border-color: var(--wui-color-ring);
-  outline: 3px solid var(--wui-color-ring-soft);
+.civ-input:focus-within {
+  border-color: var(--civ-color-ring);
+  outline: 3px solid var(--civ-color-ring-soft);
   outline-offset: 0;
   box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
 }
@@ -423,10 +423,10 @@ Soft inner shadow at rest; sharper focus ring with color-mix transition. No hove
 Use `elevation-2` + `surface-raised` + hairline border.
 
 ```css
-.wui-card {
-  background-color: var(--wui-surface-raised);
-  border: 1px solid var(--wui-color-border);
-  box-shadow: var(--wui-elevation-2);
+.civ-card {
+  background-color: var(--civ-surface-raised);
+  border: 1px solid var(--civ-color-border);
+  box-shadow: var(--civ-elevation-2);
 }
 ```
 
@@ -435,14 +435,14 @@ Use `elevation-2` + `surface-raised` + hairline border.
 `elevation-4` or higher + backdrop-filter with fallback.
 
 ```css
-.wui-popover {
-  background-color: var(--wui-surface-overlay);
-  box-shadow: var(--wui-elevation-4);
+.civ-popover {
+  background-color: var(--civ-surface-overlay);
+  box-shadow: var(--civ-elevation-4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 @supports not (backdrop-filter: blur(8px)) {
-  .wui-popover { background-color: var(--wui-color-card); }
+  .civ-popover { background-color: var(--civ-color-card); }
 }
 ```
 
@@ -452,10 +452,10 @@ Replace any raw `200ms` or `cubic-bezier(...)` with tokens:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .wui-button {
+  .civ-button {
     transition-property: transform, box-shadow, background-color, border-color, color;
-    transition-duration: var(--wui-motion-duration-fast);
-    transition-timing-function: var(--wui-motion-easing-standard);
+    transition-duration: var(--civ-motion-duration-fast);
+    transition-timing-function: var(--civ-motion-easing-standard);
   }
 }
 ```
@@ -465,12 +465,12 @@ Replace any raw `200ms` or `cubic-bezier(...)` with tokens:
 Use `color-mix` in OKLCH for consistent tints across light/dark:
 
 ```css
-.wui-button--soft {
-  background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-  color: var(--wui-color-primary);
+.civ-button--soft {
+  background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+  color: var(--civ-color-primary);
 }
-.wui-button--soft:hover {
-  background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+.civ-button--soft:hover {
+  background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
 }
 ```
 
@@ -503,83 +503,83 @@ Replace the full contents of `packages/css/src/elements/button.css` with:
 
 ```css
 /* packages/css/src/elements/button.css */
-@layer wui-elements {
-  .wui-button {
-    display: inline-flex; align-items: center; justify-content: center; gap: var(--wui-spacing-2);
-    font-family: inherit; font-weight: var(--wui-font-weight-medium);
-    border-radius: var(--wui-shape-radius-md); cursor: pointer; user-select: none; white-space: nowrap;
+@layer civ-elements {
+  .civ-button {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--civ-spacing-2);
+    font-family: inherit; font-weight: var(--civ-font-weight-medium);
+    border-radius: var(--civ-shape-radius-md); cursor: pointer; user-select: none; white-space: nowrap;
     min-block-size: 44px; min-inline-size: 44px;
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-sm); line-height: var(--wui-font-lineHeight-normal);
-    border: var(--wui-shape-border-width-medium) solid transparent;
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-sm); line-height: var(--civ-font-lineHeight-normal);
+    border: var(--civ-shape-border-width-medium) solid transparent;
   }
 
   /* Sizes */
-  .wui-button--sm { min-block-size: 36px; padding-inline: var(--wui-spacing-3); font-size: var(--wui-font-size-sm); border-radius: var(--wui-shape-radius-base); }
-  .wui-button--lg { min-block-size: 48px; padding-inline: var(--wui-spacing-6); font-size: var(--wui-font-size-base); }
-  .wui-button--xl { min-block-size: 56px; padding-inline: var(--wui-spacing-8); font-size: var(--wui-font-size-lg); border-radius: var(--wui-shape-radius-lg); }
-  .wui-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
+  .civ-button--sm { min-block-size: 36px; padding-inline: var(--civ-spacing-3); font-size: var(--civ-font-size-sm); border-radius: var(--civ-shape-radius-base); }
+  .civ-button--lg { min-block-size: 48px; padding-inline: var(--civ-spacing-6); font-size: var(--civ-font-size-base); }
+  .civ-button--xl { min-block-size: 56px; padding-inline: var(--civ-spacing-8); font-size: var(--civ-font-size-lg); border-radius: var(--civ-shape-radius-lg); }
+  .civ-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
 
   /* Variant: solid — inset highlight for depth */
-  .wui-button--solid {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+  .civ-button--solid {
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-primary-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
   }
 
   /* Variant: outline */
-  .wui-button--outline { background-color: transparent; border-color: var(--wui-color-primary); color: var(--wui-color-primary); }
+  .civ-button--outline { background-color: transparent; border-color: var(--civ-color-primary); color: var(--civ-color-primary); }
 
   /* Variant: ghost */
-  .wui-button--ghost { background-color: transparent; color: var(--wui-color-primary); }
+  .civ-button--ghost { background-color: transparent; color: var(--civ-color-primary); }
 
   /* Variant: soft — OKLCH color-mix */
-  .wui-button--soft {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    color: var(--wui-color-primary);
+  .civ-button--soft {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-button--soft:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+  .civ-button--soft:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
   }
 
   /* Variant: link */
-  .wui-button--link { background-color: transparent; color: var(--wui-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; box-shadow: none; }
+  .civ-button--link { background-color: transparent; color: var(--civ-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; box-shadow: none; }
 
   /* Color: destructive */
-  .wui-button--destructive.wui-button--solid {
-    background-color: var(--wui-color-destructive);
-    color: var(--wui-color-destructive-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.12);
+  .civ-button--destructive.civ-button--solid {
+    background-color: var(--civ-color-destructive);
+    color: var(--civ-color-destructive-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.12);
   }
-  .wui-button--destructive.wui-button--outline { border-color: var(--wui-color-destructive); color: var(--wui-color-destructive); }
+  .civ-button--destructive.civ-button--outline { border-color: var(--civ-color-destructive); color: var(--civ-color-destructive); }
 
   /* States */
-  .wui-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; transform: none !important; }
-  .wui-button[data-loading] { position: relative; cursor: wait; }
+  .civ-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; transform: none !important; }
+  .civ-button[data-loading] { position: relative; cursor: wait; }
 
   /* Motion-safe hover/active lift — NOT on link or icon-only */
   @media (prefers-reduced-motion: no-preference) {
-    .wui-button {
+    .civ-button {
       transition-property: transform, box-shadow, background-color, border-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-button--solid:hover,
-    .wui-button--outline:hover,
-    .wui-button--soft:hover {
+    .civ-button--solid:hover,
+    .civ-button--outline:hover,
+    .civ-button--soft:hover {
       transform: translateY(-1px);
     }
-    .wui-button--solid:hover {
-      box-shadow: var(--wui-shadow-sm),
-                  inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.18);
+    .civ-button--solid:hover {
+      box-shadow: var(--civ-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.18);
     }
-    .wui-button--destructive.wui-button--solid:hover {
-      box-shadow: var(--wui-shadow-sm),
-                  inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.18);
+    .civ-button--destructive.civ-button--solid:hover {
+      box-shadow: var(--civ-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.18);
     }
-    .wui-button:active { transform: translateY(0); }
-    .wui-button--solid:active {
-      box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.10);
+    .civ-button:active { transform: translateY(0); }
+    .civ-button--solid:active {
+      box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.10);
     }
   }
 }
@@ -589,12 +589,12 @@ Change from previous: removed `filter: brightness()` in favor of explicit hover 
 
 - [ ] **Step 2: Build packages/css**
 
-Run: `pnpm --filter @weiui/css build`
+Run: `pnpm --filter @civaria/css build`
 Expected: success.
 
 - [ ] **Step 3: Run existing tests that depend on button**
 
-Run: `pnpm --filter @weiui/react test -- Button`
+Run: `pnpm --filter civaria test -- Button`
 Expected: PASS (Layer 1 change must not break React component behavior).
 
 - [ ] **Step 4: Visual check via docs site**
@@ -633,46 +633,46 @@ git commit -m "style(css): polish button — inset highlight, hover lift, motion
 Replace `packages/css/src/elements/input.css` with:
 
 ```css
-@layer wui-elements {
-  .wui-input {
+@layer civ-elements {
+  .civ-input {
     display: flex; align-items: center; inline-size: 100%; min-block-size: 44px;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-sm); color: var(--wui-color-foreground);
-    background-color: var(--wui-color-background);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-sm); color: var(--civ-color-foreground);
+    background-color: var(--civ-color-background);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-input::placeholder { color: var(--wui-color-muted-foreground); }
-  .wui-input:hover { border-color: color-mix(in oklch, var(--wui-color-border) 60%, var(--wui-color-foreground)); }
-  .wui-input:focus-within {
-    border-color: var(--wui-color-ring);
-    outline: 3px solid var(--wui-color-ring-soft);
+  .civ-input::placeholder { color: var(--civ-color-muted-foreground); }
+  .civ-input:hover { border-color: color-mix(in oklch, var(--civ-color-border) 60%, var(--civ-color-foreground)); }
+  .civ-input:focus-within {
+    border-color: var(--civ-color-ring);
+    outline: 3px solid var(--civ-color-ring-soft);
     outline-offset: 0;
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-input[data-invalid], .wui-input:invalid {
-    border-color: var(--wui-color-destructive);
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 4%, var(--wui-color-background));
+  .civ-input[data-invalid], .civ-input:invalid {
+    border-color: var(--civ-color-destructive);
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 4%, var(--civ-color-background));
   }
-  .wui-input[data-invalid]:focus-within {
-    outline-color: color-mix(in oklch, var(--wui-color-destructive) 35%, transparent);
+  .civ-input[data-invalid]:focus-within {
+    outline-color: color-mix(in oklch, var(--civ-color-destructive) 35%, transparent);
   }
-  .wui-input[data-disabled], .wui-input:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--wui-color-muted); box-shadow: none; }
-  .wui-input[data-readonly], .wui-input[readonly] { background-color: var(--wui-color-muted); }
+  .civ-input[data-disabled], .civ-input:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--civ-color-muted); box-shadow: none; }
+  .civ-input[data-readonly], .civ-input[readonly] { background-color: var(--civ-color-muted); }
 
   /* Sizes */
-  .wui-input--sm { min-block-size: 36px; padding-inline: var(--wui-spacing-2); font-size: var(--wui-font-size-xs); }
-  .wui-input--lg { min-block-size: 48px; padding-inline: var(--wui-spacing-4); font-size: var(--wui-font-size-base); }
+  .civ-input--sm { min-block-size: 36px; padding-inline: var(--civ-spacing-2); font-size: var(--civ-font-size-xs); }
+  .civ-input--lg { min-block-size: 48px; padding-inline: var(--civ-spacing-4); font-size: var(--civ-font-size-base); }
 
   /* Textarea */
-  textarea.wui-input { min-block-size: 80px; resize: vertical; }
+  textarea.civ-input { min-block-size: 80px; resize: vertical; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-input {
+    .civ-input {
       transition-property: border-color, outline-color, background-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -682,16 +682,16 @@ Replace `packages/css/src/elements/input.css` with:
 
 Apply the **same recipe** to `input-number.css`, `input-otp.css`, `autocomplete.css`, `multi-select.css`, `file-upload.css`:
 - Add `box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);` to the main element selector.
-- Change `:focus-within` (or `:focus`) rule to `outline: 3px solid var(--wui-color-ring-soft);` and keep border color.
-- Replace any `transition-duration: 100ms` (or similar raw value) with `var(--wui-motion-duration-fast)`.
-- Replace easing with `var(--wui-motion-easing-standard)`.
+- Change `:focus-within` (or `:focus`) rule to `outline: 3px solid var(--civ-color-ring-soft);` and keep border color.
+- Replace any `transition-duration: 100ms` (or similar raw value) with `var(--civ-motion-duration-fast)`.
+- Replace easing with `var(--civ-motion-easing-standard)`.
 - Wrap transitions in `@media (prefers-reduced-motion: no-preference)`.
 
 Open each file, make these four changes, save.
 
 - [ ] **Step 3: Build and test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "Input|Textarea|AutoComplete|MultiSelect|InputNumber|InputOTP|FileUpload"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "Input|Textarea|AutoComplete|MultiSelect|InputNumber|InputOTP|FileUpload"`
 Expected: build succeeds; existing tests pass.
 
 - [ ] **Step 4: Visual check**
@@ -727,42 +727,42 @@ git commit -m "style(css): polish input family — inset shadow, soft focus ring
 Replace with:
 
 ```css
-@layer wui-elements {
-  .wui-badge {
-    display: inline-flex; align-items: center; gap: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2); padding-block: var(--wui-spacing-0\.5);
-    font-size: var(--wui-font-size-xs); font-weight: var(--wui-font-weight-medium);
-    line-height: var(--wui-font-lineHeight-normal);
-    border-radius: var(--wui-shape-radius-full); white-space: nowrap;
+@layer civ-elements {
+  .civ-badge {
+    display: inline-flex; align-items: center; gap: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2); padding-block: var(--civ-spacing-0\.5);
+    font-size: var(--civ-font-size-xs); font-weight: var(--civ-font-weight-medium);
+    line-height: var(--civ-font-lineHeight-normal);
+    border-radius: var(--civ-shape-radius-full); white-space: nowrap;
   }
-  .wui-badge--solid {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+  .civ-badge--solid {
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-primary-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
   }
-  .wui-badge--soft {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
-    color: var(--wui-color-primary);
+  .civ-badge--soft {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 12%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-badge--outline {
+  .civ-badge--outline {
     background-color: transparent;
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    color: var(--wui-color-foreground);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    color: var(--civ-color-foreground);
   }
-  .wui-badge--destructive {
-    background-color: var(--wui-color-destructive);
-    color: var(--wui-color-destructive-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.12);
+  .civ-badge--destructive {
+    background-color: var(--civ-color-destructive);
+    color: var(--civ-color-destructive-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.12);
   }
-  .wui-badge--success {
-    background-color: var(--wui-color-success);
-    color: var(--wui-color-success-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-success-foreground) l c h / 0.12);
+  .civ-badge--success {
+    background-color: var(--civ-color-success);
+    color: var(--civ-color-success-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-success-foreground) l c h / 0.12);
   }
-  .wui-badge--warning {
-    background-color: var(--wui-color-warning);
-    color: var(--wui-color-warning-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.12);
+  .civ-badge--warning {
+    background-color: var(--civ-color-warning);
+    color: var(--civ-color-warning-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-warning-foreground) l c h / 0.12);
   }
 }
 ```
@@ -772,45 +772,45 @@ Replace with:
 Replace with:
 
 ```css
-@layer wui-elements {
-  .wui-chip {
-    display: inline-flex; align-items: center; gap: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm); font-weight: var(--wui-font-weight-medium);
-    border-radius: var(--wui-shape-radius-full);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-foreground);
+@layer civ-elements {
+  .civ-chip {
+    display: inline-flex; align-items: center; gap: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm); font-weight: var(--civ-font-weight-medium);
+    border-radius: var(--civ-shape-radius-full);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-foreground);
   }
-  .wui-chip__remove {
+  .civ-chip__remove {
     display: inline-flex; align-items: center; justify-content: center;
     min-block-size: 16px; min-inline-size: 16px;
-    border-radius: var(--wui-shape-radius-full); cursor: pointer;
-    color: var(--wui-color-muted-foreground); background: none; border: none;
-    font-size: var(--wui-font-size-xs);
+    border-radius: var(--civ-shape-radius-full); cursor: pointer;
+    color: var(--civ-color-muted-foreground); background: none; border: none;
+    font-size: var(--civ-font-size-xs);
   }
-  .wui-chip__remove:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-border); }
-  .wui-chip--primary {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
-    color: var(--wui-color-primary);
+  .civ-chip__remove:hover { color: var(--civ-color-foreground); background-color: var(--civ-color-border); }
+  .civ-chip--primary {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 12%, transparent);
+    color: var(--civ-color-primary);
     border-color: transparent;
   }
-  .wui-chip--success {
-    background-color: color-mix(in oklch, var(--wui-color-success) 12%, transparent);
-    color: var(--wui-color-success);
+  .civ-chip--success {
+    background-color: color-mix(in oklch, var(--civ-color-success) 12%, transparent);
+    color: var(--civ-color-success);
     border-color: transparent;
   }
-  .wui-chip--destructive {
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 12%, transparent);
-    color: var(--wui-color-destructive);
+  .civ-chip--destructive {
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 12%, transparent);
+    color: var(--civ-color-destructive);
     border-color: transparent;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-chip {
+    .civ-chip {
       transition-property: background-color, color, border-color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -821,22 +821,22 @@ Replace with:
 Open the file and ensure it matches this shape:
 
 ```css
-@layer wui-elements {
-  .wui-avatar {
+@layer civ-elements {
+  .civ-avatar {
     display: inline-flex; align-items: center; justify-content: center;
     overflow: hidden;
     inline-size: 40px; block-size: 40px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-medium); font-size: var(--wui-font-size-sm);
-    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--wui-color-foreground) 6%, transparent);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-medium); font-size: var(--civ-font-size-sm);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--civ-color-foreground) 6%, transparent);
   }
-  .wui-avatar__image { inline-size: 100%; block-size: 100%; object-fit: cover; }
-  .wui-avatar--sm { inline-size: 32px; block-size: 32px; font-size: var(--wui-font-size-xs); }
-  .wui-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--wui-font-size-base); }
-  .wui-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--wui-font-size-lg); }
-  .wui-avatar--square { border-radius: var(--wui-shape-radius-md); }
+  .civ-avatar__image { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .civ-avatar--sm { inline-size: 32px; block-size: 32px; font-size: var(--civ-font-size-xs); }
+  .civ-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--civ-font-size-base); }
+  .civ-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--civ-font-size-lg); }
+  .civ-avatar--square { border-radius: var(--civ-shape-radius-md); }
 }
 ```
 
@@ -847,33 +847,33 @@ If the existing file has additional selectors (e.g., `__fallback`, `__group`), p
 Replace with:
 
 ```css
-@layer wui-elements {
-  .wui-skeleton {
+@layer civ-elements {
+  .civ-skeleton {
     display: block;
-    background-color: var(--wui-color-muted);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: var(--civ-color-muted);
+    border-radius: var(--civ-shape-radius-base);
     position: relative;
     overflow: hidden;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-skeleton::after {
+    .civ-skeleton::after {
       content: "";
       position: absolute; inset: 0;
       background-image: linear-gradient(
         90deg,
         transparent 0%,
-        color-mix(in oklch, var(--wui-color-background) 50%, transparent) 50%,
+        color-mix(in oklch, var(--civ-color-background) 50%, transparent) 50%,
         transparent 100%
       );
-      animation: wui-skeleton-shimmer 1.6s var(--wui-motion-easing-standard) infinite;
+      animation: civ-skeleton-shimmer 1.6s var(--civ-motion-easing-standard) infinite;
     }
   }
-  @keyframes wui-skeleton-shimmer {
+  @keyframes civ-skeleton-shimmer {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
-  .wui-skeleton--circle { border-radius: var(--wui-shape-radius-full); }
-  .wui-skeleton--line   { block-size: 1em; }
+  .civ-skeleton--circle { border-radius: var(--civ-shape-radius-full); }
+  .civ-skeleton--line   { block-size: 1em; }
 }
 ```
 
@@ -882,39 +882,39 @@ Replace with:
 Replace with:
 
 ```css
-@layer wui-elements {
-  .wui-card {
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-card-foreground);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-2);
-    container-type: inline-size; container-name: wui-card;
+@layer civ-elements {
+  .civ-card {
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-card-foreground);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-2);
+    container-type: inline-size; container-name: civ-card;
   }
-  .wui-card__header {
-    display: flex; align-items: center; gap: var(--wui-spacing-3);
-    padding: var(--wui-spacing-6); padding-block-end: 0;
+  .civ-card__header {
+    display: flex; align-items: center; gap: var(--civ-spacing-3);
+    padding: var(--civ-spacing-6); padding-block-end: 0;
   }
-  .wui-card__content { padding: var(--wui-spacing-6); }
-  .wui-card__footer {
-    display: flex; align-items: center; gap: var(--wui-spacing-2);
-    padding: var(--wui-spacing-6); padding-block-start: 0;
+  .civ-card__content { padding: var(--civ-spacing-6); }
+  .civ-card__footer {
+    display: flex; align-items: center; gap: var(--civ-spacing-2);
+    padding: var(--civ-spacing-6); padding-block-start: 0;
   }
-  @container wui-card (max-width: 300px) {
-    .wui-card__header { flex-direction: column; align-items: flex-start; }
+  @container civ-card (max-width: 300px) {
+    .civ-card__header { flex-direction: column; align-items: flex-start; }
   }
 
-  .wui-card--interactive { cursor: pointer; }
+  .civ-card--interactive { cursor: pointer; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-card--interactive {
+    .civ-card--interactive {
       transition-property: transform, box-shadow, border-color;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-card--interactive:hover {
+    .civ-card--interactive:hover {
       transform: translateY(-2px);
-      box-shadow: var(--wui-elevation-3);
+      box-shadow: var(--civ-elevation-3);
     }
   }
 }
@@ -922,7 +922,7 @@ Replace with:
 
 - [ ] **Step 6: Build + test + visual check**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "Badge|Chip|Avatar|Skeleton|Card"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "Badge|Chip|Avatar|Skeleton|Card"`
 Expected: success.
 
 Open `/docs/components/data-display` in the dev server and confirm the five components now have the refined look.
@@ -953,17 +953,17 @@ Note: Dialog, Popover, Tooltip, Menu do NOT have Layer 1 CSS files; they ship vi
 
 For each of the three files, open and make these edits:
 
-1. Change the main surface selector's background from `--wui-color-card` (or `--wui-color-background`) to `var(--wui-surface-overlay)`.
-2. Replace any raw `box-shadow` with `var(--wui-elevation-4)`.
+1. Change the main surface selector's background from `--civ-color-card` (or `--civ-color-background`) to `var(--civ-surface-overlay)`.
+2. Replace any raw `box-shadow` with `var(--civ-elevation-4)`.
 3. Add `backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);` on the main panel.
-4. Add a `@supports not (backdrop-filter: blur(8px)) { ... }` fallback that sets `background-color: var(--wui-color-card);`.
-5. Wrap any existing transitions in `@media (prefers-reduced-motion: no-preference)` and use `var(--wui-motion-duration-base)` + `var(--wui-motion-easing-emphasized)` for enter/exit.
+4. Add a `@supports not (backdrop-filter: blur(8px)) { ... }` fallback that sets `background-color: var(--civ-color-card);`.
+5. Wrap any existing transitions in `@media (prefers-reduced-motion: no-preference)` and use `var(--civ-motion-duration-base)` + `var(--civ-motion-easing-emphasized)` for enter/exit.
 
 Do not change keyframe names, data-attribute hooks, or selectors — only the properties listed.
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "Drawer|Toast|CommandPalette"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "Drawer|Toast|CommandPalette"`
 
 - [ ] **Step 3: Visual check**
 
@@ -994,16 +994,16 @@ git commit -m "style(css): polish overlay family — elevation-4, backdrop blur,
 
 For each, make these edits:
 
-1. Use `var(--wui-elevation-2)` for primary chrome shadow (AppBar, BottomNav, Sidebar floating container).
-2. Replace raw transition durations with `var(--wui-motion-duration-fast)` for hover and `var(--wui-motion-duration-base)` for state changes.
-3. Replace raw easing with `var(--wui-motion-easing-standard)`.
+1. Use `var(--civ-elevation-2)` for primary chrome shadow (AppBar, BottomNav, Sidebar floating container).
+2. Replace raw transition durations with `var(--civ-motion-duration-fast)` for hover and `var(--civ-motion-duration-base)` for state changes.
+3. Replace raw easing with `var(--civ-motion-easing-standard)`.
 4. Wrap all transitions in `@media (prefers-reduced-motion: no-preference)`.
-5. Item hover: `background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent); color: var(--wui-color-primary);`
+5. Item hover: `background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent); color: var(--civ-color-primary);`
 6. Active item: use the same tonal style at 15%.
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "Sidebar|AppBar|BottomNav|Pagination|SpeedDial|Accordion"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "Sidebar|AppBar|BottomNav|Pagination|SpeedDial|Accordion"`
 
 - [ ] **Step 3: Commit**
 
@@ -1033,16 +1033,16 @@ git commit -m "style(css): polish navigation components — elevation-2, tonal h
 
 For each:
 
-1. Container elements get `var(--wui-elevation-1)` (very subtle) + `1px solid var(--wui-color-border)` + `border-radius: var(--wui-shape-radius-lg)`.
-2. Header rows / column headers: `background-color: var(--wui-surface-sunken);`.
-3. Row hover: `background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);`.
-4. Selected row: `background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);`.
+1. Container elements get `var(--civ-elevation-1)` (very subtle) + `1px solid var(--civ-color-border)` + `border-radius: var(--civ-shape-radius-lg)`.
+2. Header rows / column headers: `background-color: var(--civ-surface-sunken);`.
+3. Row hover: `background-color: color-mix(in oklch, var(--civ-color-primary) 4%, transparent);`.
+4. Selected row: `background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);`.
 5. Motion-safe transitions on `background-color` using duration-fast + easing-standard.
 6. Active handles (stepper dots, splitter grabbers): inset 1px highlight like the solid button recipe.
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "DataTable|TreeView|Transfer|Stepper|Timeline|Splitter"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "DataTable|TreeView|Transfer|Stepper|Timeline|Splitter"`
 
 - [ ] **Step 3: Commit**
 
@@ -1074,16 +1074,16 @@ git commit -m "style(css): polish data-display components — sunken headers, to
 
 For each:
 
-1. Container: `var(--wui-elevation-3)` on floating popover wrappers (date-picker, color-picker) with `backdrop-filter: blur(8px)` + fallback.
+1. Container: `var(--civ-elevation-3)` on floating popover wrappers (date-picker, color-picker) with `backdrop-filter: blur(8px)` + fallback.
 2. Inputs inside: inherit the polished input recipe (inset shadow + ring-soft focus).
-3. Slider track: `background-color: var(--wui-color-muted);` with the filled portion using the primary color; thumb gets inset highlight + `var(--wui-elevation-2)`.
-4. Rating star: solid has inset highlight; unfilled uses `color-mix(in oklch, var(--wui-color-foreground) 20%, transparent)`.
-5. Progress bar: inset shadow on track, solid fill with inset highlight. Indeterminate animation uses `var(--wui-motion-easing-emphasized)` with duration 1500ms.
+3. Slider track: `background-color: var(--civ-color-muted);` with the filled portion using the primary color; thumb gets inset highlight + `var(--civ-elevation-2)`.
+4. Rating star: solid has inset highlight; unfilled uses `color-mix(in oklch, var(--civ-color-foreground) 20%, transparent)`.
+5. Progress bar: inset shadow on track, solid fill with inset highlight. Indeterminate animation uses `var(--civ-motion-easing-emphasized)` with duration 1500ms.
 6. All transitions wrapped in motion-safe.
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "DatePicker|Calendar|ColorPicker|Slider|Rating|ProgressBar|Chart|Editor"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "DatePicker|Calendar|ColorPicker|Slider|Rating|ProgressBar|Chart|Editor"`
 
 - [ ] **Step 3: Commit**
 
@@ -1110,18 +1110,18 @@ git commit -m "style(css): polish advanced components — elevation on popovers,
 - [ ] **Step 1: Apply polish**
 
 For `button-group.css`:
-1. Ensure `.wui-button-group` has `display: inline-flex; box-shadow: var(--wui-elevation-1); border-radius: var(--wui-shape-radius-md); overflow: hidden;`.
+1. Ensure `.civ-button-group` has `display: inline-flex; box-shadow: var(--civ-elevation-1); border-radius: var(--civ-shape-radius-md); overflow: hidden;`.
 2. Internal buttons drop their own box-shadow; only the wrapping group carries the elevation.
-3. Divider between buttons: `border-inline-end: 1px solid color-mix(in oklch, var(--wui-color-border) 70%, transparent);` on all but last.
+3. Divider between buttons: `border-inline-end: 1px solid color-mix(in oklch, var(--civ-color-border) 70%, transparent);` on all but last.
 
 For `toggle-group.css`:
-1. Container: `background-color: var(--wui-surface-sunken); border-radius: var(--wui-shape-radius-md); padding: var(--wui-spacing-1);`
-2. Selected item: `background-color: var(--wui-surface-raised); box-shadow: var(--wui-elevation-1);`
+1. Container: `background-color: var(--civ-surface-sunken); border-radius: var(--civ-shape-radius-md); padding: var(--civ-spacing-1);`
+2. Selected item: `background-color: var(--civ-surface-raised); box-shadow: var(--civ-elevation-1);`
 3. Motion-safe transition between states using duration-fast + easing-standard.
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/css build && pnpm --filter @weiui/react test -- -t "ButtonGroup|ToggleGroup"`
+Run: `pnpm --filter @civaria/css build && pnpm --filter civaria test -- -t "ButtonGroup|ToggleGroup"`
 
 - [ ] **Step 3: Commit**
 
@@ -1149,20 +1149,20 @@ export const buttonVariants = tv({
     "inline-flex items-center justify-center gap-2",
     "font-medium select-none whitespace-nowrap",
     "border-2 border-transparent",
-    "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--wui-color-ring)]",
+    "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--civ-color-ring)]",
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none",
     "min-h-[44px] min-w-[44px]",
     "motion-safe:transition-[transform,box-shadow,background-color,border-color,color]",
-    "motion-safe:duration-[var(--wui-motion-duration-fast)]",
-    "motion-safe:ease-[var(--wui-motion-easing-standard)]",
+    "motion-safe:duration-[var(--civ-motion-duration-fast)]",
+    "motion-safe:ease-[var(--civ-motion-easing-standard)]",
   ],
   variants: {
     variant: {
       solid: [
-        "text-[var(--wui-color-primary-foreground)]",
-        "shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.12)]",
+        "text-[var(--civ-color-primary-foreground)]",
+        "shadow-[inset_0_1px_0_0_oklch(from_var(--civ-color-primary-foreground)_l_c_h_/_0.12)]",
         "motion-safe:hover:-translate-y-px",
-        "motion-safe:hover:shadow-[var(--wui-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.18)]",
+        "motion-safe:hover:shadow-[var(--civ-shadow-sm),inset_0_1px_0_0_oklch(from_var(--civ-color-primary-foreground)_l_c_h_/_0.18)]",
         "motion-safe:active:translate-y-0",
       ],
       outline: [
@@ -1176,11 +1176,11 @@ export const buttonVariants = tv({
       link: "bg-transparent underline-offset-4 hover:underline p-0 min-h-0 min-w-0 shadow-none",
     },
     size: {
-      sm: "h-9 px-3 text-sm rounded-[var(--wui-shape-radius-base)]",
-      md: "h-11 px-4 text-sm rounded-[var(--wui-shape-radius-md)]",
-      lg: "h-12 px-6 text-base rounded-[var(--wui-shape-radius-md)]",
-      xl: "h-14 px-8 text-lg rounded-[var(--wui-shape-radius-lg)]",
-      icon: "size-11 rounded-[var(--wui-shape-radius-md)]",
+      sm: "h-9 px-3 text-sm rounded-[var(--civ-shape-radius-base)]",
+      md: "h-11 px-4 text-sm rounded-[var(--civ-shape-radius-md)]",
+      lg: "h-12 px-6 text-base rounded-[var(--civ-shape-radius-md)]",
+      xl: "h-14 px-8 text-lg rounded-[var(--civ-shape-radius-lg)]",
+      icon: "size-11 rounded-[var(--civ-shape-radius-md)]",
     },
     color: {
       primary: "",
@@ -1192,12 +1192,12 @@ export const buttonVariants = tv({
     },
   },
   compoundVariants: [
-    { variant: "solid", color: "primary", className: "bg-[var(--wui-color-primary)]" },
-    { variant: "solid", color: "destructive", className: "bg-[var(--wui-color-destructive)] text-[var(--wui-color-destructive-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.12)] motion-safe:hover:shadow-[var(--wui-shadow-sm),inset_0_1px_0_0_oklch(from_var(--wui-color-destructive-foreground)_l_c_h_/_0.18)]" },
-    { variant: "solid", color: "success", className: "bg-[var(--wui-color-success)] text-[var(--wui-color-success-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-success-foreground)_l_c_h_/_0.12)]" },
-    { variant: "outline", color: "primary", className: "border-[var(--wui-color-primary)] text-[var(--wui-color-primary)] hover:bg-[color-mix(in_oklch,var(--wui-color-primary)_8%,transparent)]" },
-    { variant: "ghost", color: "primary", className: "text-[var(--wui-color-primary)] hover:bg-[color-mix(in_oklch,var(--wui-color-primary)_8%,transparent)]" },
-    { variant: "soft", color: "primary", className: "bg-[color-mix(in_oklch,var(--wui-color-primary)_10%,transparent)] text-[var(--wui-color-primary)] hover:bg-[color-mix(in_oklch,var(--wui-color-primary)_15%,transparent)]" },
+    { variant: "solid", color: "primary", className: "bg-[var(--civ-color-primary)]" },
+    { variant: "solid", color: "destructive", className: "bg-[var(--civ-color-destructive)] text-[var(--civ-color-destructive-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--civ-color-destructive-foreground)_l_c_h_/_0.12)] motion-safe:hover:shadow-[var(--civ-shadow-sm),inset_0_1px_0_0_oklch(from_var(--civ-color-destructive-foreground)_l_c_h_/_0.18)]" },
+    { variant: "solid", color: "success", className: "bg-[var(--civ-color-success)] text-[var(--civ-color-success-foreground)] shadow-[inset_0_1px_0_0_oklch(from_var(--civ-color-success-foreground)_l_c_h_/_0.12)]" },
+    { variant: "outline", color: "primary", className: "border-[var(--civ-color-primary)] text-[var(--civ-color-primary)] hover:bg-[color-mix(in_oklch,var(--civ-color-primary)_8%,transparent)]" },
+    { variant: "ghost", color: "primary", className: "text-[var(--civ-color-primary)] hover:bg-[color-mix(in_oklch,var(--civ-color-primary)_8%,transparent)]" },
+    { variant: "soft", color: "primary", className: "bg-[color-mix(in_oklch,var(--civ-color-primary)_10%,transparent)] text-[var(--civ-color-primary)] hover:bg-[color-mix(in_oklch,var(--civ-color-primary)_15%,transparent)]" },
   ],
   defaultVariants: {
     variant: "solid",
@@ -1211,7 +1211,7 @@ export type ButtonVariants = Parameters<typeof buttonVariants>[0];
 
 - [ ] **Step 2: Build + test**
 
-Run: `pnpm --filter @weiui/react build && pnpm --filter @weiui/react test -- -t "Button"`
+Run: `pnpm --filter civaria build && pnpm --filter civaria test -- -t "Button"`
 Expected: build succeeds; tests pass.
 
 - [ ] **Step 3: Visual check**
@@ -1241,28 +1241,28 @@ For every variant file:
 
 1. Add to `base` array (if not present):
    - `"motion-safe:transition-[transform,box-shadow,background-color,border-color,color]"`
-   - `"motion-safe:duration-[var(--wui-motion-duration-fast)]"`
-   - `"motion-safe:ease-[var(--wui-motion-easing-standard)]"`
+   - `"motion-safe:duration-[var(--civ-motion-duration-fast)]"`
+   - `"motion-safe:ease-[var(--civ-motion-easing-standard)]"`
 
 2. Wherever the variant targets a "solid" appearance (filled background with foreground text), add:
-   - `"shadow-[inset_0_1px_0_0_oklch(from_var(--wui-color-primary-foreground)_l_c_h_/_0.12)]"`
+   - `"shadow-[inset_0_1px_0_0_oklch(from_var(--civ-color-primary-foreground)_l_c_h_/_0.12)]"`
 
 3. Wherever the variant targets an "input-like" (bordered container with background), add:
    - `"shadow-[inset_0_1px_2px_0_oklch(0_0_0_/_0.04)]"`
-   - Replace `focus:outline-[var(--wui-color-ring)]` with `focus-visible:outline-[3px] focus-visible:outline-[var(--wui-color-ring)]` and add `focus-visible:[outline-style:solid]`.
+   - Replace `focus:outline-[var(--civ-color-ring)]` with `focus-visible:outline-[3px] focus-visible:outline-[var(--civ-color-ring)]` and add `focus-visible:[outline-style:solid]`.
 
-4. Replace any literal `duration-*` (e.g., `duration-200`) with the token-backed variant: `motion-safe:duration-[var(--wui-motion-duration-fast)]`.
+4. Replace any literal `duration-*` (e.g., `duration-200`) with the token-backed variant: `motion-safe:duration-[var(--civ-motion-duration-fast)]`.
 
 5. Wherever a component is "overlay-like" (popover, menu, tooltip, dialog, drawer), add to its surface classes:
-   - `"shadow-[var(--wui-elevation-4)]"`
+   - `"shadow-[var(--civ-elevation-4)]"`
    - `"backdrop-blur-[8px]"`
-   - `"supports-[not_(backdrop-filter:blur(8px))]:bg-[var(--wui-color-card)]"`
+   - `"supports-[not_(backdrop-filter:blur(8px))]:bg-[var(--civ-color-card)]"`
 
 Edit each file, save.
 
 - [ ] **Step 3: Build + test after every 5 files**
 
-Run after editing each batch of 5: `pnpm --filter @weiui/react build && pnpm --filter @weiui/react test`
+Run after editing each batch of 5: `pnpm --filter civaria build && pnpm --filter civaria test`
 If any batch fails, stop, fix, then continue.
 
 - [ ] **Step 4: Visual check**
@@ -1347,7 +1347,7 @@ Expected: zero errors.
 
 - [ ] **Step 4: Contrast validation**
 
-Run: `pnpm --filter @weiui/tokens validate`
+Run: `pnpm --filter @civaria/tokens validate`
 Expected: all AAA-required pairs pass; AA-minimum pairs pass.
 
 - [ ] **Step 5: Accessibility tests**

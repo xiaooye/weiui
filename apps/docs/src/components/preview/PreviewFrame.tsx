@@ -44,15 +44,15 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
   <head>
     ${sheets}
     <style>
-      body { margin: 0; padding: 24px; font-family: var(--wui-font-family-sans); background: var(--wui-color-background); color: var(--wui-color-foreground); }
-      #wui-preview-root { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      body { margin: 0; padding: 24px; font-family: var(--civ-font-family-sans); background: var(--civ-color-background); color: var(--civ-color-foreground); }
+      #civ-preview-root { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     </style>
   </head>
-  <body><div id="wui-preview-root"></div></body>
+  <body><div id="civ-preview-root"></div></body>
 </html>`);
     doc.close();
 
-    const root = doc.getElementById("wui-preview-root");
+    const root = doc.getElementById("civ-preview-root");
     setContainer(root);
   }, [theme, dir]);
 
@@ -62,7 +62,7 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
     <>
       <iframe
         ref={iframeRef}
-        className="wui-preview__frame"
+        className="civ-preview__frame"
         style={{ inlineSize, blockSize: 320, border: 0 }}
         title="Component preview"
       />

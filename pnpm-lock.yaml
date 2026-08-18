@@ -31,27 +31,27 @@ importers:
 
   apps/docs:
     dependencies:
+      '@civaria/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@civaria/css':
+        specifier: workspace:*
+        version: link:../../packages/css
+      '@civaria/headless':
+        specifier: workspace:*
+        version: link:../../packages/headless
+      '@civaria/icons':
+        specifier: workspace:*
+        version: link:../../packages/icons
+      '@civaria/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       '@vercel/analytics':
         specifier: ^2.0.1
         version: 2.0.1(next@15.5.21(@babel/core@7.29.0)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)(svelte@5.56.9)(vue@3.5.41(typescript@5.9.3))
-      '@weiui/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@weiui/css':
-        specifier: workspace:*
-        version: link:../../packages/css
-      '@weiui/headless':
-        specifier: workspace:*
-        version: link:../../packages/headless
-      '@weiui/icons':
-        specifier: workspace:*
-        version: link:../../packages/icons
-      '@weiui/react':
+      civaria:
         specifier: workspace:*
         version: link:../../packages/react
-      '@weiui/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
       next:
         specifier: ^15.5
         version: 15.5.21(@babel/core@7.29.0)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -147,10 +147,10 @@ importers:
 
   packages/cli:
     dependencies:
-      '@weiui/core':
+      '@civaria/core':
         specifier: workspace:*
         version: link:../core
-      '@weiui/mcp':
+      '@civaria/mcp':
         specifier: workspace:*
         version: link:../mcp
       commander:
@@ -183,21 +183,21 @@ importers:
 
   packages/elements:
     dependencies:
-      '@weiui/core':
+      '@civaria/core':
         specifier: workspace:*
         version: link:../core
-      '@weiui/css':
+      '@civaria/css':
         specifier: workspace:*
         version: link:../css
 
   packages/headless:
     dependencies:
+      '@civaria/core':
+        specifier: workspace:*
+        version: link:../core
       '@floating-ui/react':
         specifier: ^0.27
         version: 0.27.19(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@weiui/core':
-        specifier: workspace:*
-        version: link:../core
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.6
@@ -247,12 +247,12 @@ importers:
 
   packages/mcp:
     dependencies:
+      '@civaria/core':
+        specifier: workspace:*
+        version: link:../core
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
         version: 1.29.0(zod@3.25.76)
-      '@weiui/core':
-        specifier: workspace:*
-        version: link:../core
       zod:
         specifier: ^3.23.0
         version: 3.25.76
@@ -272,6 +272,15 @@ importers:
 
   packages/react:
     dependencies:
+      '@civaria/core':
+        specifier: workspace:*
+        version: link:../core
+      '@civaria/css':
+        specifier: workspace:*
+        version: link:../css
+      '@civaria/headless':
+        specifier: workspace:*
+        version: link:../headless
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -305,15 +314,6 @@ importers:
       '@tiptap/starter-kit':
         specifier: 3.30.1
         version: 3.30.1
-      '@weiui/core':
-        specifier: workspace:*
-        version: link:../core
-      '@weiui/css':
-        specifier: workspace:*
-        version: link:../css
-      '@weiui/headless':
-        specifier: workspace:*
-        version: link:../headless
       lowlight:
         specifier: ^3.3.0
         version: 3.3.0
@@ -366,10 +366,10 @@ importers:
 
   packages/solid:
     dependencies:
-      '@weiui/core':
+      '@civaria/core':
         specifier: workspace:*
         version: link:../core
-      '@weiui/css':
+      '@civaria/css':
         specifier: workspace:*
         version: link:../css
     devDependencies:
@@ -385,10 +385,10 @@ importers:
 
   packages/svelte:
     dependencies:
-      '@weiui/core':
+      '@civaria/core':
         specifier: workspace:*
         version: link:../core
-      '@weiui/css':
+      '@civaria/css':
         specifier: workspace:*
         version: link:../css
     devDependencies:
@@ -398,7 +398,7 @@ importers:
 
   packages/tokens:
     dependencies:
-      '@weiui/a11y':
+      '@civaria/a11y':
         specifier: workspace:*
         version: link:../a11y
     devDependencies:
@@ -411,10 +411,10 @@ importers:
 
   packages/vue:
     dependencies:
-      '@weiui/core':
+      '@civaria/core':
         specifier: workspace:*
         version: link:../core
-      '@weiui/css':
+      '@civaria/css':
         specifier: workspace:*
         version: link:../css
     devDependencies:

@@ -1,5 +1,5 @@
 import { access, readFile } from "node:fs/promises";import { join } from "node:path";import { pathToFileURL } from "node:url";
 const root=new URL("..",import.meta.url).pathname;const {componentRegistry}=await import(pathToFileURL(join(root,"packages/core/dist/registry.js")));const required=["Button","Accordion","Dialog","Menu","Popover","Select","Tabs","Tooltip","Combobox","Checkbox","Switch"],frameworks=["react","vue","solid","svelte","elements"];
 for(const name of required){const entry=componentRegistry.find(item=>item.name===name);if(!entry)throw new Error(`registry missing ${name}`);for(const framework of frameworks)if(!entry.frameworks[framework])throw new Error(`${name} missing ${framework} support`)}
-for(const framework of ["vue","solid","svelte","elements"]){await access(join(root,`packages/${framework}/dist/index.js`));const pkg=JSON.parse(await readFile(join(root,`packages/${framework}/package.json`),"utf8"));for(const other of frameworks)if(other!==framework&&pkg.dependencies?.[`@weiui/${other}`])throw new Error(`${framework} runtime depends on ${other}`)}
-console.log("WeiUI required runtime parity: OK");
+for(const framework of ["vue","solid","svelte","elements"]){await access(join(root,`packages/${framework}/dist/index.js`));const pkg=JSON.parse(await readFile(join(root,`packages/${framework}/package.json`),"utf8"));for(const other of frameworks)if(other!==framework&&pkg.dependencies?.[`@civaria/${other}`])throw new Error(`${framework} runtime depends on ${other}`)}
+console.log("Civaria required runtime parity: OK");

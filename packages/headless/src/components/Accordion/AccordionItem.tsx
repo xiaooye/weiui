@@ -22,7 +22,7 @@ export function AccordionItem({ value, children }: AccordionItemProps) {
       }}
     >
       <div
-        data-wui-component="accordion"
+        data-civaria-component="accordion"
         data-part="item"
         data-state={isExpanded ? "open" : "closed"}
       >

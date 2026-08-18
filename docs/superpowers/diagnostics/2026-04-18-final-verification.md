@@ -13,16 +13,16 @@ audit summary at `docs/superpowers/plans/2026-04-16-completion-summary.md`.
 
 | # | Check | Result | Notes |
 |---|-------|--------|-------|
-| 2.1 | Full build (`pnpm build`) | PASS | All 8 packages build. `@weiui/docs` builds with 0 warnings. |
+| 2.1 | Full build (`pnpm build`) | PASS | All 8 packages build. `@civaria/docs` builds with 0 warnings. |
 | 2.1 | Full test (`pnpm test`) | PASS | **884 tests in 67 files pass** — up from 612 at 2026-04-17. |
-| 2.1 | Tokens validate (`pnpm --filter @weiui/tokens validate`) | PASS | 6 pairs pass contrast (1 AAA + 5 AA). |
+| 2.1 | Tokens validate (`pnpm --filter @civaria/tokens validate`) | PASS | 6 pairs pass contrast (1 AAA + 5 AA). |
 | 2.2 | Tailwind class leakage in React components | PASS | Unchanged from 2026-04-17. |
 | 2.3 | CSS class existence | PASS | Unchanged — no new components added in Wave F. |
 | 2.4 | CSS import completeness | PASS | Unchanged. |
 | 2.5 | Demo file coverage | PASS | 83 demo files cover every component (includes new `AvatarGroupDemo`, `AlertDismissibleDemo`, `StepperClickableDemo`, `TimelineAlternateDemo`, `SidebarGroupedDemo`, `InputClearableDemo`, `SignupFormDemo`). |
 | 2.6 | Orphan demos | PASS | New demos are all imported by at least one MDX page. |
 | 2.7 | Demo interactivity | PASS | Every demo marked `"use client"` where needed. |
-| 2.8 | Built HTML inspection | PASS | Docs build emits expected `wui-*` classes; no Tailwind utilities in output. |
+| 2.8 | Built HTML inspection | PASS | Docs build emits expected `civ-*` classes; no Tailwind utilities in output. |
 | 2.9 | Contrast validation | PASS | Same as 2.1. |
 
 ---
@@ -42,7 +42,7 @@ All 19 planned commits landed. Summary:
 | F.7  | `docs(docs): rewrite /feedback to 4/5 quality`                            | `313224f` | 116 → ~230 lines |
 | F.8  | `docs(docs): rewrite /stepper-timeline to 4/5 quality`                    | `2ec5069` | 97 → ~215 lines |
 | F.9  | `docs(docs): rewrite /sidebar-drawer to 4/5 quality`                      | `e94a0e1` | 109 → ~225 lines + re-exported `SidebarGroup` / `SidebarSubMenu` |
-| F.10 | `docs(docs): expand /input with sizes/addons/variants`                    | `fa808a7` | 99 → ~215 lines + docs dep on `@weiui/icons` |
+| F.10 | `docs(docs): expand /input with sizes/addons/variants`                    | `fa808a7` | 99 → ~215 lines + docs dep on `@civaria/icons` |
 | F.11 | `docs(docs): expand /navigation with new features + SPA integration`      | `f174297` | 186 → ~290 lines; absorbs Pagination/AppBar/BottomNav/SpeedDial |
 | F.12 | `docs(docs): expand /toast-chip-progress with promise toast + polish`     | `1a766ca` | ~200 → ~290 lines |
 | F.13 | `docs(docs): dissolve wave2-3 orphan page`                                | `9e3bdf8` | Deleted `/wave2-3`; redistributed to themed pages + sidebar cleanup |
@@ -60,7 +60,7 @@ All 19 planned commits landed. Summary:
 All P1 items from `docs/audit/component-parity.md` that were scoped for Waves B-E shipped (per commit `e51a57a`). Wave F closed the remaining library-level P1s:
 
 - **Icon count:** was 15 (critical gap), now 61.
-- **CLI surface:** `add` command now ships, bringing WeiUI to shadcn parity on the copy-paste story.
+- **CLI surface:** `add` command now ships, bringing Civaria to shadcn parity on the copy-paste story.
 - **Composer palette:** was 9 components (< 14 % coverage), now 65 (100 %).
 - **npm metadata:** was missing on all 7 packages, now complete (author, description, keywords, repo, homepage, license, bugs).
 - **Changelog scaffolds:** per-package CHANGELOG files now exist.
@@ -81,5 +81,5 @@ Prior to Wave F, the 7 grouped pages averaged **1.4 / 5** quality. After F.6-F.1
 ## What didn't ship in Wave F
 
 - **F.20 push** is the next step — no code/doc changes, just `git push origin main`.
-- Wave G (docs dogfooding + polish) remains untouched — it's a separate wave that rewrites the docs site chrome to consume `@weiui/react` exclusively.
+- Wave G (docs dogfooding + polish) remains untouched — it's a separate wave that rewrites the docs site chrome to consume `civaria` exclusively.
 - Automated codemod tool for migration guides — mentioned as a Post-1.0 milestone in the migration page.

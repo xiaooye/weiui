@@ -51,4 +51,4 @@ await writeFile(join(out, "vue.d.ts"), `import type { DefineComponent } from "vu
 await writeFile(join(out, "solid.d.ts"), `import type { IconData } from "./index.js"; export type IconComponent=(props:{size?:number|string;width?:number|string;height?:number|string;[key:string]:unknown})=>unknown; export function createSolidIcon(data:IconData):IconComponent; ${componentNames}`);
 await writeFile(join(out, "svelte.d.ts"), `import type { Component } from "svelte"; export type IconComponent=Component<{size?:number|string;width?:number|string;height?:number|string}>; ${componentNames}`);
 await writeFile(join(out, "svg.d.ts"), `import type { IconData } from "./index.js"; export function toSvg(data:IconData,attrs?:Record<string,string|number>):string;`);
-console.log(`Generated ${records.length} framework-neutral WeiUI icons`);
+console.log(`Generated ${records.length} framework-neutral Civaria icons`);

@@ -1,6 +1,6 @@
 "use client";
 import { Component, type ReactNode } from "react";
-import { EmptyState, Button } from "@weiui/react";
+import { EmptyState, Button } from "civaria";
 
 interface State {
   error: Error | null;

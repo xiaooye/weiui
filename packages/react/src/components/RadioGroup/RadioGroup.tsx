@@ -11,7 +11,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
-import { useControllable, useId } from "@weiui/headless";
+import { useControllable, useId } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 
 interface RadioGroupContextValue {
@@ -152,7 +152,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       [groupName, currentValue, setCurrentValue, registerItem, onItemKeyDown, disabled, required, invalid],
     );
 
-    const sizeClass = size === "sm" ? "wui-radio-group--sm" : size === "lg" ? "wui-radio-group--lg" : "";
+    const sizeClass = size === "sm" ? "civ-radio-group--sm" : size === "lg" ? "civ-radio-group--lg" : "";
 
     return (
       <RadioGroupContext.Provider value={ctxValue}>
@@ -163,8 +163,8 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
           data-disabled={disabled || undefined}
           aria-invalid={invalid || undefined}
           className={cn(
-            "wui-radio-group",
-            orientation === "vertical" && "wui-radio-group--vertical",
+            "civ-radio-group",
+            orientation === "vertical" && "civ-radio-group--vertical",
             sizeClass,
             className,
           )}
@@ -223,15 +223,15 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
     const resolvedRequired = groupRequired;
 
     return (
-      <div className={cn("wui-radio", className)}>
-        <div className="wui-radio__row">
+      <div className={cn("civ-radio", className)}>
+        <div className="civ-radio__row">
           <input
             ref={setRef}
             type="radio"
             id={inputId}
             name={name}
             value={value}
-            className="wui-radio__input"
+            className="civ-radio__input"
             checked={groupValue === value}
             onChange={() => onChange(value)}
             onKeyDown={(e) => {
@@ -246,13 +246,13 @@ export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
             aria-describedby={describedBy}
           />
           {label && (
-            <label htmlFor={inputId} className="wui-radio__label">
+            <label htmlFor={inputId} className="civ-radio__label">
               {label}
             </label>
           )}
         </div>
         {hasDescription && (
-          <p id={descId} className="wui-radio__description">
+          <p id={descId} className="civ-radio__description">
             {description}
           </p>
         )}

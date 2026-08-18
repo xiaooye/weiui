@@ -8,7 +8,7 @@ import type { ComponentSchema } from "../../../lib/component-schema-loader";
  *
  * Uses the public `sandboxes/define?json=1` endpoint — no auth needed. The
  * payload bundles the generated `App.tsx`, an `index.tsx` entry that imports
- * WeiUI styles, a `package.json`, and a minimal HTML shell.
+ * Civaria styles, a `package.json`, and a minimal HTML shell.
  */
 export async function openInCodeSandbox(
   tree: ComponentNode[],
@@ -28,8 +28,8 @@ export async function openInCodeSandbox(
   });
 
   const indexTsx =
-    `import "@weiui/tokens/tokens.css";\n` +
-    `import "@weiui/css";\n` +
+    `import "@civaria/tokens/tokens.css";\n` +
+    `import "@civaria/css";\n` +
     `import { createRoot } from "react-dom/client";\n` +
     `import App from "./App";\n` +
     `const el = document.getElementById("root");\n` +
@@ -41,7 +41,7 @@ export async function openInCodeSandbox(
     `  <head>\n` +
     `    <meta charset="utf-8" />\n` +
     `    <meta name="viewport" content="width=device-width, initial-scale=1" />\n` +
-    `    <title>WeiUI Composition</title>\n` +
+    `    <title>Civaria Composition</title>\n` +
     `  </head>\n` +
     `  <body>\n` +
     `    <div id="root"></div>\n` +
@@ -51,13 +51,13 @@ export async function openInCodeSandbox(
 
   const packageJson = JSON.stringify(
     {
-      name: "weiui-composition",
+      name: "civaria-composition",
       version: "0.0.0",
       private: true,
       dependencies: {
-        "@weiui/react": "latest",
-        "@weiui/css": "latest",
-        "@weiui/tokens": "latest",
+        "civaria": "latest",
+        "@civaria/css": "latest",
+        "@civaria/tokens": "latest",
         react: "^19.0.0",
         "react-dom": "^19.0.0",
       },

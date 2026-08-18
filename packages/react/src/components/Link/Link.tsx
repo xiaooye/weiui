@@ -69,14 +69,14 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         ...props,
         ...resolvedExternalAttrs,
         ref,
-        className: cn("wui-link", childProps.className, className),
+        className: cn("civ-link", childProps.className, className),
         "data-external": resolvedIsExt || undefined,
         "data-underline": underline,
         children: (
           <>
             {childProps.children}
             {resolvedIsExt && showExternalIcon && (
-              <span className="wui-link__external-icon" aria-hidden="true">
+              <span className="civ-link__external-icon" aria-hidden="true">
                 {"\u2197"}
               </span>
             )}
@@ -89,7 +89,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       <a
         ref={ref}
         href={href}
-        className={cn("wui-link", className)}
+        className={cn("civ-link", className)}
         data-external={isExt || undefined}
         data-underline={underline}
         {...externalAttrs}
@@ -97,7 +97,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       >
         {children}
         {isExt && showExternalIcon && (
-          <span className="wui-link__external-icon" aria-hidden="true">
+          <span className="civ-link__external-icon" aria-hidden="true">
             {"\u2197"}
           </span>
         )}

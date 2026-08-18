@@ -8,10 +8,10 @@ Follow it exactly. Deviations need explicit justification in the PR.
 Add an inset 1px highlight for Volt-style depth:
 
 ```css
-.wui-button--solid {
-  background-color: var(--wui-color-primary);
-  color: var(--wui-color-primary-foreground);
-  box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+.civ-button--solid {
+  background-color: var(--civ-color-primary);
+  color: var(--civ-color-primary-foreground);
+  box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
 }
 ```
 
@@ -21,14 +21,14 @@ Motion-safe translateY + shadow bump:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .wui-button:hover {
+  .civ-button:hover {
     transform: translateY(-1px);
-    box-shadow: var(--wui-shadow-sm),
-                inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.15);
+    box-shadow: var(--civ-shadow-sm),
+                inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.15);
   }
-  .wui-button:active {
+  .civ-button:active {
     transform: translateY(0);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.10);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.10);
   }
 }
 ```
@@ -38,12 +38,12 @@ Motion-safe translateY + shadow bump:
 Soft inner shadow at rest; sharper focus ring with color-mix transition. No hover lift.
 
 ```css
-.wui-input {
+.civ-input {
   box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
 }
-.wui-input:focus-within {
-  border-color: var(--wui-color-ring);
-  outline: 3px solid var(--wui-color-ring-soft);
+.civ-input:focus-within {
+  border-color: var(--civ-color-ring);
+  outline: 3px solid var(--civ-color-ring-soft);
   outline-offset: 0;
   box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
 }
@@ -54,10 +54,10 @@ Soft inner shadow at rest; sharper focus ring with color-mix transition. No hove
 Use `elevation-2` + `surface-raised` + hairline border.
 
 ```css
-.wui-card {
-  background-color: var(--wui-surface-raised);
-  border: 1px solid var(--wui-color-border);
-  box-shadow: var(--wui-elevation-2);
+.civ-card {
+  background-color: var(--civ-surface-raised);
+  border: 1px solid var(--civ-color-border);
+  box-shadow: var(--civ-elevation-2);
 }
 ```
 
@@ -66,14 +66,14 @@ Use `elevation-2` + `surface-raised` + hairline border.
 `elevation-4` or higher + backdrop-filter with fallback.
 
 ```css
-.wui-popover {
-  background-color: var(--wui-surface-overlay);
-  box-shadow: var(--wui-elevation-4);
+.civ-popover {
+  background-color: var(--civ-surface-overlay);
+  box-shadow: var(--civ-elevation-4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 @supports not (backdrop-filter: blur(8px)) {
-  .wui-popover { background-color: var(--wui-color-card); }
+  .civ-popover { background-color: var(--civ-color-card); }
 }
 ```
 
@@ -83,10 +83,10 @@ Replace any raw `200ms` or `cubic-bezier(...)` with tokens:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .wui-button {
+  .civ-button {
     transition-property: transform, box-shadow, background-color, border-color, color;
-    transition-duration: var(--wui-motion-duration-fast);
-    transition-timing-function: var(--wui-motion-easing-standard);
+    transition-duration: var(--civ-motion-duration-fast);
+    transition-timing-function: var(--civ-motion-easing-standard);
   }
 }
 ```
@@ -96,12 +96,12 @@ Replace any raw `200ms` or `cubic-bezier(...)` with tokens:
 Use `color-mix` in OKLCH for consistent tints across light/dark:
 
 ```css
-.wui-button--soft {
-  background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-  color: var(--wui-color-primary);
+.civ-button--soft {
+  background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+  color: var(--civ-color-primary);
 }
-.wui-button--soft:hover {
-  background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+.civ-button--soft:hover {
+  background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
 }
 ```
 

@@ -1,29 +1,29 @@
-@layer wui-elements {
-  .wui-skeleton {
+@layer civ-elements {
+  .civ-skeleton {
     display: block;
-    background-color: var(--wui-color-muted);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: var(--civ-color-muted);
+    border-radius: var(--civ-shape-radius-base);
     position: relative;
     overflow: hidden;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-skeleton::after {
+    .civ-skeleton::after {
       content: "";
       position: absolute; inset: 0;
       background-image: linear-gradient(
         90deg,
         transparent 0%,
-        color-mix(in oklch, var(--wui-color-background) 50%, transparent) 50%,
+        color-mix(in oklch, var(--civ-color-background) 50%, transparent) 50%,
         transparent 100%
       );
-      animation: wui-skeleton-shimmer 1.6s var(--wui-motion-easing-standard) infinite;
+      animation: civ-skeleton-shimmer 1.6s var(--civ-motion-easing-standard) infinite;
     }
   }
-  @keyframes wui-skeleton-shimmer {
+  @keyframes civ-skeleton-shimmer {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
-  .wui-skeleton--circle { border-radius: var(--wui-shape-radius-full); }
-  .wui-skeleton--line   { block-size: 1em; }
-  .wui-skeleton--text   { block-size: 1em; border-radius: var(--wui-shape-radius-sm); }
+  .civ-skeleton--circle { border-radius: var(--civ-shape-radius-full); }
+  .civ-skeleton--line   { block-size: 1em; }
+  .civ-skeleton--text   { block-size: 1em; border-radius: var(--civ-shape-radius-sm); }
 }

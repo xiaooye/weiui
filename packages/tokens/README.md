@@ -1,11 +1,11 @@
-# @weiui/tokens
+# @civaria/tokens
 
 Design tokens in W3C Design Tokens Community Group format, compiled to CSS custom properties, TypeScript declarations, and flat JSON.
 
 ## Install
 
 ```bash
-pnpm add @weiui/tokens
+pnpm add @civaria/tokens
 ```
 
 ## Usage
@@ -13,21 +13,21 @@ pnpm add @weiui/tokens
 ### CSS
 
 ```css
-@import "@weiui/tokens/tokens.css";
+@import "@civaria/tokens/tokens.css";
 ```
 
-Applies all tokens as CSS custom properties on `:root` (light) and `.dark` (dark mode). The generated CSS also registers WeiUI's canonical cascade order, including the `wui-theme` slot used by branded consumers:
+Applies all tokens as CSS custom properties on `:root` (light) and `.dark` (dark mode). The generated CSS also registers Civaria's canonical cascade order, including the `civ-theme` slot used by branded consumers:
 
 ```css
-@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;
+@layer civ-reset, civ-tokens, civ-theme, civ-base, civ-elements, civ-utilities;
 ```
 
-A product theme should override semantic `--wui-*` properties in `@layer wui-theme` rather than modify the generated token bundle.
+A product theme should override semantic `--civ-*` properties in `@layer civ-theme` rather than modify the generated token bundle.
 
 ### TypeScript
 
 ```ts
-import { tokens } from "@weiui/tokens";
+import { tokens } from "@civaria/tokens";
 
 tokens.color.primary;            // "oklch(...)"
 tokens.spacing["4"];
@@ -37,7 +37,7 @@ tokens.typography.fontSize.lg;
 ### Raw JSON
 
 ```ts
-import tokensJson from "@weiui/tokens/tokens.json";
+import tokensJson from "@civaria/tokens/tokens.json";
 ```
 
 ## Categories

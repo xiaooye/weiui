@@ -1,7 +1,7 @@
 "use client";
 
-import { DataTable, type ColumnDef } from "@weiui/react/data-table";
-import { Badge } from "@weiui/react";
+import { DataTable, type ColumnDef } from "civaria/data-table";
+import { Badge } from "civaria";
 
 type User = {
   name: string;

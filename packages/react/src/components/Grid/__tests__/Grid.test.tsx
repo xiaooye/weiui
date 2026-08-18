@@ -9,9 +9,9 @@ describe("Grid", () => {
     expect(screen.getByText("content")).toBeInTheDocument();
   });
 
-  it("applies wui-grid class", () => {
+  it("applies civ-grid class", () => {
     const { container } = render(<Grid>content</Grid>);
-    expect(container.firstChild).toHaveClass("wui-grid");
+    expect(container.firstChild).toHaveClass("civ-grid");
   });
 
   it("applies numeric columns as repeat(n, 1fr)", () => {
@@ -26,7 +26,7 @@ describe("Grid", () => {
 
   it("applies gap via style", () => {
     const { container } = render(<Grid gap={4}>content</Grid>);
-    expect(container.firstChild).toHaveStyle({ gap: "var(--wui-spacing-4)" });
+    expect(container.firstChild).toHaveStyle({ gap: "var(--civ-spacing-4)" });
   });
 
   it("forwards ref", () => {

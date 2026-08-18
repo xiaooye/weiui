@@ -1,128 +1,128 @@
-@layer wui-elements {
-  .wui-transfer {
+@layer civ-elements {
+  .civ-transfer {
     display: flex;
     align-items: stretch;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
   }
-  .wui-transfer__list {
+  .civ-transfer__list {
     flex: 1;
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-1);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
   }
-  .wui-transfer__header {
+  .civ-transfer__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-3);
-    border-block-end: 1px solid var(--wui-color-border);
-    background-color: var(--wui-surface-sunken);
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-medium);
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-3);
+    border-block-end: 1px solid var(--civ-color-border);
+    background-color: var(--civ-surface-sunken);
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-medium);
   }
-  .wui-transfer__items {
+  .civ-transfer__items {
     flex: 1;
     overflow-block: auto;
     max-block-size: 300px;
   }
-  .wui-transfer__item {
+  .civ-transfer__item {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     min-block-size: 44px;
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-3);
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-3);
     cursor: pointer;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-transfer__item:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
+  .civ-transfer__item:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 4%, transparent);
   }
-  .wui-transfer__item[data-selected] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-transfer__item[data-selected] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-transfer__actions {
+  .civ-transfer__actions {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
   }
-  .wui-transfer__move-btn {
+  .civ-transfer__move-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     min-block-size: 44px;
     min-inline-size: 44px;
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    background: var(--wui-color-background);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    background: var(--civ-color-background);
     cursor: pointer;
-    font-size: var(--wui-font-size-base);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-base);
+    color: var(--civ-color-foreground);
   }
-  .wui-transfer__move-btn:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-transfer__move-btn:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-transfer__move-btn:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-transfer__move-btn:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-transfer__move-btn[data-disabled] {
+  .civ-transfer__move-btn[data-disabled] {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
-  .wui-transfer__header-label {
+  .civ-transfer__header-label {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     cursor: pointer;
   }
-  .wui-transfer__select-all {
-    accent-color: var(--wui-color-primary);
+  .civ-transfer__select-all {
+    accent-color: var(--civ-color-primary);
     inline-size: 16px;
     block-size: 16px;
   }
-  .wui-transfer__search-wrap {
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-3);
-    border-block-end: 1px solid var(--wui-color-border);
+  .civ-transfer__search-wrap {
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-3);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-transfer__search {
+  .civ-transfer__search {
     inline-size: 100%;
     min-block-size: 32px;
-    padding-inline: var(--wui-spacing-2);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    background: var(--wui-color-background);
-    color: var(--wui-color-foreground);
-    font-size: var(--wui-font-size-sm);
+    padding-inline: var(--civ-spacing-2);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    background: var(--civ-color-background);
+    color: var(--civ-color-foreground);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-transfer__search:focus {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-transfer__search:focus {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 0;
-    border-color: var(--wui-color-ring);
+    border-color: var(--civ-color-ring);
   }
-  .wui-transfer__items:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-transfer__items:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -3px;
   }
-  .wui-transfer__item[data-focused]:not([data-selected]) {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 6%, transparent);
+  .civ-transfer__item[data-focused]:not([data-selected]) {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 6%, transparent);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-transfer__item,
-    .wui-transfer__move-btn {
+    .civ-transfer__item,
+    .civ-transfer__move-btn {
       transition-property: background-color, color, border-color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

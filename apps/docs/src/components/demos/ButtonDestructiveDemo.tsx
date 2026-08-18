@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@weiui/react";
+import { Button } from "civaria";
 
 export function ButtonDestructiveDemo() {
   return (
     <div
       style={{
         display: "flex",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         flexWrap: "wrap",
         alignItems: "center",
       }}

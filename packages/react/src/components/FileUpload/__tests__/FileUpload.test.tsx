@@ -48,14 +48,14 @@ describe("FileUpload", () => {
 
   it("sets data-disabled when disabled", () => {
     const { container } = render(<FileUpload disabled />);
-    const dropzone = container.querySelector(".wui-file-upload");
+    const dropzone = container.querySelector(".civ-file-upload");
     expect(dropzone).toHaveAttribute("data-disabled");
     expect(dropzone).toHaveAttribute("tabindex", "-1");
   });
 
   it("shows drag-over state on dragOver", () => {
     const { container } = render(<FileUpload />);
-    const dropzone = container.querySelector(".wui-file-upload")!;
+    const dropzone = container.querySelector(".civ-file-upload")!;
     fireEvent.dragOver(dropzone);
     expect(dropzone).toHaveAttribute("data-dragover");
     fireEvent.dragLeave(dropzone);
@@ -65,7 +65,7 @@ describe("FileUpload", () => {
   it("fires onError when dropping more than maxFiles", () => {
     const onError = vi.fn();
     const { container } = render(<FileUpload multiple maxFiles={1} onError={onError} />);
-    const dropzone = container.querySelector(".wui-file-upload")!;
+    const dropzone = container.querySelector(".civ-file-upload")!;
     const fileA = new File(["a"], "a.txt", { type: "text/plain" });
     const fileB = new File(["b"], "b.txt", { type: "text/plain" });
     fireEvent.drop(dropzone, {
@@ -95,7 +95,7 @@ describe("FileUpload", () => {
       const { container } = render(
         <FileUpload files={[file]} thumbnails onFilesChange={() => {}} />,
       );
-      const img = container.querySelector(".wui-file-upload__thumb");
+      const img = container.querySelector(".civ-file-upload__thumb");
       expect(img).toBeInTheDocument();
       URL.createObjectURL = original;
     });

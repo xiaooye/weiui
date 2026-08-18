@@ -12,7 +12,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@weiui/react";
+} from "civaria";
 
 interface Props {
   command: string;
@@ -32,12 +32,12 @@ export function PackageManagerTabs({ command }: Props) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("wui-pm") as ManagerId | null;
+    const stored = localStorage.getItem("civ-pm") as ManagerId | null;
     if (stored && MANAGERS.some((m) => m.id === stored)) setActive(stored);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("wui-pm", active);
+    localStorage.setItem("civ-pm", active);
   }, [active]);
 
   const current = MANAGERS.find((m) => m.id === active)!;
@@ -57,10 +57,10 @@ export function PackageManagerTabs({ command }: Props) {
     <Tabs
       value={active}
       onValueChange={(v) => setActive(v as ManagerId)}
-      className="wui-pm-tabs"
+      className="civ-pm-tabs"
     >
-      <Stack direction="row" gap={2} className="wui-pm-tabs__row">
-        <TabsList className="wui-pm-tabs__list">
+      <Stack direction="row" gap={2} className="civ-pm-tabs__row">
+        <TabsList className="civ-pm-tabs__list">
           {MANAGERS.map((m) => (
             <TabsTrigger key={m.id} value={m.id}>
               {m.label}
@@ -75,7 +75,7 @@ export function PackageManagerTabs({ command }: Props) {
               iconOnly
               onClick={onCopy}
               aria-label={copied ? "Copied" : "Copy command"}
-              className="wui-pm-tabs__copy"
+              className="civ-pm-tabs__copy"
             >
               <span aria-hidden="true">{copied ? "\u2713" : "\u29C9"}</span>
             </Button>
@@ -84,8 +84,8 @@ export function PackageManagerTabs({ command }: Props) {
         </Tooltip>
       </Stack>
       {MANAGERS.map((m) => (
-        <TabsContent key={m.id} value={m.id} className="wui-pm-tabs__panel">
-          <pre className="wui-pm-tabs__cmd">
+        <TabsContent key={m.id} value={m.id} className="civ-pm-tabs__panel">
+          <pre className="civ-pm-tabs__cmd">
             <Code>{`${m.prefix} ${command}`}</Code>
           </pre>
         </TabsContent>

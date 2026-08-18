@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading } from "@weiui/react";
+import { Heading } from "civaria";
 
 export function HeadingDemo() {
   return (
@@ -8,7 +8,7 @@ export function HeadingDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-2)",
+        gap: "var(--civ-spacing-2)",
       }}
     >
       <Heading level={1}>Heading 1 — page title</Heading>

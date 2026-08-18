@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode, useEffect, useState } from "react";
-import { createSelectController } from "@weiui/core";
+import { createSelectController } from "@civaria/core";
 import { useCoreController, useLatest } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { SelectContext } from "./SelectContext";

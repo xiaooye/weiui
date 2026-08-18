@@ -9,9 +9,9 @@ describe("Divider", () => {
     expect(container.querySelector("hr")).toBeInTheDocument();
   });
 
-  it("applies wui-divider class", () => {
+  it("applies civ-divider class", () => {
     const { container } = render(<Divider />);
-    expect(container.firstChild).toHaveClass("wui-divider");
+    expect(container.firstChild).toHaveClass("civ-divider");
   });
 
   it("has aria-orientation horizontal by default", () => {
@@ -21,7 +21,7 @@ describe("Divider", () => {
 
   it("applies vertical class for vertical orientation", () => {
     const { container } = render(<Divider orientation="vertical" />);
-    expect(container.firstChild).toHaveClass("wui-divider--vertical");
+    expect(container.firstChild).toHaveClass("civ-divider--vertical");
   });
 
   it("has aria-orientation vertical when orientation is vertical", () => {

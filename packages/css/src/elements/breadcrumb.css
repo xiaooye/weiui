@@ -1,38 +1,38 @@
 /* packages/css/src/elements/breadcrumb.css */
-@layer wui-elements {
-  .wui-breadcrumb__list {
+@layer civ-elements {
+  .civ-breadcrumb__list {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
+    gap: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .wui-breadcrumb__item {
+  .civ-breadcrumb__item {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
-    color: var(--wui-color-muted-foreground);
+    gap: var(--civ-spacing-1);
+    color: var(--civ-color-muted-foreground);
   }
 
-  .wui-breadcrumb__item[aria-current="page"] {
-    color: var(--wui-color-foreground);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-breadcrumb__item[aria-current="page"] {
+    color: var(--civ-color-foreground);
+    font-weight: var(--civ-font-weight-medium);
   }
 
-  .wui-breadcrumb__separator {
-    color: var(--wui-color-muted-foreground);
+  .civ-breadcrumb__separator {
+    color: var(--civ-color-muted-foreground);
     user-select: none;
   }
 
-  .wui-breadcrumb__ellipsis {
+  .civ-breadcrumb__ellipsis {
     display: flex;
     align-items: center;
     justify-content: center;
     min-inline-size: 1.5em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     list-style: none;
   }
 }

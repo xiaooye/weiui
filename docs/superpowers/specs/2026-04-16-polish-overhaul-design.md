@@ -1,4 +1,4 @@
-# WeiUI Polish Overhaul — Design Spec
+# Civaria Polish Overhaul — Design Spec
 
 **Date:** 2026-04-16
 **Owner:** Wei
@@ -8,7 +8,7 @@
 
 ## 1. Goal
 
-Elevate WeiUI to feel like a premium, enterprise-grade, modern UI library. Close feature gaps against best-in-class references for every component. The bar is **best-in-class**, not "matches references."
+Elevate Civaria to feel like a premium, enterprise-grade, modern UI library. Close feature gaps against best-in-class references for every component. The bar is **best-in-class**, not "matches references."
 
 **Visual direction:** shadcn/ui-clean chrome (serious, restrained, monochrome-leaning) combined with Volt UI / Mantine-level component polish (refined shadows, rich variants, tasteful depth). One confident "modern art touch" — an ambient OKLCH gradient in the landing hero plus Instrument Serif display type — nowhere else, to avoid drifting into flashy.
 
@@ -31,7 +31,7 @@ Elevate WeiUI to feel like a premium, enterprise-grade, modern UI library. Close
 - Token color palette redesign (OKLCH base stays; new token categories added alongside).
 - Framework migration (stays Next.js App Router + React).
 - Docs-site CMS migration (stays file-based MDX).
-- `@weiui/tokens` schema change (tokens remain W3C DTCG).
+- `@civaria/tokens` schema change (tokens remain W3C DTCG).
 
 ---
 
@@ -45,14 +45,14 @@ Sequential. Each phase builds on the previous; no cross-phase concurrency.
 | 1 | Docs chrome | Header, sidebar, TOC, theme toggle, ⌘K search, typography, Shiki |
 | 2 | Preview infra + missing pages | Tabbed Preview, copy, theme/RTL/viewport toggles + 7 new doc pages |
 | 3 | Homepage | Hero, value props, live showcase, comparison, install snippet |
-| 4 | Audit matrix | One doc: WeiUI vs best-in-class per component, P0/P1/P2 flags |
+| 4 | Audit matrix | One doc: Civaria vs best-in-class per component, P0/P1/P2 flags |
 | 5 | Component waves | 5a Inputs · 5b Overlays · 5c Data/Nav · 5d Advanced · 5e Form/Display primitives |
 
 ---
 
 ## 4. Phase 0 — Foundations
 
-### 4.1 New tokens (`@weiui/tokens`)
+### 4.1 New tokens (`@civaria/tokens`)
 
 **Shadow scale** (8 levels, layered: ambient + key light, OKLCH for dark-mode-correct translucency):
 - `shadow-xs` · `sm` · `base` · `md` · `lg` · `xl` · `2xl` · `inset`
@@ -75,10 +75,10 @@ Every existing component CSS file gets a polish pass using the new tokens:
 - **Inputs** — soft `inset 0 1px 2px` at rest; sharper focus ring with `color-mix` transitions; invalid state softer pink background fill.
 - **Cards** — 2-layer shadow (ambient + key) + 1px hairline border.
 - **Menus / Dialogs / Popovers** — `backdrop-filter: blur(8px)` with opaque fallback; `elevation-3` shadow.
-- **Chips / Badges** — subtle inset highlight on solid variants; tonal backgrounds use `color-mix(in oklch, var(--wui-color-primary) 12%, var(--wui-color-background))`.
+- **Chips / Badges** — subtle inset highlight on solid variants; tonal backgrounds use `color-mix(in oklch, var(--civ-color-primary) 12%, var(--civ-color-background))`.
 - **Transitions** — everywhere, replace ad-hoc durations with the new motion scale; wrap in `@media (prefers-reduced-motion: no-preference)`.
 
-**Constraint:** Specificity budget stays 0-2-0. No `!important`. Logical properties only. Cascade layer is always `@layer wui-elements`.
+**Constraint:** Specificity budget stays 0-2-0. No `!important`. Logical properties only. Cascade layer is always `@layer civ-elements`.
 
 ---
 
@@ -158,8 +158,8 @@ Every existing component CSS file gets a polish pass using the new tokens:
 | `/docs/typography` | Type scale showcase (xs → 6xl) · font pairings · leading & tracking examples |
 | `/docs/colors` | OKLCH swatches grouped by semantic role · contrast ratio matrix · click-to-copy CSS var / JSON value |
 | `/docs/icons` | Searchable grid · click-to-copy React / SVG / name forms · size/weight previews |
-| `/docs/installation` | Tabbed per package manager (npm · pnpm · bun · yarn), per package (`@weiui/react`, `@weiui/headless`, `@weiui/css`, `@weiui/tokens`) |
-| `/docs/cli` | Auto-generated from `@weiui/cli --help` · `init`, `add`, `audit` command docs |
+| `/docs/installation` | Tabbed per package manager (npm · pnpm · bun · yarn), per package (`civaria`, `@civaria/headless`, `@civaria/css`, `@civaria/tokens`) |
+| `/docs/cli` | Auto-generated from `@civaria/cli --help` · `init`, `add`, `audit` command docs |
 | `/docs/migration` | Empty page with structure in place (v1 → v2 migrations documented as they land) |
 | `/docs/changelog` | Pulled from Changesets `CHANGELOG.md` files |
 
@@ -172,9 +172,9 @@ Every existing component CSS file gets a polish pass using the new tokens:
 1. **Hero** — full-bleed. Ambient OKLCH gradient mesh backdrop (static, no animation). Instrument Serif display H1 "A design system that earns its place." Sub-headline (Inter). Three CTAs: Get Started (solid) · Components (outline) · GitHub (ghost with star count). Version badge with last-publish timestamp.
 2. **Value props** — 6-card grid: Three Layers · WCAG AAA · OKLCH Tokens · Zero-JS CSS tier · Designer-friendly · CLI ownership.
 3. **Live showcase** — tabbed live demos (fully interactive, not screenshots): Button variants · DataTable with sort/filter · Command palette · Dialog open/close. Each uses the polished Phase 0 primitives.
-4. **Comparison table** — WeiUI vs shadcn/ui vs HeroUI vs Headless UI vs Radix. Rows: AAA enforced · CSS-only tier · Headless tier · Tokens · Designer path · RTL support · Framework-agnostic CSS · Copy-paste ownership.
+4. **Comparison table** — Civaria vs shadcn/ui vs HeroUI vs Headless UI vs Radix. Rows: AAA enforced · CSS-only tier · Headless tier · Tokens · Designer path · RTL support · Framework-agnostic CSS · Copy-paste ownership.
 5. **Install snippet** — one-liner with package-manager switcher.
-6. **Footer** — sitemap columns · social links · license · "Made with WeiUI" badge.
+6. **Footer** — sitemap columns · social links · license · "Made with Civaria" badge.
 
 ### 7.2 Constraints
 
@@ -190,7 +190,7 @@ Every existing component CSS file gets a polish pass using the new tokens:
 
 **Per-component table format:**
 
-| Feature | WeiUI has | Best-in-class reference | Missing from WeiUI | Priority | Notes |
+| Feature | Civaria has | Best-in-class reference | Missing from Civaria | Priority | Notes |
 |---------|-----------|-------------------------|--------------------|----------|-------|
 | Variants | ... | ... | ... | P0/P1/P2 | ... |
 | Keyboard nav | ... | ... | ... | P0/P1/P2 | ... |
@@ -230,7 +230,7 @@ Every existing component CSS file gets a polish pass using the new tokens:
 
 ## 9. Phase 5 — Component waves
 
-Each wave delivers: CSS polish pass · React-layer updates adding all P0 features · updated headless hook if needed · Vitest unit tests · Playwright interaction tests · axe AAA tests · visual regression snapshots (light/dark/LTR/RTL) · refreshed doc page using new `<Preview>` · audit matrix updated (P0 rows move to "WeiUI has").
+Each wave delivers: CSS polish pass · React-layer updates adding all P0 features · updated headless hook if needed · Vitest unit tests · Playwright interaction tests · axe AAA tests · visual regression snapshots (light/dark/LTR/RTL) · refreshed doc page using new `<Preview>` · audit matrix updated (P0 rows move to "Civaria has").
 
 ### 9.1 Wave 5a — Input family (9 components)
 
@@ -305,7 +305,7 @@ Layout and typography primitives — `Container`, `Grid`, `Stack`, `Spacer`, `As
 
 The overall effort is complete when all of the following are true:
 
-1. **Visual polish** — Docs site is indistinguishable in polish from shadcn.com / mantine.dev / linear.app. Side-by-side screenshot review with these sites shows no obvious "WeiUI looks rougher."
+1. **Visual polish** — Docs site is indistinguishable in polish from shadcn.com / mantine.dev / linear.app. Side-by-side screenshot review with these sites shows no obvious "Civaria looks rougher."
 2. **Preview infrastructure** — Every doc page uses `<Preview>` with Code tab, copy, theme/RTL/viewport toggles.
 3. **Accessibility** — All 70+ components pass axe-core at AAA level with 0 violations, in both light and dark themes.
 4. **Keyboard patterns** — Every component's Playwright interaction suite asserts the full WAI-ARIA APG pattern.

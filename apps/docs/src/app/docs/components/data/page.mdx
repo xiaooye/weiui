@@ -19,7 +19,7 @@ Powered by `@tanstack/react-table` — sort, filter, paginate, and select rows.
 
 <Preview
   label="DataTable"
-  code={`import { DataTable, type ColumnDef } from "@weiui/react/data-table";
+  code={`import { DataTable, type ColumnDef } from "civaria/data-table";
 
 type User = { name: string; email: string; role: string };
 
@@ -35,7 +35,7 @@ const columns: ColumnDef<User>[] = [
 </Preview>
 
 ```tsx
-import { DataTable, createColumnHelper } from "@weiui/react/data-table";
+import { DataTable, createColumnHelper } from "civaria/data-table";
 
 type User = { name: string; email: string; role: string };
 
@@ -138,7 +138,7 @@ For datasets that live on the server, opt-out of client-side pagination / sortin
 
 ## Charts
 
-Six chart types built on Recharts with WeiUI design tokens.
+Six chart types built on Recharts with Civaria design tokens.
 
 <Preview label="BarChart">
   <ChartBarDemo />
@@ -153,7 +153,7 @@ Six chart types built on Recharts with WeiUI design tokens.
 </Preview>
 
 ```tsx
-import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "@weiui/react/chart";
+import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "civaria/chart";
 
 const data = [
   { name: "Jan", revenue: 4000, expenses: 2400 },
@@ -212,7 +212,7 @@ const currency = (v: unknown) => `$${Number(v).toLocaleString()}`;
 
 ### Stacked + brush
 
-`stacked` shares a `stackId` across series. `showBrush` drops in a Recharts `<Brush>` under the plot for zoom / pan — the handles are styled with `var(--wui-color-primary)` so they honor the theme.
+`stacked` shares a `stackId` across series. `showBrush` drops in a Recharts `<Brush>` under the plot for zoom / pan — the handles are styled with `var(--civ-color-primary)` so they honor the theme.
 
 ```tsx
 <BarChart data={data} dataKeys={["revenue", "expenses"]} stacked showBrush />
@@ -230,7 +230,7 @@ import { Legend, Tooltip } from "recharts";
   data={data}
   dataKeys={["revenue"]}
   legend={<Legend verticalAlign="top" iconType="circle" />}
-  tooltip={<Tooltip cursor={{ fill: "var(--wui-color-muted)" }} />}
+  tooltip={<Tooltip cursor={{ fill: "var(--civ-color-muted)" }} />}
 />
 
 // Hide the default legend
@@ -253,7 +253,7 @@ When `data` is an empty array (or undefined), the chart renders a default `Empty
 
 ### Dark mode
 
-Axis tick labels, grid lines, and polar axes are wired to `var(--wui-color-muted-foreground)` / `var(--wui-color-border)`, so they flip automatically when the theme switches to `data-theme="dark"`. No chart-specific dark CSS is required.
+Axis tick labels, grid lines, and polar axes are wired to `var(--civ-color-muted-foreground)` / `var(--civ-color-border)`, so they flip automatically when the theme switches to `data-theme="dark"`. No chart-specific dark CSS is required.
 
 ### Accessibility
 
@@ -261,7 +261,7 @@ Every chart automatically mirrors its data into a visually-hidden `<table>` plac
 
 ```html
 <!-- Rendered next to the chart SVG -->
-<table class="wui-sr-only">
+<table class="civ-sr-only">
   <caption>Revenue vs Expenses</caption>
   <thead><tr><th>Month</th><th>Revenue</th><th>Expenses</th></tr></thead>
   <tbody><tr><td>Jan</td><td>4000</td><td>2400</td></tr>…</tbody>
@@ -281,7 +281,7 @@ Recursive tree with expand/collapse, keyboard navigation, and selection.
 </Preview>
 
 ```tsx
-import { TreeView, type TreeNode } from "@weiui/react";
+import { TreeView, type TreeNode } from "civaria";
 
 const nodes: TreeNode[] = [
   {
@@ -345,7 +345,7 @@ Paginate long lists with ellipsis for large page counts. Works standalone or pai
 </Preview>
 
 ```tsx
-import { Pagination } from "@weiui/react";
+import { Pagination } from "civaria";
 
 <Pagination page={3} totalPages={20} onPageChange={setPage} />
 <Pagination page={1} totalPages={100} onPageChange={setPage} siblingCount={2} />
@@ -378,7 +378,7 @@ Dual-list with items moved between a source and target. Use for multi-select whe
 </Preview>
 
 ```tsx
-import { Transfer } from "@weiui/react";
+import { Transfer } from "civaria";
 
 <Transfer
   sourceItems={[

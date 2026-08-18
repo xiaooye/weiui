@@ -12,7 +12,7 @@ import {
   type ReactElement,
   type ButtonHTMLAttributes,
 } from "react";
-import { useDisclosure, type UseDisclosureProps } from "@weiui/headless";
+import { useDisclosure, type UseDisclosureProps } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 
 interface SidebarContextValue {
@@ -41,7 +41,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
       <SidebarContext.Provider value={{ isCollapsed, onToggle }}>
         <aside
           ref={ref}
-          className={cn("wui-sidebar", className)}
+          className={cn("civ-sidebar", className)}
           data-collapsed={isCollapsed ? "" : undefined}
           {...props}
         >
@@ -55,21 +55,21 @@ Sidebar.displayName = "Sidebar";
 
 export const SidebarHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-sidebar__header", className)} {...props} />
+    <div ref={ref} className={cn("civ-sidebar__header", className)} {...props} />
   ),
 );
 SidebarHeader.displayName = "SidebarHeader";
 
 export const SidebarContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-sidebar__content", className)} {...props} />
+    <div ref={ref} className={cn("civ-sidebar__content", className)} {...props} />
   ),
 );
 SidebarContent.displayName = "SidebarContent";
 
 export const SidebarFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-sidebar__footer", className)} {...props} />
+    <div ref={ref} className={cn("civ-sidebar__footer", className)} {...props} />
   ),
 );
 SidebarFooter.displayName = "SidebarFooter";
@@ -96,11 +96,11 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
     const content = (
       <>
         {icon && (
-          <span className="wui-sidebar__icon" aria-hidden="true">
+          <span className="civ-sidebar__icon" aria-hidden="true">
             {icon}
           </span>
         )}
-        <span className="wui-sidebar__label">
+        <span className="civ-sidebar__label">
           {asChild && isValidElement(children)
             ? (children as ReactElement<{ children?: ReactNode }>).props.children
             : children}
@@ -114,7 +114,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
       return cloneElement(child, {
         ...props,
         ref,
-        className: cn("wui-sidebar__item", childProps.className, className),
+        className: cn("civ-sidebar__item", childProps.className, className),
         "data-active": active ? "" : undefined,
         "aria-current": active ? "page" : undefined,
         title: isCollapsed && tipText ? tipText : undefined,
@@ -126,7 +126,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
       <button
         ref={ref}
         type="button"
-        className={cn("wui-sidebar__item", className)}
+        className={cn("civ-sidebar__item", className)}
         data-active={active ? "" : undefined}
         aria-current={active ? "page" : undefined}
         title={isCollapsed && tipText ? tipText : undefined}
@@ -151,10 +151,10 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
       <button
         ref={ref}
         type="button"
-        className={cn("wui-sidebar__trigger", className)}
+        className={cn("civ-sidebar__trigger", className)}
         aria-label={ariaLabel}
         aria-expanded={!ctx.isCollapsed}
-        aria-controls="wui-sidebar-content"
+        aria-controls="civ-sidebar-content"
         onClick={(e) => {
           ctx.onToggle();
           onClick?.(e);
@@ -162,7 +162,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         {...props}
       >
         {children ?? (
-          <span aria-hidden="true" className="wui-sidebar__trigger-icon">
+          <span aria-hidden="true" className="civ-sidebar__trigger-icon">
             {ctx.isCollapsed ? "\u2630" : "\u2190"}
           </span>
         )}
@@ -179,7 +179,7 @@ export interface SidebarGroupProps extends HTMLAttributes<HTMLDivElement> {
 
 export const SidebarGroup = forwardRef<HTMLDivElement, SidebarGroupProps>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} role="group" className={cn("wui-sidebar__group", className)} {...props}>
+    <div ref={ref} role="group" className={cn("civ-sidebar__group", className)} {...props}>
       {children}
     </div>
   ),
@@ -190,7 +190,7 @@ export interface SidebarGroupLabelProps extends HTMLAttributes<HTMLDivElement> {
 
 export const SidebarGroupLabel = forwardRef<HTMLDivElement, SidebarGroupLabelProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-sidebar__group-label", className)} {...props} />
+    <div ref={ref} className={cn("civ-sidebar__group-label", className)} {...props} />
   ),
 );
 SidebarGroupLabel.displayName = "SidebarGroupLabel";
@@ -224,26 +224,26 @@ export const SidebarSubMenu = forwardRef<HTMLDivElement, SidebarSubMenuProps>(
       onOpenChange?.(next);
     };
     return (
-      <div ref={ref} className={cn("wui-sidebar__submenu", className)} {...props}>
+      <div ref={ref} className={cn("civ-sidebar__submenu", className)} {...props}>
         <button
           type="button"
-          className="wui-sidebar__item wui-sidebar__submenu-trigger"
+          className="civ-sidebar__item civ-sidebar__submenu-trigger"
           aria-expanded={isOpen}
           data-open={isOpen || undefined}
           onClick={toggle}
         >
           {icon && (
-            <span className="wui-sidebar__icon" aria-hidden="true">
+            <span className="civ-sidebar__icon" aria-hidden="true">
               {icon}
             </span>
           )}
-          <span className="wui-sidebar__label">{label}</span>
-          <span className="wui-sidebar__submenu-chevron" aria-hidden="true" data-open={isOpen || undefined}>
+          <span className="civ-sidebar__label">{label}</span>
+          <span className="civ-sidebar__submenu-chevron" aria-hidden="true" data-open={isOpen || undefined}>
             {"\u25B8"}
           </span>
         </button>
         {isOpen && (
-          <div className="wui-sidebar__submenu-children" role="group">
+          <div className="civ-sidebar__submenu-children" role="group">
             {children}
           </div>
         )}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { Button, Kbd, Text } from "@weiui/react";
+import { Button, Kbd, Text } from "civaria";
 
 const CommandPalette = dynamic(
   () => import("./CommandPalette").then((m) => m.CommandPalette),
@@ -30,7 +30,7 @@ export function SearchTrigger() {
         size="sm"
         onClick={() => setOpen(true)}
         aria-label="Search docs (Cmd+K)"
-        className="wui-docs-search-trigger"
+        className="civ-docs-search-trigger"
         endIcon={<Kbd>{"\u2318K"}</Kbd>}
       >
         <Text as="span" size="sm" color="muted">

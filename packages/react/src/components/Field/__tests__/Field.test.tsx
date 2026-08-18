@@ -227,7 +227,7 @@ describe("Field", () => {
         <FieldLabel>Name</FieldLabel>
       </Field>,
     );
-    const root = container.querySelector(".wui-field");
+    const root = container.querySelector(".civ-field");
     expect(root).toHaveAttribute("data-validating");
   });
 
@@ -237,7 +237,7 @@ describe("Field", () => {
         <FieldLabel>Name</FieldLabel>
       </Field>,
     );
-    const root = container.querySelector(".wui-field");
+    const root = container.querySelector(".civ-field");
     expect(root).toHaveAttribute("data-success");
   });
 

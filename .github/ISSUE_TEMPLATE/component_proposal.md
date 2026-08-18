@@ -17,7 +17,7 @@ Link to the relevant WAI-ARIA authoring practice.
 
 ## Existing Alternatives
 
-Can this be composed from existing WeiUI components?
+Can this be composed from existing Civaria components?
 
 ## API Proposal
 

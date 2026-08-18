@@ -10,9 +10,9 @@ describe("Chip", () => {
     expect(screen.getByText("React")).toBeInTheDocument();
   });
 
-  it("applies wui-chip class", () => {
+  it("applies civ-chip class", () => {
     render(<Chip>label</Chip>);
-    expect(screen.getByText("label").closest(".wui-chip")).toBeInTheDocument();
+    expect(screen.getByText("label").closest(".civ-chip")).toBeInTheDocument();
   });
 
   it("does not show remove button when onRemove is not provided", () => {
@@ -35,31 +35,31 @@ describe("Chip", () => {
 
   it("applies color variant class", () => {
     render(<Chip color="primary">label</Chip>);
-    const el = screen.getByText("label").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--primary");
+    const el = screen.getByText("label").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--primary");
   });
 
   it("does not apply default color class", () => {
     render(<Chip>label</Chip>);
-    const el = screen.getByText("label").closest(".wui-chip") as HTMLElement;
-    expect(el.className).not.toContain("wui-chip--default");
+    const el = screen.getByText("label").closest(".civ-chip") as HTMLElement;
+    expect(el.className).not.toContain("civ-chip--default");
   });
 
   it("applies success color class", () => {
     render(<Chip color="success">label</Chip>);
-    const el = screen.getByText("label").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--success");
+    const el = screen.getByText("label").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--success");
   });
 
   it("applies destructive color class", () => {
     render(<Chip color="destructive">label</Chip>);
-    const el = screen.getByText("label").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--destructive");
+    const el = screen.getByText("label").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--destructive");
   });
 
   it("merges custom className", () => {
     render(<Chip className="extra">label</Chip>);
-    const el = screen.getByText("label").closest(".wui-chip") as HTMLElement;
+    const el = screen.getByText("label").closest(".civ-chip") as HTMLElement;
     expect(el.className).toContain("extra");
   });
 
@@ -93,34 +93,34 @@ describe("Chip", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it("applies wui-chip--clickable when onClick provided", () => {
+  it("applies civ-chip--clickable when onClick provided", () => {
     render(<Chip onClick={() => {}}>Tap</Chip>);
     const el = screen.getByRole("button", { name: /tap/i });
-    expect(el.className).toContain("wui-chip--clickable");
+    expect(el.className).toContain("civ-chip--clickable");
   });
 
   it("does not apply size class for md (default)", () => {
     render(<Chip>L</Chip>);
-    const el = screen.getByText("L").closest(".wui-chip") as HTMLElement;
-    expect(el.className).not.toContain("wui-chip--md");
+    const el = screen.getByText("L").closest(".civ-chip") as HTMLElement;
+    expect(el.className).not.toContain("civ-chip--md");
   });
 
   it("applies sm size class", () => {
     render(<Chip size="sm">L</Chip>);
-    const el = screen.getByText("L").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--sm");
+    const el = screen.getByText("L").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--sm");
   });
 
   it("applies lg size class", () => {
     render(<Chip size="lg">L</Chip>);
-    const el = screen.getByText("L").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--lg");
+    const el = screen.getByText("L").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--lg");
   });
 
   it("applies outlined variant class", () => {
     render(<Chip variant="outlined">L</Chip>);
-    const el = screen.getByText("L").closest(".wui-chip") as HTMLElement;
-    expect(el.className).toContain("wui-chip--outlined");
+    const el = screen.getByText("L").closest(".civ-chip") as HTMLElement;
+    expect(el.className).toContain("civ-chip--outlined");
   });
 
   it("disables button chip", () => {
@@ -130,7 +130,7 @@ describe("Chip", () => {
 
   it("disabled chip has data-disabled and aria-disabled", () => {
     render(<Chip disabled>L</Chip>);
-    const el = screen.getByText("L").closest(".wui-chip") as HTMLElement;
+    const el = screen.getByText("L").closest(".civ-chip") as HTMLElement;
     expect(el).toHaveAttribute("data-disabled");
     expect(el).toHaveAttribute("aria-disabled", "true");
   });

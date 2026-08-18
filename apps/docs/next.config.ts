@@ -25,7 +25,7 @@ const withMDX = createMDX({
 const nextConfig = {
   pageExtensions: ["tsx", "mdx"],
   experimental: {
-    optimizePackageImports: ["@weiui/react", "@weiui/headless"],
+    optimizePackageImports: ["civaria", "@civaria/headless"],
   },
 };
 

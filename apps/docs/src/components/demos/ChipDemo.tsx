@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Chip, Button } from "@weiui/react";
+import { Chip, Button } from "civaria";
 
 const initialChips = ["React", "TypeScript", "CSS", "A11y", "Design"];
 
@@ -13,13 +13,13 @@ export function ChipDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <div
         style={{
           display: "flex",
-          gap: "var(--wui-spacing-2)",
+          gap: "var(--civ-spacing-2)",
           flexWrap: "wrap",
           minHeight: "2rem",
         }}
@@ -28,8 +28,8 @@ export function ChipDemo() {
           <p
             style={{
               margin: 0,
-              fontSize: "var(--wui-font-size-sm)",
-              color: "var(--wui-color-muted-foreground)",
+              fontSize: "var(--civ-font-size-sm)",
+              color: "var(--civ-color-muted-foreground)",
             }}
           >
             All chips removed. Reset to see them again.

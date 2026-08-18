@@ -1,5 +1,5 @@
-import { getExample } from "@weiui/mcp/tools/get-example";
-import { defaultLoadComponent } from "@weiui/mcp/registry-loader";
+import { getExample } from "@civaria/mcp/tools/get-example";
+import { defaultLoadComponent } from "@civaria/mcp/registry-loader";
 
 export interface ExamplesCommandOptions {
   variant?: string;

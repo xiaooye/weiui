@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, VisuallyHidden } from "@weiui/react";
+import { Button, VisuallyHidden } from "civaria";
 
 export function VisuallyHiddenDemo() {
   return (
@@ -8,7 +8,7 @@ export function VisuallyHiddenDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Button
@@ -22,8 +22,8 @@ export function VisuallyHiddenDemo() {
       </Button>
       <p
         style={{
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
           margin: 0,
         }}
       >

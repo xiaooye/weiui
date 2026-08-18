@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { createDisclosureController } from "@weiui/core";
+import { createDisclosureController } from "@civaria/core";
 import { useId } from "./use-id";
 import { useCoreController, useLatest } from "./use-core-controller";
 

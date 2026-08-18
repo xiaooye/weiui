@@ -1,16 +1,16 @@
 "use client";
 
-import { Container, Stack } from "@weiui/react";
+import { Container, Stack } from "civaria";
 
 function Box({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        padding: "var(--wui-spacing-3) var(--wui-spacing-4)",
-        borderRadius: "var(--wui-shape-radius-md)",
-        border: "1px solid var(--wui-color-border)",
-        background: "var(--wui-color-muted)",
-        fontSize: "var(--wui-font-size-sm)",
+        padding: "var(--civ-spacing-3) var(--civ-spacing-4)",
+        borderRadius: "var(--civ-shape-radius-md)",
+        border: "1px solid var(--civ-color-border)",
+        background: "var(--civ-color-muted)",
+        fontSize: "var(--civ-font-size-sm)",
         textAlign: "center",
       }}
     >
@@ -25,18 +25,18 @@ export function ContainerDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Default container (max 1200px, centered):
         </p>
         <div
           style={{
-            padding: "var(--wui-spacing-2)",
-            border: "1px dashed var(--wui-color-border)",
-            borderRadius: "var(--wui-shape-radius-md)",
+            padding: "var(--civ-spacing-2)",
+            border: "1px dashed var(--civ-color-border)",
+            borderRadius: "var(--civ-shape-radius-md)",
           }}
         >
           <Container>
@@ -48,18 +48,18 @@ export function ContainerDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Narrow container (maxWidth=520px):
         </p>
         <div
           style={{
-            padding: "var(--wui-spacing-2)",
-            border: "1px dashed var(--wui-color-border)",
-            borderRadius: "var(--wui-shape-radius-md)",
+            padding: "var(--civ-spacing-2)",
+            border: "1px dashed var(--civ-color-border)",
+            borderRadius: "var(--civ-shape-radius-md)",
           }}
         >
           <Container maxWidth="520px">
@@ -71,18 +71,18 @@ export function ContainerDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Reading width (maxWidth=65ch):
         </p>
         <div
           style={{
-            padding: "var(--wui-spacing-2)",
-            border: "1px dashed var(--wui-color-border)",
-            borderRadius: "var(--wui-shape-radius-md)",
+            padding: "var(--civ-spacing-2)",
+            border: "1px dashed var(--civ-color-border)",
+            borderRadius: "var(--civ-shape-radius-md)",
           }}
         >
           <Container maxWidth="65ch">

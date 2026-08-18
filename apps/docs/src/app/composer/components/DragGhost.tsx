@@ -1,5 +1,5 @@
 "use client";
-import { Portal, Chip } from "@weiui/react";
+import { Portal, Chip } from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 import type { ComponentNode } from "../lib/tree";
 
@@ -17,7 +17,7 @@ export function DragGhost() {
     <Portal>
       <div
         aria-hidden="true"
-        className="wui-composer__drag-ghost"
+        className="civ-composer__drag-ghost"
         style={{
           position: "fixed",
           top: drag.pointer.y + 8,

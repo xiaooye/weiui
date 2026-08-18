@@ -1,1 +1,1 @@
-export { WuiAccordionElement, defineAccordion } from "./index.js";
+export { CivAccordionElement, defineAccordion } from "./index.js";

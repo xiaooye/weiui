@@ -1,11 +1,11 @@
-# @weiui/svelte
+# @civaria/svelte
 
-Native Svelte 5 source runtime using runes and bindable state. `@weiui/core` owns state/ARIA/keyboard semantics; Svelte owns binding, snippets and DOM lifecycle.
+Native Svelte 5 source runtime using runes and bindable state. `@civaria/core` owns state/ARIA/keyboard semantics; Svelte owns binding, snippets and DOM lifecycle.
 
 ```svelte
 <script lang="ts">
-  import { Button, Select } from "@weiui/svelte"
-  import "@weiui/css"
+  import { Button, Select } from "@civaria/svelte"
+  import "@civaria/css"
   let value = $state("")
   const items = [{ value: "one", label: "One" }]
 </script>

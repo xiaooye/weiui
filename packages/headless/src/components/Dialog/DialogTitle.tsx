@@ -7,5 +7,5 @@ export interface DialogTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 
 export function DialogTitle({ children, ...props }: DialogTitleProps) {
   const { titleId } = useDialogContext();
-  return <h2 id={titleId} data-wui-component="dialog" data-part="title" {...props}>{children}</h2>;
+  return <h2 id={titleId} data-civaria-component="dialog" data-part="title" {...props}>{children}</h2>;
 }

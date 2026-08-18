@@ -6,7 +6,7 @@ import {
   FieldLabel,
   FieldDescription,
   Input,
-} from "@weiui/react";
+} from "civaria";
 
 export function FieldDemo() {
   const [email, setEmail] = useState("not-an-email");
@@ -17,7 +17,7 @@ export function FieldDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
         inlineSize: "320px",
       }}
     >

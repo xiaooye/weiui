@@ -214,8 +214,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       <div
         ref={ref}
         className={cn(
-          "wui-color-picker",
-          variant === "inline" && "wui-color-picker--inline",
+          "civ-color-picker",
+          variant === "inline" && "civ-color-picker--inline",
           className,
         )}
         role="group"
@@ -223,15 +223,15 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       >
         <div
           className={cn(
-            "wui-color-picker__preview",
-            showAlpha && "wui-color-picker__preview--checker",
+            "civ-color-picker__preview",
+            showAlpha && "civ-color-picker__preview--checker",
           )}
           style={{ backgroundColor: value, opacity: showAlpha ? alpha : undefined }}
           aria-hidden="true"
         />
         <div
           ref={svRef}
-          className="wui-color-picker__sv"
+          className="civ-color-picker__sv"
           role="slider"
           aria-label="Saturation and value"
           aria-valuetext={
@@ -250,7 +250,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         >
           {hsv && (
             <div
-              className="wui-color-picker__sv-thumb"
+              className="civ-color-picker__sv-thumb"
               style={{
                 insetInlineStart: `${saturation * 100}%`,
                 insetBlockStart: `${(1 - brightness) * 100}%`,
@@ -261,7 +261,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         </div>
         <input
           type="range"
-          className="wui-color-picker__hue"
+          className="civ-color-picker__hue"
           min={0}
           max={360}
           value={hue}
@@ -272,7 +272,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         {showAlpha && (
           <input
             type="range"
-            className="wui-color-picker__alpha"
+            className="civ-color-picker__alpha"
             min={0}
             max={1}
             step={0.01}
@@ -287,7 +287,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         )}
         {showFormatToggle && (
           <div
-            className="wui-color-picker__format"
+            className="civ-color-picker__format"
             role="radiogroup"
             aria-label="Output format"
           >
@@ -295,7 +295,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
               <button
                 key={f}
                 type="button"
-                className="wui-color-picker__format-btn"
+                className="civ-color-picker__format-btn"
                 role="radio"
                 aria-checked={format === f}
                 data-selected={format === f || undefined}
@@ -308,7 +308,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         )}
         <input
           type="text"
-          className="wui-color-picker__input"
+          className="civ-color-picker__input"
           value={displayOutput}
           disabled={disabled}
           aria-label="Color value (hex or oklch)"
@@ -321,7 +321,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         <div
           aria-live="polite"
           aria-atomic="true"
-          data-wui-color-picker-live
+          data-civaria-color-picker-live
           style={{
             position: "absolute",
             inlineSize: 1,
@@ -336,7 +336,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         </div>
         {swatches.length > 0 && (
           <div
-            className="wui-color-picker__swatches"
+            className="civ-color-picker__swatches"
             role="listbox"
             aria-label="Color swatches"
           >
@@ -344,7 +344,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
               <button
                 key={color}
                 type="button"
-                className="wui-color-picker__swatch"
+                className="civ-color-picker__swatch"
                 style={{ backgroundColor: color }}
                 data-selected={color === value || undefined}
                 role="option"

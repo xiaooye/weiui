@@ -112,7 +112,7 @@ describe("Tabs (React re-export)", () => {
     expect(trigB).toHaveAttribute("tabindex", "-1");
   });
 
-  it("applies the wui-tabs class hierarchy", () => {
+  it("applies the civ-tabs class hierarchy", () => {
     const { container } = render(
       <Tabs defaultValue="a" className="extra">
         <TabsList className="list-extra">
@@ -121,9 +121,9 @@ describe("Tabs (React re-export)", () => {
         <TabsContent value="a" className="content-extra">x</TabsContent>
       </Tabs>,
     );
-    expect(container.querySelector(".wui-tabs.extra")).toBeInTheDocument();
-    expect(container.querySelector(".wui-tabs__list.list-extra")).toBeInTheDocument();
-    expect(container.querySelector(".wui-tabs__trigger.trig-extra")).toBeInTheDocument();
-    expect(container.querySelector(".wui-tabs__content.content-extra")).toBeInTheDocument();
+    expect(container.querySelector(".civ-tabs.extra")).toBeInTheDocument();
+    expect(container.querySelector(".civ-tabs__list.list-extra")).toBeInTheDocument();
+    expect(container.querySelector(".civ-tabs__trigger.trig-extra")).toBeInTheDocument();
+    expect(container.querySelector(".civ-tabs__content.content-extra")).toBeInTheDocument();
   });
 });

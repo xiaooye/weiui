@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@weiui/react";
+import { Input } from "civaria";
 
 export function InputAddonsDemo() {
   return (
@@ -8,7 +8,7 @@ export function InputAddonsDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Input

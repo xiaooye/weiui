@@ -1,91 +1,91 @@
-@layer wui-elements {
-  .wui-file-upload {
+@layer civ-elements {
+  .civ-file-upload {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-8); padding-inline: var(--wui-spacing-8);
-    border: 2px dashed var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+    gap: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-8); padding-inline: var(--civ-spacing-8);
+    border: 2px dashed var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     text-align: center; cursor: pointer;
     min-block-size: 120px;
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-file-upload:hover { border-color: var(--wui-color-primary); background-color: var(--wui-color-muted); }
-  .wui-file-upload:focus-within {
-    border-color: var(--wui-color-ring);
-    outline: 3px solid var(--wui-color-ring-soft);
+  .civ-file-upload:hover { border-color: var(--civ-color-primary); background-color: var(--civ-color-muted); }
+  .civ-file-upload:focus-within {
+    border-color: var(--civ-color-ring);
+    outline: 3px solid var(--civ-color-ring-soft);
     outline-offset: 0;
   }
-  .wui-file-upload[data-dragover] { border-color: var(--wui-color-primary); background-color: color-mix(in oklch, var(--wui-color-primary) 5%, transparent); }
-  .wui-file-upload__text { font-size: var(--wui-font-size-sm); color: var(--wui-color-muted-foreground); }
-  .wui-file-upload__hint { font-size: var(--wui-font-size-xs); color: var(--wui-color-muted-foreground); }
-  .wui-file-upload__list { inline-size: 100%; margin-block-start: var(--wui-spacing-3); }
-  .wui-file-upload__file {
+  .civ-file-upload[data-dragover] { border-color: var(--civ-color-primary); background-color: color-mix(in oklch, var(--civ-color-primary) 5%, transparent); }
+  .civ-file-upload__text { font-size: var(--civ-font-size-sm); color: var(--civ-color-muted-foreground); }
+  .civ-file-upload__hint { font-size: var(--civ-font-size-xs); color: var(--civ-color-muted-foreground); }
+  .civ-file-upload__list { inline-size: 100%; margin-block-start: var(--civ-spacing-3); }
+  .civ-file-upload__file {
     display: flex; align-items: center; justify-content: space-between;
-    padding-block: var(--wui-spacing-2); padding-inline: var(--wui-spacing-3);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    font-size: var(--wui-font-size-sm);
-    margin-block-end: var(--wui-spacing-1);
+    padding-block: var(--civ-spacing-2); padding-inline: var(--civ-spacing-3);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    font-size: var(--civ-font-size-sm);
+    margin-block-end: var(--civ-spacing-1);
   }
-  .wui-file-upload__file-remove { background: none; border: none; cursor: pointer; color: var(--wui-color-destructive); font-size: var(--wui-font-size-sm); min-block-size: 44px; min-inline-size: 44px; display: inline-flex; align-items: center; justify-content: center; }
-  .wui-file-upload[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+  .civ-file-upload__file-remove { background: none; border: none; cursor: pointer; color: var(--civ-color-destructive); font-size: var(--civ-font-size-sm); min-block-size: 44px; min-inline-size: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .civ-file-upload[data-disabled] { opacity: 0.5; cursor: not-allowed; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-file-upload {
+    .civ-file-upload {
       transition-property: border-color, outline-color, background-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
 
-@layer wui-elements {
-  .wui-file-upload__errors {
+@layer civ-elements {
+  .civ-file-upload__errors {
     inline-size: 100%;
-    margin-block-start: var(--wui-spacing-3);
-    padding: var(--wui-spacing-3);
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 5%, var(--wui-color-background));
-    border: 1px solid color-mix(in oklch, var(--wui-color-destructive) 40%, var(--wui-color-border));
-    color: var(--wui-color-destructive);
-    border-radius: var(--wui-shape-radius-base);
-    font-size: var(--wui-font-size-sm);
+    margin-block-start: var(--civ-spacing-3);
+    padding: var(--civ-spacing-3);
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 5%, var(--civ-color-background));
+    border: 1px solid color-mix(in oklch, var(--civ-color-destructive) 40%, var(--civ-color-border));
+    color: var(--civ-color-destructive);
+    border-radius: var(--civ-shape-radius-base);
+    font-size: var(--civ-font-size-sm);
     text-align: start;
   }
-  .wui-file-upload__error + .wui-file-upload__error {
-    margin-block-start: var(--wui-spacing-1);
+  .civ-file-upload__error + .civ-file-upload__error {
+    margin-block-start: var(--civ-spacing-1);
   }
-  .wui-file-upload__file-body {
+  .civ-file-upload__file-body {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
     flex: 1 1 auto;
     text-align: start;
     min-inline-size: 0;
   }
-  .wui-file-upload__file-name {
-    font-weight: var(--wui-font-weight-medium);
+  .civ-file-upload__file-name {
+    font-weight: var(--civ-font-weight-medium);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .wui-file-upload__thumb {
+  .civ-file-upload__thumb {
     inline-size: 40px;
     block-size: 40px;
     object-fit: cover;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     flex: 0 0 auto;
-    margin-inline-end: var(--wui-spacing-3);
+    margin-inline-end: var(--civ-spacing-3);
   }
-  .wui-file-upload__progress {
+  .civ-file-upload__progress {
     inline-size: 100%;
     block-size: 4px;
-    background-color: var(--wui-color-muted);
-    border-radius: var(--wui-shape-radius-full);
+    background-color: var(--civ-color-muted);
+    border-radius: var(--civ-shape-radius-full);
     overflow: hidden;
   }
-  .wui-file-upload__progress-bar {
+  .civ-file-upload__progress-bar {
     block-size: 100%;
-    background-color: var(--wui-color-primary);
-    transition: inline-size var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    background-color: var(--civ-color-primary);
+    transition: inline-size var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
   }
 }

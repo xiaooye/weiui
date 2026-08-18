@@ -15,7 +15,7 @@ import {
   ToggleGroupItem,
   Toaster,
   toast,
-} from "@weiui/react";
+} from "civaria";
 import { Header } from "../../components/chrome/Header";
 import { PALETTE_ITEMS } from "./lib/component-tree";
 import {
@@ -331,13 +331,13 @@ function ComposerShell() {
         open={im.state.shortcutHelpOpen}
         onOpenChange={(o) => (o ? im.openShortcutHelp() : im.closeShortcutHelp())}
       />
-      <Container maxWidth="80rem" className="wui-tool-shell">
+      <Container maxWidth="80rem" className="civ-tool-shell">
         <Stack direction="column" gap={6}>
-          <Stack direction="column" gap={2} className="wui-tool-shell__header">
-            <Heading level={1} className="wui-tool-shell__title">
+          <Stack direction="column" gap={2} className="civ-tool-shell__header">
+            <Heading level={1} className="civ-tool-shell__title">
               Component Composer
             </Heading>
-            <Text size="base" color="muted" className="wui-tool-shell__sub">
+            <Text size="base" color="muted" className="civ-tool-shell__sub">
               Drag components onto the canvas, edit their props, and export ready-to-ship JSX, TSX or HTML.
             </Text>
           </Stack>
@@ -361,7 +361,7 @@ function ComposerShell() {
                   <Stack
                     direction="row"
                     gap={3}
-                    className="wui-composer__viewport-bar"
+                    className="civ-composer__viewport-bar"
                   >
                     <TabsList aria-label="Canvas view">
                       <TabsTrigger value="design">Design</TabsTrigger>

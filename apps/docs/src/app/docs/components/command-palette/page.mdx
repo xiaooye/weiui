@@ -14,7 +14,7 @@ A `Cmd+K` fuzzy search dialog for quick navigation and actions.
 ## CommandPalette
 
 ```tsx
-import { CommandPalette, type CommandItem } from "@weiui/react";
+import { CommandPalette, type CommandItem } from "civaria";
 
 const items: CommandItem[] = [
   { id: "home", label: "Go to Home", group: "Navigation", shortcut: "Ctrl+H", icon: "🏠", onSelect: () => router.push("/") },
@@ -72,11 +72,11 @@ Each `CommandItem` accepts an optional `icon` (`ReactNode`) rendered before the 
 
 | Class | Description |
 |-------|-------------|
-| `.wui-command-overlay` | Full-screen backdrop |
-| `.wui-command` | Dialog container |
-| `.wui-command__input` | Search input |
-| `.wui-command__list` | Scrollable results list |
-| `.wui-command__item` | Individual result item |
-| `.wui-command__item[data-highlighted]` | Keyboard-focused item |
-| `.wui-command__group-label` | Group heading |
-| `.wui-command__item-shortcut` | Shortcut badge |
+| `.civ-command-overlay` | Full-screen backdrop |
+| `.civ-command` | Dialog container |
+| `.civ-command__input` | Search input |
+| `.civ-command__list` | Scrollable results list |
+| `.civ-command__item` | Individual result item |
+| `.civ-command__item[data-highlighted]` | Keyboard-focused item |
+| `.civ-command__group-label` | Group heading |
+| `.civ-command__item-shortcut` | Shortcut badge |

@@ -8,7 +8,7 @@ const schemas: ComponentSchema[] = [
     name: "Button",
     category: "form",
     description: "",
-    importPath: "@weiui/react",
+    importPath: "civaria",
     subpathImport: null,
     dependencies: [],
     props: [],
@@ -47,11 +47,11 @@ describe("openInCodeSandbox", () => {
     };
     expect(body.files["src/App.tsx"]?.content).toContain("<Button");
     expect(body.files["src/App.tsx"]?.content).toContain(
-      'from "@weiui/react"',
+      'from "civaria"',
     );
-    expect(body.files["package.json"]?.content).toContain("@weiui/react");
+    expect(body.files["package.json"]?.content).toContain("civaria");
     expect(body.files["src/index.tsx"]?.content).toContain(
-      "@weiui/tokens/tokens.css",
+      "@civaria/tokens/tokens.css",
     );
     expect(body.files["index.html"]?.content).toContain("<div id=\"root\">");
   });

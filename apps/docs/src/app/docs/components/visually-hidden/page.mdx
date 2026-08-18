@@ -12,7 +12,7 @@ Visually hides content while keeping it in the accessibility tree — the standa
 ---
 
 ```tsx
-import { VisuallyHidden } from "@weiui/react";
+import { VisuallyHidden } from "civaria";
 
 <button type="button">
   <TrashIcon aria-hidden="true" />
@@ -28,12 +28,12 @@ Accepts all native `<span>` HTML attributes.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| className | `string` | — | Additional CSS classes (merged with `wui-sr-only`) |
+| className | `string` | — | Additional CSS classes (merged with `civ-sr-only`) |
 | children | `ReactNode` | — | Content visible only to assistive technology |
 
 ### How it works
 
-Applies the `wui-sr-only` utility from the CSS layer, which uses the canonical `clip`/`clip-path` + `width: 1px` + `height: 1px` pattern to keep the element rendered in the DOM (so screen readers see it) while removing it from visual layout.
+Applies the `civ-sr-only` utility from the CSS layer, which uses the canonical `clip`/`clip-path` + `width: 1px` + `height: 1px` pattern to keep the element rendered in the DOM (so screen readers see it) while removing it from visual layout.
 
 ### When to use it
 

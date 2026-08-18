@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@weiui/react";
+import { RadioGroup, RadioGroupItem } from "civaria";
 
 export function RadioGroupDemo() {
   const [value, setValue] = useState("apple");
@@ -11,7 +11,7 @@ export function RadioGroupDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <RadioGroup
@@ -26,8 +26,8 @@ export function RadioGroupDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         Selected: <strong>{value}</strong>

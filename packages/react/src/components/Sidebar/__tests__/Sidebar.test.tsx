@@ -25,9 +25,9 @@ describe("Sidebar", () => {
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
 
-  it("applies wui-sidebar class", () => {
+  it("applies civ-sidebar class", () => {
     render(<Sidebar data-testid="sidebar"><SidebarContent /></Sidebar>);
-    expect(screen.getByTestId("sidebar").className).toContain("wui-sidebar");
+    expect(screen.getByTestId("sidebar").className).toContain("civ-sidebar");
   });
 
   it("is not collapsed by default", () => {
@@ -86,7 +86,7 @@ describe("SidebarItem", () => {
     expect(screen.getByTestId("item")).not.toHaveAttribute("data-active");
   });
 
-  it("applies wui-sidebar__item class", () => {
+  it("applies civ-sidebar__item class", () => {
     render(
       <Sidebar>
         <SidebarContent>
@@ -94,7 +94,7 @@ describe("SidebarItem", () => {
         </SidebarContent>
       </Sidebar>,
     );
-    expect(screen.getByTestId("item").className).toContain("wui-sidebar__item");
+    expect(screen.getByTestId("item").className).toContain("civ-sidebar__item");
   });
 });
 
@@ -107,14 +107,14 @@ describe("Sidebar sub-components", () => {
         <SidebarFooter data-testid="footer">Footer</SidebarFooter>
       </Sidebar>,
     );
-    expect(screen.getByTestId("header").className).toContain("wui-sidebar__header");
-    expect(screen.getByTestId("content").className).toContain("wui-sidebar__content");
-    expect(screen.getByTestId("footer").className).toContain("wui-sidebar__footer");
+    expect(screen.getByTestId("header").className).toContain("civ-sidebar__header");
+    expect(screen.getByTestId("content").className).toContain("civ-sidebar__content");
+    expect(screen.getByTestId("footer").className).toContain("civ-sidebar__footer");
   });
 });
 
 describe("SidebarItem — icon-only collapsed mode (P0)", () => {
-  it("wraps children in wui-sidebar__label span for collapsed hiding", () => {
+  it("wraps children in civ-sidebar__label span for collapsed hiding", () => {
     render(
       <Sidebar>
         <SidebarContent>
@@ -123,12 +123,12 @@ describe("SidebarItem — icon-only collapsed mode (P0)", () => {
       </Sidebar>,
     );
     const item = screen.getByTestId("item");
-    const label = item.querySelector(".wui-sidebar__label");
+    const label = item.querySelector(".civ-sidebar__label");
     expect(label).toBeInTheDocument();
     expect(label).toHaveTextContent("Home");
   });
 
-  it("renders icon in wui-sidebar__icon span", () => {
+  it("renders icon in civ-sidebar__icon span", () => {
     render(
       <Sidebar>
         <SidebarContent>
@@ -137,7 +137,7 @@ describe("SidebarItem — icon-only collapsed mode (P0)", () => {
       </Sidebar>,
     );
     const icon = screen.getByTestId("home-icon");
-    expect(icon.parentElement?.className).toContain("wui-sidebar__icon");
+    expect(icon.parentElement?.className).toContain("civ-sidebar__icon");
   });
 });
 

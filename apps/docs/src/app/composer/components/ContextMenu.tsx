@@ -5,7 +5,7 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
-} from "@weiui/react";
+} from "civaria";
 import { useEffect } from "react";
 import { useInteractionManager } from "../lib/interaction-manager";
 import { useVirtualAnchor } from "../../../lib/virtual-anchor";

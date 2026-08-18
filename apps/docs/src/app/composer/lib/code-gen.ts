@@ -28,13 +28,13 @@ export function generateHtml(nodes: LegacyComponentNode[]): string {
 
 function nodeToHtml(node: LegacyComponentNode): string {
   const typeToClass: Record<string, string> = {
-    Button: "wui-button wui-button--solid",
-    Input: "wui-input",
-    Badge: "wui-badge wui-badge--solid",
-    Card: "wui-card",
-    Avatar: "wui-avatar",
-    Alert: "wui-alert",
-    Divider: "wui-divider",
+    Button: "civ-button civ-button--solid",
+    Input: "civ-input",
+    Badge: "civ-badge civ-badge--solid",
+    Card: "civ-card",
+    Avatar: "civ-avatar",
+    Alert: "civ-alert",
+    Divider: "civ-divider",
     Heading: "h2",
     Text: "p",
   };

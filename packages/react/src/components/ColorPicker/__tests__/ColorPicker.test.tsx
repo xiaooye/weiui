@@ -95,7 +95,7 @@ describe("ColorPicker", () => {
 
     it("variant=inline still renders the pad inline", () => {
       const { container } = render(<ColorPicker variant="inline" defaultValue="#ff0000" />);
-      expect(container.querySelector(".wui-color-picker--inline")).not.toBeNull();
+      expect(container.querySelector(".civ-color-picker--inline")).not.toBeNull();
     });
 
     it("announces the selected color to a live region", async () => {
@@ -104,7 +104,7 @@ describe("ColorPicker", () => {
         <ColorPicker defaultValue="#000000" swatches={["#ff0000"]} />,
       );
       await user.click(screen.getByRole("option", { name: "#ff0000" }));
-      const live = document.querySelector('[aria-live="polite"][data-wui-color-picker-live]');
+      const live = document.querySelector('[aria-live="polite"][data-civaria-color-picker-live]');
       expect(live).not.toBeNull();
       expect(live?.textContent).toMatch(/ff0000|color/i);
     });

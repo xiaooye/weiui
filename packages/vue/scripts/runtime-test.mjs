@@ -11,10 +11,10 @@ const app = createSSRApp({ render: () => h("main", {}, [
   h(Dialog, { modelValue: true, teleport: false, title: "Runtime dialog" }),
 ]) });
 const html = await renderToString(app);
-assert.match(html, /data-wui-component="button"/);
-assert.match(html, /data-wui-component="accordion"/);
+assert.match(html, /data-civaria-component="button"/);
+assert.match(html, /data-civaria-component="accordion"/);
 assert.match(html, /aria-expanded="true"/);
-assert.match(html, /data-wui-component="select"/);
+assert.match(html, /data-civaria-component="select"/);
 assert.match(html, /name="choice"/);
 assert.match(html, /role="dialog"/);
 console.log("Vue native SSR/runtime contract: OK");

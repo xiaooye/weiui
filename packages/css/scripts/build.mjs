@@ -11,7 +11,7 @@ const ROOT = path.resolve(HERE, "..");
 const SRC = path.join(ROOT, "src");
 const DIST = path.join(ROOT, "dist");
 const INDEX = path.join(SRC, "index.css");
-const MANIFEST_SCHEMA = "weiui_css_bundle_manifest_v1";
+const MANIFEST_SCHEMA = "civaria_css_bundle_manifest_v1";
 
 const indexSource = await readFile(INDEX, "utf8");
 const layerMatch = indexSource.match(/@layer\s+([^;]+);/);
@@ -36,7 +36,7 @@ function classify(relative) {
 
 function inferElementDependencies(source, ownId) {
   const refs = new Set();
-  for (const match of source.matchAll(/\.wui-([a-z0-9-]+)/g)) {
+  for (const match of source.matchAll(/\.civ-([a-z0-9-]+)/g)) {
     const className = match[1];
     const target = elementIds.find((id) => className === id || className.startsWith(`${id}-`));
     if (target && target !== ownId) refs.add(target);
@@ -58,7 +58,7 @@ async function compile(sourcePath, outputPath) {
 
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
-await compile(INDEX, path.join(DIST, "weiui.css"));
+await compile(INDEX, path.join(DIST, "civaria.css"));
 
 const fragments = [];
 for (let order = 0; order < imports.length; order += 1) {
@@ -81,7 +81,7 @@ const manifest = {
   schema: MANIFEST_SCHEMA,
   layer_order: layerOrder,
   layer_declaration: layerDeclaration,
-  full_bundle: "weiui.css",
+  full_bundle: "civaria.css",
   fragments,
 };
 await writeFile(path.join(DIST, "bundle-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
@@ -90,7 +90,7 @@ await writeFile(path.join(DIST, "config.mjs"), await readFile(path.join(HERE, "c
 await writeFile(path.join(DIST, "config-cli.mjs"), await readFile(path.join(HERE, "config-cli.mjs"), "utf8"), "utf8");
 
 const lightning = process.platform === "win32" ? "lightningcss.cmd" : "lightningcss";
-const minify = spawnSync(lightning, ["--minify", path.join(DIST, "weiui.css"), "-o", path.join(DIST, "weiui.min.css")], {
+const minify = spawnSync(lightning, ["--minify", path.join(DIST, "civaria.css"), "-o", path.join(DIST, "civaria.min.css")], {
   stdio: "inherit",
 });
 if (minify.status !== 0) {

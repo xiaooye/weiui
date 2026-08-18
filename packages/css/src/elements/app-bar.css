@@ -1,101 +1,101 @@
-@layer wui-elements {
-  .wui-app-bar {
+@layer civ-elements {
+  .civ-app-bar {
     display: flex;
     align-items: center;
     min-block-size: 56px;
-    padding-inline: var(--wui-spacing-4);
-    background-color: var(--wui-color-background);
-    border-block-end: 1px solid var(--wui-color-border);
-    box-shadow: var(--wui-elevation-2);
-    z-index: var(--wui-zIndex-sticky);
+    padding-inline: var(--civ-spacing-4);
+    background-color: var(--civ-color-background);
+    border-block-end: 1px solid var(--civ-color-border);
+    box-shadow: var(--civ-elevation-2);
+    z-index: var(--civ-zIndex-sticky);
   }
-  .wui-app-bar[data-position="sticky"] {
+  .civ-app-bar[data-position="sticky"] {
     position: sticky;
     inset-block-start: 0;
   }
-  .wui-app-bar[data-position="fixed"] {
+  .civ-app-bar[data-position="fixed"] {
     position: fixed;
     inset-block-start: 0;
     inset-inline: 0;
   }
-  .wui-app-bar[data-position="static"] {
+  .civ-app-bar[data-position="static"] {
     position: static;
   }
-  .wui-app-bar[data-color="primary"] {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-on-primary);
-    border-block-end-color: color-mix(in oklch, var(--wui-color-primary) 60%, transparent);
+  .civ-app-bar[data-color="primary"] {
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-on-primary);
+    border-block-end-color: color-mix(in oklch, var(--civ-color-primary) 60%, transparent);
   }
-  .wui-app-bar[data-color="primary"] .wui-app-bar__link {
-    color: color-mix(in oklch, var(--wui-color-on-primary) 80%, transparent);
+  .civ-app-bar[data-color="primary"] .civ-app-bar__link {
+    color: color-mix(in oklch, var(--civ-color-on-primary) 80%, transparent);
   }
-  .wui-app-bar[data-color="primary"] .wui-app-bar__link:hover,
-  .wui-app-bar[data-color="primary"] .wui-app-bar__link[data-active] {
-    color: var(--wui-color-on-primary);
-    background-color: color-mix(in oklch, var(--wui-color-on-primary) 12%, transparent);
+  .civ-app-bar[data-color="primary"] .civ-app-bar__link:hover,
+  .civ-app-bar[data-color="primary"] .civ-app-bar__link[data-active] {
+    color: var(--civ-color-on-primary);
+    background-color: color-mix(in oklch, var(--civ-color-on-primary) 12%, transparent);
   }
-  .wui-app-bar[data-color="transparent"] {
+  .civ-app-bar[data-color="transparent"] {
     background-color: transparent;
     border-block-end: 0;
     box-shadow: none;
   }
-  .wui-app-bar__brand {
-    font-weight: var(--wui-font-weight-bold);
-    font-size: var(--wui-font-size-lg);
-    margin-inline-end: var(--wui-spacing-6);
+  .civ-app-bar__brand {
+    font-weight: var(--civ-font-weight-bold);
+    font-size: var(--civ-font-size-lg);
+    margin-inline-end: var(--civ-spacing-6);
     white-space: nowrap;
   }
-  .wui-app-bar__nav {
+  .civ-app-bar__nav {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
     flex: 1;
   }
-  .wui-app-bar__link {
+  .civ-app-bar__link {
     display: flex;
     align-items: center;
     min-block-size: 44px;
-    padding-inline: var(--wui-spacing-3);
-    padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-sm);
-    border-radius: var(--wui-shape-radius-md);
-    color: var(--wui-color-muted-foreground);
+    padding-inline: var(--civ-spacing-3);
+    padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-sm);
+    border-radius: var(--civ-shape-radius-md);
+    color: var(--civ-color-muted-foreground);
     cursor: pointer;
     border: none;
     background: none;
   }
-  .wui-app-bar__link:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-app-bar__link:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-app-bar__link[data-active] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
-    color: var(--wui-color-primary);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-app-bar__link[data-active] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
+    color: var(--civ-color-primary);
+    font-weight: var(--civ-font-weight-medium);
   }
-  .wui-app-bar__link:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-app-bar__link:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -3px;
   }
-  .wui-app-bar__actions {
+  .civ-app-bar__actions {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     margin-inline-start: auto;
   }
 
   /* Responsive: hide primary nav under small breakpoint so consumer can render a Drawer-based menu. */
   @media (max-width: 48rem) {
-    .wui-app-bar__nav {
+    .civ-app-bar__nav {
       display: none;
     }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-app-bar__link {
+    .civ-app-bar__link {
       transition-property: background-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

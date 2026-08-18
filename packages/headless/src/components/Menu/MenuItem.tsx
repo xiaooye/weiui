@@ -30,7 +30,7 @@ export function MenuItem({ children, onSelect, _menuIndex, onClick, onKeyDown, .
       ref={ref}
       role="menuitem"
       tabIndex={isActive ? 0 : -1}
-      data-wui-component="menu"
+      data-civaria-component="menu"
       data-part="item"
       data-highlighted={isActive ? "" : undefined}
       onClick={(e) => {

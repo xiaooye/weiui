@@ -1,6 +1,6 @@
 /**
- * Preferred unstyled React surface. The legacy @weiui/headless package remains
+ * Preferred unstyled React surface. The legacy @civaria/headless package remains
  * source-compatible during the pre-1.0 migration, while reusable semantics
- * are owned by @weiui/core.
+ * are owned by @civaria/core.
  */
-export * from "@weiui/headless";
+export * from "@civaria/headless";

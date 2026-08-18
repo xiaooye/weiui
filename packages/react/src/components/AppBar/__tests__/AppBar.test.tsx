@@ -6,13 +6,13 @@ describe("AppBar", () => {
   it("renders children inside a header element", () => {
     render(<AppBar>Top bar content</AppBar>);
     expect(screen.getByText("Top bar content")).toBeInTheDocument();
-    expect(screen.getByRole("banner")).toHaveClass("wui-app-bar");
+    expect(screen.getByRole("banner")).toHaveClass("civ-app-bar");
   });
 
   it("merges custom className with base class", () => {
     render(<AppBar className="custom">x</AppBar>);
     const header = screen.getByRole("banner");
-    expect(header).toHaveClass("wui-app-bar");
+    expect(header).toHaveClass("civ-app-bar");
     expect(header).toHaveClass("custom");
   });
 
@@ -30,9 +30,9 @@ describe("AppBar", () => {
       </AppBar>,
     );
 
-    expect(screen.getByText("Brand")).toHaveClass("wui-app-bar__brand");
-    expect(screen.getByRole("navigation")).toHaveClass("wui-app-bar__nav");
-    expect(screen.getByText("Sign in").parentElement).toHaveClass("wui-app-bar__actions");
+    expect(screen.getByText("Brand")).toHaveClass("civ-app-bar__brand");
+    expect(screen.getByRole("navigation")).toHaveClass("civ-app-bar__nav");
+    expect(screen.getByText("Sign in").parentElement).toHaveClass("civ-app-bar__actions");
   });
 
   it("marks the active link with aria-current and data-active", () => {

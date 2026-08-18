@@ -1,15 +1,15 @@
 /* packages/css/src/elements/kbd.css */
-@layer wui-elements {
-  .wui-kbd {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-xs);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    background-color: var(--wui-color-muted);
-    padding-inline: var(--wui-spacing-1\.5);
-    padding-block: var(--wui-spacing-0\.5);
-    border-radius: var(--wui-shape-radius-sm);
-    color: var(--wui-color-foreground);
+@layer civ-elements {
+  .civ-kbd {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    background-color: var(--civ-color-muted);
+    padding-inline: var(--civ-spacing-1\.5);
+    padding-block: var(--civ-spacing-0\.5);
+    border-radius: var(--civ-shape-radius-sm);
+    color: var(--civ-color-foreground);
     display: inline-block;
-    line-height: var(--wui-font-lineHeight-tight);
+    line-height: var(--civ-font-lineHeight-tight);
   }
 }

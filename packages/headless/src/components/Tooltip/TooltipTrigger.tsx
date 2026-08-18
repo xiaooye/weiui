@@ -9,7 +9,7 @@ export interface TooltipTriggerProps {
 export function TooltipTrigger({ children }: TooltipTriggerProps) {
   const { open, close, isOpen, tooltipId, refs } = useTooltipContext();
   const semantic = {
-    "data-wui-component": "tooltip",
+    "data-civaria-component": "tooltip",
     "data-part": "trigger",
     "data-state": isOpen ? "open" : "closed",
   } as const;

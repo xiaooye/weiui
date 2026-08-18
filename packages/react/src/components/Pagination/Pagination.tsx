@@ -93,17 +93,17 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     return (
       <nav
         ref={ref}
-        className={cn("wui-pagination", className)}
+        className={cn("civ-pagination", className)}
         data-size={size}
         aria-label="Pagination"
       >
         {totalLabel !== null && (
-          <span className="wui-pagination__total">{totalLabel}</span>
+          <span className="civ-pagination__total">{totalLabel}</span>
         )}
         {showFirstLast && (
           <button
             type="button"
-            className="wui-pagination__btn"
+            className="civ-pagination__btn"
             onClick={() => onPageChange(1)}
             disabled={page <= 1}
             data-disabled={page <= 1 || undefined}
@@ -114,7 +114,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         )}
         <button
           type="button"
-          className="wui-pagination__btn"
+          className="civ-pagination__btn"
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
           data-disabled={page <= 1 || undefined}
@@ -124,14 +124,14 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         </button>
         {pages.map((p, i) =>
           p === "..." ? (
-            <span key={`ellipsis-${i}`} className="wui-pagination__ellipsis" aria-hidden="true">
+            <span key={`ellipsis-${i}`} className="civ-pagination__ellipsis" aria-hidden="true">
               &hellip;
             </span>
           ) : (
             <button
               key={p}
               type="button"
-              className="wui-pagination__btn"
+              className="civ-pagination__btn"
               data-active={p === page || undefined}
               aria-current={p === page ? "page" : undefined}
               onClick={() => onPageChange(p)}
@@ -142,7 +142,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         )}
         <button
           type="button"
-          className="wui-pagination__btn"
+          className="civ-pagination__btn"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
           data-disabled={page >= totalPages || undefined}
@@ -153,7 +153,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         {showFirstLast && (
           <button
             type="button"
-            className="wui-pagination__btn"
+            className="civ-pagination__btn"
             onClick={() => onPageChange(totalPages)}
             disabled={page >= totalPages}
             data-disabled={page >= totalPages || undefined}
@@ -163,10 +163,10 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
           </button>
         )}
         {pageSizeOptions && onPageSizeChange && pageSize !== undefined && (
-          <label className="wui-pagination__page-size">
-            <span className="wui-pagination__page-size-label">Per page</span>
+          <label className="civ-pagination__page-size">
+            <span className="civ-pagination__page-size-label">Per page</span>
             <select
-              className="wui-pagination__page-size-select"
+              className="civ-pagination__page-size-select"
               value={pageSize}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
               aria-label="Rows per page"
@@ -180,8 +180,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
           </label>
         )}
         {jumpInput && (
-          <span className="wui-pagination__jump">
-            <span className="wui-pagination__jump-label">Go to</span>
+          <span className="civ-pagination__jump">
+            <span className="civ-pagination__jump-label">Go to</span>
             <input
               type="number"
               min={1}
@@ -195,7 +195,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                 }
               }}
               onBlur={submitJump}
-              className="wui-pagination__jump-input"
+              className="civ-pagination__jump-input"
               aria-label="Jump to page"
             />
           </span>

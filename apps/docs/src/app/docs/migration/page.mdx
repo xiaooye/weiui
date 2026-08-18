@@ -1,28 +1,28 @@
 # Migration Guides
 
-WeiUI is pre-1.0 so no breaking changes have shipped yet between our own versions. What this page *does* cover is **migrating in from other popular component libraries** — the common renames, contract differences, and a11y surprises you'll hit.
+Civaria is pre-1.0 so no breaking changes have shipped yet between our own versions. What this page *does* cover is **migrating in from other popular component libraries** — the common renames, contract differences, and a11y surprises you'll hit.
 
-## From shadcn/ui to WeiUI
+## From shadcn/ui to Civaria
 
-Closest cousin. shadcn/ui and WeiUI share the "copy-paste-to-own" ethos (`weiui add <component>` mirrors `npx shadcn add`). Big differences:
+Closest cousin. shadcn/ui and Civaria share the "copy-paste-to-own" ethos (`civaria add <component>` mirrors `npx shadcn add`). Big differences:
 
-- WeiUI ships a real CSS layer (`@weiui/css`) with cascade layers, OKLCH, AAA contrast — shadcn uses Tailwind utility classes.
-- WeiUI's headless layer (`@weiui/headless`) is standalone; shadcn depends on Radix Primitives.
-- WeiUI has tokens as a first-class package (`@weiui/tokens`) with build-time contrast validation.
+- Civaria ships a real CSS layer (`@civaria/css`) with cascade layers, OKLCH, AAA contrast — shadcn uses Tailwind utility classes.
+- Civaria's headless layer (`@civaria/headless`) is standalone; shadcn depends on Radix Primitives.
+- Civaria has tokens as a first-class package (`@civaria/tokens`) with build-time contrast validation.
 
 ### Component name map
 
-| shadcn/ui       | WeiUI              | Notes                                                       |
+| shadcn/ui       | Civaria              | Notes                                                       |
 |-----------------|--------------------|-------------------------------------------------------------|
 | `Button`        | `Button`           | Same variants (`solid/outline/ghost/link`), plus `soft`.   |
-| `Input`         | `Input`            | WeiUI adds `clearable`, `prefix/suffix`, `showCount`.      |
-| `Label`         | `Label`            | WeiUI's `Label` works standalone or inside `<Field>`.      |
+| `Input`         | `Input`            | Civaria adds `clearable`, `prefix/suffix`, `showCount`.      |
+| `Label`         | `Label`            | Civaria's `Label` works standalone or inside `<Field>`.      |
 | `Dialog`        | `Dialog`           | Same compound pattern.                                      |
 | `DropdownMenu`  | `Menu`             | Same roles; items are `<MenuItem>` not `<DropdownMenuItem>`.|
-| `Popover`       | `Popover`          | WeiUI adds `PopoverArrow` + modal + `onInteractOutside`.   |
-| `Tooltip`       | `Tooltip`          | WeiUI adds `TooltipProvider` for shared delay.             |
+| `Popover`       | `Popover`          | Civaria adds `PopoverArrow` + modal + `onInteractOutside`.   |
+| `Tooltip`       | `Tooltip`          | Civaria adds `TooltipProvider` for shared delay.             |
 | `Sheet`         | `Drawer`           | Name change; 4 sides supported.                             |
-| `Command`       | `CommandPalette`   | Built on `cmdk`; WeiUI adds recent items + shortcuts.      |
+| `Command`       | `CommandPalette`   | Built on `cmdk`; Civaria adds recent items + shortcuts.      |
 | `Toast` (sonner)| `toast()` + `<Toaster>` | Promise helper included; same hover-pause UX.         |
 | `DropdownMenuCheckboxItem` | `MenuCheckboxItem` | Same semantics.                                 |
 | `ToggleGroup`   | `ToggleGroup`      | Same single/multiple API.                                   |
@@ -50,8 +50,8 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
   </DialogContent>
 </Dialog>
 
-// After (WeiUI)
-import { Button, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@weiui/react";
+// After (Civaria)
+import { Button, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "civaria";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -67,17 +67,17 @@ import { Button, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle
 
 ### Behavioural differences
 
-- **Destructive buttons:** shadcn uses `variant="destructive"`. WeiUI keeps variant for visual style and adds `color="destructive"` so *color is orthogonal to variant*.
-- **Theming:** shadcn uses CSS variables driven by Tailwind config. WeiUI uses CSS variables driven by the tokens JSON. You can import `@weiui/css` without Tailwind.
-- **RTL:** WeiUI uses logical properties end-to-end. shadcn relies on Tailwind's logical utilities, which are opt-in.
-- **Reduced motion:** every WeiUI animation is wrapped in `@media (prefers-reduced-motion: no-preference)`. shadcn inherits whatever the consumer wrote.
+- **Destructive buttons:** shadcn uses `variant="destructive"`. Civaria keeps variant for visual style and adds `color="destructive"` so *color is orthogonal to variant*.
+- **Theming:** shadcn uses CSS variables driven by Tailwind config. Civaria uses CSS variables driven by the tokens JSON. You can import `@civaria/css` without Tailwind.
+- **RTL:** Civaria uses logical properties end-to-end. shadcn relies on Tailwind's logical utilities, which are opt-in.
+- **Reduced motion:** every Civaria animation is wrapped in `@media (prefers-reduced-motion: no-preference)`. shadcn inherits whatever the consumer wrote.
 
 ### Common pitfalls
 
-- shadcn's `cn()` helper is baked into WeiUI too (`@weiui/react` re-exports it from `utils/cn`). You don't need to copy it across.
+- shadcn's `cn()` helper is baked into Civaria too (`civaria` re-exports it from `utils/cn`). You don't need to copy it across.
 - `DialogDescription` ships but isn't strictly required — Dialog wires `aria-describedby` only when present.
 
-### Snippet gallery (shadcn/ui to WeiUI)
+### Snippet gallery (shadcn/ui to Civaria)
 
 #### Button
 
@@ -92,8 +92,8 @@ import { Button } from "@/components/ui/button";
 ```
 
 ```tsx
-// @weiui/react
-import { Button } from "@weiui/react";
+// civaria
+import { Button } from "civaria";
 
 <Button variant="solid" size="sm">Save</Button>
 <Button variant="solid" color="destructive">Delete</Button>
@@ -101,7 +101,7 @@ import { Button } from "@weiui/react";
 <Button variant="ghost">Close</Button>
 ```
 
-Key differences: `variant="default"` becomes `variant="solid"`; `variant="destructive"` becomes `variant="solid" color="destructive"` (color is a separate axis in WeiUI).
+Key differences: `variant="default"` becomes `variant="solid"`; `variant="destructive"` becomes `variant="solid" color="destructive"` (color is a separate axis in Civaria).
 
 #### Dialog
 
@@ -129,11 +129,11 @@ import {
 ```
 
 ```tsx
-// @weiui/react
+// civaria
 import {
   Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger,
   Stack, Button,
-} from "@weiui/react";
+} from "civaria";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -149,7 +149,7 @@ import {
 </Dialog>
 ```
 
-WeiUI drops `DialogHeader` / `DialogFooter` — use `<Stack>` for layout.
+Civaria drops `DialogHeader` / `DialogFooter` — use `<Stack>` for layout.
 
 #### Form Field
 
@@ -170,13 +170,13 @@ WeiUI drops `DialogHeader` / `DialogFooter` — use `<Stack>` for layout.
 ```
 
 ```tsx
-// @weiui/react
+// civaria
 <Field label="Email" description="We'll never share it." error={errors.email?.message}>
   <Input {...register("email")} />
 </Field>
 ```
 
-WeiUI collapses the 7-element shadcn pattern into one `<Field>` that auto-wires `id`, `aria-describedby`, `aria-invalid` on its child.
+Civaria collapses the 7-element shadcn pattern into one `<Field>` that auto-wires `id`, `aria-describedby`, `aria-invalid` on its child.
 
 #### Menu
 
@@ -198,8 +198,8 @@ import {
 ```
 
 ```tsx
-// @weiui/react
-import { Menu, MenuTrigger, MenuContent, MenuItem } from "@weiui/react";
+// civaria
+import { Menu, MenuTrigger, MenuContent, MenuItem } from "civaria";
 
 <Menu>
   <MenuTrigger asChild>
@@ -215,16 +215,16 @@ Rename: `DropdownMenu*` becomes `Menu*`. `DropdownMenuShortcut` is replaced by t
 
 ---
 
-## From MUI (v5/v6) to WeiUI
+## From MUI (v5/v6) to Civaria
 
-MUI is heavier, opinionated about Material Design, and prescribes `sx` for styling. WeiUI is utility-first at the component level and token-driven at the style level.
+MUI is heavier, opinionated about Material Design, and prescribes `sx` for styling. Civaria is utility-first at the component level and token-driven at the style level.
 
 ### Component name map
 
-| MUI                    | WeiUI                         | Notes                                                |
+| MUI                    | Civaria                         | Notes                                                |
 |------------------------|-------------------------------|------------------------------------------------------|
-| `Button`               | `Button`                      | WeiUI uses `variant` + `color`; MUI uses `variant` + `color` too but semantics differ. |
-| `TextField`            | `Field` + `Input`             | WeiUI splits label + input; Field auto-wires a11y.  |
+| `Button`               | `Button`                      | Civaria uses `variant` + `color`; MUI uses `variant` + `color` too but semantics differ. |
+| `TextField`            | `Field` + `Input`             | Civaria splits label + input; Field auto-wires a11y.  |
 | `Select` / `MenuItem`  | `Select` + `SelectItem`       | Compound pattern instead of prop-driven.            |
 | `Checkbox`             | `Checkbox`                    | `label` prop supported out of the box.              |
 | `Switch`               | `Switch`                      | Same.                                                |
@@ -240,7 +240,7 @@ MUI is heavier, opinionated about Material Design, and prescribes `sx` for styli
 | `DataGrid` (pro)       | `DataTable`                   | TanStack Table underneath; free + MIT.              |
 | `Card` / `CardContent` | `Card` + `CardContent`        | Same slot names.                                    |
 | `Chip`                 | `Chip`                        | `onRemove` instead of `onDelete`.                   |
-| `Alert`                | `Alert`                       | WeiUI ships default icons + dismissible + action.   |
+| `Alert`                | `Alert`                       | Civaria ships default icons + dismissible + action.   |
 | `Snackbar`             | `toast()` + `<Toaster>`       | Simpler queue; no provider wrapping.                |
 | `CircularProgress`     | `Spinner`                     | —                                                   |
 | `LinearProgress`       | `ProgressBar`                 | —                                                   |
@@ -259,12 +259,12 @@ Drop `sx={{ mt: 2, color: "primary.main" }}` entirely. Replace with tokens:
 // Before (MUI)
 <Box sx={{ mt: 2, p: 3, bgcolor: "background.paper", borderRadius: 2 }}>...</Box>
 
-// After (WeiUI)
+// After (Civaria)
 <div style={{
-  marginBlockStart: "var(--wui-spacing-4)",
-  padding: "var(--wui-spacing-6)",
-  backgroundColor: "var(--wui-color-background)",
-  borderRadius: "var(--wui-shape-radius-md)",
+  marginBlockStart: "var(--civ-spacing-4)",
+  padding: "var(--civ-spacing-6)",
+  backgroundColor: "var(--civ-color-background)",
+  borderRadius: "var(--civ-shape-radius-md)",
 }}>...</div>
 ```
 
@@ -279,7 +279,7 @@ const theme = createTheme({
   typography: { fontFamily: "Inter" },
 });
 
-// After (WeiUI tokens JSON)
+// After (Civaria tokens JSON)
 // packages/tokens/tokens/color.json
 {
   "color": {
@@ -292,11 +292,11 @@ The tokens JSON gets compiled to CSS custom properties at build time. Runtime th
 
 ### Common pitfalls
 
-- MUI's `onChange` on many controls returns `(event, value)` — WeiUI returns just `value` for controls like Switch (`onCheckedChange`), Select (`onValueChange`), Tabs (`onValueChange`). Native `<input>`-based controls (Input, Checkbox, Textarea) still fire with the event so you access `e.target.value` / `e.target.checked`.
-- MUI's `<FormControl>` / `<InputLabel>` / `<FormHelperText>` is WeiUI's single `<Field>` with `<FieldLabel>` and `<FieldDescription>`. No provider required.
-- MUI's `Grid xs={6} md={4}` becomes WeiUI's `<Grid columns={{ base: 2, md: 3 }}>` — the child grows to fit.
+- MUI's `onChange` on many controls returns `(event, value)` — Civaria returns just `value` for controls like Switch (`onCheckedChange`), Select (`onValueChange`), Tabs (`onValueChange`). Native `<input>`-based controls (Input, Checkbox, Textarea) still fire with the event so you access `e.target.value` / `e.target.checked`.
+- MUI's `<FormControl>` / `<InputLabel>` / `<FormHelperText>` is Civaria's single `<Field>` with `<FieldLabel>` and `<FieldDescription>`. No provider required.
+- MUI's `Grid xs={6} md={4}` becomes Civaria's `<Grid columns={{ base: 2, md: 3 }}>` — the child grows to fit.
 
-### Snippet gallery (MUI to WeiUI)
+### Snippet gallery (MUI to Civaria)
 
 #### Button
 
@@ -311,8 +311,8 @@ import Button from "@mui/material/Button";
 ```
 
 ```tsx
-// @weiui/react
-import { Button } from "@weiui/react";
+// civaria
+import { Button } from "civaria";
 
 <Button variant="solid" size="sm">Save</Button>
 <Button variant="solid" color="destructive">Delete</Button>
@@ -344,11 +344,11 @@ import {
 ```
 
 ```tsx
-// @weiui/react
+// civaria
 import {
   Dialog, DialogContent, DialogDescription, DialogTitle,
   Stack, Button,
-} from "@weiui/react";
+} from "civaria";
 
 <Dialog open={open} onOpenChange={setOpen}>
   <DialogContent>
@@ -380,8 +380,8 @@ import { FormControl, InputLabel, Input, FormHelperText } from "@mui/material";
 ```
 
 ```tsx
-// @weiui/react
-import { Field, Input } from "@weiui/react";
+// civaria
+import { Field, Input } from "civaria";
 
 <Field label="Email" description="We'll never share it." error={errors.email?.message}>
   <Input {...register("email")} />
@@ -408,8 +408,8 @@ const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 ```
 
 ```tsx
-// @weiui/react
-import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "@weiui/react";
+// civaria
+import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "civaria";
 
 <Menu>
   <MenuTrigger asChild>
@@ -425,30 +425,30 @@ No anchor-element plumbing. `MenuTrigger` handles positioning; `shortcut` is a f
 
 ---
 
-## From Radix Primitives to WeiUI
+## From Radix Primitives to Civaria
 
-WeiUI's headless layer mirrors Radix's compound-component pattern closely. You're moving from unstyled primitives to styled components.
+Civaria's headless layer mirrors Radix's compound-component pattern closely. You're moving from unstyled primitives to styled components.
 
 ### Component name map
 
-| Radix                        | WeiUI                                   | Notes                                                  |
+| Radix                        | Civaria                                   | Notes                                                  |
 |------------------------------|------------------------------------------|--------------------------------------------------------|
-| `@radix-ui/react-dialog`     | `@weiui/react` `Dialog`                  | Same compound API.                                    |
-| `@radix-ui/react-dropdown-menu` | `@weiui/react` `Menu`                 | —                                                      |
-| `@radix-ui/react-popover`    | `@weiui/react` `Popover`                 | —                                                      |
-| `@radix-ui/react-tooltip`    | `@weiui/react` `Tooltip`                 | —                                                      |
-| `@radix-ui/react-tabs`       | `@weiui/react` `Tabs`                    | —                                                      |
-| `@radix-ui/react-accordion`  | `@weiui/react` `Accordion`               | —                                                      |
-| `@radix-ui/react-toggle-group`| `@weiui/react` `ToggleGroup`            | —                                                      |
-| `@radix-ui/react-select`     | `@weiui/react` `Select`                  | —                                                      |
-| `@radix-ui/react-hover-card` | `@weiui/react` `Popover` + trigger="hover"| WeiUI doesn't ship a separate HoverCard — pick Popover with hover behaviour. |
-| `@radix-ui/react-navigation-menu` | `@weiui/react` `Menu`                | —                                                      |
-| `@radix-ui/react-context-menu`| `@weiui/react` `Menu` on `contextmenu`  | WeiUI doesn't ship a separate ContextMenu primitive yet. |
-| `@radix-ui/react-portal`     | `@weiui/react` `Portal`                  | —                                                      |
+| `@radix-ui/react-dialog`     | `civaria` `Dialog`                  | Same compound API.                                    |
+| `@radix-ui/react-dropdown-menu` | `civaria` `Menu`                 | —                                                      |
+| `@radix-ui/react-popover`    | `civaria` `Popover`                 | —                                                      |
+| `@radix-ui/react-tooltip`    | `civaria` `Tooltip`                 | —                                                      |
+| `@radix-ui/react-tabs`       | `civaria` `Tabs`                    | —                                                      |
+| `@radix-ui/react-accordion`  | `civaria` `Accordion`               | —                                                      |
+| `@radix-ui/react-toggle-group`| `civaria` `ToggleGroup`            | —                                                      |
+| `@radix-ui/react-select`     | `civaria` `Select`                  | —                                                      |
+| `@radix-ui/react-hover-card` | `civaria` `Popover` + trigger="hover"| Civaria doesn't ship a separate HoverCard — pick Popover with hover behaviour. |
+| `@radix-ui/react-navigation-menu` | `civaria` `Menu`                | —                                                      |
+| `@radix-ui/react-context-menu`| `civaria` `Menu` on `contextmenu`  | Civaria doesn't ship a separate ContextMenu primitive yet. |
+| `@radix-ui/react-portal`     | `civaria` `Portal`                  | —                                                      |
 
 ### Slot / asChild
 
-Radix popularised `asChild` for composition. WeiUI supports the same pattern where it makes sense:
+Radix popularised `asChild` for composition. Civaria supports the same pattern where it makes sense:
 
 ```tsx
 // Before (Radix)
@@ -456,7 +456,7 @@ Radix popularised `asChild` for composition. WeiUI supports the same pattern whe
   <Link href="/profile">Open profile</Link>
 </Dialog.Trigger>
 
-// After (WeiUI) — identical
+// After (Civaria) — identical
 <DialogTrigger asChild>
   <Link href="/profile">Open profile</Link>
 </DialogTrigger>
@@ -464,47 +464,47 @@ Radix popularised `asChild` for composition. WeiUI supports the same pattern whe
 
 ### Imports
 
-The biggest ergonomic change — Radix distributes per-component packages; WeiUI is a single barrel:
+The biggest ergonomic change — Radix distributes per-component packages; Civaria is a single barrel:
 
 ```tsx
 // Before (Radix)
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-// After (WeiUI)
+// After (Civaria)
 import {
   Dialog, DialogTrigger, DialogContent,
   Menu, MenuTrigger, MenuContent, MenuItem,
-} from "@weiui/react";
+} from "civaria";
 ```
 
 ### Styling
 
-Radix primitives are unstyled; you bring your own CSS. WeiUI ships styles. If you want pure headless, depend on `@weiui/headless` only — same compound pattern, no styles included:
+Radix primitives are unstyled; you bring your own CSS. Civaria ships styles. If you want pure headless, depend on `@civaria/headless` only — same compound pattern, no styles included:
 
 ```ts
-import { useDisclosure, useFocusTrap, Portal } from "@weiui/headless";
+import { useDisclosure, useFocusTrap, Portal } from "@civaria/headless";
 ```
 
 Then style with your own CSS or Tailwind.
 
 ### Behavioural differences
 
-- Radix's `onOpenChange` fires on every mount-cycle change including keyboard-driven close. WeiUI matches this contract.
-- Radix's `modal` prop on Dialog toggles `aria-modal` + body scroll lock. WeiUI defaults Dialog to modal, and Drawer likewise.
-- Radix's `onEscapeKeyDown` / `onInteractOutside` preventable-event pattern is preserved in WeiUI — call `e.preventDefault()` to block close.
+- Radix's `onOpenChange` fires on every mount-cycle change including keyboard-driven close. Civaria matches this contract.
+- Radix's `modal` prop on Dialog toggles `aria-modal` + body scroll lock. Civaria defaults Dialog to modal, and Drawer likewise.
+- Radix's `onEscapeKeyDown` / `onInteractOutside` preventable-event pattern is preserved in Civaria — call `e.preventDefault()` to block close.
 
 ### Common pitfalls
 
-- Radix's `Root` / `Trigger` / `Portal` / `Overlay` / `Content` pattern in Dialog has slightly shorter names in WeiUI: `Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogClose`. No explicit `Portal` or `Overlay` — they're inside `DialogContent`.
-- Radix's Select has an explicit `Value` and `Content > Viewport` structure. WeiUI flattens to `SelectTrigger > SelectValue` and `SelectContent > SelectItem`.
+- Radix's `Root` / `Trigger` / `Portal` / `Overlay` / `Content` pattern in Dialog has slightly shorter names in Civaria: `Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogClose`. No explicit `Portal` or `Overlay` — they're inside `DialogContent`.
+- Radix's Select has an explicit `Value` and `Content > Viewport` structure. Civaria flattens to `SelectTrigger > SelectValue` and `SelectContent > SelectItem`.
 - Dismissible state lives on the root (`<Dialog open onOpenChange>`). Trigger and Content are siblings that read from context.
 
-### Snippet gallery (Radix to WeiUI)
+### Snippet gallery (Radix to Civaria)
 
 #### Button
 
-Radix doesn't ship a `Button` primitive — you'd style your own `<button>` or use a third-party one. WeiUI gives you one directly:
+Radix doesn't ship a `Button` primitive — you'd style your own `<button>` or use a third-party one. Civaria gives you one directly:
 
 ```tsx
 // Radix (no primitive — typical hand-rolled)
@@ -517,8 +517,8 @@ Radix doesn't ship a `Button` primitive — you'd style your own `<button>` or u
 ```
 
 ```tsx
-// @weiui/react
-import { Button } from "@weiui/react";
+// civaria
+import { Button } from "civaria";
 
 <Button variant="solid" size="sm">Save</Button>
 <Button variant="solid" color="destructive">Delete</Button>
@@ -550,11 +550,11 @@ import * as Dialog from "@radix-ui/react-dialog";
 ```
 
 ```tsx
-// @weiui/react
+// civaria
 import {
   Dialog, DialogTrigger, DialogContent, DialogTitle,
   DialogDescription, DialogClose, Button,
-} from "@weiui/react";
+} from "civaria";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -588,15 +588,15 @@ import * as Label from "@radix-ui/react-label";
 ```
 
 ```tsx
-// @weiui/react
-import { Field, Input } from "@weiui/react";
+// civaria
+import { Field, Input } from "civaria";
 
 <Field label="Email" description="We'll never share it." error={error}>
   <Input />
 </Field>
 ```
 
-WeiUI's `<Field>` generates the `id`, wires `htmlFor` on the label, sets `aria-describedby` / `aria-invalid` on the child input, and ships matching styles.
+Civaria's `<Field>` generates the `id`, wires `htmlFor` on the label, sets `aria-describedby` / `aria-invalid` on the child input, and ships matching styles.
 
 #### Menu
 
@@ -620,8 +620,8 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 ```
 
 ```tsx
-// @weiui/react
-import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "@weiui/react";
+// civaria
+import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "civaria";
 
 <Menu>
   <MenuTrigger asChild>
@@ -639,7 +639,7 @@ import { Menu, MenuTrigger, MenuContent, MenuItem, Button } from "@weiui/react";
 
 ## Codemods (roadmap)
 
-If you'd like automated renames, please file an issue with the lib you're migrating from — we plan to ship `@weiui/codemod` as a Post-1.0 milestone with shadcn / MUI / Radix preset transforms.
+If you'd like automated renames, please file an issue with the lib you're migrating from — we plan to ship `@civaria/codemod` as a Post-1.0 milestone with shadcn / MUI / Radix preset transforms.
 
 ## Still stuck?
 

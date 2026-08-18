@@ -127,7 +127,7 @@ function ToolbarBtn({
   return (
     <button
       type="button"
-      className="wui-editor__toolbar-btn"
+      className="civ-editor__toolbar-btn"
       data-active={isActive || undefined}
       aria-label={fullLabel}
       aria-pressed={isActive}
@@ -310,7 +310,7 @@ export const Editor = forwardRef<EditorHandle, EditorProps>(
           return (
             <div
               key={`sep-${idx}`}
-              className="wui-editor__toolbar-sep"
+              className="civ-editor__toolbar-sep"
               aria-hidden="true"
             />
           );
@@ -506,13 +506,13 @@ export const Editor = forwardRef<EditorHandle, EditorProps>(
     return (
       <div
         ref={rootRef}
-        className={cn("wui-editor", className)}
+        className={cn("civ-editor", className)}
         data-disabled={disabled || undefined}
         role="group"
         aria-label={label || "Rich text editor"}
       >
         <div
-          className="wui-editor__toolbar"
+          className="civ-editor__toolbar"
           role="toolbar"
           aria-label="Formatting options"
         >
@@ -523,23 +523,23 @@ export const Editor = forwardRef<EditorHandle, EditorProps>(
             ref={fileInputRef}
             type="file"
             accept="image/*"
-            className="wui-editor__file-input"
+            className="civ-editor__file-input"
             aria-hidden="true"
             tabIndex={-1}
             onChange={handleFileChange}
           />
         ) : null}
-        <div className="wui-editor__content">
+        <div className="civ-editor__content">
           <EditorContent editor={editor} />
         </div>
         {bubbleMenu ? (
           <BubbleMenu
             editor={editor}
-            className="wui-editor__bubble"
+            className="civ-editor__bubble"
             options={{ placement: "top" }}
           >
             <div
-              className="wui-editor__bubble-inner"
+              className="civ-editor__bubble-inner"
               role="toolbar"
               aria-label="Selection formatting"
             >
@@ -572,7 +572,7 @@ export const Editor = forwardRef<EditorHandle, EditorProps>(
         ) : null}
         {showCount ? (
           <div
-            className="wui-editor__count"
+            className="civ-editor__count"
             aria-live="polite"
             data-testid="editor-count"
           >

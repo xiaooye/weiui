@@ -12,7 +12,7 @@ describe("Timeline", () => {
     );
     const list = screen.getByRole("list");
     expect(list.tagName).toBe("OL");
-    expect(list).toHaveClass("wui-timeline");
+    expect(list).toHaveClass("civ-timeline");
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
   });
 
@@ -32,7 +32,7 @@ describe("Timeline", () => {
       </Timeline>,
     );
     expect(screen.getByText("Shipped to production"))
-      .toHaveClass("wui-timeline-item__description");
+      .toHaveClass("civ-timeline-item__description");
   });
 
   it("omits description node when not provided", () => {
@@ -41,7 +41,7 @@ describe("Timeline", () => {
         <TimelineItem title="Event" />
       </Timeline>,
     );
-    expect(container.querySelector(".wui-timeline-item__description")).toBeNull();
+    expect(container.querySelector(".civ-timeline-item__description")).toBeNull();
   });
 
   it("renders time when provided", () => {
@@ -51,7 +51,7 @@ describe("Timeline", () => {
       </Timeline>,
     );
     expect(screen.getByText("2 hours ago"))
-      .toHaveClass("wui-timeline-item__time");
+      .toHaveClass("civ-timeline-item__time");
   });
 
   it("renders decorative indicator (dot + line) marked aria-hidden", () => {
@@ -60,8 +60,8 @@ describe("Timeline", () => {
         <TimelineItem title="Event" />
       </Timeline>,
     );
-    expect(container.querySelector(".wui-timeline-item__dot")).not.toBeNull();
-    const line = container.querySelector(".wui-timeline-item__line");
+    expect(container.querySelector(".civ-timeline-item__dot")).not.toBeNull();
+    const line = container.querySelector(".civ-timeline-item__line");
     expect(line).not.toBeNull();
     expect(line).toHaveAttribute("aria-hidden", "true");
   });

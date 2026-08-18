@@ -20,12 +20,12 @@ describe("Heading", () => {
 
   it("applies size class for h1", () => {
     render(<Heading level={1}>H1</Heading>);
-    expect(screen.getByRole("heading", { level: 1 }).className).toContain("wui-heading--1");
+    expect(screen.getByRole("heading", { level: 1 }).className).toContain("civ-heading--1");
   });
 
   it("applies size class for h3", () => {
     render(<Heading level={3}>H3</Heading>);
-    expect(screen.getByRole("heading", { level: 3 }).className).toContain("wui-heading--3");
+    expect(screen.getByRole("heading", { level: 3 }).className).toContain("civ-heading--3");
   });
 
   it("merges custom className", () => {

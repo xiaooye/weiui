@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "WeiUI",
+  name: "Civaria",
   description: "An accessibility-first, layered design system with WCAG AAA enforcement",
   githubUrl: "https://github.com/xiaooye/weiui",
   version: "0.0.1",

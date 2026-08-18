@@ -21,7 +21,7 @@ export function ComboboxContent({ children, ...props }: ComboboxContentProps) {
       id={listboxId}
       role="listbox"
       aria-labelledby={inputId}
-      data-wui-component="combobox"
+      data-civaria-component="combobox"
       data-part="content"
       data-state="open"
       {...props}

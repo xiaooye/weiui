@@ -1,170 +1,170 @@
-@layer wui-base {
+@layer civ-base {
   /* Composer WYSIWYG canvas — frame around the stage. Checkerboard artboard
      bg reads immediately as "design surface". */
-  .wui-composer__canvas {
+  .civ-composer__canvas {
     position: relative;
     inline-size: 100%;
     min-block-size: 20rem;
-    padding: var(--wui-spacing-4);
-    background-color: var(--wui-color-background);
+    padding: var(--civ-spacing-4);
+    background-color: var(--civ-color-background);
     background-image:
-      linear-gradient(45deg, var(--wui-color-muted) 25%, transparent 25%),
-      linear-gradient(-45deg, var(--wui-color-muted) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, var(--wui-color-muted) 75%),
-      linear-gradient(-45deg, transparent 75%, var(--wui-color-muted) 75%);
+      linear-gradient(45deg, var(--civ-color-muted) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--civ-color-muted) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--civ-color-muted) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--civ-color-muted) 75%);
     background-size: 16px 16px;
     background-position: 0 0, 0 8px, 8px -8px, -8px 0;
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     overflow: auto;
   }
 
   /* Stage — the sized drawing surface. `position: relative` is set inline so
      absolutely-positioned overlay rects anchor against it. */
-  .wui-composer__stage {
+  .civ-composer__stage {
     inline-size: 100%;
     margin-inline: auto;
     min-block-size: 16rem;
-    padding: var(--wui-spacing-4);
-    background-color: var(--wui-color-background);
-    color: var(--wui-color-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    box-shadow: var(--wui-shadow-sm);
+    padding: var(--civ-spacing-4);
+    background-color: var(--civ-color-background);
+    color: var(--civ-color-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    box-shadow: var(--civ-shadow-sm);
     box-sizing: border-box;
   }
 
   /* Overlay sits on top of the stage; hit-testing disabled so clicks fall
      through to real components. */
-  .wui-composer__overlay {
+  .civ-composer__overlay {
     /* positioning set inline; kept here only to document intent */
   }
 
   /* Selection outline — drawn as a real outline so it doesn't expand the box. */
-  .wui-composer__selection-outline {
-    outline: 2px solid var(--wui-color-primary);
+  .civ-composer__selection-outline {
+    outline: 2px solid var(--civ-color-primary);
     outline-offset: 2px;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
   }
 
   /* Hover outline — thinner ring shown when the mouse is over a node that
      isn't the current selection. */
-  .wui-composer__hover-outline {
+  .civ-composer__hover-outline {
     outline: 1px solid
-      color-mix(in oklch, var(--wui-color-primary) 50%, transparent);
+      color-mix(in oklch, var(--civ-color-primary) 50%, transparent);
     outline-offset: 2px;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
   }
 
   /* Inline layout chips — floating toolbar anchored near the selected node.
      Positioning supplied inline; this rule handles the visual chrome. */
-  .wui-composer__chips {
+  .civ-composer__chips {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
     background-image: linear-gradient(
       to bottom,
-      var(--wui-color-popover, var(--wui-color-background)),
-      color-mix(in oklch, var(--wui-color-popover, var(--wui-color-background)) 92%, var(--wui-color-muted))
+      var(--civ-color-popover, var(--civ-color-background)),
+      color-mix(in oklch, var(--civ-color-popover, var(--civ-color-background)) 92%, var(--civ-color-muted))
     );
-    color: var(--wui-color-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+    color: var(--civ-color-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     box-shadow:
-      0 1px 2px color-mix(in oklch, var(--wui-color-foreground) 8%, transparent),
-      0 4px 12px color-mix(in oklch, var(--wui-color-foreground) 12%, transparent);
+      0 1px 2px color-mix(in oklch, var(--civ-color-foreground) 8%, transparent),
+      0 4px 12px color-mix(in oklch, var(--civ-color-foreground) 12%, transparent);
     z-index: 10;
   }
 
-  .wui-composer__chip-input {
+  .civ-composer__chip-input {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+    gap: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
 
-  .wui-composer__chip-input input,
-  .wui-composer__chip-input select,
-  .wui-composer__chip-select {
+  .civ-composer__chip-input input,
+  .civ-composer__chip-input select,
+  .civ-composer__chip-select {
     inline-size: 4rem;
     block-size: 1.75rem;
     padding-block: 0;
-    padding-inline: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-background);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-sm);
+    padding-inline: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-background);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-sm);
   }
-  .wui-composer__chip-select:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-composer__chip-select:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 1px;
   }
 
   /* Inline slider chip — polished horizontal slider with label + value chip. */
-  .wui-composer__chip-slider {
+  .civ-composer__chip-slider {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+    gap: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-composer__chip-slider-label {
+  .civ-composer__chip-slider-label {
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: var(--wui-font-weight-semibold);
+    font-weight: var(--civ-font-weight-semibold);
   }
-  .wui-composer__chip-slider-value {
+  .civ-composer__chip-slider-value {
     min-inline-size: 1.25rem;
     text-align: center;
     font-variant-numeric: tabular-nums;
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-foreground);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-foreground);
   }
-  .wui-composer__chip-slider-track {
+  .civ-composer__chip-slider-track {
     inline-size: 6rem;
   }
 
   /* View toggle row above the canvas */
-  .wui-composer__viewport-bar {
+  .civ-composer__viewport-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
   }
 
   /* Empty canvas hero — a real drop-target affordance, not just a hint line. */
-  .wui-composer__empty {
+  .civ-composer__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--wui-spacing-4);
+    gap: var(--civ-spacing-4);
     min-block-size: 20rem;
-    padding-block: var(--wui-spacing-10);
-    padding-inline: var(--wui-spacing-8);
-    color: var(--wui-color-muted-foreground);
-    border: 2px dashed var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+    padding-block: var(--civ-spacing-10);
+    padding-inline: var(--civ-spacing-8);
+    color: var(--civ-color-muted-foreground);
+    border: 2px dashed var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     text-align: center;
     background-image: radial-gradient(
       circle at 50% 40%,
-      color-mix(in oklch, var(--wui-color-primary) 6%, transparent),
+      color-mix(in oklch, var(--civ-color-primary) 6%, transparent),
       transparent 60%
     );
   }
-  .wui-composer__empty-icon {
-    color: var(--wui-color-primary);
+  .civ-composer__empty-icon {
+    color: var(--civ-color-primary);
     opacity: 0.6;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-composer__empty-icon {
-      animation: wui-composer-empty-pulse 2.4s ease-in-out infinite;
+    .civ-composer__empty-icon {
+      animation: civ-composer-empty-pulse 2.4s ease-in-out infinite;
     }
-    @keyframes wui-composer-empty-pulse {
+    @keyframes civ-composer-empty-pulse {
       0%, 100% {
         opacity: 0.45;
         transform: scale(1);
@@ -175,157 +175,157 @@
       }
     }
   }
-  .wui-composer__empty-title {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-xl);
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-foreground);
+  .civ-composer__empty-title {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-xl);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-foreground);
     letter-spacing: -0.015em;
   }
-  .wui-composer__empty-sub {
-    font-size: var(--wui-font-size-sm);
+  .civ-composer__empty-sub {
+    font-size: var(--civ-font-size-sm);
     max-inline-size: 24rem;
   }
-  .wui-composer__empty-steps {
+  .civ-composer__empty-steps {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     margin: 0;
     padding: 0;
     list-style: none;
     text-align: start;
-    margin-block-start: var(--wui-spacing-2);
+    margin-block-start: var(--civ-spacing-2);
   }
-  .wui-composer__empty-step {
+  .civ-composer__empty-step {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-3);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    gap: var(--civ-spacing-3);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-composer__empty-step-num {
+  .civ-composer__empty-step-num {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     inline-size: 1.5rem;
     block-size: 1.5rem;
     border-radius: 50%;
-    background-color: color-mix(in oklch, var(--wui-color-primary) 12%, transparent);
-    color: var(--wui-color-primary);
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 12%, transparent);
+    color: var(--civ-color-primary);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     font-variant-numeric: tabular-nums;
   }
-  .wui-composer__empty-step-text {
-    color: var(--wui-color-foreground);
+  .civ-composer__empty-step-text {
+    color: var(--civ-color-foreground);
   }
 
   /* Props panel — section hierarchy inside the dense controls panel. */
-  .wui-composer__props-heading {
+  .civ-composer__props-heading {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
   /* Ancestor crumb: button inside <Breadcrumb> that jumps selection to that
      ancestor — gives users an escape hatch out of a deeply-nested leaf to
      reach the containing Stack / Card / Grid. */
-  .wui-composer__crumb-link {
+  .civ-composer__crumb-link {
     font: inherit;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     background: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
   }
-  .wui-composer__crumb-link:hover {
-    color: var(--wui-color-foreground);
+  .civ-composer__crumb-link:hover {
+    color: var(--civ-color-foreground);
     text-decoration: underline;
   }
-  .wui-composer__crumb-link:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-composer__crumb-link:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-composer__props-section {
+  .civ-composer__props-section {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-composer__props-section-title {
+  .civ-composer__props-section-title {
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding-block-end: var(--wui-spacing-1);
-    border-block-end: 1px solid var(--wui-color-border);
+    padding-block-end: var(--civ-spacing-1);
+    border-block-end: 1px solid var(--civ-color-border);
   }
 
   /* Between-siblings drop indicator — a 2px primary line at the sibling
      boundary the pointer is nearest to during a drag. Mutually exclusive
      with the edge drop zones (indicator state picks one or the other). */
-  .wui-composer__between-drop {
+  .civ-composer__between-drop {
     z-index: 2;
-    background: var(--wui-color-primary);
+    background: var(--civ-color-primary);
     box-shadow: 0 0 0 2px
-      color-mix(in oklch, var(--wui-color-primary) 40%, transparent);
+      color-mix(in oklch, var(--civ-color-primary) 40%, transparent);
     border-radius: 2px;
   }
 
   /* Drag ghost — follows the pointer via fixed positioning (see DragGhost). */
-  .wui-composer__drag-ghost {
+  .civ-composer__drag-ghost {
     transform: translateZ(0);
   }
 
-  .wui-composer__mobile-shell {
+  .civ-composer__mobile-shell {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
     inline-size: 100%;
   }
-  .wui-composer__mobile-toolbar {
+  .civ-composer__mobile-toolbar {
     display: flex;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
 
-  .wui-composer__appbar {
+  .civ-composer__appbar {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     flex-wrap: wrap;
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-3);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    background-color: var(--wui-color-card, var(--wui-color-background));
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-3);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    background-color: var(--civ-color-card, var(--civ-color-background));
   }
-  .wui-composer__appbar-sep {
+  .civ-composer__appbar-sep {
     inline-size: 1px;
     block-size: 1.5rem;
-    background-color: var(--wui-color-border);
+    background-color: var(--civ-color-border);
   }
-  .wui-composer__appbar-spacer {
+  .civ-composer__appbar-spacer {
     flex: 1;
   }
-  .wui-composer__appbar-switch {
+  .civ-composer__appbar-switch {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-xs);
+    gap: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-xs);
   }
 
-  .wui-composer__ruler {
+  .civ-composer__ruler {
     position: absolute;
     z-index: 1;
     pointer-events: none;
   }
-  .wui-composer__ruler--top {
+  .civ-composer__ruler--top {
     top: -20px;
     left: 0;
   }
-  .wui-composer__ruler--left {
+  .civ-composer__ruler--left {
     left: -20px;
     top: 0;
   }
 
-  .wui-composer__stage[data-preview="true"] {
+  .civ-composer__stage[data-preview="true"] {
     background-image: none;
   }
 
@@ -335,70 +335,70 @@
      sibling stage's data-preview flag. Modern browsers only (Chrome 105+,
      Safari 15.4+, Firefox 121+) — acceptable for the composer tool.
      Reduced-motion users get an instant swap via UA default. */
-  .wui-composer__overlay {
+  .civ-composer__overlay {
     transition: opacity 200ms ease;
   }
-  .wui-composer__stage-wrap:has(.wui-composer__stage[data-preview="true"]) .wui-composer__overlay {
+  .civ-composer__stage-wrap:has(.civ-composer__stage[data-preview="true"]) .civ-composer__overlay {
     opacity: 0;
   }
 
   /* Stage-local theme override — lets the composer preview in a specific
      theme independent of the docs-site theme. Values copied verbatim from
-     @weiui/tokens (primitives/color.json + dark-mode.ts) so the stage swaps
+     @civaria/tokens (primitives/color.json + dark-mode.ts) so the stage swaps
      real primitives, not just color-scheme. */
-  .wui-composer__stage[data-theme="light"] {
+  .civ-composer__stage[data-theme="light"] {
     color-scheme: light;
-    --wui-color-background: oklch(1 0 0);
-    --wui-color-foreground: oklch(0.145 0.010 240);
-    --wui-color-muted: oklch(0.967 0.003 240);
-    --wui-color-muted-foreground: oklch(0.446 0.018 240);
-    --wui-color-border: oklch(0.928 0.006 240);
-    --wui-color-card: oklch(1 0 0);
-    --wui-color-card-foreground: oklch(0.145 0.010 240);
-    --wui-color-primary: oklch(0.546 0.245 263);
-    --wui-color-primary-foreground: oklch(1 0 0);
-    --wui-color-ring: oklch(0.546 0.245 263);
+    --civ-color-background: oklch(1 0 0);
+    --civ-color-foreground: oklch(0.145 0.010 240);
+    --civ-color-muted: oklch(0.967 0.003 240);
+    --civ-color-muted-foreground: oklch(0.446 0.018 240);
+    --civ-color-border: oklch(0.928 0.006 240);
+    --civ-color-card: oklch(1 0 0);
+    --civ-color-card-foreground: oklch(0.145 0.010 240);
+    --civ-color-primary: oklch(0.546 0.245 263);
+    --civ-color-primary-foreground: oklch(1 0 0);
+    --civ-color-ring: oklch(0.546 0.245 263);
   }
-  .wui-composer__stage[data-theme="dark"] {
+  .civ-composer__stage[data-theme="dark"] {
     color-scheme: dark;
-    --wui-color-background: oklch(0.145 0.010 240);
-    --wui-color-foreground: oklch(0.985 0.002 240);
-    --wui-color-muted: oklch(0.279 0.015 240);
-    --wui-color-muted-foreground: oklch(0.732 0.015 240);
-    --wui-color-border: oklch(0.372 0.017 240);
-    --wui-color-card: oklch(0.208 0.012 240);
-    --wui-color-card-foreground: oklch(0.985 0.002 240);
-    --wui-color-primary: oklch(0.623 0.214 262);
-    --wui-color-primary-foreground: oklch(0.145 0.010 240);
-    --wui-color-ring: oklch(0.623 0.214 262);
+    --civ-color-background: oklch(0.145 0.010 240);
+    --civ-color-foreground: oklch(0.985 0.002 240);
+    --civ-color-muted: oklch(0.279 0.015 240);
+    --civ-color-muted-foreground: oklch(0.732 0.015 240);
+    --civ-color-border: oklch(0.372 0.017 240);
+    --civ-color-card: oklch(0.208 0.012 240);
+    --civ-color-card-foreground: oklch(0.985 0.002 240);
+    --civ-color-primary: oklch(0.623 0.214 262);
+    --civ-color-primary-foreground: oklch(0.145 0.010 240);
+    --civ-color-ring: oklch(0.623 0.214 262);
   }
 }
 
-@layer wui-utilities {
+@layer civ-utilities {
   /* Edge-aware drop zones overlaid on a hovered component during drag.
      Positioning is supplied inline (computed from the node's rect). */
-  .wui-composer__drop {
+  .civ-composer__drop {
     pointer-events: none;
     transition: background-color 120ms ease, outline-color 120ms ease;
   }
-  .wui-composer__canvas[data-dragging="true"] .wui-composer__drop {
+  .civ-composer__canvas[data-dragging="true"] .civ-composer__drop {
     pointer-events: auto;
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
     outline: 1px dashed
-      color-mix(in oklch, var(--wui-color-primary) 40%, transparent);
+      color-mix(in oklch, var(--civ-color-primary) 40%, transparent);
     outline-offset: -2px;
   }
-  .wui-composer__canvas[data-dragging="true"] .wui-composer__drop--active {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 35%, transparent);
-    outline: 3px solid var(--wui-color-primary);
+  .civ-composer__canvas[data-dragging="true"] .civ-composer__drop--active {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 35%, transparent);
+    outline: 3px solid var(--civ-color-primary);
     outline-offset: -3px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-composer__canvas[data-dragging="true"] .wui-composer__drop--active {
-      animation: wui-composer-drop-pulse 800ms ease-in-out infinite;
+    .civ-composer__canvas[data-dragging="true"] .civ-composer__drop--active {
+      animation: civ-composer-drop-pulse 800ms ease-in-out infinite;
     }
-    @keyframes wui-composer-drop-pulse {
+    @keyframes civ-composer-drop-pulse {
       0%,
       100% {
         outline-offset: -3px;

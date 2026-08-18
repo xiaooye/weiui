@@ -8,7 +8,7 @@ import {
   Stack,
   ToggleGroup,
   ToggleGroupItem,
-} from "@weiui/react";
+} from "civaria";
 import type { ThemeResult } from "../lib/theme-generator";
 
 interface Props {
@@ -23,7 +23,7 @@ export function ThemeExport({ theme }: Props) {
   return (
     <Card>
       <CardHeader>
-        <Stack direction="row" gap={3} className="wui-tool-code__header">
+        <Stack direction="row" gap={3} className="civ-tool-code__header">
           <ToggleGroup
             type="single"
             value={format}
@@ -46,7 +46,7 @@ export function ThemeExport({ theme }: Props) {
         </Stack>
       </CardHeader>
       <CardContent>
-        <pre className="wui-tool-code__pre wui-tool-code__pre--xs">
+        <pre className="civ-tool-code__pre civ-tool-code__pre--xs">
           <code>{output}</code>
         </pre>
       </CardContent>

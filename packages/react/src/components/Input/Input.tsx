@@ -1,6 +1,6 @@
 "use client";
 import { forwardRef, useCallback, useRef, useState, type ChangeEvent, type ReactNode } from "react";
-import { useControllable } from "@weiui/headless";
+import { useControllable } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
@@ -52,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const ctx = useFieldContext();
-    const sizeClass = size === "sm" ? "wui-input--sm" : size === "lg" ? "wui-input--lg" : "";
+    const sizeClass = size === "sm" ? "civ-input--sm" : size === "lg" ? "civ-input--lg" : "";
     const hasAddons = Boolean(startAddon || endAddon);
     const showReveal = Boolean(revealable && type === "password");
     const hasGroupChrome = Boolean(hasAddons || clearable || prefix || suffix || showCount || showReveal);
@@ -112,10 +112,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={setRefs}
         className={cn(
-          "wui-input",
+          "civ-input",
           sizeClass,
-          resolvedDisabled && "wui-input--disabled",
-          (hasAddons || hasGroupChrome) && "wui-input--with-addons",
+          resolvedDisabled && "civ-input--disabled",
+          (hasAddons || hasGroupChrome) && "civ-input--with-addons",
           !hasGroupChrome && className,
         )}
         type={resolvedType}
@@ -136,14 +136,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div
-        className={cn("wui-input-group", sizeClass, className)}
+        className={cn("civ-input-group", sizeClass, className)}
         data-invalid={resolvedInvalid || undefined}
       >
-        {startAddon && <span className="wui-input-group__addon">{startAddon}</span>}
-        {prefix && <span className="wui-input-group__prefix">{prefix}</span>}
+        {startAddon && <span className="civ-input-group__addon">{startAddon}</span>}
+        {prefix && <span className="civ-input-group__prefix">{prefix}</span>}
         {inputEl}
         {showCount && (
-          <span className="wui-input-group__count" aria-live="polite">
+          <span className="civ-input-group__count" aria-live="polite">
             {countValue}
             {maxLength !== undefined ? ` / ${maxLength}` : ""}
           </span>
@@ -152,7 +152,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <button
             type="button"
             aria-label="Clear input"
-            className="wui-input-group__clear"
+            className="civ-input-group__clear"
             onClick={handleClear}
             tabIndex={-1}
           >
@@ -167,7 +167,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             type="button"
             aria-label={revealed ? "Hide password" : "Show password"}
             aria-pressed={revealed}
-            className="wui-input-group__reveal"
+            className="civ-input-group__reveal"
             onClick={() => setRevealed((v) => !v)}
           >
             {revealed ? (
@@ -183,8 +183,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
           </button>
         )}
-        {suffix && <span className="wui-input-group__suffix">{suffix}</span>}
-        {endAddon && <span className="wui-input-group__addon">{endAddon}</span>}
+        {suffix && <span className="civ-input-group__suffix">{suffix}</span>}
+        {endAddon && <span className="civ-input-group__addon">{endAddon}</span>}
       </div>
     );
   },

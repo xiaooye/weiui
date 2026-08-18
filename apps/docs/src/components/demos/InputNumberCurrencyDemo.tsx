@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { InputNumber } from "@weiui/react";
+import { InputNumber } from "civaria";
 
 export function InputNumberCurrencyDemo() {
   const [value, setValue] = useState(1234);

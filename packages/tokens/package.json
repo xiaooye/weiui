@@ -1,8 +1,8 @@
 {
-  "name": "@weiui/tokens",
+  "name": "@civaria/tokens",
   "version": "0.1.0",
-  "description": "WeiUI design tokens — W3C Design Tokens Community Group JSON source-of-truth exported as CSS custom properties and TypeScript.",
-  "author": "WeiUI Contributors",
+  "description": "Civaria design tokens — W3C Design Tokens Community Group JSON source-of-truth exported as CSS custom properties and TypeScript.",
+  "author": "Civaria Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
@@ -17,7 +17,7 @@
   "keywords": [
     "design-tokens",
     "tokens",
-    "weiui",
+    "civaria",
     "oklch",
     "w3c",
     "css-custom-properties",
@@ -42,7 +42,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@weiui/a11y": "workspace:*"
+    "@civaria/a11y": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19",

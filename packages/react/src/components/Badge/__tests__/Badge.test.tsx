@@ -9,29 +9,29 @@ describe("Badge", () => {
     expect(screen.getByText("New")).toBeInTheDocument();
   });
 
-  it("applies wui-badge class", () => {
+  it("applies civ-badge class", () => {
     render(<Badge>label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge");
+    expect(screen.getByText("label").className).toContain("civ-badge");
   });
 
   it("applies default variant class", () => {
     render(<Badge>label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge--solid");
+    expect(screen.getByText("label").className).toContain("civ-badge--solid");
   });
 
   it("applies variant class", () => {
     render(<Badge variant="outline">label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge--outline");
+    expect(screen.getByText("label").className).toContain("civ-badge--outline");
   });
 
   it("does not apply primary color class (default)", () => {
     render(<Badge>label</Badge>);
-    expect(screen.getByText("label").className).not.toContain("wui-badge--primary");
+    expect(screen.getByText("label").className).not.toContain("civ-badge--primary");
   });
 
   it("applies non-primary color class", () => {
     render(<Badge color="destructive">label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge--destructive");
+    expect(screen.getByText("label").className).toContain("civ-badge--destructive");
   });
 
   it("merges custom className", () => {
@@ -48,16 +48,16 @@ describe("Badge", () => {
   // E.8 size variant
   it("does not apply size class for default md", () => {
     render(<Badge>label</Badge>);
-    expect(screen.getByText("label").className).not.toContain("wui-badge--md");
+    expect(screen.getByText("label").className).not.toContain("civ-badge--md");
   });
 
   it("applies size class for sm", () => {
     render(<Badge size="sm">label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge--sm");
+    expect(screen.getByText("label").className).toContain("civ-badge--sm");
   });
 
   it("applies size class for lg", () => {
     render(<Badge size="lg">label</Badge>);
-    expect(screen.getByText("label").className).toContain("wui-badge--lg");
+    expect(screen.getByText("label").className).toContain("civ-badge--lg");
   });
 });

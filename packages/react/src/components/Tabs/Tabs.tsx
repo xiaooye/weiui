@@ -9,7 +9,7 @@ import {
   type TabsListProps as HeadlessTabsListProps,
   type TabsTriggerProps as HeadlessTabsTriggerProps,
   type TabsContentProps as HeadlessTabsContentProps,
-} from "@weiui/headless";
+} from "@civaria/headless";
 import { cn } from "../../utils/cn";
 
 export interface TabsProps extends HeadlessTabsProps {}
@@ -18,26 +18,26 @@ export interface TabsTriggerProps extends HeadlessTabsTriggerProps {}
 export interface TabsContentProps extends HeadlessTabsContentProps {}
 
 export function Tabs({ className, ...props }: TabsProps) {
-  return <HeadlessTabs className={cn("wui-tabs", className)} {...props} />;
+  return <HeadlessTabs className={cn("civ-tabs", className)} {...props} />;
 }
 
 export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
   ({ className, ...props }, _ref) => (
-    <HeadlessTabsList className={cn("wui-tabs__list", className)} {...props} />
+    <HeadlessTabsList className={cn("civ-tabs__list", className)} {...props} />
   ),
 );
 TabsList.displayName = "TabsList";
 
 export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ({ className, ...props }, _ref) => (
-    <HeadlessTabsTrigger className={cn("wui-tabs__trigger", className)} {...props} />
+    <HeadlessTabsTrigger className={cn("civ-tabs__trigger", className)} {...props} />
   ),
 );
 TabsTrigger.displayName = "TabsTrigger";
 
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   ({ className, ...props }, _ref) => (
-    <HeadlessTabsContent className={cn("wui-tabs__content", className)} {...props} />
+    <HeadlessTabsContent className={cn("civ-tabs__content", className)} {...props} />
   ),
 );
 TabsContent.displayName = "TabsContent";

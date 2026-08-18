@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, EmptyState } from "@weiui/react";
+import { Button, EmptyState } from "civaria";
 
 export function EmptyStateDemo() {
   const [cleared, setCleared] = useState(false);
@@ -9,7 +9,7 @@ export function EmptyStateDemo() {
   return (
     <div style={{ width: "100%", maxWidth: "420px" }}>
       <EmptyState
-        icon={<span style={{ fontSize: "var(--wui-font-size-xl)" }} aria-hidden="true">📭</span>}
+        icon={<span style={{ fontSize: "var(--civ-font-size-xl)" }} aria-hidden="true">📭</span>}
         title={cleared ? "Filters cleared" : "No results found"}
         description={
           cleared

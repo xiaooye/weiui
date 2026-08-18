@@ -122,7 +122,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-rating", className)}
+        className={cn("civ-rating", className)}
         role="radiogroup"
         aria-label={label || "Rating"}
         data-disabled={disabled || undefined}
@@ -142,7 +142,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
                 starsRef.current[i] = el;
               }}
               type="button"
-              className="wui-rating__star"
+              className="civ-rating__star"
               data-filled={isFilled || undefined}
               data-half={isHalf || undefined}
               data-hover={isHovered || undefined}

@@ -32,7 +32,7 @@ export const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
     <BottomNavContext.Provider value={{ value, onValueChange, showLabels }}>
       <nav
         ref={ref}
-        className={cn("wui-bottom-nav", className)}
+        className={cn("civ-bottom-nav", className)}
         data-show-labels={showLabels}
         aria-label="Bottom navigation"
         {...props}
@@ -65,7 +65,7 @@ export const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       <button
         ref={ref}
         type="button"
-        className={cn("wui-bottom-nav__item", className)}
+        className={cn("civ-bottom-nav__item", className)}
         data-active={resolvedActive || undefined}
         aria-current={resolvedActive ? "page" : undefined}
         onClick={(e) => {
@@ -75,18 +75,18 @@ export const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
         {...props}
       >
         {icon && (
-          <span className="wui-bottom-nav__icon-wrapper">
-            <span className="wui-bottom-nav__icon" aria-hidden="true">
+          <span className="civ-bottom-nav__icon-wrapper">
+            <span className="civ-bottom-nav__icon" aria-hidden="true">
               {icon}
             </span>
             {badge !== undefined && badge !== null && badge !== false && (
-              <span className="wui-bottom-nav__badge" aria-hidden="true">
+              <span className="civ-bottom-nav__badge" aria-hidden="true">
                 {badge}
               </span>
             )}
           </span>
         )}
-        <span className="wui-bottom-nav__label" data-active={resolvedActive || undefined}>
+        <span className="civ-bottom-nav__label" data-active={resolvedActive || undefined}>
           {label}
         </span>
       </button>

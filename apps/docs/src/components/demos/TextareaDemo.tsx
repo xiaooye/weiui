@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Textarea, Label } from "@weiui/react";
+import { Textarea, Label } from "civaria";
 
 export function TextareaDemo() {
   const [value, setValue] = useState("");
@@ -11,7 +11,7 @@ export function TextareaDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-1\\.5)",
+        gap: "var(--civ-spacing-1\\.5)",
         maxWidth: "400px",
       }}
     >

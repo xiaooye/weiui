@@ -1,8 +1,8 @@
-<!-- weiui-multi-runtime-authority -->
+<!-- civaria-multi-runtime-authority -->
 > [!IMPORTANT]
-> **Architecture migration notice (2026-08):** historical sections below describe the former three-tier React-centric architecture. The current authority is `MULTI-RUNTIME-ARCHITECTURE.md`: Tokens + canonical CSS + framework-neutral `@weiui/core` + native React/Vue/Solid/Svelte/Elements runtimes. `@weiui/headless` is deprecated React compatibility, not the generic behavior layer.
+> **Architecture migration notice (2026-08):** historical sections below describe the former three-tier React-centric architecture. The current authority is `MULTI-RUNTIME-ARCHITECTURE.md`: Tokens + canonical CSS + framework-neutral `@civaria/core` + native React/Vue/Solid/Svelte/Elements runtimes. `@civaria/headless` is deprecated React compatibility, not the generic behavior layer.
 
-# WeiUI — Design System & Component Library
+# Civaria — Design System & Component Library
 
 > An accessibility-first, layered design system with three consumption tiers: CSS-only primitives, headless behavior hooks, and fully styled React components.
 > Enforces WCAG AAA where architecturally possible. Designed for cross-team adoption — designers, static-site developers, and React engineers each get an appropriate integration point.
@@ -23,13 +23,13 @@ Organizations without a shared design system pay a recurring tax:
 | **Duplicated component work** | Every team builds their own button, modal, select — differently |
 | **Styling unmaintainable at scale** | Inline utility classes scattered across hundreds of files with no single source of truth |
 
-### What WeiUI provides
+### What Civaria provides
 
 - **Single source of truth** — design tokens flow from one JSON spec to CSS, TypeScript, Tailwind config, and Figma variables
 - **WCAG AAA enforcement** — contrast, touch targets, focus indicators, and keyboard patterns validated at build time, not in code review
 - **Three adoption tiers** — teams adopt at the level that fits: CSS-only, headless hooks, or fully styled React components
 - **Designer contribution path** — designers modify tokens in Figma or JSON without touching component code
-- **Incremental adoption** — existing products can start with `@weiui/css` (zero JS) and migrate to React components over time
+- **Incremental adoption** — existing products can start with `@civaria/css` (zero JS) and migrate to React components over time
 
 ---
 
@@ -53,43 +53,43 @@ Every existing component library forces a tradeoff:
 **Lesson from production:**
 Scaling real products revealed that inline Tailwind styles are unmaintainable at scale. Designers can't read `bg-primary/10 text-purple-600 dark:text-purple-400 hover:bg-muted/80 transition-all duration-200`. There's no visual tool, no single source of truth, no way to audit consistency. The design system is scattered across hundreds of files in arbitrary class strings.
 
-WeiUI solves this by making the design system **the product**, not an afterthought.
+Civaria solves this by making the design system **the product**, not an afterthought.
 
 ### Influences
 
-WeiUI draws from proven systems, taking the strongest pattern from each:
+Civaria draws from proven systems, taking the strongest pattern from each:
 
-| System | What WeiUI takes from it |
+| System | What Civaria takes from it |
 |--------|--------------------------|
 | **Bulma** | CSS-only layer with class-based API, zero JS requirement, readable naming |
 | **Headless UI** | Accessible behavior hooks, data-attribute state management, unstyled primitives |
 | **shadcn/ui** | CLI-driven `add` command (copy-paste ownership), tailwind-variants for styling |
 | **Volt UI** | Polished component design language, variant system depth, visual refinement |
 
-The three-layer architecture is WeiUI's original contribution — no existing system offers CSS-only, headless, and styled tiers from a single token source with AAA enforcement across all layers.
+The three-layer architecture is Civaria's original contribution — no existing system offers CSS-only, headless, and styled tiers from a single token source with AAA enforcement across all layers.
 
 ---
 
 ## 3. Product Overview
 
-WeiUI is a **three-layer design system** where each layer builds on the previous:
+Civaria is a **three-layer design system** where each layer builds on the previous:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
-│   Layer 3: @weiui/react                                     │
+│   Layer 3: civaria                                     │
 │   Fully styled React components with variants               │
 │   (like shadcn/ui + HeroUI)                                 │
 │                                                             │
 │   ┌─────────────────────────────────────────────────────┐   │
 │   │                                                     │   │
-│   │   Layer 2: @weiui/headless                          │   │
+│   │   Layer 2: @civaria/headless                          │   │
 │   │   Headless hooks + components with a11y behavior    │   │
 │   │   (like Headless UI + React Aria)                   │   │
 │   │                                                     │   │
 │   │   ┌─────────────────────────────────────────────┐   │   │
 │   │   │                                             │   │   │
-│   │   │   Layer 1: @weiui/css                       │   │   │
+│   │   │   Layer 1: @civaria/css                       │   │   │
 │   │   │   CSS-only design tokens + primitives       │   │   │
 │   │   │   (like Bulma — works without JavaScript)   │   │   │
 │   │   │                                             │   │   │
@@ -100,10 +100,10 @@ WeiUI is a **three-layer design system** where each layer builds on the previous
 └─────────────────────────────────────────────────────────────┘
 
 Plus:
-  @weiui/tokens    — Design tokens (JSON + CSS + Figma export)
-  @weiui/icons     — Icon set (SVG + React + Web Component)
-  @weiui/cli       — CLI for scaffolding, auditing, and token management
-  @weiui/a11y      — Accessibility testing utilities and WCAG AAA validator
+  @civaria/tokens    — Design tokens (JSON + CSS + Figma export)
+  @civaria/icons     — Icon set (SVG + React + Web Component)
+  @civaria/cli       — CLI for scaffolding, auditing, and token management
+  @civaria/a11y      — Accessibility testing utilities and WCAG AAA validator
 ```
 
 ### Who uses what
@@ -145,7 +145,7 @@ This tiered approach reflects the reality that accent/status colors serve as UI 
 | **Text spacing** | Adjustable | **Adjustable** |
 | **Headings** | Present | **Descriptive and properly nested** |
 
-**How WeiUI enforces this:**
+**How Civaria enforces this:**
 
 1. **Build-time token validation** — The CLI rejects any color token pair that fails 7:1 contrast
 2. **Runtime contrast checking** — Components that accept color props validate contrast at render time (dev mode)
@@ -157,7 +157,7 @@ This tiered approach reflects the reality that accent/status colors serve as UI 
 
 **Scope — what the system enforces vs. what requires content discipline:**
 
-| Enforced by WeiUI (automated) | Requires content/usage discipline (documented) |
+| Enforced by Civaria (automated) | Requires content/usage discipline (documented) |
 |---|---|
 | 7:1 contrast for normal text, 4.5:1 for large text | Reading level (lower secondary education) |
 | 44×44px minimum touch targets | Descriptive, properly nested headings |
@@ -167,7 +167,7 @@ This tiered approach reflects the reality that accent/status colors serve as UI 
 | `aria-*` attributes wired automatically | Alternative text for images |
 | Live region announcements for state changes | Cognitive load and plain language |
 
-WeiUI enforces every AAA criterion that a component library can control at build time and runtime. Content-level AAA criteria are documented with guidance for consuming teams but cannot be enforced at the library level.
+Civaria enforces every AAA criterion that a component library can control at build time and runtime. Content-level AAA criteria are documented with guidance for consuming teams but cannot be enforced at the library level.
 
 ### 4.2 Designer-First Token Architecture
 
@@ -201,7 +201,7 @@ Designers should be able to modify the design system without writing code.
       "$type": "color",
       "$description": "Primary brand color",
       "$extensions": {
-        "weiui": {
+        "civaria": {
           "wcagMinContrast": 7.0,
           "contrastPairs": ["color.primary-foreground"],
           "darkMode": "oklch(0.637 0.237 261.35)",
@@ -224,11 +224,11 @@ Designers should be able to modify the design system without writing code.
 Layer 1 (CSS) is truly framework-agnostic — it works with any framework or no framework at all. Layer 2 (headless) and Layer 3 (styled) are React-first, using React hooks and compound components. The token and CSS layers provide an immediate adoption path for non-React teams, and the headless architecture is designed to allow future Vue/Svelte ports of Layer 2 without changing Layer 1 or the token system.
 
 ```
-                @weiui/tokens (universal)
+                @civaria/tokens (universal)
                       │
          ┌────────────┼────────────┐
          │            │            │
-   @weiui/css    @weiui/headless   @weiui/react
+   @civaria/css    @civaria/headless   civaria
    (universal)   (React today,    (React, styled)
                   Vue/Svelte
                   planned)
@@ -291,13 +291,13 @@ Components use the **compound component pattern** — small, composable pieces r
 
 | Package | Key Dependencies |
 |---------|-----------------|
-| `@weiui/tokens` | Style Dictionary, W3C design tokens parser |
-| `@weiui/css` | PostCSS, Lightning CSS (no JS runtime deps) |
-| `@weiui/headless` | React 19, @floating-ui/react (positioning) |
-| `@weiui/react` | @weiui/headless, @weiui/css, tailwind-variants |
-| `@weiui/icons` | SVGO, @svgr/core |
-| `@weiui/cli` | Commander, chalk, prompts |
-| `@weiui/a11y` | axe-core, color.js (OKLCH contrast calculation) |
+| `@civaria/tokens` | Style Dictionary, W3C design tokens parser |
+| `@civaria/css` | PostCSS, Lightning CSS (no JS runtime deps) |
+| `@civaria/headless` | React 19, @floating-ui/react (positioning) |
+| `civaria` | @civaria/headless, @civaria/css, tailwind-variants |
+| `@civaria/icons` | SVGO, @svgr/core |
+| `@civaria/cli` | Commander, chalk, prompts |
+| `@civaria/a11y` | axe-core, color.js (OKLCH contrast calculation) |
 
 ---
 
@@ -534,7 +534,7 @@ The CLI generates dark mode tokens by:
 **All animations wrapped in motion preference check:**
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .wui-animate-fade-in { animation: wui-fade-in var(--wui-duration-normal) var(--wui-easing-out); }
+  .civ-animate-fade-in { animation: civ-fade-in var(--civ-duration-normal) var(--civ-easing-out); }
 }
 ```
 
@@ -545,9 +545,9 @@ The CLI generates dark mode tokens by:
 ### 7.1 Monorepo Structure
 
 ```
-weiui/
+civaria/
 ├── packages/
-│   ├── tokens/                    # @weiui/tokens
+│   ├── tokens/                    # @civaria/tokens
 │   │   ├── src/
 │   │   │   ├── primitives/        # Tier 1: raw values
 │   │   │   ├── semantic/          # Tier 2: purpose-mapped
@@ -563,7 +563,7 @@ weiui/
 │   │       ├── tailwind.config.ts # Tailwind theme extension
 │   │       └── figma.json         # Figma variables export
 │   │
-│   ├── css/                       # @weiui/css
+│   ├── css/                       # @civaria/css
 │   │   ├── src/
 │   │   │   ├── reset.css          # Modern CSS reset (opinionated)
 │   │   │   ├── base.css           # Base styles (typography, focus)
@@ -582,11 +582,11 @@ weiui/
 │   │   │       ├── sr-only.css    # Screen reader utilities
 │   │   │       └── motion.css     # Motion preference handling
 │   │   └── dist/
-│   │       ├── weiui.css          # Full bundle
-│   │       ├── weiui.min.css      # Minified
+│   │       ├── civaria.css          # Full bundle
+│   │       ├── civaria.min.css      # Minified
 │   │       └── elements/          # Individual element CSS files
 │   │
-│   ├── headless/                  # @weiui/headless
+│   ├── headless/                  # @civaria/headless
 │   │   ├── src/
 │   │   │   ├── hooks/             # Behavioral hooks
 │   │   │   │   ├── use-dialog.ts
@@ -626,7 +626,7 @@ weiui/
 │   │   │       └── focus-scope.ts # Focus scope/trap
 │   │   └── dist/
 │   │
-│   ├── react/                     # @weiui/react
+│   ├── react/                     # civaria
 │   │   ├── src/
 │   │   │   ├── components/        # Styled components
 │   │   │   │   ├── Button/
@@ -646,29 +646,29 @@ weiui/
 │   │   │   │   ├── Toast/
 │   │   │   │   └── ... (50+ components)
 │   │   │   ├── provider/
-│   │   │   │   └── WeiUIProvider.tsx  # Theme provider + a11y context
+│   │   │   │   └── CivariaProvider.tsx  # Theme provider + a11y context
 │   │   │   └── variants/
 │   │   │       └── index.ts       # Shared variant definitions
 │   │   └── dist/
 │   │
-│   ├── icons/                     # @weiui/icons
+│   ├── icons/                     # @civaria/icons
 │   │   ├── svg/                   # Source SVGs (24x24 grid)
 │   │   ├── src/
 │   │   │   ├── react/             # React icon components
 │   │   │   └── web/               # Web Component icons
 │   │   └── dist/
 │   │
-│   ├── cli/                       # @weiui/cli
+│   ├── cli/                       # @civaria/cli
 │   │   └── src/
 │   │       ├── commands/
-│   │       │   ├── init.ts        # Initialize WeiUI in a project
+│   │       │   ├── init.ts        # Initialize Civaria in a project
 │   │       │   ├── add.ts         # Add a component (copy-paste mode)
 │   │       │   ├── audit.ts       # Run accessibility audit
 │   │       │   ├── token.ts       # Manage/generate tokens
 │   │       │   └── theme.ts       # Generate theme from brand colors
 │   │       └── index.ts
 │   │
-│   └── a11y/                      # @weiui/a11y
+│   └── a11y/                      # @civaria/a11y
 │       └── src/
 │           ├── validators/
 │           │   ├── contrast.ts    # WCAG AAA contrast checker
@@ -720,20 +720,20 @@ weiui/
 ### 7.2 Package Dependency Graph
 
 ```
-@weiui/tokens  ←── @weiui/css  ←── @weiui/react
+@civaria/tokens  ←── @civaria/css  ←── civaria
                                       ↑
-                    @weiui/headless ───┘
+                    @civaria/headless ───┘
 
-@weiui/a11y (standalone, used in CI/testing)
-@weiui/cli (standalone, dev tool)
-@weiui/icons (standalone)
+@civaria/a11y (standalone, used in CI/testing)
+@civaria/cli (standalone, dev tool)
+@civaria/icons (standalone)
 ```
 
 ---
 
 ## 8. Component Library
 
-### 8.1 Component List (Layer 3: @weiui/react)
+### 8.1 Component List (Layer 3: civaria)
 
 **Layout (6):**
 - Container, Stack, Grid, Divider, Spacer, AspectRatio
@@ -768,9 +768,9 @@ Every component follows this structure:
 ```tsx
 // Button.tsx
 import { forwardRef } from "react";
-import { useButton } from "@weiui/headless";
+import { useButton } from "@civaria/headless";
 import { buttonVariants, type ButtonVariants } from "./Button.styles";
-import { cn } from "@weiui/react/utils";
+import { cn } from "civaria/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -814,10 +814,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         aria-disabled={disabled || loading || undefined}
       >
-        {loading && <Spinner size="sm" className="wui-button-spinner" />}
-        {!loading && startIcon && <span className="wui-button-icon">{startIcon}</span>}
-        <span className="wui-button-label">{children}</span>
-        {endIcon && <span className="wui-button-icon">{endIcon}</span>}
+        {loading && <Spinner size="sm" className="civ-button-spinner" />}
+        {!loading && startIcon && <span className="civ-button-icon">{startIcon}</span>}
+        <span className="civ-button-label">{children}</span>
+        {endIcon && <span className="civ-button-icon">{endIcon}</span>}
       </button>
     );
   }
@@ -836,24 +836,24 @@ export const buttonVariants = tv({
   base: [
     "inline-flex items-center justify-center gap-2",
     "font-medium transition-all",
-    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wui-color-ring)]",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--civ-color-ring)]",
     "disabled:opacity-50 disabled:cursor-not-allowed",
     "min-h-[44px] min-w-[44px]", // WCAG AAA touch target
   ],
   variants: {
     variant: {
-      solid: "text-[var(--wui-color-primary-foreground)]",
+      solid: "text-[var(--civ-color-primary-foreground)]",
       outline: "border-2 bg-transparent",
       ghost: "bg-transparent",
       soft: "bg-opacity-10",
       link: "bg-transparent underline-offset-4 hover:underline p-0 min-h-0 min-w-0",
     },
     size: {
-      sm: "h-9 px-3 text-sm rounded-[var(--wui-radius-base)]",
-      md: "h-11 px-4 text-sm rounded-[var(--wui-radius-md)]",
-      lg: "h-12 px-6 text-base rounded-[var(--wui-radius-md)]",
-      xl: "h-14 px-8 text-lg rounded-[var(--wui-radius-lg)]",
-      icon: "size-11 rounded-[var(--wui-radius-md)]",
+      sm: "h-9 px-3 text-sm rounded-[var(--civ-radius-base)]",
+      md: "h-11 px-4 text-sm rounded-[var(--civ-radius-md)]",
+      lg: "h-12 px-6 text-base rounded-[var(--civ-radius-md)]",
+      xl: "h-14 px-8 text-lg rounded-[var(--civ-radius-lg)]",
+      icon: "size-11 rounded-[var(--civ-radius-md)]",
     },
     color: {
       primary: "",
@@ -865,11 +865,11 @@ export const buttonVariants = tv({
     },
   },
   compoundVariants: [
-    { variant: "solid", color: "primary", className: "bg-[var(--wui-color-primary)] hover:brightness-110 active:brightness-95" },
-    { variant: "solid", color: "destructive", className: "bg-[var(--wui-color-destructive)] hover:brightness-110 active:brightness-95" },
-    { variant: "outline", color: "primary", className: "border-[var(--wui-color-primary)] text-[var(--wui-color-primary)] hover:bg-[var(--wui-color-primary)]/5" },
-    { variant: "ghost", color: "primary", className: "text-[var(--wui-color-primary)] hover:bg-[var(--wui-color-primary)]/5" },
-    { variant: "soft", color: "primary", className: "bg-[var(--wui-color-primary)]/10 text-[var(--wui-color-primary)] hover:bg-[var(--wui-color-primary)]/15" },
+    { variant: "solid", color: "primary", className: "bg-[var(--civ-color-primary)] hover:brightness-110 active:brightness-95" },
+    { variant: "solid", color: "destructive", className: "bg-[var(--civ-color-destructive)] hover:brightness-110 active:brightness-95" },
+    { variant: "outline", color: "primary", className: "border-[var(--civ-color-primary)] text-[var(--civ-color-primary)] hover:bg-[var(--civ-color-primary)]/5" },
+    { variant: "ghost", color: "primary", className: "text-[var(--civ-color-primary)] hover:bg-[var(--civ-color-primary)]/5" },
+    { variant: "soft", color: "primary", className: "bg-[var(--civ-color-primary)]/10 text-[var(--civ-color-primary)] hover:bg-[var(--civ-color-primary)]/15" },
   ],
   defaultVariants: {
     variant: "solid",
@@ -906,7 +906,7 @@ function useControllable<T>(props: {
 
 `value` + `onChange` for controlled mode, `defaultValue` for uncontrolled. Components never break if the consumer switches between modes.
 
-**Dependency policy:** No external state management libraries in `@weiui/headless`. All state logic uses React primitives (`useReducer`, `useState`, `useRef`). The only non-React dependency is `@floating-ui/react` for positioning.
+**Dependency policy:** No external state management libraries in `@civaria/headless`. All state logic uses React primitives (`useReducer`, `useState`, `useRef`). The only non-React dependency is `@floating-ui/react` for positioning.
 
 ---
 
@@ -917,16 +917,16 @@ function useControllable<T>(props: {
 Every interactive component uses enhanced focus indicators:
 
 ```css
-/* @weiui/css - focus.css */
-:where(.wui-focusable):focus-visible {
-  outline: 3px solid var(--wui-color-ring);
+/* @civaria/css - focus.css */
+:where(.civ-focusable):focus-visible {
+  outline: 3px solid var(--civ-color-ring);
   outline-offset: 2px;
   border-radius: inherit;
 }
 
 /* High contrast mode */
 @media (forced-colors: active) {
-  :where(.wui-focusable):focus-visible {
+  :where(.civ-focusable):focus-visible {
     outline: 3px solid Highlight;
   }
 }
@@ -950,9 +950,9 @@ Every component implements the appropriate WAI-ARIA keyboard pattern:
 ### 9.3 Screen Reader Support
 
 ```typescript
-// @weiui/headless - announce.ts
+// @civaria/headless - announce.ts
 export function announce(message: string, priority: "polite" | "assertive" = "polite") {
-  const region = document.getElementById(`wui-live-region-${priority}`);
+  const region = document.getElementById(`civ-live-region-${priority}`);
   if (!region) return;
   region.textContent = "";
   // Force re-read by clearing then setting
@@ -965,7 +965,7 @@ export function announce(message: string, priority: "polite" | "assertive" = "po
 ### 9.4 Build-Time AAA Audit
 
 ```typescript
-// @weiui/a11y - contrast.ts
+// @civaria/a11y - contrast.ts
 import { oklch, wcagContrast } from "color.js";
 
 export function validateContrastAAA(
@@ -1025,39 +1025,39 @@ Each component page includes:
 ### 11.1 Commands
 
 ```bash
-# Initialize WeiUI in a project
-weiui init
+# Initialize Civaria in a project
+civaria init
 
 # Add a component (copy-paste mode, like shadcn)
-weiui add button
-weiui add dialog select tabs
+civaria add button
+civaria add dialog select tabs
 
 # Generate theme from brand colors (validates AAA)
-weiui theme --primary "#2563eb" --neutral "#64748b"
+civaria theme --primary "#2563eb" --neutral "#64748b"
 
 # Audit accessibility of your project
-weiui audit              # Full audit
-weiui audit --contrast   # Contrast-only check
-weiui audit --keyboard   # Keyboard nav check
+civaria audit              # Full audit
+civaria audit --contrast   # Contrast-only check
+civaria audit --keyboard   # Keyboard nav check
 
 # Manage tokens
-weiui tokens build       # Compile tokens to CSS/JSON/TS
-weiui tokens validate    # Check AAA compliance
-weiui tokens sync-figma  # Sync to Figma variables
+civaria tokens build       # Compile tokens to CSS/JSON/TS
+civaria tokens validate    # Check AAA compliance
+civaria tokens sync-figma  # Sync to Figma variables
 ```
 
 ### 11.2 Theme Generator
 
 ```bash
-$ weiui theme --primary "#2563eb"
+$ civaria theme --primary "#2563eb"
 
 ✓ Primary color: oklch(0.546 0.245 262.88)
 ✓ Generated 11-step scale (50-950)
 ✓ Generated semantic tokens (6 colors)
 ✓ Generated dark mode tokens
 ✓ All 24 contrast pairs pass WCAG AAA (7:1)
-✓ Written to weiui.tokens.json
-✓ Generated CSS: weiui.tokens.css
+✓ Written to civaria.tokens.json
+✓ Generated CSS: civaria.tokens.css
 ```
 
 ---
@@ -1066,10 +1066,10 @@ $ weiui theme --primary "#2563eb"
 
 ### Phase 1: Foundation (Tokens + CSS + CLI)
 1. Monorepo setup (Turborepo + pnpm)
-2. Token architecture (@weiui/tokens) — primitives, semantic, component tokens
+2. Token architecture (@civaria/tokens) — primitives, semantic, component tokens
 3. Token build pipeline — JSON → CSS/TS/Tailwind/Figma
 4. WCAG AAA contrast validator
-5. CSS reset + base styles (@weiui/css)
+5. CSS reset + base styles (@civaria/css)
 6. CSS-only primitives: Button, Badge, Card, Input, Avatar, Skeleton
 7. CLI tool: init, tokens build, tokens validate
 8. Documentation site scaffold
@@ -1084,7 +1084,7 @@ $ weiui theme --primary "#2563eb"
 15. Keyboard navigation testing framework
 
 ### Phase 3: Styled Components (React)
-16. WeiUIProvider (theme + a11y context)
+16. CivariaProvider (theme + a11y context)
 17. Core components: Button, Input, Textarea, Select, Checkbox, Switch, Radio
 18. Layout components: Container, Stack, Grid, Divider
 19. Data display: Card, Badge, Avatar, Table, Code, Kbd
@@ -1115,23 +1115,23 @@ $ weiui theme --primary "#2563eb"
 
 The system is complete when:
 
-- [ ] `@weiui/tokens` generates CSS/JSON/TS from a single token source
+- [ ] `@civaria/tokens` generates CSS/JSON/TS from a single token source
 - [ ] Token validator rejects any color pair failing 7:1 contrast (WCAG AAA)
 - [ ] Dark mode tokens auto-generated from light mode with AAA contrast preserved
-- [ ] `@weiui/css` provides CSS-only components that work without JavaScript
+- [ ] `@civaria/css` provides CSS-only components that work without JavaScript
 - [ ] CSS-only button, input, badge, card, avatar render correctly
-- [ ] `@weiui/headless` provides accessible behavior hooks
+- [ ] `@civaria/headless` provides accessible behavior hooks
 - [ ] Dialog: focus trap, Escape to close, aria-modal, return focus
 - [ ] Menu: arrow navigation, typeahead search, aria-expanded
 - [ ] Select: keyboard selection, live announcements
-- [ ] `@weiui/react` provides 50+ styled components
+- [ ] `civaria` provides 50+ styled components
 - [ ] Every component meets WCAG AAA (7:1 contrast, 44px targets, keyboard nav)
 - [ ] Every component has unit tests + accessibility tests
 - [ ] Every component documented with live preview + props table
 - [ ] Variant system works (solid/outline/ghost/soft × primary/destructive/etc.)
-- [ ] `weiui add button` copies a working component into user's project
-- [ ] `weiui theme --primary "#..."` generates full AAA-compliant theme
-- [ ] `weiui audit` reports accessibility violations
+- [ ] `civaria add button` copies a working component into user's project
+- [ ] `civaria theme --primary "#..."` generates full AAA-compliant theme
+- [ ] `civaria audit` reports accessibility violations
 - [ ] Documentation site at ui.wei-dev.com is interactive and polished
 - [ ] Theme builder allows visual customization with real-time preview
 - [ ] All components respect `prefers-reduced-motion` and `prefers-contrast`
@@ -1147,67 +1147,67 @@ The system is complete when:
 
 ### 14.1 Cascade Layers
 
-WeiUI uses CSS `@layer` to guarantee specificity order. This prevents user styles from being accidentally overridden by library styles.
+Civaria uses CSS `@layer` to guarantee specificity order. This prevents user styles from being accidentally overridden by library styles.
 
 ```css
 /* Layer order: lowest → highest specificity */
-@layer wui-reset, wui-tokens, wui-base, wui-elements, wui-utilities;
+@layer civ-reset, civ-tokens, civ-base, civ-elements, civ-utilities;
 
-@layer wui-reset {
+@layer civ-reset {
   /* Modern CSS reset — box-sizing, margins, etc. */
 }
 
-@layer wui-tokens {
-  /* CSS custom properties from @weiui/tokens */
-  :root { --wui-color-primary: oklch(0.546 0.245 262.88); ... }
-  .dark { --wui-color-primary: oklch(0.637 0.237 261.35); ... }
+@layer civ-tokens {
+  /* CSS custom properties from @civaria/tokens */
+  :root { --civ-color-primary: oklch(0.546 0.245 262.88); ... }
+  .dark { --civ-color-primary: oklch(0.637 0.237 261.35); ... }
 }
 
-@layer wui-base {
+@layer civ-base {
   /* Base typography, focus styles, body defaults */
 }
 
-@layer wui-elements {
-  /* Component styles: .wui-button, .wui-input, .wui-card, etc. */
+@layer civ-elements {
+  /* Component styles: .civ-button, .civ-input, .civ-card, etc. */
 }
 
-@layer wui-utilities {
-  /* Utility overrides (always win): .wui-sr-only, .wui-focus-ring, etc. */
+@layer civ-utilities {
+  /* Utility overrides (always win): .civ-sr-only, .civ-focus-ring, etc. */
 }
 ```
 
-User CSS (outside any @layer) automatically has higher specificity than all WeiUI layers.
+User CSS (outside any @layer) automatically has higher specificity than all Civaria layers.
 
 ### 14.2 Naming Convention
 
-BEM-inspired with `wui-` prefix to avoid collisions:
+BEM-inspired with `civ-` prefix to avoid collisions:
 
 ```
-.wui-{component}                     → Block:    .wui-button
-.wui-{component}__{element}          → Element:  .wui-button__icon
-.wui-{component}--{modifier}         → Modifier: .wui-button--outline
-.wui-{component}[data-{state}]       → State:    .wui-button[data-loading]
+.civ-{component}                     → Block:    .civ-button
+.civ-{component}__{element}          → Element:  .civ-button__icon
+.civ-{component}--{modifier}         → Modifier: .civ-button--outline
+.civ-{component}[data-{state}]       → State:    .civ-button[data-loading]
 ```
 
 **States use data attributes (not classes) for behavior coupling:**
 
 ```css
-.wui-button[data-disabled] { opacity: 0.5; cursor: not-allowed; }
-.wui-button[data-loading] { position: relative; }
-.wui-button[data-active] { transform: scale(0.98); }
-.wui-button[data-focus-visible] { outline: 3px solid var(--wui-color-ring); }
+.civ-button[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+.civ-button[data-loading] { position: relative; }
+.civ-button[data-active] { transform: scale(0.98); }
+.civ-button[data-focus-visible] { outline: 3px solid var(--civ-color-ring); }
 ```
 
 This mirrors Headless UI's data-attribute approach and enables CSS-only state styling.
 
 ### 14.3 CSS Custom Property Naming
 
-All custom properties are prefixed with `--wui-` and follow a hierarchy:
+All custom properties are prefixed with `--civ-` and follow a hierarchy:
 
 ```
---wui-{category}-{name}              → Global:   --wui-color-primary
---wui-{category}-{name}-{variant}    → Variant:  --wui-color-primary-foreground
---wui-{component}-{property}         → Scoped:   --wui-button-height
+--civ-{category}-{name}              → Global:   --civ-color-primary
+--civ-{category}-{name}-{variant}    → Variant:  --civ-color-primary-foreground
+--civ-{component}-{property}         → Scoped:   --civ-button-height
 ```
 
 ### 14.4 Specificity Budget
@@ -1245,20 +1245,20 @@ All custom properties are prefixed with `--wui-` and follow a hierarchy:
 Components use container queries for intrinsic responsiveness — they adapt to their container size, not viewport:
 
 ```css
-.wui-card {
+.civ-card {
   container-type: inline-size;
-  container-name: wui-card;
+  container-name: civ-card;
 }
 
-@container wui-card (max-width: 300px) {
-  .wui-card__header {
+@container civ-card (max-width: 300px) {
+  .civ-card__header {
     flex-direction: column;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
 }
 
-@container wui-card (min-width: 500px) {
-  .wui-card__content {
+@container civ-card (min-width: 500px) {
+  .civ-card__content {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
@@ -1271,10 +1271,10 @@ Headings use `clamp()` for smooth scaling:
 
 ```css
 :root {
-  --wui-font-size-display: clamp(2.25rem, 5vw, 3.75rem);
-  --wui-font-size-h1: clamp(1.875rem, 3.5vw, 2.25rem);
-  --wui-font-size-h2: clamp(1.5rem, 2.5vw, 1.875rem);
-  --wui-font-size-h3: clamp(1.25rem, 2vw, 1.5rem);
+  --civ-font-size-display: clamp(2.25rem, 5vw, 3.75rem);
+  --civ-font-size-h1: clamp(1.875rem, 3.5vw, 2.25rem);
+  --civ-font-size-h2: clamp(1.5rem, 2.5vw, 1.875rem);
+  --civ-font-size-h3: clamp(1.25rem, 2vw, 1.5rem);
 }
 ```
 
@@ -1305,10 +1305,10 @@ All components support right-to-left text direction via the `dir` attribute:
 
 ```css
 /* ✗ Physical properties (breaks in RTL) */
-.wui-button { padding-left: 16px; margin-right: 8px; }
+.civ-button { padding-left: 16px; margin-right: 8px; }
 
 /* ✓ Logical properties (works in both LTR and RTL) */
-.wui-button { padding-inline-start: 16px; margin-inline-end: 8px; }
+.civ-button { padding-inline-start: 16px; margin-inline-end: 8px; }
 ```
 
 **Property mapping:**
@@ -1336,10 +1336,10 @@ All components support right-to-left text direction via the `dir` attribute:
 </Select>
 ```
 
-- The `WeiUIProvider` accepts a `locale` object for global label overrides:
+- The `CivariaProvider` accepts a `locale` object for global label overrides:
 
 ```tsx
-<WeiUIProvider locale={{
+<CivariaProvider locale={{
   select: { noResults: "Aucun résultat", placeholder: "Choisir..." },
   dialog: { close: "Fermer" },
   pagination: { next: "Suivant", previous: "Précédent" },
@@ -1364,7 +1364,7 @@ All components are SSR-safe by default:
 ```
 "use client" boundary placement:
 
-@weiui/react components:
+civaria components:
   ├── Server-safe (no "use client" needed):
   │   Card, Badge, Avatar, Divider, Heading, Text, Code, Kbd,
   │   Container, Stack, Grid, Spacer, Skeleton, VisuallyHidden
@@ -1395,14 +1395,14 @@ Every component has a `.Skeleton` variant for loading states.
 
 | Package | Target (gzipped) | Contents |
 |---------|------------------|----------|
-| `@weiui/tokens` (CSS) | < 3 KB | CSS custom properties only |
-| `@weiui/css` (full) | < 15 KB | All CSS-only components |
-| `@weiui/css` (per-component) | < 1 KB each | Individual component CSS |
-| `@weiui/headless` (full) | < 20 KB | All hooks + compound components |
-| `@weiui/headless` (per-hook) | < 2 KB each | Individual hooks |
-| `@weiui/react` (per-component, simple) | < 5 KB each | Styled component + headless dep (incremental) |
-| `@weiui/react` (per-component, complex) | < 8 KB each | DatePicker, Combobox, ColorPicker (incremental) |
-| `@weiui/icons` (per-icon) | < 0.5 KB each | Individual SVG icon |
+| `@civaria/tokens` (CSS) | < 3 KB | CSS custom properties only |
+| `@civaria/css` (full) | < 15 KB | All CSS-only components |
+| `@civaria/css` (per-component) | < 1 KB each | Individual component CSS |
+| `@civaria/headless` (full) | < 20 KB | All hooks + compound components |
+| `@civaria/headless` (per-hook) | < 2 KB each | Individual hooks |
+| `civaria` (per-component, simple) | < 5 KB each | Styled component + headless dep (incremental) |
+| `civaria` (per-component, complex) | < 8 KB each | DatePicker, Combobox, ColorPicker (incremental) |
+| `@civaria/icons` (per-icon) | < 0.5 KB each | Individual SVG icon |
 
 **Measurement rules:**
 - Per-component sizes are **incremental** — the cost of adding one component to a bundle that already includes shared dependencies (`@floating-ui/react`, `tailwind-variants`)
@@ -1414,7 +1414,7 @@ Every component has a `.Skeleton` variant for loading states.
 - **No runtime CSS-in-JS** — styles are pre-compiled CSS, not generated at render time
 - **No React context for styling** — only for theme token values
 - **Minimal re-renders** — components use `memo`, `useMemo`, and `useCallback` where measurable
-- **Tree-shaking** — import `{ Button } from "@weiui/react"` only bundles Button + its dependencies
+- **Tree-shaking** — import `{ Button } from "civaria"` only bundles Button + its dependencies
 - **CSS containment** — complex components use `contain: content` for paint isolation
 
 ### 18.3 Core Web Vitals Targets
@@ -1448,20 +1448,20 @@ For older browsers:
 ```css
 /* OKLCH fallback */
 :root {
-  --wui-color-primary: hsl(221 83% 53%);          /* Fallback */
-  --wui-color-primary: oklch(0.546 0.245 262.88);  /* Modern */
+  --civ-color-primary: hsl(221 83% 53%);          /* Fallback */
+  --civ-color-primary: oklch(0.546 0.245 262.88);  /* Modern */
 }
 
 /* Container query fallback */
-.wui-card__content {
+.civ-card__content {
   display: flex;
   flex-direction: column;
 }
 
 @supports (container-type: inline-size) {
-  .wui-card { container-type: inline-size; }
+  .civ-card { container-type: inline-size; }
   @container (min-width: 500px) {
-    .wui-card__content { flex-direction: row; }
+    .civ-card__content { flex-direction: row; }
   }
 }
 ```
@@ -1502,7 +1502,7 @@ Every interactive component must handle ALL applicable states. No two states may
 | **Drop target** | Dashed border + primary tint | `[data-drop-target]` | Drop zones |
 | **Open / Expanded** | Content visible | `[data-open]`, `[aria-expanded]` | Accordion, dropdown, dialog |
 | **Empty** | Placeholder + CTA | `[data-empty]` | Lists, tables |
-| **Skeleton** | Shimmer animation | `.wui-skeleton` | All data-loading states |
+| **Skeleton** | Shimmer animation | `.civ-skeleton` | All data-loading states |
 
 ---
 
@@ -1589,9 +1589,9 @@ Components use these tokens exclusively — no magic z-index numbers.
 ### 23.1 Component Error Boundaries
 
 ```tsx
-<WeiUIProvider fallback={<DefaultErrorFallback />}>
-  {/* If any WeiUI component throws, the fallback renders */}
-</WeiUIProvider>
+<CivariaProvider fallback={<DefaultErrorFallback />}>
+  {/* If any Civaria component throws, the fallback renders */}
+</CivariaProvider>
 ```
 
 ### 23.2 Graceful Degradation
@@ -1625,12 +1625,12 @@ Figma Variables  ←→  Token JSON  →  Code Outputs
 ```
 
 **Two-way sync:**
-1. **Code → Figma**: `weiui tokens sync-figma --push` pushes token changes to Figma
-2. **Figma → Code**: `weiui tokens sync-figma --pull` pulls Figma changes to token JSON
+1. **Code → Figma**: `civaria tokens sync-figma --push` pushes token changes to Figma
+2. **Figma → Code**: `civaria tokens sync-figma --pull` pulls Figma changes to token JSON
 
 ### 24.2 Designer's Workflow (No Code Required)
 
-1. Open Figma file with WeiUI token variables
+1. Open Figma file with Civaria token variables
 2. Modify a color variable (e.g., change Primary from blue to teal)
 3. Figma updates all components using that variable in real-time
 4. Export: click "Sync to code" plugin button
@@ -1640,7 +1640,7 @@ Figma Variables  ←→  Token JSON  →  Code Outputs
 
 ### 24.3 Figma Component Library
 
-Every WeiUI component has a matching Figma component with:
+Every Civaria component has a matching Figma component with:
 - All variants as Figma component properties
 - All states as interactive variants
 - Auto-layout matching the CSS flexbox model
@@ -1654,22 +1654,22 @@ Every WeiUI component has a matching Figma component with:
 
 ```tsx
 // app/layout.tsx
-import { WeiUIProvider } from "@weiui/react";
-import "@weiui/css/reset.css";
-import "@weiui/tokens/tokens.css";
+import { CivariaProvider } from "civaria";
+import "@civaria/css/reset.css";
+import "@civaria/tokens/tokens.css";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <WeiUIProvider>{children}</WeiUIProvider>
+        <CivariaProvider>{children}</CivariaProvider>
       </body>
     </html>
   );
 }
 
 // app/page.tsx (Server Component — no "use client")
-import { Card, Heading, Text, Badge } from "@weiui/react";
+import { Card, Heading, Text, Badge } from "civaria";
 
 export default function Page() {
   return (
@@ -1686,14 +1686,14 @@ export default function Page() {
 
 ```tsx
 // main.tsx
-import "@weiui/css/reset.css";
-import "@weiui/tokens/tokens.css";
-import { WeiUIProvider } from "@weiui/react";
+import "@civaria/css/reset.css";
+import "@civaria/tokens/tokens.css";
+import { CivariaProvider } from "civaria";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <WeiUIProvider>
+  <CivariaProvider>
     <App />
-  </WeiUIProvider>
+  </CivariaProvider>
 );
 ```
 
@@ -1702,19 +1702,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 ```html
 ---
 // Component in .astro file — uses Layer 1 only
-import "@weiui/css/weiui.css";
+import "@civaria/css/civaria.css";
 ---
 
-<button class="wui-button wui-button--solid wui-button--primary wui-button--md">
+<button class="civ-button civ-button--solid civ-button--primary civ-button--md">
   Click me
 </button>
 
-<div class="wui-card">
-  <div class="wui-card__header">
-    <h2 class="wui-heading wui-heading--2">Title</h2>
+<div class="civ-card">
+  <div class="civ-card__header">
+    <h2 class="civ-heading civ-heading--2">Title</h2>
   </div>
-  <div class="wui-card__content">
-    <p class="wui-text">Content here</p>
+  <div class="civ-card__content">
+    <p class="civ-text">Content here</p>
   </div>
 </div>
 ```
@@ -1722,9 +1722,9 @@ import "@weiui/css/weiui.css";
 ### 25.4 Vue (CSS + headless hooks ported)
 
 ```vue
-<!-- Future: @weiui/vue package -->
+<!-- Future: @civaria/vue package -->
 <template>
-  <button class="wui-button wui-button--solid wui-button--primary" v-bind="buttonProps">
+  <button class="civ-button civ-button--solid civ-button--primary" v-bind="buttonProps">
     {{ label }}
   </button>
 </template>
@@ -1760,7 +1760,7 @@ Uses [Changesets](https://github.com/changesets/changesets) for:
 Every minor/major release includes:
 - **What changed** — exact prop/class name changes
 - **Why** — the reason for the change
-- **Codemod** — automated migration script: `weiui migrate --from 1.x --to 2.x`
+- **Codemod** — automated migration script: `civaria migrate --from 1.x --to 2.x`
 - **Manual steps** — anything the codemod can't handle
 
 ### 26.4 Long-Term Support
@@ -1888,7 +1888,7 @@ describe("Button accessibility", () => {
 4. **Quick start** — 3-step installation in a code block
 5. **Component gallery** — Grid of all 53 components with live mini-previews
 6. **Theme builder** — Interactive: pick a primary color → see all components update live
-7. **Comparison table** — WeiUI vs shadcn vs Headless UI vs HeroUI vs Bulma
+7. **Comparison table** — Civaria vs shadcn vs Headless UI vs HeroUI vs Bulma
 8. **Framework support** — Next.js, Vite, Astro, Remix logos
 9. **npm stats** — Install count, bundle size, test coverage
 
@@ -1916,7 +1916,7 @@ describe("Button accessibility", () => {
 │  │  └───────────────────────────────────────────────┘  │ │
 │  │                                                     │ │
 │  │  ┌─ Code ────────────────────────────────────────┐  │ │
-│  │  │ import { Button } from "@weiui/react";        │  │ │
+│  │  │ import { Button } from "civaria";        │  │ │
 │  │  │                                               │  │ │
 │  │  │ <Button variant="solid">Click me</Button>     │  │ │
 │  │  └───────────────────────────────────────────────┘  │ │
@@ -1948,10 +1948,10 @@ describe("Button accessibility", () => {
 │                                                           │
 │  Design Tokens                                            │
 │  ─────────────────────────────────────────────────────── │
-│  --wui-button-height-sm: 36px                             │
-│  --wui-button-height-md: 44px                             │
-│  --wui-button-height-lg: 48px                             │
-│  --wui-button-radius: var(--wui-radius-md)                │
+│  --civ-button-height-sm: 36px                             │
+│  --civ-button-height-md: 44px                             │
+│  --civ-button-height-lg: 48px                             │
+│  --civ-button-radius: var(--civ-radius-md)                │
 │                                                           │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -2016,12 +2016,12 @@ In addition to the criteria in section 13:
 - [ ] Visual regression tests cover all components × all states × light/dark × LTR/RTL
 - [ ] Documentation has interactive playground for every component
 - [ ] Theme builder generates AAA-compliant themes from a single brand color
-- [ ] Visual composer allows drag-and-drop page assembly from WeiUI components
+- [ ] Visual composer allows drag-and-drop page assembly from Civaria components
 - [ ] Composer exports clean JSX and CSS-only HTML code
 
 ---
 
 ## 31. Future Roadmap
 
-**WeiUI Page Builder (separate product):**
-A standalone visual page builder application using WeiUI as its component foundation. Unlike the composer (which exports code snippets), the page builder would be a full product with backend storage, versioning, collaboration, and CMS integration. This is a separate project with its own design doc and plan — not part of the design system deliverable.
+**Civaria Page Builder (separate product):**
+A standalone visual page builder application using Civaria as its component foundation. Unlike the composer (which exports code snippets), the page builder would be a full product with backend storage, versioning, collaboration, and CMS integration. This is a separate project with its own design doc and plan — not part of the design system deliverable.

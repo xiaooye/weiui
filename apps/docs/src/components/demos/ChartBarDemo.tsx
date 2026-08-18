@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart } from "@weiui/react/chart";
+import { BarChart } from "civaria/chart";
 
 const DATA = [
   { name: "Jan", revenue: 4000, expenses: 2400 },
@@ -17,7 +17,7 @@ const currency = (v: unknown) => `$${Number(v).toLocaleString()}`;
 
 export function ChartBarDemo() {
   return (
-    <div style={{ display: "grid", gap: "var(--wui-spacing-4)", width: "100%" }}>
+    <div style={{ display: "grid", gap: "var(--civ-spacing-4)", width: "100%" }}>
       <BarChart
         data={DATA}
         dataKeys={["revenue", "expenses"]}

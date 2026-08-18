@@ -18,7 +18,7 @@ export function ComboboxInput({ placeholder, onKeyDown, onChange, ...props }: Co
       aria-autocomplete="list"
       aria-expanded={isOpen}
       aria-controls={isOpen ? listboxId : undefined}
-      data-wui-component="combobox"
+      data-civaria-component="combobox"
       data-part="input"
       data-state={isOpen ? "open" : "closed"}
       value={inputValue}

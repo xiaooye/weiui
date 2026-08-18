@@ -1,41 +1,41 @@
 /* packages/css/src/elements/alert.css */
-@layer wui-elements {
-  .wui-alert {
+@layer civ-elements {
+  .civ-alert {
     display: flex;
-    gap: var(--wui-spacing-3);
-    padding: var(--wui-spacing-4);
-    border-radius: var(--wui-shape-radius-md);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    gap: var(--civ-spacing-3);
+    padding: var(--civ-spacing-4);
+    border-radius: var(--civ-shape-radius-md);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
   }
 
-  .wui-alert--info {
-    border-color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 5%, transparent);
+  .civ-alert--info {
+    border-color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 5%, transparent);
   }
-  .wui-alert--success {
-    border-color: var(--wui-color-success);
-    background-color: color-mix(in oklch, var(--wui-color-success) 5%, transparent);
+  .civ-alert--success {
+    border-color: var(--civ-color-success);
+    background-color: color-mix(in oklch, var(--civ-color-success) 5%, transparent);
   }
-  .wui-alert--warning {
-    border-color: var(--wui-color-warning);
-    background-color: color-mix(in oklch, var(--wui-color-warning) 5%, transparent);
+  .civ-alert--warning {
+    border-color: var(--civ-color-warning);
+    background-color: color-mix(in oklch, var(--civ-color-warning) 5%, transparent);
   }
-  .wui-alert--destructive {
-    border-color: var(--wui-color-destructive);
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 5%, transparent);
-  }
-
-  .wui-alert__title {
-    font-weight: var(--wui-font-weight-semibold);
-    line-height: var(--wui-font-lineHeight-tight);
+  .civ-alert--destructive {
+    border-color: var(--civ-color-destructive);
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 5%, transparent);
   }
 
-  .wui-alert__description {
-    font-size: var(--wui-font-size-sm);
-    line-height: var(--wui-font-lineHeight-normal);
+  .civ-alert__title {
+    font-weight: var(--civ-font-weight-semibold);
+    line-height: var(--civ-font-lineHeight-tight);
   }
 
-  .wui-alert__icon {
+  .civ-alert__description {
+    font-size: var(--civ-font-size-sm);
+    line-height: var(--civ-font-lineHeight-normal);
+  }
+
+  .civ-alert__icon {
     display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     inline-size: 20px; block-size: 20px;
@@ -43,38 +43,38 @@
     line-height: 1;
   }
 
-  .wui-alert--info .wui-alert__icon { color: var(--wui-color-primary); }
-  .wui-alert--success .wui-alert__icon { color: var(--wui-color-success); }
-  .wui-alert--warning .wui-alert__icon { color: var(--wui-color-warning); }
-  .wui-alert--destructive .wui-alert__icon { color: var(--wui-color-destructive); }
+  .civ-alert--info .civ-alert__icon { color: var(--civ-color-primary); }
+  .civ-alert--success .civ-alert__icon { color: var(--civ-color-success); }
+  .civ-alert--warning .civ-alert__icon { color: var(--civ-color-warning); }
+  .civ-alert--destructive .civ-alert__icon { color: var(--civ-color-destructive); }
 
-  .wui-alert__body {
+  .civ-alert__body {
     flex: 1;
     min-inline-size: 0;
-    display: flex; flex-direction: column; gap: var(--wui-spacing-1);
+    display: flex; flex-direction: column; gap: var(--civ-spacing-1);
   }
 
-  .wui-alert__action {
-    display: inline-flex; align-items: center; gap: var(--wui-spacing-2);
+  .civ-alert__action {
+    display: inline-flex; align-items: center; gap: var(--civ-spacing-2);
     flex-shrink: 0;
   }
 
-  .wui-alert__close {
+  .civ-alert__close {
     display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     min-inline-size: 24px; min-block-size: 24px;
     padding: 0;
     background: none;
     border: none;
-    border-radius: var(--wui-shape-radius-sm);
-    color: var(--wui-color-muted-foreground);
+    border-radius: var(--civ-shape-radius-sm);
+    color: var(--civ-color-muted-foreground);
     cursor: pointer;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
     line-height: 1;
   }
-  .wui-alert__close:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-border); }
-  .wui-alert__close:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-alert__close:hover { color: var(--civ-color-foreground); background-color: var(--civ-color-border); }
+  .civ-alert__close:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 1px;
   }
 }

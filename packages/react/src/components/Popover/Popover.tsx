@@ -18,7 +18,7 @@ import {
   useId,
   useFloatingMenu,
   type UseDisclosureProps,
-} from "@weiui/headless";
+} from "@civaria/headless";
 import { Portal } from "../Portal";
 
 type PopoverSide = "top" | "right" | "bottom" | "left";
@@ -306,7 +306,7 @@ export function PopoverArrow({ size = 8, style, ...props }: PopoverArrowProps) {
     <span
       ref={(el) => { arrowRef.current = el; }}
       aria-hidden="true"
-      className="wui-popover__arrow"
+      className="civ-popover__arrow"
       style={{
         position: "absolute",
         width: size,

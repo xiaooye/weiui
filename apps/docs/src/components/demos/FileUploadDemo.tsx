@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FileUpload } from "@weiui/react";
+import { FileUpload } from "civaria";
 
 export function FileUploadDemo() {
   const [files, setFiles] = useState<File[]>([]);
@@ -11,7 +11,7 @@ export function FileUploadDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         inlineSize: "360px",
       }}
     >
@@ -26,8 +26,8 @@ export function FileUploadDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         {files.length > 0

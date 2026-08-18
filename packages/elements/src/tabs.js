@@ -1,1 +1,1 @@
-export { WuiTabsElement, defineTabs } from "./index.js";
+export { CivTabsElement, defineTabs } from "./index.js";

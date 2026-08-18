@@ -43,9 +43,9 @@ function injectIndices(children: ReactNode): ReactNode {
   let stepIdx = 0;
   return Children.map(children, (child) => {
     if (!isValidElement(child)) return child;
-    const el = child as ReactElement<{ index?: number; __wuiStep?: boolean; __wuiSep?: boolean }>;
-    const type = el.type as { __wuiStep?: boolean; __wuiSep?: boolean };
-    if (type?.__wuiStep) {
+    const el = child as ReactElement<{ index?: number; __civStep?: boolean; __civSep?: boolean }>;
+    const type = el.type as { __civStep?: boolean; __civSep?: boolean };
+    if (type?.__civStep) {
       const currentIdx = el.props.index ?? stepIdx;
       stepIdx += 1;
       if (el.props.index === undefined) {
@@ -53,7 +53,7 @@ function injectIndices(children: ReactNode): ReactNode {
       }
       return el;
     }
-    if (type?.__wuiSep) {
+    if (type?.__civSep) {
       // Separator sits between step N and N+1; use index N-1 (preceding step).
       const sepIdx = el.props.index ?? Math.max(0, stepIdx - 1);
       if (el.props.index === undefined) {
@@ -70,7 +70,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
     <StepperContext.Provider value={{ activeStep, onStepClick }}>
       <div
         ref={ref}
-        className={cn("wui-stepper", orientation === "vertical" && "wui-stepper--vertical", className)}
+        className={cn("civ-stepper", orientation === "vertical" && "civ-stepper--vertical", className)}
         {...props}
       >
         {injectIndices(children)}
@@ -98,7 +98,7 @@ export interface StepProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 type StepComponent = ReturnType<typeof forwardRef<HTMLDivElement, StepProps>> & {
-  __wuiStep?: boolean;
+  __civStep?: boolean;
 };
 
 export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
@@ -121,7 +121,7 @@ export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-step", className)}
+        className={cn("civ-step", className)}
         data-active={isActive ? "" : undefined}
         data-completed={isCompleted ? "" : undefined}
         data-error={error ? "" : undefined}
@@ -145,10 +145,10 @@ export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
         }
         {...props}
       >
-        <div className="wui-step__indicator">{renderIndicatorContent()}</div>
+        <div className="civ-step__indicator">{renderIndicatorContent()}</div>
         <div>
-          <div className="wui-step__label">{label}</div>
-          {description && <div className="wui-step__description">{description}</div>}
+          <div className="civ-step__label">{label}</div>
+          {description && <div className="civ-step__description">{description}</div>}
         </div>
         {children}
       </div>
@@ -156,7 +156,7 @@ export const Step: StepComponent = forwardRef<HTMLDivElement, StepProps>(
   },
 );
 Step.displayName = "Step";
-Step.__wuiStep = true;
+Step.__civStep = true;
 
 export interface StepSeparatorProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional explicit index. Omit to let Stepper auto-infer. */
@@ -164,7 +164,7 @@ export interface StepSeparatorProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 type StepSeparatorComponent = ReturnType<typeof forwardRef<HTMLDivElement, StepSeparatorProps>> & {
-  __wuiSep?: boolean;
+  __civSep?: boolean;
 };
 
 export const StepSeparator: StepSeparatorComponent = forwardRef<HTMLDivElement, StepSeparatorProps>(
@@ -175,7 +175,7 @@ export const StepSeparator: StepSeparatorComponent = forwardRef<HTMLDivElement, 
     return (
       <div
         ref={ref}
-        className={cn("wui-step__separator", className)}
+        className={cn("civ-step__separator", className)}
         data-completed={isCompleted ? "" : undefined}
         aria-hidden="true"
         {...props}
@@ -184,4 +184,4 @@ export const StepSeparator: StepSeparatorComponent = forwardRef<HTMLDivElement, 
   },
 );
 StepSeparator.displayName = "StepSeparator";
-StepSeparator.__wuiSep = true;
+StepSeparator.__civSep = true;

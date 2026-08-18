@@ -129,7 +129,7 @@ describe("CommandPalette", () => {
     // item-icon wrapper has aria-hidden
     const iconSpan = screen.getByTestId("icon-home").parentElement!;
     expect(iconSpan).toHaveAttribute("aria-hidden", "true");
-    expect(iconSpan).toHaveClass("wui-command__item-icon");
+    expect(iconSpan).toHaveClass("civ-command__item-icon");
   });
 
   it("focus trap keeps Tab inside the dialog (does not reach outside button)", async () => {
@@ -171,7 +171,7 @@ describe("CommandPalette P1 additions", () => {
   });
 
   it("shows recent items group when input is empty and recent storage exists", async () => {
-    window.localStorage.setItem("wui-cp-recent-demo", JSON.stringify(["go-home"]));
+    window.localStorage.setItem("civ-cp-recent-demo", JSON.stringify(["go-home"]));
     const recentItems = [
       { id: "go-home", label: "Home", onSelect: vi.fn() },
       { id: "go-settings", label: "Settings", onSelect: vi.fn() },
@@ -219,7 +219,7 @@ describe("CommandPalette async loading (P1)", () => {
     const spinner = screen.getByRole("status", { name: /loading/i });
     expect(spinner).toBeInTheDocument();
     // Loading container has aria-live polite
-    const wrapper = container.ownerDocument.querySelector(".wui-command-palette__loading");
+    const wrapper = container.ownerDocument.querySelector(".civ-command-palette__loading");
     expect(wrapper).toHaveAttribute("aria-live", "polite");
     // aria-busy on the listbox
     expect(screen.getByRole("listbox")).toHaveAttribute("aria-busy", "true");

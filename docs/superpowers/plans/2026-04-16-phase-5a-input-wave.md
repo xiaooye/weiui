@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans.
 
-**Goal:** Close all 13 P0 gaps across the 7 input-family components (Input, Textarea, InputNumber, InputOTP, AutoComplete, MultiSelect, FileUpload). Wave closes when every P0 row in the audit matrix moves from "missing" to "WeiUI has."
+**Goal:** Close all 13 P0 gaps across the 7 input-family components (Input, Textarea, InputNumber, InputOTP, AutoComplete, MultiSelect, FileUpload). Wave closes when every P0 row in the audit matrix moves from "missing" to "Civaria has."
 
 **Architecture:** P0 fixes land one component family at a time with tests + doc updates. Shared infrastructure (floating placement) lands first so AutoComplete and MultiSelect can both consume it. P1/P2 items are deferred.
 
@@ -75,7 +75,7 @@ describe("useFloatingMenu", () => {
 });
 ```
 
-Run: `pnpm --filter @weiui/headless test` — confirm fail.
+Run: `pnpm --filter @civaria/headless test` — confirm fail.
 
 - [ ] **Step 2: Create the hook**
 
@@ -109,8 +109,8 @@ Append: `export { useFloatingMenu, type UseFloatingMenuOptions } from "./use-flo
 - [ ] **Step 4: Test + build + commit**
 
 ```bash
-pnpm --filter @weiui/headless test -- use-floating-menu
-pnpm --filter @weiui/headless build
+pnpm --filter @civaria/headless test -- use-floating-menu
+pnpm --filter @civaria/headless build
 git add packages/headless/src/use-floating-menu.ts \
         packages/headless/src/__tests__/use-floating-menu.test.tsx \
         packages/headless/src/index.ts
@@ -133,12 +133,12 @@ Append to `Input.test.tsx`:
 ```tsx
 it("renders sm size class", () => {
   const { container } = render(<Input size="sm" />);
-  expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+  expect(container.querySelector(".civ-input--sm")).not.toBeNull();
 });
 
 it("renders lg size class", () => {
   const { container } = render(<Input size="lg" />);
-  expect(container.querySelector(".wui-input--lg")).not.toBeNull();
+  expect(container.querySelector(".civ-input--lg")).not.toBeNull();
 });
 
 it("renders startAddon and endAddon", () => {
@@ -171,17 +171,17 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, invalid, size = "md", startAddon, endAddon, ...props }, ref) => {
-    const sizeClass = size === "sm" ? "wui-input--sm" : size === "lg" ? "wui-input--lg" : "";
+    const sizeClass = size === "sm" ? "civ-input--sm" : size === "lg" ? "civ-input--lg" : "";
     const hasAddons = Boolean(startAddon || endAddon);
 
     const inputEl = (
       <input
         ref={ref}
         className={cn(
-          "wui-input",
+          "civ-input",
           sizeClass,
-          props.disabled && "wui-input--disabled",
-          hasAddons && "wui-input--with-addons",
+          props.disabled && "civ-input--disabled",
+          hasAddons && "civ-input--with-addons",
           !hasAddons && className,
         )}
         aria-invalid={invalid || undefined}
@@ -194,12 +194,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div
-        className={cn("wui-input-group", sizeClass, className)}
+        className={cn("civ-input-group", sizeClass, className)}
         data-invalid={invalid || undefined}
       >
-        {startAddon && <span className="wui-input-group__addon">{startAddon}</span>}
+        {startAddon && <span className="civ-input-group__addon">{startAddon}</span>}
         {inputEl}
-        {endAddon && <span className="wui-input-group__addon">{endAddon}</span>}
+        {endAddon && <span className="civ-input-group__addon">{endAddon}</span>}
       </div>
     );
   },
@@ -209,61 +209,61 @@ Input.displayName = "Input";
 
 - [ ] **Step 3: Append input-group styles to `input.css`**
 
-Append (inside a new `@layer wui-elements` block):
+Append (inside a new `@layer civ-elements` block):
 
 ```css
-@layer wui-elements {
-  .wui-input-group {
+@layer civ-elements {
+  .civ-input-group {
     display: inline-flex;
     align-items: center;
     inline-size: 100%;
     min-block-size: 44px;
-    background-color: var(--wui-color-background);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+    background-color: var(--civ-color-background);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
     overflow: hidden;
   }
-  .wui-input-group.wui-input--sm { min-block-size: 36px; }
-  .wui-input-group.wui-input--lg { min-block-size: 48px; }
-  .wui-input-group:hover { border-color: color-mix(in oklch, var(--wui-color-border) 60%, var(--wui-color-foreground)); }
-  .wui-input-group:focus-within {
-    border-color: var(--wui-color-ring);
-    outline: 3px solid var(--wui-color-ring-soft);
+  .civ-input-group.civ-input--sm { min-block-size: 36px; }
+  .civ-input-group.civ-input--lg { min-block-size: 48px; }
+  .civ-input-group:hover { border-color: color-mix(in oklch, var(--civ-color-border) 60%, var(--civ-color-foreground)); }
+  .civ-input-group:focus-within {
+    border-color: var(--civ-color-ring);
+    outline: 3px solid var(--civ-color-ring-soft);
     outline-offset: 0;
   }
-  .wui-input-group[data-invalid] {
-    border-color: var(--wui-color-destructive);
+  .civ-input-group[data-invalid] {
+    border-color: var(--civ-color-destructive);
   }
-  .wui-input-group__addon {
+  .civ-input-group__addon {
     display: inline-flex; align-items: center; justify-content: center;
-    padding-inline: var(--wui-spacing-3);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-sm);
+    padding-inline: var(--civ-spacing-3);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
     flex: 0 0 auto;
     pointer-events: none;
   }
-  .wui-input-group__addon:has(button),
-  .wui-input-group__addon:has(a),
-  .wui-input-group__addon:has([role="button"]) {
+  .civ-input-group__addon:has(button),
+  .civ-input-group__addon:has(a),
+  .civ-input-group__addon:has([role="button"]) {
     pointer-events: auto;
   }
-  .wui-input-group .wui-input {
+  .civ-input-group .civ-input {
     border: none;
     box-shadow: none;
     background: transparent;
     min-block-size: 0;
     outline: none;
   }
-  .wui-input-group .wui-input:focus-within {
+  .civ-input-group .civ-input:focus-within {
     outline: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-input-group {
+    .civ-input-group {
       transition-property: border-color, outline-color, background-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -272,9 +272,9 @@ Append (inside a new `@layer wui-elements` block):
 - [ ] **Step 4: Test + build + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- Input
-pnpm --filter @weiui/css build
-pnpm --filter @weiui/react build
+pnpm --filter civaria test -- Input
+pnpm --filter @civaria/css build
+pnpm --filter civaria build
 git add packages/react/src/components/Input/Input.tsx \
         packages/react/src/components/Input/__tests__/Input.test.tsx \
         packages/css/src/elements/input.css
@@ -294,7 +294,7 @@ git commit -m "feat(react): Input size variants + start/end addon slots (P0)"
 ```tsx
 it("renders sm size class", () => {
   const { container } = render(<Textarea size="sm" />);
-  expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+  expect(container.querySelector(".civ-input--sm")).not.toBeNull();
 });
 ```
 
@@ -305,7 +305,7 @@ Read the current file. Add `size?: "sm" | "md" | "lg"` to the props type. Apply 
 - [ ] **Step 3: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- Textarea
+pnpm --filter civaria test -- Textarea
 git add packages/react/src/components/Textarea/
 git commit -m "feat(react): Textarea size variant (P0)"
 ```
@@ -353,7 +353,7 @@ Read the file. Add:
 - [ ] **Step 3: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- InputNumber
+pnpm --filter civaria test -- InputNumber
 git add packages/react/src/components/InputNumber/
 git commit -m "feat(react): InputNumber locale formatting + spinbutton ARIA (P0)"
 ```
@@ -405,7 +405,7 @@ Add `autoComplete="one-time-code"` to the first input only.
 - [ ] **Step 3: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- InputOTP
+pnpm --filter civaria test -- InputOTP
 git add packages/react/src/components/InputOTP/
 git commit -m "feat(react): InputOTP arrow-key nav + one-time-code autofill (P0)"
 ```
@@ -443,7 +443,7 @@ it("applies floating placement styles to dropdown", async () => {
 Read the current file. Replace absolute-positioned dropdown with `useFloatingMenu`:
 
 ```tsx
-import { useFloatingMenu } from "@weiui/headless";
+import { useFloatingMenu } from "@civaria/headless";
 
 // inside component:
 const { refs, floatingStyles } = useFloatingMenu({ open: isOpen });
@@ -457,18 +457,18 @@ const { refs, floatingStyles } = useFloatingMenu({ open: isOpen });
 
 Add:
 - `loading?: boolean` prop
-- When `loading`, render a `<div role="status" aria-live="polite" className="wui-autocomplete__loading">Loading…</div>` as first child of the listbox
+- When `loading`, render a `<div role="status" aria-live="polite" className="civ-autocomplete__loading">Loading…</div>` as first child of the listbox
 
 - [ ] **Step 3: Append styles**
 
 Append to `autocomplete.css`:
 
 ```css
-@layer wui-elements {
-  .wui-autocomplete__loading {
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+@layer civ-elements {
+  .civ-autocomplete__loading {
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
   }
 }
 ```
@@ -476,7 +476,7 @@ Append to `autocomplete.css`:
 - [ ] **Step 4: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- AutoComplete
+pnpm --filter civaria test -- AutoComplete
 git add packages/react/src/components/AutoComplete/ \
         packages/css/src/elements/autocomplete.css
 git commit -m "feat(react): AutoComplete floating placement + loading state (P0)"
@@ -524,7 +524,7 @@ Add a search input inside the dropdown as the first child (before option list):
 ```tsx
 <input
   type="text"
-  className="wui-multi-select__search"
+  className="civ-multi-select__search"
   placeholder="Search…"
   value={filter}
   onChange={(e) => setFilter(e.target.value)}
@@ -537,25 +537,25 @@ Filter the rendered option list by `option.label.toLowerCase().includes(filter.t
 - [ ] **Step 3: Append styles**
 
 ```css
-@layer wui-elements {
-  .wui-multi-select__search {
+@layer civ-elements {
+  .civ-multi-select__search {
     inline-size: 100%;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-2);
     background: transparent;
     border: none;
-    border-block-end: 1px solid var(--wui-color-border);
-    font-size: var(--wui-font-size-sm);
+    border-block-end: 1px solid var(--civ-color-border);
+    font-size: var(--civ-font-size-sm);
     outline: none;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
   }
-  .wui-multi-select__search::placeholder { color: var(--wui-color-muted-foreground); }
+  .civ-multi-select__search::placeholder { color: var(--civ-color-muted-foreground); }
 }
 ```
 
 - [ ] **Step 4: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- MultiSelect
+pnpm --filter civaria test -- MultiSelect
 git add packages/react/src/components/MultiSelect/ \
         packages/css/src/elements/multi-select.css
 git commit -m "feat(react): MultiSelect typeahead filter + floating placement (P0)"
@@ -618,7 +618,7 @@ Track rejected files in state as `errors: FileUploadError[]` and render:
 
 ```tsx
 {errors.length > 0 && (
-  <div className="wui-file-upload__errors" role="alert" aria-live="polite">
+  <div className="civ-file-upload__errors" role="alert" aria-live="polite">
     {errors.map((err, i) => <div key={i}>{err.message}</div>)}
   </div>
 )}
@@ -629,15 +629,15 @@ Clear errors when a new drop/select starts successfully.
 - [ ] **Step 3: Append styles**
 
 ```css
-@layer wui-elements {
-  .wui-file-upload__errors {
-    margin-block-start: var(--wui-spacing-3);
-    padding: var(--wui-spacing-3);
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 5%, var(--wui-color-background));
-    border: 1px solid color-mix(in oklch, var(--wui-color-destructive) 40%, var(--wui-color-border));
-    color: var(--wui-color-destructive);
-    border-radius: var(--wui-shape-radius-base);
-    font-size: var(--wui-font-size-sm);
+@layer civ-elements {
+  .civ-file-upload__errors {
+    margin-block-start: var(--civ-spacing-3);
+    padding: var(--civ-spacing-3);
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 5%, var(--civ-color-background));
+    border: 1px solid color-mix(in oklch, var(--civ-color-destructive) 40%, var(--civ-color-border));
+    color: var(--civ-color-destructive);
+    border-radius: var(--civ-shape-radius-base);
+    font-size: var(--civ-font-size-sm);
   }
 }
 ```
@@ -645,7 +645,7 @@ Clear errors when a new drop/select starts successfully.
 - [ ] **Step 4: Test + commit**
 
 ```bash
-pnpm --filter @weiui/react test -- FileUpload
+pnpm --filter civaria test -- FileUpload
 git add packages/react/src/components/FileUpload/ \
         packages/css/src/elements/file-upload.css
 git commit -m "feat(react): FileUpload onError + error message UI (P0)"
@@ -659,7 +659,7 @@ git commit -m "feat(react): FileUpload onError + error message UI (P0)"
 
 - [ ] **Step 1: Find each P0 row that was fixed**
 
-For each of the 13 P0 gaps in the inventory at the top of this plan, find the corresponding row in `docs/audit/component-parity.md` (under Wave 5a) and flip the "WeiUI has" cell from `❌` to `✅` and the "Priority" cell from `**P0**` to `✅ shipped`.
+For each of the 13 P0 gaps in the inventory at the top of this plan, find the corresponding row in `docs/audit/component-parity.md` (under Wave 5a) and flip the "Civaria has" cell from `❌` to `✅` and the "Priority" cell from `**P0**` to `✅ shipped`.
 
 - [ ] **Step 2: Update the executive summary**
 
@@ -679,7 +679,7 @@ git commit -m "docs(audit): mark Wave 5a P0 gaps as shipped (13 → 0)"
 - [ ] Full build: `pnpm build`
 - [ ] All tests: `pnpm test` (should pass; new tests added)
 - [ ] Typecheck: `pnpm -r typecheck` — no errors
-- [ ] Contrast validation: `pnpm --filter @weiui/tokens validate` — unchanged
+- [ ] Contrast validation: `pnpm --filter @civaria/tokens validate` — unchanged
 - [ ] Manual check: open dev server, verify:
   - `<Input size="sm" startAddon="$" endAddon=".00" />` renders correctly
   - `<Textarea size="lg" />` renders

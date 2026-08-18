@@ -1,5 +1,5 @@
-@layer wui-base {
-  @keyframes wui-fade-in-up {
+@layer civ-base {
+  @keyframes civ-fade-in-up {
     from {
       opacity: 0;
       transform: translateY(16px);
@@ -10,223 +10,223 @@
     }
   }
 
-  .wui-home-section {
-    padding-inline: var(--wui-spacing-6);
-    padding-block: var(--wui-spacing-12);
+  .civ-home-section {
+    padding-inline: var(--civ-spacing-6);
+    padding-block: var(--civ-spacing-12);
   }
 
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
-      .wui-home-section {
-        animation: wui-fade-in-up 800ms var(--wui-motion-easing-decelerated) both;
+      .civ-home-section {
+        animation: civ-fade-in-up 800ms var(--civ-motion-easing-decelerated) both;
         animation-timeline: view();
         animation-range: entry 10% cover 40%;
       }
     }
   }
-  .wui-home-section__header {
+  .civ-home-section__header {
     text-align: center;
     align-items: center;
   }
-  .wui-home-section__eyebrow {
+  .civ-home-section__eyebrow {
     align-self: center;
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
-  .wui-home-section__title {
+  .civ-home-section__title {
     font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
-    font-weight: var(--wui-font-weight-semibold);
+    font-weight: var(--civ-font-weight-semibold);
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0;
   }
-  .wui-home-section__sub {
+  .civ-home-section__sub {
     max-inline-size: 42rem;
     margin-inline: auto;
   }
 }
 
-@layer wui-base {
-  .wui-landing-hero__inner {
+@layer civ-base {
+  .civ-landing-hero__inner {
     text-align: center;
   }
-  .wui-landing-hero__content {
+  .civ-landing-hero__content {
     align-items: center;
   }
-  .wui-landing-hero__badge {
+  .civ-landing-hero__badge {
     align-self: center;
   }
-  .wui-landing-hero__cta {
+  .civ-landing-hero__cta {
     justify-content: center;
   }
-  .wui-landing-hero__metrics-divider {
-    margin-block-start: var(--wui-spacing-6);
+  .civ-landing-hero__metrics-divider {
+    margin-block-start: var(--civ-spacing-6);
     max-inline-size: 48rem;
     inline-size: 100%;
   }
-  .wui-landing-hero__metrics {
+  .civ-landing-hero__metrics {
     max-inline-size: 48rem;
     margin-inline: auto;
   }
-  .wui-landing-hero__metric {
+  .civ-landing-hero__metric {
     align-items: center;
   }
-  .wui-landing-hero__metric-value {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-3xl);
-    font-weight: var(--wui-font-weight-regular);
+  .civ-landing-hero__metric-value {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-3xl);
+    font-weight: var(--civ-font-weight-regular);
     line-height: 1;
   }
-  .wui-landing-hero__metric-label {
+  .civ-landing-hero__metric-label {
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
   @media (max-width: 640px) {
-    .wui-landing-hero__metrics {
+    .civ-landing-hero__metrics {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 }
 
-@layer wui-base {
-  .wui-home-values__card {
-    padding: var(--wui-spacing-2);
+@layer civ-base {
+  .civ-home-values__card {
+    padding: var(--civ-spacing-2);
   }
-  .wui-home-values__glyph {
+  .civ-home-values__glyph {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     inline-size: 40px;
     block-size: 40px;
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    color: var(--wui-color-primary);
-    border-radius: var(--wui-shape-radius-md);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    color: var(--civ-color-primary);
+    border-radius: var(--civ-shape-radius-md);
   }
-  .wui-home-values__title {
-    font-size: var(--wui-font-size-lg);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-home-values__title {
+    font-size: var(--civ-font-size-lg);
+    font-weight: var(--civ-font-weight-semibold);
     margin: 0;
   }
-  .wui-home-values__body {
+  .civ-home-values__body {
     line-height: 1.6;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-home-values__card {
+    .civ-home-values__card {
       transition-property: transform, box-shadow, border-color;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-emphasized);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-emphasized);
     }
-    .wui-home-values__card:hover {
+    .civ-home-values__card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--wui-elevation-3);
-      border-color: color-mix(in oklch, var(--wui-color-primary) 40%, var(--wui-color-border));
+      box-shadow: var(--civ-elevation-3);
+      border-color: color-mix(in oklch, var(--civ-color-primary) 40%, var(--civ-color-border));
     }
   }
 }
 
-@layer wui-base {
-  .wui-home-showcase__stage {
-    padding: var(--wui-spacing-8);
-    background-color: var(--wui-surface-raised);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-2);
+@layer civ-base {
+  .civ-home-showcase__stage {
+    padding: var(--civ-spacing-8);
+    background-color: var(--civ-surface-raised);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-2);
     min-block-size: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-block-start: var(--wui-spacing-4);
+    margin-block-start: var(--civ-spacing-4);
   }
-  .wui-home-showcase__row {
+  .civ-home-showcase__row {
     align-items: center;
     justify-content: center;
   }
-  .wui-home-showcase__form {
+  .civ-home-showcase__form {
     max-inline-size: 320px;
     inline-size: 100%;
   }
-  .wui-home-showcase__card {
+  .civ-home-showcase__card {
     max-inline-size: 360px;
   }
 }
 
-@layer wui-base {
+@layer civ-base {
   /* Comparison — Card wraps a semantic table */
-  .wui-home-compare__wrap {
+  .civ-home-compare__wrap {
     overflow-x: auto;
     padding: 0;
   }
-  .wui-home-compare__table {
+  .civ-home-compare__table {
     inline-size: 100%;
     border-collapse: collapse;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-home-compare__table th,
-  .wui-home-compare__table td {
-    padding-inline: var(--wui-spacing-4);
-    padding-block: var(--wui-spacing-3);
+  .civ-home-compare__table th,
+  .civ-home-compare__table td {
+    padding-inline: var(--civ-spacing-4);
+    padding-block: var(--civ-spacing-3);
     text-align: start;
-    border-block-end: 1px solid var(--wui-color-border);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-home-compare__table thead th {
-    background-color: var(--wui-surface-sunken);
-    font-weight: var(--wui-font-weight-semibold);
-    font-size: var(--wui-font-size-xs);
+  .civ-home-compare__table thead th {
+    background-color: var(--civ-surface-sunken);
+    font-weight: var(--civ-font-weight-semibold);
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     text-align: center;
   }
-  .wui-home-compare__table thead th:first-child {
+  .civ-home-compare__table thead th:first-child {
     text-align: start;
   }
-  .wui-home-compare__table tbody th {
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
+  .civ-home-compare__table tbody th {
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-foreground);
   }
-  .wui-home-compare__table tbody td {
+  .civ-home-compare__table tbody td {
     text-align: center;
   }
 
   /* Install snippet */
-  .wui-home-install__wrap {
+  .civ-home-install__wrap {
     max-inline-size: 48rem;
     margin-inline: auto;
     padding: 0;
   }
 
   /* Footer — composed with Stack + Link + Divider */
-  .wui-home-footer {
-    margin-block-start: var(--wui-spacing-12);
-    padding-block: var(--wui-spacing-12);
-    background-color: var(--wui-surface-sunken);
-    border-block-start: 1px solid var(--wui-color-border);
+  .civ-home-footer {
+    margin-block-start: var(--civ-spacing-12);
+    padding-block: var(--civ-spacing-12);
+    background-color: var(--civ-surface-sunken);
+    border-block-start: 1px solid var(--civ-color-border);
   }
-  .wui-home-footer__inner {
-    padding-inline: var(--wui-spacing-6);
+  .civ-home-footer__inner {
+    padding-inline: var(--civ-spacing-6);
   }
-  .wui-home-footer__cols {
+  .civ-home-footer__cols {
     align-items: flex-start;
     justify-content: space-between;
   }
-  .wui-home-footer__brand {
+  .civ-home-footer__brand {
     flex-basis: 18rem;
     max-inline-size: 20rem;
   }
-  .wui-home-footer__col-title {
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-home-footer__col-title {
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     margin: 0;
   }
-  .wui-home-footer__bottom {
+  .civ-home-footer__bottom {
     justify-content: space-between;
   }
 
   @media (max-width: 768px) {
-    .wui-home-footer__cols {
+    .civ-home-footer__cols {
       flex-direction: column;
     }
   }

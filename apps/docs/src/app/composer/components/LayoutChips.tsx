@@ -7,7 +7,7 @@ import {
   Slider,
   ToggleGroup,
   ToggleGroupItem,
-} from "@weiui/react";
+} from "civaria";
 import type { ComponentNode } from "../lib/tree";
 import { useInteractionManager } from "../lib/interaction-manager";
 
@@ -21,7 +21,7 @@ export interface LayoutChipsProps {
 
 /**
  * Floating toolbar of direct-manipulation controls for the currently-selected
- * container node. A `<Popover>` from @weiui/react does the heavy lifting —
+ * container node. A `<Popover>` from civaria does the heavy lifting —
  * floating-ui handles flip / shift / collision so chips stay on-screen.
  *
  * The popover is anchored to an invisible element that tracks the live bounding
@@ -128,7 +128,7 @@ function StackChips({ node, onUpdate }: ChipsProps) {
 
   return (
     <div
-      className="wui-composer__chips"
+      className="civ-composer__chips"
       role="toolbar"
       aria-label="Stack layout"
     >
@@ -146,8 +146,8 @@ function StackChips({ node, onUpdate }: ChipsProps) {
           {"\u2195"}
         </ToggleGroupItem>
       </ToggleGroup>
-      <div className="wui-composer__chip-slider">
-        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+      <div className="civ-composer__chip-slider">
+        <span className="civ-composer__chip-slider-label" aria-hidden="true">
           gap
         </span>
         <Slider
@@ -158,9 +158,9 @@ function StackChips({ node, onUpdate }: ChipsProps) {
           onChange={(next) => onUpdate({ ...node.props, gap: next })}
           label="Gap"
           showTooltip
-          className="wui-composer__chip-slider-track"
+          className="civ-composer__chip-slider-track"
         />
-        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+        <span className="civ-composer__chip-slider-value" aria-hidden="true">
           {gap}
         </span>
       </div>
@@ -181,12 +181,12 @@ function GridChips({ node, onUpdate }: ChipsProps) {
 
   return (
     <div
-      className="wui-composer__chips"
+      className="civ-composer__chips"
       role="toolbar"
       aria-label="Grid layout"
     >
-      <div className="wui-composer__chip-slider">
-        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+      <div className="civ-composer__chip-slider">
+        <span className="civ-composer__chip-slider-label" aria-hidden="true">
           cols
         </span>
         <Slider
@@ -197,14 +197,14 @@ function GridChips({ node, onUpdate }: ChipsProps) {
           onChange={(next) => onUpdate({ ...node.props, columns: next })}
           label="Columns"
           showTooltip
-          className="wui-composer__chip-slider-track"
+          className="civ-composer__chip-slider-track"
         />
-        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+        <span className="civ-composer__chip-slider-value" aria-hidden="true">
           {safeCols}
         </span>
       </div>
-      <div className="wui-composer__chip-slider">
-        <span className="wui-composer__chip-slider-label" aria-hidden="true">
+      <div className="civ-composer__chip-slider">
+        <span className="civ-composer__chip-slider-label" aria-hidden="true">
           gap
         </span>
         <Slider
@@ -215,9 +215,9 @@ function GridChips({ node, onUpdate }: ChipsProps) {
           onChange={(next) => onUpdate({ ...node.props, gap: next })}
           label="Gap"
           showTooltip
-          className="wui-composer__chip-slider-track"
+          className="civ-composer__chip-slider-track"
         />
-        <span className="wui-composer__chip-slider-value" aria-hidden="true">
+        <span className="civ-composer__chip-slider-value" aria-hidden="true">
           {gap}
         </span>
       </div>
@@ -231,18 +231,18 @@ function ContainerChips({ node, onUpdate }: ChipsProps) {
 
   return (
     <div
-      className="wui-composer__chips"
+      className="civ-composer__chips"
       role="toolbar"
       aria-label="Container layout"
     >
-      <label className="wui-composer__chip-input">
+      <label className="civ-composer__chip-input">
         <span>max</span>
         <select
           value={maxWidth}
           onChange={(e) =>
             onUpdate({ ...node.props, maxWidth: e.currentTarget.value })
           }
-          className="wui-composer__chip-select"
+          className="civ-composer__chip-select"
           aria-label="Max width"
         >
           <option value="20rem">sm</option>

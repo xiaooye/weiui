@@ -17,7 +17,7 @@ export function TabsContent({ value, children, ...props }: TabsContentProps) {
       aria-labelledby={`${baseId}-trigger-${value}`}
       tabIndex={0}
       {...props}
-      data-wui-component="tabs"
+      data-civaria-component="tabs"
       data-part="content"
       data-state="active"
       data-selected=""

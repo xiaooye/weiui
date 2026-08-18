@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { TreeView, type TreeNode } from "@weiui/react";
+import { TreeView, type TreeNode } from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 import type { ComponentNode } from "../lib/tree";
 

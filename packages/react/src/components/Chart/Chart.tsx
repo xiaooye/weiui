@@ -28,20 +28,20 @@ import { VisuallyHidden } from "../VisuallyHidden";
 import { EmptyState } from "../EmptyState";
 
 const COLORS = [
-  "var(--wui-color-primary)",
-  "var(--wui-color-success)",
-  "var(--wui-color-warning)",
-  "var(--wui-color-destructive)",
-  "var(--wui-color-info)",
+  "var(--civ-color-primary)",
+  "var(--civ-color-success)",
+  "var(--civ-color-warning)",
+  "var(--civ-color-destructive)",
+  "var(--civ-color-info)",
   "oklch(0.7 0.15 300)",
   "oklch(0.6 0.15 180)",
   "oklch(0.65 0.15 60)",
 ];
 
 /** Axis tick / grid stroke tokens — threaded into Recharts so dark mode flips with the theme. */
-const AXIS_TICK_STYLE = { fill: "var(--wui-color-muted-foreground)", fontSize: 12 };
-const GRID_STROKE = "var(--wui-color-border)";
-const BRUSH_STROKE = "var(--wui-color-primary)";
+const AXIS_TICK_STYLE = { fill: "var(--civ-color-muted-foreground)", fontSize: 12 };
+const GRID_STROKE = "var(--civ-color-border)";
+const BRUSH_STROKE = "var(--civ-color-primary)";
 
 /** SSR-safe matchMedia hook for prefers-reduced-motion. */
 function usePrefersReducedMotion(): boolean {
@@ -102,9 +102,9 @@ interface ChartWrapperProps {
 
 const ChartWrapper = forwardRef<HTMLDivElement, ChartWrapperProps>(
   ({ title, description, className, children, height = 300, dataTable }, ref) => (
-    <div ref={ref} className={cn("wui-chart", className)}>
-      {title && <div className="wui-chart__title">{title}</div>}
-      {description && <div className="wui-chart__description">{description}</div>}
+    <div ref={ref} className={cn("civ-chart", className)}>
+      {title && <div className="civ-chart__title">{title}</div>}
+      {description && <div className="civ-chart__description">{description}</div>}
       <ResponsiveContainer width="100%" height={height}>
         {children as React.ReactElement}
       </ResponsiveContainer>
@@ -131,7 +131,7 @@ export type AxisFormatter = (value: unknown) => string;
  *     data={data}
  *     dataKeys={["sales"]}
  *     legend={<Legend verticalAlign="top" iconType="circle" />}
- *     tooltip={<Tooltip cursor={{ fill: "var(--wui-color-muted)" }} />}
+ *     tooltip={<Tooltip cursor={{ fill: "var(--civ-color-muted)" }} />}
  *   />
  */
 export interface ChartProps {
@@ -201,9 +201,9 @@ interface EmptyShellProps {
 
 const EmptyShell = forwardRef<HTMLDivElement, EmptyShellProps>(
   ({ title, description, className, emptyState, defaultTitle, defaultDescription }, ref) => (
-    <div ref={ref} className={cn("wui-chart", className)}>
-      {title && <div className="wui-chart__title">{title}</div>}
-      {description && <div className="wui-chart__description">{description}</div>}
+    <div ref={ref} className={cn("civ-chart", className)}>
+      {title && <div className="civ-chart__title">{title}</div>}
+      {description && <div className="civ-chart__description">{description}</div>}
       {emptyState ?? <EmptyState title={defaultTitle} description={defaultDescription} />}
     </div>
   ),

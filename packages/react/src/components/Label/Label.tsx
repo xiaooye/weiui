@@ -15,16 +15,16 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(
     <label
       ref={ref}
       className={cn(
-        "wui-label",
-        size !== "md" && `wui-label--${size}`,
-        disabled && "wui-label--disabled",
+        "civ-label",
+        size !== "md" && `civ-label--${size}`,
+        disabled && "civ-label--disabled",
         className,
       )}
       data-disabled={disabled || undefined}
       {...props}
     >
       {children}
-      {required && <span aria-hidden="true" className="wui-label__required">*</span>}
+      {required && <span aria-hidden="true" className="civ-label__required">*</span>}
     </label>
   ),
 );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@weiui/react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "civaria";
 
 export function TabsDemo() {
   return (
@@ -17,7 +17,7 @@ export function TabsDemo() {
           </p>
         </TabsContent>
         <TabsContent value="features">
-          <ul style={{ margin: 0, paddingInlineStart: "var(--wui-spacing-5)" }}>
+          <ul style={{ margin: 0, paddingInlineStart: "var(--civ-spacing-5)" }}>
             <li>66 components</li>
             <li>WCAG AAA contrast</li>
             <li>Full keyboard support</li>

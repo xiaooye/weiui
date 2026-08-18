@@ -9,9 +9,9 @@ describe("Card", () => {
     expect(screen.getByText("Card body")).toBeInTheDocument();
   });
 
-  it("applies wui-card class", () => {
+  it("applies civ-card class", () => {
     render(<Card>content</Card>);
-    expect(screen.getByText("content").className).toContain("wui-card");
+    expect(screen.getByText("content").className).toContain("civ-card");
   });
 
   it("merges custom className", () => {
@@ -27,10 +27,10 @@ describe("Card", () => {
 });
 
 describe("CardHeader", () => {
-  it("renders with wui-card__header class", () => {
+  it("renders with civ-card__header class", () => {
     render(<CardHeader data-testid="header">Header</CardHeader>);
     const el = screen.getByTestId("header");
-    expect(el.className).toContain("wui-card__header");
+    expect(el.className).toContain("civ-card__header");
   });
 
   it("merges custom className", () => {
@@ -46,9 +46,9 @@ describe("CardHeader", () => {
 });
 
 describe("CardContent", () => {
-  it("renders with wui-card__content class", () => {
+  it("renders with civ-card__content class", () => {
     render(<CardContent data-testid="content">Content</CardContent>);
-    expect(screen.getByTestId("content").className).toContain("wui-card__content");
+    expect(screen.getByTestId("content").className).toContain("civ-card__content");
   });
 
   it("forwards ref", () => {
@@ -59,9 +59,9 @@ describe("CardContent", () => {
 });
 
 describe("CardFooter", () => {
-  it("renders with wui-card__footer class", () => {
+  it("renders with civ-card__footer class", () => {
     render(<CardFooter data-testid="footer">Footer</CardFooter>);
-    expect(screen.getByTestId("footer").className).toContain("wui-card__footer");
+    expect(screen.getByTestId("footer").className).toContain("civ-card__footer");
   });
 
   it("forwards ref", () => {
@@ -90,17 +90,17 @@ describe("Card compound usage", () => {
 describe("Card variants", () => {
   it("does not apply variant class for default elevated", () => {
     render(<Card>x</Card>);
-    expect(screen.getByText("x").className).not.toContain("wui-card--elevated");
+    expect(screen.getByText("x").className).not.toContain("civ-card--elevated");
   });
 
   it("applies outlined variant class", () => {
     render(<Card variant="outlined">x</Card>);
-    expect(screen.getByText("x").className).toContain("wui-card--outlined");
+    expect(screen.getByText("x").className).toContain("civ-card--outlined");
   });
 
   it("applies filled variant class", () => {
     render(<Card variant="filled">x</Card>);
-    expect(screen.getByText("x").className).toContain("wui-card--filled");
+    expect(screen.getByText("x").className).toContain("civ-card--filled");
   });
 });
 
@@ -114,7 +114,7 @@ describe("Card asChild", () => {
     const link = screen.getByTestId("link");
     expect(link.tagName).toBe("A");
     expect(link).toHaveAttribute("href", "/path");
-    expect(link.className).toContain("wui-card");
+    expect(link.className).toContain("civ-card");
   });
 
   it("merges child className with card classes", () => {
@@ -124,8 +124,8 @@ describe("Card asChild", () => {
       </Card>,
     );
     const link = screen.getByTestId("link");
-    expect(link.className).toContain("wui-card");
-    expect(link.className).toContain("wui-card--outlined");
+    expect(link.className).toContain("civ-card");
+    expect(link.className).toContain("civ-card--outlined");
     expect(link.className).toContain("extra");
     expect(link.className).toContain("child-class");
   });

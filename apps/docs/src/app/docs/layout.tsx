@@ -9,9 +9,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <div className="wui-docs-shell">
+      <div className="civ-docs-shell">
         <Sidebar />
-        <main className="wui-prose wui-docs-main">
+        <main className="civ-prose civ-docs-main">
           <Breadcrumbs />
           {children}
           <EditOnGitHub />

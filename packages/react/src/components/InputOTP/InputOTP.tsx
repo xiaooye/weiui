@@ -114,7 +114,7 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     }
 
     return (
-      <div ref={ref} className={cn("wui-input-otp", className)} role="group" aria-label="One-time password">
+      <div ref={ref} className={cn("civ-input-otp", className)} role="group" aria-label="One-time password">
         {Array.from({ length }, (_, i) => (
           <Fragment key={i}>
             <input
@@ -124,7 +124,7 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
               type="text"
               inputMode={pattern === "alphanumeric" || pattern instanceof RegExp ? "text" : "numeric"}
               maxLength={1}
-              className="wui-input-otp__slot"
+              className="civ-input-otp__slot"
               value={slots[i] ?? ""}
               disabled={disabled}
               aria-label={`Digit ${i + 1}`}
@@ -135,7 +135,7 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
               onFocus={(e) => e.target.select()}
             />
             {separatorAfter.has(i) && (
-              <span className="wui-input-otp__separator" aria-hidden="true">
+              <span className="civ-input-otp__separator" aria-hidden="true">
                 -
               </span>
             )}

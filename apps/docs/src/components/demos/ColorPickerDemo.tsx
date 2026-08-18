@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ColorPicker } from "@weiui/react";
+import { ColorPicker } from "civaria";
 
 export function ColorPickerDemo() {
   const [color, setColor] = useState("#2563eb");
@@ -11,7 +11,7 @@ export function ColorPickerDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         inlineSize: "100%",
       }}
     >
@@ -33,9 +33,9 @@ export function ColorPickerDemo() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "var(--wui-spacing-2)",
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          gap: "var(--civ-spacing-2)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         <span>Selected:</span>
@@ -45,8 +45,8 @@ export function ColorPickerDemo() {
             inlineSize: "16px",
             blockSize: "16px",
             background: color,
-            borderRadius: "var(--wui-shape-radius-sm)",
-            border: "1px solid var(--wui-color-border)",
+            borderRadius: "var(--civ-shape-radius-sm)",
+            border: "1px solid var(--civ-color-border)",
           }}
           aria-hidden="true"
         />
@@ -54,8 +54,8 @@ export function ColorPickerDemo() {
       </div>
       <p
         style={{
-          fontSize: "var(--wui-font-size-xs)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-xs)",
+          color: "var(--civ-color-muted-foreground)",
           margin: 0,
         }}
       >

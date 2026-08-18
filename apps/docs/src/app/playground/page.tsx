@@ -10,7 +10,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
   toast,
-} from "@weiui/react";
+} from "civaria";
 import { Header } from "../../components/chrome/Header";
 import {
   useSyncPlaygroundState,
@@ -77,37 +77,37 @@ export default function PlaygroundPage() {
   };
 
   const stageStyle = {
-    "--wui-playground-viewport-max": VIEWPORT_SIZES[state.viewport],
+    "--civ-playground-viewport-max": VIEWPORT_SIZES[state.viewport],
   } as React.CSSProperties;
 
   return (
     <>
       <Header />
-      <Container maxWidth="80rem" className="wui-tool-shell wui-playground">
+      <Container maxWidth="80rem" className="civ-tool-shell civ-playground">
         <Stack direction="column" gap={6}>
-          <Stack direction="column" gap={2} className="wui-tool-shell__header">
-            <Heading level={1} className="wui-tool-shell__title">
+          <Stack direction="column" gap={2} className="civ-tool-shell__header">
+            <Heading level={1} className="civ-tool-shell__title">
               Component Playground
             </Heading>
-            <Text size="base" color="muted" className="wui-tool-shell__sub">
+            <Text size="base" color="muted" className="civ-tool-shell__sub">
               Tweak props interactively and copy the generated code. Explore every variant of
-              every WeiUI component.
+              every Civaria component.
             </Text>
           </Stack>
           <Grid
             columns="220px minmax(0, 1fr) 280px"
             gap={6}
-            className="wui-tool-shell__layout wui-tool-shell__layout--playground"
+            className="civ-tool-shell__layout civ-tool-shell__layout--playground"
           >
             <ComponentSelector
               selected={state.component}
               onSelect={(c) => setState({ component: c, props: {} })}
             />
-            <Stack direction="column" gap={4} className="wui-playground__main">
+            <Stack direction="column" gap={4} className="civ-playground__main">
               <Stack
                 direction="row"
                 gap={3}
-                className="wui-playground__toolbar"
+                className="civ-playground__toolbar"
               >
                 <Stack direction="column" gap={1}>
                   <Text size="xs" color="muted" as="span">
@@ -146,8 +146,8 @@ export default function PlaygroundPage() {
               <div
                 className={
                   state.theme === "dark"
-                    ? "wui-playground__preview-stage dark"
-                    : "wui-playground__preview-stage"
+                    ? "civ-playground__preview-stage dark"
+                    : "civ-playground__preview-stage"
                 }
                 data-theme={state.theme === "auto" ? undefined : state.theme}
                 data-viewport={state.viewport}

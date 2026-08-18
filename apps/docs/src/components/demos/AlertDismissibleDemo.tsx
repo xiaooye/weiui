@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Alert, AlertTitle, AlertDescription, Button } from "@weiui/react";
+import { Alert, AlertTitle, AlertDescription, Button } from "civaria";
 
 export function AlertDismissibleDemo() {
   const [shown, setShown] = useState(true);
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)", width: "100%", maxWidth: 480 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--civ-spacing-3)", width: "100%", maxWidth: 480 }}>
       {shown ? (
         <Alert
           variant="info"

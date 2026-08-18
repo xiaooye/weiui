@@ -109,7 +109,7 @@ describe("Calendar", () => {
     const { container } = render(
       <Calendar defaultValue={new Date(2025, 0, 15)} locale="fr-FR" />,
     );
-    const weekdayCells = container.querySelectorAll(".wui-calendar__weekday");
+    const weekdayCells = container.querySelectorAll(".civ-calendar__weekday");
     // French Monday is "lun." or similar - should not equal "Mo" (English hardcoded)
     const texts = Array.from(weekdayCells).map((el) => el.textContent?.toLowerCase());
     expect(texts.some((t) => t?.startsWith("lun"))).toBe(true);
@@ -120,7 +120,7 @@ describe("Calendar", () => {
     const { container } = render(
       <Calendar defaultValue={new Date(2025, 0, 15)} firstDayOfWeek={1} />,
     );
-    const weekdayCells = container.querySelectorAll(".wui-calendar__weekday");
+    const weekdayCells = container.querySelectorAll(".civ-calendar__weekday");
     // First header cell should correspond to Monday
     expect(weekdayCells[0]?.textContent?.toLowerCase()).toMatch(/^mon?$/);
     expect(weekdayCells[6]?.textContent?.toLowerCase()).toMatch(/^sun?$/);

@@ -21,8 +21,8 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ children, variant = "elevated", asChild = false, className, ...props }, ref) => {
     const classes = cn(
-      "wui-card",
-      variant !== "elevated" && `wui-card--${variant}`,
+      "civ-card",
+      variant !== "elevated" && `civ-card--${variant}`,
       className,
     );
 
@@ -47,21 +47,21 @@ Card.displayName = "Card";
 
 export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-card__header", className)} {...props} />
+    <div ref={ref} className={cn("civ-card__header", className)} {...props} />
   ),
 );
 CardHeader.displayName = "CardHeader";
 
 export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-card__content", className)} {...props} />
+    <div ref={ref} className={cn("civ-card__content", className)} {...props} />
   ),
 );
 CardContent.displayName = "CardContent";
 
 export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-card__footer", className)} {...props} />
+    <div ref={ref} className={cn("civ-card__footer", className)} {...props} />
   ),
 );
 CardFooter.displayName = "CardFooter";

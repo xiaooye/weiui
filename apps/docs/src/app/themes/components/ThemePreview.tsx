@@ -12,7 +12,7 @@ import {
   Input,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import type { ThemeResult } from "../lib/theme-generator";
 
 interface Props {
@@ -21,9 +21,9 @@ interface Props {
 
 export function ThemePreview({ theme }: Props) {
   const style = {
-    "--wui-color-primary": theme.colors.primary,
-    "--wui-color-primary-foreground": theme.colors.primaryForeground,
-    "--wui-color-ring": theme.colors.ring,
+    "--civ-color-primary": theme.colors.primary,
+    "--civ-color-primary-foreground": theme.colors.primaryForeground,
+    "--civ-color-ring": theme.colors.ring,
   } as React.CSSProperties;
 
   return (
@@ -37,7 +37,7 @@ export function ThemePreview({ theme }: Props) {
         <CardContent>
           <Stack direction="column" gap={6}>
             <Stack direction="column" gap={3}>
-              <Heading level={3} className="wui-theme-preview__section-title">
+              <Heading level={3} className="civ-theme-preview__section-title">
                 Buttons
               </Heading>
               <Stack direction="row" gap={3} wrap>
@@ -48,7 +48,7 @@ export function ThemePreview({ theme }: Props) {
               </Stack>
             </Stack>
             <Stack direction="column" gap={3}>
-              <Heading level={3} className="wui-theme-preview__section-title">
+              <Heading level={3} className="civ-theme-preview__section-title">
                 Badges
               </Heading>
               <Stack direction="row" gap={2} wrap>
@@ -58,20 +58,20 @@ export function ThemePreview({ theme }: Props) {
               </Stack>
             </Stack>
             <Stack direction="column" gap={3}>
-              <Heading level={3} className="wui-theme-preview__section-title">
+              <Heading level={3} className="civ-theme-preview__section-title">
                 Input
               </Heading>
               <Input
                 placeholder="Type something..."
                 aria-label="Sample input"
-                className="wui-theme-preview__input"
+                className="civ-theme-preview__input"
               />
             </Stack>
             <Stack direction="column" gap={3}>
-              <Heading level={3} className="wui-theme-preview__section-title">
+              <Heading level={3} className="civ-theme-preview__section-title">
                 Card
               </Heading>
-              <Card className="wui-theme-preview__card">
+              <Card className="civ-theme-preview__card">
                 <CardHeader>
                   <Text as="span" weight="semibold">
                     Card Title
@@ -90,7 +90,7 @@ export function ThemePreview({ theme }: Props) {
               </Card>
             </Stack>
             <Stack direction="column" gap={3}>
-              <Heading level={3} className="wui-theme-preview__section-title">
+              <Heading level={3} className="civ-theme-preview__section-title">
                 Avatar
               </Heading>
               <Stack direction="row" gap={2}>

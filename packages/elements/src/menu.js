@@ -1,1 +1,1 @@
-export { WuiMenuElement, defineMenu } from "./index.js";
+export { CivMenuElement, defineMenu } from "./index.js";

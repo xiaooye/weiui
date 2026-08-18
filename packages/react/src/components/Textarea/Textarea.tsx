@@ -1,6 +1,6 @@
 "use client";
 import { forwardRef, useCallback, useEffect, useRef, type ChangeEvent } from "react";
-import { useControllable } from "@weiui/headless";
+import { useControllable } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 import { useFieldContext, computeFieldDescribedBy } from "../Field/Field";
 
@@ -38,7 +38,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ref,
   ) => {
     const ctx = useFieldContext();
-    const sizeClass = size === "sm" ? "wui-input--sm" : size === "lg" ? "wui-input--lg" : "";
+    const sizeClass = size === "sm" ? "civ-input--sm" : size === "lg" ? "civ-input--lg" : "";
     const resolvedId = props.id ?? ctx?.fieldId;
     const resolvedDescribedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
     const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
@@ -98,7 +98,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaEl = (
       <textarea
         ref={setRefs}
-        className={cn("wui-input", sizeClass, showCount ? "wui-textarea--with-count" : className)}
+        className={cn("civ-input", sizeClass, showCount ? "civ-textarea--with-count" : className)}
         aria-invalid={resolvedInvalid || undefined}
         data-invalid={resolvedInvalid || undefined}
         aria-describedby={resolvedDescribedBy}
@@ -117,9 +117,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     if (!showCount) return textareaEl;
 
     return (
-      <div className={cn("wui-textarea-wrapper", className)}>
+      <div className={cn("civ-textarea-wrapper", className)}>
         {textareaEl}
-        <span className="wui-textarea__count" aria-live="polite">
+        <span className="civ-textarea__count" aria-live="polite">
           {countValue}
           {maxLength !== undefined ? ` / ${maxLength}` : ""}
         </span>

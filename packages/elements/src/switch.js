@@ -1,1 +1,1 @@
-export { WuiSwitchElement, defineSwitch } from "./index.js";
+export { CivSwitchElement, defineSwitch } from "./index.js";

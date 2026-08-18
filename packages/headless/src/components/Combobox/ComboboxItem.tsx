@@ -15,7 +15,7 @@ export function ComboboxItem({ value, children, onClick, ...props }: ComboboxIte
     <div
       role="option"
       aria-selected={isSelected}
-      data-wui-component="combobox"
+      data-civaria-component="combobox"
       data-part="item"
       data-selected={isSelected ? "" : undefined}
       onClick={(e) => {

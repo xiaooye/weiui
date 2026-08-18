@@ -14,7 +14,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@weiui/react";
+} from "civaria";
 import { siteConfig } from "../../lib/site-config";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchTrigger } from "./SearchTrigger";
@@ -38,12 +38,12 @@ export function Header() {
   return (
     <AppBar
       color="surface"
-      className="wui-docs-app-bar"
+      className="civ-docs-app-bar"
       data-scrolled={scrolled || undefined}
     >
       <AppBarBrand>
-        <Link href="/" className="wui-docs-app-bar__brand">
-          <span aria-hidden="true" className="wui-docs-app-bar__logo">
+        <Link href="/" className="civ-docs-app-bar__brand">
+          <span aria-hidden="true" className="civ-docs-app-bar__logo">
             {"\u25D0"}
           </span>
           <span>{siteConfig.name}</span>
@@ -72,7 +72,7 @@ export function Header() {
       </AppBarNav>
       <AppBarActions>
         <SearchTrigger />
-        <Divider orientation="vertical" className="wui-docs-app-bar__divider" />
+        <Divider orientation="vertical" className="civ-docs-app-bar__divider" />
         <ThemeToggle />
         <Tooltip>
           <TooltipTrigger>
@@ -82,13 +82,13 @@ export function Header() {
               size="sm"
               iconOnly
               aria-label="GitHub"
-              className="wui-docs-app-bar__github"
+              className="civ-docs-app-bar__github"
             >
               <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">
-                <span aria-hidden="true" className="wui-docs-app-bar__github-glyph">
+                <span aria-hidden="true" className="civ-docs-app-bar__github-glyph">
                   {"\u25EF"}
                 </span>
-                <span className="wui-docs-app-bar__github-label">GitHub</span>
+                <span className="civ-docs-app-bar__github-label">GitHub</span>
               </a>
             </Button>
           </TooltipTrigger>

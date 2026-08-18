@@ -46,7 +46,7 @@ export function DialogContent({ children, onKeyDown, ...props }: DialogContentPr
       aria-modal="true"
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      data-wui-component="dialog"
+      data-civaria-component="dialog"
       data-part="content"
       data-state="open"
       onKeyDown={(e) => {

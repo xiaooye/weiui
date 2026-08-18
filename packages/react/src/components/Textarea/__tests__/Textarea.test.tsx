@@ -43,7 +43,7 @@ describe("Textarea", () => {
 
   it("renders sm size class", () => {
     const { container } = render(<Textarea size="sm" />);
-    expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+    expect(container.querySelector(".civ-input--sm")).not.toBeNull();
   });
 
   describe("P1 features", () => {

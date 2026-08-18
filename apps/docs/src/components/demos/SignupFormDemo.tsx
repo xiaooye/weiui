@@ -16,7 +16,7 @@ import {
   SelectItem,
   Stack,
   toast,
-} from "@weiui/react";
+} from "civaria";
 
 type Values = {
   name: string;
@@ -165,12 +165,12 @@ export function SignupFormDemo() {
           onChange={(e) => setField("terms", e.target.checked)}
         />
         {errors.terms && (
-          <div role="alert" style={{ color: "var(--wui-color-destructive)", fontSize: "var(--wui-font-size-sm)" }}>
+          <div role="alert" style={{ color: "var(--civ-color-destructive)", fontSize: "var(--civ-font-size-sm)" }}>
             {errors.terms}
           </div>
         )}
 
-        <div style={{ display: "flex", gap: "var(--wui-spacing-2)" }}>
+        <div style={{ display: "flex", gap: "var(--civ-spacing-2)" }}>
           <Button type="submit" disabled={pending || checking}>
             {pending ? "Creating…" : "Create account"}
           </Button>

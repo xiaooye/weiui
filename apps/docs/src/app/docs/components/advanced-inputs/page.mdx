@@ -26,7 +26,7 @@ A range slider with min/max/step support and full keyboard navigation.
 </Preview>
 
 ```tsx
-import { Slider } from "@weiui/react";
+import { Slider } from "civaria";
 
 <Slider defaultValue={40} />
 <Slider min={0} max={200} step={10} defaultValue={100} onChange={(v) => console.log(v)} />
@@ -89,7 +89,7 @@ Star rating component with keyboard and pointer support.
 </Preview>
 
 ```tsx
-import { Rating } from "@weiui/react";
+import { Rating } from "civaria";
 
 <Rating defaultValue={3} />
 <Rating value={rating} onChange={setRating} />
@@ -133,7 +133,7 @@ Numeric input with increment/decrement buttons and keyboard step control.
 </Preview>
 
 ```tsx
-import { InputNumber } from "@weiui/react";
+import { InputNumber } from "civaria";
 
 <InputNumber defaultValue={5} />
 <InputNumber min={0} max={100} step={5} defaultValue={50} onChange={(v) => console.log(v)} />
@@ -199,7 +199,7 @@ One-time password input with separate boxes per digit and auto-advance.
 </Preview>
 
 ```tsx
-import { InputOTP } from "@weiui/react";
+import { InputOTP } from "civaria";
 
 <InputOTP onChange={(value) => console.log(value)} />
 <InputOTP length={4} onChange={(value) => console.log(value)} />
@@ -235,7 +235,7 @@ Text input with a filterable dropdown of suggestions. Anchored to the viewport v
 
 <Preview
   label="AutoComplete"
-  code={`import { AutoComplete } from "@weiui/react";
+  code={`import { AutoComplete } from "civaria";
 
 const options = [
   { value: "js", label: "JavaScript" },
@@ -249,7 +249,7 @@ const options = [
 </Preview>
 
 ```tsx
-import { AutoComplete } from "@weiui/react";
+import { AutoComplete } from "civaria";
 
 const options = [
   { value: "js", label: "JavaScript" },
@@ -290,7 +290,7 @@ Pick multiple values from a list. The trigger shows selected chips and the dropd
 
 <Preview
   label="MultiSelect"
-  code={`import { MultiSelect } from "@weiui/react";
+  code={`import { MultiSelect } from "civaria";
 
 const options = [
   { value: "frontend", label: "Frontend" },
@@ -305,7 +305,7 @@ const options = [
 </Preview>
 
 ```tsx
-import { MultiSelect } from "@weiui/react";
+import { MultiSelect } from "civaria";
 
 const options = [
   { value: "frontend", label: "Frontend" },
@@ -345,7 +345,7 @@ Drag-and-drop or click-to-browse file input with validation hooks.
 </Preview>
 
 ```tsx
-import { FileUpload } from "@weiui/react";
+import { FileUpload } from "civaria";
 
 <FileUpload
   accept="image/*"

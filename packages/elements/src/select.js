@@ -1,1 +1,1 @@
-export { WuiSelectElement, defineSelect } from "./index.js";
+export { CivSelectElement, defineSelect } from "./index.js";

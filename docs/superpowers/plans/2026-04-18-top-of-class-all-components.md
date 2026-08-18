@@ -1,12 +1,12 @@
-# WeiUI — Top-of-Class All-Components Implementation Plan
+# Civaria — Top-of-Class All-Components Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Every one of 66 WeiUI components matches or exceeds best-in-class references in feature surface, renders an interactive demo on a thoroughly-documented grouped page, and passes the verification plan in `docs/superpowers/plans/2026-04-17-component-verification-plan.md`.
+**Goal:** Every one of 66 Civaria components matches or exceeds best-in-class references in feature surface, renders an interactive demo on a thoroughly-documented grouped page, and passes the verification plan in `docs/superpowers/plans/2026-04-17-component-verification-plan.md`.
 
-**Architecture:** Extend existing components with missing P1 features using existing shared infrastructure — `useFloatingMenu`, `Portal`, `useDisclosure`, `useFocusTrap`, `useControllable`, `useKeyboardNav`, `announce` from `@weiui/headless`. New sub-components (`<MenuCheckboxItem>`, `<PopoverArrow>`, `<TooltipProvider>`, `<AvatarGroup>`, `<BreadcrumbEllipsis>`, `<SidebarTrigger>`, etc.) land alongside existing exports. Toast store gains `toast.promise`, pause-on-hover, and stacking. DataTable gets resize/pin/filter/visibility/virtualization via TanStack's built-in enable-flags. Doc rewrites target ≥3.5/5 quality per grouped page with live demos, props tables, a11y sections, and real-world usage patterns.
+**Architecture:** Extend existing components with missing P1 features using existing shared infrastructure — `useFloatingMenu`, `Portal`, `useDisclosure`, `useFocusTrap`, `useControllable`, `useKeyboardNav`, `announce` from `@civaria/headless`. New sub-components (`<MenuCheckboxItem>`, `<PopoverArrow>`, `<TooltipProvider>`, `<AvatarGroup>`, `<BreadcrumbEllipsis>`, `<SidebarTrigger>`, etc.) land alongside existing exports. Toast store gains `toast.promise`, pause-on-hover, and stacking. DataTable gets resize/pin/filter/visibility/virtualization via TanStack's built-in enable-flags. Doc rewrites target ≥3.5/5 quality per grouped page with live demos, props tables, a11y sections, and real-world usage patterns.
 
-**Tech Stack:** React 19, `@weiui/headless`, `@floating-ui/react`, `@tanstack/react-table` + `@tanstack/react-virtual` (new dep), Tiptap extensions, Vitest, Playwright, Next.js 15 MDX.
+**Tech Stack:** React 19, `@civaria/headless`, `@floating-ui/react`, `@tanstack/react-table` + `@tanstack/react-virtual` (new dep), Tiptap extensions, Vitest, Playwright, Next.js 15 MDX.
 
 **References:** `docs/audit/component-parity.md` (authoritative gap list), parent plan at `C:/Users/PC/.claude/plans/thats-not-covered-enough-gleaming-dewdrop.md`.
 
@@ -22,9 +22,9 @@ This plan is organized into **6 waves** (A–F), each ending with a verification
 - **Wave D (Data + Navigation)** — 14 components.
 - **Wave E (Display + Form primitives + Layout/Typography)** — 22 components.
 - **Wave F (Library + Docs + Verification)** — icons expansion, CLI `add <component>`, Composer palette expansion, npm metadata, CHANGELOG scaffolds, grouped-doc-page rewrites, pattern pages, final audit.
-- **Wave G (Docs dogfooding + state-of-art UI polish)** — rewrite every docs chrome component, landing section, preview, and tool page to consume `@weiui/react` exclusively (no raw HTML with inline styles, no custom chrome CSS classes outside of tokens). Add state-of-art polish: refined motion, ambient backdrops, subtle micro-interactions, refined typography, optimistic visual hierarchy. Proves the library is complete by building the docs site with it end-to-end.
+- **Wave G (Docs dogfooding + state-of-art UI polish)** — rewrite every docs chrome component, landing section, preview, and tool page to consume `civaria` exclusively (no raw HTML with inline styles, no custom chrome CSS classes outside of tokens). Add state-of-art polish: refined motion, ambient backdrops, subtle micro-interactions, refined typography, optimistic visual hierarchy. Proves the library is complete by building the docs site with it end-to-end.
 
-After every commit: run `pnpm --filter @weiui/react test` locally. After every wave: run `pnpm build && pnpm test && pnpm --filter @weiui/docs build && pnpm --filter @weiui/tokens validate`.
+After every commit: run `pnpm --filter civaria test` locally. After every wave: run `pnpm build && pnpm test && pnpm --filter @civaria/docs build && pnpm --filter @civaria/tokens validate`.
 
 ---
 
@@ -84,10 +84,10 @@ const resolvedFoo = propFoo ?? providerValue.foo;
 
 Follow `MenuContent` in `packages/react/src/components/Menu/Menu.tsx` — assign sequential indices via `Children.map`, track `activeIndex` in context, item reads via injected `_menuIndex` prop.
 
-### A.5 — Controlled + uncontrolled prop pattern (use `useControllable` from @weiui/headless)
+### A.5 — Controlled + uncontrolled prop pattern (use `useControllable` from @civaria/headless)
 
 ```tsx
-import { useControllable } from "@weiui/headless";
+import { useControllable } from "@civaria/headless";
 
 const [value, setValue] = useControllable({
   value: props.value,
@@ -96,14 +96,14 @@ const [value, setValue] = useControllable({
 });
 ```
 
-### A.6 — CSS rule: only `wui-*` classes
+### A.6 — CSS rule: only `civ-*` classes
 
-Every component emits `wui-*` classes. CSS lives in `packages/css/src/elements/<name>.css`. Every new class MUST be declared in the CSS layer. See `docs/superpowers/plans/2026-04-17-component-verification-plan.md` Section 2.3.
+Every component emits `civ-*` classes. CSS lives in `packages/css/src/elements/<name>.css`. Every new class MUST be declared in the CSS layer. See `docs/superpowers/plans/2026-04-17-component-verification-plan.md` Section 2.3.
 
 ### A.7 — Audit matrix flip protocol
 
 After shipping any P1, open `docs/audit/component-parity.md`, find the component's row(s) matching the shipped feature, change:
-- `WeiUI has` cell: `❌` → `✅`
+- `Civaria has` cell: `❌` → `✅`
 - `Priority` cell: `**P1**` → `✅ shipped`
 - Update Executive Summary table (decrement that wave's P1 count, decrement total).
 
@@ -126,7 +126,7 @@ Full detailed plan at **`docs/superpowers/plans/2026-04-18-phase-6a-overlay-p1.m
 
 Run the verification gate:
 ```bash
-pnpm build && pnpm test && pnpm --filter @weiui/docs build
+pnpm build && pnpm test && pnpm --filter @civaria/docs build
 ```
 
 ---
@@ -168,7 +168,7 @@ describe("Input P1", () => {
 
 - [ ] **Step 2: Run test, confirm fail**
 
-Run: `pnpm --filter @weiui/react test -- Input`
+Run: `pnpm --filter civaria test -- Input`
 
 - [ ] **Step 3: Implement**
 
@@ -202,34 +202,34 @@ const showClear = clearable && typeof internalValue === "string" && internalValu
 const needsGroup = Boolean(prefix || suffix || clearable || showCount || hasAddons);
 ```
 
-Render `<span className="wui-input-group__prefix">{prefix}</span>` at start when prefix is set; clear button as `<button aria-label="Clear input" className="wui-input-group__clear" type="button" onClick={() => setInternalValue("")}>×</button>` when showClear; `<span className="wui-input-group__suffix">{suffix}</span>`; `<span className="wui-input-group__count">{internalValue?.length ?? 0} / {maxLength}</span>` when showCount.
+Render `<span className="civ-input-group__prefix">{prefix}</span>` at start when prefix is set; clear button as `<button aria-label="Clear input" className="civ-input-group__clear" type="button" onClick={() => setInternalValue("")}>×</button>` when showClear; `<span className="civ-input-group__suffix">{suffix}</span>`; `<span className="civ-input-group__count">{internalValue?.length ?? 0} / {maxLength}</span>` when showCount.
 
 Append CSS:
 
 ```css
-@layer wui-elements {
-  .wui-input-group__prefix,
-  .wui-input-group__suffix {
+@layer civ-elements {
+  .civ-input-group__prefix,
+  .civ-input-group__suffix {
     display: inline-flex; align-items: center;
-    padding-inline: var(--wui-spacing-3);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-sm);
+    padding-inline: var(--civ-spacing-3);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
     pointer-events: none;
     flex: 0 0 auto;
   }
-  .wui-input-group__clear {
+  .civ-input-group__clear {
     inline-size: 24px; block-size: 24px;
     display: inline-flex; align-items: center; justify-content: center;
     background: transparent; border: none; cursor: pointer;
-    color: var(--wui-color-muted-foreground);
-    border-radius: var(--wui-shape-radius-base);
-    margin-inline-end: var(--wui-spacing-1);
+    color: var(--civ-color-muted-foreground);
+    border-radius: var(--civ-shape-radius-base);
+    margin-inline-end: var(--civ-spacing-1);
   }
-  .wui-input-group__clear:hover { color: var(--wui-color-foreground); background-color: var(--wui-color-muted); }
-  .wui-input-group__count {
-    padding-inline: var(--wui-spacing-3);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-xs);
+  .civ-input-group__clear:hover { color: var(--civ-color-foreground); background-color: var(--civ-color-muted); }
+  .civ-input-group__count {
+    padding-inline: var(--civ-spacing-3);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
     font-variant-numeric: tabular-nums;
   }
 }
@@ -315,7 +315,7 @@ Commit: `feat(react): FileUpload progress + thumbnails + maxFiles + controlled (
 
 - [ ] Add `orientation?: "horizontal" | "vertical"`. Add `marks?: Array<{value, label?}>` (render as tick marks with optional labels below/beside). Verify tooltip-on-drag works (shipped in round 11). Add PageUp/PageDown = ±step×10. Add `aria-valuetext` (use `formatTooltip` if set). Add `name?: string` + hidden `<input type="hidden" name={name} value={value} />` for form submit.
 
-CSS: `.wui-slider--vertical { writing-mode: vertical-rl; }` (or use block axis properties), `.wui-slider__mark`, `.wui-slider__mark-label`.
+CSS: `.civ-slider--vertical { writing-mode: vertical-rl; }` (or use block axis properties), `.civ-slider__mark`, `.civ-slider__mark-label`.
 
 Commit: `feat(react): Slider vertical + marks + PageUp/PageDown + aria-valuetext + name (P1)`
 
@@ -347,14 +347,14 @@ Commit: `feat(react): Calendar year/month dropdowns + range + renderDay + RTL (P
 
 **Files:** `ColorPicker.tsx`, `color-picker.css`
 
-- [ ] Add alpha slider below SV pad + transparency checkerboard backdrop on preview swatch. Add format toggle (hex/rgb/hsl/oklch) rendered as segmented-control. Add `variant?: "popover" | "inline"` — inline renders the full picker in place. When color changes, call `announce(\`Color changed to ${hex}\`)` via `@weiui/headless`.
+- [ ] Add alpha slider below SV pad + transparency checkerboard backdrop on preview swatch. Add format toggle (hex/rgb/hsl/oklch) rendered as segmented-control. Add `variant?: "popover" | "inline"` — inline renders the full picker in place. When color changes, call `announce(\`Color changed to ${hex}\`)` via `@civaria/headless`.
 
 Commit: `feat(react): ColorPicker alpha + format toggle + inline variant + live-region (P1)`
 
 ### Wave C verification
 
 ```bash
-pnpm build && pnpm test && pnpm --filter @weiui/docs build
+pnpm build && pnpm test && pnpm --filter @civaria/docs build
 # Audit flip:
 ```
 
@@ -376,7 +376,7 @@ Update `docs/audit/component-parity.md` for each shipped feature. Commit `docs(a
 - [ ] **Step 1: Install dep**
 
 ```bash
-pnpm --filter @weiui/react add @tanstack/react-virtual
+pnpm --filter civaria add @tanstack/react-virtual
 ```
 
 Commit this as its own commit: `build(react): add @tanstack/react-virtual for DataTable virtualization`.
@@ -386,7 +386,7 @@ Commit this as its own commit: `build(react): add @tanstack/react-virtual for Da
 ```tsx
 it("enableColumnResizing produces drag handles", () => {
   render(<DataTable columns={cols} data={data} enableColumnResizing />);
-  expect(document.querySelectorAll(".wui-data-table__resize-handle").length).toBeGreaterThan(0);
+  expect(document.querySelectorAll(".civ-data-table__resize-handle").length).toBeGreaterThan(0);
 });
 
 it("enableColumnPinning applies sticky CSS", () => {
@@ -411,7 +411,7 @@ it("onRowClick fires when row clicked", async () => {
 
 it("size='dense' applies modifier class", () => {
   const { container } = render(<DataTable columns={cols} data={data} size="dense" />);
-  expect(container.querySelector(".wui-data-table--dense")).toBeInTheDocument();
+  expect(container.querySelector(".civ-data-table--dense")).toBeInTheDocument();
 });
 ```
 
@@ -437,7 +437,7 @@ export interface DataTableProps<TData> {
 
 Wire to TanStack Table's own feature flags: `enableColumnResizing`, `columnPinning` state, `columnVisibility` state, `getExpandedRowModel()`. For virtualization, conditionally use `useVirtualizer` from `@tanstack/react-virtual` when `virtualize` is true.
 
-CSS additions: `.wui-data-table__resize-handle`, `[data-pinned="left"]`, `[data-pinned="right"]`, `.wui-data-table--dense`, sticky-thead rule.
+CSS additions: `.civ-data-table__resize-handle`, `[data-pinned="left"]`, `[data-pinned="right"]`, `.civ-data-table--dense`, sticky-thead rule.
 
 - [ ] **Step 4: Run tests, commit**
 
@@ -546,7 +546,7 @@ Commit: `feat(react): Link external + underline variants (P1)`
 ### Wave D verification
 
 ```bash
-pnpm build && pnpm test && pnpm --filter @weiui/docs build
+pnpm build && pnpm test && pnpm --filter @civaria/docs build
 ```
 
 Audit matrix flip commit: `docs(audit): mark Wave D data/nav P1s shipped`.
@@ -639,7 +639,7 @@ Commit: `feat(react): Avatar auto-initials + AvatarGroup + color-from-name (P1)`
 
 **Files:** `Alert.tsx`, `alert.css`
 
-- [ ] Default icons per variant (ℹ ✓ ⚠ ✕ from @weiui/icons). `dismissible?: boolean` renders close button. `action?: ReactNode` slot.
+- [ ] Default icons per variant (ℹ ✓ ⚠ ✕ from @civaria/icons). `dismissible?: boolean` renders close button. `action?: ReactNode` slot.
 
 Commit: `feat(react): Alert variant icons + dismissible + action slot (P1)`
 
@@ -697,17 +697,17 @@ Verify each renders correctly. No P1 additions. Smoke-test pass.
 
 ### Wave E verification
 
-`pnpm build && pnpm test && pnpm --filter @weiui/docs build`. Audit flip commit.
+`pnpm build && pnpm test && pnpm --filter @civaria/docs build`. Audit flip commit.
 
 ---
 
 ## Wave F — Library completeness + Docs rewrites + Verification
 
-### Task F.1 — @weiui/icons expansion (15 → 60)
+### Task F.1 — @civaria/icons expansion (15 → 60)
 
 **Files:**
 - Create 45 new SVGs under `packages/icons/svg/`
-- Run `pnpm --filter @weiui/icons generate` to regenerate `src/icons/*.tsx` + `src/index.ts`
+- Run `pnpm --filter @civaria/icons generate` to regenerate `src/icons/*.tsx` + `src/index.ts`
 
 - [ ] Step 1: Author 45 SVGs. Use Feather-style stroke (`fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"`) at 24×24 viewBox.
 - [ ] Step 2: Run generator.
@@ -719,7 +719,7 @@ Commit: `feat(icons): expand from 15 to 60 icons`
 Icon list (45 to add):
 Download, Upload, Plus, Minus, Share, Heart, Star, Eye, EyeOff, Lock, Unlock, Calendar, Clock, User, Users, Mail, Phone, Globe, Filter, Grid, List, Refresh, ExternalLink, Link, Paperclip, Tag, Bookmark, Flag, Archive, AlertTriangle, CheckCircle, XCircle, HelpCircle, MoreHorizontal, MoreVertical, Zap, Bell, BellOff, Sun, Moon, Mic, MicOff, Play, Pause, Volume2, VolumeX.
 
-### Task F.2 — @weiui/cli `add <component>` command
+### Task F.2 — @civaria/cli `add <component>` command
 
 **Files:**
 - Create: `packages/cli/src/commands/add.ts`
@@ -735,9 +735,9 @@ import { mkdtempSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-describe("weiui add <component>", () => {
+describe("civaria add <component>", () => {
   it("scaffolds Button into the target project", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-add-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-add-"));
     await runAdd("Button", { cwd: dir, projectRoot: process.cwd() });
     expect(existsSync(join(dir, "src/components/ui/Button.tsx"))).toBe(true);
     rmSync(dir, { recursive: true, force: true });
@@ -754,14 +754,14 @@ import { join, dirname } from "node:path";
 
 export interface AddOptions {
   cwd: string;           // consumer's working dir
-  projectRoot: string;   // where @weiui is installed (resolve node_modules)
+  projectRoot: string;   // where @civaria is installed (resolve node_modules)
 }
 
 export async function runAdd(componentName: string, opts: AddOptions): Promise<void> {
   // Locate the component source
   const sourcePath = join(
     opts.projectRoot,
-    "node_modules/@weiui/react/dist",
+    "node_modules/civaria/dist",
     `${componentName}.d.ts`
   );
   // For v0 we copy from the monorepo's packages/react source if we detect monorepo mode:
@@ -779,14 +779,14 @@ export async function runAdd(componentName: string, opts: AddOptions): Promise<v
   const targetDir = join(opts.cwd, "src/components/ui");
   mkdirSync(targetDir, { recursive: true });
   const targetFile = join(targetDir, `${componentName}.tsx`);
-  // Rewrite imports from "@weiui/..." to relative paths (best-effort for simple case)
+  // Rewrite imports from "@civaria/..." to relative paths (best-effort for simple case)
   const rewritten = source
-    .replace(/from\s+["']@weiui\/headless["']/g, 'from "@weiui/headless"')
-    .replace(/from\s+["']@weiui\/react["']/g, 'from "@weiui/react"');
+    .replace(/from\s+["']@civaria\/headless["']/g, 'from "@civaria/headless"')
+    .replace(/from\s+["']@civaria\/react["']/g, 'from "civaria"');
   writeFileSync(targetFile, rewritten);
   // eslint-disable-next-line no-console
   console.log(`✓ Added ${componentName} → ${targetFile}`);
-  console.log(`  Make sure @weiui/headless and @weiui/css are installed.`);
+  console.log(`  Make sure @civaria/headless and @civaria/css are installed.`);
 }
 ```
 
@@ -796,7 +796,7 @@ export async function runAdd(componentName: string, opts: AddOptions): Promise<v
 // packages/cli/src/index.ts — add to the commander program:
 program
   .command("add <component>")
-  .description("Scaffold a WeiUI component into your project")
+  .description("Scaffold a Civaria component into your project")
   .action(async (componentName: string) => {
     const { runAdd } = await import("./commands/add.js");
     await runAdd(componentName, { cwd: process.cwd(), projectRoot: process.cwd() });
@@ -819,7 +819,7 @@ Commit: `feat(docs): expand Composer palette to all 65 components`
 
 **Files:** `packages/*/package.json`
 
-- [ ] Add to each: `author`, `description`, `keywords`, `repository` (`https://github.com/xiaooye/weiui`), `homepage` (`https://weiui.dev` or the docs URL), `license` (`MIT`), `bugs` (`https://github.com/xiaooye/weiui/issues`).
+- [ ] Add to each: `author`, `description`, `keywords`, `repository` (`https://github.com/xiaooye/weiui`), `homepage` (`https://civaria.dev` or the docs URL), `license` (`MIT`), `bugs` (`https://github.com/xiaooye/weiui/issues`).
 
 Commit: `build: add npm metadata (author/keywords/repo/homepage) to all packages`
 
@@ -923,9 +923,9 @@ Commit: `docs(docs): add layout recipes gallery`
 ### Task F.17 — Migration guide with real content
 
 Rewrite `apps/docs/src/app/docs/migration/page.mdx`:
-- "Migrating from shadcn/ui to WeiUI"
-- "Migrating from MUI v5 to WeiUI"
-- "Migrating from Radix Primitives to WeiUI"
+- "Migrating from shadcn/ui to Civaria"
+- "Migrating from MUI v5 to Civaria"
+- "Migrating from Radix Primitives to Civaria"
 
 Each section: what changes, component name map, behavioral differences, a sample migrated component, common pitfalls.
 
@@ -949,7 +949,7 @@ Commit: `docs: final verification after top-of-class pass; all P1s shipped`
 ### Task F.20 — Push
 
 ```bash
-pnpm build && pnpm test && pnpm --filter @weiui/tokens validate && pnpm --filter @weiui/docs build
+pnpm build && pnpm test && pnpm --filter @civaria/tokens validate && pnpm --filter @civaria/docs build
 git push origin main
 ```
 
@@ -957,15 +957,15 @@ git push origin main
 
 ## Wave G — Docs dogfooding + state-of-art UI polish
 
-**Guiding principle:** A design system's docs should be built *with* the design system. Every pixel of the docs site that currently uses raw HTML + `wui-*` classes, inline styles, or custom chrome components must be rewritten to consume `@weiui/react` components. This proves the library is complete — if docs can't be built with it, something's missing.
+**Guiding principle:** A design system's docs should be built *with* the design system. Every pixel of the docs site that currently uses raw HTML + `civ-*` classes, inline styles, or custom chrome components must be rewritten to consume `civaria` components. This proves the library is complete — if docs can't be built with it, something's missing.
 
 **State-of-art polish:** In the same pass, upgrade visual quality — refined motion curves on scroll, ambient gradient backdrops that respond to theme, subtle micro-interactions, optimistic visual hierarchy, refined typography (fluid type scale with `clamp`), polished chrome transitions.
 
-### Task G.1 — Header rewrite using WeiUI components
+### Task G.1 — Header rewrite using Civaria components
 
 **File:** `apps/docs/src/components/chrome/Header.tsx`
 
-Current: raw `<header>` + `<nav>` + `<button>` with hardcoded `wui-docs-header__*` classes + inline styles.
+Current: raw `<header>` + `<nav>` + `<button>` with hardcoded `civ-docs-header__*` classes + inline styles.
 
 Rewrite to use:
 - `<AppBar sticky color="surface">` as the outer container
@@ -975,15 +975,15 @@ Rewrite to use:
 - `<Divider orientation="vertical">` between nav groups
 - `<Kbd>` inside the search trigger for the ⌘K hint
 
-Delete the dedicated `.wui-docs-header__*` classes from `apps/docs/src/styles/chrome.css` (keep only tokens used).
+Delete the dedicated `.civ-docs-header__*` classes from `apps/docs/src/styles/chrome.css` (keep only tokens used).
 
 Commit: `refactor(docs): rewrite Header using AppBar + Button + Tooltip + Badge`
 
 ### Task G.2 — Sidebar rewrite using the real Sidebar component
 
-**File:** `apps/docs/src/components/chrome/Sidebar.tsx` — delete the custom implementation. Replace with a thin wrapper that composes the `<Sidebar>` / `<SidebarGroup>` / `<SidebarItem>` components shipped from `@weiui/react` (Task D.6 added groups + nested items).
+**File:** `apps/docs/src/components/chrome/Sidebar.tsx` — delete the custom implementation. Replace with a thin wrapper that composes the `<Sidebar>` / `<SidebarGroup>` / `<SidebarItem>` components shipped from `civaria` (Task D.6 added groups + nested items).
 
-Commit: `refactor(docs): Docs Sidebar uses @weiui/react Sidebar component`
+Commit: `refactor(docs): Docs Sidebar uses civaria Sidebar component`
 
 ### Task G.3 — TOC rewrite
 
@@ -997,9 +997,9 @@ Commit: `refactor(docs): TOC uses Stack + Link + Heading`
 
 **File:** `apps/docs/src/components/chrome/Breadcrumbs.tsx`
 
-Replace with direct use of `<Breadcrumb>` / `<BreadcrumbItem>` / `<BreadcrumbEllipsis>` from `@weiui/react`. Use `<Link>` for linked segments.
+Replace with direct use of `<Breadcrumb>` / `<BreadcrumbItem>` / `<BreadcrumbEllipsis>` from `civaria`. Use `<Link>` for linked segments.
 
-Commit: `refactor(docs): Breadcrumbs uses @weiui/react Breadcrumb`
+Commit: `refactor(docs): Breadcrumbs uses civaria Breadcrumb`
 
 ### Task G.5 — Footer + Pager + EditOnGitHub rewrite
 
@@ -1007,37 +1007,37 @@ Commit: `refactor(docs): Breadcrumbs uses @weiui/react Breadcrumb`
 - DocsPager: `<Grid columns={{ base: 1, sm: 2 }} gap="4">` + `<Card variant="outlined" asChild><Link /></Card>`.
 - EditOnGitHub: `<Button variant="ghost" size="sm" asChild><a /></Button>`.
 
-Commit: `refactor(docs): Footer + DocsPager + EditOnGitHub use WeiUI primitives`
+Commit: `refactor(docs): Footer + DocsPager + EditOnGitHub use Civaria primitives`
 
 ### Task G.6 — Landing sections rewrite
 
 **Files:** `apps/docs/src/components/landing/Hero.tsx` · `ValueProps.tsx` · `LiveShowcase.tsx` · `Comparison.tsx` · `InstallSnippet.tsx` · `Footer.tsx`
 
-Rewrite each to use `@weiui/react`:
+Rewrite each to use `civaria`:
 - Hero: `<Heading size="6xl" display>` + `<Text size="lg" color="muted">` + `<Stack direction="row" gap="3"><Button size="lg" /></Stack>` + `<Badge>` for the "v0.0.1 Pre-release" pill.
 - ValueProps: `<Grid columns={{ base: 1, sm: 2, lg: 3 }} gap="4">` with each card as `<Card variant="outlined">` + `<CardHeader>`/`<CardContent>`.
-- LiveShowcase: `<Tabs>` + `<TabsList>` + `<TabsTrigger>` + `<TabsContent>`. Each showcase is WeiUI components (already, verified in prior rounds).
+- LiveShowcase: `<Tabs>` + `<TabsList>` + `<TabsTrigger>` + `<TabsContent>`. Each showcase is Civaria components (already, verified in prior rounds).
 - Comparison: native `<table>` wrapped in `<Card variant="outlined">`. Header cells use `<Heading size="xs" color="muted">`. Check-marks use `<Badge variant="soft" color="success">` for true, grey for false.
 - InstallSnippet: wrap PackageManagerTabs in `<Card>`.
 - Footer: `<Stack>` layout.
 
-Commit: `refactor(docs): landing sections use @weiui/react components exclusively`
+Commit: `refactor(docs): landing sections use civaria components exclusively`
 
-### Task G.7 — Preview + PackageManagerTabs + ColorSwatch use WeiUI
+### Task G.7 — Preview + PackageManagerTabs + ColorSwatch use Civaria
 
 - Preview: use `<Tabs>` for Preview/Code tabs, `<Button size="sm" variant="ghost">` for copy/theme/RTL/viewport controls, `<ToggleGroup>` for segmented toggles.
 - PackageManagerTabs: `<Tabs>` + `<TabsList>` + `<TabsTrigger>` + `<TabsContent>`; `<Button size="sm" variant="ghost">` for copy.
 - ColorSwatch: `<Card variant="outlined" asChild><button /></Card>` + `<Text>` + `<Code>`.
 
-Commit: `refactor(docs): Preview + PM tabs + ColorSwatch use WeiUI Tabs/Button/Card`
+Commit: `refactor(docs): Preview + PM tabs + ColorSwatch use Civaria Tabs/Button/Card`
 
 ### Task G.8 — Command palette chrome uses the real CommandPalette component
 
 **File:** `apps/docs/src/components/chrome/CommandPalette.tsx`
 
-Delete the custom `cmdk`-wrapped component. Replace with `<CommandPalette>` from `@weiui/react` (which already wraps cmdk) and feed it the search index.
+Delete the custom `cmdk`-wrapped component. Replace with `<CommandPalette>` from `civaria` (which already wraps cmdk) and feed it the search index.
 
-Commit: `refactor(docs): docs-chrome CommandPalette uses @weiui/react CommandPalette`
+Commit: `refactor(docs): docs-chrome CommandPalette uses civaria CommandPalette`
 
 ### Task G.9 — Tool pages rewrite
 
@@ -1053,7 +1053,7 @@ Rewrite every inline-styled `<div>` / `<button>` / `<label>` / `<input>` / `<sel
 - Actions: `<Button>` / `<ButtonGroup>` / `<ToggleGroup>`
 - Text: `<Heading>` / `<Text>` / `<Label>` / `<Code>` / `<Kbd>`
 
-Commit: `refactor(docs): tool pages (playground/composer/themes) use @weiui/react exclusively`
+Commit: `refactor(docs): tool pages (playground/composer/themes) use civaria exclusively`
 
 ### Task G.10 — State-of-art UI polish
 
@@ -1068,13 +1068,13 @@ Commit: `refactor(docs): tool pages (playground/composer/themes) use @weiui/reac
 Add to `apps/docs/src/styles/chrome.css`:
 
 ```css
-@layer wui-base {
-  .wui-landing-hero__title {
+@layer civ-base {
+  .civ-landing-hero__title {
     font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
     line-height: 1.05;
     letter-spacing: -0.03em;
   }
-  .wui-home-section__title {
+  .civ-home-section__title {
     font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
     line-height: 1.15;
     letter-spacing: -0.02em;
@@ -1087,13 +1087,13 @@ Add to `apps/docs/src/styles/chrome.css`:
 In `Hero.tsx`, add a position-static container with:
 
 ```tsx
-<div className="wui-hero-ambient" aria-hidden="true" />
+<div className="civ-hero-ambient" aria-hidden="true" />
 ```
 
 CSS:
 ```css
-@layer wui-base {
-  .wui-hero-ambient {
+@layer civ-base {
+  .civ-hero-ambient {
     position: absolute;
     inset-inline: 0;
     inset-block-start: -10%;
@@ -1102,7 +1102,7 @@ CSS:
     z-index: -1;
     background:
       radial-gradient(circle at 30% 30%,
-        color-mix(in oklch, var(--wui-color-primary) 40%, transparent),
+        color-mix(in oklch, var(--civ-color-primary) 40%, transparent),
         transparent 50%),
       radial-gradient(circle at 70% 40%,
         color-mix(in oklch, oklch(0.7 0.18 320) 30%, transparent),
@@ -1113,19 +1113,19 @@ CSS:
     filter: blur(60px) saturate(1.4);
     opacity: 0.7;
   }
-  html.dark .wui-hero-ambient { opacity: 0.35; }
+  html.dark .civ-hero-ambient { opacity: 0.35; }
 }
 ```
 
 - [ ] **Step 3: Section transitions on scroll**
 
-Add `@keyframes wui-fade-in-up` + `.wui-home-section--animate` class that uses it via `animation: wui-fade-in-up 800ms var(--wui-motion-easing-decelerated) both; animation-timeline: view(); animation-range: entry 20% cover 40%;` (modern scroll-driven animations, gracefully degrade on unsupported browsers).
+Add `@keyframes civ-fade-in-up` + `.civ-home-section--animate` class that uses it via `animation: civ-fade-in-up 800ms var(--civ-motion-easing-decelerated) both; animation-timeline: view(); animation-range: entry 20% cover 40%;` (modern scroll-driven animations, gracefully degrade on unsupported browsers).
 
 Wrap in `@media (prefers-reduced-motion: no-preference)`.
 
 - [ ] **Step 4: Refined Card hover motion**
 
-In `packages/css/src/elements/card.css`, the `.wui-card--interactive:hover` transition already uses `var(--wui-motion-duration-base)`. Upgrade easing to `var(--wui-motion-easing-emphasized)` for springier lift.
+In `packages/css/src/elements/card.css`, the `.civ-card--interactive:hover` transition already uses `var(--civ-motion-duration-base)`. Upgrade easing to `var(--civ-motion-easing-emphasized)` for springier lift.
 
 - [ ] **Step 5: Subtle code-block frame**
 
@@ -1134,10 +1134,10 @@ In `apps/docs/src/styles/shiki.css`, add a soft border-gradient on `figure[data-
 ```css
 figure[data-rehype-pretty-code-figure] {
   background:
-    linear-gradient(var(--wui-surface-sunken), var(--wui-surface-sunken)) padding-box,
+    linear-gradient(var(--civ-surface-sunken), var(--civ-surface-sunken)) padding-box,
     linear-gradient(135deg,
-      color-mix(in oklch, var(--wui-color-primary) 20%, var(--wui-color-border)),
-      var(--wui-color-border)) border-box;
+      color-mix(in oklch, var(--civ-color-primary) 20%, var(--civ-color-border)),
+      var(--civ-color-border)) border-box;
   border: 1px solid transparent;
 }
 ```
@@ -1156,9 +1156,9 @@ const scrolled = useScrolled(40);
 
 CSS:
 ```css
-.wui-app-bar[data-scrolled] {
-  box-shadow: var(--wui-elevation-2);
-  background-color: color-mix(in oklch, var(--wui-color-background) 90%, transparent);
+.civ-app-bar[data-scrolled] {
+  box-shadow: var(--civ-elevation-2);
+  background-color: color-mix(in oklch, var(--civ-color-background) 90%, transparent);
 }
 ```
 
@@ -1175,27 +1175,27 @@ Commit: `polish(docs): state-of-art UI — fluid type, ambient gradient, scroll-
 
 ### Task G.11 — Remove legacy chrome CSS
 
-After G.1-G.9, most of `apps/docs/src/styles/chrome.css` should be deletable. Scan the file, delete any `.wui-docs-*` class rules that no components reference anymore.
+After G.1-G.9, most of `apps/docs/src/styles/chrome.css` should be deletable. Scan the file, delete any `.civ-docs-*` class rules that no components reference anymore.
 
 Verify nothing breaks by running a full docs build. If any orphan reference shows up, fix it at the source (the React chrome component still using a dead class name).
 
-Commit: `chore(docs): remove legacy chrome CSS replaced by WeiUI components`
+Commit: `chore(docs): remove legacy chrome CSS replaced by Civaria components`
 
-### Task G.12 — Verification: docs uses only WeiUI + tokens
+### Task G.12 — Verification: docs uses only Civaria + tokens
 
 - [ ] Grep: `grep -rn "style={{" apps/docs/src/app apps/docs/src/components/landing apps/docs/src/components/chrome` — should return ZERO matches (all inline styles gone except for dynamic values like grid positions that can't be tokens).
-- [ ] Grep: `grep -rnE "<(div|span|button|a|input|label|p|h[1-6])\b" apps/docs/src/components/chrome apps/docs/src/components/landing` — should be near-zero (most elements come from WeiUI components).
-- [ ] Visual walk-through: `pnpm --filter @weiui/docs dev`, open `/`, `/docs/components/button`, `/docs/components/form`, `/playground`, `/composer`, `/themes`. Confirm every page renders with refined motion, ambient backdrops, fluid typography, polished hover states.
+- [ ] Grep: `grep -rnE "<(div|span|button|a|input|label|p|h[1-6])\b" apps/docs/src/components/chrome apps/docs/src/components/landing` — should be near-zero (most elements come from Civaria components).
+- [ ] Visual walk-through: `pnpm --filter @civaria/docs dev`, open `/`, `/docs/components/button`, `/docs/components/form`, `/playground`, `/composer`, `/themes`. Confirm every page renders with refined motion, ambient backdrops, fluid typography, polished hover states.
 
-Commit: `docs: verify docs site built 100% with @weiui/react + tokens`
+Commit: `docs: verify docs site built 100% with civaria + tokens`
 
 ### Wave G verification
 
 ```bash
 pnpm build
 pnpm test
-pnpm --filter @weiui/docs build
-pnpm --filter @weiui/tokens validate
+pnpm --filter @civaria/docs build
+pnpm --filter @civaria/tokens validate
 ```
 
 All green. Run component verification plan Section 2 automated checks.
@@ -1212,15 +1212,15 @@ Push: `git push origin main`.
    - Wave D (Data + Nav): ~65 P1s across 14 components
    - Wave E (Display + Form + Layout): ~45 P1s across 22 components
    - Wave F (Library + Docs): remaining non-audit-matrix improvements
-   - Wave G (Dogfooding + polish): every docs chrome + landing + tool page rewritten with `@weiui/react`, state-of-art UI layer applied
+   - Wave G (Dogfooding + polish): every docs chrome + landing + tool page rewritten with `civaria`, state-of-art UI layer applied
 2. **Placeholder scan:** No "TBD", "similar to Task N", "add appropriate handling" — every task lists specific props, specific code additions, specific commit messages.
 3. **Type consistency:** Shared recipes in Wave A keep types stable. `onInteractOutside(ev: MouseEvent)` identical across Dialog/Drawer/Popover/Menu. `size?: "sm" | "md" | "lg"` identical across Badge/Chip/Button/Input/Checkbox/Switch/Radio/Field/Label/Spinner/Progress/EmptyState.
-4. **Dogfooding gate:** After Wave G, grep for `<div>`/`<button>` inline primitives in `apps/docs/src/components/{chrome,landing}` and `apps/docs/src/app/{playground,composer,themes}` returns near-zero. All shipped docs render with `@weiui/react` components — proving the library is complete.
+4. **Dogfooding gate:** After Wave G, grep for `<div>`/`<button>` inline primitives in `apps/docs/src/components/{chrome,landing}` and `apps/docs/src/app/{playground,composer,themes}` returns near-zero. All shipped docs render with `civaria` components — proving the library is complete.
 
 ## Execution handoff
 
 Subagent-driven development (`superpowers:subagent-driven-development`) is the recommended execution mode — one fresh subagent per task, two-stage review (spec compliance then code quality).
 
-**Tasks produce ≈100 commits total** across 6 waves. Verification gates at end of each wave (run `pnpm build && pnpm test`) and a final gate in Wave F (also `pnpm --filter @weiui/docs build && pnpm --filter @weiui/tokens validate`).
+**Tasks produce ≈100 commits total** across 6 waves. Verification gates at end of each wave (run `pnpm build && pnpm test`) and a final gate in Wave F (also `pnpm --filter @civaria/docs build && pnpm --filter @civaria/tokens validate`).
 
 Each task says: read the current component file → write failing test → confirm fail → implement exact additions → confirm pass → update matching demo in `apps/docs/src/components/demos/*.tsx` → commit. Each wave ends with an `docs(audit): mark Wave X shipped` commit flipping rows in `docs/audit/component-parity.md`.

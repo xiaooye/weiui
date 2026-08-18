@@ -20,10 +20,10 @@ export const Text = forwardRef<HTMLParagraphElement, TextProps>(
       <Tag
         ref={ref}
         className={cn(
-          "wui-text",
-          `wui-text--${size}`,
-          color !== "foreground" && `wui-text--${color}`,
-          weight && `wui-text--weight-${weight}`,
+          "civ-text",
+          `civ-text--${size}`,
+          color !== "foreground" && `civ-text--${color}`,
+          weight && `civ-text--weight-${weight}`,
           className,
         )}
         {...props}

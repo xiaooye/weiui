@@ -1,1 +1,1 @@
-export { WuiTooltipElement, defineTooltip } from "./index.js";
+export { CivTooltipElement, defineTooltip } from "./index.js";

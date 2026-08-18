@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Step, StepSeparator, Stepper } from "@weiui/react";
+import { Button, Step, StepSeparator, Stepper } from "civaria";
 
 export function StepperDemo() {
   const [active, setActive] = useState(1);
@@ -13,7 +13,7 @@ export function StepperDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
         width: "100%",
       }}
     >
@@ -24,7 +24,7 @@ export function StepperDemo() {
         <StepSeparator />
         <Step label="Review" description="Confirm setup" />
       </Stepper>
-      <div style={{ display: "flex", gap: "var(--wui-spacing-2)", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "var(--civ-spacing-2)", alignItems: "center" }}>
         <Button
           variant="outline"
           size="sm"
@@ -41,7 +41,7 @@ export function StepperDemo() {
           {isComplete ? "Done" : active === totalSteps - 1 ? "Finish" : "Next"}
         </Button>
         {isComplete && (
-          <span style={{ fontSize: "var(--wui-font-size-sm)", color: "var(--wui-color-success)" }}>
+          <span style={{ fontSize: "var(--civ-font-size-sm)", color: "var(--civ-color-success)" }}>
             All steps complete
           </span>
         )}

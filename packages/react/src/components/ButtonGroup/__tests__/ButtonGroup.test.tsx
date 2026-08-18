@@ -26,13 +26,13 @@ describe("ButtonGroup", () => {
     expect(screen.getByRole("group")).toBeInTheDocument();
   });
 
-  it("applies wui-button-group class", () => {
+  it("applies civ-button-group class", () => {
     render(
       <ButtonGroup>
         <button>A</button>
       </ButtonGroup>,
     );
-    expect(screen.getByRole("group")).toHaveClass("wui-button-group");
+    expect(screen.getByRole("group")).toHaveClass("civ-button-group");
   });
 
   it("merges user className with base class", () => {
@@ -42,7 +42,7 @@ describe("ButtonGroup", () => {
       </ButtonGroup>,
     );
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-button-group");
+    expect(group).toHaveClass("civ-button-group");
     expect(group).toHaveClass("custom-cls");
   });
 
@@ -73,7 +73,7 @@ describe("ButtonGroup", () => {
       </ButtonGroup>,
     );
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-button-group--vertical");
+    expect(group).toHaveClass("civ-button-group--vertical");
     expect(group).toHaveAttribute("data-orientation", "vertical");
   });
 
@@ -84,7 +84,7 @@ describe("ButtonGroup", () => {
       </ButtonGroup>,
     );
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-button-group--spaced");
+    expect(group).toHaveClass("civ-button-group--spaced");
     expect(group).toHaveAttribute("data-variant", "spaced");
   });
 
@@ -96,7 +96,7 @@ describe("ButtonGroup", () => {
       </ButtonGroup>,
     );
     const [a, b] = screen.getAllByRole("button");
-    expect(a.className).toContain("wui-button--sm");
-    expect(b.className).toContain("wui-button--lg");
+    expect(a.className).toContain("civ-button--sm");
+    expect(b.className).toContain("civ-button--lg");
   });
 });

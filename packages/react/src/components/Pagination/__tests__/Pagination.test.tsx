@@ -181,15 +181,15 @@ describe("Pagination", () => {
   describe("size variants (P1)", () => {
     it("defaults to md", () => {
       const { container } = render(<Pagination page={1} totalPages={3} onPageChange={vi.fn()} />);
-      expect(container.querySelector(".wui-pagination")).toHaveAttribute("data-size", "md");
+      expect(container.querySelector(".civ-pagination")).toHaveAttribute("data-size", "md");
     });
     it("applies data-size attr for sm/lg", () => {
       const { container, rerender } = render(
         <Pagination page={1} totalPages={3} onPageChange={vi.fn()} size="sm" />,
       );
-      expect(container.querySelector(".wui-pagination")).toHaveAttribute("data-size", "sm");
+      expect(container.querySelector(".civ-pagination")).toHaveAttribute("data-size", "sm");
       rerender(<Pagination page={1} totalPages={3} onPageChange={vi.fn()} size="lg" />);
-      expect(container.querySelector(".wui-pagination")).toHaveAttribute("data-size", "lg");
+      expect(container.querySelector(".civ-pagination")).toHaveAttribute("data-size", "lg");
     });
   });
 });

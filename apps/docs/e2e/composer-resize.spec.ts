@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("Splitter handle drag changes palette width", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  const palette = page.locator(".wui-tool-palette").first();
+  const palette = page.locator(".civ-tool-palette").first();
   const initial = (await palette.boundingBox())!.width;
   const handle = page.locator('[role="separator"]').first();
   const h = (await handle.boundingBox())!;

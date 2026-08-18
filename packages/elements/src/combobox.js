@@ -1,1 +1,1 @@
-export { WuiComboboxElement, defineCombobox } from "./index.js";
+export { CivComboboxElement, defineCombobox } from "./index.js";

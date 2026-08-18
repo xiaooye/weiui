@@ -1,10 +1,10 @@
 "use client";
 
-import { Avatar, AvatarGroup, AvatarImage, AvatarFallback } from "@weiui/react";
+import { Avatar, AvatarGroup, AvatarImage, AvatarFallback } from "civaria";
 
 export function AvatarGroupDemo() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-4)" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--civ-spacing-4)" }}>
       <AvatarGroup max={4}>
         <Avatar>
           <AvatarImage src="https://i.pravatar.cc/64?img=1" alt="Ana" />

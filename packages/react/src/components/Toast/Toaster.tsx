@@ -18,7 +18,7 @@ export function Toaster({ position = "bottom-right" }: ToasterProps = {}) {
 
   return (
     <div
-      className={cn("wui-toaster", `wui-toaster--${position}`)}
+      className={cn("civ-toaster", `civ-toaster--${position}`)}
       role="region"
       aria-label="Notifications"
       data-position={position}
@@ -172,7 +172,7 @@ function ToastItem({
 
   return (
     <div
-      className={cn("wui-toast", `wui-toast--${t.variant}`)}
+      className={cn("civ-toast", `civ-toast--${t.variant}`)}
       role="alert"
       data-paused={paused || undefined}
       data-dragging={dragOffset ? "" : undefined}
@@ -184,14 +184,14 @@ function ToastItem({
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
     >
-      <div className="wui-toast__content">
-        <div className="wui-toast__title">{t.title}</div>
-        {t.description && <div className="wui-toast__description">{t.description}</div>}
+      <div className="civ-toast__content">
+        <div className="civ-toast__title">{t.title}</div>
+        {t.description && <div className="civ-toast__description">{t.description}</div>}
       </div>
       {t.action && (
         <button
           type="button"
-          className="wui-toast__action"
+          className="civ-toast__action"
           onClick={() => {
             t.action!.onClick();
             removeToast(t.id);
@@ -201,7 +201,7 @@ function ToastItem({
         </button>
       )}
       <button
-        className="wui-toast__close"
+        className="civ-toast__close"
         onClick={() => removeToast(t.id)}
         aria-label="Close notification"
       >

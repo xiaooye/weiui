@@ -1,4 +1,4 @@
-# WeiUI AI-First Integration — Design Spec
+# Civaria AI-First Integration — Design Spec
 
 **Date:** 2026-04-18
 **Owner:** Wei
@@ -8,11 +8,11 @@
 
 ## 1. Goal
 
-Make WeiUI the component library that AI coding assistants (Claude, Cursor, Copilot, Windsurf, Codex) reach for when building React UIs, and the one they actually use *correctly* on the first try. Today, AI assistants routinely:
+Make Civaria the component library that AI coding assistants (Claude, Cursor, Copilot, Windsurf, Codex) reach for when building React UIs, and the one they actually use *correctly* on the first try. Today, AI assistants routinely:
 
 - Hallucinate props that don't exist.
 - Use wrong import paths (grabbing heavy components from the main barrel instead of subpaths).
-- Generate Tailwind-utility class strings in consumer code, bypassing WeiUI's `wui-*` class contract.
+- Generate Tailwind-utility class strings in consumer code, bypassing Civaria's `civ-*` class contract.
 - Mix compound-component parts incorrectly (e.g., `<DialogOverlay>` outside `<Dialog>`).
 - Miss accessibility requirements the library enforces (labels, keyboard patterns).
 
@@ -24,17 +24,17 @@ Every one of these failures is a grounding problem: the assistant doesn't have a
 
 **In scope:**
 - Docs-served machine-readable artifacts (`llms.txt`, `llms-full.txt`, per-component JSON registry) generated at build time.
-- A new workspace package `@weiui/mcp` exposing a Model Context Protocol server with component introspection tools.
-- Four new `@weiui/cli` commands (`describe`, `list`, `examples`, `check-usage`) callable from AI agent workflows.
-- A JSDoc sweep across every exported Props interface in `@weiui/react` + `@weiui/headless` so TypeScript-language-server consumers (which Claude Code reads) see prop meanings on hover without doc fetches.
+- A new workspace package `@civaria/mcp` exposing a Model Context Protocol server with component introspection tools.
+- Four new `@civaria/cli` commands (`describe`, `list`, `examples`, `check-usage`) callable from AI agent workflows.
+- A JSDoc sweep across every exported Props interface in `civaria` + `@civaria/headless` so TypeScript-language-server consumers (which Claude Code reads) see prop meanings on hover without doc fetches.
 - `AGENTS.md` at repo root + a `/docs/ai-guide` page consolidating the library's rules-of-the-road.
 - A short `CONTRIBUTING.md` section documenting the AI-usage surface for external consumers.
 
 **Out of scope:**
-- Training a WeiUI-specific LLM or fine-tune.
+- Training a Civaria-specific LLM or fine-tune.
 - Integration-testing AI assistants (Cursor, Windsurf, etc.) — we provide the artifacts; each assistant's pickup is its own concern.
 - Changes to component APIs. This spec is purely additive metadata + new packages/files.
-- Runtime AI features inside the library (e.g., an "ask WeiUI" widget). Those belong in the docs site, not the library.
+- Runtime AI features inside the library (e.g., an "ask Civaria" widget). Those belong in the docs site, not the library.
 
 ---
 
@@ -44,7 +44,7 @@ Six coordinated artifacts, each targeting a different AI-assistant ingestion pat
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│  WeiUI AI-first surface                                        │
+│  Civaria AI-first surface                                        │
 │                                                                │
 │  ┌───────────────────┐   ┌───────────────────┐                 │
 │  │  llms.txt (index) │   │  llms-full.txt    │                 │
@@ -57,21 +57,21 @@ Six coordinated artifacts, each targeting a different AI-assistant ingestion pat
 │  │  { props, types, examples, deps }     │    + URL fetchable  │
 │  └───────────────┬───────────────────────┘                     │
 │                  │                                             │
-│                  ├─── consumed by ────────► weiui add           │
+│                  ├─── consumed by ────────► civaria add           │
 │                  │                                             │
-│                  └─── consumed by ────────► @weiui/mcp server   │
+│                  └─── consumed by ────────► @civaria/mcp server   │
 │                                             (list / get / search │
 │                                              tools for MCP)    │
 │                                                                │
 │  ┌───────────────────┐   ┌───────────────────┐                 │
-│  │  weiui CLI        │   │  JSDoc on Props   │                 │
+│  │  civaria CLI        │   │  JSDoc on Props   │                 │
 │  │  describe/list/   │   │  → TS server      │                 │
 │  │  examples/check   │   │  → Claude hover   │                 │
 │  └───────────────────┘   └───────────────────┘                 │
 │                                                                │
 │  ┌───────────────────────────────────────────────────────────┐ │
 │  │  AGENTS.md + /docs/ai-guide                              │ │
-│  │  rules: import paths, wui-* mandate, AAA, accessibility  │ │
+│  │  rules: import paths, civ-* mandate, AAA, accessibility  │ │
 │  └───────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────┘
 ```
@@ -80,9 +80,9 @@ Each surface has a different cost/benefit:
 
 | Surface | Cost to produce | Cost for AI to consume | Best for |
 |---------|-----------------|------------------------|----------|
-| `llms.txt` | Lowest — generator runs in ~1 s | One fetch, lightweight | Discovery, "what is WeiUI" |
+| `llms.txt` | Lowest — generator runs in ~1 s | One fetch, lightweight | Discovery, "what is Civaria" |
 | `llms-full.txt` | Low — concatenate all MDX | One fetch, heavy payload | Deep context, offline agents |
-| Registry JSON | Medium — per-component generator | One fetch per component | Scaffolding (`weiui add`), agent lookups |
+| Registry JSON | Medium — per-component generator | One fetch per component | Scaffolding (`civaria add`), agent lookups |
 | MCP server | Medium — new package + hosting | Protocol-native, cheapest per-call | Interactive agent sessions (Claude Desktop/Code) |
 | CLI commands | Low — thin wrappers on registry | Shell-out, one invocation | Terminal-bound agents (Claude Code, Codex) |
 | JSDoc on Props | Medium — one pass across ~400 props | Zero — already in the type system | Any TypeScript-aware editor |
@@ -99,37 +99,37 @@ Per [llmstxt.org](https://llmstxt.org). Two files served at docs root.
 **`llms.txt`** (small index, ~200 lines):
 
 ```
-# WeiUI
+# Civaria
 
 > Accessibility-first React component library with three consumption tiers (CSS-only, headless, styled). WCAG AAA enforced. OKLCH tokens. MIT license.
 
 ## Getting started
 
-- [Installation](https://weiui.dev/docs/installation)
-- [Quick start](https://weiui.dev/docs/getting-started)
-- [Component overview](https://weiui.dev/docs/components)
+- [Installation](https://civaria.dev/docs/installation)
+- [Quick start](https://civaria.dev/docs/getting-started)
+- [Component overview](https://civaria.dev/docs/components)
 
 ## Import rules
 
-- Default: `import { Button } from "@weiui/react"`
+- Default: `import { Button } from "civaria"`
 - Heavy components use subpaths:
-  - `import { Editor } from "@weiui/react/editor"`
-  - `import { DataTable } from "@weiui/react/data-table"`
-  - `import { BarChart, LineChart, ... } from "@weiui/react/chart"`
-- Style with `wui-*` class names. Never emit Tailwind utilities in consumer code.
+  - `import { Editor } from "civaria/editor"`
+  - `import { DataTable } from "civaria/data-table"`
+  - `import { BarChart, LineChart, ... } from "civaria/chart"`
+- Style with `civ-*` class names. Never emit Tailwind utilities in consumer code.
 
 ## Components (66)
 
-- [Button](https://weiui.dev/docs/components/button) — variants, sizes, asChild
-- [Input](https://weiui.dev/docs/components/input) — size, addons, clearable
-- [Dialog](https://weiui.dev/docs/components/overlays) — modal, non-modal, nested
+- [Button](https://civaria.dev/docs/components/button) — variants, sizes, asChild
+- [Input](https://civaria.dev/docs/components/input) — size, addons, clearable
+- [Dialog](https://civaria.dev/docs/components/overlays) — modal, non-modal, nested
 - ...one line per component, link to its docs page...
 
 ## Tokens
 
-- [Colors](https://weiui.dev/docs/colors)
-- [Typography](https://weiui.dev/docs/typography)
-- [Motion + elevation + surface](https://weiui.dev/docs/tokens)
+- [Colors](https://civaria.dev/docs/colors)
+- [Typography](https://civaria.dev/docs/typography)
+- [Motion + elevation + surface](https://civaria.dev/docs/tokens)
 ```
 
 **`llms-full.txt`** (~15–30k lines, full documentation inlined in plain markdown):
@@ -148,9 +148,9 @@ Per-component JSON files at `apps/docs/public/registry/<Name>.json`. Schema:
   "name": "Button",
   "category": "form",
   "description": "Triggers actions, submits forms, navigates via asChild.",
-  "importPath": "@weiui/react",
+  "importPath": "civaria",
   "subpathImport": null,
-  "dependencies": ["@weiui/react", "@weiui/css", "@weiui/tokens"],
+  "dependencies": ["civaria", "@civaria/css", "@civaria/tokens"],
   "props": [
     {
       "name": "variant",
@@ -169,7 +169,7 @@ Per-component JSON files at `apps/docs/public/registry/<Name>.json`. Schema:
   "examples": [
     {
       "label": "Basic",
-      "code": "import { Button } from '@weiui/react';\n\n<Button>Click me</Button>"
+      "code": "import { Button } from 'civaria';\n\n<Button>Click me</Button>"
     },
     {
       "label": "Loading state",
@@ -189,13 +189,13 @@ Per-component JSON files at `apps/docs/public/registry/<Name>.json`. Schema:
 ```
 
 - **Generator source:** one TypeScript script that reads each component's `.tsx`, extracts its exported Props interface via `ts-morph`, pairs with MDX examples from doc pages, writes JSON.
-- **Output location:** `apps/docs/public/registry/` — served at `https://weiui.dev/registry/Button.json`.
+- **Output location:** `apps/docs/public/registry/` — served at `https://civaria.dev/registry/Button.json`.
 - **Index file:** `apps/docs/public/registry/index.json` listing all component names + categories + URLs.
 - **Consumed by:**
-  - The existing `weiui add` CLI (now also supports `add <name> --from=url` fetching from docs).
-  - `@weiui/mcp` server (reads the same JSON locally or over HTTP).
+  - The existing `civaria add` CLI (now also supports `add <name> --from=url` fetching from docs).
+  - `@civaria/mcp` server (reads the same JSON locally or over HTTP).
 
-### 4.3 `@weiui/mcp` package
+### 4.3 `@civaria/mcp` package
 
 New workspace package. Exposes a Model Context Protocol server over stdio (default) or HTTP.
 
@@ -230,32 +230,32 @@ New workspace package. Exposes a Model Context Protocol server over stdio (defau
 ```json
 {
   "mcpServers": {
-    "weiui": {
+    "civaria": {
       "command": "npx",
-      "args": ["-y", "@weiui/mcp"]
+      "args": ["-y", "@civaria/mcp"]
     }
   }
 }
 ```
 
-After that, Claude Desktop sees WeiUI components as queryable tools. Asking "use WeiUI to build a settings page" automatically triggers `list_components` + `get_component` for relevant ones, and Claude writes accurate code.
+After that, Claude Desktop sees Civaria components as queryable tools. Asking "use Civaria to build a settings page" automatically triggers `list_components` + `get_component` for relevant ones, and Claude writes accurate code.
 
-**Dependencies:** `@modelcontextprotocol/sdk`, `zod` for schema validation. Reads registry JSON bundled at publish time; also supports remote fetch from `https://weiui.dev/registry/`.
+**Dependencies:** `@modelcontextprotocol/sdk`, `zod` for schema validation. Reads registry JSON bundled at publish time; also supports remote fetch from `https://civaria.dev/registry/`.
 
 ### 4.4 CLI AI commands
 
-Extend `@weiui/cli` with four new commands:
+Extend `@civaria/cli` with four new commands:
 
-- **`weiui describe <name>`** — prints registry JSON for the component to stdout. AI agents shell out to this and parse JSON.
-- **`weiui list [--category <cat>]`** — lists all components.
-- **`weiui examples <name> [--variant <label>]`** — prints just the code snippet(s).
-- **`weiui check-usage <file>`** — lints consumer code for WeiUI-usage mistakes (same warnings as the MCP `check_usage` tool).
+- **`civaria describe <name>`** — prints registry JSON for the component to stdout. AI agents shell out to this and parse JSON.
+- **`civaria list [--category <cat>]`** — lists all components.
+- **`civaria examples <name> [--variant <label>]`** — prints just the code snippet(s).
+- **`civaria check-usage <file>`** — lints consumer code for Civaria-usage mistakes (same warnings as the MCP `check_usage` tool).
 
-All four share the same core logic as the MCP server (read from registry JSON). Shipped as subcommands under the existing `weiui` binary.
+All four share the same core logic as the MCP server (read from registry JSON). Shipped as subcommands under the existing `civaria` binary.
 
 ### 4.5 JSDoc on every Props interface
 
-For every exported `*Props` interface in `@weiui/react/src/components/**/*.tsx`, add a TSDoc comment on each field:
+For every exported `*Props` interface in `civaria/src/components/**/*.tsx`, add a TSDoc comment on each field:
 
 ```ts
 export interface ButtonProps {
@@ -287,16 +287,16 @@ This benefits every consumer with TypeScript (99%+ of users) and every AI that r
 `AGENTS.md` at repo root is auto-ingested by Cursor, Windsurf, Claude Code, Copilot, Aider, and other agent-aware editors. Contents:
 
 ```markdown
-# Using WeiUI
+# Using Civaria
 
 ## Rules
 
-1. Import from `@weiui/react` for most components. Heavy components use subpaths:
-   - `@weiui/react/editor` — Editor (Tiptap)
-   - `@weiui/react/data-table` — DataTable (TanStack Table)
-   - `@weiui/react/chart` — BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart (Recharts)
+1. Import from `civaria` for most components. Heavy components use subpaths:
+   - `civaria/editor` — Editor (Tiptap)
+   - `civaria/data-table` — DataTable (TanStack Table)
+   - `civaria/chart` — BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart (Recharts)
 
-2. Style via `wui-*` classes. Never emit Tailwind utilities in consumer code.
+2. Style via `civ-*` classes. Never emit Tailwind utilities in consumer code.
    - Bad: `<Button className="inline-flex items-center">`
    - Good: `<Button variant="solid" size="md">`
 
@@ -311,15 +311,15 @@ This benefits every consumer with TypeScript (99%+ of users) and every AI that r
 
 ## Discovery
 
-- Browse: https://weiui.dev/docs/components
-- Per-component JSON: https://weiui.dev/registry/<Name>.json
-- Full docs: https://weiui.dev/llms-full.txt
-- MCP server: add `@weiui/mcp` to your agent config for live introspection.
+- Browse: https://civaria.dev/docs/components
+- Per-component JSON: https://civaria.dev/registry/<Name>.json
+- Full docs: https://civaria.dev/llms-full.txt
+- MCP server: add `@civaria/mcp` to your agent config for live introspection.
 
 ## Copy-paste
 
-- CLI: `npx @weiui/cli add <Name>`
-- Registry URL: fetch `https://weiui.dev/registry/<Name>.json` and apply `examples[0].code`.
+- CLI: `npx @civaria/cli add <Name>`
+- Registry URL: fetch `https://civaria.dev/registry/<Name>.json` and apply `examples[0].code`.
 ```
 
 The `/docs/ai-guide` page in the docs site is the human-facing counterpart with longer explanations + screenshots.
@@ -334,14 +334,14 @@ Add an "AI-usage surface" subsection pointing human contributors at all of the a
 
 The spec is done when:
 
-1. **`llms.txt`** and **`llms-full.txt`** are served at `weiui.dev/llms.txt` + `weiui.dev/llms-full.txt`, auto-regenerated on every docs build, and pass schema validation (llmstxt.org compliant format).
+1. **`llms.txt`** and **`llms-full.txt`** are served at `civaria.dev/llms.txt` + `civaria.dev/llms-full.txt`, auto-regenerated on every docs build, and pass schema validation (llmstxt.org compliant format).
 2. **Registry JSON** files exist for all 66 components at `apps/docs/public/registry/<Name>.json`, have non-empty `props[]` and `examples[]` arrays, and validate against a shared TypeScript schema.
-3. **`@weiui/mcp`** package is publishable to npm, runs with `npx @weiui/mcp`, exposes all five tools, and passes its own unit tests against the registry JSON.
+3. **`@civaria/mcp`** package is publishable to npm, runs with `npx @civaria/mcp`, exposes all five tools, and passes its own unit tests against the registry JSON.
 4. **CLI commands** `describe`, `list`, `examples`, `check-usage` work against the local registry and match MCP server output.
-5. **JSDoc coverage** ≥ 95% of public Props fields across `@weiui/react` + `@weiui/headless`. Measured by a linting script.
+5. **JSDoc coverage** ≥ 95% of public Props fields across `civaria` + `@civaria/headless`. Measured by a linting script.
 6. **`AGENTS.md`** at repo root + `/docs/ai-guide` page shipped and reachable from the sidebar.
 7. **`CONTRIBUTING.md`** updated.
-8. **End-to-end dry run:** in a fresh Claude Desktop session with `@weiui/mcp` configured, ask "build a settings page with WeiUI" → Claude successfully calls tools, returns accurate code without hallucinated props. (Manual verification, recorded in the diagnostic report.)
+8. **End-to-end dry run:** in a fresh Claude Desktop session with `@civaria/mcp` configured, ask "build a settings page with Civaria" → Claude successfully calls tools, returns accurate code without hallucinated props. (Manual verification, recorded in the diagnostic report.)
 
 ---
 
@@ -374,7 +374,7 @@ Plan file: `docs/superpowers/plans/2026-04-18-ai-first-integration.md`.
 Eight tasks, bite-sized TDD:
 1. `llms.txt` + `llms-full.txt` generator
 2. Registry JSON schema + generator
-3. `@weiui/mcp` package scaffold + one working tool (`list_components`)
+3. `@civaria/mcp` package scaffold + one working tool (`list_components`)
 4. Remaining MCP tools (`get_component`, `search_components`, `get_example`, `check_usage`)
 5. CLI commands `describe`, `list`, `examples`
 6. CLI command `check-usage` + shared lint logic with MCP

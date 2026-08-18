@@ -1,11 +1,11 @@
-# @weiui/vue
+# @civaria/vue
 
-Native Vue 3 Composition API renderer for WeiUI. State, ARIA and keyboard semantics come from `@weiui/core`; Vue owns slots, Teleport, refs and `v-model` conventions.
+Native Vue 3 Composition API renderer for Civaria. State, ARIA and keyboard semantics come from `@civaria/core`; Vue owns slots, Teleport, refs and `v-model` conventions.
 
 ```vue
 <script setup lang="ts">
-import { Button, Tabs } from "@weiui/vue"
-import "@weiui/css"
+import { Button, Tabs } from "@civaria/vue"
+import "@civaria/css"
 const tabs = [{ value: "one", label: "One", content: "Content" }]
 </script>
 <template>
@@ -14,4 +14,4 @@ const tabs = [{ value: "one", label: "One", content: "Content" }]
 </template>
 ```
 
-Interactive components render WeiUI-owned `data-wui-component`, `data-part` and state attributes and never wrap React or Custom Elements.
+Interactive components render Civaria-owned `data-civaria-component`, `data-part` and state attributes and never wrap React or Custom Elements.

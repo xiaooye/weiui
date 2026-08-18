@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-04-18 (Wave D shipped — data + navigation P1 sweep)
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
-**Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
+**Purpose:** Track Civaria's feature coverage vs best-in-class reference per component. Waves 5a–5e ship only when all P0 gaps close.
 
 ---
 
@@ -63,7 +63,7 @@
 **Reference:** react-aria / Mantine (generic text input)
 **Status:** ⚠️ Partial — minimal native-input wrapper with `invalid` flag only.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Forwarded ref, native input attrs | ✅ | ✅ | — | — |
 | `invalid` → `aria-invalid` + `data-invalid` | ✅ | ✅ | — | — |
@@ -84,7 +84,7 @@
 **Reference:** react-aria / Mantine
 **Status:** ⚠️ Partial — native textarea wrapper only.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Forwarded ref, native textarea attrs | ✅ | ✅ | — | — |
 | `invalid` → `aria-invalid` | ✅ | ✅ | — | — |
@@ -102,7 +102,7 @@
 **Reference:** react-aria NumberField / Ant InputNumber
 **Status:** ⚠️ Partial — stepper buttons + arrow keys + clamping, no format/locale.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Min / max / step + clamp | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
@@ -124,7 +124,7 @@
 **Reference:** react-aria / shadcn OTPInput (input-otp)
 **Status:** ⚠️ Partial — slots, paste, backspace navigation.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Configurable length | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
@@ -145,7 +145,7 @@
 **Reference:** Downshift / react-aria ComboBox
 **Status:** ⚠️ Partial — filtered list, keyboard nav, selection.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Filter options by input | ✅ | ✅ | — | — |
 | ArrowUp/ArrowDown + Enter select | ✅ | ✅ | — | — |
@@ -169,7 +169,7 @@
 **Reference:** Downshift / react-aria / Mantine MultiSelect
 **Status:** ⚠️ Partial — tags, keyboard nav, add/remove.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Tag pills with remove buttons | ✅ | ✅ | — | — |
 | Controlled + uncontrolled values | ✅ | ✅ | — | — |
@@ -193,7 +193,7 @@
 **Reference:** Uppy / react-dropzone
 **Status:** ⚠️ Partial — drag-drop, multi, max size filter.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Click-to-open picker | ✅ | ✅ | — | — |
 | Drag-and-drop zone | ✅ | ✅ | — | — |
@@ -211,7 +211,7 @@
 | Controlled files list | ✅ | ✅ | Add `value`/`onChange` pattern | ✅ shipped |
 | Paste files from clipboard | ❌ | ✅ | Add paste listener | **P2** |
 
-**Notes:** Silent rejection of oversized / wrong-type files is the biggest hazard — users drag a 30 MB PDF and nothing happens. Surface a `onError(reason, file)` callback. Upload progress is P1 because many consumers use their own upload pipeline; WeiUI should make rendering progress easy, not own the transport. Don't try to ship chunked uploads — that's an Uppy-level concern.
+**Notes:** Silent rejection of oversized / wrong-type files is the biggest hazard — users drag a 30 MB PDF and nothing happens. Surface a `onError(reason, file)` callback. Upload progress is P1 because many consumers use their own upload pipeline; Civaria should make rendering progress easy, not own the transport. Don't try to ship chunked uploads — that's an Uppy-level concern.
 
 ---
 
@@ -222,7 +222,7 @@
 **Reference:** Radix UI Dialog
 **Status:** ⚠️ Partial — focus trap, scroll lock, labeled, modal-only.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + Content + Title + Description + Close parts | ✅ | ✅ | — | — |
 | Controlled + uncontrolled via `open`/`defaultOpen` | ✅ via `useDisclosure` | ✅ | — | — |
@@ -246,7 +246,7 @@
 **Reference:** Radix Dialog (variant) / Vaul
 **Status:** ✅ Ships — focus trap, scroll lock, 4 sides, overlay.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Sides: left / right / top / bottom | ✅ | ✅ | — | — |
 | Trigger + Content + Header + Footer + Close parts | ✅ | ✅ | — | — |
@@ -269,7 +269,7 @@
 **Reference:** Radix Popover
 **Status:** ⚠️ Partial — Floating UI placed, focus trap, outside click.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + Content + Close parts | ✅ | ✅ | — | — |
 | Floating UI placement with offset / flip / shift | ✅ | ✅ | — | — |
@@ -292,7 +292,7 @@
 **Reference:** Radix Tooltip
 **Status:** ⚠️ Partial — Floating UI, open delay.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + Content parts | ✅ | ✅ | — | — |
 | Floating placement (default `top`) | ✅ | ✅ | — | — |
@@ -314,7 +314,7 @@
 **Reference:** Radix DropdownMenu / Ark UI Menu
 **Status:** ⚠️ Partial — roving tab index, arrow keys, Home/End, focus restore.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + Content + Item + Separator parts | ✅ | ✅ | — | — |
 | ArrowUp / ArrowDown / Home / End | ✅ | ✅ | — | — |
@@ -339,7 +339,7 @@
 **Reference:** Sonner
 **Status:** ⚠️ Partial — store, variants, auto-dismiss.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Imperative API (`toast()`, `toast.success`, `.error`, `.warning`) | ✅ | ✅ | — | — |
 | Variants (default/success/destructive/warning) | ✅ | ✅ | — | — |
@@ -365,7 +365,7 @@
 **Reference:** cmdk / Raycast
 **Status:** ⚠️ Partial — input, list, groups, shortcuts, global hotkey.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Input + filtered list | ✅ | ✅ | — | — |
 | Keyboard navigation (Arrow / Enter / Escape) | ✅ | ✅ | — | — |
@@ -397,7 +397,7 @@
 **Reference:** TanStack Table + Ant Design
 **Status:** ⚠️ Partial — sort, global filter, pagination, row selection flag; lacks most data-grid features.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Column sorting (click header) | ✅ | ✅ | — | — |
 | Global text filter | ✅ | ✅ | — | — |
@@ -434,7 +434,7 @@
 **Reference:** react-arborist / Ant Tree
 **Status:** ⚠️ Partial — expand/collapse, roving tab index, full WAI-ARIA tree keyboard.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Nested nodes with toggle | ✅ | ✅ | — | — |
 | ArrowUp/Down/Left/Right/Home/End | ✅ | ✅ | — | — |
@@ -459,7 +459,7 @@
 **Reference:** Ant Pagination
 **Status:** ⚠️ Partial — page range with ellipsis, prev/next, current-page.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Page buttons + ellipsis range | ✅ | ✅ | — | — |
 | Previous / next | ✅ | ✅ | — | — |
@@ -481,7 +481,7 @@
 **Reference:** Radix Tabs / shadcn
 **Status:** ⚠️ Partial — trigger/content/list, controlled value; no keyboard nav in the list.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Tabs + TabsList + TabsTrigger + TabsContent parts | ✅ | ✅ | — | — |
 | Controlled + uncontrolled via `value`/`defaultValue` | ✅ | ✅ | — | — |
@@ -501,7 +501,7 @@
 **Reference:** shadcn / Radix-style primitives
 **Status:** ✅ Ships — nav, items, separators, active state.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | `nav aria-label="Breadcrumb"` + `ol` structure | ✅ | ✅ | — | — |
 | Breadcrumb + BreadcrumbItem + BreadcrumbSeparator | ✅ | ✅ | — | — |
@@ -519,7 +519,7 @@
 **Reference:** shadcn sidebar
 **Status:** ⚠️ Partial — collapse flag + header/content/footer/item parts.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Sidebar + Header + Content + Footer + Item parts | ✅ | ✅ | — | — |
 | Collapsed / expanded state (controlled + uncontrolled) | ✅ via `useDisclosure` | ✅ | — | — |
@@ -540,7 +540,7 @@
 **Reference:** MUI AppBar
 **Status:** ✅ Ships — structural parts (Brand, Nav, Link, Actions).
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | AppBar + Brand + Nav + Link + Actions parts | ✅ | ✅ | — | — |
 | Active link indicator (`aria-current="page"`) | ✅ | ✅ | — | — |
@@ -557,7 +557,7 @@
 **Reference:** MUI BottomNavigation
 **Status:** ✅ Ships — items with icon + label + active.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Items with icon + label | ✅ | ✅ | — | — |
 | Active highlight (`aria-current="page"`) | ✅ | ✅ | — | — |
@@ -573,7 +573,7 @@
 **Reference:** Radix Accordion
 **Status:** ⚠️ Partial — single/multiple, aria wiring; lacks keyboard nav.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Accordion + Item + Trigger + Content parts | ✅ | ✅ | — | — |
 | `type` single / multiple | ✅ | ✅ | — | — |
@@ -594,7 +594,7 @@
 **Reference:** Mantine Stepper / Ant Steps
 **Status:** ⚠️ Partial — horizontal/vertical, active + completed state.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Stepper + Step + StepSeparator parts | ✅ | ✅ | — | — |
 | Active / completed state | ✅ | ✅ | — | — |
@@ -617,7 +617,7 @@
 **Reference:** Ant Timeline
 **Status:** ✅ Ships — item with title/description/time + line.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Timeline + TimelineItem parts | ✅ | ✅ | — | — |
 | Title / description / time slots | ✅ | ✅ | — | — |
@@ -634,7 +634,7 @@
 **Reference:** Ant Transfer
 **Status:** ⚠️ Partial — two lists with move buttons, checkboxes, disabled-item respect.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Two-list layout with move buttons | ✅ | ✅ | — | — |
 | Per-item checkbox + selection state | ✅ | ✅ | — | — |
@@ -660,7 +660,7 @@
 **Reference:** react-aria DatePicker / Mantine DateInput
 **Status:** ✅ Ships — trigger + Floating UI popover, Calendar, locale, min/max, disabled-date predicate.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger button + popover + Calendar | ✅ | ✅ | — | — |
 | Min / max date | ✅ | ✅ | — | — |
@@ -685,7 +685,7 @@
 **Reference:** react-aria Calendar / Mantine Calendar
 **Status:** ✅ Ships — month grid, locale + firstDayOfWeek, full WAI-ARIA grid keyboard nav (arrows, Home/End, PgUp/PgDn), disabled-date predicate.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Month grid with outside-day handling | ✅ | ✅ | — | — |
 | Prev / next month buttons | ✅ | ✅ | — | — |
@@ -709,7 +709,7 @@
 **Reference:** Recharts (currently used) / Nivo / Visx
 **Status:** ✅ Ships — wraps Recharts with BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Bar / Line / Area / Pie / Donut / Radar | ✅ | ✅ | — | — |
 | Responsive container | ✅ | ✅ | — | — |
@@ -734,7 +734,7 @@
 **Reference:** Tiptap + ProseMirror
 **Status:** ✅ Ships — StarterKit, bold/italic/strike/headings/lists/blockquote/code, link insertion, extensions merge.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Rich-text editing powered by Tiptap | ✅ | ✅ | — | — |
 | Basic toolbar (B/I/S, H1-3, lists, blockquote, code) | ✅ | ✅ | — | — |
@@ -764,7 +764,7 @@
 **Reference:** react-colorful / Mantine ColorPicker
 **Status:** ✅ Ships — hue slider + hex input + swatches + saturation/value area; accepts `oklch(...)` strings.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Hex input | ✅ | ✅ | — | — |
 | Hue slider | ✅ | ✅ | — | — |
@@ -786,7 +786,7 @@
 **Reference:** Radix Slider / Ant Slider
 **Status:** ⚠️ Partial — single thumb, keyboard, pointer, clamp.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Single value controlled + uncontrolled | ✅ | ✅ | — | — |
 | ArrowKeys + Home/End | ✅ | ✅ | — | — |
@@ -810,7 +810,7 @@
 **Reference:** Ant Rate / Radix-style
 **Status:** ⚠️ Partial — stars, keyboard, read-only, disabled.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | N-star render with fill state | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
@@ -831,7 +831,7 @@
 **Reference:** MUI SpeedDial
 **Status:** ✅ Ships — trigger + menu with keyboard open + arrow nav + Escape to close.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + action buttons | ✅ | ✅ | — | — |
 | Open on click | ✅ | ✅ | — | — |
@@ -843,7 +843,7 @@
 | Outside click close | ✅ | ✅ | Add useOutsideClick | ✅ shipped |
 | Per-action tooltip | ✅ (Tooltip wrapping) | ✅ | Integrate Tooltip | ✅ shipped |
 | Backdrop / scrim | ❌ | ✅ | Add optional backdrop | **P2** |
-| Animation stagger | ✅ (--wui-speed-dial-index) | ✅ | Add stagger CSS | ✅ shipped |
+| Animation stagger | ✅ (--civ-speed-dial-index) | ✅ | Add stagger CSS | ✅ shipped |
 | Hover preview | ✅ (scale on hover, pre-open) | ✅ | — | ✅ shipped |
 
 **Notes:** P0s + all P1s shipped. Only optional backdrop/scrim remains as P2.
@@ -853,7 +853,7 @@
 **Reference:** Ant Splitter / react-resizable-panels
 **Status:** ✅ Ships — two-panel, horizontal/vertical, keyboard + pointer drag, controlled sizes.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Two-panel horizontal / vertical | ✅ | ✅ | — | — |
 | Pointer drag to resize | ✅ | ✅ | — | — |
@@ -878,7 +878,7 @@
 **Reference:** Radix-style primitive + tailwind-variants (shadcn)
 **Status:** ✅ Ships — variant/size/color + loading + icons.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Variant (solid/outline/ghost/etc.) via tailwind-variants | ✅ | ✅ | — | — |
 | Size scale (sm/md/lg) | ✅ | ✅ | — | — |
@@ -889,7 +889,7 @@
 | Spinner inside loading state | ✅ | ✅ | Show Spinner when loading | ✅ shipped |
 | `asChild` (render-as) pattern for Link / router integration | ✅ | ✅ Radix Slot | `asChild` clones single child and forwards props + ref | ✅ shipped |
 | Icon-only variant (square) | ✅ | ✅ | `iconOnly` renders square padding + aspect-ratio 1/1 | ✅ shipped |
-| Full-width variant | ✅ | ✅ | `fullWidth` stretches to container via `wui-button--full-width` | ✅ shipped |
+| Full-width variant | ✅ | ✅ | `fullWidth` stretches to container via `civ-button--full-width` | ✅ shipped |
 | Type button default | ✅ | ✅ explicit `type="button"` default | Default to `type="button"` to avoid form-submit surprises | ✅ shipped |
 | `aria-label` required when icon-only | ⚠️ consumer-responsibility | ✅ dev-warning | Document pattern | **P2** |
 
@@ -900,10 +900,10 @@
 **Reference:** Mantine ButtonGroup / Chakra
 **Status:** ⚠️ Partial — role="group" wrapper only.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | `role="group"` wrapper | ✅ | ✅ | — | — |
-| Horizontal / vertical orientation | ✅ | ✅ | `orientation` prop + `wui-button-group--vertical` | ✅ shipped |
+| Horizontal / vertical orientation | ✅ | ✅ | `orientation` prop + `civ-button-group--vertical` | ✅ shipped |
 | Attached (no gap, merged borders) vs spaced | ✅ | ✅ | `variant="attached" \| "spaced"` via CSS modifier | ✅ shipped |
 | Size inheritance to children | ✅ | ✅ | `ButtonGroupContext` propagates `size` to child Buttons | ✅ shipped |
 | Shared variant on children | ✅ | ✅ | `ButtonGroupContext` carries `variant` for children | ✅ shipped |
@@ -916,7 +916,7 @@
 **Reference:** Radix Checkbox / Mantine
 **Status:** ❌ Stub only — unstyled native checkbox with inline label.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Native checkbox input + label | ✅ | ✅ | — | — |
 | `forwardRef` to input | ✅ | ✅ | — | — |
@@ -936,7 +936,7 @@
 **Reference:** Radix RadioGroup / Mantine
 **Status:** ⚠️ Partial — controlled group + item, native radio, inline label; no arrow-key nav, no custom visual.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | RadioGroup + Item parts | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ via `useControllable` | ✅ | — | — |
@@ -944,7 +944,7 @@
 | Auto-generated name | ✅ | ✅ | — | — |
 | Custom visual (styled radio) | ✅ | ✅ | CSS-styled radio | ✅ shipped |
 | Arrow-key navigation within group | ✅ | ✅ | Add keyboard nav | ✅ shipped |
-| Size variant | ✅ | ✅ | `size` on group propagates to items via `wui-radio-group--sm \| --lg` | ✅ shipped |
+| Size variant | ✅ | ✅ | `size` on group propagates to items via `civ-radio-group--sm \| --lg` | ✅ shipped |
 | Disabled on group (applies to all items) | ✅ | ✅ | `disabled` on group forwarded via context; per-item disabled still honored | ✅ shipped |
 | Required / invalid forwarding | ✅ | ✅ | `required` / `invalid` on group forward `aria-required` / `aria-invalid` to every item | ✅ shipped |
 | Orientation (horizontal/vertical) | ✅ | ✅ | `orientation` prop toggles row vs column layout | ✅ shipped |
@@ -957,7 +957,7 @@
 **Reference:** Radix Switch / Mantine
 **Status:** ❌ Stub only — native checkbox with `role="switch"`, no custom visual.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Native input with `role="switch"` | ✅ | ✅ | — | — |
 | Forwarded ref | ✅ | ✅ | — | — |
@@ -975,7 +975,7 @@
 **Reference:** Radix ToggleGroup
 **Status:** ⚠️ Partial — single/multiple, aria-pressed, controlled + uncontrolled.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Single / multiple type | ✅ | ✅ | — | — |
 | Controlled + uncontrolled | ✅ | ✅ | — | — |
@@ -994,7 +994,7 @@
 **Reference:** Mantine Field / Ark Field / react-hook-form pattern
 **Status:** ⚠️ Partial — context with IDs + error rendering; Control/Label/Description parts exist but don't auto-wire `aria-describedby`/`aria-labelledby` on the input.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Field + Label + Description + Control parts | ✅ | ✅ | — | — |
 | Auto-generated IDs | ✅ | ✅ | — | — |
@@ -1016,7 +1016,7 @@
 **Reference:** Radix Label / native `<label>`
 **Status:** ✅ Ships — native label with required asterisk.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Native `<label>` with props forwarded | ✅ | ✅ | — | — |
 | Required asterisk | ✅ | ✅ | — | — |
@@ -1031,7 +1031,7 @@
 **Reference:** Mantine Badge
 **Status:** ✅ Ships — variant + color.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Variant (solid/soft/outline) | ✅ | ✅ | — | — |
 | Color (primary/destructive/success/warning) | ✅ | ✅ | — | — |
@@ -1048,7 +1048,7 @@
 **Reference:** Mantine Chip / MUI Chip
 **Status:** ✅ Ships — color + optional remove button.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Color variant | ✅ | ✅ | — | — |
 | Remove button with `aria-label` | ✅ | ✅ | — | — |
@@ -1067,7 +1067,7 @@
 **Reference:** Mantine Avatar / Radix Avatar
 **Status:** ✅ Ships — size + compound Image/Fallback.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Size (sm/md/lg/xl) | ✅ | ✅ | — | — |
 | AvatarImage + AvatarFallback parts | ✅ | ✅ | — | — |
@@ -1085,7 +1085,7 @@
 **Reference:** Radix-style / Mantine Alert
 **Status:** ✅ Ships — 4 variants + Title + Description.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Variant (info/success/warning/destructive) | ✅ | ✅ | — | — |
 | Title + Description | ✅ | ✅ | — | — |
@@ -1103,7 +1103,7 @@
 **Reference:** Chakra / Mantine / custom
 **Status:** ✅ Ships — icon + title + description + action.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Icon + title + description + action slots | ✅ | ✅ | — | — |
 | Size variant (md/lg) | ✅ | ✅ | `size: sm/md/lg` | ✅ shipped |
@@ -1117,7 +1117,7 @@
 **Reference:** Mantine Skeleton
 **Status:** ✅ Ships — text/circle/rect variants.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Variants (text/circle/rect) | ✅ | ✅ | — | — |
 | Shimmer animation | ✅ PRM-gated | ✅ | Verify animation respects reduced-motion | ✅ shipped |
@@ -1133,24 +1133,24 @@
 **Reference:** Mantine Loader / any loader
 **Status:** ✅ Ships — size + accessible label.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Size (sm/md/lg) | ✅ | ✅ | — | — |
 | `role="status"` + SR label | ✅ | ✅ | — | — |
 | Tailwind `animate-spin` | ✅ | ✅ | — | — |
-| Respects `prefers-reduced-motion` | ✅ wui-spinner class PRM-gated | ✅ | Wrap animation in PRM media query | ✅ shipped |
+| Respects `prefers-reduced-motion` | ✅ civ-spinner class PRM-gated | ✅ | Wrap animation in PRM media query | ✅ shipped |
 | Color variant | ✅ | ✅ | `color` prop (default/primary/success/warning/destructive) | ✅ shipped |
 | Type variants (dots / bars / oval) | ❌ | ✅ Mantine | Add types | **P2** |
 | Centered wrapper helper | ❌ | ✅ | Document pattern | **P2** |
 
-**Notes:** P0 is the motion-reduction audit — Tailwind's `animate-spin` does not respect `prefers-reduced-motion` by default, which contradicts the project's CSS rules. Likely needs a custom CSS class (`wui-spinner--animating`) wrapped in the PRM media query.
+**Notes:** P0 is the motion-reduction audit — Tailwind's `animate-spin` does not respect `prefers-reduced-motion` by default, which contradicts the project's CSS rules. Likely needs a custom CSS class (`civ-spinner--animating`) wrapped in the PRM media query.
 
 ## ProgressBar
 
 **Reference:** Mantine Progress / Radix Progress
 **Status:** ✅ Ships — value/max, size, color, indeterminate.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Value / max / percent calculation | ✅ | ✅ | — | — |
 | `role="progressbar"` + aria-value* | ✅ | ✅ | — | — |
@@ -1180,7 +1180,7 @@
 **Reference:** Mantine Card
 **Status:** ✅ Ships — structural Card + Header + Content + Footer.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Card + Header + Content + Footer parts | ✅ | ✅ | — | — |
 | Variant (elevated/outlined) | ✅ | ✅ | `variant: elevated/outlined/filled` | ✅ shipped |

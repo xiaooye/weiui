@@ -11,7 +11,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@weiui/react";
+} from "civaria";
 import { Sidebar } from "./Sidebar";
 import { siteConfig } from "../../lib/site-config";
 
@@ -29,7 +29,7 @@ export function MobileNav() {
             aria-label="Open navigation"
             aria-expanded={open}
             onClick={() => setOpen(true)}
-            className="wui-docs-app-bar__menu"
+            className="civ-docs-app-bar__menu"
           >
             <span aria-hidden="true">{"\u2630"}</span>
           </Button>
@@ -37,9 +37,9 @@ export function MobileNav() {
         <TooltipContent>Menu</TooltipContent>
       </Tooltip>
       <Drawer open={open} onOpenChange={setOpen} side="left">
-        <DrawerContent aria-label="Navigation" className="wui-docs-mobile-nav">
+        <DrawerContent aria-label="Navigation" className="civ-docs-mobile-nav">
           <DrawerHeader>
-            <Heading level={2} className="wui-docs-mobile-nav__title">
+            <Heading level={2} className="civ-docs-mobile-nav__title">
               Navigation
             </Heading>
             <Button
@@ -53,12 +53,12 @@ export function MobileNav() {
             </Button>
           </DrawerHeader>
           <div
-            className="wui-docs-mobile-nav__body"
+            className="civ-docs-mobile-nav__body"
             onClick={(e) => {
               if ((e.target as HTMLElement).closest("a")) close();
             }}
           >
-            <Stack direction="column" gap={1} className="wui-docs-mobile-nav__primary">
+            <Stack direction="column" gap={1} className="civ-docs-mobile-nav__primary">
               {siteConfig.primaryNav.map((item) => (
                 <Button
                   key={item.href}

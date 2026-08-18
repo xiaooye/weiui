@@ -81,17 +81,17 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const setRef = useCallback(mergeRefs<HTMLInputElement>(ref, innerRef), [ref]);
 
-    const sizeClass = size === "sm" ? "wui-checkbox--sm" : size === "lg" ? "wui-checkbox--lg" : "";
-    const colorClass = color !== "primary" ? `wui-checkbox--color-${color}` : "";
+    const sizeClass = size === "sm" ? "civ-checkbox--sm" : size === "lg" ? "civ-checkbox--lg" : "";
+    const colorClass = color !== "primary" ? `civ-checkbox--color-${color}` : "";
     const resolvedDisabled = props.disabled ?? ctx?.disabled;
     return (
-      <div className={cn("wui-checkbox", sizeClass, colorClass, className)}>
-        <div className="wui-checkbox__row">
+      <div className={cn("civ-checkbox", sizeClass, colorClass, className)}>
+        <div className="civ-checkbox__row">
           <input
             ref={setRef}
             type="checkbox"
             id={inputId}
-            className="wui-checkbox__input"
+            className="civ-checkbox__input"
             aria-checked={indeterminate ? "mixed" : undefined}
             aria-invalid={isInvalid || undefined}
             data-invalid={isInvalid || undefined}
@@ -100,18 +100,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             disabled={resolvedDisabled}
           />
           {label && (
-            <label htmlFor={inputId} className="wui-checkbox__label">
+            <label htmlFor={inputId} className="civ-checkbox__label">
               {label}
             </label>
           )}
         </div>
         {hasDescription && (
-          <p id={descriptionId} className="wui-checkbox__description">
+          <p id={descriptionId} className="civ-checkbox__description">
             {description}
           </p>
         )}
         {hasErrorString && (
-          <p id={errorId} className="wui-checkbox__error" role="alert">
+          <p id={errorId} className="civ-checkbox__error" role="alert">
             {error as string}
           </p>
         )}

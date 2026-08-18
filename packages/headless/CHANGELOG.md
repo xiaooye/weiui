@@ -1,4 +1,4 @@
-# @weiui/headless
+# @civaria/headless
 
 ## 0.0.1
 

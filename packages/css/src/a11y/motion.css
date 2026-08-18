@@ -1,4 +1,4 @@
-@layer wui-base {
+@layer civ-base {
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;

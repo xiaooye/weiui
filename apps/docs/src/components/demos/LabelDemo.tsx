@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Label, Input } from "@weiui/react";
+import { Label, Input } from "civaria";
 
 export function LabelDemo() {
   const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ export function LabelDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
         inlineSize: "280px",
       }}
     >
@@ -20,7 +20,7 @@ export function LabelDemo() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--wui-spacing-1)",
+          gap: "var(--civ-spacing-1)",
         }}
       >
         <Label htmlFor="label-demo-email">Email</Label>
@@ -36,7 +36,7 @@ export function LabelDemo() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--wui-spacing-1)",
+          gap: "var(--civ-spacing-1)",
         }}
       >
         <Label htmlFor="label-demo-name" required>

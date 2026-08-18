@@ -30,38 +30,38 @@ describe("Spinner", () => {
     expect(el).toHaveStyle({ width: "32px", height: "32px" });
   });
 
-  it("uses motion-safe wui-spinner class (PRM-gated animation)", () => {
+  it("uses motion-safe civ-spinner class (PRM-gated animation)", () => {
     // Tailwind's animate-spin ignores prefers-reduced-motion. We use a custom
-    // wui-spinner class that is PRM-gated in the CSS layer.
+    // civ-spinner class that is PRM-gated in the CSS layer.
     render(<Spinner />);
     const el = screen.getByRole("status");
-    expect(el).toHaveClass("wui-spinner");
+    expect(el).toHaveClass("civ-spinner");
     expect(el.className).not.toContain("animate-spin");
   });
 
   // E.13 color variant
   it("does not apply color class for default", () => {
     render(<Spinner />);
-    expect(screen.getByRole("status").className).not.toContain("wui-spinner--default");
+    expect(screen.getByRole("status").className).not.toContain("civ-spinner--default");
   });
 
   it("applies primary color class", () => {
     render(<Spinner color="primary" />);
-    expect(screen.getByRole("status").className).toContain("wui-spinner--primary");
+    expect(screen.getByRole("status").className).toContain("civ-spinner--primary");
   });
 
   it("applies destructive color class", () => {
     render(<Spinner color="destructive" />);
-    expect(screen.getByRole("status").className).toContain("wui-spinner--destructive");
+    expect(screen.getByRole("status").className).toContain("civ-spinner--destructive");
   });
 
   it("applies success color class", () => {
     render(<Spinner color="success" />);
-    expect(screen.getByRole("status").className).toContain("wui-spinner--success");
+    expect(screen.getByRole("status").className).toContain("civ-spinner--success");
   });
 
   it("applies warning color class", () => {
     render(<Spinner color="warning" />);
-    expect(screen.getByRole("status").className).toContain("wui-spinner--warning");
+    expect(screen.getByRole("status").className).toContain("civ-spinner--warning");
   });
 });

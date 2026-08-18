@@ -30,8 +30,8 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
     const items: InternalItem[] = [];
     Children.forEach(children, (child) => {
       if (!isValidElement(child)) return;
-      const type = child.type as { __wuiBcSep?: boolean };
-      items.push({ node: child, isSeparator: type?.__wuiBcSep === true });
+      const type = child.type as { __civBcSep?: boolean };
+      items.push({ node: child, isSeparator: type?.__civBcSep === true });
     });
 
     const nonSep = items.filter((i) => !i.isSeparator);
@@ -72,8 +72,8 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
     }
 
     return (
-      <nav ref={ref} aria-label="Breadcrumb" className={cn("wui-breadcrumb", className)} {...props}>
-        <ol className="wui-breadcrumb__list">{rendered}</ol>
+      <nav ref={ref} aria-label="Breadcrumb" className={cn("civ-breadcrumb", className)} {...props}>
+        <ol className="civ-breadcrumb__list">{rendered}</ol>
       </nav>
     );
   },
@@ -91,7 +91,7 @@ export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   ({ children, active, className, ...props }, ref) => (
     <li
       ref={ref}
-      className={cn("wui-breadcrumb__item", className)}
+      className={cn("civ-breadcrumb__item", className)}
       aria-current={active ? "page" : undefined}
       {...props}
     >
@@ -103,18 +103,18 @@ BreadcrumbItem.displayName = "BreadcrumbItem";
 
 type BreadcrumbSeparatorComponent = ReturnType<
   typeof forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanElement>>
-> & { __wuiBcSep?: boolean };
+> & { __civBcSep?: boolean };
 
 export const BreadcrumbSeparator: BreadcrumbSeparatorComponent = forwardRef<
   HTMLSpanElement,
   HTMLAttributes<HTMLSpanElement>
 >(({ children = "/", className, ...props }, ref) => (
-  <span ref={ref} aria-hidden="true" className={cn("wui-breadcrumb__separator", className)} {...props}>
+  <span ref={ref} aria-hidden="true" className={cn("civ-breadcrumb__separator", className)} {...props}>
     {children}
   </span>
 ));
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
-BreadcrumbSeparator.__wuiBcSep = true;
+BreadcrumbSeparator.__civBcSep = true;
 
 export interface BreadcrumbEllipsisProps extends HTMLAttributes<HTMLLIElement> {}
 
@@ -122,7 +122,7 @@ export const BreadcrumbEllipsis = forwardRef<HTMLLIElement, BreadcrumbEllipsisPr
   ({ className, ...props }, ref) => (
     <li
       ref={ref}
-      className={cn("wui-breadcrumb__ellipsis", className)}
+      className={cn("civ-breadcrumb__ellipsis", className)}
       aria-label="More items"
       {...props}
     >

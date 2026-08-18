@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ButtonGroup, Button } from "@weiui/react";
+import { ButtonGroup, Button } from "civaria";
 
 export function ButtonGroupDemo() {
   const [pressed, setPressed] = useState("middle");
@@ -16,7 +16,7 @@ export function ButtonGroupDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <ButtonGroup aria-label="Alignment">
@@ -34,8 +34,8 @@ export function ButtonGroupDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         Pressed: <strong>{pressed}</strong>

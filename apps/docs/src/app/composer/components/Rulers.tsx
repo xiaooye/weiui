@@ -33,7 +33,7 @@ export function Rulers({ enabled, stageRef, zoom = 100 }: RulersProps) {
       // debug overlay, not themed chrome.
       const color =
         getComputedStyle(stage)
-          .getPropertyValue("--wui-color-muted-foreground")
+          .getPropertyValue("--civ-color-muted-foreground")
           .trim() || "#888";
       ctx1.fillStyle = color;
       ctx2.fillStyle = color;
@@ -59,12 +59,12 @@ export function Rulers({ enabled, stageRef, zoom = 100 }: RulersProps) {
     <>
       <canvas
         ref={topRef}
-        className="wui-composer__ruler wui-composer__ruler--top"
+        className="civ-composer__ruler civ-composer__ruler--top"
         aria-hidden="true"
       />
       <canvas
         ref={leftRef}
-        className="wui-composer__ruler wui-composer__ruler--left"
+        className="civ-composer__ruler civ-composer__ruler--left"
         aria-hidden="true"
       />
     </>

@@ -1,10 +1,10 @@
 "use client";
 
-import { toast, Button } from "@weiui/react";
+import { toast, Button } from "civaria";
 
 export function ToastDemo() {
   return (
-    <div style={{ display: "flex", gap: "var(--wui-spacing-2)", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: "var(--civ-spacing-2)", flexWrap: "wrap" }}>
       <Button variant="soft" onClick={() => toast("Default toast")}>
         Default
       </Button>

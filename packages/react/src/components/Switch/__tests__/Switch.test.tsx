@@ -51,14 +51,14 @@ describe("Switch", () => {
     expect(screen.getByRole("switch")).toBeDisabled();
   });
 
-  it("applies styled track + thumb class (wui-switch__input)", () => {
+  it("applies styled track + thumb class (civ-switch__input)", () => {
     render(<Switch aria-label="styled" />);
-    expect(screen.getByRole("switch")).toHaveClass("wui-switch__input");
+    expect(screen.getByRole("switch")).toHaveClass("civ-switch__input");
   });
 
-  it("wrapper carries wui-switch class", () => {
+  it("wrapper carries civ-switch class", () => {
     const { container } = render(<Switch label="Dark" />);
-    expect(container.querySelector(".wui-switch")).toBeTruthy();
+    expect(container.querySelector(".civ-switch")).toBeTruthy();
   });
 
   it("renders on/off label slots", () => {
@@ -75,8 +75,8 @@ describe("Switch", () => {
 
   it("exposes data-disabled on the wrapper when disabled", () => {
     const { container, rerender } = render(<Switch aria-label="s" disabled />);
-    expect(container.querySelector(".wui-switch")).toHaveAttribute("data-disabled");
+    expect(container.querySelector(".civ-switch")).toHaveAttribute("data-disabled");
     rerender(<Switch aria-label="s" />);
-    expect(container.querySelector(".wui-switch")).not.toHaveAttribute("data-disabled");
+    expect(container.querySelector(".civ-switch")).not.toHaveAttribute("data-disabled");
   });
 });

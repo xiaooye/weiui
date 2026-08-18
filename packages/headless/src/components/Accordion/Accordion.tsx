@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode } from "react";
-import { createAccordionController } from "@weiui/core";
+import { createAccordionController } from "@civaria/core";
 import { useCoreController } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { AccordionContext } from "./AccordionContext";
@@ -20,7 +20,7 @@ export function Accordion({ children, type = "single", defaultValue = [] }: Acco
     <AccordionContext.Provider
       value={{ expandedItems: new Set(state.expanded), toggleItem: controller.toggle, type }}
     >
-      <div data-wui-component="accordion" data-part="root">{children}</div>
+      <div data-civaria-component="accordion" data-part="root">{children}</div>
     </AccordionContext.Provider>
   );
 }

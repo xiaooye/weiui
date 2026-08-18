@@ -18,7 +18,7 @@ A container with optional header, content, and footer slots. Cards use `containe
 </Preview>
 
 ```tsx
-import { Card, CardHeader, CardContent, CardFooter, Button } from "@weiui/react";
+import { Card, CardHeader, CardContent, CardFooter, Button } from "civaria";
 
 <Card>
   <CardHeader>
@@ -78,7 +78,7 @@ A compact label for status, counts, or categorisation. Supports three variants a
 </Preview>
 
 ```tsx
-import { Badge } from "@weiui/react";
+import { Badge } from "civaria";
 
 <Badge variant="solid">Solid</Badge>
 <Badge variant="soft" color="success">Active</Badge>
@@ -89,14 +89,14 @@ import { Badge } from "@weiui/react";
 
 ```tsx
 <Badge color="success" dot>
-  <span className="wui-badge__dot" aria-hidden /> Online
+  <span className="civ-badge__dot" aria-hidden /> Online
 </Badge>
 ```
 
 ### With icon
 
 ```tsx
-import { CheckCircle } from "@weiui/icons";
+import { CheckCircle } from "@civaria/icons";
 
 <Badge variant="soft" color="success">
   <CheckCircle size={12} aria-hidden /> Verified
@@ -114,7 +114,7 @@ import { CheckCircle } from "@weiui/icons";
 ### Accessibility
 
 - Badges are decorative spans. For status information, pair with visible text or an `aria-label`.
-- When counting notifications, prefer `<span className="wui-badge"><VisuallyHidden>3 unread messages</VisuallyHidden>3</span>` so screen readers announce intent, not just the number.
+- When counting notifications, prefer `<span className="civ-badge"><VisuallyHidden>3 unread messages</VisuallyHidden>3</span>` so screen readers announce intent, not just the number.
 - Color alone is never the sole differentiator — the label text carries meaning.
 
 ## Avatar
@@ -126,7 +126,7 @@ User or entity identity. Falls back through a chain: `src` → `AvatarFallback` 
 </Preview>
 
 ```tsx
-import { Avatar, AvatarImage, AvatarFallback } from "@weiui/react";
+import { Avatar, AvatarImage, AvatarFallback } from "civaria";
 
 <Avatar size="lg">
   <AvatarImage src="/u/jane.jpg" alt="Jane Doe" />
@@ -146,7 +146,7 @@ Stack overlapping avatars with a `+N` overflow chip for the rest.
 </Preview>
 
 ```tsx
-import { Avatar, AvatarGroup } from "@weiui/react";
+import { Avatar, AvatarGroup } from "civaria";
 
 <AvatarGroup max={4}>
   <Avatar name="Ana Lo" />

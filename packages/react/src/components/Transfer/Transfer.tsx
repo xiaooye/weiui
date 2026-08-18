@@ -199,12 +199,12 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
       };
 
       return (
-        <div className="wui-transfer__list">
-          <div className="wui-transfer__header">
-            <label className="wui-transfer__header-label">
+        <div className="civ-transfer__list">
+          <div className="civ-transfer__header">
+            <label className="civ-transfer__header-label">
               <input
                 type="checkbox"
-                className="wui-transfer__select-all"
+                className="civ-transfer__select-all"
                 aria-label={`Select all ${title.toLowerCase()}`}
                 checked={allSelected}
                 ref={(el) => {
@@ -217,18 +217,18 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
             </label>
             <span
               style={{
-                fontSize: "var(--wui-font-size-xs)",
-                color: "var(--wui-color-muted-foreground)",
+                fontSize: "var(--civ-font-size-xs)",
+                color: "var(--civ-color-muted-foreground)",
               }}
             >
               {selected.size}/{items.length}
             </span>
           </div>
           {searchable && (
-            <div className="wui-transfer__search-wrap">
+            <div className="civ-transfer__search-wrap">
               <input
                 type="text"
-                className="wui-transfer__search"
+                className="civ-transfer__search"
                 placeholder={searchPlaceholder}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -237,7 +237,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
             </div>
           )}
           <div
-            className="wui-transfer__items"
+            className="civ-transfer__items"
             role="listbox"
             aria-label={listLabel}
             aria-multiselectable="true"
@@ -247,7 +247,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
             {items.map((item, idx) => (
               <div
                 key={item.value}
-                className="wui-transfer__item"
+                className="civ-transfer__item"
                 role="option"
                 aria-selected={selected.has(item.value)}
                 data-selected={selected.has(item.value) || undefined}
@@ -272,7 +272,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
     };
 
     return (
-      <div ref={ref} className={cn("wui-transfer", className)} role="group" aria-label="Transfer list">
+      <div ref={ref} className={cn("civ-transfer", className)} role="group" aria-label="Transfer list">
         {renderList(
           filteredSource,
           sourceSelected,
@@ -285,10 +285,10 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
           sourceFocusedIdx,
           setSourceFocusedIdx,
         )}
-        <div className="wui-transfer__actions">
+        <div className="civ-transfer__actions">
           <button
             type="button"
-            className="wui-transfer__move-btn"
+            className="civ-transfer__move-btn"
             onClick={moveAllRight}
             disabled={source.filter((i) => !i.disabled).length === 0}
             data-disabled={source.filter((i) => !i.disabled).length === 0 || undefined}
@@ -298,7 +298,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
           </button>
           <button
             type="button"
-            className="wui-transfer__move-btn"
+            className="civ-transfer__move-btn"
             onClick={moveRight}
             disabled={sourceSelected.size === 0}
             data-disabled={sourceSelected.size === 0 || undefined}
@@ -308,7 +308,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
           </button>
           <button
             type="button"
-            className="wui-transfer__move-btn"
+            className="civ-transfer__move-btn"
             onClick={moveLeft}
             disabled={targetSelected.size === 0}
             data-disabled={targetSelected.size === 0 || undefined}
@@ -318,7 +318,7 @@ export const Transfer = forwardRef<HTMLDivElement, TransferProps>(
           </button>
           <button
             type="button"
-            className="wui-transfer__move-btn"
+            className="civ-transfer__move-btn"
             onClick={moveAllLeft}
             disabled={target.filter((i) => !i.disabled).length === 0}
             data-disabled={target.filter((i) => !i.disabled).length === 0 || undefined}

@@ -21,11 +21,11 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         ref={ref}
         role="status"
         aria-label={label}
-        className={cn("wui-spinner", color !== "default" && `wui-spinner--${color}`, className)}
+        className={cn("civ-spinner", color !== "default" && `civ-spinner--${color}`, className)}
         style={{ width: sizeMap[size], height: sizeMap[size] }}
         {...props}
       >
-        <span className="wui-sr-only">{label}</span>
+        <span className="civ-sr-only">{label}</span>
       </div>
     );
   },

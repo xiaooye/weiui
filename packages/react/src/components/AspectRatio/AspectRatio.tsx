@@ -13,7 +13,7 @@ export const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-aspect-ratio", className)}
+        className={cn("civ-aspect-ratio", className)}
         style={{ ...style, aspectRatio: ratio }}
         {...props}
       >

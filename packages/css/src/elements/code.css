@@ -1,25 +1,25 @@
 /* packages/css/src/elements/code.css */
-@layer wui-elements {
-  .wui-code {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
-    background-color: var(--wui-color-muted);
-    padding-inline: var(--wui-spacing-1);
-    padding-block: var(--wui-spacing-0\.5);
-    border-radius: var(--wui-shape-radius-sm);
+@layer civ-elements {
+  .civ-code {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
+    background-color: var(--civ-color-muted);
+    padding-inline: var(--civ-spacing-1);
+    padding-block: var(--civ-spacing-0\.5);
+    border-radius: var(--civ-shape-radius-sm);
   }
 
-  .wui-code-block {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
-    background-color: var(--wui-color-muted);
-    padding: var(--wui-spacing-4);
-    border-radius: var(--wui-shape-radius-md);
+  .civ-code-block {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
+    background-color: var(--civ-color-muted);
+    padding: var(--civ-spacing-4);
+    border-radius: var(--civ-shape-radius-md);
     overflow-x: auto;
-    line-height: var(--wui-font-lineHeight-normal);
+    line-height: var(--civ-font-lineHeight-normal);
   }
 
-  .wui-code-block > code {
+  .civ-code-block > code {
     background: none;
     padding: 0;
     border-radius: 0;

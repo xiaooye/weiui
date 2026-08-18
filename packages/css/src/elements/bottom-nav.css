@@ -1,53 +1,53 @@
-@layer wui-elements {
-  .wui-bottom-nav {
+@layer civ-elements {
+  .civ-bottom-nav {
     display: flex;
     align-items: stretch;
     position: fixed;
     inset-inline: 0;
     inset-block-end: 0;
-    z-index: var(--wui-zIndex-sticky);
-    background-color: var(--wui-color-background);
-    border-block-start: 1px solid var(--wui-color-border);
-    box-shadow: var(--wui-elevation-2);
+    z-index: var(--civ-zIndex-sticky);
+    background-color: var(--civ-color-background);
+    border-block-start: 1px solid var(--civ-color-border);
+    box-shadow: var(--civ-elevation-2);
     min-block-size: 56px;
     /* iOS safe area — adds space below for the home indicator. */
     padding-block-end: env(safe-area-inset-bottom, 0);
   }
-  .wui-bottom-nav__item {
+  .civ-bottom-nav__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--wui-spacing-0\.5);
+    gap: var(--civ-spacing-0\.5);
     flex: 1;
     min-block-size: 56px;
     border: none;
     background: none;
     cursor: pointer;
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    padding-block: var(--wui-spacing-1);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    padding-block: var(--civ-spacing-1);
   }
-  .wui-bottom-nav__item:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-bottom-nav__item:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-bottom-nav__item[data-active] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
-    color: var(--wui-color-primary);
+  .civ-bottom-nav__item[data-active] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-bottom-nav__item:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-bottom-nav__item:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -3px;
   }
-  .wui-bottom-nav__icon-wrapper {
+  .civ-bottom-nav__icon-wrapper {
     position: relative;
     display: inline-flex;
   }
-  .wui-bottom-nav__icon {
-    font-size: var(--wui-font-size-xl);
+  .civ-bottom-nav__icon {
+    font-size: var(--civ-font-size-xl);
   }
-  .wui-bottom-nav__badge {
+  .civ-bottom-nav__badge {
     position: absolute;
     inset-block-start: -4px;
     inset-inline-end: -8px;
@@ -55,28 +55,28 @@
     block-size: 16px;
     padding-inline: 4px;
     border-radius: 8px;
-    background-color: var(--wui-color-danger);
-    color: var(--wui-color-on-danger, #fff);
+    background-color: var(--civ-color-danger);
+    color: var(--civ-color-on-danger, #fff);
     font-size: 10px;
-    font-weight: var(--wui-font-weight-semibold);
+    font-weight: var(--civ-font-weight-semibold);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
   }
   /* Label display modes */
-  .wui-bottom-nav[data-show-labels="never"] .wui-bottom-nav__label {
+  .civ-bottom-nav[data-show-labels="never"] .civ-bottom-nav__label {
     display: none;
   }
-  .wui-bottom-nav[data-show-labels="active"] .wui-bottom-nav__label:not([data-active]) {
+  .civ-bottom-nav[data-show-labels="active"] .civ-bottom-nav__label:not([data-active]) {
     display: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-bottom-nav__item {
+    .civ-bottom-nav__item {
       transition-property: background-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

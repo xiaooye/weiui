@@ -5,7 +5,7 @@ export const Kbd = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => (
     <kbd
       ref={ref}
-      className={cn("wui-kbd", className)}
+      className={cn("civ-kbd", className)}
       {...props}
     />
   ),

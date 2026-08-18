@@ -2,8 +2,8 @@
  * Shared schema for per-component registry JSON + index.
  *
  * Emitted to `apps/docs/public/registry/` at docs build time and served at
- * `https://weiui.dev/registry/<Name>.json`. Consumers: the @weiui/cli
- * `describe`/`list`/`examples` commands, the @weiui/mcp server tools, and
+ * `https://civaria.dev/registry/<Name>.json`. Consumers: the @civaria/cli
+ * `describe`/`list`/`examples` commands, the @civaria/mcp server tools, and
  * external AI agents that fetch the JSON directly.
  */
 

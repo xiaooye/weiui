@@ -20,7 +20,7 @@ afterEach(() => {
 });
 
 function makeTemp() {
-  const dir = mkdtempSync(join(tmpdir(), "wui-add-"));
+  const dir = mkdtempSync(join(tmpdir(), "civ-add-"));
   tempDirs.push(dir);
   return dir;
 }

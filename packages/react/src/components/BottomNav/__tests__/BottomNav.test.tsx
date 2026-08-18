@@ -14,14 +14,14 @@ describe("BottomNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("applies wui-bottom-nav class (target of safe-area padding — P0)", () => {
+  it("applies civ-bottom-nav class (target of safe-area padding — P0)", () => {
     render(
       <BottomNav>
         <BottomNavItem label="Home" />
       </BottomNav>,
     );
     const nav = screen.getByRole("navigation", { name: /bottom navigation/i });
-    expect(nav.className).toContain("wui-bottom-nav");
+    expect(nav.className).toContain("civ-bottom-nav");
   });
 
   it("renders items with labels", () => {
@@ -104,7 +104,7 @@ describe("BottomNav", () => {
           <BottomNavItem label="Notifications" icon="*" />
         </BottomNav>,
       );
-      expect(container.querySelector(".wui-bottom-nav__badge")).not.toBeInTheDocument();
+      expect(container.querySelector(".civ-bottom-nav__badge")).not.toBeInTheDocument();
     });
   });
 });

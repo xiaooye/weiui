@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@weiui/react";
+import { Input } from "civaria";
 
 export function InputSizesDemo() {
   return (
@@ -8,7 +8,7 @@ export function InputSizesDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Input size="sm" aria-label="Small input" placeholder="Small" style={{ maxWidth: "240px" }} />

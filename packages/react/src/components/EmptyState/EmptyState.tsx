@@ -37,19 +37,19 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
       <div
         ref={ref}
         className={cn(
-          "wui-empty-state",
-          size !== "md" && `wui-empty-state--${size}`,
-          orientation === "horizontal" && "wui-empty-state--horizontal",
+          "civ-empty-state",
+          size !== "md" && `civ-empty-state--${size}`,
+          orientation === "horizontal" && "civ-empty-state--horizontal",
           className,
         )}
         {...props}
       >
-        {illustration && <div className="wui-empty-state__illustration">{illustration}</div>}
-        {icon && <div className="wui-empty-state__icon">{icon}</div>}
-        <div className="wui-empty-state__body">
-          <h3 className="wui-empty-state__title">{title}</h3>
-          {description && <p className="wui-empty-state__description">{description}</p>}
-          {action && <div className="wui-empty-state__action">{action}</div>}
+        {illustration && <div className="civ-empty-state__illustration">{illustration}</div>}
+        {icon && <div className="civ-empty-state__icon">{icon}</div>}
+        <div className="civ-empty-state__body">
+          <h3 className="civ-empty-state__title">{title}</h3>
+          {description && <p className="civ-empty-state__description">{description}</p>}
+          {action && <div className="civ-empty-state__action">{action}</div>}
         </div>
       </div>
     );

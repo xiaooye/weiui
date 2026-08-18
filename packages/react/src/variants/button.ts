@@ -1,32 +1,32 @@
 import { tv } from "tailwind-variants";
 
 /**
- * Maps the tailwind-variants API onto the `wui-button` BEM classes defined in
- * `@weiui/css`. We don't compile Tailwind utilities in consumer apps — the
+ * Maps the tailwind-variants API onto the `civ-button` BEM classes defined in
+ * `@civaria/css`. We don't compile Tailwind utilities in consumer apps — the
  * design system ships its styles as plain CSS — so the variant system here is
  * purely a class-name composer.
  */
 export const buttonVariants = tv({
-  base: "wui-button",
+  base: "civ-button",
   variants: {
     variant: {
-      solid: "wui-button--solid",
-      outline: "wui-button--outline",
-      ghost: "wui-button--ghost",
-      soft: "wui-button--soft",
-      link: "wui-button--link",
+      solid: "civ-button--solid",
+      outline: "civ-button--outline",
+      ghost: "civ-button--ghost",
+      soft: "civ-button--soft",
+      link: "civ-button--link",
     },
     size: {
-      sm: "wui-button--sm",
+      sm: "civ-button--sm",
       md: "",
-      lg: "wui-button--lg",
-      xl: "wui-button--xl",
-      icon: "wui-button--icon",
+      lg: "civ-button--lg",
+      xl: "civ-button--xl",
+      icon: "civ-button--icon",
     },
     color: {
       primary: "",
       secondary: "",
-      destructive: "wui-button--destructive",
+      destructive: "civ-button--destructive",
       success: "",
       warning: "",
       neutral: "",

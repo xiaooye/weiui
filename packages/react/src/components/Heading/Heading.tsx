@@ -16,7 +16,7 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
     return (
       <Tag
         ref={ref}
-        className={cn("wui-heading", `wui-heading--${level}`, className)}
+        className={cn("civ-heading", `civ-heading--${level}`, className)}
         {...props}
       >
         {children}

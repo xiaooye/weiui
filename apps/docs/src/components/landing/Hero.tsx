@@ -9,7 +9,7 @@ import {
   Heading,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import { siteConfig } from "../../lib/site-config";
 
 const METRICS: Array<{ value: string; label: string }> = [
@@ -21,20 +21,20 @@ const METRICS: Array<{ value: string; label: string }> = [
 
 export function Hero() {
   return (
-    <section className="wui-landing-hero">
-      <div className="wui-hero-ambient" aria-hidden="true" />
-      <Container maxWidth="72rem" className="wui-landing-hero__inner">
-        <Stack direction="column" gap={6} className="wui-landing-hero__content">
-          <Badge variant="soft" size="sm" className="wui-landing-hero__badge">
+    <section className="civ-landing-hero">
+      <div className="civ-hero-ambient" aria-hidden="true" />
+      <Container maxWidth="72rem" className="civ-landing-hero__inner">
+        <Stack direction="column" gap={6} className="civ-landing-hero__content">
+          <Badge variant="soft" size="sm" className="civ-landing-hero__badge">
             v{siteConfig.version} {"\u00B7"} Pre-release
           </Badge>
-          <Heading level={1} className="wui-landing-hero__title">
+          <Heading level={1} className="civ-landing-hero__title">
             The design system that ships everything.
           </Heading>
-          <Text size="lg" color="muted" className="wui-landing-hero__sub">
+          <Text size="lg" color="muted" className="civ-landing-hero__sub">
             Tokens {"\u00B7"} CSS {"\u00B7"} Headless {"\u00B7"} React {"\u00B7"} WCAG AAA {"\u00B7"} Batteries included.
           </Text>
-          <Stack direction="row" gap={3} wrap className="wui-landing-hero__cta">
+          <Stack direction="row" gap={3} wrap className="civ-landing-hero__cta">
             <Button asChild variant="solid" size="lg">
               <NextLink href="/docs/getting-started">Get Started</NextLink>
             </Button>
@@ -47,19 +47,19 @@ export function Hero() {
               </a>
             </Button>
           </Stack>
-          <Divider className="wui-landing-hero__metrics-divider" />
-          <Grid columns={4} gap={6} className="wui-landing-hero__metrics">
+          <Divider className="civ-landing-hero__metrics-divider" />
+          <Grid columns={4} gap={6} className="civ-landing-hero__metrics">
             {METRICS.map((m) => (
-              <Stack key={m.label} direction="column" gap={1} className="wui-landing-hero__metric">
+              <Stack key={m.label} direction="column" gap={1} className="civ-landing-hero__metric">
                 <Text
                   as="span"
                   size="xl"
                   weight="semibold"
-                  className="wui-landing-hero__metric-value"
+                  className="civ-landing-hero__metric-value"
                 >
                   {m.value}
                 </Text>
-                <Text as="span" size="xs" color="muted" className="wui-landing-hero__metric-label">
+                <Text as="span" size="xs" color="muted" className="civ-landing-hero__metric-label">
                   {m.label}
                 </Text>
               </Stack>

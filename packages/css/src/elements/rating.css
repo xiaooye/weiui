@@ -1,41 +1,41 @@
-@layer wui-elements {
-  .wui-rating { display: inline-flex; gap: var(--wui-spacing-0\.5); }
-  .wui-rating__star {
+@layer civ-elements {
+  .civ-rating { display: inline-flex; gap: var(--civ-spacing-0\.5); }
+  .civ-rating__star {
     cursor: pointer; background: none; border: none; padding: 0;
-    color: color-mix(in oklch, var(--wui-color-foreground) 20%, transparent);
+    color: color-mix(in oklch, var(--civ-color-foreground) 20%, transparent);
     font-size: 24px; line-height: 1;
     min-block-size: 44px; min-inline-size: 44px;
     display: inline-flex; align-items: center; justify-content: center;
   }
-  .wui-rating__star[data-filled],
-  .wui-rating__star[data-hover] {
-    color: var(--wui-color-warning);
-    text-shadow: 0 1px 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.12);
+  .civ-rating__star[data-filled],
+  .civ-rating__star[data-hover] {
+    color: var(--civ-color-warning);
+    text-shadow: 0 1px 0 oklch(from var(--civ-color-warning-foreground) l c h / 0.12);
   }
   /* Hover preview is slightly lighter than the committed fill so users can
    * tell "this is what you'd get" from "this is your current value". */
-  .wui-rating__star[data-hover]:not([data-filled]) {
-    color: color-mix(in oklch, var(--wui-color-warning) 75%, transparent);
+  .civ-rating__star[data-hover]:not([data-filled]) {
+    color: color-mix(in oklch, var(--civ-color-warning) 75%, transparent);
   }
-  .wui-rating__star[data-half] {
+  .civ-rating__star[data-half] {
     background: linear-gradient(
       to right,
-      var(--wui-color-warning) 50%,
-      color-mix(in oklch, var(--wui-color-foreground) 20%, transparent) 50%
+      var(--civ-color-warning) 50%,
+      color-mix(in oklch, var(--civ-color-foreground) 20%, transparent) 50%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .wui-rating__star:focus-visible { outline: 3px solid var(--wui-color-ring); outline-offset: 2px; border-radius: var(--wui-shape-radius-sm); }
-  .wui-rating[data-disabled] .wui-rating__star { cursor: default; opacity: 0.5; }
-  .wui-rating[data-readonly] .wui-rating__star { cursor: default; }
+  .civ-rating__star:focus-visible { outline: 3px solid var(--civ-color-ring); outline-offset: 2px; border-radius: var(--civ-shape-radius-sm); }
+  .civ-rating[data-disabled] .civ-rating__star { cursor: default; opacity: 0.5; }
+  .civ-rating[data-readonly] .civ-rating__star { cursor: default; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-rating__star {
+    .civ-rating__star {
       transition-property: color, text-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

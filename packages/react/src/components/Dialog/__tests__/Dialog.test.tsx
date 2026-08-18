@@ -38,20 +38,20 @@ describe("Dialog (react)", () => {
   it("renders overlay backdrop when content open", async () => {
     const { baseElement } = render(<TestDialog />);
     await userEvent.setup().click(screen.getByText("Open"));
-    const overlay = baseElement.querySelector(".wui-dialog__overlay");
+    const overlay = baseElement.querySelector(".civ-dialog__overlay");
     expect(overlay).not.toBeNull();
   });
 
-  it("applies wui-dialog__content class to content", async () => {
+  it("applies civ-dialog__content class to content", async () => {
     render(<TestDialog />);
     await userEvent.setup().click(screen.getByText("Open"));
     const dialog = screen.getByRole("dialog");
-    expect(dialog).toHaveClass("wui-dialog__content");
+    expect(dialog).toHaveClass("civ-dialog__content");
   });
 
-  it("DialogOverlay renders with wui-dialog__overlay class", () => {
+  it("DialogOverlay renders with civ-dialog__overlay class", () => {
     const { container } = render(<DialogOverlay data-testid="ov" />);
-    expect(container.querySelector(".wui-dialog__overlay")).not.toBeNull();
+    expect(container.querySelector(".civ-dialog__overlay")).not.toBeNull();
   });
 
   it("Escape key closes the dialog", async () => {
@@ -86,7 +86,7 @@ describe("Dialog (react)", () => {
     const user = userEvent.setup();
     render(<TestDialog />);
     await user.click(screen.getByText("Open"));
-    expect(screen.getByRole("dialog")).toHaveClass("wui-dialog__content--md");
+    expect(screen.getByRole("dialog")).toHaveClass("civ-dialog__content--md");
   });
 
   it("applies explicit size modifier class (lg)", async () => {
@@ -100,7 +100,7 @@ describe("Dialog (react)", () => {
       </Dialog>,
     );
     await user.click(screen.getByText("Open"));
-    expect(screen.getByRole("dialog")).toHaveClass("wui-dialog__content--lg");
+    expect(screen.getByRole("dialog")).toHaveClass("civ-dialog__content--lg");
   });
 });
 

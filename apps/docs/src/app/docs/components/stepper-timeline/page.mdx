@@ -19,7 +19,7 @@ Orients the user within a linear sequence of steps. Supports horizontal and vert
 </Preview>
 
 ```tsx
-import { Stepper, Step, StepSeparator } from "@weiui/react";
+import { Stepper, Step, StepSeparator } from "civaria";
 
 <Stepper activeStep={1}>
   <Step label="Account" description="Create your account" />
@@ -120,7 +120,7 @@ A chronological record of events — notifications, activity feeds, audit logs, 
 </Preview>
 
 ```tsx
-import { Timeline, TimelineItem } from "@weiui/react";
+import { Timeline, TimelineItem } from "civaria";
 
 <Timeline>
   <TimelineItem
@@ -157,7 +157,7 @@ Wrap `TimelineItem` content in a disclosure you control:
 ```tsx
 <TimelineItem
   title={
-    <button type="button" onClick={() => toggle(id)} className="wui-link">
+    <button type="button" onClick={() => toggle(id)} className="civ-link">
       Deploy succeeded
     </button>
   }

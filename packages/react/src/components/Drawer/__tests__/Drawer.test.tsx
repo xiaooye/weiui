@@ -58,7 +58,7 @@ describe("Drawer", () => {
       </Drawer>,
     );
     await userEvent.setup().click(screen.getByText("Open"));
-    expect(screen.getByRole("dialog")).toHaveClass("wui-drawer--left");
+    expect(screen.getByRole("dialog")).toHaveClass("civ-drawer--left");
   });
 });
 

@@ -1,125 +1,125 @@
-@layer wui-elements {
-  .wui-slider {
+@layer civ-elements {
+  .civ-slider {
     position: relative; display: flex; align-items: center;
     inline-size: 100%; min-block-size: 44px;
     touch-action: none; user-select: none; cursor: pointer;
   }
-  .wui-slider__track {
+  .civ-slider__track {
     position: relative; flex: 1;
-    block-size: 6px; border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-muted);
+    block-size: 6px; border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-muted);
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-slider__fill {
+  .civ-slider__fill {
     position: absolute; inset-block-start: 0;
-    block-size: 100%; border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-primary);
+    block-size: 100%; border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-primary);
   }
-  .wui-slider__thumb {
+  .civ-slider__thumb {
     position: absolute; inset-block-start: 50%;
     transform: translate(-50%, -50%);
     inline-size: 20px; block-size: 20px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-primary);
-    border: 2px solid var(--wui-color-background);
-    box-shadow: var(--wui-elevation-2),
-                inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.15);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-primary);
+    border: 2px solid var(--civ-color-background);
+    box-shadow: var(--civ-elevation-2),
+                inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.15);
   }
-  .wui-slider__thumb::before {
+  .civ-slider__thumb::before {
     content: "";
     position: absolute;
     inset: -12px;
   }
-  .wui-slider__thumb:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-slider__thumb:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-slider[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+  .civ-slider[data-disabled] { opacity: 0.5; cursor: not-allowed; }
 
-  .wui-slider__tooltip {
+  .civ-slider__tooltip {
     position: absolute;
-    inset-block-end: calc(100% + var(--wui-spacing-2));
+    inset-block-end: calc(100% + var(--civ-spacing-2));
     inset-inline-start: 50%;
     transform: translateX(-50%);
-    padding-inline: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-1);
-    background-color: var(--wui-color-foreground);
-    color: var(--wui-color-background);
-    font-size: var(--wui-font-size-xs);
+    padding-inline: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-1);
+    background-color: var(--civ-color-foreground);
+    color: var(--civ-color-background);
+    font-size: var(--civ-font-size-xs);
     line-height: 1;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     white-space: nowrap;
     pointer-events: none;
-    box-shadow: var(--wui-elevation-2);
+    box-shadow: var(--civ-elevation-2);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-slider__fill,
-    .wui-slider__thumb {
+    .civ-slider__fill,
+    .civ-slider__thumb {
       transition-property: box-shadow, background-color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-slider__tooltip {
-      animation: wui-slider-tooltip-in var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-slider__tooltip {
+      animation: civ-slider-tooltip-in var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
-    @keyframes wui-slider-tooltip-in {
+    @keyframes civ-slider-tooltip-in {
       from { opacity: 0; transform: translate(-50%, 4px); }
       to { opacity: 1; transform: translate(-50%, 0); }
     }
   }
 
   /* Vertical orientation — layout flips to the block axis. */
-  .wui-slider--vertical {
+  .civ-slider--vertical {
     inline-size: auto;
     block-size: 160px;
     min-inline-size: 44px;
     min-block-size: auto;
   }
-  .wui-slider--vertical .wui-slider__track {
+  .civ-slider--vertical .civ-slider__track {
     inline-size: 6px;
     block-size: 100%;
     flex: 0 0 auto;
   }
-  .wui-slider--vertical .wui-slider__fill {
+  .civ-slider--vertical .civ-slider__fill {
     inline-size: 100%;
     block-size: auto;
     inset-block-start: auto;
   }
-  .wui-slider--vertical .wui-slider__thumb {
+  .civ-slider--vertical .civ-slider__thumb {
     inset-block-start: auto;
     inset-inline-start: 50%;
     transform: translate(-50%, 50%);
   }
 
   /* Marks */
-  .wui-slider__mark {
+  .civ-slider__mark {
     position: absolute;
     inline-size: 4px;
     block-size: 4px;
-    background-color: var(--wui-color-muted-foreground);
-    border-radius: var(--wui-shape-radius-full);
+    background-color: var(--civ-color-muted-foreground);
+    border-radius: var(--civ-shape-radius-full);
     inset-block-start: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
-  .wui-slider__mark-label {
+  .civ-slider__mark-label {
     position: absolute;
-    inset-block-start: calc(100% + var(--wui-spacing-2));
+    inset-block-start: calc(100% + var(--civ-spacing-2));
     inset-inline-start: 50%;
     transform: translateX(-50%);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
     white-space: nowrap;
   }
-  .wui-slider--vertical .wui-slider__mark {
+  .civ-slider--vertical .civ-slider__mark {
     inset-block-start: auto;
     inset-inline-start: 50%;
     transform: translate(-50%, 50%);
   }
-  .wui-slider--vertical .wui-slider__mark-label {
+  .civ-slider--vertical .civ-slider__mark-label {
     inset-block-start: 50%;
-    inset-inline-start: calc(100% + var(--wui-spacing-2));
+    inset-inline-start: calc(100% + var(--civ-spacing-2));
     transform: translateY(-50%);
   }
 }

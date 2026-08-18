@@ -11,7 +11,7 @@ export function PopoverClose({ children, onClick, ...props }: PopoverCloseProps)
   return (
     <button
       type="button"
-      data-wui-component="popover"
+      data-civaria-component="popover"
       data-part="close"
       onClick={(e) => {
         onClose();

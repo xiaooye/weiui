@@ -33,37 +33,37 @@ describe("ProgressBar", () => {
 
   it("applies sm size class", () => {
     render(<ProgressBar size="sm" />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--sm");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--sm");
   });
 
   it("applies lg size class", () => {
     render(<ProgressBar size="lg" />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--lg");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--lg");
   });
 
   it("does not apply size class for md (default)", () => {
     render(<ProgressBar />);
-    expect(screen.getByRole("progressbar").className).not.toContain("wui-progress--md");
+    expect(screen.getByRole("progressbar").className).not.toContain("civ-progress--md");
   });
 
   it("applies success color class", () => {
     render(<ProgressBar color="success" />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--success");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--success");
   });
 
   it("applies destructive color class", () => {
     render(<ProgressBar color="destructive" />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--destructive");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--destructive");
   });
 
   it("applies warning color class", () => {
     render(<ProgressBar color="warning" />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--warning");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--warning");
   });
 
   it("does not apply primary color class (default)", () => {
     render(<ProgressBar />);
-    expect(screen.getByRole("progressbar").className).not.toContain("wui-progress--primary");
+    expect(screen.getByRole("progressbar").className).not.toContain("civ-progress--primary");
   });
 
   it("indeterminate mode removes aria-valuenow", () => {
@@ -73,7 +73,7 @@ describe("ProgressBar", () => {
 
   it("indeterminate mode applies indeterminate class", () => {
     render(<ProgressBar indeterminate />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--indeterminate");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--indeterminate");
   });
 
   it("merges custom className", () => {
@@ -87,47 +87,47 @@ describe("ProgressBar", () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
-  it("uses wui-progress class (PRM-gated animations in CSS layer)", () => {
+  it("uses civ-progress class (PRM-gated animations in CSS layer)", () => {
     // Both the fill transition and indeterminate animation are defined inside
     // @media (prefers-reduced-motion: no-preference) — see progress.css.
     render(<ProgressBar value={50} />);
-    expect(screen.getByRole("progressbar")).toHaveClass("wui-progress");
+    expect(screen.getByRole("progressbar")).toHaveClass("civ-progress");
   });
 
   // E.14 label overlay
   it("does not render label overlay by default", () => {
     render(<ProgressBar value={42} />);
-    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).not.toBeInTheDocument();
+    expect(screen.getByRole("progressbar").querySelector(".civ-progress__label")).not.toBeInTheDocument();
   });
 
   it("renders label overlay with percent when showLabel is true", () => {
     render(<ProgressBar value={42} showLabel />);
-    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("42%");
+    expect(screen.getByRole("progressbar").querySelector(".civ-progress__label")).toHaveTextContent("42%");
   });
 
   it("rounds percent in the label", () => {
     render(<ProgressBar value={33} max={100} showLabel />);
-    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("33%");
+    expect(screen.getByRole("progressbar").querySelector(".civ-progress__label")).toHaveTextContent("33%");
   });
 
   it("calculates percent from value/max for the label", () => {
     render(<ProgressBar value={50} max={200} showLabel />);
-    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).toHaveTextContent("25%");
+    expect(screen.getByRole("progressbar").querySelector(".civ-progress__label")).toHaveTextContent("25%");
   });
 
   it("label overlay is aria-hidden so SR reads value attributes", () => {
     render(<ProgressBar value={42} showLabel />);
-    const lbl = screen.getByRole("progressbar").querySelector(".wui-progress__label") as HTMLElement;
+    const lbl = screen.getByRole("progressbar").querySelector(".civ-progress__label") as HTMLElement;
     expect(lbl).toHaveAttribute("aria-hidden", "true");
   });
 
   it("does not render label overlay when indeterminate", () => {
     render(<ProgressBar indeterminate showLabel />);
-    expect(screen.getByRole("progressbar").querySelector(".wui-progress__label")).not.toBeInTheDocument();
+    expect(screen.getByRole("progressbar").querySelector(".civ-progress__label")).not.toBeInTheDocument();
   });
 
-  it("applies wui-progress--with-label class when showLabel is on", () => {
+  it("applies civ-progress--with-label class when showLabel is on", () => {
     render(<ProgressBar value={50} showLabel />);
-    expect(screen.getByRole("progressbar").className).toContain("wui-progress--with-label");
+    expect(screen.getByRole("progressbar").className).toContain("civ-progress--with-label");
   });
 });

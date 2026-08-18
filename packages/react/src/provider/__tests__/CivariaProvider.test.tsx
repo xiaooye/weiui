@@ -1,28 +1,28 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { WeiUIProvider, useWeiUI } from "../WeiUIProvider";
+import { CivariaProvider, useCivaria } from "../CivariaProvider";
 
 function LocaleConsumer() {
-  const { locale } = useWeiUI();
+  const { locale } = useCivaria();
   return <span>{locale.dialog?.close ?? "default"}</span>;
 }
 
-describe("WeiUIProvider", () => {
+describe("CivariaProvider", () => {
   it("renders children", () => {
-    render(<WeiUIProvider><span>hello</span></WeiUIProvider>);
+    render(<CivariaProvider><span>hello</span></CivariaProvider>);
     expect(screen.getByText("hello")).toBeInTheDocument();
   });
 
   it("provides default locale", () => {
-    render(<WeiUIProvider><LocaleConsumer /></WeiUIProvider>);
+    render(<CivariaProvider><LocaleConsumer /></CivariaProvider>);
     expect(screen.getByText("default")).toBeInTheDocument();
   });
 
   it("provides custom locale", () => {
     render(
-      <WeiUIProvider locale={{ dialog: { close: "Fermer" } }}>
+      <CivariaProvider locale={{ dialog: { close: "Fermer" } }}>
         <LocaleConsumer />
-      </WeiUIProvider>,
+      </CivariaProvider>,
     );
     expect(screen.getByText("Fermer")).toBeInTheDocument();
   });

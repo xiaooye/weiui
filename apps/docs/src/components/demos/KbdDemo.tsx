@@ -1,6 +1,6 @@
 "use client";
 
-import { Kbd } from "@weiui/react";
+import { Kbd } from "civaria";
 
 export function KbdDemo() {
   return (
@@ -8,8 +8,8 @@ export function KbdDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
-        fontSize: "var(--wui-font-size-base)",
+        gap: "var(--civ-spacing-3)",
+        fontSize: "var(--civ-font-size-base)",
       }}
     >
       <div>

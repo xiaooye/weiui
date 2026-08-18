@@ -189,7 +189,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
       return (
         <div
           key={thumb}
-          className="wui-slider__thumb"
+          className="civ-slider__thumb"
           role="slider"
           tabIndex={disabled ? -1 : 0}
           aria-valuenow={v}
@@ -214,7 +214,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
           onBlur={() => setHoveredThumb((h) => (h === thumb ? null : h))}
         >
           {showTip ? (
-            <span className="wui-slider__tooltip" role="tooltip" aria-hidden>
+            <span className="civ-slider__tooltip" role="tooltip" aria-hidden>
               {tipText}
             </span>
           ) : null}
@@ -233,7 +233,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-slider", isVertical && "wui-slider--vertical", className)}
+        className={cn("civ-slider", isVertical && "civ-slider--vertical", className)}
         data-disabled={disabled || undefined}
         data-mode={mode}
         data-orientation={orientation}
@@ -257,8 +257,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         onPointerCancel={() => setDraggingThumb(null)}
         {...props}
       >
-        <div ref={trackRef} className="wui-slider__track">
-          <div className="wui-slider__fill" style={fillStyle} />
+        <div ref={trackRef} className="civ-slider__track">
+          <div className="civ-slider__fill" style={fillStyle} />
           {marks?.map((mark) => {
             const pct = percent(mark.value);
             const markStyle = isVertical
@@ -267,11 +267,11 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
             return (
               <div
                 key={mark.value}
-                className="wui-slider__mark"
+                className="civ-slider__mark"
                 style={markStyle}
                 aria-hidden="true"
               >
-                {mark.label && <span className="wui-slider__mark-label">{mark.label}</span>}
+                {mark.label && <span className="civ-slider__mark-label">{mark.label}</span>}
               </div>
             );
           })}

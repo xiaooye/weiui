@@ -2,14 +2,14 @@ import { Preview } from "../../../../components/preview/Preview";
 
 # Layout Recipes
 
-Five canonical app layouts composed entirely from WeiUI primitives. Copy the source, swap your content in, ship.
+Five canonical app layouts composed entirely from Civaria primitives. Copy the source, swap your content in, ship.
 
 ## 1. Sidebar + Main
 
 The default app shell — persistent navigation on the start side, content on the end. Stacks the sidebar below the content on narrow viewports.
 
 ```tsx
-import { Sidebar, SidebarContent, SidebarItem, Grid, Container } from "@weiui/react";
+import { Sidebar, SidebarContent, SidebarItem, Grid, Container } from "civaria";
 
 export function AppShell({ children }) {
   return (
@@ -35,7 +35,7 @@ export function AppShell({ children }) {
 
 ### Make the sidebar sticky
 
-Add `position: sticky; top: 0; block-size: 100vh;` to the Sidebar so it stays on screen as the main column scrolls. On WeiUI, the Sidebar already does this inside `.wui-sidebar` via CSS layers — you don't need to style it manually.
+Add `position: sticky; top: 0; block-size: 100vh;` to the Sidebar so it stays on screen as the main column scrolls. On Civaria, the Sidebar already does this inside `.civ-sidebar` via CSS layers — you don't need to style it manually.
 
 ### Collapse on narrow viewports
 
@@ -50,7 +50,7 @@ Header, footer, two sidebars — the classic layout that was hard in the flexbox
 ```tsx
 import {
   AppBar, Sidebar, Container, Stack, Grid,
-} from "@weiui/react";
+} from "civaria";
 
 export function HolyGrail({ leftNav, rightRail, footer, children }) {
   return (
@@ -88,16 +88,16 @@ The responsive Grid collapses to a single column below `lg` (1024 px) — rail c
 Marketing / dashboard landing. The hero stretches full-width; the grid below snaps to a responsive column count.
 
 ```tsx
-import { Stack, Container, Grid, Card, CardHeader, CardContent, Heading, Text, Button } from "@weiui/react";
+import { Stack, Container, Grid, Card, CardHeader, CardContent, Heading, Text, Button } from "civaria";
 
 export function HomeLanding() {
   return (
     <Stack gap={10}>
       {/* Hero */}
-      <section style={{ paddingBlock: "var(--wui-spacing-16)" }}>
+      <section style={{ paddingBlock: "var(--civ-spacing-16)" }}>
         <Container>
           <Stack gap={4} align="center" style={{ textAlign: "center" }}>
-            <Heading size="5xl">Build faster with WeiUI</Heading>
+            <Heading size="5xl">Build faster with Civaria</Heading>
             <Text size="lg" color="muted">
               65 components. Zero dependency headaches. AAA contrast baked in.
             </Text>
@@ -130,7 +130,7 @@ export function HomeLanding() {
 
 ### Breakpoints that work
 
-WeiUI's Grid accepts the breakpoint tokens directly: `columns={{ base: 1, sm: 2, md: 3, lg: 4 }}`. Six feature cards across 3 at desktop, 2 at tablet, 1 at mobile is a sane default.
+Civaria's Grid accepts the breakpoint tokens directly: `columns={{ base: 1, sm: 2, md: 3, lg: 4 }}`. Six feature cards across 3 at desktop, 2 at tablet, 1 at mobile is a sane default.
 
 ### Container queries for cards
 
@@ -146,9 +146,9 @@ Metric row across the top, chart in the middle, recent-activity feed on the side
 import {
   Stack, Grid, Container, Card, CardHeader, CardContent,
   Heading, Text, Divider, Timeline, TimelineItem,
-} from "@weiui/react";
-import { BarChart } from "@weiui/react/chart";
-import { DataTable } from "@weiui/react/data-table";
+} from "civaria";
+import { BarChart } from "civaria/chart";
+import { DataTable } from "civaria/data-table";
 
 export function Dashboard({ metrics, chartData, events, tableRows, tableCols }) {
   return (
@@ -215,16 +215,16 @@ export function Dashboard({ metrics, chartData, events, tableRows, tableCols }) 
 Single-purpose screens — login, signup, reset. Content centered, logo on top, form capped at ~360 px.
 
 ```tsx
-import { Container, Stack, Card, Heading, Text, Field, FieldLabel, Input, Button, Link } from "@weiui/react";
+import { Container, Stack, Card, Heading, Text, Field, FieldLabel, Input, Button, Link } from "civaria";
 
 export function AuthShell({ title, subtitle, children, footer }) {
   return (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", paddingBlock: "var(--wui-spacing-12)" }}>
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", paddingBlock: "var(--civ-spacing-12)" }}>
       <Container size="sm">
         <Stack gap={6} align="center">
           <Logo width={40} />
           <Card variant="outlined" style={{ inlineSize: "100%" }}>
-            <Stack gap={4} style={{ padding: "var(--wui-spacing-6)" }}>
+            <Stack gap={4} style={{ padding: "var(--civ-spacing-6)" }}>
               <Stack gap={2}>
                 <Heading size="lg">{title}</Heading>
                 <Text color="muted">{subtitle}</Text>

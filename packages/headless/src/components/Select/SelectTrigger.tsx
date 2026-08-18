@@ -17,7 +17,7 @@ export function SelectTrigger({ children, onClick, ...props }: SelectTriggerProp
       aria-haspopup="listbox"
       aria-expanded={isOpen}
       aria-controls={isOpen ? listboxId : undefined}
-      data-wui-component="select"
+      data-civaria-component="select"
       data-part="trigger"
       data-state={isOpen ? "open" : "closed"}
       onClick={(e) => {

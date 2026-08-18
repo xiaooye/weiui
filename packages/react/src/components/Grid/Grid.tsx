@@ -19,11 +19,11 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
         : columns;
     }
     if (gap !== undefined) {
-      gridStyle.gap = `var(--wui-spacing-${gap})`;
+      gridStyle.gap = `var(--civ-spacing-${gap})`;
     }
 
     return (
-      <div ref={ref} className={cn("wui-grid", className)} style={gridStyle} {...props}>
+      <div ref={ref} className={cn("civ-grid", className)} style={gridStyle} {...props}>
         {children}
       </div>
     );

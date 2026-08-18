@@ -14,7 +14,7 @@ Full-featured editor powered by TipTap with a formatting toolbar, image upload h
 ## Editor
 
 ```tsx
-import { Editor } from "@weiui/react/editor";
+import { Editor } from "civaria/editor";
 
 <Editor placeholder="Start writing..." onChange={(html) => console.log(html)} />
 <Editor value={content} onChange={setContent} />
@@ -95,7 +95,7 @@ Supported items: `"bold" | "italic" | "strike" | "h1" | "h2" | "h3" | "bulletLis
 TipTap ships a wide ecosystem of extensions. Pass any extra extensions through the `extensions` prop — they are appended to the built-in set.
 
 ```tsx
-import { Editor } from "@weiui/react/editor";
+import { Editor } from "civaria/editor";
 import Mention from "@tiptap/extension-mention";
 import Table from "@tiptap/extension-table";
 
@@ -149,13 +149,13 @@ interface EditorHandle {
 
 | Class | Description |
 |-------|-------------|
-| `.wui-editor` | Container with border |
-| `.wui-editor__toolbar` | Toolbar row |
-| `.wui-editor__toolbar-btn` | Individual formatting button |
-| `.wui-editor__toolbar-btn[data-active]` | Active formatting state |
-| `.wui-editor__toolbar-sep` | Visual separator between groups |
-| `.wui-editor__file-input` | Visually hidden `<input type="file">` for image upload |
-| `.wui-editor__content` | Content editing area |
-| `.wui-editor__bubble` | Floating selection toolbar host |
-| `.wui-editor__bubble-inner` | Buttons row inside the bubble menu |
-| `.wui-editor__count` | Character/word count row |
+| `.civ-editor` | Container with border |
+| `.civ-editor__toolbar` | Toolbar row |
+| `.civ-editor__toolbar-btn` | Individual formatting button |
+| `.civ-editor__toolbar-btn[data-active]` | Active formatting state |
+| `.civ-editor__toolbar-sep` | Visual separator between groups |
+| `.civ-editor__file-input` | Visually hidden `<input type="file">` for image upload |
+| `.civ-editor__content` | Content editing area |
+| `.civ-editor__bubble` | Floating selection toolbar host |
+| `.civ-editor__bubble-inner` | Buttons row inside the bubble menu |
+| `.civ-editor__count` | Character/word count row |

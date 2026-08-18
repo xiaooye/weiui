@@ -1,8 +1,8 @@
 {
-  "name": "@weiui/solid",
+  "name": "@civaria/solid",
   "version": "0.1.0",
-  "description": "Native SolidJS runtime for the WeiUI design system.",
-  "author": "WeiUI Contributors",
+  "description": "Native SolidJS runtime for the Civaria design system.",
+  "author": "Civaria Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
@@ -15,7 +15,7 @@
   "exports": { ".": { "types": "./dist/index.d.ts", "solid": "./dist/index.jsx", "import": "./dist/index.js" } },
   "files": ["dist", "README.md"],
   "scripts": { "build": "node ./scripts/build.cjs", "test": "node ./scripts/contract-test.mjs && node ./scripts/runtime-test.mjs", "typecheck": "node ./scripts/compile-check.cjs" },
-  "dependencies": { "@weiui/core": "workspace:*", "@weiui/css": "workspace:*" },
+  "dependencies": { "@civaria/core": "workspace:*", "@civaria/css": "workspace:*" },
   "peerDependencies": { "solid-js": "^1.9.0" },
   "peerDependenciesMeta": { "solid-js": { "optional": true } },
   "devDependencies": { "@babel/core": "^7.28.0", "babel-preset-solid": "^1.9.0", "solid-js": "^1.9.0" }

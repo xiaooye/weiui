@@ -1,32 +1,32 @@
-@layer wui-elements {
-  .wui-timeline {
+@layer civ-elements {
+  .civ-timeline {
     display: flex; flex-direction: column; gap: 0;
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-1);
-    padding: var(--wui-spacing-4);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-1);
+    padding: var(--civ-spacing-4);
     list-style: none;
     margin: 0;
   }
-  .wui-timeline-item {
-    display: flex; gap: var(--wui-spacing-4);
-    padding-block-end: var(--wui-spacing-6);
+  .civ-timeline-item {
+    display: flex; gap: var(--civ-spacing-4);
+    padding-block-end: var(--civ-spacing-6);
     position: relative;
   }
-  .wui-timeline-item__indicator {
+  .civ-timeline-item__indicator {
     display: flex; flex-direction: column; align-items: center;
     flex-shrink: 0;
   }
-  .wui-timeline-item__dot {
+  .civ-timeline-item__dot {
     inline-size: 12px; block-size: 12px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-primary);
-    border: 2px solid var(--wui-color-background);
-    box-shadow: 0 0 0 2px var(--wui-color-primary),
-                inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-primary);
+    border: 2px solid var(--civ-color-background);
+    box-shadow: 0 0 0 2px var(--civ-color-primary),
+                inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
     z-index: 1;
   }
-  .wui-timeline-item__dot--custom {
+  .civ-timeline-item__dot--custom {
     inline-size: auto;
     block-size: auto;
     min-inline-size: 24px;
@@ -35,56 +35,56 @@
     align-items: center;
     justify-content: center;
     padding: 2px;
-    box-shadow: 0 0 0 2px var(--wui-color-background);
+    box-shadow: 0 0 0 2px var(--civ-color-background);
   }
   /* Color variants */
-  .wui-timeline-item[data-color="primary"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-primary);
-    box-shadow: 0 0 0 2px var(--wui-color-primary);
+  .civ-timeline-item[data-color="primary"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-primary);
+    box-shadow: 0 0 0 2px var(--civ-color-primary);
   }
-  .wui-timeline-item[data-color="success"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-success);
-    box-shadow: 0 0 0 2px var(--wui-color-success);
+  .civ-timeline-item[data-color="success"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-success);
+    box-shadow: 0 0 0 2px var(--civ-color-success);
   }
-  .wui-timeline-item[data-color="warning"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-warning);
-    box-shadow: 0 0 0 2px var(--wui-color-warning);
+  .civ-timeline-item[data-color="warning"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-warning);
+    box-shadow: 0 0 0 2px var(--civ-color-warning);
   }
-  .wui-timeline-item[data-color="danger"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-danger);
-    box-shadow: 0 0 0 2px var(--wui-color-danger);
+  .civ-timeline-item[data-color="danger"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-danger);
+    box-shadow: 0 0 0 2px var(--civ-color-danger);
   }
-  .wui-timeline-item[data-color="info"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-info);
-    box-shadow: 0 0 0 2px var(--wui-color-info);
+  .civ-timeline-item[data-color="info"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-info);
+    box-shadow: 0 0 0 2px var(--civ-color-info);
   }
-  .wui-timeline-item[data-color="default"] .wui-timeline-item__dot {
-    background-color: var(--wui-color-muted-foreground);
-    box-shadow: 0 0 0 2px var(--wui-color-muted-foreground);
+  .civ-timeline-item[data-color="default"] .civ-timeline-item__dot {
+    background-color: var(--civ-color-muted-foreground);
+    box-shadow: 0 0 0 2px var(--civ-color-muted-foreground);
   }
-  .wui-timeline-item__line {
+  .civ-timeline-item__line {
     flex: 1; inline-size: 2px;
-    background-color: var(--wui-color-border);
-    margin-block-start: var(--wui-spacing-2);
+    background-color: var(--civ-color-border);
+    margin-block-start: var(--civ-spacing-2);
   }
-  .wui-timeline-item:last-child .wui-timeline-item__line { display: none; }
-  .wui-timeline-item__content { flex: 1; padding-block-start: 0; }
-  .wui-timeline-item__title { font-weight: var(--wui-font-weight-semibold); font-size: var(--wui-font-size-sm); }
-  .wui-timeline-item__description { color: var(--wui-color-muted-foreground); font-size: var(--wui-font-size-sm); margin-block-start: var(--wui-spacing-1); }
-  .wui-timeline-item__time { color: var(--wui-color-muted-foreground); font-size: var(--wui-font-size-xs); margin-block-start: var(--wui-spacing-1); }
+  .civ-timeline-item:last-child .civ-timeline-item__line { display: none; }
+  .civ-timeline-item__content { flex: 1; padding-block-start: 0; }
+  .civ-timeline-item__title { font-weight: var(--civ-font-weight-semibold); font-size: var(--civ-font-size-sm); }
+  .civ-timeline-item__description { color: var(--civ-color-muted-foreground); font-size: var(--civ-font-size-sm); margin-block-start: var(--civ-spacing-1); }
+  .civ-timeline-item__time { color: var(--civ-color-muted-foreground); font-size: var(--civ-font-size-xs); margin-block-start: var(--civ-spacing-1); }
 
   /* Alternate mode: odd items flip direction */
-  .wui-timeline[data-mode="alternate"] .wui-timeline-item:nth-child(even) {
+  .civ-timeline[data-mode="alternate"] .civ-timeline-item:nth-child(even) {
     flex-direction: row-reverse;
     text-align: end;
   }
   /* Right-aligned mode: indicator on end side */
-  .wui-timeline[data-mode="right"] .wui-timeline-item {
+  .civ-timeline[data-mode="right"] .civ-timeline-item {
     flex-direction: row-reverse;
     text-align: end;
   }
   /* Left (default layout) — explicit opt-in */
-  .wui-timeline[data-mode="left"] .wui-timeline-item {
+  .civ-timeline[data-mode="left"] .civ-timeline-item {
     flex-direction: row;
   }
 }

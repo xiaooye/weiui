@@ -1,6 +1,6 @@
 "use client";
 import { useId, useState, useEffect } from "react";
-import { Textarea } from "@weiui/react";
+import { Textarea } from "civaria";
 
 export interface ControlObjectProps {
   label: string;
@@ -19,11 +19,11 @@ export function ControlObject({ label, value, onChange, description }: ControlOb
   }, [value]);
 
   return (
-    <div className="wui-field">
-      <label htmlFor={id} className="wui-label">
+    <div className="civ-field">
+      <label htmlFor={id} className="civ-label">
         {label}
       </label>
-      {description && <p className="wui-field__description">{description}</p>}
+      {description && <p className="civ-field__description">{description}</p>}
       <Textarea
         id={id}
         value={draft}
@@ -45,7 +45,7 @@ export function ControlObject({ label, value, onChange, description }: ControlOb
         }}
         rows={4}
       />
-      {error && <p className="wui-field__error">{error}</p>}
+      {error && <p className="civ-field__error">{error}</p>}
     </div>
   );
 }

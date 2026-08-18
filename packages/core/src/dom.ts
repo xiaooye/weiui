@@ -2,7 +2,7 @@ export type WeiAttributeValue = string | number | boolean | null | undefined;
 export type WeiStyleValue = string | number | undefined;
 
 /** Small event surface understood by the framework-neutral behavior layer. */
-export interface WeiUIEvent {
+export interface CivariaEvent {
   key?: string;
   currentTarget?: unknown;
   target?: unknown;
@@ -10,7 +10,7 @@ export interface WeiUIEvent {
   preventDefault?: () => void;
 }
 
-export type WeiEventHandler = (event: WeiUIEvent) => void;
+export type WeiEventHandler = (event: CivariaEvent) => void;
 
 /**
  * Framework-neutral semantic DOM contract. Adapters own event prop names and
@@ -38,7 +38,7 @@ export function semanticPart(
   options: SemanticPartOptions = {},
 ): Record<string, WeiAttributeValue> {
   const attributes: Record<string, WeiAttributeValue> = {
-    "data-wui-component": component,
+    "data-civaria-component": component,
     "data-part": part,
   };
   if (options.state !== undefined) attributes["data-state"] = options.state;

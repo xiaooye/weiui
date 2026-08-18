@@ -16,10 +16,10 @@ export function CodeBlock({ children, ...props }: HTMLAttributes<HTMLPreElement>
   };
 
   return (
-    <div className="wui-code-block">
+    <div className="civ-code-block">
       <button
         type="button"
-        className="wui-code-block__copy"
+        className="civ-code-block__copy"
         onClick={onCopy}
         aria-label={copied ? "Copied" : "Copy code"}
       >

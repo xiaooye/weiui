@@ -16,7 +16,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@weiui/react";
+} from "civaria";
 import { PALETTE_ITEMS } from "../../app/composer/lib/component-tree";
 import { PreviewFrame } from "./PreviewFrame";
 
@@ -55,11 +55,11 @@ export function Preview({ children, code, label, component }: PreviewProps) {
   const isolated = theme !== "inherit" || dir !== "ltr" || viewport !== "100%";
 
   return (
-    <div className="wui-preview">
+    <div className="civ-preview">
       <Tabs value={tab} onValueChange={(v) => setTab(v as TabId)}>
-        <Stack direction="row" gap={3} wrap className="wui-preview__header">
+        <Stack direction="row" gap={3} wrap className="civ-preview__header">
           {label && (
-            <Text as="span" size="sm" weight="medium" className="wui-preview__label">
+            <Text as="span" size="sm" weight="medium" className="civ-preview__label">
               {label}
             </Text>
           )}
@@ -69,7 +69,7 @@ export function Preview({ children, code, label, component }: PreviewProps) {
               <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
           ) : null}
-          <Stack direction="row" gap={2} wrap className="wui-preview__actions">
+          <Stack direction="row" gap={2} wrap className="civ-preview__actions">
             {tab === "preview" && (
               <>
                 <ToggleGroup
@@ -131,16 +131,16 @@ export function Preview({ children, code, label, component }: PreviewProps) {
             {isComposable ? (
               <Link
                 href={`/composer?add=${encodeURIComponent(component!)}`}
-                className="wui-preview__edit-link"
+                className="civ-preview__edit-link"
               >
                 Edit in Composer <span aria-hidden="true">→</span>
               </Link>
             ) : null}
           </Stack>
         </Stack>
-        <TabsContent value="preview" className="wui-preview__stage-wrap">
+        <TabsContent value="preview" className="civ-preview__stage-wrap">
           {isolated ? (
-            <div className="wui-preview__stage wui-preview__stage--frame">
+            <div className="civ-preview__stage civ-preview__stage--frame">
               <PreviewFrame
                 theme={theme === "inherit" ? "system" : theme}
                 dir={dir}
@@ -150,12 +150,12 @@ export function Preview({ children, code, label, component }: PreviewProps) {
               </PreviewFrame>
             </div>
           ) : (
-            <div className="wui-preview__stage">{children}</div>
+            <div className="civ-preview__stage">{children}</div>
           )}
         </TabsContent>
         {code && (
-          <TabsContent value="code" className="wui-preview__code-wrap">
-            <pre className="wui-preview__code">
+          <TabsContent value="code" className="civ-preview__code-wrap">
+            <pre className="civ-preview__code">
               <Code>{code}</Code>
             </pre>
           </TabsContent>

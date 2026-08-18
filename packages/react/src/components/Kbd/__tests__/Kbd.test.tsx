@@ -9,9 +9,9 @@ describe("Kbd", () => {
     expect(screen.getByText("Ctrl").tagName).toBe("KBD");
   });
 
-  it("applies wui-kbd class", () => {
+  it("applies civ-kbd class", () => {
     render(<Kbd>Ctrl</Kbd>);
-    expect(screen.getByText("Ctrl").className).toContain("wui-kbd");
+    expect(screen.getByText("Ctrl").className).toContain("civ-kbd");
   });
 
   it("merges custom className", () => {

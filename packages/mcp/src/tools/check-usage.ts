@@ -13,7 +13,7 @@ export interface CheckUsageOutput {
 }
 
 /**
- * Lint a TSX snippet for common WeiUI-usage mistakes.
+ * Lint a TSX snippet for common Civaria-usage mistakes.
  */
 export async function checkUsage(
   _deps: CheckUsageDeps,

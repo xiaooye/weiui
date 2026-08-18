@@ -1,71 +1,71 @@
-@layer wui-elements {
-  .wui-splitter {
+@layer civ-elements {
+  .civ-splitter {
     display: flex;
     inline-size: 100%;
     block-size: 100%;
     overflow: hidden;
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-1);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-splitter--vertical {
+  .civ-splitter--vertical {
     flex-direction: column;
   }
-  .wui-splitter__panel {
+  .civ-splitter__panel {
     overflow: auto;
     min-inline-size: 0;
     min-block-size: 0;
   }
   /* Collapsible hint — a thin border on the side nearest the handle signals
    * double-click affordance. Non-collapsible panels get nothing. */
-  .wui-splitter__panel[data-collapsible] {
+  .civ-splitter__panel[data-collapsible] {
     /* no-op default; consumers can theme via data-collapsible selector */
   }
-  .wui-splitter__handle {
+  .civ-splitter__handle {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background-color: var(--wui-surface-sunken);
+    background-color: var(--civ-surface-sunken);
     cursor: col-resize;
     user-select: none;
     touch-action: none;
   }
-  .wui-splitter--vertical > .wui-splitter__handle {
+  .civ-splitter--vertical > .civ-splitter__handle {
     cursor: row-resize;
     block-size: 4px;
     inline-size: 100%;
   }
-  .wui-splitter:not(.wui-splitter--vertical) > .wui-splitter__handle {
+  .civ-splitter:not(.civ-splitter--vertical) > .civ-splitter__handle {
     inline-size: 4px;
     block-size: 100%;
   }
-  .wui-splitter__handle:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+  .civ-splitter__handle:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
   }
-  .wui-splitter__handle:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-splitter__handle:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -1px;
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
   }
-  .wui-splitter__handle-dot {
+  .civ-splitter__handle-dot {
     inline-size: 4px;
     block-size: 20px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-primary);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-primary);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
     opacity: 0.6;
   }
-  .wui-splitter--vertical .wui-splitter__handle-dot {
+  .civ-splitter--vertical .civ-splitter__handle-dot {
     inline-size: 20px;
     block-size: 4px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-splitter__handle {
+    .civ-splitter__handle {
       transition-property: background-color, outline-color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

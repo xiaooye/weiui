@@ -12,7 +12,7 @@ import {
   type ButtonHTMLAttributes,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { useDisclosure, useFocusTrap, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
+import { useDisclosure, useFocusTrap, getFirstFocusable, type UseDisclosureProps } from "@civaria/headless";
 import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
@@ -241,7 +241,7 @@ export function DrawerContent({
     // If the runtime has no active CSS animation (jsdom, reduced motion,
     // animations disabled), unmount immediately so consumers don't see
     // a stale dialog. Otherwise rely on onAnimationEnd, with a 300ms
-    // fallback matching `--wui-motion-duration-base`.
+    // fallback matching `--civ-motion-duration-base`.
     const el = contentRef.current;
     const hasAnim =
       el && typeof window !== "undefined"
@@ -317,14 +317,14 @@ export function DrawerContent({
 
   return (
     <Portal>
-      {isOpen && <div className="wui-drawer-overlay" onClick={onClose} aria-hidden="true" />}
+      {isOpen && <div className="civ-drawer-overlay" onClick={onClose} aria-hidden="true" />}
       <div
         ref={contentRef}
         role="dialog"
         aria-modal="true"
         tabIndex={-1}
         data-state={dataState}
-        className={cn("wui-drawer", `wui-drawer--${side}`, className)}
+        className={cn("civ-drawer", `civ-drawer--${side}`, className)}
         style={mergedStyle}
         onAnimationEnd={handleAnimationEnd}
         onKeyDown={(e) => {
@@ -349,14 +349,14 @@ export function DrawerContent({
 
 export const DrawerHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-drawer__header", className)} {...props} />
+    <div ref={ref} className={cn("civ-drawer__header", className)} {...props} />
   ),
 );
 DrawerHeader.displayName = "DrawerHeader";
 
 export const DrawerFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-drawer__footer", className)} {...props} />
+    <div ref={ref} className={cn("civ-drawer__footer", className)} {...props} />
   ),
 );
 DrawerFooter.displayName = "DrawerFooter";

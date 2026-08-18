@@ -1,20 +1,20 @@
 "use client";
 
-import { Avatar, AvatarFallback, Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow } from "@weiui/react";
+import { Avatar, AvatarFallback, Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow } from "civaria";
 
 export function PopoverDemo() {
   return (
     <Popover side="bottom" align="start">
-      <PopoverTrigger className="wui-button wui-button--outline">
+      <PopoverTrigger className="civ-button civ-button--outline">
         Account
       </PopoverTrigger>
       <PopoverContent
         style={{
-          background: "var(--wui-surface-overlay)",
-          border: "1px solid var(--wui-color-border)",
-          borderRadius: "var(--wui-shape-radius-md)",
-          boxShadow: "var(--wui-elevation-3)",
-          padding: "var(--wui-spacing-4)",
+          background: "var(--civ-surface-overlay)",
+          border: "1px solid var(--civ-color-border)",
+          borderRadius: "var(--civ-shape-radius-md)",
+          boxShadow: "var(--civ-elevation-3)",
+          padding: "var(--civ-spacing-4)",
           minInlineSize: "260px",
           zIndex: 1000,
         }}
@@ -23,8 +23,8 @@ export function PopoverDemo() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "var(--wui-spacing-3)",
-            marginBlockEnd: "var(--wui-spacing-3)",
+            gap: "var(--civ-spacing-3)",
+            marginBlockEnd: "var(--civ-spacing-3)",
           }}
         >
           <Avatar>
@@ -33,17 +33,17 @@ export function PopoverDemo() {
           <div style={{ minInlineSize: 0 }}>
             <div
               style={{
-                fontSize: "var(--wui-font-size-sm)",
-                fontWeight: "var(--wui-font-weight-semibold)",
-                color: "var(--wui-color-foreground)",
+                fontSize: "var(--civ-font-size-sm)",
+                fontWeight: "var(--civ-font-weight-semibold)",
+                color: "var(--civ-color-foreground)",
               }}
             >
               Ada Lovelace
             </div>
             <div
               style={{
-                fontSize: "var(--wui-font-size-xs)",
-                color: "var(--wui-color-muted-foreground)",
+                fontSize: "var(--civ-font-size-xs)",
+                color: "var(--civ-color-muted-foreground)",
               }}
             >
               ada@example.com
@@ -53,22 +53,22 @@ export function PopoverDemo() {
         <div
           style={{
             blockSize: "1px",
-            background: "var(--wui-color-border)",
-            marginBlock: "var(--wui-spacing-2)",
+            background: "var(--civ-color-border)",
+            marginBlock: "var(--civ-spacing-2)",
           }}
           aria-hidden="true"
         />
         <div
           style={{
             display: "flex",
-            gap: "var(--wui-spacing-2)",
+            gap: "var(--civ-spacing-2)",
             justifyContent: "flex-end",
           }}
         >
-          <PopoverClose className="wui-button wui-button--ghost wui-button--sm">
+          <PopoverClose className="civ-button civ-button--ghost civ-button--sm">
             Sign out
           </PopoverClose>
-          <PopoverClose className="wui-button wui-button--solid wui-button--sm">
+          <PopoverClose className="civ-button civ-button--solid civ-button--sm">
             Profile
           </PopoverClose>
         </div>

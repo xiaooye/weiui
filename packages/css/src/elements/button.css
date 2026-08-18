@@ -1,94 +1,94 @@
 /* packages/css/src/elements/button.css */
-@layer wui-elements {
-  .wui-button {
-    display: inline-flex; align-items: center; justify-content: center; gap: var(--wui-spacing-2);
-    font-family: inherit; font-weight: var(--wui-font-weight-medium);
-    border-radius: var(--wui-shape-radius-md); cursor: pointer; user-select: none; white-space: nowrap;
+@layer civ-elements {
+  .civ-button {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--civ-spacing-2);
+    font-family: inherit; font-weight: var(--civ-font-weight-medium);
+    border-radius: var(--civ-shape-radius-md); cursor: pointer; user-select: none; white-space: nowrap;
     min-block-size: 44px; min-inline-size: 44px;
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-sm); line-height: var(--wui-font-lineHeight-normal);
-    border: var(--wui-shape-border-width-medium) solid transparent;
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-sm); line-height: var(--civ-font-lineHeight-normal);
+    border: var(--civ-shape-border-width-medium) solid transparent;
   }
 
   /* Sizes */
-  .wui-button--sm { min-block-size: 36px; padding-inline: var(--wui-spacing-3); font-size: var(--wui-font-size-sm); border-radius: var(--wui-shape-radius-base); }
-  .wui-button--lg { min-block-size: 48px; padding-inline: var(--wui-spacing-6); font-size: var(--wui-font-size-base); }
-  .wui-button--xl { min-block-size: 56px; padding-inline: var(--wui-spacing-8); font-size: var(--wui-font-size-lg); border-radius: var(--wui-shape-radius-lg); }
-  .wui-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
+  .civ-button--sm { min-block-size: 36px; padding-inline: var(--civ-spacing-3); font-size: var(--civ-font-size-sm); border-radius: var(--civ-shape-radius-base); }
+  .civ-button--lg { min-block-size: 48px; padding-inline: var(--civ-spacing-6); font-size: var(--civ-font-size-base); }
+  .civ-button--xl { min-block-size: 56px; padding-inline: var(--civ-spacing-8); font-size: var(--civ-font-size-lg); border-radius: var(--civ-shape-radius-lg); }
+  .civ-button--icon { min-block-size: 44px; min-inline-size: 44px; padding: 0; }
 
   /* Icon-only: square padding */
-  .wui-button--icon-only { padding-inline: 0; aspect-ratio: 1 / 1; }
-  .wui-button--icon-only.wui-button--sm { min-inline-size: 36px; }
-  .wui-button--icon-only.wui-button--lg { min-inline-size: 48px; }
-  .wui-button--icon-only.wui-button--xl { min-inline-size: 56px; }
+  .civ-button--icon-only { padding-inline: 0; aspect-ratio: 1 / 1; }
+  .civ-button--icon-only.civ-button--sm { min-inline-size: 36px; }
+  .civ-button--icon-only.civ-button--lg { min-inline-size: 48px; }
+  .civ-button--icon-only.civ-button--xl { min-inline-size: 56px; }
 
   /* Full-width — stretches to container */
-  .wui-button--full-width { display: flex; inline-size: 100%; }
+  .civ-button--full-width { display: flex; inline-size: 100%; }
 
   /* Inner slots */
-  .wui-button-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .wui-button-label { display: inline-flex; align-items: center; }
+  .civ-button-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .civ-button-label { display: inline-flex; align-items: center; }
 
   /* Variant: solid — inset highlight for depth */
-  .wui-button--solid {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.12);
+  .civ-button--solid {
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-primary-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.12);
   }
 
   /* Variant: outline */
-  .wui-button--outline { background-color: transparent; border-color: var(--wui-color-primary); color: var(--wui-color-primary); }
+  .civ-button--outline { background-color: transparent; border-color: var(--civ-color-primary); color: var(--civ-color-primary); }
 
   /* Variant: ghost */
-  .wui-button--ghost { background-color: transparent; color: var(--wui-color-primary); }
+  .civ-button--ghost { background-color: transparent; color: var(--civ-color-primary); }
 
   /* Variant: soft — OKLCH color-mix */
-  .wui-button--soft {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    color: var(--wui-color-primary);
+  .civ-button--soft {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-button--soft:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
+  .civ-button--soft:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
   }
 
   /* Variant: link */
-  .wui-button--link { background-color: transparent; color: var(--wui-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; box-shadow: none; }
+  .civ-button--link { background-color: transparent; color: var(--civ-color-primary); text-decoration: underline; text-underline-offset: 4px; padding: 0; min-block-size: 0; min-inline-size: 0; box-shadow: none; }
 
   /* Color: destructive */
-  .wui-button--destructive.wui-button--solid {
-    background-color: var(--wui-color-destructive);
-    color: var(--wui-color-destructive-foreground);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.12);
+  .civ-button--destructive.civ-button--solid {
+    background-color: var(--civ-color-destructive);
+    color: var(--civ-color-destructive-foreground);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.12);
   }
-  .wui-button--destructive.wui-button--outline { border-color: var(--wui-color-destructive); color: var(--wui-color-destructive); }
+  .civ-button--destructive.civ-button--outline { border-color: var(--civ-color-destructive); color: var(--civ-color-destructive); }
 
   /* States */
-  .wui-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; transform: none; }
-  .wui-button[data-loading] { position: relative; cursor: wait; }
+  .civ-button[data-disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; transform: none; }
+  .civ-button[data-loading] { position: relative; cursor: wait; }
 
   /* Motion-safe hover/active lift — NOT on link or icon-only */
   @media (prefers-reduced-motion: no-preference) {
-    .wui-button {
+    .civ-button {
       transition-property: transform, box-shadow, background-color, border-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-button--solid:hover,
-    .wui-button--outline:hover,
-    .wui-button--soft:hover {
+    .civ-button--solid:hover,
+    .civ-button--outline:hover,
+    .civ-button--soft:hover {
       transform: translateY(-1px);
     }
-    .wui-button--solid:hover {
-      box-shadow: var(--wui-shadow-sm),
-                  inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.18);
+    .civ-button--solid:hover {
+      box-shadow: var(--civ-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.18);
     }
-    .wui-button--destructive.wui-button--solid:hover {
-      box-shadow: var(--wui-shadow-sm),
-                  inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.18);
+    .civ-button--destructive.civ-button--solid:hover {
+      box-shadow: var(--civ-shadow-sm),
+                  inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.18);
     }
-    .wui-button:active { transform: translateY(0); }
-    .wui-button--solid:active {
-      box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.10);
+    .civ-button:active { transform: translateY(0); }
+    .civ-button--solid:active {
+      box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.10);
     }
   }
 }

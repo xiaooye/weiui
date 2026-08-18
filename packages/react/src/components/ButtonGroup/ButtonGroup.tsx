@@ -35,9 +35,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
         <div
           ref={ref}
           className={cn(
-            "wui-button-group",
-            orientation === "vertical" && "wui-button-group--vertical",
-            variant === "spaced" && "wui-button-group--spaced",
+            "civ-button-group",
+            orientation === "vertical" && "civ-button-group--vertical",
+            variant === "spaced" && "civ-button-group--spaced",
             className,
           )}
           role="group"

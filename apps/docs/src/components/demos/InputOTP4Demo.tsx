@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { InputOTP } from "@weiui/react";
+import { InputOTP } from "civaria";
 
 export function InputOTP4Demo() {
   const [value, setValue] = useState("");

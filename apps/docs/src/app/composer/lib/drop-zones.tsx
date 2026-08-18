@@ -65,8 +65,8 @@ export function DropZones({
     <>
       {zones.map((edge) => {
         const className =
-          `wui-composer__drop wui-composer__drop--${edge}` +
-          (activeEdge === edge ? " wui-composer__drop--active" : "");
+          `civ-composer__drop civ-composer__drop--${edge}` +
+          (activeEdge === edge ? " civ-composer__drop--active" : "");
         return (
           <div
             key={edge}

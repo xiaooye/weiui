@@ -9,7 +9,7 @@ import { join, relative } from "node:path";
 export interface BuildLlmsTxtOptions {
   /** Directory to emit the two files into (will be created). */
   outDir: string;
-  /** Absolute URL root for generated links (e.g. "https://weiui.dev"). */
+  /** Absolute URL root for generated links (e.g. "https://civaria.dev"). */
   siteUrl: string;
 }
 
@@ -138,7 +138,7 @@ function renderSmall(pages: DocPage[], siteUrl: string): string {
   const foundations = pages.filter((p) => p.kind === "foundation");
   const out: string[] = [];
 
-  out.push("# WeiUI");
+  out.push("# Civaria");
   out.push("");
   out.push(
     "> Accessibility-first React component library with three consumption tiers (CSS-only, headless, styled). WCAG AAA enforced. OKLCH tokens. MIT license.",
@@ -152,15 +152,15 @@ function renderSmall(pages: DocPage[], siteUrl: string): string {
   out.push("");
   out.push("## Import rules");
   out.push("");
-  out.push('- Default: `import { Button } from "@weiui/react"`');
+  out.push('- Default: `import { Button } from "civaria"`');
   out.push("- Heavy components use subpaths:");
-  out.push('  - `import { Editor } from "@weiui/react/editor"`');
-  out.push('  - `import { DataTable } from "@weiui/react/data-table"`');
+  out.push('  - `import { Editor } from "civaria/editor"`');
+  out.push('  - `import { DataTable } from "civaria/data-table"`');
   out.push(
-    '  - `import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "@weiui/react/chart"`',
+    '  - `import { BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart } from "civaria/chart"`',
   );
   out.push(
-    "- Style with `wui-*` class names or component variants. Never emit Tailwind utilities in consumer code.",
+    "- Style with `civ-*` class names or component variants. Never emit Tailwind utilities in consumer code.",
   );
   out.push("");
   out.push(`## Components (${components.length})`);
@@ -182,12 +182,12 @@ function renderSmall(pages: DocPage[], siteUrl: string): string {
 
 function renderFull(pages: DocPage[], siteUrl: string): string {
   const out: string[] = [];
-  out.push("# WeiUI — Full Documentation");
+  out.push("# Civaria — Full Documentation");
   out.push("");
   out.push(`> Source: ${siteUrl}/llms-full.txt`);
   out.push("");
   out.push(
-    "This file inlines every WeiUI documentation page (components + foundations) as plain markdown, with MDX JSX stripped. Use it as deep context when `llms.txt` is not enough.",
+    "This file inlines every Civaria documentation page (components + foundations) as plain markdown, with MDX JSX stripped. Use it as deep context when `llms.txt` is not enough.",
   );
   out.push("");
   out.push("---");
@@ -231,7 +231,7 @@ const isMain =
   process.argv[1].replace(/\\/g, "/").endsWith("scripts/build-llms-txt.ts");
 
 if (isMain) {
-  const siteUrl = process.env.SITE_URL ?? "https://weiui.dev";
+  const siteUrl = process.env.SITE_URL ?? "https://civaria.dev";
   const outDir = join(process.cwd(), "public");
   buildLlmsTxt({ outDir, siteUrl });
   console.log(`Wrote llms.txt + llms-full.txt to ${outDir}`);

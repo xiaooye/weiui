@@ -1,8 +1,8 @@
 {
-  "name": "@weiui/a11y",
+  "name": "@civaria/a11y",
   "version": "0.0.1",
-  "description": "Build-time accessibility helpers for WeiUI — OKLCH contrast scoring for WCAG AAA compliance.",
-  "author": "WeiUI Contributors",
+  "description": "Build-time accessibility helpers for Civaria — OKLCH contrast scoring for WCAG AAA compliance.",
+  "author": "Civaria Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
@@ -18,7 +18,7 @@
     "wcag",
     "contrast",
     "oklch",
-    "weiui",
+    "civaria",
     "design-system"
   ],
   "type": "module",

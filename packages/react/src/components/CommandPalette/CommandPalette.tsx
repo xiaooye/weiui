@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { matchSorter } from "match-sorter";
-import { useFocusTrap } from "@weiui/headless";
+import { useFocusTrap } from "@civaria/headless";
 import { Portal } from "../Portal";
 import { Spinner } from "../Spinner";
 import { cn } from "../../utils/cn";
@@ -137,7 +137,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
     const previousFocusRef = useRef<HTMLElement | null>(null);
     const listboxId = useId();
 
-    const storageKey = paletteId ? `wui-cp-recent-${paletteId}` : null;
+    const storageKey = paletteId ? `civ-cp-recent-${paletteId}` : null;
 
     // Focus trap keeps Tab inside the dialog
     useFocusTrap(dialogRef, isOpen);
@@ -285,7 +285,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         <div
           key={item.id}
           id={`${listboxId}-item-${item.id}`}
-          className="wui-command__item"
+          className="civ-command__item"
           role="option"
           aria-selected={flatIdx === highlightedIndex}
           aria-disabled={item.disabled || undefined}
@@ -296,12 +296,12 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           }}
         >
           {item.icon && (
-            <span className="wui-command__item-icon" aria-hidden="true">
+            <span className="civ-command__item-icon" aria-hidden="true">
               {item.icon}
             </span>
           )}
-          <span className="wui-command__item-label">{item.label}</span>
-          {item.shortcut && <span className="wui-command__item-shortcut">{item.shortcut}</span>}
+          <span className="civ-command__item-label">{item.label}</span>
+          {item.shortcut && <span className="civ-command__item-shortcut">{item.shortcut}</span>}
         </div>
       );
     }
@@ -309,7 +309,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
     return (
       <Portal>
         <div
-          className="wui-command-overlay"
+          className="civ-command-overlay"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}
@@ -317,18 +317,18 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         >
           <div
             ref={dialogRef}
-            className={cn("wui-command", className)}
+            className={cn("civ-command", className)}
             role="dialog"
             aria-label={label || "Command palette"}
             aria-modal="true"
           >
-            <div className="wui-command__input-wrapper">
-              <span className="wui-command__icon" aria-hidden="true">
+            <div className="civ-command__input-wrapper">
+              <span className="civ-command__icon" aria-hidden="true">
                 &#x2315;
               </span>
               <input
                 ref={inputRef}
-                className="wui-command__input"
+                className="civ-command__input"
                 placeholder={placeholder}
                 value={query}
                 onChange={(e) => {
@@ -344,18 +344,18 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               />
             </div>
             <div
-              className="wui-command__list"
+              className="civ-command__list"
               role="listbox"
               id={listboxId}
               aria-busy={loading || undefined}
             >
               {loading ? (
                 <div
-                  className="wui-command-palette__loading"
+                  className="civ-command-palette__loading"
                   aria-live="polite"
                 >
                   <Spinner size="sm" label={loadingLabel} />
-                  <span className="wui-command-palette__loading-label" aria-hidden="true">
+                  <span className="civ-command-palette__loading-label" aria-hidden="true">
                     {loadingLabel}
                   </span>
                 </div>
@@ -363,14 +363,14 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                 <>
                   {recentItems.length > 0 && (
                     <div role="group" aria-label="Recent">
-                      <div className="wui-command__group-label">Recent</div>
+                      <div className="civ-command__group-label">Recent</div>
                       {recentItems.map((item) => renderItem(item))}
                     </div>
                   )}
                   {Array.from(groups.entries()).map(([groupName, groupItems]) =>
                     groupItems.length === 0 ? null : (
                       <div key={groupName || "_"} role="group" aria-label={groupName || undefined}>
-                        {groupName && <div className="wui-command__group-label">{groupName}</div>}
+                        {groupName && <div className="civ-command__group-label">{groupName}</div>}
                         {groupItems.map((item) => renderItem(item))}
                       </div>
                     ),
@@ -379,7 +379,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               ) : emptyState ? (
                 emptyState
               ) : (
-                <div className="wui-command__empty">{emptyText}</div>
+                <div className="civ-command__empty">{emptyText}</div>
               )}
             </div>
           </div>

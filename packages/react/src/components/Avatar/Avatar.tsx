@@ -55,9 +55,9 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
       <span
         ref={ref}
         className={cn(
-          "wui-avatar",
-          size !== "md" && `wui-avatar--${size}`,
-          colorToken && `wui-avatar--${colorToken}`,
+          "civ-avatar",
+          size !== "md" && `civ-avatar--${size}`,
+          colorToken && `civ-avatar--${colorToken}`,
           className,
         )}
         {...props}
@@ -66,7 +66,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
           <img
             src={src}
             alt={alt ?? name ?? ""}
-            className="wui-avatar__image"
+            className="civ-avatar__image"
             onError={() => setImgFailed(true)}
           />
         )}
@@ -77,7 +77,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
          */}
         {!showImage && hasChildren && children}
         {!showImage && !hasChildren && initials && (
-          <span className="wui-avatar__fallback">{initials}</span>
+          <span className="civ-avatar__fallback">{initials}</span>
         )}
       </span>
     );
@@ -87,14 +87,14 @@ Avatar.displayName = "Avatar";
 
 export const AvatarImage = forwardRef<HTMLImageElement, ImgHTMLAttributes<HTMLImageElement>>(
   ({ className, alt = "", ...props }, ref) => (
-    <img ref={ref} className={cn("wui-avatar__image", className)} alt={alt} {...props} />
+    <img ref={ref} className={cn("civ-avatar__image", className)} alt={alt} {...props} />
   ),
 );
 AvatarImage.displayName = "AvatarImage";
 
 export const AvatarFallback = forwardRef<HTMLSpanElement, HTMLAttributes<HTMLSpanElement>>(
   ({ className, ...props }, ref) => (
-    <span ref={ref} className={cn("wui-avatar__fallback", className)} {...props} />
+    <span ref={ref} className={cn("civ-avatar__fallback", className)} {...props} />
   ),
 );
 AvatarFallback.displayName = "AvatarFallback";
@@ -112,10 +112,10 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
     const visible = items.slice(0, max);
     const overflow = items.length - max;
     return (
-      <div ref={ref} className={cn("wui-avatar-group", className)} {...props}>
+      <div ref={ref} className={cn("civ-avatar-group", className)} {...props}>
         {visible}
         {overflow > 0 && (
-          <span className="wui-avatar wui-avatar--overflow" aria-label={`${overflow} more`}>
+          <span className="civ-avatar civ-avatar--overflow" aria-label={`${overflow} more`}>
             +{overflow}
           </span>
         )}

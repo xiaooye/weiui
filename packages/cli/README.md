@@ -1,30 +1,30 @@
-# @weiui/cli
+# @civaria/cli
 
-CLI for scaffolding and maintaining WeiUI design system installs.
+CLI for scaffolding and maintaining Civaria design system installs.
 
 ## Install
 
 ```bash
-pnpm add -D @weiui/cli
+pnpm add -D @civaria/cli
 # or run ad-hoc
-pnpx @weiui/cli <command>
+pnpx @civaria/cli <command>
 ```
 
 ## Commands
 
-### `weiui init`
+### `civaria init`
 
-Creates `weiui.config.json` in the current directory and prints the install snippet for `@weiui/css` and `@weiui/tokens`. Skips if the config already exists.
+Creates `civaria.config.json` in the current directory and prints the install snippet for `@civaria/css` and `@civaria/tokens`. Skips if the config already exists.
 
 ```bash
-pnpx @weiui/cli init
+pnpx @civaria/cli init
 ```
 
-### `weiui tokens build`
+### `civaria tokens build`
 
-Compiles the design tokens to CSS custom properties, TypeScript declarations, and flat JSON. Delegates to `pnpm --filter @weiui/tokens build`, so it only works inside the monorepo today.
+Compiles the design tokens to CSS custom properties, TypeScript declarations, and flat JSON. Delegates to `pnpm --filter @civaria/tokens build`, so it only works inside the monorepo today.
 
-### `weiui tokens validate`
+### `civaria tokens validate`
 
 Runs the WCAG AAA contrast validator over every semantic token pair. Exits non-zero on failure.
 

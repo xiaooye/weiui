@@ -11,12 +11,12 @@ Audited every component in `packages/react/src/components/` (65 components) agai
 A component counts as:
 - **Interactive demo** — imports the real component, wires state/handlers, and produces visible changes when clicked/typed.
 - **Live but non-interactive** — imports the real component but does not wire state/handlers that change anything on click.
-- **Static HTML only** — doc renders raw HTML with `wui-*` classes. Clicking or typing does nothing (no state, no events, no open/close).
+- **Static HTML only** — doc renders raw HTML with `civ-*` classes. Clicking or typing does nothing (no state, no events, no open/close).
 - **Missing entirely** — no doc section for the component.
 
 ## Inventory
 
-65 React components. All of them appear in at least one doc page (no component is completely missing from docs). However, the vast majority are shown as **static HTML with `wui-*` classes** rather than as real interactive React demos.
+65 React components. All of them appear in at least one doc page (no component is completely missing from docs). However, the vast majority are shown as **static HTML with `civ-*` classes** rather than as real interactive React demos.
 
 ---
 
@@ -55,7 +55,7 @@ Partial / intentionally-static (already OK):
 
 ### 1. Accordion
 - **Page:** `apps/docs/src/app/docs/components/accordion/page.mdx:7-31`
-- **Current:** Raw `<div className="wui-accordion">` markup with static `aria-expanded="true"` on one trigger and `aria-expanded="false"` on two others. Clicking any trigger does nothing — there's no React state or event handler attached.
+- **Current:** Raw `<div className="civ-accordion">` markup with static `aria-expanded="true"` on one trigger and `aria-expanded="false"` on two others. Clicking any trigger does nothing — there's no React state or event handler attached.
 - **Needed:** Demo importing `<Accordion>`, `<AccordionItem>`, `<AccordionTrigger>`, `<AccordionContent>` that actually expands/collapses sections. Cover both `type="single"` and `type="multiple"`.
 
 ### 2. Alert
@@ -75,12 +75,12 @@ Partial / intentionally-static (already OK):
 
 ### 5. Avatar
 - **Page:** `apps/docs/src/app/docs/components/data-display/page.mdx:58-71`
-- **Current:** Static `<span className="wui-avatar">` markup.
+- **Current:** Static `<span className="civ-avatar">` markup.
 - **Needed:** Import `<Avatar>` + `<AvatarFallback>` with multiple sizes. No interaction required, but must use the real component.
 
 ### 6. Badge
 - **Page:** `apps/docs/src/app/docs/components/data-display/page.mdx:36-47`
-- **Current:** Static `<span className="wui-badge">` markup.
+- **Current:** Static `<span className="civ-badge">` markup.
 - **Needed:** Import `<Badge>` with variant + color.
 
 ### 7. BottomNav
@@ -95,17 +95,17 @@ Partial / intentionally-static (already OK):
 
 ### 9. Button
 - **Page:** `apps/docs/src/app/docs/components/button/page.mdx:9-47`
-- **Current:** Raw `<button className="wui-button …">` markup, including a `data-loading="true"` example that shows a disabled-looking button with no spinner — the real `<Button loading>` renders an inline `<Spinner>`.
+- **Current:** Raw `<button className="civ-button …">` markup, including a `data-loading="true"` example that shows a disabled-looking button with no spinner — the real `<Button loading>` renders an inline `<Spinner>`.
 - **Needed:** Import `<Button>` and show all variants/sizes/colors, plus at least one `<Button onClick={…}>` wired to toast (or state) to prove interactivity. Critically, `<Button loading>` must render via the React component so the spinner appears.
 
 ### 10. ButtonGroup
 - **Page:** `apps/docs/src/app/docs/components/wave2-3/page.mdx:322-328`
-- **Current:** Static `<div className="wui-button-group">` with raw `<button>` children. No React import, no handlers.
+- **Current:** Static `<div className="civ-button-group">` with raw `<button>` children. No React import, no handlers.
 - **Needed:** Import `<ButtonGroup>` + `<Button>` with `onClick` handlers (e.g. toast on click).
 
 ### 11. Card
 - **Page:** `apps/docs/src/app/docs/components/data-display/page.mdx:9-22`
-- **Current:** Static `<div className="wui-card">` markup, action buttons do nothing.
+- **Current:** Static `<div className="civ-card">` markup, action buttons do nothing.
 - **Needed:** Import `<Card>`, `<CardHeader>`, `<CardContent>`, `<CardFooter>` and wire the action button to a toast (or console.log) to prove it's a live component.
 
 ### 12. Chart (BarChart / LineChart / AreaChart / PieChart / DonutChart / RadarChart)
@@ -120,7 +120,7 @@ Partial / intentionally-static (already OK):
 
 ### 14. Chip
 - **Page:** `apps/docs/src/app/docs/components/toast-chip-progress/page.mdx:114-138`
-- **Current:** Static `<span className="wui-chip">` with raw `<button className="wui-chip__remove">` buttons — clicking "×" does nothing.
+- **Current:** Static `<span className="civ-chip">` with raw `<button className="civ-chip__remove">` buttons — clicking "×" does nothing.
 - **Needed:** Import `<Chip>` with `onRemove` wired to `useState` so chips actually disappear when the ✕ is clicked.
 
 ### 15. Code
@@ -160,17 +160,17 @@ Partial / intentionally-static (already OK):
 
 ### 22. Input
 - **Page:** `apps/docs/src/app/docs/components/input/page.mdx:9-62`
-- **Current:** Raw `<input className="wui-input">` markup everywhere, including the addon group which uses hand-rolled `<div className="wui-input-group">`. Does not import `<Input>` at all.
+- **Current:** Raw `<input className="civ-input">` markup everywhere, including the addon group which uses hand-rolled `<div className="civ-input-group">`. Does not import `<Input>` at all.
 - **Needed:** Import `<Input>` and show sizes, addons (`startAddon`/`endAddon`), and states. Wire at least one `<Input>` to `useState` so typing is reflected in a sibling element.
 
 ### 23. InputNumber
 - **Page:** `apps/docs/src/app/docs/components/advanced-inputs/page.mdx:132-166`
-- **Current:** Static `<div className="wui-input-number">` markup. Increment/decrement buttons do nothing; `formatOptions` example shows a pre-formatted string `"$1,234.00"` but is not actually a live `<InputNumber>`.
+- **Current:** Static `<div className="civ-input-number">` markup. Increment/decrement buttons do nothing; `formatOptions` example shows a pre-formatted string `"$1,234.00"` but is not actually a live `<InputNumber>`.
 - **Needed:** Import `<InputNumber>` with `useState` so the +/- and keyboard ArrowUp/Down actually change the number. Include a `formatOptions` live demo (currency + percent) so the runtime `Intl.NumberFormat` behavior is visible.
 
 ### 24. InputOTP
 - **Page:** `apps/docs/src/app/docs/components/advanced-inputs/page.mdx:210-228`
-- **Current:** Static `<input className="wui-input-otp__slot">` grid. Auto-advance on input is a core feature but the demo doesn't mount the real component to show it.
+- **Current:** Static `<input className="civ-input-otp__slot">` grid. Auto-advance on input is a core feature but the demo doesn't mount the real component to show it.
 - **Needed:** Import `<InputOTP>` wired to `useState` so typing auto-advances between slots.
 
 ### 25. Label
@@ -185,7 +185,7 @@ Partial / intentionally-static (already OK):
 
 ### 27. Pagination
 - **Page:** `apps/docs/src/app/docs/components/wave2-3/page.mdx:13-25`
-- **Current:** Static `<nav className="wui-pagination">` with fixed `data-active="true"` on page 3. Clicking any page button does nothing.
+- **Current:** Static `<nav className="civ-pagination">` with fixed `data-active="true"` on page 3. Clicking any page button does nothing.
 - **Needed:** Import `<Pagination>` with `useState` so clicking a page number actually changes the active page and re-renders the button set.
 
 ### 28. ProgressBar
@@ -210,17 +210,17 @@ Partial / intentionally-static (already OK):
 
 ### 32. Sidebar
 - **Page:** `apps/docs/src/app/docs/components/sidebar-drawer/page.mdx:14-29`
-- **Current:** Static `<aside className="wui-sidebar">` markup with hand-rolled buttons. No React import, no collapsed/icon-only mode demo.
+- **Current:** Static `<aside className="civ-sidebar">` markup with hand-rolled buttons. No React import, no collapsed/icon-only mode demo.
 - **Needed:** Import `<Sidebar>`, `<SidebarHeader>`, `<SidebarContent>`, `<SidebarItem>`, `<SidebarFooter>`. Include a "Collapse sidebar" button that toggles the `open` prop so the collapsed (icon-only) mode is demonstrated.
 
 ### 33. Skeleton
 - **Page:** `apps/docs/src/app/docs/components/data-display/page.mdx:74-88`
-- **Current:** Static `<div className="wui-skeleton">` markup.
+- **Current:** Static `<div className="civ-skeleton">` markup.
 - **Needed:** Import `<Skeleton>` with sizes and `variant="text"`. Static acceptable, but must import the real component. Consider a "Toggle loading" demo that flips between `<Skeleton>` and real content.
 
 ### 34. Slider
 - **Page:** `apps/docs/src/app/docs/components/advanced-inputs/page.mdx:16-36`
-- **Current:** Static `<div className="wui-slider">` markup with hand-positioned thumb. The thumb does not move.
+- **Current:** Static `<div className="civ-slider">` markup with hand-positioned thumb. The thumb does not move.
 - **Needed:** Import `<Slider>` wired to `useState` so dragging/arrow-keys visibly move the thumb and update a "Value: X" readout.
 
 ### 35. Spacer
@@ -250,7 +250,7 @@ Partial / intentionally-static (already OK):
 
 ### 40. Stepper
 - **Page:** `apps/docs/src/app/docs/components/stepper-timeline/page.mdx:13-38`
-- **Current:** Hand-rolled `<div className="wui-stepper">` markup — does not import `<Stepper>`, `<Step>`, or `<StepSeparator>`.
+- **Current:** Hand-rolled `<div className="civ-stepper">` markup — does not import `<Stepper>`, `<Step>`, or `<StepSeparator>`.
 - **Needed:** Import real `<Stepper>` with `activeStep` driven by a "Next" / "Back" button pair so users can see the step indicator move. Include both horizontal and vertical orientation.
 
 ### 41. Switch
@@ -270,17 +270,17 @@ Partial / intentionally-static (already OK):
 
 ### 44. Textarea
 - **Page:** `apps/docs/src/app/docs/components/input/page.mdx:65-82`
-- **Current:** Raw `<textarea className="wui-input">` markup — does not import `<Textarea>`.
+- **Current:** Raw `<textarea className="civ-input">` markup — does not import `<Textarea>`.
 - **Needed:** Import `<Textarea>` with sizes. Wire one to `useState` so character count or value preview updates as the user types.
 
 ### 45. Timeline
 - **Page:** `apps/docs/src/app/docs/components/stepper-timeline/page.mdx:92-116`
-- **Current:** Hand-rolled `<ol className="wui-timeline">` markup with inline-styled dots and lines — does not import `<Timeline>` or `<TimelineItem>`.
+- **Current:** Hand-rolled `<ol className="civ-timeline">` markup with inline-styled dots and lines — does not import `<Timeline>` or `<TimelineItem>`.
 - **Needed:** Import the real components. Static is fine for Timeline (no interaction), but must be a live React render.
 
 ### 46. ToggleGroup
 - **Page:** `apps/docs/src/app/docs/components/wave2-3/page.mdx:266-272`
-- **Current:** Static `<div className="wui-toggle-group">` with hand-rolled `aria-checked` attributes. Clicking items does nothing.
+- **Current:** Static `<div className="civ-toggle-group">` with hand-rolled `aria-checked` attributes. Clicking items does nothing.
 - **Needed:** Import `<ToggleGroup>` + `<ToggleGroupItem>` wired to `useState`, demoing both `type="single"` (alignment) and `type="multiple"` (bold/italic/underline).
 
 ### 47. Transfer
@@ -342,12 +342,12 @@ Partial / intentionally-static (already OK):
 ### Pattern observation
 
 The docs were clearly authored in two phases:
-1. **MDX-inlined static HTML with `wui-*` classes** — works to show CSS styling but misses React behavior entirely. This covers roughly 80% of the component pages.
+1. **MDX-inlined static HTML with `civ-*` classes** — works to show CSS styling but misses React behavior entirely. This covers roughly 80% of the component pages.
 2. **Real demo components imported from `apps/docs/src/components/demos/*.tsx`** — imports the real component with state and handlers. Only 16 exist.
 
 The gap is uniform: any component that has a demo file in `demos/` is interactive; any component that's only shown via inline MDX markup is static.
 
-The fastest path to fixing this is to add a demo file per component in `apps/docs/src/components/demos/` (following the existing pattern: `"use client"`, import from `@weiui/react`, wire `useState`, wrap in Preview) and replace the static MDX preview with the demo.
+The fastest path to fixing this is to add a demo file per component in `apps/docs/src/components/demos/` (following the existing pattern: `"use client"`, import from `civaria`, wire `useState`, wrap in Preview) and replace the static MDX preview with the demo.
 
 ### File-level fix list (for next round)
 

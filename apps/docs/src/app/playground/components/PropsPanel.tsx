@@ -1,5 +1,5 @@
 "use client";
-import { Stack, Text } from "@weiui/react";
+import { Stack, Text } from "civaria";
 import type {
   ComponentSchema,
   PropSchema,
@@ -167,11 +167,11 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
   };
 
   return (
-    <div className="wui-playground__props">
+    <div className="civ-playground__props">
       <Stack direction="column" gap={4}>
         {grouped.appearance.length > 0 ? (
           <section
-            className="wui-playground__props-section"
+            className="civ-playground__props-section"
             aria-label="Appearance"
           >
             <Text
@@ -179,7 +179,7 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
               size="xs"
               weight="semibold"
               color="muted"
-              className="wui-playground__props-section-title"
+              className="civ-playground__props-section-title"
             >
               Appearance
             </Text>
@@ -192,7 +192,7 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
         ) : null}
         {grouped.behavior.length > 0 ? (
           <section
-            className="wui-playground__props-section"
+            className="civ-playground__props-section"
             aria-label="Behavior"
           >
             <Text
@@ -200,7 +200,7 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
               size="xs"
               weight="semibold"
               color="muted"
-              className="wui-playground__props-section-title"
+              className="civ-playground__props-section-title"
             >
               Behavior
             </Text>
@@ -213,7 +213,7 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
         ) : null}
         {grouped.advanced.length > 0 ? (
           <section
-            className="wui-playground__props-section"
+            className="civ-playground__props-section"
             aria-label="Advanced"
           >
             <Text
@@ -221,7 +221,7 @@ export function PropsPanel({ schema, values, onChange }: PropsPanelProps) {
               size="xs"
               weight="semibold"
               color="muted"
-              className="wui-playground__props-section-title"
+              className="civ-playground__props-section-title"
             >
               Advanced
             </Text>

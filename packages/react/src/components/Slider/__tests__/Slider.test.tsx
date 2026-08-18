@@ -63,7 +63,7 @@ describe("Slider", () => {
 
   it("has data-disabled on root when disabled", () => {
     render(<Slider disabled />);
-    const root = screen.getByRole("slider").closest(".wui-slider");
+    const root = screen.getByRole("slider").closest(".civ-slider");
     expect(root).toHaveAttribute("data-disabled", "true");
   });
 
@@ -157,7 +157,7 @@ describe("Slider", () => {
   describe("tooltip", () => {
     it("does not render tooltip by default", () => {
       render(<Slider defaultValue={42} />);
-      expect(document.querySelector(".wui-slider__tooltip")).toBeNull();
+      expect(document.querySelector(".civ-slider__tooltip")).toBeNull();
     });
 
     it("renders tooltip on focus when showTooltip is true", async () => {
@@ -166,7 +166,7 @@ describe("Slider", () => {
       await act(async () => {
         thumb.focus();
       });
-      const tip = document.querySelector(".wui-slider__tooltip");
+      const tip = document.querySelector(".civ-slider__tooltip");
       expect(tip).not.toBeNull();
       expect(tip?.textContent).toBe("42");
     });
@@ -183,7 +183,7 @@ describe("Slider", () => {
       await act(async () => {
         thumb.focus();
       });
-      const tip = document.querySelector(".wui-slider__tooltip");
+      const tip = document.querySelector(".civ-slider__tooltip");
       expect(tip?.textContent).toBe("42%");
     });
   });
@@ -191,7 +191,7 @@ describe("Slider", () => {
   describe("P1 features", () => {
     it("orientation=vertical applies modifier class and aria", () => {
       const { container } = render(<Slider orientation="vertical" defaultValue={50} />);
-      expect(container.querySelector(".wui-slider--vertical")).not.toBeNull();
+      expect(container.querySelector(".civ-slider--vertical")).not.toBeNull();
       expect(screen.getByRole("slider")).toHaveAttribute("aria-orientation", "vertical");
     });
 
@@ -199,7 +199,7 @@ describe("Slider", () => {
       const { container } = render(
         <Slider defaultValue={50} marks={[{ value: 0, label: "Low" }, { value: 100, label: "High" }]} />,
       );
-      expect(container.querySelectorAll(".wui-slider__mark").length).toBe(2);
+      expect(container.querySelectorAll(".civ-slider__mark").length).toBe(2);
       expect(screen.getByText("Low")).toBeInTheDocument();
       expect(screen.getByText("High")).toBeInTheDocument();
     });
@@ -256,7 +256,7 @@ describe("Slider", () => {
           <Slider defaultValue={40} />
         </div>,
       );
-      const fill = container.querySelector<HTMLElement>(".wui-slider__fill")!;
+      const fill = container.querySelector<HTMLElement>(".civ-slider__fill")!;
       expect(fill.style.insetInlineStart).toBe("0%");
       expect(fill.style.inlineSize).toBe("40%");
       expect(fill.style.left).toBe("");
@@ -269,7 +269,7 @@ describe("Slider", () => {
           <Slider defaultValue={50} marks={[{ value: 0 }, { value: 100 }]} />
         </div>,
       );
-      const marks = container.querySelectorAll<HTMLElement>(".wui-slider__mark");
+      const marks = container.querySelectorAll<HTMLElement>(".civ-slider__mark");
       expect(marks).toHaveLength(2);
       marks.forEach((mark) => {
         expect(mark.style.insetInlineStart).not.toBe("");

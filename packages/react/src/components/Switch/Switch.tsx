@@ -24,20 +24,20 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const describedBy = computeFieldDescribedBy(ctx, props["aria-describedby"] as string | undefined);
     const resolvedInvalid = invalid ?? ctx?.hasError ?? undefined;
     const resolvedDisabled = props.disabled ?? ctx?.disabled;
-    const sizeClass = size === "sm" ? "wui-switch--sm" : size === "lg" ? "wui-switch--lg" : "";
+    const sizeClass = size === "sm" ? "civ-switch--sm" : size === "lg" ? "civ-switch--lg" : "";
     const hasTrackLabels = onLabel != null || offLabel != null;
     return (
       <div
-        className={cn("wui-switch", sizeClass, hasTrackLabels && "wui-switch--with-track-labels", className)}
+        className={cn("civ-switch", sizeClass, hasTrackLabels && "civ-switch--with-track-labels", className)}
         data-disabled={resolvedDisabled || undefined}
       >
-        <span className="wui-switch__control">
+        <span className="civ-switch__control">
           <input
             ref={ref}
             type="checkbox"
             role="switch"
             id={inputId}
-            className="wui-switch__input"
+            className="civ-switch__input"
             aria-invalid={resolvedInvalid || undefined}
             data-invalid={resolvedInvalid || undefined}
             aria-describedby={describedBy}
@@ -47,12 +47,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           {hasTrackLabels && (
             <>
               {onLabel != null && (
-                <span className="wui-switch__track-label wui-switch__track-label--on" aria-hidden="true">
+                <span className="civ-switch__track-label civ-switch__track-label--on" aria-hidden="true">
                   {onLabel}
                 </span>
               )}
               {offLabel != null && (
-                <span className="wui-switch__track-label wui-switch__track-label--off" aria-hidden="true">
+                <span className="civ-switch__track-label civ-switch__track-label--off" aria-hidden="true">
                   {offLabel}
                 </span>
               )}
@@ -60,7 +60,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           )}
         </span>
         {label && (
-          <label htmlFor={inputId} className="wui-switch__label">
+          <label htmlFor={inputId} className="civ-switch__label">
             {label}
           </label>
         )}

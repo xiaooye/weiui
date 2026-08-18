@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MultiSelect } from "@weiui/react";
+import { MultiSelect } from "civaria";
 
 const options = [
   { value: "frontend", label: "Frontend" },
@@ -20,7 +20,7 @@ export function MultiSelectDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         inlineSize: "320px",
       }}
     >
@@ -34,8 +34,8 @@ export function MultiSelectDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         {values.length > 0

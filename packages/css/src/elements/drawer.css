@@ -1,55 +1,55 @@
-@layer wui-elements {
-  .wui-drawer-overlay {
+@layer civ-elements {
+  .civ-drawer-overlay {
     position: fixed; inset: 0;
     background-color: oklch(0 0 0 / 0.5);
-    z-index: var(--wui-zIndex-overlay);
+    z-index: var(--civ-zIndex-overlay);
   }
-  .wui-drawer {
-    position: fixed; z-index: var(--wui-zIndex-modal);
-    background-color: var(--wui-surface-overlay);
-    box-shadow: var(--wui-elevation-4);
+  .civ-drawer {
+    position: fixed; z-index: var(--civ-zIndex-modal);
+    background-color: var(--civ-surface-overlay);
+    box-shadow: var(--civ-elevation-4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex; flex-direction: column;
     touch-action: none;
   }
   @supports not (backdrop-filter: blur(8px)) {
-    .wui-drawer { background-color: var(--wui-color-card); }
+    .civ-drawer { background-color: var(--civ-color-card); }
   }
-  .wui-drawer--right { inset-block: 0; inset-inline-end: 0; inline-size: 24rem; max-inline-size: 100vw; }
-  .wui-drawer--left { inset-block: 0; inset-inline-start: 0; inline-size: 24rem; max-inline-size: 100vw; }
-  .wui-drawer--top { inset-inline: 0; inset-block-start: 0; block-size: 50vh; }
-  .wui-drawer--bottom { inset-inline: 0; inset-block-end: 0; block-size: 50vh; }
-  .wui-drawer__header {
+  .civ-drawer--right { inset-block: 0; inset-inline-end: 0; inline-size: 24rem; max-inline-size: 100vw; }
+  .civ-drawer--left { inset-block: 0; inset-inline-start: 0; inline-size: 24rem; max-inline-size: 100vw; }
+  .civ-drawer--top { inset-inline: 0; inset-block-start: 0; block-size: 50vh; }
+  .civ-drawer--bottom { inset-inline: 0; inset-block-end: 0; block-size: 50vh; }
+  .civ-drawer__header {
     display: flex; align-items: center; justify-content: space-between;
-    padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-6);
-    border-block-end: 1px solid var(--wui-color-border);
+    padding-block: var(--civ-spacing-4); padding-inline: var(--civ-spacing-6);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-drawer__content { flex: 1; padding-block: var(--wui-spacing-6); padding-inline: var(--wui-spacing-6); overflow-block: auto; }
-  .wui-drawer__footer {
-    padding-block: var(--wui-spacing-4); padding-inline: var(--wui-spacing-6);
-    border-block-start: 1px solid var(--wui-color-border);
+  .civ-drawer__content { flex: 1; padding-block: var(--civ-spacing-6); padding-inline: var(--civ-spacing-6); overflow-block: auto; }
+  .civ-drawer__footer {
+    padding-block: var(--civ-spacing-4); padding-inline: var(--civ-spacing-6);
+    border-block-start: 1px solid var(--civ-color-border);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-drawer--right[data-state="open"] { animation: wui-drawer-slide-in-right var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
-    .wui-drawer--left[data-state="open"]  { animation: wui-drawer-slide-in-left  var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
-    .wui-drawer--top[data-state="open"]   { animation: wui-drawer-slide-in-top   var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
-    .wui-drawer--bottom[data-state="open"]{ animation: wui-drawer-slide-in-bottom var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized); }
+    .civ-drawer--right[data-state="open"] { animation: civ-drawer-slide-in-right var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized); }
+    .civ-drawer--left[data-state="open"]  { animation: civ-drawer-slide-in-left  var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized); }
+    .civ-drawer--top[data-state="open"]   { animation: civ-drawer-slide-in-top   var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized); }
+    .civ-drawer--bottom[data-state="open"]{ animation: civ-drawer-slide-in-bottom var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized); }
 
-    .wui-drawer--right[data-state="closed"]  { animation: wui-drawer-slide-out-right  var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized) forwards; }
-    .wui-drawer--left[data-state="closed"]   { animation: wui-drawer-slide-out-left   var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized) forwards; }
-    .wui-drawer--top[data-state="closed"]    { animation: wui-drawer-slide-out-top    var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized) forwards; }
-    .wui-drawer--bottom[data-state="closed"] { animation: wui-drawer-slide-out-bottom var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized) forwards; }
+    .civ-drawer--right[data-state="closed"]  { animation: civ-drawer-slide-out-right  var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized) forwards; }
+    .civ-drawer--left[data-state="closed"]   { animation: civ-drawer-slide-out-left   var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized) forwards; }
+    .civ-drawer--top[data-state="closed"]    { animation: civ-drawer-slide-out-top    var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized) forwards; }
+    .civ-drawer--bottom[data-state="closed"] { animation: civ-drawer-slide-out-bottom var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized) forwards; }
   }
 
-  @keyframes wui-drawer-slide-in-right  { from { transform: translateX(100%); }  to { transform: translateX(0); } }
-  @keyframes wui-drawer-slide-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-  @keyframes wui-drawer-slide-in-top    { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-  @keyframes wui-drawer-slide-in-bottom { from { transform: translateY(100%); }  to { transform: translateY(0); } }
+  @keyframes civ-drawer-slide-in-right  { from { transform: translateX(100%); }  to { transform: translateX(0); } }
+  @keyframes civ-drawer-slide-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+  @keyframes civ-drawer-slide-in-top    { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  @keyframes civ-drawer-slide-in-bottom { from { transform: translateY(100%); }  to { transform: translateY(0); } }
 
-  @keyframes wui-drawer-slide-out-right  { from { transform: translateX(0); }  to { transform: translateX(100%); } }
-  @keyframes wui-drawer-slide-out-left   { from { transform: translateX(0); }  to { transform: translateX(-100%); } }
-  @keyframes wui-drawer-slide-out-top    { from { transform: translateY(0); }  to { transform: translateY(-100%); } }
-  @keyframes wui-drawer-slide-out-bottom { from { transform: translateY(0); }  to { transform: translateY(100%); } }
+  @keyframes civ-drawer-slide-out-right  { from { transform: translateX(0); }  to { transform: translateX(100%); } }
+  @keyframes civ-drawer-slide-out-left   { from { transform: translateX(0); }  to { transform: translateX(-100%); } }
+  @keyframes civ-drawer-slide-out-top    { from { transform: translateY(0); }  to { transform: translateY(-100%); } }
+  @keyframes civ-drawer-slide-out-bottom { from { transform: translateY(0); }  to { transform: translateY(100%); } }
 }

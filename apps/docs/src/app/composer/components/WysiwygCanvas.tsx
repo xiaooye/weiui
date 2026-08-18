@@ -318,15 +318,15 @@ export function WysiwygCanvas({
 
   return (
     <div
-      className="wui-composer__canvas"
+      className="civ-composer__canvas"
       data-dragging={isDragging ? "true" : undefined}
     >
       <div
-        className="wui-composer__stage-wrap"
+        className="civ-composer__stage-wrap"
         style={{ position: "relative", maxInlineSize }}
       >
         <div
-          className="wui-composer__stage"
+          className="civ-composer__stage"
           ref={stageRef}
           data-preview={im.state.previewMode || undefined}
           data-theme={im.state.theme !== "auto" ? im.state.theme : undefined}
@@ -358,7 +358,7 @@ export function WysiwygCanvas({
          * rects).
          */}
         <div
-          className="wui-composer__overlay"
+          className="civ-composer__overlay"
           style={{
             position: "absolute",
             inset: 0,
@@ -417,7 +417,7 @@ export function WysiwygCanvas({
 function HoverOutline({ rect }: { rect: Rect }) {
   return (
     <div
-      className="wui-composer__hover-outline"
+      className="civ-composer__hover-outline"
       style={{
         position: "absolute",
         insetBlockStart: rect.top,
@@ -433,9 +433,9 @@ function HoverOutline({ rect }: { rect: Rect }) {
 
 function EmptyCanvas() {
   return (
-    <div className="wui-composer__empty" role="note">
+    <div className="civ-composer__empty" role="note">
       <svg
-        className="wui-composer__empty-icon"
+        className="civ-composer__empty-icon"
         viewBox="0 0 80 80"
         width="80"
         height="80"
@@ -459,34 +459,34 @@ function EmptyCanvas() {
           strokeLinecap="round"
         />
       </svg>
-      <strong className="wui-composer__empty-title">
+      <strong className="civ-composer__empty-title">
         Your canvas is empty
       </strong>
-      <span className="wui-composer__empty-sub">
+      <span className="civ-composer__empty-sub">
         Build anything — 65 components ready to drop.
       </span>
-      <ol className="wui-composer__empty-steps" aria-label="Getting started">
-        <li className="wui-composer__empty-step">
-          <span className="wui-composer__empty-step-num" aria-hidden="true">
+      <ol className="civ-composer__empty-steps" aria-label="Getting started">
+        <li className="civ-composer__empty-step">
+          <span className="civ-composer__empty-step-num" aria-hidden="true">
             1
           </span>
-          <span className="wui-composer__empty-step-text">
+          <span className="civ-composer__empty-step-text">
             Pick a component from the palette
           </span>
         </li>
-        <li className="wui-composer__empty-step">
-          <span className="wui-composer__empty-step-num" aria-hidden="true">
+        <li className="civ-composer__empty-step">
+          <span className="civ-composer__empty-step-num" aria-hidden="true">
             2
           </span>
-          <span className="wui-composer__empty-step-text">
+          <span className="civ-composer__empty-step-text">
             Drop it on the canvas
           </span>
         </li>
-        <li className="wui-composer__empty-step">
-          <span className="wui-composer__empty-step-num" aria-hidden="true">
+        <li className="civ-composer__empty-step">
+          <span className="civ-composer__empty-step-num" aria-hidden="true">
             3
           </span>
-          <span className="wui-composer__empty-step-text">
+          <span className="civ-composer__empty-step-text">
             Edit props on the right
           </span>
         </li>
@@ -518,7 +518,7 @@ function BetweenDropIndicator({
         left: rPrev ? rPrev.left + rPrev.width : rCurr!.left,
         width: 2,
         height: rPrev?.height ?? rCurr!.height,
-        background: "var(--wui-color-primary)",
+        background: "var(--civ-color-primary)",
         borderRadius: 2,
         pointerEvents: "none",
       }
@@ -528,13 +528,13 @@ function BetweenDropIndicator({
         left: rPrev?.left ?? rCurr!.left,
         height: 2,
         width: rPrev?.width ?? rCurr!.width,
-        background: "var(--wui-color-primary)",
+        background: "var(--civ-color-primary)",
         borderRadius: 2,
         pointerEvents: "none",
       };
   return (
     <div
-      className="wui-composer__between-drop"
+      className="civ-composer__between-drop"
       style={style}
       aria-hidden="true"
     />

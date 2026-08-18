@@ -1,141 +1,141 @@
-@layer wui-elements {
-  .wui-speed-dial {
+@layer civ-elements {
+  .civ-speed-dial {
     position: fixed;
-    inset-block-end: var(--wui-spacing-6);
-    inset-inline-end: var(--wui-spacing-6);
+    inset-block-end: var(--civ-spacing-6);
+    inset-inline-end: var(--civ-spacing-6);
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
-    z-index: var(--wui-zIndex-sticky);
+    gap: var(--civ-spacing-2);
+    z-index: var(--civ-zIndex-sticky);
   }
 
   /* Direction variants. "up" is the default — trigger at the end, actions float above.
    * We use flex-direction with logical ordering so that LTR/RTL map automatically. */
-  .wui-speed-dial--up {
+  .civ-speed-dial--up {
     flex-direction: column-reverse;
   }
-  .wui-speed-dial--down {
+  .civ-speed-dial--down {
     flex-direction: column;
   }
-  .wui-speed-dial--left {
+  .civ-speed-dial--left {
     flex-direction: row-reverse;
   }
-  .wui-speed-dial--right {
+  .civ-speed-dial--right {
     flex-direction: row;
   }
 
-  .wui-speed-dial__menu {
+  .civ-speed-dial__menu {
     display: flex;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-speed-dial--up .wui-speed-dial__menu {
+  .civ-speed-dial--up .civ-speed-dial__menu {
     flex-direction: column-reverse;
   }
-  .wui-speed-dial--down .wui-speed-dial__menu {
+  .civ-speed-dial--down .civ-speed-dial__menu {
     flex-direction: column;
   }
-  .wui-speed-dial--left .wui-speed-dial__menu {
+  .civ-speed-dial--left .civ-speed-dial__menu {
     flex-direction: row-reverse;
   }
-  .wui-speed-dial--right .wui-speed-dial__menu {
+  .civ-speed-dial--right .civ-speed-dial__menu {
     flex-direction: row;
   }
 
-  .wui-speed-dial__trigger {
+  .civ-speed-dial__trigger {
     display: flex;
     align-items: center;
     justify-content: center;
     min-block-size: 56px;
     min-inline-size: 56px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-primary-foreground);
     border: none;
     cursor: pointer;
-    font-size: var(--wui-font-size-xl);
-    box-shadow: var(--wui-elevation-2);
+    font-size: var(--civ-font-size-xl);
+    box-shadow: var(--civ-elevation-2);
   }
-  .wui-speed-dial__trigger:hover {
+  .civ-speed-dial__trigger:hover {
     filter: brightness(1.1);
   }
-  .wui-speed-dial__trigger:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-speed-dial__trigger:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
 
   /* Hover preview — when hover-triggered and parent is hovered (but not yet open,
    * which is indistinguishable in CSS because opening is instant), give the trigger
    * a subtle scale. Combined with the rotate-on-open below via data-open. */
-  .wui-speed-dial[data-trigger="hover"] .wui-speed-dial__trigger:hover {
-    box-shadow: var(--wui-elevation-3);
+  .civ-speed-dial[data-trigger="hover"] .civ-speed-dial__trigger:hover {
+    box-shadow: var(--civ-elevation-3);
   }
 
-  .wui-speed-dial__action-wrap {
+  .civ-speed-dial__action-wrap {
     display: inline-flex;
   }
 
-  .wui-speed-dial__action {
+  .civ-speed-dial__action {
     display: flex;
     align-items: center;
     justify-content: center;
     min-block-size: 48px;
     min-inline-size: 48px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-background);
-    border: 1px solid var(--wui-color-border);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-background);
+    border: 1px solid var(--civ-color-border);
     cursor: pointer;
-    font-size: var(--wui-font-size-base);
-    box-shadow: var(--wui-elevation-2);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-base);
+    box-shadow: var(--civ-elevation-2);
+    color: var(--civ-color-foreground);
   }
-  .wui-speed-dial__action:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-speed-dial__action:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-speed-dial__action:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-speed-dial__action:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
 
   /* Tooltip styling (reuses the Tooltip primitive; content is already positioned
    * via floating-ui, we just supply the visual chrome). */
-  .wui-speed-dial__tooltip {
-    background-color: var(--wui-color-foreground);
-    color: var(--wui-color-background);
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
-    border-radius: var(--wui-shape-radius-sm);
-    font-size: var(--wui-font-size-sm);
-    box-shadow: var(--wui-elevation-1);
+  .civ-speed-dial__tooltip {
+    background-color: var(--civ-color-foreground);
+    color: var(--civ-color-background);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
+    border-radius: var(--civ-shape-radius-sm);
+    font-size: var(--civ-font-size-sm);
+    box-shadow: var(--civ-elevation-1);
     pointer-events: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-speed-dial__trigger {
+    .civ-speed-dial__trigger {
       transition-property: transform, filter, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-speed-dial__trigger[data-open] {
+    .civ-speed-dial__trigger[data-open] {
       transform: rotate(45deg);
     }
-    .wui-speed-dial[data-trigger="hover"] .wui-speed-dial__trigger:hover:not([data-open]) {
+    .civ-speed-dial[data-trigger="hover"] .civ-speed-dial__trigger:hover:not([data-open]) {
       transform: scale(1.05);
     }
-    .wui-speed-dial__action {
+    .civ-speed-dial__action {
       transition-property: background-color, color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
       /* Stagger entrance: each action enters 50ms apart. */
-      animation-name: wui-speed-dial-enter;
-      animation-duration: var(--wui-motion-duration-medium, 180ms);
-      animation-timing-function: var(--wui-motion-easing-standard);
-      animation-delay: calc(var(--wui-speed-dial-index, 0) * 50ms);
+      animation-name: civ-speed-dial-enter;
+      animation-duration: var(--civ-motion-duration-medium, 180ms);
+      animation-timing-function: var(--civ-motion-easing-standard);
+      animation-delay: calc(var(--civ-speed-dial-index, 0) * 50ms);
       animation-fill-mode: both;
     }
   }
 
-  @keyframes wui-speed-dial-enter {
+  @keyframes civ-speed-dial-enter {
     from {
       opacity: 0;
       transform: scale(0.6);

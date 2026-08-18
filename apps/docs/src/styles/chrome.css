@@ -1,4 +1,4 @@
-@layer wui-base {
+@layer civ-base {
   /* Smooth anchor scrolling with header-aware offset */
   @media (prefers-reduced-motion: no-preference) {
     html {
@@ -6,43 +6,43 @@
     }
   }
 
-  /* Docs AppBar (thin polish overlay on top of @weiui/react AppBar) */
-  .wui-docs-app-bar {
-    background-color: color-mix(in oklch, var(--wui-color-background) 80%, transparent);
+  /* Docs AppBar (thin polish overlay on top of civaria AppBar) */
+  .civ-docs-app-bar {
+    background-color: color-mix(in oklch, var(--civ-color-background) 80%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding-inline: var(--wui-spacing-6);
-    gap: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-6);
+    gap: var(--civ-spacing-4);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-docs-app-bar {
+    .civ-docs-app-bar {
       transition-property: box-shadow, background-color;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
-  .wui-docs-app-bar[data-scrolled] {
-    box-shadow: var(--wui-elevation-2);
-    background-color: color-mix(in oklch, var(--wui-color-background) 92%, transparent);
+  .civ-docs-app-bar[data-scrolled] {
+    box-shadow: var(--civ-elevation-2);
+    background-color: color-mix(in oklch, var(--civ-color-background) 92%, transparent);
   }
-  .wui-docs-app-bar__brand {
+  .civ-docs-app-bar__brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     text-decoration: none;
     color: inherit;
   }
-  .wui-docs-app-bar__logo {
-    font-size: var(--wui-font-size-lg);
-    color: var(--wui-color-primary);
+  .civ-docs-app-bar__logo {
+    font-size: var(--civ-font-size-lg);
+    color: var(--civ-color-primary);
   }
-  .wui-docs-app-bar__divider {
+  .civ-docs-app-bar__divider {
     block-size: 20px;
   }
-  .wui-docs-app-bar__github-glyph {
+  .civ-docs-app-bar__github-glyph {
     font-size: 1.1em;
   }
-  .wui-docs-app-bar__github-label {
+  .civ-docs-app-bar__github-label {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -55,313 +55,313 @@
   }
 
   /* Search trigger */
-  .wui-docs-search-trigger {
+  .civ-docs-search-trigger {
     min-inline-size: 220px;
     justify-content: flex-start;
-    gap: var(--wui-spacing-3);
-    padding-inline-end: var(--wui-spacing-2);
+    gap: var(--civ-spacing-3);
+    padding-inline-end: var(--civ-spacing-2);
   }
-  .wui-docs-search-trigger .wui-button-label {
+  .civ-docs-search-trigger .civ-button-label {
     flex: 1;
     text-align: start;
   }
 
   /* Mobile hamburger — shown only on narrow viewports */
-  .wui-docs-app-bar__menu {
+  .civ-docs-app-bar__menu {
     display: none;
   }
 
   @media (max-width: 768px) {
-    .wui-docs-app-bar {
-      padding-inline: var(--wui-spacing-4);
-      gap: var(--wui-spacing-2);
+    .civ-docs-app-bar {
+      padding-inline: var(--civ-spacing-4);
+      gap: var(--civ-spacing-2);
     }
-    .wui-docs-app-bar .wui-app-bar__nav { display: none; }
-    .wui-docs-app-bar .wui-docs-app-bar__divider { display: none; }
-    .wui-docs-app-bar .wui-docs-app-bar__github { display: none; }
-    .wui-docs-app-bar__menu { display: inline-flex; }
-    .wui-docs-search-trigger {
+    .civ-docs-app-bar .civ-app-bar__nav { display: none; }
+    .civ-docs-app-bar .civ-docs-app-bar__divider { display: none; }
+    .civ-docs-app-bar .civ-docs-app-bar__github { display: none; }
+    .civ-docs-app-bar__menu { display: inline-flex; }
+    .civ-docs-search-trigger {
       min-inline-size: 0;
     }
-    .wui-docs-search-trigger .wui-button-label { display: none; }
-    .wui-docs-search-trigger .wui-button-icon:last-child { display: none; }
+    .civ-docs-search-trigger .civ-button-label { display: none; }
+    .civ-docs-search-trigger .civ-button-icon:last-child { display: none; }
   }
 }
 
-@layer wui-base {
+@layer civ-base {
   /* Mobile nav drawer — shown via MobileNav on sub-768px */
-  .wui-docs-mobile-nav {
+  .civ-docs-mobile-nav {
     inline-size: min(20rem, 85vw);
   }
-  .wui-docs-mobile-nav__title {
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-docs-mobile-nav__title {
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-docs-mobile-nav__body {
+  .civ-docs-mobile-nav__body {
     flex: 1;
     overflow-y: auto;
-    padding-block: var(--wui-spacing-4);
+    padding-block: var(--civ-spacing-4);
   }
-  .wui-docs-mobile-nav__primary {
-    padding-inline: var(--wui-spacing-4);
-    padding-block-end: var(--wui-spacing-4);
-    border-block-end: 1px solid var(--wui-color-border);
-    margin-block-end: var(--wui-spacing-4);
+  .civ-docs-mobile-nav__primary {
+    padding-inline: var(--civ-spacing-4);
+    padding-block-end: var(--civ-spacing-4);
+    border-block-end: 1px solid var(--civ-color-border);
+    margin-block-end: var(--civ-spacing-4);
   }
-  /* mobile-nav body sidebar override moved to @layer wui-elements at end of file */
+  /* mobile-nav body sidebar override moved to @layer civ-elements at end of file */
 }
 
-@layer wui-base {
-  .wui-code-block {
+@layer civ-base {
+  .civ-code-block {
     position: relative;
   }
-  .wui-code-block__copy {
+  .civ-code-block__copy {
     position: absolute;
-    inset-block-start: var(--wui-spacing-2);
-    inset-inline-end: var(--wui-spacing-2);
+    inset-block-start: var(--civ-spacing-2);
+    inset-inline-end: var(--civ-spacing-2);
     inline-size: 32px;
     block-size: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: color-mix(in oklch, var(--wui-surface-overlay) 80%, transparent);
-    color: var(--wui-color-muted-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: color-mix(in oklch, var(--civ-surface-overlay) 80%, transparent);
+    color: var(--civ-color-muted-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     z-index: 2;
   }
-  .wui-code-block:hover .wui-code-block__copy,
-  .wui-code-block:focus-within .wui-code-block__copy {
+  .civ-code-block:hover .civ-code-block__copy,
+  .civ-code-block:focus-within .civ-code-block__copy {
     opacity: 1;
     pointer-events: auto;
   }
-  .wui-code-block__copy:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-code-block__copy:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-code-block__copy {
-      transition: opacity var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-code-block__copy {
+      transition: opacity var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
   }
 }
 
-@layer wui-base {
+@layer civ-base {
   /* Shared shell for tool pages (Playground / Composer / Themes) */
-  .wui-tool-shell {
-    padding-inline: var(--wui-spacing-6);
-    padding-block: var(--wui-spacing-8);
+  .civ-tool-shell {
+    padding-inline: var(--civ-spacing-6);
+    padding-block: var(--civ-spacing-8);
   }
-  .wui-tool-shell__title {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-4xl);
-    font-weight: var(--wui-font-weight-bold);
+  .civ-tool-shell__title {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-4xl);
+    font-weight: var(--civ-font-weight-bold);
     line-height: 1.15;
     letter-spacing: -0.025em;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
     margin: 0;
   }
-  .wui-tool-shell__sub {
+  .civ-tool-shell__sub {
     max-inline-size: 44rem;
   }
 
   /* Tool page layouts — collapse to single column on mobile */
-  .wui-tool-shell__layout--composer {
+  .civ-tool-shell__layout--composer {
     min-block-size: 70vh;
   }
   @media (max-width: 1024px) {
-    .wui-tool-shell__layout--playground {
+    .civ-tool-shell__layout--playground {
       grid-template-columns: 180px minmax(0, 1fr) !important;
     }
-    .wui-tool-shell__layout--composer {
+    .civ-tool-shell__layout--composer {
       grid-template-columns: 220px minmax(0, 1fr) !important;
     }
   }
   @media (max-width: 768px) {
-    .wui-tool-shell {
-      padding-inline: var(--wui-spacing-4);
+    .civ-tool-shell {
+      padding-inline: var(--civ-spacing-4);
     }
-    .wui-tool-shell__layout--playground,
-    .wui-tool-shell__layout--themes,
-    .wui-tool-shell__layout--composer {
+    .civ-tool-shell__layout--playground,
+    .civ-tool-shell__layout--themes,
+    .civ-tool-shell__layout--composer {
       grid-template-columns: minmax(0, 1fr) !important;
-      gap: var(--wui-spacing-4);
+      gap: var(--civ-spacing-4);
     }
   }
 
-  .wui-tool-side__title {
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-muted-foreground);
+  .civ-tool-side__title {
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-muted-foreground);
     margin: 0;
   }
-  .wui-tool-side__item {
+  .civ-tool-side__item {
     justify-content: flex-start;
   }
-  .wui-tool-code__header {
+  .civ-tool-code__header {
     align-items: center;
     justify-content: space-between;
   }
-  .wui-tool-code__pre {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
+  .civ-tool-code__pre {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
     overflow: auto;
     min-block-size: 60px;
     margin: 0;
   }
-  .wui-tool-code__pre--xs {
-    font-size: var(--wui-font-size-xs);
+  .civ-tool-code__pre--xs {
+    font-size: var(--civ-font-size-xs);
   }
 
-  .wui-tool-palette {
+  .civ-tool-palette {
     height: fit-content;
     max-block-size: calc(100vh - 10rem);
     overflow-y: auto;
   }
   /* Keep the search + title visible while the body scrolls. */
-  .wui-tool-palette .wui-card__header {
+  .civ-tool-palette .civ-card__header {
     position: sticky;
     inset-block-start: 0;
     z-index: 1;
-    background-color: var(--wui-color-card, var(--wui-color-background));
-    border-block-end: 1px solid var(--wui-color-border);
+    background-color: var(--civ-color-card, var(--civ-color-background));
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-tool-palette__search {
+  .civ-tool-palette__search {
     inline-size: 100%;
   }
-  .wui-tool-palette__category {
+  .civ-tool-palette__category {
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding-inline: var(--wui-spacing-1);
+    padding-inline: var(--civ-spacing-1);
   }
 
-  /* Accordion-as-palette overrides live in @layer wui-elements at the bottom
+  /* Accordion-as-palette overrides live in @layer civ-elements at the bottom
      of this file — they must beat the library's own accordion chrome. See
-     the note alongside .wui-docs-sidebar for the same layering rationale. */
+     the note alongside .civ-docs-sidebar for the same layering rationale. */
 
-  .wui-tool-palette__trigger-label {
+  .civ-tool-palette__trigger-label {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
 
-  .wui-tool-palette__list {
+  .civ-tool-palette__list {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
   }
 
   /* Dense palette entry — native <button> so we skip heavier Button padding. */
-  .wui-tool-palette__item {
+  .civ-tool-palette__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     inline-size: 100%;
     min-block-size: 1.75rem;
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
     font-family: inherit;
-    font-size: var(--wui-font-size-xs);
+    font-size: var(--civ-font-size-xs);
     line-height: 1.3;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     cursor: grab;
     text-align: start;
   }
-  .wui-tool-palette__item:hover {
-    background-color: var(--wui-color-muted);
-    border-color: var(--wui-color-border);
+  .civ-tool-palette__item:hover {
+    background-color: var(--civ-color-muted);
+    border-color: var(--civ-color-border);
   }
-  .wui-tool-palette__item:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-tool-palette__item:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 1px;
   }
-  .wui-tool-palette__item:active {
+  .civ-tool-palette__item:active {
     cursor: grabbing;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-tool-palette__item {
+    .civ-tool-palette__item {
       transition-property: background-color, border-color, transform;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-tool-palette__item:hover {
+    .civ-tool-palette__item:hover {
       transform: translateX(1px);
     }
   }
 
   /* First-letter icon badge — category hue provides at-a-glance grouping. */
-  .wui-tool-palette__icon {
+  .civ-tool-palette__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     inline-size: 1.25rem;
     block-size: 1.25rem;
-    border-radius: var(--wui-shape-radius-sm);
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+    border-radius: var(--civ-shape-radius-sm);
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     flex-shrink: 0;
   }
-  .wui-tool-palette__icon[data-category="actions"] {
+  .civ-tool-palette__icon[data-category="actions"] {
     background-color: color-mix(in oklch, oklch(0.65 0.18 25) 18%, transparent);
     color: oklch(0.55 0.18 25);
   }
-  .wui-tool-palette__icon[data-category="form"] {
+  .civ-tool-palette__icon[data-category="form"] {
     background-color: color-mix(in oklch, oklch(0.65 0.14 240) 18%, transparent);
     color: oklch(0.55 0.14 240);
   }
-  .wui-tool-palette__icon[data-category="display"] {
+  .civ-tool-palette__icon[data-category="display"] {
     background-color: color-mix(in oklch, oklch(0.7 0.15 160) 18%, transparent);
     color: oklch(0.5 0.15 160);
   }
-  .wui-tool-palette__icon[data-category="feedback"] {
+  .civ-tool-palette__icon[data-category="feedback"] {
     background-color: color-mix(in oklch, oklch(0.7 0.16 60) 18%, transparent);
     color: oklch(0.55 0.16 60);
   }
-  .wui-tool-palette__icon[data-category="navigation"] {
+  .civ-tool-palette__icon[data-category="navigation"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 280) 18%, transparent);
     color: oklch(0.55 0.15 280);
   }
-  .wui-tool-palette__icon[data-category="overlay"] {
+  .civ-tool-palette__icon[data-category="overlay"] {
     background-color: color-mix(in oklch, oklch(0.65 0.14 320) 18%, transparent);
     color: oklch(0.55 0.14 320);
   }
-  .wui-tool-palette__icon[data-category="layout"] {
+  .civ-tool-palette__icon[data-category="layout"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 300) 18%, transparent);
     color: oklch(0.55 0.15 300);
   }
-  .wui-tool-palette__icon[data-category="typography"] {
+  .civ-tool-palette__icon[data-category="typography"] {
     background-color: color-mix(in oklch, oklch(0.7 0.12 40) 18%, transparent);
     color: oklch(0.5 0.12 40);
   }
-  .wui-tool-palette__icon[data-category="data"] {
+  .civ-tool-palette__icon[data-category="data"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 200) 18%, transparent);
     color: oklch(0.5 0.15 200);
   }
-  .wui-tool-palette__icon[data-category="media"] {
+  .civ-tool-palette__icon[data-category="media"] {
     background-color: color-mix(in oklch, oklch(0.65 0.18 350) 18%, transparent);
     color: oklch(0.55 0.18 350);
   }
-  .wui-tool-palette__icon--template {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
-    color: var(--wui-color-primary);
+  .civ-tool-palette__icon--template {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-tool-palette__item--template {
-    font-weight: var(--wui-font-weight-medium);
+  .civ-tool-palette__item--template {
+    font-weight: var(--civ-font-weight-medium);
   }
-  .wui-tool-palette__label {
+  .civ-tool-palette__label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -369,363 +369,363 @@
     white-space: nowrap;
   }
 
-  .wui-tool-preview__stage {
+  .civ-tool-preview__stage {
     display: flex;
     align-items: center;
     justify-content: center;
     min-block-size: 120px;
   }
 
-  .wui-tool-canvas__content {
+  .civ-tool-canvas__content {
     min-block-size: 300px;
   }
-  .wui-tool-canvas__empty {
+  .civ-tool-canvas__empty {
     min-block-size: 200px;
   }
-  .wui-tool-canvas__node {
-    padding: var(--wui-spacing-2);
-    border: 2px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+  .civ-tool-canvas__node {
+    padding: var(--civ-spacing-2);
+    border: 2px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
   }
-  .wui-tool-canvas__node[data-selected] {
-    border-color: var(--wui-color-primary);
+  .civ-tool-canvas__node[data-selected] {
+    border-color: var(--civ-color-primary);
   }
-  .wui-tool-canvas__node:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-tool-canvas__node:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-tool-canvas__node-body {
+  .civ-tool-canvas__node-body {
     align-items: center;
     flex: 1;
     min-inline-size: 0;
   }
-  .wui-tool-canvas__node-input {
+  .civ-tool-canvas__node-input {
     max-inline-size: 150px;
   }
-  .wui-tool-canvas__node-divider {
+  .civ-tool-canvas__node-divider {
     inline-size: 100px;
   }
 
-  .wui-theme-swatch {
+  .civ-theme-swatch {
     inline-size: 100%;
     block-size: 60px;
-    border-radius: var(--wui-shape-radius-md);
+    border-radius: var(--civ-shape-radius-md);
   }
-  .wui-theme-preview__section-title {
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-theme-preview__section-title {
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-semibold);
     margin: 0;
   }
-  .wui-theme-preview__input {
+  .civ-theme-preview__input {
     max-inline-size: 300px;
   }
-  .wui-theme-preview__card {
+  .civ-theme-preview__card {
     max-inline-size: 300px;
   }
-  .wui-contrast-row {
+  .civ-contrast-row {
     justify-content: space-between;
     align-items: center;
   }
-  .wui-contrast-row__pair {
+  .civ-contrast-row__pair {
     flex: 1;
   }
 
-  .wui-docs-shell {
+  .civ-docs-shell {
     display: grid;
     grid-template-columns: 16rem minmax(0, 1fr) 14rem;
     max-inline-size: 90rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
-    gap: var(--wui-spacing-6);
+    padding-inline: var(--civ-spacing-6);
+    gap: var(--civ-spacing-6);
     min-block-size: 100vh;
   }
   @media (max-width: 1024px) {
-    .wui-docs-shell {
+    .civ-docs-shell {
       grid-template-columns: 16rem minmax(0, 1fr);
     }
-    .wui-docs-toc { display: none; }
+    .civ-docs-toc { display: none; }
   }
   @media (max-width: 768px) {
-    .wui-docs-shell {
+    .civ-docs-shell {
       grid-template-columns: minmax(0, 1fr);
-      padding-inline: var(--wui-spacing-4);
-      gap: var(--wui-spacing-4);
+      padding-inline: var(--civ-spacing-4);
+      gap: var(--civ-spacing-4);
     }
-    .wui-docs-sidebar { display: none; }
-    .wui-docs-pager {
+    .civ-docs-sidebar { display: none; }
+    .civ-docs-pager {
       grid-template-columns: minmax(0, 1fr);
     }
-    .wui-docs-pager__card--next { text-align: start; }
+    .civ-docs-pager__card--next { text-align: start; }
   }
-  .wui-docs-main {
-    padding-block: var(--wui-spacing-8);
+  .civ-docs-main {
+    padding-block: var(--civ-spacing-8);
     max-inline-size: 48rem;
     min-inline-size: 0;
   }
 
-  /* Docs sidebar overrides moved to @layer wui-elements at end of file
-     (needs higher cascade-layer priority than library's .wui-sidebar). */
+  /* Docs sidebar overrides moved to @layer civ-elements at end of file
+     (needs higher cascade-layer priority than library's .civ-sidebar). */
 
   /* TOC */
-  .wui-docs-toc {
+  .civ-docs-toc {
     position: sticky;
-    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    max-block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    inset-block-start: calc(var(--civ-spacing-3) * 2 + 36px + 1px);
+    max-block-size: calc(100vh - (var(--civ-spacing-3) * 2 + 36px + 1px));
     overflow-y: auto;
-    padding-block: var(--wui-spacing-6);
-    padding-inline-start: var(--wui-spacing-6);
+    padding-block: var(--civ-spacing-6);
+    padding-inline-start: var(--civ-spacing-6);
     inline-size: 14rem;
     align-self: flex-start;
   }
-  .wui-docs-toc__title {
-    font-size: var(--wui-font-size-xs);
+  .civ-docs-toc__title {
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-semibold);
-    margin-block-end: var(--wui-spacing-2);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-semibold);
+    margin-block-end: var(--civ-spacing-2);
   }
-  .wui-docs-toc__list {
-    border-inline-start: 1px solid var(--wui-color-border);
+  .civ-docs-toc__list {
+    border-inline-start: 1px solid var(--civ-color-border);
   }
-  .wui-docs-toc__link {
+  .civ-docs-toc__link {
     display: block;
-    padding-inline: var(--wui-spacing-3);
-    padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    padding-inline: var(--civ-spacing-3);
+    padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
     margin-inline-start: -1px;
     border-inline-start: 1px solid transparent;
   }
-  .wui-docs-toc__link[data-level="3"] {
-    padding-inline-start: var(--wui-spacing-6);
+  .civ-docs-toc__link[data-level="3"] {
+    padding-inline-start: var(--civ-spacing-6);
   }
-  .wui-docs-toc__link:hover {
-    color: var(--wui-color-foreground);
+  .civ-docs-toc__link:hover {
+    color: var(--civ-color-foreground);
   }
-  .wui-docs-toc__link[data-active] {
-    color: var(--wui-color-primary);
-    border-inline-start-color: var(--wui-color-primary);
-    font-weight: var(--wui-font-weight-medium);
-  }
-
-  /* Docs breadcrumbs (minor spacing tweaks on @weiui/react Breadcrumb) */
-  .wui-docs-breadcrumbs {
-    margin-block-end: var(--wui-spacing-6);
+  .civ-docs-toc__link[data-active] {
+    color: var(--civ-color-primary);
+    border-inline-start-color: var(--civ-color-primary);
+    font-weight: var(--civ-font-weight-medium);
   }
 
-  .wui-docs-edit-link {
-    margin-block-start: var(--wui-spacing-8);
+  /* Docs breadcrumbs (minor spacing tweaks on civaria Breadcrumb) */
+  .civ-docs-breadcrumbs {
+    margin-block-end: var(--civ-spacing-6);
   }
 
-  .wui-not-found {
+  .civ-docs-edit-link {
+    margin-block-start: var(--civ-spacing-8);
+  }
+
+  .civ-not-found {
     display: flex;
     align-items: center;
     justify-content: center;
     min-block-size: 70vh;
-    padding-inline: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-4);
   }
-  .wui-not-found__stack {
+  .civ-not-found__stack {
     align-items: center;
     text-align: center;
     max-inline-size: 42rem;
   }
-  .wui-not-found__code {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-5xl);
+  .civ-not-found__code {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-5xl);
     line-height: 1;
   }
-  .wui-not-found__body {
+  .civ-not-found__body {
     align-items: center;
   }
-  .wui-not-found__title {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-4xl);
+  .civ-not-found__title {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-4xl);
     line-height: 1.1;
     margin: 0;
   }
-  .wui-not-found__actions {
+  .civ-not-found__actions {
     justify-content: center;
   }
 
   /* Pager — Grid+Card stack (styled primitives) */
-  .wui-docs-pager {
-    margin-block-start: var(--wui-spacing-12);
-    padding-block-start: var(--wui-spacing-6);
-    border-block-start: 1px solid var(--wui-color-border);
+  .civ-docs-pager {
+    margin-block-start: var(--civ-spacing-12);
+    padding-block-start: var(--civ-spacing-6);
+    border-block-start: 1px solid var(--civ-color-border);
   }
-  .wui-docs-pager__card {
-    padding: var(--wui-spacing-4);
+  .civ-docs-pager__card {
+    padding: var(--civ-spacing-4);
     text-decoration: none;
     color: inherit;
     display: block;
   }
-  .wui-docs-pager__card--next {
+  .civ-docs-pager__card--next {
     text-align: end;
   }
-  .wui-docs-pager__card:hover {
-    border-color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
+  .civ-docs-pager__card:hover {
+    border-color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 4%, transparent);
   }
 }
 
 
 /* Prose typography for MDX pages */
-@layer wui-base {
-  .wui-prose {
-    color: var(--wui-color-foreground);
-    font-size: var(--wui-font-size-base);
+@layer civ-base {
+  .civ-prose {
+    color: var(--civ-color-foreground);
+    font-size: var(--civ-font-size-base);
     line-height: 1.7;
   }
 
   /* Scroll margin so anchored headings don't hide under sticky header */
-  .wui-prose :where(h1, h2, h3, h4, h5, h6) {
+  .civ-prose :where(h1, h2, h3, h4, h5, h6) {
     scroll-margin-block-start: 5rem;
-    color: var(--wui-color-foreground);
-    font-weight: var(--wui-font-weight-semibold);
+    color: var(--civ-color-foreground);
+    font-weight: var(--civ-font-weight-semibold);
     letter-spacing: -0.015em;
   }
-  .wui-prose h1 {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-4xl);
+  .civ-prose h1 {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-4xl);
     line-height: 1.15;
-    margin-block: 0 var(--wui-spacing-6);
+    margin-block: 0 var(--civ-spacing-6);
     letter-spacing: -0.025em;
-    font-weight: var(--wui-font-weight-bold);
+    font-weight: var(--civ-font-weight-bold);
   }
-  .wui-prose h2 {
-    font-size: var(--wui-font-size-2xl);
+  .civ-prose h2 {
+    font-size: var(--civ-font-size-2xl);
     line-height: 1.25;
-    margin-block: var(--wui-spacing-10) var(--wui-spacing-4);
-    padding-block-end: var(--wui-spacing-2);
-    border-block-end: 1px solid var(--wui-color-border);
+    margin-block: var(--civ-spacing-10) var(--civ-spacing-4);
+    padding-block-end: var(--civ-spacing-2);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-prose h3 {
-    font-size: var(--wui-font-size-xl);
+  .civ-prose h3 {
+    font-size: var(--civ-font-size-xl);
     line-height: 1.3;
-    margin-block: var(--wui-spacing-8) var(--wui-spacing-3);
+    margin-block: var(--civ-spacing-8) var(--civ-spacing-3);
   }
-  .wui-prose h4 {
-    font-size: var(--wui-font-size-lg);
+  .civ-prose h4 {
+    font-size: var(--civ-font-size-lg);
     line-height: 1.4;
-    margin-block: var(--wui-spacing-6) var(--wui-spacing-2);
+    margin-block: var(--civ-spacing-6) var(--civ-spacing-2);
   }
 
-  .wui-prose p {
-    margin-block: var(--wui-spacing-4);
+  .civ-prose p {
+    margin-block: var(--civ-spacing-4);
   }
-  .wui-prose p:first-child { margin-block-start: 0; }
-  .wui-prose p:last-child  { margin-block-end: 0; }
+  .civ-prose p:first-child { margin-block-start: 0; }
+  .civ-prose p:last-child  { margin-block-end: 0; }
 
-  .wui-prose a {
-    color: var(--wui-color-primary);
+  .civ-prose a {
+    color: var(--civ-color-primary);
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
-  .wui-prose a:hover {
+  .civ-prose a:hover {
     text-decoration-thickness: 2px;
   }
 
-  .wui-prose strong { font-weight: var(--wui-font-weight-semibold); }
-  .wui-prose em { font-style: italic; }
+  .civ-prose strong { font-weight: var(--civ-font-weight-semibold); }
+  .civ-prose em { font-style: italic; }
 
-  .wui-prose ul, .wui-prose ol {
-    margin-block: var(--wui-spacing-4);
-    padding-inline-start: var(--wui-spacing-6);
+  .civ-prose ul, .civ-prose ol {
+    margin-block: var(--civ-spacing-4);
+    padding-inline-start: var(--civ-spacing-6);
   }
-  .wui-prose ul { list-style: disc; }
-  .wui-prose ol { list-style: decimal; }
-  .wui-prose li { margin-block: var(--wui-spacing-1); }
-  .wui-prose li::marker { color: var(--wui-color-muted-foreground); }
-  .wui-prose ul ul, .wui-prose ul ol,
-  .wui-prose ol ul, .wui-prose ol ol {
-    margin-block: var(--wui-spacing-1);
+  .civ-prose ul { list-style: disc; }
+  .civ-prose ol { list-style: decimal; }
+  .civ-prose li { margin-block: var(--civ-spacing-1); }
+  .civ-prose li::marker { color: var(--civ-color-muted-foreground); }
+  .civ-prose ul ul, .civ-prose ul ol,
+  .civ-prose ol ul, .civ-prose ol ol {
+    margin-block: var(--civ-spacing-1);
   }
 
-  .wui-prose blockquote {
-    margin-block: var(--wui-spacing-4);
-    padding-inline-start: var(--wui-spacing-4);
-    border-inline-start: 3px solid var(--wui-color-primary);
-    color: var(--wui-color-muted-foreground);
+  .civ-prose blockquote {
+    margin-block: var(--civ-spacing-4);
+    padding-inline-start: var(--civ-spacing-4);
+    border-inline-start: 3px solid var(--civ-color-primary);
+    color: var(--civ-color-muted-foreground);
     font-style: italic;
   }
 
-  .wui-prose hr {
+  .civ-prose hr {
     border: 0;
-    border-block-start: 1px solid var(--wui-color-border);
-    margin-block: var(--wui-spacing-8);
+    border-block-start: 1px solid var(--civ-color-border);
+    margin-block: var(--civ-spacing-8);
   }
 
   /* Inline code */
-  .wui-prose :not(pre) > code {
-    font-family: var(--wui-font-family-mono);
+  .civ-prose :not(pre) > code {
+    font-family: var(--civ-font-family-mono);
     font-size: 0.875em;
     padding-inline: 0.35em;
     padding-block: 0.15em;
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-sm);
-    color: var(--wui-color-foreground);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-sm);
+    color: var(--civ-color-foreground);
   }
 
   /* Code blocks — give them breathing room */
-  .wui-prose pre,
-  .wui-prose .wui-code-block {
-    margin-block: var(--wui-spacing-4);
+  .civ-prose pre,
+  .civ-prose .civ-code-block {
+    margin-block: var(--civ-spacing-4);
   }
 
   /* Tables */
-  .wui-prose table {
+  .civ-prose table {
     inline-size: 100%;
-    margin-block: var(--wui-spacing-4);
+    margin-block: var(--civ-spacing-4);
     border-collapse: collapse;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
     display: block;
     overflow-x: auto;
   }
-  .wui-prose thead { background-color: var(--wui-surface-sunken); }
-  .wui-prose th {
+  .civ-prose thead { background-color: var(--civ-surface-sunken); }
+  .civ-prose th {
     text-align: start;
-    font-weight: var(--wui-font-weight-semibold);
-    padding-inline: var(--wui-spacing-3);
-    padding-block: var(--wui-spacing-2);
-    border-block-end: 1px solid var(--wui-color-border);
-    color: var(--wui-color-foreground);
+    font-weight: var(--civ-font-weight-semibold);
+    padding-inline: var(--civ-spacing-3);
+    padding-block: var(--civ-spacing-2);
+    border-block-end: 1px solid var(--civ-color-border);
+    color: var(--civ-color-foreground);
   }
-  .wui-prose td {
-    padding-inline: var(--wui-spacing-3);
-    padding-block: var(--wui-spacing-2);
-    border-block-end: 1px solid var(--wui-color-border);
+  .civ-prose td {
+    padding-inline: var(--civ-spacing-3);
+    padding-block: var(--civ-spacing-2);
+    border-block-end: 1px solid var(--civ-color-border);
     vertical-align: top;
   }
-  .wui-prose tr:last-child td { border-block-end: 0; }
+  .civ-prose tr:last-child td { border-block-end: 0; }
 
-  .wui-prose kbd {
-    font-family: var(--wui-font-family-mono);
+  .civ-prose kbd {
+    font-family: var(--civ-font-family-mono);
     font-size: 0.85em;
     padding-inline: 0.45em;
     padding-block: 0.1em;
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
     border-block-end-width: 2px;
-    border-radius: var(--wui-shape-radius-sm);
-    color: var(--wui-color-foreground);
+    border-radius: var(--civ-shape-radius-sm);
+    color: var(--civ-color-foreground);
   }
 }
 
-@layer wui-base {
-  .wui-landing-hero {
-    padding-block: calc(var(--wui-spacing-12) * 2) var(--wui-spacing-12);
+@layer civ-base {
+  .civ-landing-hero {
+    padding-block: calc(var(--civ-spacing-12) * 2) var(--civ-spacing-12);
     position: relative;
     overflow: hidden;
   }
-  .wui-hero-ambient {
+  .civ-hero-ambient {
     position: absolute;
     inset-inline: 0;
     inset-block-start: -10%;
@@ -734,7 +734,7 @@
     z-index: -1;
     background:
       radial-gradient(circle at 30% 30%,
-        color-mix(in oklch, var(--wui-color-primary) 40%, transparent),
+        color-mix(in oklch, var(--civ-color-primary) 40%, transparent),
         transparent 50%),
       radial-gradient(circle at 70% 40%,
         color-mix(in oklch, oklch(0.7 0.18 320) 30%, transparent),
@@ -745,17 +745,17 @@
     filter: blur(60px) saturate(1.4);
     opacity: 0.7;
   }
-  html.dark .wui-hero-ambient {
+  html.dark .civ-hero-ambient {
     opacity: 0.35;
   }
-  .wui-landing-hero__title {
-    font-family: var(--wui-font-family-display);
+  .civ-landing-hero__title {
+    font-family: var(--civ-font-family-display);
     font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
     line-height: 1.05;
     letter-spacing: -0.03em;
     margin: 0;
   }
-  .wui-landing-hero__sub {
+  .civ-landing-hero__sub {
     max-inline-size: 40rem;
     margin-inline: auto;
   }
@@ -763,103 +763,103 @@
 
 /*
  * Docs-specific Sidebar overrides.
- * The library's .wui-sidebar rules live in @layer wui-elements — higher
- * cascade-layer priority than @layer wui-base — so docs overrides must
- * also live in @layer wui-elements to actually win. Without this, the
+ * The library's .civ-sidebar rules live in @layer civ-elements — higher
+ * cascade-layer priority than @layer civ-base — so docs overrides must
+ * also live in @layer civ-elements to actually win. Without this, the
  * library's position:sticky / 100vh / inline-size:16rem / shadow / border
  * always apply and the docs sidebar renders at viewport top, always
  * visible, with chrome that doesn't match the grid layout.
  */
-@layer wui-elements {
-  .wui-docs-sidebar {
+@layer civ-elements {
+  .civ-docs-sidebar {
     position: sticky;
-    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    inset-block-start: calc(var(--civ-spacing-3) * 2 + 36px + 1px);
+    block-size: calc(100vh - (var(--civ-spacing-3) * 2 + 36px + 1px));
     inline-size: 100%;
     overflow-y: auto;
     box-shadow: none;
     border-inline-end: 0;
     background-color: transparent;
   }
-  .wui-docs-sidebar .wui-sidebar__item {
+  .civ-docs-sidebar .civ-sidebar__item {
     min-block-size: 32px;
-    padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
+    padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm);
     text-decoration: none;
   }
-  .wui-docs-sidebar .wui-sidebar__group + .wui-sidebar__group {
-    margin-block-start: var(--wui-spacing-4);
-    padding-block-start: var(--wui-spacing-2);
+  .civ-docs-sidebar .civ-sidebar__group + .civ-sidebar__group {
+    margin-block-start: var(--civ-spacing-4);
+    padding-block-start: var(--civ-spacing-2);
   }
   @media (max-width: 768px) {
-    .wui-docs-shell .wui-docs-sidebar { display: none; }
+    .civ-docs-shell .civ-docs-sidebar { display: none; }
   }
   /* Inside the mobile nav drawer, force the sidebar to render as normal flow */
-  .wui-docs-mobile-nav__body .wui-docs-sidebar {
+  .civ-docs-mobile-nav__body .civ-docs-sidebar {
     display: flex;
     position: static;
     block-size: auto;
     border-inline-end: none;
     padding-block: 0;
-    padding-inline: var(--wui-spacing-2);
+    padding-inline: var(--civ-spacing-2);
     overflow-y: visible;
     inline-size: 100%;
   }
 
   /*
    * Accordion-as-palette overrides — same layering trick as the sidebar.
-   * The library's .wui-accordion rules live in @layer wui-elements; these
+   * The library's .civ-accordion rules live in @layer civ-elements; these
    * overrides must also live here to actually win. Strips the heavy
    * standalone-widget chrome so the Accordion reads as a lightweight
    * collapsible-category list inside the palette Card.
    */
-  .wui-tool-palette__accordion.wui-accordion {
+  .civ-tool-palette__accordion.civ-accordion {
     border: 0;
     border-radius: 0;
     box-shadow: none;
     overflow: visible;
     background-color: transparent;
   }
-  .wui-tool-palette__accordion .wui-accordion__item {
+  .civ-tool-palette__accordion .civ-accordion__item {
     border-block-end: 0;
-    border-radius: var(--wui-shape-radius-sm);
-    margin-block-end: var(--wui-spacing-1);
+    border-radius: var(--civ-shape-radius-sm);
+    margin-block-end: var(--civ-spacing-1);
   }
-  .wui-tool-palette__accordion .wui-accordion__trigger {
+  .civ-tool-palette__accordion .civ-accordion__trigger {
     min-block-size: 2rem;
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-xs);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-muted-foreground);
-    border-radius: var(--wui-shape-radius-sm);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-muted-foreground);
+    border-radius: var(--civ-shape-radius-sm);
   }
-  .wui-tool-palette__accordion .wui-accordion__trigger:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-tool-palette__accordion .civ-accordion__trigger:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
-  .wui-tool-palette__accordion .wui-accordion__trigger[aria-expanded="true"] {
-    color: var(--wui-color-foreground);
+  .civ-tool-palette__accordion .civ-accordion__trigger[aria-expanded="true"] {
+    color: var(--civ-color-foreground);
     background-color: transparent;
   }
-  .wui-tool-palette__accordion .wui-accordion__content-inner {
-    padding-block: var(--wui-spacing-1);
+  .civ-tool-palette__accordion .civ-accordion__content-inner {
+    padding-block: var(--civ-spacing-1);
     padding-inline: 0;
   }
 
   /* Templates section pinned at the top — distinct accent hue. */
-  .wui-tool-palette__section--templates .wui-accordion__trigger {
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+  .civ-tool-palette__section--templates .civ-accordion__trigger {
+    color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
   }
-  .wui-tool-palette__section--templates .wui-accordion__trigger:hover {
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 14%, transparent);
+  .civ-tool-palette__section--templates .civ-accordion__trigger:hover {
+    color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 14%, transparent);
   }
-  .wui-tool-palette__section--templates .wui-accordion__trigger[aria-expanded="true"] {
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
+  .civ-tool-palette__section--templates .civ-accordion__trigger[aria-expanded="true"] {
+    color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
   }
 }

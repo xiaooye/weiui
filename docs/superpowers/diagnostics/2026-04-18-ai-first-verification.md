@@ -9,7 +9,7 @@
 |------|---------|---------|
 | 1 | `1d8058f` | llms.txt + llms-full.txt generator |
 | 2 | `5d8d622` | Component registry JSON generator |
-| 3 | `4b0f20d` | @weiui/mcp scaffold + list_components |
+| 3 | `4b0f20d` | @civaria/mcp scaffold + list_components |
 | 4 | `7d7e454` | MCP get/search/example/check tools |
 | 5 | `01d6109` | CLI describe/list/examples |
 | 6 | `432ab3e` | CLI check-usage |
@@ -49,12 +49,12 @@ Confirmed by `ls packages/cli/src/commands/`: `add.ts`, `check-usage.ts`, `descr
 
 ## End-to-end smoke tests
 
-- [x] `pnpm build` — 9/9 tasks successful (all 9 build-enabled packages including `@weiui/mcp`; plan originally said 8 pre-MCP). Cached: 9/9. Time: 23s.
-- [x] `pnpm test` — 1,052 tests pass across 16 tasks (`@weiui/a11y` 6, `@weiui/headless` 106, `@weiui/mcp` 19, `@weiui/tokens` 23, `@weiui/react` 884, `@weiui/cli` 8, `@weiui/docs` 6). Note: the `@weiui/docs` `buildRegistry` test occasionally times out under parallel Turbo execution on Windows due to 60+ MDX parses per `it` block — passes cleanly in isolation (`pnpm --filter @weiui/docs test`) and on warm-cache re-runs. Not introduced by Task 8.
+- [x] `pnpm build` — 9/9 tasks successful (all 9 build-enabled packages including `@civaria/mcp`; plan originally said 8 pre-MCP). Cached: 9/9. Time: 23s.
+- [x] `pnpm test` — 1,052 tests pass across 16 tasks (`@civaria/a11y` 6, `@civaria/headless` 106, `@civaria/mcp` 19, `@civaria/tokens` 23, `civaria` 884, `@civaria/cli` 8, `@civaria/docs` 6). Note: the `@civaria/docs` `buildRegistry` test occasionally times out under parallel Turbo execution on Windows due to 60+ MDX parses per `it` block — passes cleanly in isolation (`pnpm --filter @civaria/docs test`) and on warm-cache re-runs. Not introduced by Task 8.
 - [x] `pnpm check-jsdoc` — PASS (534/534, 100%).
-- [x] `node packages/cli/dist/index.js list` — prints `Accordion`, `Alert`, `AppBar`, … (with `WEIUI_MCP_REGISTRY_DIR=apps/docs/public/registry` pointing at the local registry; without the env var the CLI falls back to remote `weiui.dev` which isn't reachable in CI sandbox).
+- [x] `node packages/cli/dist/index.js list` — prints `Accordion`, `Alert`, `AppBar`, … (with `CIVARIA_MCP_REGISTRY_DIR=apps/docs/public/registry` pointing at the local registry; without the env var the CLI falls back to remote `civaria.dev` which isn't reachable in CI sandbox).
 - [x] `node packages/cli/dist/index.js describe Button` — prints full JSON (name, category, importPath, dependencies, props …).
-- [x] `node packages/mcp/dist/index.js` — launches, prints `[@weiui/mcp] ready — awaiting stdio messages` to stderr, awaits stdio. Cleanly terminated with SIGTERM after ~2s.
+- [x] `node packages/mcp/dist/index.js` — launches, prints `[@civaria/mcp] ready — awaiting stdio messages` to stderr, awaits stdio. Cleanly terminated with SIGTERM after ~2s.
 - [x] `apps/docs/public/llms.txt` — non-empty (8 KB).
 - [x] `apps/docs/public/llms-full.txt` — non-empty (196 KB).
 - [x] `apps/docs/public/registry/Button.json` — non-empty, schema-valid.
@@ -63,7 +63,7 @@ Confirmed by `ls packages/cli/src/commands/`: `add.ts`, `check-usage.ts`, `descr
 
 1. [x] llms.txt + llms-full.txt served from docs root
 2. [x] Registry JSON files exist for all components (65 components)
-3. [x] `@weiui/mcp` package publishable with 5 tools
+3. [x] `@civaria/mcp` package publishable with 5 tools
 4. [x] CLI `describe`/`list`/`examples`/`check-usage` commands work
 5. [x] JSDoc coverage ≥ 95% (actual: 100%)
 6. [x] AGENTS.md + `/docs/ai-guide` shipped

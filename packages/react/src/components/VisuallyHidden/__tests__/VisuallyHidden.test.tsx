@@ -9,15 +9,15 @@ describe("VisuallyHidden", () => {
     expect(screen.getByText("Hidden text").tagName).toBe("SPAN");
   });
 
-  it("applies wui-sr-only class", () => {
+  it("applies civ-sr-only class", () => {
     render(<VisuallyHidden>Hidden text</VisuallyHidden>);
-    expect(screen.getByText("Hidden text").className).toContain("wui-sr-only");
+    expect(screen.getByText("Hidden text").className).toContain("civ-sr-only");
   });
 
   it("merges custom className", () => {
     render(<VisuallyHidden className="extra">Hidden</VisuallyHidden>);
     const el = screen.getByText("Hidden");
-    expect(el.className).toContain("wui-sr-only");
+    expect(el.className).toContain("civ-sr-only");
     expect(el.className).toContain("extra");
   });
 

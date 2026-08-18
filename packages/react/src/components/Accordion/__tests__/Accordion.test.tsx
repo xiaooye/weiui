@@ -67,7 +67,7 @@ describe("Accordion", () => {
       );
 
       const triggers = screen.getAllByRole("button");
-      const panels = document.querySelectorAll(".wui-accordion__content");
+      const panels = document.querySelectorAll(".civ-accordion__content");
       expect(panels).toHaveLength(2);
 
       await user.click(triggers[0]!);
@@ -99,7 +99,7 @@ describe("Accordion", () => {
 
       await user.click(screen.getByRole("button", { name: /Title 1/i }));
       await user.click(screen.getByRole("button", { name: /Title 2/i }));
-      const panels = document.querySelectorAll(".wui-accordion__content");
+      const panels = document.querySelectorAll(".civ-accordion__content");
       expect(panels[0]).toHaveAttribute("data-state", "open");
       expect(panels[1]).toHaveAttribute("data-state", "open");
     });
@@ -165,7 +165,7 @@ describe("Accordion", () => {
         </Accordion>,
       );
       // Query by id to bypass the aria-hidden filter from `inert`.
-      const panel = document.querySelector(".wui-accordion__content");
+      const panel = document.querySelector(".civ-accordion__content");
       expect(panel).not.toBeNull();
       expect(panel).toHaveAttribute("data-state", "closed");
       expect(panel).toHaveAttribute("inert");
@@ -183,7 +183,7 @@ describe("Accordion", () => {
         </Accordion>,
       );
       const trigger = screen.getByRole("button", { name: /Title 1/i });
-      const panel = document.querySelector(".wui-accordion__content")!;
+      const panel = document.querySelector(".civ-accordion__content")!;
       expect(panel).toHaveAttribute("data-state", "closed");
       await user.click(trigger);
       expect(panel).toHaveAttribute("data-state", "open");
@@ -221,7 +221,7 @@ describe("Accordion", () => {
       );
 
       await user.click(screen.getByRole("button", { name: /Title 1/i }));
-      const panel = document.querySelector(".wui-accordion__content")!;
+      const panel = document.querySelector(".civ-accordion__content")!;
       expect(panel).toHaveAttribute("data-state", "closed");
     });
 
@@ -250,7 +250,7 @@ describe("Accordion", () => {
           </AccordionItem>
         </Accordion>,
       );
-      let panel = document.querySelector(".wui-accordion__content")!;
+      let panel = document.querySelector(".civ-accordion__content")!;
       expect(panel).toHaveAttribute("data-state", "closed");
 
       rerender(
@@ -261,7 +261,7 @@ describe("Accordion", () => {
           </AccordionItem>
         </Accordion>,
       );
-      panel = document.querySelector(".wui-accordion__content")!;
+      panel = document.querySelector(".civ-accordion__content")!;
       expect(panel).toHaveAttribute("data-state", "open");
     });
   });
@@ -366,7 +366,7 @@ describe("Accordion", () => {
       );
       const btn = screen.getByRole("button", { name: /Trigger B/i });
       await user.click(btn);
-      const panel = document.querySelector(".wui-accordion__content")!;
+      const panel = document.querySelector(".civ-accordion__content")!;
       expect(panel).toHaveAttribute("data-state", "closed");
     });
 

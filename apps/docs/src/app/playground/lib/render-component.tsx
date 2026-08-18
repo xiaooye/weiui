@@ -1,32 +1,32 @@
 "use client";
 import { lazy, Suspense, createElement, type ReactNode } from "react";
-import * as Main from "@weiui/react";
-import { Spinner } from "@weiui/react";
+import * as Main from "civaria";
+import { Spinner } from "civaria";
 
 const heavyLazy: Record<string, ReturnType<typeof lazy>> = {
   Editor: lazy(() =>
-    import("@weiui/react/editor").then((m) => ({ default: m.Editor as any })),
+    import("civaria/editor").then((m) => ({ default: m.Editor as any })),
   ),
   DataTable: lazy(() =>
-    import("@weiui/react/data-table").then((m) => ({ default: m.DataTable as any })),
+    import("civaria/data-table").then((m) => ({ default: m.DataTable as any })),
   ),
   BarChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.BarChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.BarChart as any })),
   ),
   LineChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.LineChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.LineChart as any })),
   ),
   AreaChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.AreaChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.AreaChart as any })),
   ),
   PieChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.PieChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.PieChart as any })),
   ),
   DonutChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.DonutChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.DonutChart as any })),
   ),
   RadarChart: lazy(() =>
-    import("@weiui/react/chart").then((m) => ({ default: m.RadarChart as any })),
+    import("civaria/chart").then((m) => ({ default: m.RadarChart as any })),
   ),
 };
 

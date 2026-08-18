@@ -6,9 +6,9 @@ import type { FlatToken } from "../types";
 
 describe("pathToCssVar", () => {
   it("converts token path to CSS custom property name", () => {
-    expect(pathToCssVar(["color", "primary"])).toBe("--wui-color-primary");
-    expect(pathToCssVar(["font", "size", "base"])).toBe("--wui-font-size-base");
-    expect(pathToCssVar(["spacing", "2.5"])).toBe("--wui-spacing-2\\.5");
+    expect(pathToCssVar(["color", "primary"])).toBe("--civ-color-primary");
+    expect(pathToCssVar(["font", "size", "base"])).toBe("--civ-font-size-base");
+    expect(pathToCssVar(["spacing", "2.5"])).toBe("--civ-spacing-2\\.5");
   });
 });
 
@@ -16,7 +16,7 @@ describe("generateCss", () => {
   it("registers the canonical cascade order before token declarations", () => {
     const css = generateCss([]);
     expect(css.startsWith(CASCADE_LAYER_ORDER)).toBe(true);
-    expect(CASCADE_LAYER_ORDER).toContain("wui-tokens, wui-theme, wui-base");
+    expect(CASCADE_LAYER_ORDER).toContain("civ-tokens, civ-theme, civ-base");
   });
 
   it("generates CSS with @layer and :root", () => {
@@ -25,10 +25,10 @@ describe("generateCss", () => {
       { path: ["spacing", "4"], token: { $value: "16px" } },
     ];
     const css = generateCss(tokens);
-    expect(css).toContain("@layer wui-tokens");
+    expect(css).toContain("@layer civ-tokens");
     expect(css).toContain(":root");
-    expect(css).toContain("--wui-color-primary: oklch(0.546 0.245 263)");
-    expect(css).toContain("--wui-spacing-4: 16px");
+    expect(css).toContain("--civ-color-primary: oklch(0.546 0.245 263)");
+    expect(css).toContain("--civ-spacing-4: 16px");
   });
 });
 

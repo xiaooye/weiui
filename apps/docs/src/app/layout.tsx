@@ -4,8 +4,8 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { AppToaster } from "../components/chrome/AppToaster";
 import { RouteToastReset } from "../components/chrome/RouteToastReset";
-import "@weiui/tokens/tokens.css";
-import "@weiui/css";
+import "@civaria/tokens/tokens.css";
+import "@civaria/css";
 import "../styles/fonts.css";
 import "../styles/shiki.css";
 import "../styles/chrome.css";
@@ -33,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WeiUI — Design System",
+  title: "Civaria — Design System",
   description: "An accessibility-first, layered design system with WCAG AAA enforcement",
 };
 

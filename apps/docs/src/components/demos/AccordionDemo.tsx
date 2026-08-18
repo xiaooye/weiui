@@ -1,12 +1,12 @@
 "use client";
 
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@weiui/react";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "civaria";
 
 export function AccordionDemo() {
   return (
     <Accordion type="single" defaultExpanded={["faq-1"]} style={{ width: "100%", maxWidth: "480px" }}>
       <AccordionItem value="faq-1">
-        <AccordionTrigger>What is WeiUI?</AccordionTrigger>
+        <AccordionTrigger>What is Civaria?</AccordionTrigger>
         <AccordionContent>
           A business-level design system with CSS, headless, and styled React layers.
         </AccordionContent>

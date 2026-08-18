@@ -27,7 +27,7 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(
   ({ className, children, mode = "default", ...props }, ref) => (
     <ol
       ref={ref}
-      className={cn("wui-timeline", className)}
+      className={cn("civ-timeline", className)}
       data-mode={mode}
       {...props}
     >
@@ -54,22 +54,22 @@ export const TimelineItem = forwardRef<HTMLLIElement, TimelineItemProps>(
   ({ title, description, time, color = "default", dot, className, ...props }, ref) => (
     <li
       ref={ref}
-      className={cn("wui-timeline-item", className)}
+      className={cn("civ-timeline-item", className)}
       data-color={color}
       {...props}
     >
-      <div className="wui-timeline-item__indicator">
+      <div className="civ-timeline-item__indicator">
         {dot ? (
-          <div className="wui-timeline-item__dot wui-timeline-item__dot--custom">{dot}</div>
+          <div className="civ-timeline-item__dot civ-timeline-item__dot--custom">{dot}</div>
         ) : (
-          <div className="wui-timeline-item__dot" />
+          <div className="civ-timeline-item__dot" />
         )}
-        <div className="wui-timeline-item__line" aria-hidden="true" />
+        <div className="civ-timeline-item__line" aria-hidden="true" />
       </div>
-      <div className="wui-timeline-item__content">
-        <div className="wui-timeline-item__title">{title}</div>
-        {description && <div className="wui-timeline-item__description">{description}</div>}
-        {time && <div className="wui-timeline-item__time">{time}</div>}
+      <div className="civ-timeline-item__content">
+        <div className="civ-timeline-item__title">{title}</div>
+        {description && <div className="civ-timeline-item__description">{description}</div>}
+        {time && <div className="civ-timeline-item__time">{time}</div>}
       </div>
     </li>
   ),

@@ -198,14 +198,14 @@ describe("DataTable — size variants (P1)", () => {
     render(<DataTable data={makeRows(1)} columns={columns} size="dense" data-testid="dt" />);
     const el = screen.getByTestId("dt");
     expect(el).toHaveAttribute("data-size", "dense");
-    expect(el.className).toMatch(/wui-data-table--dense/);
+    expect(el.className).toMatch(/civ-data-table--dense/);
   });
 });
 
 describe("DataTable — sticky header (P1)", () => {
   it("adds sticky class when stickyHeader", () => {
     render(<DataTable data={makeRows(1)} columns={columns} stickyHeader data-testid="dt" />);
-    expect(screen.getByTestId("dt").className).toMatch(/wui-data-table--sticky/);
+    expect(screen.getByTestId("dt").className).toMatch(/civ-data-table--sticky/);
   });
 });
 
@@ -362,7 +362,7 @@ describe("DataTable — keyboard grid navigation (P1)", () => {
     const cells = screen
       .getAllByRole("row")
       .slice(1)
-      .flatMap((r) => Array.from(r.querySelectorAll<HTMLTableCellElement>("[data-wui-cell]")));
+      .flatMap((r) => Array.from(r.querySelectorAll<HTMLTableCellElement>("[data-civaria-cell]")));
     cells[0]!.focus();
     await user.keyboard("{ArrowDown}");
     expect(cells[2]).toHaveFocus(); // row 2 col 0
@@ -372,7 +372,7 @@ describe("DataTable — keyboard grid navigation (P1)", () => {
     const user = userEvent.setup();
     render(<DataTable data={makeRows(1)} columns={columns} />);
     const cells = Array.from(
-      screen.getAllByRole("row")[1]!.querySelectorAll<HTMLTableCellElement>("[data-wui-cell]"),
+      screen.getAllByRole("row")[1]!.querySelectorAll<HTMLTableCellElement>("[data-civaria-cell]"),
     );
     cells[0]!.focus();
     await user.keyboard("{ArrowRight}");
@@ -392,7 +392,7 @@ describe("DataTable — virtualization (P1)", () => {
       />,
     );
     // Virtualized: only a small subset of rows is rendered in the DOM.
-    const rows = container.querySelectorAll("tr[data-wui-row]");
+    const rows = container.querySelectorAll("tr[data-civaria-row]");
     expect(rows.length).toBeLessThan(500);
   });
 });

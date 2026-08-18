@@ -1,69 +1,69 @@
-@layer wui-elements {
-  .wui-progress {
+@layer civ-elements {
+  .civ-progress {
     inline-size: 100%; block-size: 8px;
-    background-color: var(--wui-color-muted);
-    border-radius: var(--wui-shape-radius-full);
+    background-color: var(--civ-color-muted);
+    border-radius: var(--civ-shape-radius-full);
     overflow: hidden;
     box-shadow: inset 0 1px 2px 0 oklch(0 0 0 / 0.04);
   }
-  .wui-progress__bar {
+  .civ-progress__bar {
     block-size: 100%;
-    background-color: var(--wui-color-primary);
-    border-radius: var(--wui-shape-radius-full);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-primary-foreground) l c h / 0.15);
+    background-color: var(--civ-color-primary);
+    border-radius: var(--civ-shape-radius-full);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-primary-foreground) l c h / 0.15);
   }
-  .wui-progress--sm { block-size: 4px; }
-  .wui-progress--lg { block-size: 12px; }
-  .wui-progress--success .wui-progress__bar {
-    background-color: var(--wui-color-success);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-success-foreground) l c h / 0.15);
+  .civ-progress--sm { block-size: 4px; }
+  .civ-progress--lg { block-size: 12px; }
+  .civ-progress--success .civ-progress__bar {
+    background-color: var(--civ-color-success);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-success-foreground) l c h / 0.15);
   }
-  .wui-progress--destructive .wui-progress__bar {
-    background-color: var(--wui-color-destructive);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-destructive-foreground) l c h / 0.15);
+  .civ-progress--destructive .civ-progress__bar {
+    background-color: var(--civ-color-destructive);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-destructive-foreground) l c h / 0.15);
   }
-  .wui-progress--warning .wui-progress__bar {
-    background-color: var(--wui-color-warning);
-    box-shadow: inset 0 1px 0 0 oklch(from var(--wui-color-warning-foreground) l c h / 0.15);
+  .civ-progress--warning .civ-progress__bar {
+    background-color: var(--civ-color-warning);
+    box-shadow: inset 0 1px 0 0 oklch(from var(--civ-color-warning-foreground) l c h / 0.15);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-progress__bar {
+    .civ-progress__bar {
       transition-property: inline-size, background-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 
-  .wui-progress--indeterminate .wui-progress__bar {
+  .civ-progress--indeterminate .civ-progress__bar {
     inline-size: 30%;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-progress--indeterminate .wui-progress__bar {
-      animation: wui-progress-indeterminate 1.5s var(--wui-motion-easing-emphasized) infinite;
+    .civ-progress--indeterminate .civ-progress__bar {
+      animation: civ-progress-indeterminate 1.5s var(--civ-motion-easing-emphasized) infinite;
     }
   }
-  @keyframes wui-progress-indeterminate {
+  @keyframes civ-progress-indeterminate {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(400%); }
   }
 
-  .wui-progress--with-label {
+  .civ-progress--with-label {
     position: relative;
     block-size: 18px;
   }
-  .wui-progress--with-label.wui-progress--sm { block-size: 14px; }
-  .wui-progress--with-label.wui-progress--lg { block-size: 22px; }
-  .wui-progress__label {
+  .civ-progress--with-label.civ-progress--sm { block-size: 14px; }
+  .civ-progress--with-label.civ-progress--lg { block-size: 22px; }
+  .civ-progress__label {
     position: absolute;
     inset-inline: 0;
     inset-block: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-foreground);
     pointer-events: none;
     mix-blend-mode: difference;
   }

@@ -1,132 +1,132 @@
-@layer wui-elements {
-  .wui-switch {
+@layer civ-elements {
+  .civ-switch {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     min-block-size: 44px;
     min-inline-size: 44px;
     cursor: pointer;
   }
-  .wui-switch__input {
+  .civ-switch__input {
     appearance: none;
     -webkit-appearance: none;
     position: relative;
     flex-shrink: 0;
     inline-size: 36px;
     block-size: 20px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-muted);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-muted);
     cursor: inherit;
     border: none;
   }
-  .wui-switch__input::before {
+  .civ-switch__input::before {
     content: "";
     position: absolute;
     inset-block-start: 2px;
     inset-inline-start: 2px;
     inline-size: 16px;
     block-size: 16px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-background);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-background);
     box-shadow: 0 1px 2px oklch(0 0 0 / 0.2);
   }
-  .wui-switch__input:hover:not(:disabled) {
-    background-color: color-mix(in oklch, var(--wui-color-muted) 80%, var(--wui-color-foreground) 20%);
+  .civ-switch__input:hover:not(:disabled) {
+    background-color: color-mix(in oklch, var(--civ-color-muted) 80%, var(--civ-color-foreground) 20%);
   }
-  .wui-switch__input:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-switch__input:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-switch__input:checked {
-    background-color: var(--wui-color-primary);
+  .civ-switch__input:checked {
+    background-color: var(--civ-color-primary);
   }
-  .wui-switch__input:checked:hover:not(:disabled) {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 90%, var(--wui-color-foreground) 10%);
+  .civ-switch__input:checked:hover:not(:disabled) {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 90%, var(--civ-color-foreground) 10%);
   }
-  .wui-switch__input:checked::before {
+  .civ-switch__input:checked::before {
     inset-inline-start: 18px;
   }
-  .wui-switch__input:disabled {
+  .civ-switch__input:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
   /* Explicit disabled styling on the wrapper — mirrors the native :disabled pseudo so
      styles work even when consumers set aria-disabled without the native attribute. */
-  .wui-switch[data-disabled] {
+  .civ-switch[data-disabled] {
     cursor: not-allowed;
   }
-  .wui-switch[data-disabled] .wui-switch__input {
+  .civ-switch[data-disabled] .civ-switch__input {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  .wui-switch[data-disabled] .wui-switch__label {
+  .civ-switch[data-disabled] .civ-switch__label {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  .wui-switch__label {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-foreground);
+  .civ-switch__label {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-foreground);
     cursor: pointer;
     user-select: none;
   }
-  .wui-switch__input:disabled ~ .wui-switch__label {
+  .civ-switch__input:disabled ~ .civ-switch__label {
     cursor: not-allowed;
     opacity: 0.5;
   }
   /* Control wraps input + optional in-track labels so labels can be absolutely positioned over the track. */
-  .wui-switch__control {
+  .civ-switch__control {
     position: relative;
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
   }
-  .wui-switch__track-label {
+  .civ-switch__track-label {
     position: absolute;
     inset-block-start: 50%;
     transform: translateY(-50%);
     font-size: 9px;
-    font-weight: var(--wui-font-weight-bold);
+    font-weight: var(--civ-font-weight-bold);
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    color: var(--wui-color-primary-foreground);
+    color: var(--civ-color-primary-foreground);
     pointer-events: none;
     user-select: none;
     opacity: 0;
   }
-  .wui-switch__track-label--on {
-    inset-inline-start: var(--wui-spacing-1);
+  .civ-switch__track-label--on {
+    inset-inline-start: var(--civ-spacing-1);
   }
-  .wui-switch__track-label--off {
-    inset-inline-end: var(--wui-spacing-1);
-    color: var(--wui-color-muted-foreground);
+  .civ-switch__track-label--off {
+    inset-inline-end: var(--civ-spacing-1);
+    color: var(--civ-color-muted-foreground);
   }
   /* Require wider track when labels present */
-  .wui-switch--with-track-labels .wui-switch__input { inline-size: 48px; }
-  .wui-switch--with-track-labels .wui-switch__input:checked::before { inset-inline-start: 30px; }
-  .wui-switch--with-track-labels.wui-switch--sm .wui-switch__input { inline-size: 38px; }
-  .wui-switch--with-track-labels.wui-switch--sm .wui-switch__input:checked::before { inset-inline-start: 24px; }
-  .wui-switch--with-track-labels.wui-switch--lg .wui-switch__input { inline-size: 56px; }
-  .wui-switch--with-track-labels.wui-switch--lg .wui-switch__input:checked::before { inset-inline-start: 34px; }
+  .civ-switch--with-track-labels .civ-switch__input { inline-size: 48px; }
+  .civ-switch--with-track-labels .civ-switch__input:checked::before { inset-inline-start: 30px; }
+  .civ-switch--with-track-labels.civ-switch--sm .civ-switch__input { inline-size: 38px; }
+  .civ-switch--with-track-labels.civ-switch--sm .civ-switch__input:checked::before { inset-inline-start: 24px; }
+  .civ-switch--with-track-labels.civ-switch--lg .civ-switch__input { inline-size: 56px; }
+  .civ-switch--with-track-labels.civ-switch--lg .civ-switch__input:checked::before { inset-inline-start: 34px; }
   /* Show the relevant label based on state */
-  .wui-switch__input:checked ~ .wui-switch__track-label--on { opacity: 1; }
-  .wui-switch__input:not(:checked) ~ .wui-switch__track-label--off { opacity: 1; }
+  .civ-switch__input:checked ~ .civ-switch__track-label--on { opacity: 1; }
+  .civ-switch__input:not(:checked) ~ .civ-switch__track-label--off { opacity: 1; }
 
   /* Sizes */
-  .wui-switch--sm .wui-switch__input { inline-size: 28px; block-size: 16px; }
-  .wui-switch--sm .wui-switch__input::before { inline-size: 12px; block-size: 12px; }
-  .wui-switch--sm .wui-switch__input:checked::before { inset-inline-start: 14px; }
-  .wui-switch--sm .wui-switch__label { font-size: var(--wui-font-size-xs); }
-  .wui-switch--lg .wui-switch__input { inline-size: 44px; block-size: 24px; }
-  .wui-switch--lg .wui-switch__input::before { inline-size: 20px; block-size: 20px; }
-  .wui-switch--lg .wui-switch__input:checked::before { inset-inline-start: 22px; }
-  .wui-switch--lg .wui-switch__label { font-size: var(--wui-font-size-base); }
+  .civ-switch--sm .civ-switch__input { inline-size: 28px; block-size: 16px; }
+  .civ-switch--sm .civ-switch__input::before { inline-size: 12px; block-size: 12px; }
+  .civ-switch--sm .civ-switch__input:checked::before { inset-inline-start: 14px; }
+  .civ-switch--sm .civ-switch__label { font-size: var(--civ-font-size-xs); }
+  .civ-switch--lg .civ-switch__input { inline-size: 44px; block-size: 24px; }
+  .civ-switch--lg .civ-switch__input::before { inline-size: 20px; block-size: 20px; }
+  .civ-switch--lg .civ-switch__input:checked::before { inset-inline-start: 22px; }
+  .civ-switch--lg .civ-switch__label { font-size: var(--civ-font-size-base); }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-switch__input,
-    .wui-switch__input::before {
+    .civ-switch__input,
+    .civ-switch__input::before {
       transition-property: background-color, inset-inline-start;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

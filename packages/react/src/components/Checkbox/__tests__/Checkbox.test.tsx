@@ -53,11 +53,11 @@ describe("Checkbox", () => {
     expect(screen.getByRole("checkbox")).toBeDisabled();
   });
 
-  it("uses styled visual wrapper (wui-checkbox class)", () => {
+  it("uses styled visual wrapper (civ-checkbox class)", () => {
     render(<Checkbox aria-label="visual" data-testid="cb" />);
     // Root wrapper should carry the design-system class, replacing browser-default look.
     const input = screen.getByRole("checkbox");
-    expect(input).toHaveClass("wui-checkbox__input");
+    expect(input).toHaveClass("civ-checkbox__input");
   });
 
   it("applies indeterminate state to DOM via ref.indeterminate", () => {
@@ -97,16 +97,16 @@ describe("Checkbox", () => {
 
   it("applies color modifier class when `color` is set", () => {
     const { container, rerender } = render(<Checkbox aria-label="c" color="success" />);
-    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-success");
+    expect(container.querySelector(".civ-checkbox")).toHaveClass("civ-checkbox--color-success");
     rerender(<Checkbox aria-label="c" color="warning" />);
-    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-warning");
+    expect(container.querySelector(".civ-checkbox")).toHaveClass("civ-checkbox--color-warning");
     rerender(<Checkbox aria-label="c" color="destructive" />);
-    expect(container.querySelector(".wui-checkbox")).toHaveClass("wui-checkbox--color-destructive");
+    expect(container.querySelector(".civ-checkbox")).toHaveClass("civ-checkbox--color-destructive");
   });
 
   it("defaults to primary color with no extra modifier class", () => {
     const { container } = render(<Checkbox aria-label="c" />);
-    const root = container.querySelector(".wui-checkbox")!;
-    expect(root.className).not.toMatch(/wui-checkbox--color-/);
+    const root = container.querySelector(".civ-checkbox")!;
+    expect(root.className).not.toMatch(/civ-checkbox--color-/);
   });
 });

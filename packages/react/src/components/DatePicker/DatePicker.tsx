@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick, useFloatingMenu, useControllable } from "@weiui/headless";
+import { useOutsideClick, useFloatingMenu, useControllable } from "@civaria/headless";
 import { Calendar } from "../Calendar";
 import { Portal } from "../Portal";
 
@@ -173,12 +173,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       <>
         {topSlot}
         {presets && presets.length > 0 && (
-          <div className="wui-date-picker__presets" role="group" aria-label="Presets">
+          <div className="civ-date-picker__presets" role="group" aria-label="Presets">
             {presets.map((p) => (
               <button
                 key={p.label}
                 type="button"
-                className="wui-date-picker__preset"
+                className="civ-date-picker__preset"
                 onClick={() => handlePresetClick(p)}
               >
                 {p.label}
@@ -215,11 +215,11 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         return (
           <div
             ref={refs.setReference as unknown as React.RefCallback<HTMLDivElement>}
-            className="wui-date-picker__input-wrapper"
+            className="civ-date-picker__input-wrapper"
           >
             <input
               type="text"
-              className="wui-date-picker__input"
+              className="civ-date-picker__input"
               placeholder={placeholder}
               disabled={disabled}
               aria-label={label}
@@ -240,7 +240,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             {clearable && (typedValue || currentValue) && (
               <button
                 type="button"
-                className="wui-date-picker__clear"
+                className="civ-date-picker__clear"
                 aria-label="Clear date"
                 onClick={() => {
                   setTypedValue("");
@@ -255,11 +255,11 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         );
       }
       return (
-        <div className="wui-date-picker__trigger-row">
+        <div className="civ-date-picker__trigger-row">
           <button
             ref={refs.setReference}
             type="button"
-            className="wui-date-picker__trigger"
+            className="civ-date-picker__trigger"
             onClick={() => !disabled && setIsOpen(!isOpen)}
             disabled={disabled}
             aria-haspopup="dialog"
@@ -267,12 +267,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             aria-controls={calendarId}
             aria-label={label}
           >
-            {displayValue || <span className="wui-date-picker__placeholder">{placeholder}</span>}
+            {displayValue || <span className="civ-date-picker__placeholder">{placeholder}</span>}
           </button>
           {clearable && currentValue && (
             <button
               type="button"
-              className="wui-date-picker__clear"
+              className="civ-date-picker__clear"
               aria-label="Clear date"
               onClick={() => setCurrentValue(null)}
               tabIndex={-1}
@@ -287,7 +287,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-date-picker", className)}
+        className={cn("civ-date-picker", className)}
         data-disabled={disabled || undefined}
       >
         <div ref={containerRef}>
@@ -297,7 +297,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             <Portal>
               <div
                 ref={setFloatingRef}
-                className="wui-date-picker__dropdown"
+                className="civ-date-picker__dropdown"
                 id={calendarId}
                 role="dialog"
                 aria-label="Choose date"

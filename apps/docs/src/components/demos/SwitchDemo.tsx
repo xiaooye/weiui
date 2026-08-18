@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Switch } from "@weiui/react";
+import { Switch } from "civaria";
 
 export function SwitchDemo() {
   const [dark, setDark] = useState(true);
@@ -12,7 +12,7 @@ export function SwitchDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Switch

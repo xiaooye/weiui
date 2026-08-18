@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Checkbox } from "@weiui/react";
+import { Checkbox } from "civaria";
 
 export function CheckboxDemo() {
   const [checked, setChecked] = useState(true);
@@ -16,7 +16,7 @@ export function CheckboxDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Checkbox
@@ -30,9 +30,9 @@ export function CheckboxDemo() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--wui-spacing-2)",
-          paddingInlineStart: "var(--wui-spacing-2)",
-          borderInlineStart: "2px solid var(--wui-color-border)",
+          gap: "var(--civ-spacing-2)",
+          paddingInlineStart: "var(--civ-spacing-2)",
+          borderInlineStart: "2px solid var(--civ-color-border)",
         }}
       >
         <Checkbox

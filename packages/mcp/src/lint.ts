@@ -1,11 +1,11 @@
 /**
- * Line-based lint for TSX snippets that use WeiUI components.
+ * Line-based lint for TSX snippets that use Civaria components.
  *
  * Intentionally lightweight — no AST parsing. Catches the three most common
  * mistakes AI agents make on first attempt:
- *   1. Leaking Tailwind utility classes into `className` on a WeiUI component
- *      (users should rely on variants or `wui-*` classes instead).
- *   2. Importing a heavy component from the main `@weiui/react` barrel
+ *   1. Leaking Tailwind utility classes into `className` on a Civaria component
+ *      (users should rely on variants or `civ-*` classes instead).
+ *   2. Importing a heavy component from the main `civaria` barrel
  *      instead of its required subpath (bundle-size regression).
  *   3. Rendering `<Button iconOnly>` without an `aria-label` (a11y failure).
  */
@@ -18,14 +18,14 @@ export interface LintWarning {
 
 /** Components that must be imported from a subpath to avoid bundle bloat. */
 const HEAVY_SUBPATHS: Record<string, string> = {
-  Editor: "@weiui/react/editor",
-  DataTable: "@weiui/react/data-table",
-  BarChart: "@weiui/react/chart",
-  LineChart: "@weiui/react/chart",
-  AreaChart: "@weiui/react/chart",
-  PieChart: "@weiui/react/chart",
-  DonutChart: "@weiui/react/chart",
-  RadarChart: "@weiui/react/chart",
+  Editor: "civaria/editor",
+  DataTable: "civaria/data-table",
+  BarChart: "civaria/chart",
+  LineChart: "civaria/chart",
+  AreaChart: "civaria/chart",
+  PieChart: "civaria/chart",
+  DonutChart: "civaria/chart",
+  RadarChart: "civaria/chart",
 };
 
 // Tailwind-ish utility patterns commonly emitted by LLMs.
@@ -56,7 +56,7 @@ function detectTailwind(line: string): boolean {
 }
 
 function detectHeavyImport(line: string): { name: string; subpath: string } | null {
-  const match = line.match(/import\s*\{([^}]+)\}\s*from\s*["']@weiui\/react["']/);
+  const match = line.match(/import\s*\{([^}]+)\}\s*from\s*["']@civaria\/react["']/);
   if (!match) return null;
   const names = match[1]!.split(",").map((s) => s.trim().split(/\s+as\s+/)[0]!.trim());
   for (const name of names) {
@@ -87,7 +87,7 @@ export function lintCode(code: string): LintWarning[] {
       warnings.push({
         line: lineNumber,
         message:
-          "Tailwind utility classes in consumer code. Use wui-* classes or component variants.",
+          "Tailwind utility classes in consumer code. Use civ-* classes or component variants.",
         suggestion:
           "Replace className utilities with component props (e.g. `size`, `variant`, `fullWidth`).",
       });

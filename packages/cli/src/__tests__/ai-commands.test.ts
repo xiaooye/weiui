@@ -8,7 +8,7 @@ import { examplesCommand } from "../commands/examples";
 import { checkUsageCommand } from "../commands/check-usage";
 
 beforeAll(() => {
-  process.env.WEIUI_MCP_REGISTRY_DIR = join(
+  process.env.CIVARIA_MCP_REGISTRY_DIR = join(
     process.cwd(),
     "..",
     "..",
@@ -48,7 +48,7 @@ describe("CLI AI commands", () => {
 
 describe("check-usage", () => {
   it("flags a file with Tailwind utility leakage", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-cli-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-cli-"));
     const file = join(dir, "bad.tsx");
     writeFileSync(file, `<Button className="inline-flex items-center h-11">Hi</Button>`);
     const output = await checkUsageCommand(file);
@@ -57,7 +57,7 @@ describe("check-usage", () => {
   });
 
   it("returns clean output when code is correct", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-cli-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-cli-"));
     const file = join(dir, "good.tsx");
     writeFileSync(file, `<Button variant="solid" size="md">Save</Button>`);
     const output = await checkUsageCommand(file);

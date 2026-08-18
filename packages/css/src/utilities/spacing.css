@@ -1,18 +1,18 @@
-@layer wui-utilities {
-  .wui-gap-1 { gap: var(--wui-spacing-1); }
-  .wui-gap-2 { gap: var(--wui-spacing-2); }
-  .wui-gap-3 { gap: var(--wui-spacing-3); }
-  .wui-gap-4 { gap: var(--wui-spacing-4); }
-  .wui-gap-5 { gap: var(--wui-spacing-5); }
-  .wui-gap-6 { gap: var(--wui-spacing-6); }
-  .wui-gap-8 { gap: var(--wui-spacing-8); }
+@layer civ-utilities {
+  .civ-gap-1 { gap: var(--civ-spacing-1); }
+  .civ-gap-2 { gap: var(--civ-spacing-2); }
+  .civ-gap-3 { gap: var(--civ-spacing-3); }
+  .civ-gap-4 { gap: var(--civ-spacing-4); }
+  .civ-gap-5 { gap: var(--civ-spacing-5); }
+  .civ-gap-6 { gap: var(--civ-spacing-6); }
+  .civ-gap-8 { gap: var(--civ-spacing-8); }
 
-  .wui-p-0 { padding: 0; }
-  .wui-p-2 { padding: var(--wui-spacing-2); }
-  .wui-p-4 { padding: var(--wui-spacing-4); }
-  .wui-p-6 { padding: var(--wui-spacing-6); }
-  .wui-p-8 { padding: var(--wui-spacing-8); }
+  .civ-p-0 { padding: 0; }
+  .civ-p-2 { padding: var(--civ-spacing-2); }
+  .civ-p-4 { padding: var(--civ-spacing-4); }
+  .civ-p-6 { padding: var(--civ-spacing-6); }
+  .civ-p-8 { padding: var(--civ-spacing-8); }
 
-  .wui-m-0 { margin: 0; }
-  .wui-m-auto { margin: auto; }
+  .civ-m-0 { margin: 0; }
+  .civ-m-auto { margin: auto; }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { LineChart } from "@weiui/react/chart";
+import { LineChart } from "civaria/chart";
 
 const DATA = [
   { name: "Mon", visits: 210, signups: 42 },
@@ -17,7 +17,7 @@ const thousands = (v: unknown) =>
 
 export function ChartLineDemo() {
   return (
-    <div style={{ display: "grid", gap: "var(--wui-spacing-4)", width: "100%" }}>
+    <div style={{ display: "grid", gap: "var(--civ-spacing-4)", width: "100%" }}>
       <LineChart
         data={DATA}
         dataKeys={["visits", "signups"]}

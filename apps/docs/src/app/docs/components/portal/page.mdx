@@ -12,13 +12,13 @@ Renders children into a different part of the DOM tree. By default the portal ta
 ---
 
 ```tsx
-import { Portal } from "@weiui/react";
+import { Portal } from "civaria";
 
 function ExamplePopup({ open }: { open: boolean }) {
   if (!open) return null;
   return (
     <Portal>
-      <div role="dialog" aria-modal="true" className="wui-dialog">
+      <div role="dialog" aria-modal="true" className="civ-dialog">
         Portal content lives at the end of document.body
       </div>
     </Portal>
@@ -55,5 +55,5 @@ const target = useRef<HTMLDivElement>(null);
 ### Accessibility
 
 - Portal is a pure DOM-relocation primitive — it does not add any ARIA of its own, so the content you render inside is responsible for its own semantics (for example, dialogs must still set `role="dialog"` and `aria-modal`).
-- Tab order follows DOM order, not visual order. When portalling an overlay, pair it with a focus-trap library (or WeiUI's `Dialog` / `Popover`) so keyboard users stay inside the overlay while it's open.
+- Tab order follows DOM order, not visual order. When portalling an overlay, pair it with a focus-trap library (or Civaria's `Dialog` / `Popover`) so keyboard users stay inside the overlay while it's open.
 - Because portalled content lives at the end of `document.body`, it bypasses `overflow: hidden` ancestors — useful for tooltips, popovers, and dropdowns that would otherwise be clipped.

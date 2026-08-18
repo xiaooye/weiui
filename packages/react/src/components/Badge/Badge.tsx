@@ -17,10 +17,10 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     <span
       ref={ref}
       className={cn(
-        "wui-badge",
-        `wui-badge--${variant}`,
-        color !== "primary" && `wui-badge--${color}`,
-        size !== "md" && `wui-badge--${size}`,
+        "civ-badge",
+        `civ-badge--${variant}`,
+        color !== "primary" && `civ-badge--${color}`,
+        size !== "md" && `civ-badge--${size}`,
         className,
       )}
       {...props}

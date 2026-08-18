@@ -21,7 +21,7 @@ import {
   Field, Input, Textarea, Button, Checkbox,
   Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
   Stack, toast,
-} from "@weiui/react";
+} from "civaria";
 
 type Values = {
   name: string;
@@ -156,7 +156,7 @@ export function SignupForm() {
 
 ## Why `<Field>`?
 
-Every `<Field>` wrapping an `@weiui/react` form control auto-wires:
+Every `<Field>` wrapping an `civaria` form control auto-wires:
 
 1. An `id` generated via `useId()` — stable across server + client renders.
 2. `htmlFor` on the `FieldLabel` to match the control.
@@ -216,7 +216,7 @@ If you already use `react-hook-form`, `<Field>` composes trivially via `register
 
 ```tsx
 import { useForm } from "react-hook-form";
-import { Field, Input, Button, Stack } from "@weiui/react";
+import { Field, Input, Button, Stack } from "civaria";
 
 function Profile() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>();
@@ -276,4 +276,4 @@ Before you ship a form, verify:
 - [ ] `autocomplete` hints are populated: `email`, `new-password`, `current-password`, `name`, `tel`.
 - [ ] `inputmode` hints narrow the soft keyboard on mobile: `numeric`, `tel`, `email`, `url`, `search`.
 
-WeiUI's form primitives bake these defaults; you only have to remember the last two.
+Civaria's form primitives bake these defaults; you only have to remember the last two.

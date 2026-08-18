@@ -1,6 +1,6 @@
 "use client";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import { useControllable } from "@weiui/headless";
+import { useControllable } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 
 export type FileUploadError = {
@@ -193,7 +193,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-file-upload", className)}
+        className={cn("civ-file-upload", className)}
         data-disabled={disabled || undefined}
         data-dragover={isDragOver || undefined}
         role="button"
@@ -228,28 +228,28 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
           style={{ display: "none" }}
           tabIndex={-1}
         />
-        <span className="wui-file-upload__text">{label}</span>
-        {hint && <span className="wui-file-upload__hint">{hint}</span>}
+        <span className="civ-file-upload__text">{label}</span>
+        {hint && <span className="civ-file-upload__hint">{hint}</span>}
         {currentFiles.length > 0 && (
-          <div className="wui-file-upload__list" onClick={(e) => e.stopPropagation()}>
+          <div className="civ-file-upload__list" onClick={(e) => e.stopPropagation()}>
             {currentFiles.map((file, i) => {
               const pct = progress ? progress[file.name] : undefined;
               const thumb = thumbnails ? previewUrls.get(file) : undefined;
               return (
-                <div key={`${file.name}-${i}`} className="wui-file-upload__file">
+                <div key={`${file.name}-${i}`} className="civ-file-upload__file">
                   {thumb && (
                     <img
                       src={thumb}
                       alt=""
-                      className="wui-file-upload__thumb"
+                      className="civ-file-upload__thumb"
                       aria-hidden="true"
                     />
                   )}
-                  <div className="wui-file-upload__file-body">
-                    <span className="wui-file-upload__file-name">{file.name}</span>
+                  <div className="civ-file-upload__file-body">
+                    <span className="civ-file-upload__file-name">{file.name}</span>
                     {pct !== undefined && (
                       <div
-                        className="wui-file-upload__progress"
+                        className="civ-file-upload__progress"
                         role="progressbar"
                         aria-label={`${file.name} upload progress`}
                         aria-valuenow={pct}
@@ -257,7 +257,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
                         aria-valuemax={100}
                       >
                         <div
-                          className="wui-file-upload__progress-bar"
+                          className="civ-file-upload__progress-bar"
                           style={{ inlineSize: `${Math.max(0, Math.min(100, pct))}%` }}
                         />
                       </div>
@@ -265,7 +265,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
                   </div>
                   <button
                     type="button"
-                    className="wui-file-upload__file-remove"
+                    className="civ-file-upload__file-remove"
                     aria-label={`Remove ${file.name}`}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -281,13 +281,13 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         )}
         {errors.length > 0 && (
           <div
-            className="wui-file-upload__errors"
+            className="civ-file-upload__errors"
             role="alert"
             aria-live="polite"
             onClick={(e) => e.stopPropagation()}
           >
             {errors.map((err, i) => (
-              <div key={i} className="wui-file-upload__error">
+              <div key={i} className="civ-file-upload__error">
                 {err.message}
               </div>
             ))}

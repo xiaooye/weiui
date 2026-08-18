@@ -188,8 +188,8 @@ export const SpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
         <div
           ref={setRootRef}
           className={cn(
-            "wui-speed-dial",
-            `wui-speed-dial--${direction}`,
+            "civ-speed-dial",
+            `civ-speed-dial--${direction}`,
             className,
           )}
           data-direction={direction}
@@ -203,7 +203,7 @@ export const SpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
           <button
             ref={triggerRef}
             type="button"
-            className="wui-speed-dial__trigger"
+            className="civ-speed-dial__trigger"
             data-open={isOpen || undefined}
             aria-haspopup="menu"
             aria-expanded={isOpen}
@@ -216,7 +216,7 @@ export const SpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
             {icon}
           </button>
           {isOpen && (
-            <div role="menu" aria-label={label} className="wui-speed-dial__menu">
+            <div role="menu" aria-label={label} className="civ-speed-dial__menu">
               {actions.map((action, i) => (
                 <Tooltip key={action.id} side={tooltipSide}>
                   {/* Wrap the button in a span so TooltipTrigger's cloneElement
@@ -224,20 +224,20 @@ export const SpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
                    * button ref for keyboard focus management while still giving
                    * the Tooltip a valid reference element. */}
                   <TooltipTrigger>
-                    <span className="wui-speed-dial__action-wrap">
+                    <span className="civ-speed-dial__action-wrap">
                       <button
                         ref={(el) => {
                           actionRefs.current[i] = el;
                         }}
                         type="button"
                         role="menuitem"
-                        className="wui-speed-dial__action"
+                        className="civ-speed-dial__action"
                         aria-label={action.label}
                         data-tooltip={action.label}
                         data-index={i}
                         style={
                           {
-                            "--wui-speed-dial-index": i,
+                            "--civ-speed-dial-index": i,
                           } as React.CSSProperties
                         }
                         onClick={() => {
@@ -251,7 +251,7 @@ export const SpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
                       </button>
                     </span>
                   </TooltipTrigger>
-                  <TooltipContent className="wui-speed-dial__tooltip">
+                  <TooltipContent className="civ-speed-dial__tooltip">
                     {action.label}
                   </TooltipContent>
                 </Tooltip>

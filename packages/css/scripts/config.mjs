@@ -3,18 +3,18 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-export const CONFIG_SCHEMA = "weiui_css_config_v1";
-export const MANIFEST_SCHEMA = "weiui_css_bundle_manifest_v1";
-export const RESULT_SCHEMA = "weiui_css_bundle_result_v1";
+export const CONFIG_SCHEMA = "civaria_css_config_v1";
+export const MANIFEST_SCHEMA = "civaria_css_bundle_manifest_v1";
+export const RESULT_SCHEMA = "civaria_css_bundle_result_v1";
 
 const DIST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const TOP_LEVEL_KEYS = new Set(["schema", "foundation", "a11y", "elements", "utilities", "output"]);
 const CATEGORY_KEYS = ["a11y", "elements", "utilities"];
 
-export class WeiUIConfigError extends Error {
+export class CivariaConfigError extends Error {
   constructor(code, message, detail = undefined) {
     super(message);
-    this.name = "WeiUIConfigError";
+    this.name = "CivariaConfigError";
     this.code = code;
     this.detail = detail;
   }
@@ -26,11 +26,11 @@ function isRecord(value) {
 
 function normalizeList(value, field) {
   if (value === undefined) return [];
-  if (!Array.isArray(value)) throw new WeiUIConfigError("invalid_config", `${field} must be an array of strings`);
+  if (!Array.isArray(value)) throw new CivariaConfigError("invalid_config", `${field} must be an array of strings`);
   const out = [];
   for (const item of value) {
     if (typeof item !== "string" || !item.trim()) {
-      throw new WeiUIConfigError("invalid_config", `${field} entries must be non-empty strings`);
+      throw new CivariaConfigError("invalid_config", `${field} entries must be non-empty strings`);
     }
     out.push(item.trim());
   }
@@ -38,17 +38,17 @@ function normalizeList(value, field) {
 }
 
 export function normalizeConfig(input) {
-  if (!isRecord(input)) throw new WeiUIConfigError("invalid_config", "config root must be an object");
+  if (!isRecord(input)) throw new CivariaConfigError("invalid_config", "config root must be an object");
   const extra = Object.keys(input).filter((key) => !TOP_LEVEL_KEYS.has(key)).sort();
-  if (extra.length) throw new WeiUIConfigError("invalid_config", `unknown config keys: ${extra.join(", ")}`);
+  if (extra.length) throw new CivariaConfigError("invalid_config", `unknown config keys: ${extra.join(", ")}`);
   if (input.schema !== CONFIG_SCHEMA) {
-    throw new WeiUIConfigError("invalid_config", `schema must be ${CONFIG_SCHEMA}`);
+    throw new CivariaConfigError("invalid_config", `schema must be ${CONFIG_SCHEMA}`);
   }
   if (input.foundation !== undefined && typeof input.foundation !== "boolean") {
-    throw new WeiUIConfigError("invalid_config", "foundation must be boolean");
+    throw new CivariaConfigError("invalid_config", "foundation must be boolean");
   }
   if (input.output !== undefined && (typeof input.output !== "string" || !input.output.trim())) {
-    throw new WeiUIConfigError("invalid_config", "output must be a non-empty relative path");
+    throw new CivariaConfigError("invalid_config", "output must be a non-empty relative path");
   }
   return {
     schema: CONFIG_SCHEMA,
@@ -56,7 +56,7 @@ export function normalizeConfig(input) {
     a11y: normalizeList(input.a11y, "a11y"),
     elements: normalizeList(input.elements, "elements"),
     utilities: normalizeList(input.utilities, "utilities"),
-    output: (input.output ?? "weiui.generated.css").trim(),
+    output: (input.output ?? "civaria.generated.css").trim(),
   };
 }
 
@@ -72,7 +72,7 @@ export function fingerprintConfig(config) {
 export async function loadManifest(distDir = DIST_DIR) {
   const raw = JSON.parse(await readFile(path.join(distDir, "bundle-manifest.json"), "utf8"));
   if (!isRecord(raw) || raw.schema !== MANIFEST_SCHEMA || !Array.isArray(raw.fragments)) {
-    throw new WeiUIConfigError("invalid_manifest", `expected ${MANIFEST_SCHEMA}`);
+    throw new CivariaConfigError("invalid_manifest", `expected ${MANIFEST_SCHEMA}`);
   }
   return raw;
 }
@@ -84,14 +84,14 @@ function availableIds(manifest, category) {
 function resolveRequested(requested, available, category) {
   if (requested.includes("*")) {
     if (requested.length !== 1) {
-      throw new WeiUIConfigError("invalid_selection", `${category}: '*' must be used alone`);
+      throw new CivariaConfigError("invalid_selection", `${category}: '*' must be used alone`);
     }
     return new Set(available);
   }
   const allowed = new Set(available);
   const unknown = requested.filter((item) => !allowed.has(item));
   if (unknown.length) {
-    throw new WeiUIConfigError("unknown_selection", `unknown ${category}: ${unknown.join(", ")}`, {
+    throw new CivariaConfigError("unknown_selection", `unknown ${category}: ${unknown.join(", ")}`, {
       category,
       unknown,
       available,
@@ -116,10 +116,10 @@ export function resolveBundlePlan(configInput, manifest) {
   for (let cursor = 0; cursor < queue.length; cursor += 1) {
     const id = queue[cursor];
     const fragment = elementFragments.get(id);
-    if (!fragment) throw new WeiUIConfigError("invalid_manifest", `manifest dependency target missing: ${id}`);
+    if (!fragment) throw new CivariaConfigError("invalid_manifest", `manifest dependency target missing: ${id}`);
     for (const dependency of fragment.requires ?? []) {
       if (!elementFragments.has(dependency)) {
-        throw new WeiUIConfigError("invalid_manifest", `${id} requires unknown element ${dependency}`);
+        throw new CivariaConfigError("invalid_manifest", `${id} requires unknown element ${dependency}`);
       }
       if (!elementSelection.has(dependency)) {
         elementSelection.add(dependency);
@@ -130,7 +130,7 @@ export function resolveBundlePlan(configInput, manifest) {
 
   const fragments = manifest.fragments.filter((fragment) => selected.get(fragment.category)?.has(fragment.id));
   return {
-    schema: "weiui_css_bundle_plan_v1",
+    schema: "civaria_css_bundle_plan_v1",
     config,
     config_fingerprint: fingerprintConfig(config),
     manifest_schema: manifest.schema,
@@ -142,13 +142,13 @@ export function resolveBundlePlan(configInput, manifest) {
 
 function secureOutputPath(configPath, output) {
   if (path.isAbsolute(output)) {
-    throw new WeiUIConfigError("invalid_output", "output must be relative to the config directory");
+    throw new CivariaConfigError("invalid_output", "output must be relative to the config directory");
   }
   const base = path.dirname(configPath);
   const resolved = path.resolve(base, output);
   const relative = path.relative(base, resolved);
   if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) {
-    throw new WeiUIConfigError("invalid_output", "output must stay inside the config directory");
+    throw new CivariaConfigError("invalid_output", "output must stay inside the config directory");
   }
   return resolved;
 }
@@ -158,19 +158,19 @@ async function readConfigFile(configPath) {
   try {
     parsed = JSON.parse(await readFile(configPath, "utf8"));
   } catch (error) {
-    throw new WeiUIConfigError("config_read_failed", `cannot read config: ${configPath}`, String(error));
+    throw new CivariaConfigError("config_read_failed", `cannot read config: ${configPath}`, String(error));
   }
   return normalizeConfig(parsed);
 }
 
-export async function validateConfigFile(configFile = "weiui.config.json", options = {}) {
+export async function validateConfigFile(configFile = "civaria.config.json", options = {}) {
   const configPath = path.resolve(options.cwd ?? process.cwd(), configFile);
   const config = await readConfigFile(configPath);
   const manifest = await loadManifest(options.distDir ?? DIST_DIR);
   const plan = resolveBundlePlan(config, manifest);
   secureOutputPath(configPath, config.output);
   return {
-    schema: "weiui_css_config_validation_v1",
+    schema: "civaria_css_config_validation_v1",
     valid: true,
     config: plan.config,
     config_fingerprint: plan.config_fingerprint,
@@ -179,7 +179,7 @@ export async function validateConfigFile(configFile = "weiui.config.json", optio
   };
 }
 
-export async function bundleConfigFile(configFile = "weiui.config.json", options = {}) {
+export async function bundleConfigFile(configFile = "civaria.config.json", options = {}) {
   const configPath = path.resolve(options.cwd ?? process.cwd(), configFile);
   const config = await readConfigFile(configPath);
   const distDir = options.distDir ?? DIST_DIR;
@@ -188,7 +188,7 @@ export async function bundleConfigFile(configFile = "weiui.config.json", options
   const outputPath = secureOutputPath(configPath, plan.config.output);
 
   const header = [
-    "/* Generated by @weiui/css config layer. Do not edit by hand.",
+    "/* Generated by @civaria/css config layer. Do not edit by hand.",
     ` * schema: ${CONFIG_SCHEMA}`,
     ` * config-fingerprint: ${plan.config_fingerprint}`,
     ` * manifest-schema: ${manifest.schema}`,
@@ -218,14 +218,14 @@ export async function bundleConfigFile(configFile = "weiui.config.json", options
 export async function describeConfig(options = {}) {
   const manifest = await loadManifest(options.distDir ?? DIST_DIR);
   return {
-    schema: "weiui_css_config_description_v1",
+    schema: "civaria_css_config_description_v1",
     config_schema: CONFIG_SCHEMA,
     defaults: {
       foundation: true,
       a11y: [],
       elements: [],
       utilities: [],
-      output: "weiui.generated.css",
+      output: "civaria.generated.css",
     },
     wildcard: "*",
     categories: {
@@ -235,9 +235,9 @@ export async function describeConfig(options = {}) {
       utilities: availableIds(manifest, "utilities"),
     },
     notes: [
-      "@weiui/tokens remains a separate import and is not duplicated into generated CSS bundles.",
+      "@civaria/tokens remains a separate import and is not duplicated into generated CSS bundles.",
       "Element dependencies are closed from the CSS bundle manifest before emission.",
-      "Config tooling is build-time only; generated CSS requires no WeiUI JavaScript at runtime.",
+      "Config tooling is build-time only; generated CSS requires no Civaria JavaScript at runtime.",
     ],
   };
 }

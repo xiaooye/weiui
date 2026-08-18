@@ -1,16 +1,16 @@
 "use client";
 
-import { Grid, Stack } from "@weiui/react";
+import { Grid, Stack } from "civaria";
 
 function Cell({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        padding: "var(--wui-spacing-3)",
-        borderRadius: "var(--wui-shape-radius-md)",
-        border: "1px solid var(--wui-color-border)",
-        background: "var(--wui-color-muted)",
-        fontSize: "var(--wui-font-size-sm)",
+        padding: "var(--civ-spacing-3)",
+        borderRadius: "var(--civ-shape-radius-md)",
+        border: "1px solid var(--civ-color-border)",
+        background: "var(--civ-color-muted)",
+        fontSize: "var(--civ-font-size-sm)",
         textAlign: "center",
       }}
     >
@@ -25,9 +25,9 @@ export function GridDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           3 equal columns (gap=4):
@@ -44,9 +44,9 @@ export function GridDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Custom template &quot;1fr 2fr&quot;:

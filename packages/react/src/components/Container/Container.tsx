@@ -13,7 +13,7 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-container", className)}
+        className={cn("civ-container", className)}
         style={maxWidth ? { ...style, maxInlineSize: maxWidth } : style}
         {...props}
       >

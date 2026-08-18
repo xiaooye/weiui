@@ -6,7 +6,7 @@ import {
   Kbd,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 
 const ROWS: Array<{ keys: string[]; label: string }> = [
   { keys: ["\u2318", "K"], label: "Open command palette" },

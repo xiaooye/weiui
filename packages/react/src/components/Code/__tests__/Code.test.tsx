@@ -9,9 +9,9 @@ describe("Code (inline)", () => {
     expect(screen.getByText("const x = 1;").tagName).toBe("CODE");
   });
 
-  it("applies wui-code class inline", () => {
+  it("applies civ-code class inline", () => {
     render(<Code>const x = 1;</Code>);
-    expect(screen.getByText("const x = 1;").className).toContain("wui-code");
+    expect(screen.getByText("const x = 1;").className).toContain("civ-code");
   });
 
   it("merges custom className inline", () => {
@@ -34,10 +34,10 @@ describe("Code (block)", () => {
     expect(code.parentElement?.tagName).toBe("PRE");
   });
 
-  it("applies wui-code-block class on the pre element", () => {
+  it("applies civ-code-block class on the pre element", () => {
     render(<Code inline={false}>code</Code>);
     const code = screen.getByText("code");
-    expect(code.parentElement?.className).toContain("wui-code-block");
+    expect(code.parentElement?.className).toContain("civ-code-block");
   });
 
   it("forwards ref to the inner <code> when block", () => {

@@ -7,7 +7,7 @@ import {
   Link,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import { siteConfig } from "../../lib/site-config";
 
 interface FooterLink {
@@ -46,7 +46,7 @@ function LinkColumn({
 }) {
   return (
     <Stack direction="column" gap={3} aria-labelledby={id}>
-      <Heading level={4} id={id} className="wui-home-footer__col-title">
+      <Heading level={4} id={id} className="civ-home-footer__col-title">
         {title}
       </Heading>
       <Stack direction="column" gap={2}>
@@ -73,11 +73,11 @@ function LinkColumn({
 
 export function Footer() {
   return (
-    <footer className="wui-home-footer">
-      <Container maxWidth="72rem" className="wui-home-footer__inner">
+    <footer className="civ-home-footer">
+      <Container maxWidth="72rem" className="civ-home-footer__inner">
         <Stack direction="column" gap={8}>
-          <Stack direction="row" gap={8} wrap className="wui-home-footer__cols">
-            <Stack direction="column" gap={3} className="wui-home-footer__brand">
+          <Stack direction="row" gap={8} wrap className="civ-home-footer__cols">
+            <Stack direction="column" gap={3} className="civ-home-footer__brand">
               <Stack direction="row" gap={2}>
                 <Text
                   as="span"
@@ -98,17 +98,17 @@ export function Footer() {
                 {siteConfig.description}
               </Text>
             </Stack>
-            <LinkColumn title="Docs" links={DOCS_LINKS} id="wui-footer-docs-heading" />
-            <LinkColumn title="Tools" links={TOOL_LINKS} id="wui-footer-tools-heading" />
-            <LinkColumn title="Project" links={PROJECT_LINKS} id="wui-footer-project-heading" />
+            <LinkColumn title="Docs" links={DOCS_LINKS} id="civ-footer-docs-heading" />
+            <LinkColumn title="Tools" links={TOOL_LINKS} id="civ-footer-tools-heading" />
+            <LinkColumn title="Project" links={PROJECT_LINKS} id="civ-footer-project-heading" />
           </Stack>
           <Divider />
-          <Stack direction="row" gap={4} wrap className="wui-home-footer__bottom">
+          <Stack direction="row" gap={4} wrap className="civ-home-footer__bottom">
             <Text size="sm" color="muted">
-              {"\u00A9"} 2026 WeiUI. MIT License.
+              {"\u00A9"} 2026 Civaria. MIT License.
             </Text>
             <Text size="sm" color="muted">
-              Made with WeiUI.
+              Made with Civaria.
             </Text>
           </Stack>
         </Stack>

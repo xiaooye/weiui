@@ -27,7 +27,7 @@ export function SelectContent({ children, onKeyDown, ...props }: SelectContentPr
       role="listbox"
       aria-labelledby={triggerId}
       tabIndex={-1}
-      data-wui-component="select"
+      data-civaria-component="select"
       data-part="content"
       data-state="open"
       onKeyDown={(e) => {

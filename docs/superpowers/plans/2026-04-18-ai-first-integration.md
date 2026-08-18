@@ -1,10 +1,10 @@
-# WeiUI AI-First Integration Implementation Plan
+# Civaria AI-First Integration Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship six AI-first integration surfaces — `llms.txt` + `llms-full.txt`, per-component registry JSON, a `@weiui/mcp` MCP server package, four new CLI commands, a JSDoc sweep across ~400 Props fields, and `AGENTS.md` + a docs `ai-guide` page — so Claude/Cursor/Codex/Windsurf/Copilot can consume WeiUI accurately on the first try.
+**Goal:** Ship six AI-first integration surfaces — `llms.txt` + `llms-full.txt`, per-component registry JSON, a `@civaria/mcp` MCP server package, four new CLI commands, a JSDoc sweep across ~400 Props fields, and `AGENTS.md` + a docs `ai-guide` page — so Claude/Cursor/Codex/Windsurf/Copilot can consume Civaria accurately on the first try.
 
-**Architecture:** Docs build generates `llms.txt` / `llms-full.txt` / `registry/<Name>.json` using existing MDX + `ts-morph` AST parsing. A new `@weiui/mcp` workspace package reads the same registry at runtime and exposes five MCP tools. Existing `@weiui/cli` gains four subcommands sharing the MCP server's core logic. JSDoc is added uniformly to every `*Props` interface in `@weiui/react` + `@weiui/headless`. `AGENTS.md` at repo root + `/docs/ai-guide` consolidate behavioral rules for AI agents.
+**Architecture:** Docs build generates `llms.txt` / `llms-full.txt` / `registry/<Name>.json` using existing MDX + `ts-morph` AST parsing. A new `@civaria/mcp` workspace package reads the same registry at runtime and exposes five MCP tools. Existing `@civaria/cli` gains four subcommands sharing the MCP server's core logic. JSDoc is added uniformly to every `*Props` interface in `civaria` + `@civaria/headless`. `AGENTS.md` at repo root + `/docs/ai-guide` consolidate behavioral rules for AI agents.
 
 **Tech Stack:** Node 20+, TypeScript, `ts-morph` (AST), `@modelcontextprotocol/sdk` (MCP), `zod` (schema), Vitest (tests). Generators plug into docs build like the existing `scripts/build-search-index.ts`.
 
@@ -31,7 +31,7 @@
 - `apps/docs/package.json` — build pipeline + ts-morph dep
 - `apps/docs/src/lib/site-config.ts` — add `/docs/ai-guide` to sidebar
 - `packages/cli/src/index.ts` — register 4 new commands
-- `packages/cli/package.json` — add `@weiui/mcp` workspace dep
+- `packages/cli/package.json` — add `@civaria/mcp` workspace dep
 - `CONTRIBUTING.md` — AI-usage surface section
 - Every `packages/react/src/components/**/*.tsx` + `packages/headless/src/**/*.ts` Props interface — JSDoc
 
@@ -46,7 +46,7 @@
 
 ### Step 1: Install ts-morph in docs
 
-- [ ] Run: `pnpm --filter @weiui/docs add -D ts-morph`
+- [ ] Run: `pnpm --filter @civaria/docs add -D ts-morph`
 - [ ] Commit changes to `apps/docs/package.json` and `pnpm-lock.yaml` at end of this task.
 
 ### Step 2: Write failing test
@@ -62,19 +62,19 @@ import { buildLlmsTxt } from "../build-llms-txt";
 
 describe("buildLlmsTxt", () => {
   it("emits llms.txt with required sections", () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-llms-"));
-    buildLlmsTxt({ outDir: dir, siteUrl: "https://weiui.dev" });
+    const dir = mkdtempSync(join(tmpdir(), "civ-llms-"));
+    buildLlmsTxt({ outDir: dir, siteUrl: "https://civaria.dev" });
     const small = readFileSync(join(dir, "llms.txt"), "utf-8");
-    expect(small).toMatch(/^# WeiUI/);
+    expect(small).toMatch(/^# Civaria/);
     expect(small).toContain("## Import rules");
     expect(small).toContain("## Components");
-    expect(small).toContain("@weiui/react/editor");
+    expect(small).toContain("civaria/editor");
     rmSync(dir, { recursive: true, force: true });
   });
 
   it("emits llms-full.txt with inlined component docs", () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-llms-"));
-    buildLlmsTxt({ outDir: dir, siteUrl: "https://weiui.dev" });
+    const dir = mkdtempSync(join(tmpdir(), "civ-llms-"));
+    buildLlmsTxt({ outDir: dir, siteUrl: "https://civaria.dev" });
     const full = readFileSync(join(dir, "llms-full.txt"), "utf-8");
     expect(full.length).toBeGreaterThan(10_000);
     expect(full).toContain("Button");
@@ -84,7 +84,7 @@ describe("buildLlmsTxt", () => {
 });
 ```
 
-- [ ] Run: `pnpm --filter @weiui/docs test -- build-llms-txt`
+- [ ] Run: `pnpm --filter @civaria/docs test -- build-llms-txt`
 - [ ] Expected: FAIL (module missing).
 
 ### Step 3: Implement the generator
@@ -98,8 +98,8 @@ Create `apps/docs/scripts/build-llms-txt.ts` with:
 
 Implementation follows `apps/docs/scripts/build-search-index.ts` pattern: `walk()` helper over `src/app/docs`, `readFileSync` per MDX, regex extraction.
 
-- [ ] Run: `pnpm --filter @weiui/docs test -- build-llms-txt` — PASS
-- [ ] Run: `pnpm --filter @weiui/docs build` — succeeds; `apps/docs/public/llms.txt` and `llms-full.txt` emitted.
+- [ ] Run: `pnpm --filter @civaria/docs test -- build-llms-txt` — PASS
+- [ ] Run: `pnpm --filter @civaria/docs build` — succeeds; `apps/docs/public/llms.txt` and `llms-full.txt` emitted.
 - [ ] Inspect: head of `llms.txt`, line count of `llms-full.txt` (expect ≥ 300).
 
 ### Step 4: Wire into build pipeline
@@ -151,19 +151,19 @@ import type { RegistryComponentSchema } from "../registry-schema";
 
 describe("buildRegistry", () => {
   it("emits a JSON file per component with filled props + examples", () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-reg-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-reg-"));
     buildRegistry({ outDir: dir });
     const buttonPath = join(dir, "Button.json");
     expect(existsSync(buttonPath)).toBe(true);
     const button = JSON.parse(readFileSync(buttonPath, "utf-8")) as RegistryComponentSchema;
     expect(button.name).toBe("Button");
-    expect(button.importPath).toBe("@weiui/react");
+    expect(button.importPath).toBe("civaria");
     expect(button.props.length).toBeGreaterThan(3);
     rmSync(dir, { recursive: true, force: true });
   });
 
   it("emits index.json listing all components", () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-reg-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-reg-"));
     buildRegistry({ outDir: dir });
     const index = JSON.parse(readFileSync(join(dir, "index.json"), "utf-8")) as {
       components: Array<{ name: string }>;
@@ -173,10 +173,10 @@ describe("buildRegistry", () => {
   });
 
   it("marks heavy components with subpathImport", () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-reg-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-reg-"));
     buildRegistry({ outDir: dir });
     const editor = JSON.parse(readFileSync(join(dir, "Editor.json"), "utf-8")) as RegistryComponentSchema;
-    expect(editor.subpathImport).toBe("@weiui/react/editor");
+    expect(editor.subpathImport).toBe("civaria/editor");
     rmSync(dir, { recursive: true, force: true });
   });
 });
@@ -196,12 +196,12 @@ Create `apps/docs/scripts/build-registry.ts`:
   - Scans code blocks in the MDX for ones referencing the component; first 4 become examples.
   - Extracts bullets from `## Accessibility` section.
   - Builds a `RegistryComponentSchema` object, writes `<Name>.json`.
-- Hard-coded table for heavy components → subpathImport values: Editor→`@weiui/react/editor`, DataTable→`@weiui/react/data-table`, BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart→`@weiui/react/chart`.
+- Hard-coded table for heavy components → subpathImport values: Editor→`civaria/editor`, DataTable→`civaria/data-table`, BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart→`civaria/chart`.
 - Hard-coded category map (form, overlay, data, navigation, feedback, display, layout, typography, utility, interactive, advanced-input, date).
 - Writes `index.json` summarizing all components.
 
 - [ ] Run test — PASS.
-- [ ] Run `pnpm --filter @weiui/docs build` — emits `apps/docs/public/registry/*.json` (60+ files).
+- [ ] Run `pnpm --filter @civaria/docs build` — emits `apps/docs/public/registry/*.json` (60+ files).
 
 ### Step 4: Wire into build
 
@@ -215,7 +215,7 @@ Edit `apps/docs/package.json` "build" script — append `tsx scripts/build-regis
 
 ---
 
-## Task 3: `@weiui/mcp` package + `list_components` tool
+## Task 3: `@civaria/mcp` package + `list_components` tool
 
 **Files:**
 - Create: `packages/mcp/package.json`, `tsconfig.json`, `tsup.config.ts`
@@ -229,8 +229,8 @@ Edit `apps/docs/package.json` "build" script — append `tsx scripts/build-regis
 ### Step 1: Package scaffold
 
 Create `packages/mcp/package.json` with:
-- name `@weiui/mcp`, version `0.0.1`, MIT license, author, repository, homepage, keywords
-- `"type": "module"`, `"bin": { "weiui-mcp": "./dist/index.js" }`
+- name `@civaria/mcp`, version `0.0.1`, MIT license, author, repository, homepage, keywords
+- `"type": "module"`, `"bin": { "civaria-mcp": "./dist/index.js" }`
 - Subpath exports for each tool + registry-loader + lint (list below in Task 5 Step 3)
 - `"files": ["dist", "registry", "README.md"]`
 - Scripts: `"build": "tsup src/index.ts src/tools/*.ts src/registry-loader.ts src/lint.ts --format esm --dts --target node20"`, `"test": "vitest run"`
@@ -245,7 +245,7 @@ Create `packages/mcp/tsconfig.json` extending `../../tsconfig.base.json` with `o
 
 Create `packages/mcp/src/registry-loader.ts`:
 - Re-exports the same types from `RegistryPropSchema`/`RegistryExampleSchema`/`RegistryComponentSchema`/`RegistryIndex` (self-contained copy so package is publishable).
-- `defaultLoadIndex(registryDir?)` returns `() => Promise<RegistryIndex>` that reads local `registry/index.json` if present, else fetches `https://weiui.dev/registry/index.json`.
+- `defaultLoadIndex(registryDir?)` returns `() => Promise<RegistryIndex>` that reads local `registry/index.json` if present, else fetches `https://civaria.dev/registry/index.json`.
 - `defaultLoadComponent(registryDir?)` returns `(name: string) => Promise<RegistryComponentSchema>` that reads local or falls back to remote.
 
 ### Step 3: Failing test for list_components
@@ -281,7 +281,7 @@ describe("listComponents tool", () => {
 });
 ```
 
-- [ ] Run: `pnpm --filter @weiui/mcp test` — FAIL.
+- [ ] Run: `pnpm --filter @civaria/mcp test` — FAIL.
 
 ### Step 4: Implement list_components
 
@@ -308,9 +308,9 @@ Create `packages/mcp/README.md` with quick-start JSON for Claude Desktop config 
 
 ### Step 6: Build + commit
 
-- [ ] Run: `pnpm --filter @weiui/mcp build` — succeeds.
+- [ ] Run: `pnpm --filter @civaria/mcp build` — succeeds.
 - [ ] `git add packages/mcp/ pnpm-lock.yaml`
-- [ ] `git commit -m "feat(mcp): scaffold @weiui/mcp package + list_components tool"`
+- [ ] `git commit -m "feat(mcp): scaffold @civaria/mcp package + list_components tool"`
 
 ---
 
@@ -335,9 +335,9 @@ Author 4 test files with these assertions:
 - **get-component:** returns full schema for a known component; throws/rejects for unknown.
 - **search-components:** matches by name (weight 5–10), by description keyword (weight 2), by category (weight 3); sorted by score; limited by `limit`; empty for no match.
 - **get-example:** returns first example when no variant; returns specific example when variant matches label; returns `{ example: null }` when none match.
-- **check-usage:** flags Tailwind utility patterns on WeiUI component usage; flags wrong import (e.g., `import { Editor } from "@weiui/react"`); flags `<Button iconOnly>` without aria-label; clean output for correct code.
+- **check-usage:** flags Tailwind utility patterns on Civaria component usage; flags wrong import (e.g., `import { Editor } from "civaria"`); flags `<Button iconOnly>` without aria-label; clean output for correct code.
 
-- [ ] Run: `pnpm --filter @weiui/mcp test` — 4 new fails.
+- [ ] Run: `pnpm --filter @civaria/mcp test` — 4 new fails.
 
 ### Step 2: Implement `lint.ts`
 
@@ -346,7 +346,7 @@ Create `packages/mcp/src/lint.ts`:
 - Exports `lintCode(code: string): LintWarning[]`
 - Scans line by line for:
   - Tailwind-ish utility regex (`inline-flex`, `items-center`, `h-9`/`h-11`/`h-12`, `px-\d+`, `py-\d+`, `gap-\d+`, `bg-[var(`, `rounded-[`) combined with `className=` on same line → warn
-  - `import { HeavyName }` from `@weiui/react` where HeavyName ∈ {Editor, DataTable, BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart} → warn with the correct subpath
+  - `import { HeavyName }` from `civaria` where HeavyName ∈ {Editor, DataTable, BarChart, LineChart, AreaChart, PieChart, DonutChart, RadarChart} → warn with the correct subpath
   - `<Button iconOnly>` without `aria-label=` on same tag → warn
 
 ### Step 3: Implement 4 tool files
@@ -365,8 +365,8 @@ Edit `packages/mcp/src/server.ts`:
 - Expand the `tools` list with 4 new entries (with name/description/inputSchema JSON-schema).
 - Expand the `CallToolRequestSchema` handler with 4 new branches using `zod` validation.
 
-- [ ] Rebuild: `pnpm --filter @weiui/mcp build`.
-- [ ] Run: `pnpm --filter @weiui/mcp test` — all pass.
+- [ ] Rebuild: `pnpm --filter @civaria/mcp build`.
+- [ ] Run: `pnpm --filter @civaria/mcp test` — all pass.
 
 ### Step 5: Prepack copies registry
 
@@ -393,7 +393,7 @@ This bundles the generated registry into the published package, so consumers don
 - Create: `packages/cli/src/commands/examples.ts`
 - Create: `packages/cli/src/__tests__/ai-commands.test.ts`
 - Modify: `packages/cli/src/index.ts` (register subcommands)
-- Modify: `packages/cli/package.json` (add `@weiui/mcp` workspace dep)
+- Modify: `packages/cli/package.json` (add `@civaria/mcp` workspace dep)
 - Modify: `packages/mcp/package.json` (expand exports with tool subpaths)
 
 ### Step 1: MCP subpath exports
@@ -406,11 +406,11 @@ Each subpath: `{ "types": "./dist/<path>.d.ts", "import": "./dist/<path>.js" }`.
 
 Update tsup invocation to build all these files: already covered by the `src/tools/*.ts` glob pattern from Task 3.
 
-- [ ] Rebuild: `pnpm --filter @weiui/mcp build`.
+- [ ] Rebuild: `pnpm --filter @civaria/mcp build`.
 
 ### Step 2: Wire CLI to MCP
 
-Edit `packages/cli/package.json` — add `"@weiui/mcp": "workspace:*"` under dependencies.
+Edit `packages/cli/package.json` — add `"@civaria/mcp": "workspace:*"` under dependencies.
 
 - [ ] Run `pnpm install`.
 
@@ -452,14 +452,14 @@ describe("CLI AI commands", () => {
 });
 ```
 
-- [ ] Run: `pnpm --filter @weiui/cli test` — FAIL.
+- [ ] Run: `pnpm --filter @civaria/cli test` — FAIL.
 
 ### Step 4: Implement 3 commands
 
 **`describe.ts`:**
 ```ts
-import { getComponent } from "@weiui/mcp/tools/get-component";
-import { defaultLoadComponent } from "@weiui/mcp/registry-loader";
+import { getComponent } from "@civaria/mcp/tools/get-component";
+import { defaultLoadComponent } from "@civaria/mcp/registry-loader";
 
 export async function describeCommand(name: string): Promise<string> {
   const loadComponent = defaultLoadComponent();
@@ -470,8 +470,8 @@ export async function describeCommand(name: string): Promise<string> {
 
 **`list.ts`:**
 ```ts
-import { listComponents } from "@weiui/mcp/tools/list-components";
-import { defaultLoadIndex } from "@weiui/mcp/registry-loader";
+import { listComponents } from "@civaria/mcp/tools/list-components";
+import { defaultLoadIndex } from "@civaria/mcp/registry-loader";
 
 export interface ListCommandOptions { category?: string; }
 
@@ -484,8 +484,8 @@ export async function listCommand(opts: ListCommandOptions): Promise<string> {
 
 **`examples.ts`:**
 ```ts
-import { getExample } from "@weiui/mcp/tools/get-example";
-import { defaultLoadComponent } from "@weiui/mcp/registry-loader";
+import { getExample } from "@civaria/mcp/tools/get-example";
+import { defaultLoadComponent } from "@civaria/mcp/registry-loader";
 
 export interface ExamplesCommandOptions { variant?: string; }
 
@@ -508,14 +508,14 @@ Each action handler `console.log`s the command's return value.
 
 ### Step 6: Test + build
 
-- [ ] `pnpm --filter @weiui/mcp build`
-- [ ] `pnpm --filter @weiui/cli test` — PASS.
-- [ ] `pnpm --filter @weiui/cli build` — success.
+- [ ] `pnpm --filter @civaria/mcp build`
+- [ ] `pnpm --filter @civaria/cli test` — PASS.
+- [ ] `pnpm --filter @civaria/cli build` — success.
 
 ### Step 7: Commit
 
 - [ ] `git add packages/cli/src/commands/ packages/cli/src/__tests__/ packages/cli/src/index.ts packages/cli/package.json packages/mcp/package.json pnpm-lock.yaml`
-- [ ] `git commit -m "feat(cli): add describe/list/examples commands backed by @weiui/mcp"`
+- [ ] `git commit -m "feat(cli): add describe/list/examples commands backed by @civaria/mcp"`
 
 ---
 
@@ -538,7 +538,7 @@ import { checkUsageCommand } from "../commands/check-usage";
 
 describe("check-usage", () => {
   it("flags a file with Tailwind utility leakage", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-cli-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-cli-"));
     const file = join(dir, "bad.tsx");
     writeFileSync(file, `<Button className="inline-flex items-center h-11">Hi</Button>`);
     const output = await checkUsageCommand(file);
@@ -547,7 +547,7 @@ describe("check-usage", () => {
   });
 
   it("returns clean output when code is correct", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "wui-cli-"));
+    const dir = mkdtempSync(join(tmpdir(), "civ-cli-"));
     const file = join(dir, "good.tsx");
     writeFileSync(file, `<Button variant="solid" size="md">Save</Button>`);
     const output = await checkUsageCommand(file);
@@ -557,7 +557,7 @@ describe("check-usage", () => {
 });
 ```
 
-- [ ] Run: `pnpm --filter @weiui/cli test` — 2 new fails.
+- [ ] Run: `pnpm --filter @civaria/cli test` — 2 new fails.
 
 ### Step 2: Implement
 
@@ -565,7 +565,7 @@ Create `packages/cli/src/commands/check-usage.ts`:
 
 ```ts
 import { readFileSync } from "node:fs";
-import { checkUsage } from "@weiui/mcp/tools/check-usage";
+import { checkUsage } from "@civaria/mcp/tools/check-usage";
 
 export async function checkUsageCommand(filePath: string): Promise<string> {
   const code = readFileSync(filePath, "utf-8");
@@ -584,7 +584,7 @@ Edit `packages/cli/src/index.ts` — add:
 ```ts
 program
   .command("check-usage <file>")
-  .description("Lint a .tsx file for WeiUI-usage mistakes")
+  .description("Lint a .tsx file for Civaria-usage mistakes")
   .action(async (file: string) => {
     const { checkUsageCommand } = await import("./commands/check-usage.js");
     console.log(await checkUsageCommand(file));
@@ -593,9 +593,9 @@ program
 
 ### Step 4: Test + commit
 
-- [ ] `pnpm --filter @weiui/cli test` — PASS.
+- [ ] `pnpm --filter @civaria/cli test` — PASS.
 - [ ] `git add packages/cli/src/commands/check-usage.ts packages/cli/src/index.ts packages/cli/src/__tests__/ai-commands.test.ts`
-- [ ] `git commit -m "feat(cli): add check-usage command (shared lint with @weiui/mcp)"`
+- [ ] `git commit -m "feat(cli): add check-usage command (shared lint with @civaria/mcp)"`
 
 ---
 
@@ -661,16 +661,16 @@ Each prop JSDoc should be one sentence describing what it controls. Add `@defaul
 Create at repo root with this content:
 
 ```markdown
-# Using WeiUI
+# Using Civaria
 
 ## Rules
 
-1. Import from `@weiui/react`. Heavy components use subpaths:
-   - `@weiui/react/editor` — Editor
-   - `@weiui/react/data-table` — DataTable
-   - `@weiui/react/chart` — BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart
+1. Import from `civaria`. Heavy components use subpaths:
+   - `civaria/editor` — Editor
+   - `civaria/data-table` — DataTable
+   - `civaria/chart` — BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart
 
-2. Style via `wui-*` classes or component variants. Never emit Tailwind utilities in consumer code.
+2. Style via `civ-*` classes or component variants. Never emit Tailwind utilities in consumer code.
    - Bad: `<Button className="inline-flex items-center">`
    - Good: `<Button variant="solid" size="md">`
 
@@ -684,18 +684,18 @@ Create at repo root with this content:
 
 ## Discovery
 
-- https://weiui.dev/docs/components
-- Per-component: https://weiui.dev/registry/<Name>.json
-- Full docs: https://weiui.dev/llms-full.txt
-- MCP server: add `@weiui/mcp` to your agent config for live introspection.
+- https://civaria.dev/docs/components
+- Per-component: https://civaria.dev/registry/<Name>.json
+- Full docs: https://civaria.dev/llms-full.txt
+- MCP server: add `@civaria/mcp` to your agent config for live introspection.
 
 ## Copy-paste
 
-- `npx @weiui/cli list` — all components.
-- `npx @weiui/cli describe <Name>` — JSON schema.
-- `npx @weiui/cli examples <Name>` — code sample.
-- `npx @weiui/cli add <Name>` — scaffold into src/components/ui/.
-- `npx @weiui/cli check-usage <file>` — lint.
+- `npx @civaria/cli list` — all components.
+- `npx @civaria/cli describe <Name>` — JSON schema.
+- `npx @civaria/cli examples <Name>` — code sample.
+- `npx @civaria/cli add <Name>` — scaffold into src/components/ui/.
+- `npx @civaria/cli check-usage <file>` — lint.
 ```
 
 ### Step 2: `/docs/ai-guide`
@@ -717,9 +717,9 @@ Append section:
 
 Six integration points for AI assistants. When modifying components, keep them in sync:
 
-1. **Registry JSON** (generated) — regenerated on `pnpm --filter @weiui/docs build` from JSDoc + MDX. Don't hand-edit `apps/docs/public/registry/*.json`.
+1. **Registry JSON** (generated) — regenerated on `pnpm --filter @civaria/docs build` from JSDoc + MDX. Don't hand-edit `apps/docs/public/registry/*.json`.
 2. **llms.txt / llms-full.txt** (generated) — same. Source of truth is each doc page's MDX.
-3. **@weiui/mcp tools** — if you add a new tool, mirror its logic into a `@weiui/cli` command so CLI and MCP stay in parity.
+3. **@civaria/mcp tools** — if you add a new tool, mirror its logic into a `@civaria/cli` command so CLI and MCP stay in parity.
 4. **JSDoc coverage** — new Props fields must have JSDoc descriptions. Run `pnpm check-jsdoc`; fails CI below 95%.
 5. **AGENTS.md** — update when import rules or heavy-component subpaths change.
 6. **`/docs/ai-guide`** — user-facing mirror of AGENTS.md; keep them in sync.
@@ -756,13 +756,13 @@ Create `docs/superpowers/diagnostics/2026-04-18-ai-first-verification.md` with:
 1. **Spec coverage** (checked against `docs/superpowers/specs/2026-04-18-ai-first-integration-design.md`):
    - §4.1 `llms.txt` / `llms-full.txt` → Task 1 ✓
    - §4.2 Registry JSON → Task 2 ✓
-   - §4.3 `@weiui/mcp` package → Tasks 3 + 4 ✓
+   - §4.3 `@civaria/mcp` package → Tasks 3 + 4 ✓
    - §4.4 CLI AI commands → Tasks 5 + 6 ✓
    - §4.5 JSDoc sweep + coverage lint → Task 7 ✓
    - §4.6 `AGENTS.md` + `/docs/ai-guide` → Task 8 ✓
    - §4.7 `CONTRIBUTING.md` update → Task 8 ✓
 2. **Placeholder scan:** Every step has concrete code or exact file edits. The JSDoc bulk pass is constrained by a coverage lint that enforces completion.
-3. **Type consistency:** `RegistryComponentSchema` + related types defined once in `apps/docs/scripts/registry-schema.ts` and re-stated in `packages/mcp/src/registry-loader.ts` (necessary duplication because `@weiui/mcp` must stand alone for npm publish). `@weiui/mcp` subpath exports are the single source of truth for tool implementations — CLI commands in Task 5/6 import those exact functions, so CLI and MCP can never drift.
+3. **Type consistency:** `RegistryComponentSchema` + related types defined once in `apps/docs/scripts/registry-schema.ts` and re-stated in `packages/mcp/src/registry-loader.ts` (necessary duplication because `@civaria/mcp` must stand alone for npm publish). `@civaria/mcp` subpath exports are the single source of truth for tool implementations — CLI commands in Task 5/6 import those exact functions, so CLI and MCP can never drift.
 
 ## Execution handoff
 

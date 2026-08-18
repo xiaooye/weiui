@@ -5,7 +5,7 @@ import { addCommand } from "./commands/add";
 import { tokensBuildCommand } from "./commands/tokens-build";
 import { tokensValidateCommand } from "./commands/tokens-validate";
 
-program.name("weiui").description("WeiUI Design System CLI").version("0.0.1");
+program.name("civaria").description("Civaria Design System CLI").version("0.0.1");
 program.addCommand(initCommand);
 program.addCommand(addCommand);
 const tokens = program.command("tokens").description("Manage design tokens");
@@ -14,7 +14,7 @@ tokens.addCommand(tokensValidateCommand);
 
 program
   .command("describe <component>")
-  .description("Print JSON schema for a WeiUI component")
+  .description("Print JSON schema for a Civaria component")
   .action(async (name: string) => {
     const { describeCommand } = await import("./commands/describe.js");
     console.log(await describeCommand(name));
@@ -22,7 +22,7 @@ program
 
 program
   .command("list")
-  .description("List all WeiUI components")
+  .description("List all Civaria components")
   .option("-c, --category <cat>", "Filter by category")
   .action(async (opts: { category?: string }) => {
     const { listCommand } = await import("./commands/list.js");
@@ -40,7 +40,7 @@ program
 
 program
   .command("check-usage <file>")
-  .description("Lint a .tsx file for WeiUI-usage mistakes")
+  .description("Lint a .tsx file for Civaria-usage mistakes")
   .action(async (file: string) => {
     const { checkUsageCommand } = await import("./commands/check-usage.js");
     console.log(await checkUsageCommand(file));

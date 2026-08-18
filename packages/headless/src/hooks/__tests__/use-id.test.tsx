@@ -3,9 +3,9 @@ import { renderHook } from "@testing-library/react";
 import { useId } from "../use-id";
 
 describe("useId", () => {
-  it("returns a string starting with wui-", () => {
+  it("returns a string starting with civ-", () => {
     const { result } = renderHook(() => useId());
-    expect(result.current).toMatch(/^wui-/);
+    expect(result.current).toMatch(/^civ-/);
   });
 
   it("uses custom prefix", () => {

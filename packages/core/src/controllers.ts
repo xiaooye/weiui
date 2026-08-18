@@ -1,5 +1,5 @@
 import { createCollection, type CollectionItem, type CollectionStore } from "./collection";
-import { semanticPart, type WeiDOMProps, type WeiUIEvent } from "./dom";
+import { semanticPart, type WeiDOMProps, type CivariaEvent } from "./dom";
 import { createHiddenFormControl } from "./form";
 import { createIds } from "./ids";
 import { createStore, type WeiStore } from "./store";
@@ -12,8 +12,8 @@ export interface Controller<State> {
 function baseController<State>(store: WeiStore<State>): Controller<State> {
   return { getState: store.getState, subscribe: store.subscribe };
 }
-function prevent(event: WeiUIEvent): void { event.preventDefault?.(); }
-function keyIs(event: WeiUIEvent, ...keys: readonly string[]): boolean { return event.key !== undefined && keys.includes(event.key); }
+function prevent(event: CivariaEvent): void { event.preventDefault?.(); }
+function keyIs(event: CivariaEvent, ...keys: readonly string[]): boolean { return event.key !== undefined && keys.includes(event.key); }
 
 export interface DisclosureState { open: boolean; }
 export interface DisclosureOptions { id: string; component: string; defaultOpen?: boolean; onOpenChange?: (open: boolean) => void; }
@@ -112,7 +112,7 @@ export function createMenuController(options: MenuOptions): MenuController {
   const syncOpen = (open: boolean) => store.setState({ open, highlightedIndex: open ? store.getState().highlightedIndex : -1 });
   const setOpen = (open: boolean) => { if (open === store.getState().open) return; syncOpen(open); options.onOpenChange?.(open); };
   const move = (direction: 1 | -1) => { const index = collection.nextEnabled(store.getState().highlightedIndex, direction); store.setState({ ...store.getState(), highlightedIndex: index }); };
-  const keydown = (event: WeiUIEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); move(-1); } else if (keyIs(event, "Home")) { prevent(event); store.setState({ ...store.getState(), highlightedIndex: collection.nextEnabled(-1, 1) }); } else if (keyIs(event, "End")) { prevent(event); store.setState({ ...store.getState(), highlightedIndex: collection.nextEnabled(0, -1) }); } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } };
+  const keydown = (event: CivariaEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); move(-1); } else if (keyIs(event, "Home")) { prevent(event); store.setState({ ...store.getState(), highlightedIndex: collection.nextEnabled(-1, 1) }); } else if (keyIs(event, "End")) { prevent(event); store.setState({ ...store.getState(), highlightedIndex: collection.nextEnabled(0, -1) }); } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } };
   return {
     ...baseController(store), collection, setItems: (items) => collection.setItems(items), open: () => setOpen(true), close: () => setOpen(false), syncOpen, highlight: (highlightedIndex) => store.setState({ ...store.getState(), highlightedIndex }), move,
     getRootProps: () => ({ attributes: semanticPart("menu", "root", { state: store.getState().open ? "open" : "closed" }) }),
@@ -132,7 +132,7 @@ export function createSelectController(options: SelectOptions): SelectController
   const syncValue = (value: string) => { if (value !== store.getState().value) store.setState({ ...store.getState(), value }); };
   const highlight = (highlightedIndex: number) => store.setState({ ...store.getState(), highlightedIndex }); const move = (direction: 1 | -1) => highlight(collection.nextEnabled(store.getState().highlightedIndex, direction));
   const select = (value: string) => { const changed = value !== store.getState().value; syncValue(value); syncOpen(false); if (changed) options.onValueChange?.(value); options.onOpenChange?.(false); };
-  const keydown = (event: WeiUIEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); if (!store.getState().open) setOpen(true); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); if (!store.getState().open) setOpen(true); move(-1); } else if (keyIs(event, "Enter", " ") && store.getState().open) { prevent(event); const item = collection.items[store.getState().highlightedIndex]; if (item && !item.disabled) select(item.value); } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } else if (event.key?.length === 1) { const found = collection.findByPrefix(event.key, store.getState().highlightedIndex); if (found >= 0) highlight(found); } };
+  const keydown = (event: CivariaEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); if (!store.getState().open) setOpen(true); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); if (!store.getState().open) setOpen(true); move(-1); } else if (keyIs(event, "Enter", " ") && store.getState().open) { prevent(event); const item = collection.items[store.getState().highlightedIndex]; if (item && !item.disabled) select(item.value); } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } else if (event.key?.length === 1) { const found = collection.findByPrefix(event.key, store.getState().highlightedIndex); if (found >= 0) highlight(found); } };
   return {
     ...baseController(store), collection, setItems: (items) => collection.setItems(items), open: () => setOpen(true), close: () => setOpen(false), syncOpen, select, syncValue, highlight,
     getRootProps: () => ({ attributes: semanticPart("select", "root", { state: store.getState().open ? "open" : "closed" }) }),
@@ -156,7 +156,7 @@ export function createComboboxController(options: ComboboxOptions): ComboboxCont
   const setInputValue = (inputValue: string) => { syncInputValue(inputValue); syncOpen(true); store.setState({ ...store.getState(), highlightedIndex: -1 }); options.onInputValueChange?.(inputValue); options.onOpenChange?.(true); };
   const select = (value: string) => { const item = collection.items.find((entry) => entry.value === value); const inputValue = item?.label ?? store.getState().inputValue; const changed = value !== store.getState().value; syncValue(value); syncInputValue(inputValue); syncOpen(false); if (changed) options.onValueChange?.(value); options.onInputValueChange?.(inputValue); options.onOpenChange?.(false); };
   const move = (direction: 1 | -1) => highlight(collection.nextEnabled(store.getState().highlightedIndex, direction));
-  const keydown = (event: WeiUIEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); setOpen(true); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); setOpen(true); move(-1); } else if (keyIs(event, "Enter")) { const item = collection.items[store.getState().highlightedIndex]; if (item && !item.disabled) { prevent(event); select(item.value); } } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } };
+  const keydown = (event: CivariaEvent) => { if (keyIs(event, "ArrowDown")) { prevent(event); setOpen(true); move(1); } else if (keyIs(event, "ArrowUp")) { prevent(event); setOpen(true); move(-1); } else if (keyIs(event, "Enter")) { const item = collection.items[store.getState().highlightedIndex]; if (item && !item.disabled) { prevent(event); select(item.value); } } else if (keyIs(event, "Escape")) { prevent(event); setOpen(false); } };
   return {
     ...baseController(store), collection, setItems: (items) => collection.setItems(items), open: () => setOpen(true), close: () => setOpen(false), syncOpen, select, syncValue, setInputValue, syncInputValue, highlight,
     getRootProps: () => ({ attributes: semanticPart("combobox", "root", { state: store.getState().open ? "open" : "closed" }) }),

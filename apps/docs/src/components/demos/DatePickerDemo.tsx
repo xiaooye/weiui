@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { DatePicker } from "@weiui/react";
+import { DatePicker } from "civaria";
 
 function startOfDay(d: Date): Date {
   const copy = new Date(d);
@@ -31,7 +31,7 @@ export function DatePickerDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         inlineSize: "280px",
       }}
     >
@@ -47,8 +47,8 @@ export function DatePickerDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         {date

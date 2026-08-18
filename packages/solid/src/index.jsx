@@ -14,7 +14,7 @@ import {
   focusFirst,
   trapTabKey,
   semanticPart,
-} from "@weiui/core";
+} from "@civaria/core";
 
 const eventNames = { click: "onClick", keydown: "onKeyDown", pointermove: "onPointerMove", pointerenter: "onPointerEnter", pointerleave: "onPointerLeave", focus: "onFocus", blur: "onBlur" };
 const focusableSelector = 'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
@@ -32,13 +32,13 @@ function bind(controller) {
   return revision;
 }
 function p(revision, getter) { revision(); return normalizeSolidProps(getter()); }
-function cls(component, part) { return part === "root" ? `wui-${component}` : `wui-${component}__${part}`; }
-function idFor(name, provided) { return provided ?? `wui-${name}-${createUniqueId()}`; }
+function cls(component, part) { return part === "root" ? `civ-${component}` : `civ-${component}__${part}`; }
+function idFor(name, provided) { return provided ?? `civ-${name}-${createUniqueId()}`; }
 
 function visual(name, tag = "div") {
   const component = name.toLowerCase();
   return function WeiVisual(props = {}) {
-    const className = () => [cls(component, "root"), props.variant && `wui-${component}--${props.variant}`, props.size && `wui-${component}--${props.size}`, props.class].filter(Boolean).join(" ");
+    const className = () => [cls(component, "root"), props.variant && `civ-${component}--${props.variant}`, props.size && `civ-${component}--${props.size}`, props.class].filter(Boolean).join(" ");
     return <Dynamic component={tag} {...props} {...semanticPart(component, "root", { variant: props.variant, size: props.size })} class={className()}>{props.children}</Dynamic>;
   };
 }

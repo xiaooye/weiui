@@ -1,5 +1,5 @@
-# @weiui/cli
+# @civaria/cli
 
 ## 0.0.1
 
-- Initial pre-release: `weiui init`, `weiui add <component>` (shadcn-style copy-paste), `weiui tokens build`, and `weiui tokens validate`.
+- Initial pre-release: `civaria init`, `civaria add <component>` (shadcn-style copy-paste), `civaria tokens build`, and `civaria tokens validate`.

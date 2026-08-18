@@ -1,5 +1,5 @@
 import type { FlatToken } from "./types";
-import { getContrastRatio } from "@weiui/a11y";
+import { getContrastRatio } from "@civaria/a11y";
 
 export interface ContrastPair {
   fg: FlatToken;

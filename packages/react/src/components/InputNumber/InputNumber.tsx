@@ -171,13 +171,13 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-input-number", className)}
+        className={cn("civ-input-number", className)}
         data-disabled={disabled || undefined}
         {...props}
       >
         <button
           type="button"
-          className="wui-input-number__btn"
+          className="civ-input-number__btn"
           aria-label="Decrement"
           onClick={() => {
             const next = clamp(value - step);
@@ -189,11 +189,11 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
         >
           −
         </button>
-        {prefix && <span className="wui-input-number__affix">{prefix}</span>}
+        {prefix && <span className="civ-input-number__affix">{prefix}</span>}
         <input
           type="text"
           inputMode="decimal"
-          className="wui-input-number__input"
+          className="civ-input-number__input"
           value={displayValue}
           disabled={disabled}
           onChange={handleChange}
@@ -207,10 +207,10 @@ export const InputNumber = forwardRef<HTMLDivElement, InputNumberProps>(
           aria-valuemax={max === Infinity ? undefined : max}
           aria-valuetext={ariaValueText}
         />
-        {suffix && <span className="wui-input-number__affix">{suffix}</span>}
+        {suffix && <span className="civ-input-number__affix">{suffix}</span>}
         <button
           type="button"
-          className="wui-input-number__btn"
+          className="civ-input-number__btn"
           aria-label="Increment"
           onClick={() => {
             const next = clamp(value + step);

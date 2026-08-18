@@ -38,13 +38,13 @@ describe("Button", () => {
   it("applies variant classes", () => {
     render(<Button variant="outline">Outline</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("wui-button--outline");
+    expect(btn.className).toContain("civ-button--outline");
   });
 
   it("applies size classes", () => {
     render(<Button size="lg">Large</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("wui-button--lg");
+    expect(btn.className).toContain("civ-button--lg");
   });
 
   it("merges custom className", () => {
@@ -97,8 +97,8 @@ describe("Button", () => {
     const link = screen.getByTestId("link");
     expect(link.tagName).toBe("A");
     expect(link).toHaveAttribute("href", "/home");
-    expect(link.className).toContain("wui-button");
-    expect(link.className).toContain("wui-button--outline");
+    expect(link.className).toContain("civ-button");
+    expect(link.className).toContain("civ-button--outline");
   });
 
   it("asChild preserves child's own className", () => {
@@ -108,7 +108,7 @@ describe("Button", () => {
       </Button>,
     );
     const link = screen.getByText("Home");
-    expect(link.className).toContain("wui-button");
+    expect(link.className).toContain("civ-button");
     expect(link.className).toContain("my-link");
   });
 
@@ -119,11 +119,11 @@ describe("Button", () => {
       </Button>,
     );
     const btn = screen.getByRole("button", { name: "close" });
-    expect(btn.className).toContain("wui-button--icon-only");
+    expect(btn.className).toContain("civ-button--icon-only");
   });
 
   it("fullWidth adds full-width class", () => {
     render(<Button fullWidth>Submit</Button>);
-    expect(screen.getByRole("button").className).toContain("wui-button--full-width");
+    expect(screen.getByRole("button").className).toContain("civ-button--full-width");
   });
 });

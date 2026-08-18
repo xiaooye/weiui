@@ -4,9 +4,9 @@
 
 **Goal:** Close every P1 feature gap across 7 overlay components — Menu, Popover, Tooltip, Dialog, Drawer, Toast, CommandPalette — so they match Radix/Ark/Sonner-level feature surface.
 
-**Architecture:** Most overlay components already have `useFloatingMenu` placement, `Portal` rendering, `useDisclosure` state. This phase *extends* them: new prop APIs, new sub-components (`<MenuCheckboxItem>`, `<PopoverArrow>`, `<TooltipProvider>`), new callbacks (`onInteractOutside`, `onEscapeKeyDown`, `onOpenAutoFocus`), and new toast-store behaviors (`toast.promise`, pause-on-hover). All CSS lands as `wui-*` classes in the existing element files.
+**Architecture:** Most overlay components already have `useFloatingMenu` placement, `Portal` rendering, `useDisclosure` state. This phase *extends* them: new prop APIs, new sub-components (`<MenuCheckboxItem>`, `<PopoverArrow>`, `<TooltipProvider>`), new callbacks (`onInteractOutside`, `onEscapeKeyDown`, `onOpenAutoFocus`), and new toast-store behaviors (`toast.promise`, pause-on-hover). All CSS lands as `civ-*` classes in the existing element files.
 
-**Tech Stack:** React 19, `@weiui/headless` hooks (useFloatingMenu / useDisclosure / useFocusTrap / useControllable), `@floating-ui/react` (already a dep via headless), Vitest, Playwright interaction tests.
+**Tech Stack:** React 19, `@civaria/headless` hooks (useFloatingMenu / useDisclosure / useFocusTrap / useControllable), `@floating-ui/react` (already a dep via headless), Vitest, Playwright interaction tests.
 
 **Audit reference:** `docs/audit/component-parity.md` Wave 5b section — all P1 rows.
 **Parent plan:** `C:/Users/PC/.claude/plans/thats-not-covered-enough-gleaming-dewdrop.md` Phase 6a.
@@ -145,7 +145,7 @@ describe("Menu P1 additions", () => {
 
 - [ ] **Step 2: Run test, confirm fail**
 
-Run: `pnpm --filter @weiui/react test -- Menu`
+Run: `pnpm --filter civaria test -- Menu`
 Expected: 4 new failures. Imports of `MenuCheckboxItem`, `MenuRadioItem`, `MenuLabel` fail because they don't exist.
 
 ### Step 3: Add `offset` prop to Menu root
@@ -247,8 +247,8 @@ export function MenuItem({
       }}
       {...props}
     >
-      <span className="wui-menu__label">{children}</span>
-      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+      <span className="civ-menu__label">{children}</span>
+      {shortcut && <span className="civ-menu__shortcut">{shortcut}</span>}
     </div>
   );
 }
@@ -302,9 +302,9 @@ export function MenuCheckboxItem({
       }}
       {...props}
     >
-      <span className="wui-menu__indicator" aria-hidden="true">{checked ? "✓" : ""}</span>
-      <span className="wui-menu__label">{children}</span>
-      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+      <span className="civ-menu__indicator" aria-hidden="true">{checked ? "✓" : ""}</span>
+      <span className="civ-menu__label">{children}</span>
+      {shortcut && <span className="civ-menu__shortcut">{shortcut}</span>}
     </div>
   );
 }
@@ -353,9 +353,9 @@ export function MenuRadioItem({
       }}
       {...props}
     >
-      <span className="wui-menu__indicator" aria-hidden="true">{checked ? "●" : ""}</span>
-      <span className="wui-menu__label">{children}</span>
-      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+      <span className="civ-menu__indicator" aria-hidden="true">{checked ? "●" : ""}</span>
+      <span className="civ-menu__label">{children}</span>
+      {shortcut && <span className="civ-menu__shortcut">{shortcut}</span>}
     </div>
   );
 }
@@ -430,35 +430,35 @@ Open `packages/react/src/index.ts`. Find the Menu export line. Confirm it re-exp
 Append to `packages/css/src/elements/menu.css`:
 
 ```css
-@layer wui-elements {
-  .wui-menu__label {
+@layer civ-elements {
+  .civ-menu__label {
     flex: 1;
   }
-  .wui-menu__shortcut {
-    margin-inline-start: var(--wui-spacing-4);
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-menu__shortcut {
+    margin-inline-start: var(--civ-spacing-4);
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-menu__indicator {
+  .civ-menu__indicator {
     inline-size: 1em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-inline-end: var(--wui-spacing-2);
-    color: var(--wui-color-primary);
+    margin-inline-end: var(--civ-spacing-2);
+    color: var(--civ-color-primary);
   }
   [role="menuitemcheckbox"],
   [role="menuitemradio"] {
-    padding-inline-start: var(--wui-spacing-2);
+    padding-inline-start: var(--civ-spacing-2);
   }
-  [role="presentation"].wui-menu__label-group,
-  .wui-menu [role="presentation"] {
-    padding-inline: var(--wui-spacing-3);
-    padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-muted-foreground);
+  [role="presentation"].civ-menu__label-group,
+  .civ-menu [role="presentation"] {
+    padding-inline: var(--civ-spacing-3);
+    padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-muted-foreground);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
@@ -467,10 +467,10 @@ Append to `packages/css/src/elements/menu.css`:
 
 ### Step 10: Run tests, confirm pass
 
-Run: `pnpm --filter @weiui/react test -- Menu`
+Run: `pnpm --filter civaria test -- Menu`
 Expected: All new 4 tests pass. Existing Menu tests still pass.
 
-Run: `pnpm --filter @weiui/react test` (full suite)
+Run: `pnpm --filter civaria test` (full suite)
 Expected: ≥ 612 tests pass, no regressions.
 
 ### Step 11: Update MenuDemo
@@ -480,8 +480,8 @@ Read `apps/docs/src/components/demos/MenuDemo.tsx`. Add a second example after t
 ```tsx
 // Add inside MenuDemo component, after existing Menu:
 <Menu>
-  <MenuTrigger className="wui-button wui-button--outline">Format</MenuTrigger>
-  <MenuContent className="wui-menu">
+  <MenuTrigger className="civ-button civ-button--outline">Format</MenuTrigger>
+  <MenuContent className="civ-menu">
     <MenuLabel>Style</MenuLabel>
     <MenuCheckboxItem
       checked={bold}
@@ -510,7 +510,7 @@ Add the imports (`MenuLabel`, `MenuCheckboxItem`, `MenuRadioItem`, `MenuSeparato
 
 ### Step 12: Build + commit
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: success, no errors.
 
 ```bash
@@ -606,7 +606,7 @@ Add `import { PopoverArrow } from "../Popover";` at the top of the file if it's 
 
 ### Step 2: Run tests, confirm fail
 
-Run: `pnpm --filter @weiui/react test -- Popover`
+Run: `pnpm --filter civaria test -- Popover`
 Expected: 3 new failures. `PopoverArrow` doesn't exist, `modal` prop not recognized, `onInteractOutside` not wired.
 
 ### Step 3: Update Popover types + root
@@ -799,7 +799,7 @@ export function PopoverArrow({ size = 8, style, ...props }: PopoverArrowProps) {
     <span
       ref={(el) => { arrowRef.current = el; }}
       aria-hidden="true"
-      className="wui-popover__arrow"
+      className="civ-popover__arrow"
       style={{
         position: "absolute",
         width: size,
@@ -852,8 +852,8 @@ export {
 Append to `packages/css/src/elements/popover.css`:
 
 ```css
-@layer wui-elements {
-  .wui-popover__arrow {
+@layer civ-elements {
+  .civ-popover__arrow {
     /* Intrinsic box styled via inline styles (position from floating-ui).
        Border radius makes the rotated square look softer. */
     border-start-start-radius: 2px;
@@ -863,24 +863,24 @@ Append to `packages/css/src/elements/popover.css`:
 
 ### Step 9: Run tests
 
-Run: `pnpm --filter @weiui/react test -- Popover`
+Run: `pnpm --filter civaria test -- Popover`
 Expected: all 3 new tests pass.
 
-Run: `pnpm --filter @weiui/react test` full suite — still green.
+Run: `pnpm --filter civaria test` full suite — still green.
 
 ### Step 10: Update demo
 
 Edit `apps/docs/src/components/demos/PopoverDemo.tsx`. Add `<PopoverArrow />` inside the `<PopoverContent>`:
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow, Button, Avatar, AvatarFallback } from "@weiui/react";
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow, Button, Avatar, AvatarFallback } from "civaria";
 // ... existing JSX, inside PopoverContent after the content wrapper:
 <PopoverArrow />
 ```
 
 ### Step 11: Build + commit
 
-Run: `pnpm --filter @weiui/docs build` — success.
+Run: `pnpm --filter @civaria/docs build` — success.
 
 ```bash
 git add packages/react/src/components/Popover/ \
@@ -953,7 +953,7 @@ describe("Tooltip P1 additions", () => {
 
 ### Step 2: Run, confirm fail
 
-`pnpm --filter @weiui/react test -- Tooltip` — 3 new fails.
+`pnpm --filter civaria test -- Tooltip` — 3 new fails.
 
 ### Step 3: Add TooltipProvider context
 
@@ -1117,7 +1117,7 @@ Main barrel already does `export * from "./components/Tooltip"` so new exports p
 
 ### Step 6: Run tests
 
-`pnpm --filter @weiui/react test -- Tooltip` → all 3 new pass.
+`pnpm --filter civaria test -- Tooltip` → all 3 new pass.
 Full suite → green.
 
 ### Step 7: Commit
@@ -1203,7 +1203,7 @@ describe("Dialog P1 additions", () => {
 
 ### Step 2: Run, confirm fail
 
-`pnpm --filter @weiui/react test -- Dialog` — 4 new fails.
+`pnpm --filter civaria test -- Dialog` — 4 new fails.
 
 ### Step 3: Implement
 
@@ -1221,7 +1221,7 @@ import {
   type HTMLAttributes,
   type ButtonHTMLAttributes,
 } from "react";
-import { useDisclosure, useFocusTrap, useId, getFirstFocusable, type UseDisclosureProps } from "@weiui/headless";
+import { useDisclosure, useFocusTrap, useId, getFirstFocusable, type UseDisclosureProps } from "@civaria/headless";
 import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
@@ -1310,7 +1310,7 @@ export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-dialog__overlay", className)}
+        className={cn("civ-dialog__overlay", className)}
         style={{ zIndex: 50 + depth * 10, ...style }}
         aria-hidden="true"
         {...props}
@@ -1386,7 +1386,7 @@ export function DialogContent({
         aria-modal={modal || undefined}
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className={cn("wui-dialog__content", `wui-dialog__content--${size}`, className)}
+        className={cn("civ-dialog__content", `civ-dialog__content--${size}`, className)}
         style={{ zIndex: 51 + depth * 10, ...style }}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
@@ -1451,7 +1451,7 @@ DialogClose.displayName = "DialogClose";
 
 ### Step 4: Run tests
 
-`pnpm --filter @weiui/react test -- Dialog` → 4 new pass. Full suite green.
+`pnpm --filter civaria test -- Dialog` → 4 new pass. Full suite green.
 
 ### Step 5: Commit
 
@@ -1507,7 +1507,7 @@ describe("Drawer P1 additions", () => {
 
 ### Step 2: Run, confirm fail
 
-`pnpm --filter @weiui/react test -- Drawer` — 2 new fails.
+`pnpm --filter civaria test -- Drawer` — 2 new fails.
 
 ### Step 3: Implement
 
@@ -1568,12 +1568,12 @@ export function DrawerContent({
 
   return (
     <Portal>
-      <div className="wui-drawer-overlay" onClick={onClose} aria-hidden="true" />
+      <div className="civ-drawer-overlay" onClick={onClose} aria-hidden="true" />
       <div
         ref={contentRef}
         role="dialog"
         aria-modal="true"
-        className={cn("wui-drawer", `wui-drawer--${side}`, className)}
+        className={cn("civ-drawer", `civ-drawer--${side}`, className)}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
             const ev = new KeyboardEvent("keydown", { key: "Escape", cancelable: true });
@@ -1598,7 +1598,7 @@ Remove the old `useOutsideClick` import since we implement outside-click manuall
 
 ### Step 4: Run tests
 
-`pnpm --filter @weiui/react test -- Drawer` → 2 new pass.
+`pnpm --filter civaria test -- Drawer` → 2 new pass.
 
 ### Step 5: Commit
 
@@ -1671,7 +1671,7 @@ describe("toast.promise", () => {
 
 ### Step 2: Run, confirm fail
 
-`pnpm --filter @weiui/react test -- toast-store` → 2 fails.
+`pnpm --filter civaria test -- toast-store` → 2 fails.
 
 ### Step 3: Implement `toast.promise`
 
@@ -1770,7 +1770,7 @@ toast.promise = function promise<T>(p: Promise<T>, messages: PromiseMessages<T>)
 
 ### Step 4: Run promise tests
 
-`pnpm --filter @weiui/react test -- toast-store` → both pass.
+`pnpm --filter civaria test -- toast-store` → both pass.
 
 ### Step 5: Pause-on-hover + expand-on-hover UI
 
@@ -1796,7 +1796,7 @@ export function Toaster({ position = "bottom-right" }: ToasterProps = {}) {
 
   return (
     <div
-      className={cn("wui-toaster", `wui-toaster--${position}`)}
+      className={cn("civ-toaster", `civ-toaster--${position}`)}
       role="region"
       aria-label="Notifications"
       data-position={position}
@@ -1871,21 +1871,21 @@ function ToastItem({
 
   return (
     <div
-      className={cn("wui-toast", `wui-toast--${t.variant}`)}
+      className={cn("civ-toast", `civ-toast--${t.variant}`)}
       role="alert"
       data-paused={paused || undefined}
       style={stackStyle}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <div className="wui-toast__content">
-        <div className="wui-toast__title">{t.title}</div>
-        {t.description && <div className="wui-toast__description">{t.description}</div>}
+      <div className="civ-toast__content">
+        <div className="civ-toast__title">{t.title}</div>
+        {t.description && <div className="civ-toast__description">{t.description}</div>}
       </div>
       {t.action && (
         <button
           type="button"
-          className="wui-toast__action"
+          className="civ-toast__action"
           onClick={() => {
             t.action!.onClick();
             removeToast(t.id);
@@ -1895,7 +1895,7 @@ function ToastItem({
         </button>
       )}
       <button
-        className="wui-toast__close"
+        className="civ-toast__close"
         onClick={() => removeToast(t.id)}
         aria-label="Close notification"
       >
@@ -1911,46 +1911,46 @@ function ToastItem({
 Append to `packages/css/src/elements/toast.css`:
 
 ```css
-@layer wui-elements {
-  .wui-toaster {
+@layer civ-elements {
+  .civ-toaster {
     position: fixed;
     z-index: 1500;
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-toast {
+    .civ-toast {
       transition-property: transform, opacity;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
-  .wui-toast--loading {
-    background-color: var(--wui-surface-raised);
-    border: 1px solid var(--wui-color-border);
-    color: var(--wui-color-foreground);
+  .civ-toast--loading {
+    background-color: var(--civ-surface-raised);
+    border: 1px solid var(--civ-color-border);
+    color: var(--civ-color-foreground);
   }
-  .wui-toast--loading .wui-toast__title::before {
+  .civ-toast--loading .civ-toast__title::before {
     content: "";
     display: inline-block;
     inline-size: 12px;
     block-size: 12px;
-    margin-inline-end: var(--wui-spacing-2);
-    border: 2px solid var(--wui-color-muted-foreground);
+    margin-inline-end: var(--civ-spacing-2);
+    border: 2px solid var(--civ-color-muted-foreground);
     border-top-color: transparent;
     border-radius: 50%;
-    animation: wui-toast-spin 0.8s linear infinite;
+    animation: civ-toast-spin 0.8s linear infinite;
     vertical-align: middle;
   }
-  @keyframes wui-toast-spin { to { transform: rotate(360deg); } }
+  @keyframes civ-toast-spin { to { transform: rotate(360deg); } }
 }
 ```
 
 ### Step 7: Run tests + build
 
-`pnpm --filter @weiui/react test -- Toast` — all pass (existing + new).
-`pnpm --filter @weiui/docs build` — success.
+`pnpm --filter civaria test -- Toast` — all pass (existing + new).
+`pnpm --filter @civaria/docs build` — success.
 
 ### Step 8: Update ToastDemo
 
@@ -2005,7 +2005,7 @@ describe("CommandPalette P1 additions", () => {
 
   it("shows recent items group when input is empty and recent storage exists", async () => {
     const user = userEvent.setup();
-    localStorage.setItem("wui-cp-recent-demo", JSON.stringify(["go-home"]));
+    localStorage.setItem("civ-cp-recent-demo", JSON.stringify(["go-home"]));
     const items = [
       { id: "go-home", label: "Home", onSelect: vi.fn() },
       { id: "go-settings", label: "Settings", onSelect: vi.fn() },
@@ -2043,7 +2043,7 @@ Add matching imports at top (`beforeEach` from vitest, `vi`).
 
 ### Step 2: Run, confirm fail
 
-`pnpm --filter @weiui/react test -- CommandPalette` → 3 fails.
+`pnpm --filter civaria test -- CommandPalette` → 3 fails.
 
 ### Step 3: Read current CommandPalette + extend
 
@@ -2051,21 +2051,21 @@ Read `packages/react/src/components/CommandPalette/CommandPalette.tsx`. Based on
 
 1. New prop: `emptyState?: ReactNode`
 2. New prop on item: `shortcut?: string`
-3. Recent-items: when `id` + `open` + input is empty, prepend a "Recent" group pulled from `localStorage.getItem(\`wui-cp-recent-${id}\`)`.
+3. Recent-items: when `id` + `open` + input is empty, prepend a "Recent" group pulled from `localStorage.getItem(\`civ-cp-recent-${id}\`)`.
 4. On item select, store its id at the front of the recent list (cap at 5).
 
 Concretely, the component probably already defines `CommandPaletteItem`. Add the fields; add logic. Keep the existing API backward compatible. Minimum scaffolding without repeating the full existing file here:
 
-- Add `shortcut?: string` to the item type and render it inside each item as `<span className="wui-command__shortcut">{shortcut}</span>`.
+- Add `shortcut?: string` to the item type and render it inside each item as `<span className="civ-command__shortcut">{shortcut}</span>`.
 - Add `emptyState?: ReactNode` prop — when filtered result is empty, render it instead of the default string.
-- Add internal state `recentIds` that loads on open from `localStorage[wui-cp-recent-${id}]` (default `[]`). On any successful select, prepend the id, slice to 5, save.
+- Add internal state `recentIds` that loads on open from `localStorage[civ-cp-recent-${id}]` (default `[]`). On any successful select, prepend the id, slice to 5, save.
 - When input is empty AND recentIds.length > 0, render a group labeled "Recent" at the top containing items whose id is in recentIds (in order).
 
 ### Step 4: Run tests, confirm pass, commit
 
 ```bash
-pnpm --filter @weiui/react test -- CommandPalette
-pnpm --filter @weiui/docs build
+pnpm --filter civaria test -- CommandPalette
+pnpm --filter @civaria/docs build
 git add packages/react/src/components/CommandPalette/ \
         packages/css/src/elements/command-palette.css \
         apps/docs/src/components/demos/CommandPaletteDemo.tsx
@@ -2082,7 +2082,7 @@ git commit -m "feat(react): CommandPalette recent items + shortcuts + emptyState
 ### Step 1: Flip P1 rows
 
 Open `docs/audit/component-parity.md`. In Wave 5b, find every row under Dialog/Drawer/Popover/Tooltip/Menu/Toast/CommandPalette that matches shipped features from Tasks 1-7. For each matching row:
-- Change the "WeiUI has" cell from `❌` to `✅`
+- Change the "Civaria has" cell from `❌` to `✅`
 - Change the "Priority" cell from `**P1**` to `✅ shipped`
 
 Shipped P1s this phase:
@@ -2116,11 +2116,11 @@ Run: `pnpm test`
 Expected: all tests pass, count ≥ 612 + ~15 new tests.
 
 - [ ] **Step 3: Contrast**
-Run: `pnpm --filter @weiui/tokens validate`
+Run: `pnpm --filter @civaria/tokens validate`
 Expected: 6/6 pairs.
 
 - [ ] **Step 4: Docs build**
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: all pages generated, zero warnings.
 
 - [ ] **Step 5: Verification-plan automated checks**

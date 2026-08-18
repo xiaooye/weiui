@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@weiui/react";
+import { Button } from "civaria";
 
 export function ButtonLoadingDemo() {
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ export function ButtonLoadingDemo() {
   };
 
   return (
-    <div style={{ display: "flex", gap: "var(--wui-spacing-3)", flexWrap: "wrap", alignItems: "center" }}>
+    <div style={{ display: "flex", gap: "var(--civ-spacing-3)", flexWrap: "wrap", alignItems: "center" }}>
       <Button loading>Loading…</Button>
       <Button variant="outline" loading>
         Loading…

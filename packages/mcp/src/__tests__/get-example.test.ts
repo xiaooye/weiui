@@ -6,9 +6,9 @@ const buttonRecord: RegistryComponentSchema = {
   name: "Button",
   category: "form",
   description: "Triggers an action.",
-  importPath: "@weiui/react",
+  importPath: "civaria",
   subpathImport: null,
-  dependencies: ["@weiui/react"],
+  dependencies: ["civaria"],
   props: [],
   compound: [],
   examples: [

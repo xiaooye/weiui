@@ -14,12 +14,12 @@ Executed end-to-end against the plan in `docs/superpowers/plans/2026-04-17-compo
 |---|-------|--------|-------|
 | 2.1 | Smoke test (build + test + tokens validate) | PASS | 612 tests pass in 67 files; build succeeds across 8 packages; 6 contrast pairs pass (1 AAA, 5 AA) |
 | 2.2 | Tailwind class leakage in React components | PASS | 0 real matches (2 matches were test-description strings in `Text.test.tsx`) |
-| 2.3 | CSS class existence | **FAIL → FIXED** | 10 wui-* classes emitted by components were missing CSS rules. Fixed in `836e130`. |
+| 2.3 | CSS class existence | **FAIL → FIXED** | 10 civ-* classes emitted by components were missing CSS rules. Fixed in `836e130`. |
 | 2.4 | CSS import completeness | PASS | All 54 element CSS files imported in `packages/css/src/index.css` |
 | 2.5 | Demo file coverage | PASS | "Chart" flagged but false positive — covered by `ChartBarDemo`, `ChartLineDemo`, `ChartAreaPieRadarDemo` |
 | 2.6 | Orphan demos | PASS | `DataTableDemoInner`/`EditorDemoInner` flagged but false positive — loaded via `next/dynamic` in wrapper demos |
 | 2.7 | Demo interactivity | PASS | Stateless demos either use uncontrolled APIs (defaultValue/defaultExpanded) or headless-managed state (Popover/Tooltip/Drawer open state) |
-| 2.8 | Built HTML inspection | PASS | 0 Tailwind utility leaks in generated HTML; expected wui-* marker classes present on button/input/overlays pages |
+| 2.8 | Built HTML inspection | PASS | 0 Tailwind utility leaks in generated HTML; expected civ-* marker classes present on button/input/overlays pages |
 | 2.9 | Contrast validation | PASS | Same as 2.1 (tokens validate passes) |
 | Subpath compliance | Heavy components not leaking to main barrel | PASS | Only a code comment mentions subpaths; no actual exports of Editor/DataTable/Chart from `packages/react/src/index.ts` |
 
@@ -33,17 +33,17 @@ The following classes were emitted by React components but had no corresponding 
 
 | Component | Class | Where emitted |
 |-----------|-------|---------------|
-| Button | `wui-button-icon` | Icon slots (`Button.tsx:46,50,52`) |
-| Button | `wui-button-label` | Label slot (`Button.tsx:51`) |
-| Checkbox | `wui-checkbox--sm`, `wui-checkbox--lg` | Size variant (`Checkbox.tsx:48`) |
-| Switch | `wui-switch--sm`, `wui-switch--lg` | Size variant (`Switch.tsx:19`) |
-| Input | `wui-input--disabled` | Disabled flag (`Input.tsx:34`) |
-| Input | `wui-input--with-addons` | Addons context (`Input.tsx:35`) |
-| Skeleton | `wui-skeleton--text` | Text variant (`Skeleton.tsx:15`) |
+| Button | `civ-button-icon` | Icon slots (`Button.tsx:46,50,52`) |
+| Button | `civ-button-label` | Label slot (`Button.tsx:51`) |
+| Checkbox | `civ-checkbox--sm`, `civ-checkbox--lg` | Size variant (`Checkbox.tsx:48`) |
+| Switch | `civ-switch--sm`, `civ-switch--lg` | Size variant (`Switch.tsx:19`) |
+| Input | `civ-input--disabled` | Disabled flag (`Input.tsx:34`) |
+| Input | `civ-input--with-addons` | Addons context (`Input.tsx:35`) |
+| Skeleton | `civ-skeleton--text` | Text variant (`Skeleton.tsx:15`) |
 
 **Fix applied** in commit `836e130`:
 
-- `packages/css/src/elements/button.css` — added `.wui-button-icon` and `.wui-button-label` slot layout rules
+- `packages/css/src/elements/button.css` — added `.civ-button-icon` and `.civ-button-label` slot layout rules
 - `packages/css/src/elements/checkbox.css` — added `--sm` and `--lg` size selectors scaling the box, checkmark, and label
 - `packages/css/src/elements/switch.css` — added `--sm` and `--lg` size selectors scaling the track, thumb, and label
 - `packages/css/src/elements/input.css` — added `--disabled` and `--with-addons` utility selectors
@@ -139,7 +139,7 @@ Legend: `src` = `<Name>.tsx` exists; `idx` = `index.ts` exists; `tests` = count 
 
 | SHA | Scope | Summary |
 |-----|-------|---------|
-| `836e130` | css | Add missing wui-button-icon/label, wui-checkbox/switch size variants, wui-input--disabled/--with-addons, wui-skeleton--text CSS rules |
+| `836e130` | css | Add missing civ-button-icon/label, civ-checkbox/switch size variants, civ-input--disabled/--with-addons, civ-skeleton--text CSS rules |
 
 One commit per fix category (single category = CSS class gaps).
 
@@ -156,10 +156,10 @@ None. All identified gaps were P0 and fixed in this run.
 Several grep results were false positives that the plan's patterns over-flag:
 
 1. **Section 2.3 "USED BUT NOT DEFINED"** — the raw grep captures:
-   - Template literal prefixes like `wui-alert--`, `wui-progress--` (fragments from `wui-progress--${variant}` interpolations)
-   - CSS custom property names inside `var(--wui-...)` calls (e.g., `wui-color-primary` is a variable, not a class)
-   - HTML ids (`wui-data-table-page-size`)
-   - Negative test assertions (`expect(...).not.toContain("wui-avatar--md")`) testing that default values don't emit a modifier class
+   - Template literal prefixes like `civ-alert--`, `civ-progress--` (fragments from `civ-progress--${variant}` interpolations)
+   - CSS custom property names inside `var(--civ-...)` calls (e.g., `civ-color-primary` is a variable, not a class)
+   - HTML ids (`civ-data-table-page-size`)
+   - Negative test assertions (`expect(...).not.toContain("civ-avatar--md")`) testing that default values don't emit a modifier class
    These are all benign. The real gaps were the 10 classes fixed above.
 
 2. **Section 2.5 "NO DEMO: Chart"** — Chart doesn't have a file literally named `ChartDemo.tsx` because it's a multi-component family; the demos are `ChartBarDemo`, `ChartLineDemo`, `ChartAreaPieRadarDemo`. The docs `/data` page imports and renders all three.
@@ -175,7 +175,7 @@ Several grep results were false positives that the plan's patterns over-flag:
 ```bash
 pnpm build        # all 8 packages PASS in 23.5s
 pnpm test         # 612 tests PASS in 67 files (9.2s)
-pnpm --filter @weiui/tokens validate  # 6 contrast pairs PASS
+pnpm --filter @civaria/tokens validate  # 6 contrast pairs PASS
 ```
 
 All green. Audit complete.

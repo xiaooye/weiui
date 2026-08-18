@@ -17,7 +17,7 @@ import {
   type CSSProperties,
   type MutableRefObject,
 } from "react";
-import { useDisclosure, useId, useOutsideClick, useFloatingMenu, Keys } from "@weiui/headless";
+import { useDisclosure, useId, useOutsideClick, useFloatingMenu, Keys } from "@civaria/headless";
 import { Portal } from "../Portal";
 
 interface MenuContextValue {
@@ -351,8 +351,8 @@ export function MenuItem({
     >
       {shortcut ? (
         <>
-          <span className="wui-menu__label">{children}</span>
-          <span className="wui-menu__shortcut">{shortcut}</span>
+          <span className="civ-menu__label">{children}</span>
+          <span className="civ-menu__shortcut">{shortcut}</span>
         </>
       ) : (
         children
@@ -419,11 +419,11 @@ export function MenuCheckboxItem({
       }}
       {...props}
     >
-      <span className="wui-menu__indicator" aria-hidden="true">
+      <span className="civ-menu__indicator" aria-hidden="true">
         {checked ? "✓" : ""}
       </span>
-      <span className="wui-menu__label">{children}</span>
-      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+      <span className="civ-menu__label">{children}</span>
+      {shortcut && <span className="civ-menu__shortcut">{shortcut}</span>}
     </div>
   );
 }
@@ -489,11 +489,11 @@ export function MenuRadioItem({
       }}
       {...props}
     >
-      <span className="wui-menu__indicator" aria-hidden="true">
+      <span className="civ-menu__indicator" aria-hidden="true">
         {checked ? "●" : ""}
       </span>
-      <span className="wui-menu__label">{children}</span>
-      {shortcut && <span className="wui-menu__shortcut">{shortcut}</span>}
+      <span className="civ-menu__label">{children}</span>
+      {shortcut && <span className="civ-menu__shortcut">{shortcut}</span>}
     </div>
   );
 }

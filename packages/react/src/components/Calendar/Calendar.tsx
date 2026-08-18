@@ -311,23 +311,23 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-calendar", className)}
+        className={cn("civ-calendar", className)}
         role="group"
         aria-label={label || "Calendar"}
       >
-        <div className="wui-calendar__header">
+        <div className="civ-calendar__header">
           <button
             type="button"
-            className="wui-calendar__nav"
+            className="civ-calendar__nav"
             onClick={() => dispatch({ type: "PREV_MONTH" })}
             aria-label="Previous month"
           >
             &lsaquo;
           </button>
           {showYearMonthDropdowns ? (
-            <div className="wui-calendar__dropdowns">
+            <div className="civ-calendar__dropdowns">
               <select
-                className="wui-calendar__select"
+                className="civ-calendar__select"
                 aria-label="Select month"
                 value={state.viewMonth}
                 onChange={(e) => dispatch({ type: "SET_MONTH", month: Number(e.target.value) })}
@@ -339,7 +339,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                 ))}
               </select>
               <select
-                className="wui-calendar__select"
+                className="civ-calendar__select"
                 aria-label="Select year"
                 value={state.viewYear}
                 onChange={(e) => dispatch({ type: "SET_YEAR", year: Number(e.target.value) })}
@@ -352,13 +352,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
               </select>
             </div>
           ) : (
-            <span className="wui-calendar__title" id={`${calendarId}-title`}>
+            <span className="civ-calendar__title" id={`${calendarId}-title`}>
               {monthLabel}
             </span>
           )}
           <button
             type="button"
-            className="wui-calendar__nav"
+            className="civ-calendar__nav"
             onClick={() => dispatch({ type: "NEXT_MONTH" })}
             aria-label="Next month"
           >
@@ -366,14 +366,14 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
           </button>
         </div>
         <table
-          className="wui-calendar__grid"
+          className="civ-calendar__grid"
           role="grid"
           aria-labelledby={`${calendarId}-title`}
         >
           <thead>
             <tr>
               {weekdays.map((wd, i) => (
-                <th key={`${wd}-${i}`} className="wui-calendar__weekday" scope="col" abbr={wd}>
+                <th key={`${wd}-${i}`} className="civ-calendar__weekday" scope="col" abbr={wd}>
                   {wd}
                 </th>
               ))}
@@ -399,14 +399,14 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                     isRangeEnd: isEnd,
                   };
                   return (
-                    <td key={day.toISOString()} className="wui-calendar__day">
+                    <td key={day.toISOString()} className="civ-calendar__day">
                       <button
                         ref={(el) => {
                           if (el) dayButtonRefs.current.set(toKey(day), el);
                           else dayButtonRefs.current.delete(toKey(day));
                         }}
                         type="button"
-                        className="wui-calendar__day-btn"
+                        className="civ-calendar__day-btn"
                         data-selected={info.isSelected || undefined}
                         data-today={info.isToday || undefined}
                         data-outside={outside || undefined}

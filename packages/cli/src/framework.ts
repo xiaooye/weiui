@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from "node:fs";import { join } from "node:path";import type { WeiFramework } from "@weiui/core/registry";
+import { existsSync, readFileSync } from "node:fs";import { join } from "node:path";import type { WeiFramework } from "@civaria/core/registry";
 export type CliFramework=WeiFramework;
 export const FRAMEWORKS=["react","vue","solid","svelte","elements"] as const;
 export function parseFramework(value?:string):CliFramework|undefined{if(value===undefined)return undefined;if((FRAMEWORKS as readonly string[]).includes(value))return value as CliFramework;throw new Error(`Unsupported framework "${value}". Use: ${FRAMEWORKS.join(", ")}`)}
 export function detectFramework(cwd:string):CliFramework|undefined{const pkgPath=join(cwd,"package.json");if(!existsSync(pkgPath))return existsSync(join(cwd,"index.html"))?"elements":undefined;const pkg=JSON.parse(readFileSync(pkgPath,"utf8")) as {dependencies?:Record<string,string>;devDependencies?:Record<string,string>};const deps={...pkg.dependencies,...pkg.devDependencies};if(deps["@sveltejs/kit"]||deps.svelte)return"svelte";if(deps["@solidjs/start"]||deps["solid-js"])return"solid";if(deps.nuxt||deps.vue)return"vue";if(deps.next||deps.react)return"react";if(deps.astro)return"elements";return existsSync(join(cwd,"index.html"))?"elements":undefined}
-export function packageFor(framework:CliFramework):string{return `@weiui/${framework}`}
+export function packageFor(framework:CliFramework):string{return `@civaria/${framework}`}

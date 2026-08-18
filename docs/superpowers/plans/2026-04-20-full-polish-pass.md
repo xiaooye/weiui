@@ -6,7 +6,7 @@
 
 **Architecture:** Surgical, file-scoped fixes. No new systems. Each task touches 1–3 files and produces a verified commit. Tasks are independent — can be reordered or parallelized.
 
-**Tech Stack:** `@weiui/react` · Next.js 15 · Playwright (real-browser verification) · Vitest (unit).
+**Tech Stack:** `civaria` · Next.js 15 · Playwright (real-browser verification) · Vitest (unit).
 
 **Spec context:** Builds on the 19-task composer-best-in-class ship (commit `1e8a6af`) and prior Phase 6/7/8 polish rounds. No new spec needed — this plan IS the spec.
 
@@ -15,7 +15,7 @@
 1. Write failing test (unit or Playwright) when applicable.
 2. Implement.
 3. Run test to pass.
-4. Rebuild docs (`pnpm --filter @weiui/docs build`) — must stay clean.
+4. Rebuild docs (`pnpm --filter @civaria/docs build`) — must stay clean.
 5. Start dev server, open the page in a real browser via Playwright, verify visibly — not just programmatically.
 6. Commit with the provided message.
 7. Push immediately so Vercel redeploys.
@@ -88,7 +88,7 @@
 - [ ] **Step 1 — Write failing test.** Add a Playwright case that adds a Card, sets zoom 50%, clicks the card, and asserts the selection-outline box is within 4px of the card's bounding box.
 - [ ] **Step 2 — Run it.** Expect FAIL (offsets > 4px when zoom ≠ 100).
 - [ ] **Step 3 — Change `useComposerRects`** in `selection-overlay.tsx` so measured rects are divided by the stage's computed scale (parse the `matrix(a,b,c,d,e,f)` `a` value). Positions become pre-scale coords.
-- [ ] **Step 4 — Move the overlay outside the scaled stage** in `WysiwygCanvas.tsx`. New wrapper `.wui-composer__stage-wrap` holds both the transformed stage and the overlay sibling. Overlay reads pre-scale rects from step 3.
+- [ ] **Step 4 — Move the overlay outside the scaled stage** in `WysiwygCanvas.tsx`. New wrapper `.civ-composer__stage-wrap` holds both the transformed stage and the overlay sibling. Overlay reads pre-scale rects from step 3.
 - [ ] **Step 5 — Run the test again. PASS.**
 - [ ] **Step 6 — Commit + push.**
 
@@ -260,7 +260,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 ### Steps
 
-- [ ] **Step 1 — Sticky search.** In `chrome.css`, apply `position: sticky; top: 0; z-index: 1; background: var(--wui-color-card, var(--wui-color-background))` to the palette's `.wui-card__header` when inside `.wui-tool-palette`.
+- [ ] **Step 1 — Sticky search.** In `chrome.css`, apply `position: sticky; top: 0; z-index: 1; background: var(--civ-color-card, var(--civ-color-background))` to the palette's `.civ-card__header` when inside `.civ-tool-palette`.
 - [ ] **Step 2 — Collapse default** — change `DEFAULT_EXPANDED` to `["Actions"]` only. Search auto-expands matches (already implemented).
 - [ ] **Step 3 — Commit + push.**
 
@@ -339,8 +339,8 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 ### Steps
 
-- [ ] **Step 1 — Bump contrast.** `.wui-composer__drop--active` gets 35 % primary fill + 3 px primary outline. `.wui-composer__between-drop` gets the solid primary background plus a 2 px 40 %-primary glow via `box-shadow`.
-- [ ] **Step 2 — Pulse.** Inside `@media (prefers-reduced-motion: no-preference)`, add a 800 ms `outline-offset` pulse keyframe to `.wui-composer__drop--active`.
+- [ ] **Step 1 — Bump contrast.** `.civ-composer__drop--active` gets 35 % primary fill + 3 px primary outline. `.civ-composer__between-drop` gets the solid primary background plus a 2 px 40 %-primary glow via `box-shadow`.
+- [ ] **Step 2 — Pulse.** Inside `@media (prefers-reduced-motion: no-preference)`, add a 800 ms `outline-offset` pulse keyframe to `.civ-composer__drop--active`.
 - [ ] **Step 3 — Commit + push.**
 
 **Commit message**
@@ -415,14 +415,14 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 ### Steps
 
-- [ ] **Step 1 — Redeclare primitives.** Under `.wui-composer__stage[data-theme="light"]` and `[data-theme="dark"]`, set `--wui-color-background`, `--wui-color-foreground`, `--wui-color-muted`, `--wui-color-muted-foreground`, `--wui-color-border`. Use the OKLCH values from `packages/tokens/src/color.json` (light + dark ramps).
+- [ ] **Step 1 — Redeclare primitives.** Under `.civ-composer__stage[data-theme="light"]` and `[data-theme="dark"]`, set `--civ-color-background`, `--civ-color-foreground`, `--civ-color-muted`, `--civ-color-muted-foreground`, `--civ-color-border`. Use the OKLCH values from `packages/tokens/src/color.json` (light + dark ramps).
 - [ ] **Step 2 — Commit + push.**
 
 **Commit message**
 ```
 polish(docs): composer stage theme actually swaps tokens
 
-data-theme=light/dark on the stage now redeclares WeiUI color
+data-theme=light/dark on the stage now redeclares Civaria color
 primitives locally. Users can preview their composition in the
 opposite theme without leaving the tool.
 
@@ -496,7 +496,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 ### Steps
 
-- [ ] **Step 1 — Add `transition: opacity 200ms ease` to `.wui-composer__overlay`.** Also add a `:has(.wui-composer__stage[data-preview="true"])` rule on the canvas that fades overlay opacity to 0. The `@media (prefers-reduced-motion)` UA defaults skip the transition for that cohort.
+- [ ] **Step 1 — Add `transition: opacity 200ms ease` to `.civ-composer__overlay`.** Also add a `:has(.civ-composer__stage[data-preview="true"])` rule on the canvas that fades overlay opacity to 0. The `@media (prefers-reduced-motion)` UA defaults skip the transition for that cohort.
 - [ ] **Step 2 — Commit + push.**
 
 **Commit message**
@@ -630,7 +630,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 docs(migration): concrete before/after snippets
 
 Button / Dialog / Field / Menu shown in shadcn, MUI, and Radix
-idioms beside their WeiUI equivalents.
+idioms beside their Civaria equivalents.
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 ```
@@ -744,7 +744,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 ### Steps
 
 - [ ] **Step 1 — Normalize.** Use the generator script plus a small pre-process pass that rewrites every `stroke-width="…"` attribute to `"2"`. (A one-line node script in `packages/icons/scripts/normalize-stroke.ts`; run once, commit the results.)
-- [ ] **Step 2 — Regenerate TSX and build.** `pnpm --filter @weiui/icons generate` + `pnpm --filter @weiui/icons build`.
+- [ ] **Step 2 — Regenerate TSX and build.** `pnpm --filter @civaria/icons generate` + `pnpm --filter @civaria/icons build`.
 - [ ] **Step 3 — Commit the normalised SVGs + regenerated TSX.**
 
 **Commit message**
@@ -784,7 +784,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 
 ### Steps
 
-- [ ] **Step 1 — Run full builds + tests** (`pnpm build`, `pnpm test`, `pnpm --filter @weiui/tokens validate`, `pnpm --filter @weiui/docs build`). All green.
+- [ ] **Step 1 — Run full builds + tests** (`pnpm build`, `pnpm test`, `pnpm --filter @civaria/tokens validate`, `pnpm --filter @civaria/docs build`). All green.
 - [ ] **Step 2 — Tailwind-leakage sweep** across `packages/react/src/components/` and `apps/docs/src/app/composer/`. Expect empty.
 - [ ] **Step 3 — Commit any regression fixes as atomic commits.** If everything's clean, nothing to commit.
 

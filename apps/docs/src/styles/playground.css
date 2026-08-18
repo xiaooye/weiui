@@ -1,148 +1,148 @@
-@layer wui-base {
+@layer civ-base {
   /* Component selector — Card with sticky search + accordion-grouped list. */
-  .wui-playground-selector {
+  .civ-playground-selector {
     height: fit-content;
     max-block-size: calc(100vh - 8rem);
     overflow-y: auto;
   }
   /* Keep search + title visible while the body scrolls. */
-  .wui-playground-selector .wui-card__header {
+  .civ-playground-selector .civ-card__header {
     position: sticky;
     inset-block-start: 0;
     z-index: 1;
-    background-color: var(--wui-color-card, var(--wui-color-background));
-    border-block-end: 1px solid var(--wui-color-border);
+    background-color: var(--civ-color-card, var(--civ-color-background));
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-playground-selector__search {
+  .civ-playground-selector__search {
     inline-size: 100%;
   }
-  .wui-playground-selector__trigger-label {
+  .civ-playground-selector__trigger-label {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-playground-selector__category {
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-playground-selector__category {
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-playground-selector__list {
+  .civ-playground-selector__list {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-1);
-    padding-block: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
+    padding-block: var(--civ-spacing-1);
   }
   /* Dense selector entry — native <button> for tight padding + icon alignment. */
-  .wui-playground-selector__item {
+  .civ-playground-selector__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     inline-size: 100%;
     min-block-size: 2rem;
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
     font-family: inherit;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.3;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     cursor: pointer;
     text-align: start;
     box-sizing: border-box;
   }
-  .wui-playground-selector__item:hover {
-    background-color: var(--wui-color-muted);
-    border-color: var(--wui-color-border);
+  .civ-playground-selector__item:hover {
+    background-color: var(--civ-color-muted);
+    border-color: var(--civ-color-border);
   }
-  .wui-playground-selector__item:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-playground-selector__item:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 1px;
   }
-  .wui-playground-selector__item[data-selected] {
-    background-color: var(--wui-color-primary);
-    color: var(--wui-color-primary-foreground);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-playground-selector__item[data-selected] {
+    background-color: var(--civ-color-primary);
+    color: var(--civ-color-primary-foreground);
+    font-weight: var(--civ-font-weight-medium);
     border-color: transparent;
   }
-  .wui-playground-selector__item[data-selected] .wui-playground-selector__icon {
+  .civ-playground-selector__item[data-selected] .civ-playground-selector__icon {
     background-color: color-mix(
       in oklch,
-      var(--wui-color-primary-foreground) 18%,
+      var(--civ-color-primary-foreground) 18%,
       transparent
     );
-    color: var(--wui-color-primary-foreground);
+    color: var(--civ-color-primary-foreground);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-playground-selector__item {
+    .civ-playground-selector__item {
       transition-property: background-color, border-color, transform;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-playground-selector__item:hover {
+    .civ-playground-selector__item:hover {
       transform: translateX(1px);
     }
   }
   /* First-letter badge — mirrors the Composer palette icon system. */
-  .wui-playground-selector__icon {
+  .civ-playground-selector__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     inline-size: 1.5rem;
     block-size: 1.5rem;
-    border-radius: var(--wui-shape-radius-sm);
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+    border-radius: var(--civ-shape-radius-sm);
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     flex-shrink: 0;
   }
-  .wui-playground-selector__icon[data-category="actions"] {
+  .civ-playground-selector__icon[data-category="actions"] {
     background-color: color-mix(in oklch, oklch(0.65 0.18 25) 18%, transparent);
     color: oklch(0.55 0.18 25);
   }
-  .wui-playground-selector__icon[data-category="form"] {
+  .civ-playground-selector__icon[data-category="form"] {
     background-color: color-mix(in oklch, oklch(0.65 0.14 240) 18%, transparent);
     color: oklch(0.55 0.14 240);
   }
-  .wui-playground-selector__icon[data-category="display"] {
+  .civ-playground-selector__icon[data-category="display"] {
     background-color: color-mix(in oklch, oklch(0.7 0.15 160) 18%, transparent);
     color: oklch(0.5 0.15 160);
   }
-  .wui-playground-selector__icon[data-category="feedback"] {
+  .civ-playground-selector__icon[data-category="feedback"] {
     background-color: color-mix(in oklch, oklch(0.7 0.16 60) 18%, transparent);
     color: oklch(0.55 0.16 60);
   }
-  .wui-playground-selector__icon[data-category="navigation"] {
+  .civ-playground-selector__icon[data-category="navigation"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 280) 18%, transparent);
     color: oklch(0.55 0.15 280);
   }
-  .wui-playground-selector__icon[data-category="overlay"] {
+  .civ-playground-selector__icon[data-category="overlay"] {
     background-color: color-mix(in oklch, oklch(0.65 0.14 320) 18%, transparent);
     color: oklch(0.55 0.14 320);
   }
-  .wui-playground-selector__icon[data-category="layout"] {
+  .civ-playground-selector__icon[data-category="layout"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 300) 18%, transparent);
     color: oklch(0.55 0.15 300);
   }
-  .wui-playground-selector__icon[data-category="typography"] {
+  .civ-playground-selector__icon[data-category="typography"] {
     background-color: color-mix(in oklch, oklch(0.7 0.12 40) 18%, transparent);
     color: oklch(0.5 0.12 40);
   }
-  .wui-playground-selector__icon[data-category="data"] {
+  .civ-playground-selector__icon[data-category="data"] {
     background-color: color-mix(in oklch, oklch(0.65 0.15 200) 18%, transparent);
     color: oklch(0.5 0.15 200);
   }
-  .wui-playground-selector__icon[data-category="media"] {
+  .civ-playground-selector__icon[data-category="media"] {
     background-color: color-mix(in oklch, oklch(0.65 0.18 350) 18%, transparent);
     color: oklch(0.55 0.18 350);
   }
-  .wui-playground-selector__label {
+  .civ-playground-selector__label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -151,103 +151,103 @@
   }
 
   /* Preview toolbar (theme + viewport toggles) */
-  .wui-playground__toolbar {
+  .civ-playground__toolbar {
     flex-wrap: wrap;
     align-items: flex-end;
   }
 
   /* Preview stage — hosts the rendered component; theme + viewport scope */
-  .wui-playground__preview-stage {
-    --wui-playground-viewport-max: 100%;
+  .civ-playground__preview-stage {
+    --civ-playground-viewport-max: 100%;
     inline-size: 100%;
-    max-inline-size: var(--wui-playground-viewport-max);
+    max-inline-size: var(--civ-playground-viewport-max);
     margin-inline: auto;
-    background-color: var(--wui-color-background);
-    color: var(--wui-color-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+    background-color: var(--civ-color-background);
+    color: var(--civ-color-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     box-sizing: border-box;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-playground__preview-stage {
+    .civ-playground__preview-stage {
       transition-property: max-inline-size;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
-  .wui-playground__preview-stage[data-theme="dark"] {
+  .civ-playground__preview-stage[data-theme="dark"] {
     color-scheme: dark;
   }
   /* When forced to light, override parent .dark tokens locally to restore
-     the light palette. Mirror the override set from @weiui/tokens. */
-  .wui-playground__preview-stage[data-theme="light"] {
+     the light palette. Mirror the override set from @civaria/tokens. */
+  .civ-playground__preview-stage[data-theme="light"] {
     color-scheme: light;
-    --wui-color-primary: oklch(0.546 0.245 263);
-    --wui-color-primary-foreground: oklch(1 0 0);
-    --wui-color-background: oklch(1 0 0);
-    --wui-color-foreground: oklch(0.145 0.010 240);
-    --wui-color-muted: oklch(0.967 0.003 240);
-    --wui-color-muted-foreground: oklch(0.551 0.018 240);
-    --wui-color-card: oklch(1 0 0);
-    --wui-color-card-foreground: oklch(0.145 0.010 240);
-    --wui-color-border: oklch(0.928 0.006 240);
-    --wui-color-ring: oklch(0.546 0.245 263);
-    --wui-surface-raised: oklch(1 0 0);
-    --wui-surface-overlay: oklch(1 0 0);
-    --wui-surface-sunken: oklch(0.985 0.002 240);
+    --civ-color-primary: oklch(0.546 0.245 263);
+    --civ-color-primary-foreground: oklch(1 0 0);
+    --civ-color-background: oklch(1 0 0);
+    --civ-color-foreground: oklch(0.145 0.010 240);
+    --civ-color-muted: oklch(0.967 0.003 240);
+    --civ-color-muted-foreground: oklch(0.551 0.018 240);
+    --civ-color-card: oklch(1 0 0);
+    --civ-color-card-foreground: oklch(0.145 0.010 240);
+    --civ-color-border: oklch(0.928 0.006 240);
+    --civ-color-ring: oklch(0.546 0.245 263);
+    --civ-surface-raised: oklch(1 0 0);
+    --civ-surface-overlay: oklch(1 0 0);
+    --civ-surface-sunken: oklch(0.985 0.002 240);
   }
 }
 
 /*
  * Accordion-as-selector overrides — same layering trick as the Composer palette.
- * The library's .wui-accordion rules live in @layer wui-elements; these
+ * The library's .civ-accordion rules live in @layer civ-elements; these
  * overrides must also live here to actually win. Strips the heavy
  * standalone-widget chrome so the Accordion reads as a lightweight
  * collapsible-category list inside the selector Card.
  */
-@layer wui-elements {
-  .wui-playground-selector__accordion.wui-accordion {
+@layer civ-elements {
+  .civ-playground-selector__accordion.civ-accordion {
     border: 0;
     border-radius: 0;
     box-shadow: none;
     overflow: visible;
     background-color: transparent;
   }
-  .wui-playground-selector__accordion .wui-accordion__item {
+  .civ-playground-selector__accordion .civ-accordion__item {
     border-block-end: 0;
-    border-radius: var(--wui-shape-radius-sm);
-    margin-block-end: var(--wui-spacing-1);
+    border-radius: var(--civ-shape-radius-sm);
+    margin-block-end: var(--civ-spacing-1);
   }
-  .wui-playground-selector__accordion .wui-accordion__trigger {
+  .civ-playground-selector__accordion .civ-accordion__trigger {
     min-block-size: 2rem;
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-2);
-    border-radius: var(--wui-shape-radius-sm);
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-2);
+    border-radius: var(--civ-shape-radius-sm);
   }
-  .wui-playground-selector__accordion .wui-accordion__trigger:hover {
-    background-color: var(--wui-color-muted);
+  .civ-playground-selector__accordion .civ-accordion__trigger:hover {
+    background-color: var(--civ-color-muted);
   }
-  .wui-playground-selector__accordion .wui-accordion__trigger[aria-expanded="true"] {
+  .civ-playground-selector__accordion .civ-accordion__trigger[aria-expanded="true"] {
     background-color: transparent;
   }
-  .wui-playground-selector__accordion .wui-accordion__content-inner {
-    padding-block: var(--wui-spacing-1);
+  .civ-playground-selector__accordion .civ-accordion__content-inner {
+    padding-block: var(--civ-spacing-1);
     padding-inline: 0;
   }
 }
 
-@layer wui-base {
+@layer civ-base {
   /* Props panel sections — mirrors Composer's Appearance/Behavior/Advanced
      grouping so dense prop lists get visual hierarchy. */
-  .wui-playground__props-section {
+  .civ-playground__props-section {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-playground__props-section-title {
+  .civ-playground__props-section-title {
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding-block-end: var(--wui-spacing-1);
-    border-block-end: 1px solid var(--wui-color-border);
+    padding-block-end: var(--civ-spacing-1);
+    border-block-end: 1px solid var(--civ-color-border);
   }
 }

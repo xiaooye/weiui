@@ -1,17 +1,17 @@
 /* packages/css/src/elements/heading.css */
-@layer wui-elements {
-  .wui-heading {
+@layer civ-elements {
+  .civ-heading {
     font-family: inherit;
-    font-weight: var(--wui-font-weight-semibold);
-    line-height: var(--wui-font-lineHeight-tight);
-    letter-spacing: var(--wui-font-letterSpacing-tight);
+    font-weight: var(--civ-font-weight-semibold);
+    line-height: var(--civ-font-lineHeight-tight);
+    letter-spacing: var(--civ-font-letterSpacing-tight);
     margin: 0;
   }
 
-  .wui-heading--1 { font-size: var(--wui-font-size-4xl); font-weight: var(--wui-font-weight-bold); }
-  .wui-heading--2 { font-size: var(--wui-font-size-3xl); }
-  .wui-heading--3 { font-size: var(--wui-font-size-2xl); }
-  .wui-heading--4 { font-size: var(--wui-font-size-xl); }
-  .wui-heading--5 { font-size: var(--wui-font-size-lg); }
-  .wui-heading--6 { font-size: var(--wui-font-size-base); }
+  .civ-heading--1 { font-size: var(--civ-font-size-4xl); font-weight: var(--civ-font-weight-bold); }
+  .civ-heading--2 { font-size: var(--civ-font-size-3xl); }
+  .civ-heading--3 { font-size: var(--civ-font-size-2xl); }
+  .civ-heading--4 { font-size: var(--civ-font-size-xl); }
+  .civ-heading--5 { font-size: var(--civ-font-size-lg); }
+  .civ-heading--6 { font-size: var(--civ-font-size-base); }
 }

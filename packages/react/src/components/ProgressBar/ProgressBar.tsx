@@ -34,18 +34,18 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         aria-valuemax={max}
         aria-label={label || "Progress"}
         className={cn(
-          "wui-progress",
-          size !== "md" && `wui-progress--${size}`,
-          color !== "primary" && `wui-progress--${color}`,
-          indeterminate && "wui-progress--indeterminate",
-          displayLabel && "wui-progress--with-label",
+          "civ-progress",
+          size !== "md" && `civ-progress--${size}`,
+          color !== "primary" && `civ-progress--${color}`,
+          indeterminate && "civ-progress--indeterminate",
+          displayLabel && "civ-progress--with-label",
           className,
         )}
         {...props}
       >
-        <div className="wui-progress__bar" style={indeterminate ? undefined : { inlineSize: `${percent}%` }} />
+        <div className="civ-progress__bar" style={indeterminate ? undefined : { inlineSize: `${percent}%` }} />
         {displayLabel && (
-          <span className="wui-progress__label" aria-hidden="true">
+          <span className="civ-progress__label" aria-hidden="true">
             {Math.round(percent)}%
           </span>
         )}

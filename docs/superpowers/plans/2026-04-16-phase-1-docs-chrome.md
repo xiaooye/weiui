@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Rebuild the WeiUI docs site chrome — sticky header with nav/search/theme/GitHub, collapsible left sidebar, right TOC, breadcrumbs, prev/next pager, dark mode toggle with FOUC prevention, ⌘K command palette via cmdk, Shiki-highlighted code blocks with copy + dual theme, and Inter / Instrument Serif / JetBrains Mono typography.
+**Goal:** Rebuild the Civaria docs site chrome — sticky header with nav/search/theme/GitHub, collapsible left sidebar, right TOC, breadcrumbs, prev/next pager, dark mode toggle with FOUC prevention, ⌘K command palette via cmdk, Shiki-highlighted code blocks with copy + dual theme, and Inter / Instrument Serif / JetBrains Mono typography.
 
 **Architecture:** All chrome components live under `apps/docs/src/components/chrome/`. Search index is generated at build time from MDX frontmatter + headings. Theme state is held in a React context, persisted to `localStorage`, with a pre-hydration script loaded from `public/theme-init.js` (no inline script — avoids XSS-flagged patterns). Shiki runs as a rehype plugin inside the existing `@next/mdx` pipeline, emitting dual-theme HTML.
 
@@ -50,15 +50,15 @@
 
 - [ ] **Step 1: Add packages**
 
-Run from `C:/weiui`:
+Run from `C:/civaria`:
 ```bash
-pnpm --filter @weiui/docs add cmdk shiki rehype-pretty-code
-pnpm --filter @weiui/docs add -D tsx
+pnpm --filter @civaria/docs add cmdk shiki rehype-pretty-code
+pnpm --filter @civaria/docs add -D tsx
 ```
 
 - [ ] **Step 2: Verify install**
 
-`pnpm --filter @weiui/docs build` should still succeed (no code changes yet, just added deps).
+`pnpm --filter @civaria/docs build` should still succeed (no code changes yet, just added deps).
 
 - [ ] **Step 3: Commit**
 
@@ -81,7 +81,7 @@ git commit -m "build(docs): add cmdk, shiki, rehype-pretty-code, tsx"
 ```ts
 export type Theme = "light" | "dark" | "system";
 
-export const THEME_STORAGE_KEY = "wui-theme";
+export const THEME_STORAGE_KEY = "civ-theme";
 
 export function resolveTheme(theme: Theme): "light" | "dark" {
   if (theme === "system") {
@@ -99,7 +99,7 @@ export function resolveTheme(theme: Theme): "light" | "dark" {
 ```js
 (function () {
   try {
-    var stored = localStorage.getItem("wui-theme");
+    var stored = localStorage.getItem("civ-theme");
     var theme = stored || "system";
     var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     var resolved = theme === "system" ? (prefersDark ? "dark" : "light") : theme;
@@ -112,18 +112,18 @@ export function resolveTheme(theme: Theme): "light" | "dark" {
 - [ ] **Step 3: Create `apps/docs/src/styles/fonts.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   :root {
-    --wui-font-family-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
-    --wui-font-family-display: var(--font-display), Georgia, serif;
-    --wui-font-family-mono: var(--font-mono), "SF Mono", Consolas, monospace;
+    --civ-font-family-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+    --civ-font-family-display: var(--font-display), Georgia, serif;
+    --civ-font-family-mono: var(--font-mono), "SF Mono", Consolas, monospace;
   }
   body {
-    font-family: var(--wui-font-family-sans);
+    font-family: var(--civ-font-family-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-  .wui-display {
-    font-family: var(--wui-font-family-display);
+  .civ-display {
+    font-family: var(--civ-font-family-display);
     letter-spacing: -0.02em;
   }
 }
@@ -150,8 +150,8 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import "@weiui/tokens/tokens.css";
-import "@weiui/css";
+import "@civaria/tokens/tokens.css";
+import "@civaria/css";
 import "../styles/fonts.css";
 import "../styles/shiki.css";
 import "../styles/chrome.css";
@@ -175,7 +175,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WeiUI — Design System",
+  title: "Civaria — Design System",
   description: "An accessibility-first, layered design system with WCAG AAA enforcement",
 };
 
@@ -213,7 +213,7 @@ Note: `chrome.css` and `shiki.css` don't exist yet — they're created in later 
 - [ ] **Step 1: Create `apps/docs/src/styles/chrome.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   /* Chrome styles land in tasks 5-9. */
 }
 ```
@@ -221,14 +221,14 @@ Note: `chrome.css` and `shiki.css` don't exist yet — they're created in later 
 - [ ] **Step 2: Create `apps/docs/src/styles/shiki.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   /* Shiki token styles land in task 6. */
 }
 ```
 
 - [ ] **Step 3: Build**
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: success. Fonts download + embed. No CSS errors.
 
 - [ ] **Step 4: Commit tasks 3 + 4 together**
@@ -255,7 +255,7 @@ git commit -m "feat(docs): wire next/font, theme init script, chrome/shiki style
 
 ```ts
 export const siteConfig = {
-  name: "WeiUI",
+  name: "Civaria",
   description: "An accessibility-first, layered design system with WCAG AAA enforcement",
   githubUrl: "https://github.com/xiaooye/weiui",
   version: "0.0.1",
@@ -369,7 +369,7 @@ export function ThemeToggle() {
       type="button"
       onClick={cycle}
       aria-label={`Theme: ${label}. Click to change.`}
-      className="wui-theme-toggle"
+      className="civ-theme-toggle"
       suppressHydrationWarning
     >
       <span aria-hidden="true">{icon}</span>
@@ -403,7 +403,7 @@ export function SearchTrigger() {
     <>
       <button
         type="button"
-        className="wui-docs-search-trigger"
+        className="civ-docs-search-trigger"
         onClick={() => setOpen(true)}
         aria-label="Search docs (Cmd+K)"
       >
@@ -411,7 +411,7 @@ export function SearchTrigger() {
         <kbd>⌘K</kbd>
       </button>
       {open && (
-        <div className="wui-docs-search-trigger__placeholder" role="dialog" aria-modal="true">
+        <div className="civ-docs-search-trigger__placeholder" role="dialog" aria-modal="true">
           <p>Command palette coming soon.</p>
           <button type="button" onClick={() => setOpen(false)}>Close</button>
         </div>
@@ -431,19 +431,19 @@ import { SearchTrigger } from "./SearchTrigger";
 
 export function Header() {
   return (
-    <header className="wui-docs-header">
-      <div className="wui-docs-header__inner">
-        <Link href="/" className="wui-docs-header__brand">
-          <span className="wui-docs-header__logo" aria-hidden="true">◐</span>
-          <span className="wui-docs-header__name">{siteConfig.name}</span>
-          <span className="wui-docs-header__version">{siteConfig.version}</span>
+    <header className="civ-docs-header">
+      <div className="civ-docs-header__inner">
+        <Link href="/" className="civ-docs-header__brand">
+          <span className="civ-docs-header__logo" aria-hidden="true">◐</span>
+          <span className="civ-docs-header__name">{siteConfig.name}</span>
+          <span className="civ-docs-header__version">{siteConfig.version}</span>
         </Link>
-        <nav className="wui-docs-header__nav" aria-label="Primary">
+        <nav className="civ-docs-header__nav" aria-label="Primary">
           {siteConfig.primaryNav.map((item) => (
             <Link key={item.href} href={item.href}>{item.label}</Link>
           ))}
         </nav>
-        <div className="wui-docs-header__actions">
+        <div className="civ-docs-header__actions">
           <SearchTrigger />
           <ThemeToggle />
           <a
@@ -451,7 +451,7 @@ export function Header() {
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
-            className="wui-docs-header__github"
+            className="civ-docs-header__github"
           >
             GitHub
           </a>
@@ -465,120 +465,120 @@ export function Header() {
 - [ ] **Step 5: Replace `apps/docs/src/styles/chrome.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   /* Header */
-  .wui-docs-header {
+  .civ-docs-header {
     position: sticky;
     inset-block-start: 0;
     z-index: 40;
     inline-size: 100%;
-    background-color: color-mix(in oklch, var(--wui-color-background) 80%, transparent);
+    background-color: color-mix(in oklch, var(--civ-color-background) 80%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-block-end: 1px solid var(--wui-color-border);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-docs-header__inner {
-    display: flex; align-items: center; gap: var(--wui-spacing-6);
+  .civ-docs-header__inner {
+    display: flex; align-items: center; gap: var(--civ-spacing-6);
     max-inline-size: 80rem; margin-inline: auto;
-    padding-inline: var(--wui-spacing-6); padding-block: var(--wui-spacing-3);
+    padding-inline: var(--civ-spacing-6); padding-block: var(--civ-spacing-3);
   }
-  .wui-docs-header__brand {
-    display: inline-flex; align-items: baseline; gap: var(--wui-spacing-2);
+  .civ-docs-header__brand {
+    display: inline-flex; align-items: baseline; gap: var(--civ-spacing-2);
     text-decoration: none; color: inherit;
   }
-  .wui-docs-header__logo {
-    font-size: var(--wui-font-size-lg);
-    color: var(--wui-color-primary);
+  .civ-docs-header__logo {
+    font-size: var(--civ-font-size-lg);
+    color: var(--civ-color-primary);
   }
-  .wui-docs-header__name {
-    font-weight: var(--wui-font-weight-bold);
-    font-size: var(--wui-font-size-base);
+  .civ-docs-header__name {
+    font-weight: var(--civ-font-weight-bold);
+    font-size: var(--civ-font-size-base);
   }
-  .wui-docs-header__version {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-docs-header__version {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-docs-header__nav {
-    display: flex; gap: var(--wui-spacing-4);
-    margin-inline-start: var(--wui-spacing-6);
-    font-size: var(--wui-font-size-sm);
+  .civ-docs-header__nav {
+    display: flex; gap: var(--civ-spacing-4);
+    margin-inline-start: var(--civ-spacing-6);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-docs-header__nav a {
-    color: var(--wui-color-muted-foreground);
+  .civ-docs-header__nav a {
+    color: var(--civ-color-muted-foreground);
     text-decoration: none;
   }
-  .wui-docs-header__nav a:hover {
-    color: var(--wui-color-foreground);
+  .civ-docs-header__nav a:hover {
+    color: var(--civ-color-foreground);
   }
-  .wui-docs-header__actions {
-    display: flex; gap: var(--wui-spacing-2); align-items: center;
+  .civ-docs-header__actions {
+    display: flex; gap: var(--civ-spacing-2); align-items: center;
     margin-inline-start: auto;
   }
-  .wui-docs-header__github {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
-    border-radius: var(--wui-shape-radius-base);
+  .civ-docs-header__github {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-2);
+    border-radius: var(--civ-shape-radius-base);
     text-decoration: none;
   }
-  .wui-docs-header__github:hover {
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-foreground);
+  .civ-docs-header__github:hover {
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-foreground);
   }
 
   /* Theme toggle */
-  .wui-theme-toggle {
+  .civ-theme-toggle {
     inline-size: 36px; block-size: 36px;
     display: inline-flex; align-items: center; justify-content: center;
     background-color: transparent;
-    color: var(--wui-color-muted-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    color: var(--civ-color-muted-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     cursor: pointer;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-theme-toggle:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-theme-toggle:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
 
   /* Search trigger */
-  .wui-docs-search-trigger {
-    display: inline-flex; align-items: center; gap: var(--wui-spacing-3);
-    padding-inline-start: var(--wui-spacing-3); padding-inline-end: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-1);
+  .civ-docs-search-trigger {
+    display: inline-flex; align-items: center; gap: var(--civ-spacing-3);
+    padding-inline-start: var(--civ-spacing-3); padding-inline-end: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-1);
     min-block-size: 36px; min-inline-size: 220px;
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-sm);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
     cursor: pointer;
   }
-  .wui-docs-search-trigger kbd {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-xs);
-    padding-inline: var(--wui-spacing-1); padding-block: 2px;
-    background-color: var(--wui-color-background);
-    border: 1px solid var(--wui-color-border);
+  .civ-docs-search-trigger kbd {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    padding-inline: var(--civ-spacing-1); padding-block: 2px;
+    background-color: var(--civ-color-background);
+    border: 1px solid var(--civ-color-border);
     border-radius: 4px;
     margin-inline-start: auto;
   }
-  .wui-docs-search-trigger__placeholder {
+  .civ-docs-search-trigger__placeholder {
     position: fixed; inset: 0;
-    background-color: color-mix(in oklch, var(--wui-color-background) 60%, transparent);
-    display: flex; align-items: center; justify-content: center; gap: var(--wui-spacing-4);
+    background-color: color-mix(in oklch, var(--civ-color-background) 60%, transparent);
+    display: flex; align-items: center; justify-content: center; gap: var(--civ-spacing-4);
     z-index: 60;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-docs-header__nav a,
-    .wui-docs-header__github,
-    .wui-theme-toggle,
-    .wui-docs-search-trigger {
+    .civ-docs-header__nav a,
+    .civ-docs-header__github,
+    .civ-theme-toggle,
+    .civ-docs-search-trigger {
       transition-property: background-color, color, border-color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -586,7 +586,7 @@ export function Header() {
 
 - [ ] **Step 6: Build + verify**
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: success.
 
 - [ ] **Step 7: Commit**
@@ -646,32 +646,32 @@ export default withMDX(nextConfig);
 - [ ] **Step 2: Replace `apps/docs/src/styles/shiki.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   figure[data-rehype-pretty-code-figure] {
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     overflow: hidden;
-    margin-block: var(--wui-spacing-4);
+    margin-block: var(--civ-spacing-4);
     position: relative;
   }
   figure[data-rehype-pretty-code-figure] > pre {
-    padding: var(--wui-spacing-4);
+    padding: var(--civ-spacing-4);
     overflow-x: auto;
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.6;
   }
   figure[data-rehype-pretty-code-figure] code {
     counter-reset: line;
   }
   figure[data-rehype-pretty-code-figure] code > [data-line] {
-    padding-inline: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-4);
     border-inline-start: 2px solid transparent;
   }
   figure[data-rehype-pretty-code-figure] code > [data-highlighted-line] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 6%, transparent);
-    border-inline-start-color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 6%, transparent);
+    border-inline-start-color: var(--civ-color-primary);
   }
   /* rehype-pretty-code emits two color tokens per span (--shiki-light / --shiki-dark) */
   code[data-theme*=" "],
@@ -708,10 +708,10 @@ export function CodeBlock({ children, ...props }: HTMLAttributes<HTMLPreElement>
   };
 
   return (
-    <div className="wui-code-block">
+    <div className="civ-code-block">
       <button
         type="button"
-        className="wui-code-block__copy"
+        className="civ-code-block__copy"
         onClick={onCopy}
         aria-label={copied ? "Copied" : "Copy code"}
       >
@@ -739,43 +739,43 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 
 - [ ] **Step 5: Append code-block chrome styles to `chrome.css`**
 
-Append at the bottom of the file (inside or after existing `@layer wui-base` block):
+Append at the bottom of the file (inside or after existing `@layer civ-base` block):
 
 ```css
-@layer wui-base {
-  .wui-code-block {
+@layer civ-base {
+  .civ-code-block {
     position: relative;
   }
-  .wui-code-block__copy {
+  .civ-code-block__copy {
     position: absolute;
-    inset-block-start: var(--wui-spacing-2);
-    inset-inline-end: var(--wui-spacing-2);
+    inset-block-start: var(--civ-spacing-2);
+    inset-inline-end: var(--civ-spacing-2);
     inline-size: 32px;
     block-size: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: color-mix(in oklch, var(--wui-surface-overlay) 80%, transparent);
-    color: var(--wui-color-muted-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: color-mix(in oklch, var(--civ-surface-overlay) 80%, transparent);
+    color: var(--civ-color-muted-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     z-index: 2;
   }
-  .wui-code-block:hover .wui-code-block__copy,
-  .wui-code-block:focus-within .wui-code-block__copy {
+  .civ-code-block:hover .civ-code-block__copy,
+  .civ-code-block:focus-within .civ-code-block__copy {
     opacity: 1;
     pointer-events: auto;
   }
-  .wui-code-block__copy:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-code-block__copy:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-code-block__copy {
-      transition: opacity var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-code-block__copy {
+      transition: opacity var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
   }
 }
@@ -783,7 +783,7 @@ Append at the bottom of the file (inside or after existing `@layer wui-base` blo
 
 - [ ] **Step 6: Build and verify**
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: success. Some build time increase for Shiki is normal.
 
 - [ ] **Step 7: Commit**
@@ -818,18 +818,18 @@ import { siteConfig } from "../../lib/site-config";
 export function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="wui-docs-sidebar" aria-label="Docs navigation">
+    <aside className="civ-docs-sidebar" aria-label="Docs navigation">
       {siteConfig.sidebarGroups.map((group) => (
-        <div key={group.title} className="wui-docs-sidebar__group">
-          <h4 className="wui-docs-sidebar__title">{group.title}</h4>
-          <ul className="wui-docs-sidebar__list">
+        <div key={group.title} className="civ-docs-sidebar__group">
+          <h4 className="civ-docs-sidebar__title">{group.title}</h4>
+          <ul className="civ-docs-sidebar__list">
             {group.items.map((item) => {
               const active = pathname === item.href;
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="wui-docs-sidebar__link"
+                    className="civ-docs-sidebar__link"
                     aria-current={active ? "page" : undefined}
                     data-active={active || undefined}
                   >
@@ -896,14 +896,14 @@ export function TableOfContents() {
   if (headings.length === 0) return null;
 
   return (
-    <aside className="wui-docs-toc" aria-label="On this page">
-      <h4 className="wui-docs-toc__title">On this page</h4>
-      <ul className="wui-docs-toc__list">
+    <aside className="civ-docs-toc" aria-label="On this page">
+      <h4 className="civ-docs-toc__title">On this page</h4>
+      <ul className="civ-docs-toc__list">
         {headings.map((h) => (
           <li key={h.id} data-level={h.level}>
             <a
               href={`#${h.id}`}
-              className="wui-docs-toc__link"
+              className="civ-docs-toc__link"
               data-active={active === h.id || undefined}
             >
               {h.text}
@@ -930,7 +930,7 @@ export function Breadcrumbs() {
   if (segments.length <= 1) return null;
 
   return (
-    <nav className="wui-docs-breadcrumbs" aria-label="Breadcrumb">
+    <nav className="civ-docs-breadcrumbs" aria-label="Breadcrumb">
       <ol>
         <li><Link href="/">Home</Link></li>
         {segments.map((seg, idx) => {
@@ -972,17 +972,17 @@ export function DocsPager() {
   const next = allItems[idx + 1];
 
   return (
-    <nav className="wui-docs-pager" aria-label="Pager">
+    <nav className="civ-docs-pager" aria-label="Pager">
       {prev ? (
-        <Link href={prev.href} className="wui-docs-pager__prev">
-          <span className="wui-docs-pager__direction">← Previous</span>
-          <span className="wui-docs-pager__label">{prev.label}</span>
+        <Link href={prev.href} className="civ-docs-pager__prev">
+          <span className="civ-docs-pager__direction">← Previous</span>
+          <span className="civ-docs-pager__label">{prev.label}</span>
         </Link>
       ) : <span />}
       {next ? (
-        <Link href={next.href} className="wui-docs-pager__next">
-          <span className="wui-docs-pager__direction">Next →</span>
-          <span className="wui-docs-pager__label">{next.label}</span>
+        <Link href={next.href} className="civ-docs-pager__next">
+          <span className="civ-docs-pager__direction">Next →</span>
+          <span className="civ-docs-pager__label">{next.label}</span>
         </Link>
       ) : <span />}
     </nav>
@@ -1010,7 +1010,7 @@ export function EditOnGitHub() {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="wui-docs-edit-link"
+      className="civ-docs-edit-link"
     >
       Edit on GitHub →
     </a>
@@ -1032,9 +1032,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <div className="wui-docs-shell">
+      <div className="civ-docs-shell">
         <Sidebar />
-        <main className="wui-prose wui-docs-main">
+        <main className="civ-prose civ-docs-main">
           <Breadcrumbs />
           {children}
           <EditOnGitHub />
@@ -1050,180 +1050,180 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
 - [ ] **Step 7: Append shell + chrome styles to `chrome.css`**
 
 ```css
-@layer wui-base {
-  .wui-docs-shell {
+@layer civ-base {
+  .civ-docs-shell {
     display: grid;
     grid-template-columns: 16rem minmax(0, 1fr) 14rem;
     max-inline-size: 90rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
-    gap: var(--wui-spacing-6);
+    padding-inline: var(--civ-spacing-6);
+    gap: var(--civ-spacing-6);
     min-block-size: 100vh;
   }
   @media (max-width: 1024px) {
-    .wui-docs-shell { grid-template-columns: 16rem minmax(0, 1fr); }
-    .wui-docs-toc { display: none; }
+    .civ-docs-shell { grid-template-columns: 16rem minmax(0, 1fr); }
+    .civ-docs-toc { display: none; }
   }
   @media (max-width: 768px) {
-    .wui-docs-shell { grid-template-columns: minmax(0, 1fr); }
-    .wui-docs-sidebar { display: none; }
+    .civ-docs-shell { grid-template-columns: minmax(0, 1fr); }
+    .civ-docs-sidebar { display: none; }
   }
-  .wui-docs-main {
-    padding-block: var(--wui-spacing-8);
+  .civ-docs-main {
+    padding-block: var(--civ-spacing-8);
     max-inline-size: 48rem;
     min-inline-size: 0;
   }
 
   /* Sidebar */
-  .wui-docs-sidebar {
+  .civ-docs-sidebar {
     position: sticky;
-    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    block-size: calc(100vh - (var(--wui-spacing-3) * 2 + 36px + 1px));
+    inset-block-start: calc(var(--civ-spacing-3) * 2 + 36px + 1px);
+    block-size: calc(100vh - (var(--civ-spacing-3) * 2 + 36px + 1px));
     overflow-y: auto;
-    padding-block: var(--wui-spacing-6);
-    padding-inline: var(--wui-spacing-4);
-    border-inline-end: 1px solid var(--wui-color-border);
+    padding-block: var(--civ-spacing-6);
+    padding-inline: var(--civ-spacing-4);
+    border-inline-end: 1px solid var(--civ-color-border);
   }
-  .wui-docs-sidebar__group + .wui-docs-sidebar__group {
-    margin-block-start: var(--wui-spacing-6);
+  .civ-docs-sidebar__group + .civ-docs-sidebar__group {
+    margin-block-start: var(--civ-spacing-6);
   }
-  .wui-docs-sidebar__title {
-    font-size: var(--wui-font-size-xs);
+  .civ-docs-sidebar__title {
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-semibold);
-    margin-block-end: var(--wui-spacing-2);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-semibold);
+    margin-block-end: var(--civ-spacing-2);
   }
-  .wui-docs-sidebar__list {
+  .civ-docs-sidebar__list {
     list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: 2px;
   }
-  .wui-docs-sidebar__link {
+  .civ-docs-sidebar__link {
     display: block;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
-    border-radius: var(--wui-shape-radius-base);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
+    border-radius: var(--civ-shape-radius-base);
     text-decoration: none;
   }
-  .wui-docs-sidebar__link:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-docs-sidebar__link:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
-  .wui-docs-sidebar__link[data-active] {
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-docs-sidebar__link[data-active] {
+    color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    font-weight: var(--civ-font-weight-medium);
   }
 
   /* TOC */
-  .wui-docs-toc {
+  .civ-docs-toc {
     position: sticky;
-    inset-block-start: calc(var(--wui-spacing-3) * 2 + 36px + 1px);
-    padding-block-start: var(--wui-spacing-6);
-    padding-inline-start: var(--wui-spacing-6);
+    inset-block-start: calc(var(--civ-spacing-3) * 2 + 36px + 1px);
+    padding-block-start: var(--civ-spacing-6);
+    padding-inline-start: var(--civ-spacing-6);
     inline-size: 14rem;
     align-self: flex-start;
   }
-  .wui-docs-toc__title {
-    font-size: var(--wui-font-size-xs);
+  .civ-docs-toc__title {
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-semibold);
-    margin-block-end: var(--wui-spacing-2);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-semibold);
+    margin-block-end: var(--civ-spacing-2);
   }
-  .wui-docs-toc__list {
+  .civ-docs-toc__list {
     list-style: none; padding: 0; margin: 0;
-    border-inline-start: 1px solid var(--wui-color-border);
+    border-inline-start: 1px solid var(--civ-color-border);
   }
-  .wui-docs-toc__list li[data-level="3"] {
-    padding-inline-start: var(--wui-spacing-3);
+  .civ-docs-toc__list li[data-level="3"] {
+    padding-inline-start: var(--civ-spacing-3);
   }
-  .wui-docs-toc__link {
+  .civ-docs-toc__link {
     display: block;
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
     text-decoration: none;
     margin-inline-start: -1px;
   }
-  .wui-docs-toc__link:hover {
-    color: var(--wui-color-foreground);
+  .civ-docs-toc__link:hover {
+    color: var(--civ-color-foreground);
   }
-  .wui-docs-toc__link[data-active] {
-    color: var(--wui-color-primary);
-    border-inline-start: 1px solid var(--wui-color-primary);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-docs-toc__link[data-active] {
+    color: var(--civ-color-primary);
+    border-inline-start: 1px solid var(--civ-color-primary);
+    font-weight: var(--civ-font-weight-medium);
   }
 
   /* Breadcrumbs */
-  .wui-docs-breadcrumbs {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
-    margin-block-end: var(--wui-spacing-6);
+  .civ-docs-breadcrumbs {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
+    margin-block-end: var(--civ-spacing-6);
   }
-  .wui-docs-breadcrumbs ol {
+  .civ-docs-breadcrumbs ol {
     list-style: none; padding: 0; margin: 0;
-    display: flex; gap: var(--wui-spacing-2); flex-wrap: wrap; align-items: center;
+    display: flex; gap: var(--civ-spacing-2); flex-wrap: wrap; align-items: center;
   }
-  .wui-docs-breadcrumbs a {
+  .civ-docs-breadcrumbs a {
     color: inherit; text-decoration: none;
   }
-  .wui-docs-breadcrumbs a:hover {
-    color: var(--wui-color-foreground);
+  .civ-docs-breadcrumbs a:hover {
+    color: var(--civ-color-foreground);
     text-decoration: underline;
   }
 
   /* Pager */
-  .wui-docs-pager {
+  .civ-docs-pager {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: var(--wui-spacing-4);
-    margin-block-start: var(--wui-spacing-12);
-    padding-block-start: var(--wui-spacing-6);
-    border-block-start: 1px solid var(--wui-color-border);
+    gap: var(--civ-spacing-4);
+    margin-block-start: var(--civ-spacing-12);
+    padding-block-start: var(--civ-spacing-6);
+    border-block-start: 1px solid var(--civ-color-border);
   }
-  .wui-docs-pager a {
-    display: flex; flex-direction: column; gap: var(--wui-spacing-1);
-    padding: var(--wui-spacing-4);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+  .civ-docs-pager a {
+    display: flex; flex-direction: column; gap: var(--civ-spacing-1);
+    padding: var(--civ-spacing-4);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     text-decoration: none;
     color: inherit;
   }
-  .wui-docs-pager__next { text-align: end; }
-  .wui-docs-pager__direction {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-docs-pager__next { text-align: end; }
+  .civ-docs-pager__direction {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-docs-pager__label {
-    font-size: var(--wui-font-size-base);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
+  .civ-docs-pager__label {
+    font-size: var(--civ-font-size-base);
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-foreground);
   }
-  .wui-docs-pager a:hover {
-    border-color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
+  .civ-docs-pager a:hover {
+    border-color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 4%, transparent);
   }
 
   /* Edit link */
-  .wui-docs-edit-link {
+  .civ-docs-edit-link {
     display: inline-block;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
     text-decoration: none;
-    margin-block-start: var(--wui-spacing-8);
+    margin-block-start: var(--civ-spacing-8);
   }
-  .wui-docs-edit-link:hover {
-    color: var(--wui-color-primary);
+  .civ-docs-edit-link:hover {
+    color: var(--civ-color-primary);
   }
 }
 ```
 
 - [ ] **Step 8: Build + verify**
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: success.
 
 - [ ] **Step 9: Commit**
@@ -1368,9 +1368,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   }, {});
 
   return (
-    <div className="wui-cmdk-overlay" onClick={onClose} role="presentation">
+    <div className="civ-cmdk-overlay" onClick={onClose} role="presentation">
       <div
-        className="wui-cmdk-shell"
+        className="civ-cmdk-shell"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -1391,8 +1391,8 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                       onClose();
                     }}
                   >
-                    <span className="wui-cmdk-title">{item.title}</span>
-                    <span className="wui-cmdk-href">{item.href}</span>
+                    <span className="civ-cmdk-title">{item.title}</span>
+                    <span className="civ-cmdk-href">{item.href}</span>
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -1436,7 +1436,7 @@ export function SearchTrigger() {
     <>
       <button
         type="button"
-        className="wui-docs-search-trigger"
+        className="civ-docs-search-trigger"
         onClick={() => setOpen(true)}
         aria-label="Search docs (Cmd+K)"
       >
@@ -1452,71 +1452,71 @@ export function SearchTrigger() {
 - [ ] **Step 6: Append palette styles to `chrome.css`**
 
 ```css
-@layer wui-base {
-  .wui-cmdk-overlay {
+@layer civ-base {
+  .civ-cmdk-overlay {
     position: fixed; inset: 0;
-    background-color: color-mix(in oklch, var(--wui-color-foreground) 40%, transparent);
+    background-color: color-mix(in oklch, var(--civ-color-foreground) 40%, transparent);
     backdrop-filter: blur(4px);
     display: flex; align-items: flex-start; justify-content: center;
     padding-block-start: 12vh;
     z-index: 60;
   }
-  .wui-cmdk-shell {
+  .civ-cmdk-shell {
     inline-size: min(640px, 90vw);
-    background-color: var(--wui-surface-overlay);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-5);
+    background-color: var(--civ-surface-overlay);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-5);
     overflow: hidden;
   }
-  .wui-cmdk-shell [cmdk-input] {
+  .civ-cmdk-shell [cmdk-input] {
     inline-size: 100%;
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-4);
     background-color: transparent;
     border: none;
-    border-block-end: 1px solid var(--wui-color-border);
-    font-size: var(--wui-font-size-base);
-    color: var(--wui-color-foreground);
+    border-block-end: 1px solid var(--civ-color-border);
+    font-size: var(--civ-font-size-base);
+    color: var(--civ-color-foreground);
     font-family: inherit;
     outline: none;
   }
-  .wui-cmdk-shell [cmdk-list] {
+  .civ-cmdk-shell [cmdk-list] {
     max-block-size: 50vh;
     overflow-y: auto;
-    padding-block: var(--wui-spacing-2);
+    padding-block: var(--civ-spacing-2);
   }
-  .wui-cmdk-shell [cmdk-group-heading] {
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
-    font-size: var(--wui-font-size-xs);
+  .civ-cmdk-shell [cmdk-group-heading] {
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-2);
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-semibold);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-semibold);
   }
-  .wui-cmdk-shell [cmdk-item] {
+  .civ-cmdk-shell [cmdk-item] {
     display: flex; align-items: center; justify-content: space-between;
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-2);
     cursor: pointer;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
   }
-  .wui-cmdk-shell [cmdk-item][data-selected="true"] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
+  .civ-cmdk-shell [cmdk-item][data-selected="true"] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
   }
-  .wui-cmdk-shell .wui-cmdk-href {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-cmdk-shell .civ-cmdk-href {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-cmdk-shell [cmdk-empty] {
-    padding: var(--wui-spacing-6);
+  .civ-cmdk-shell [cmdk-empty] {
+    padding: var(--civ-spacing-6);
     text-align: center;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
 }
 ```
 
 - [ ] **Step 7: Build and verify**
 
-Run: `pnpm --filter @weiui/docs build`
+Run: `pnpm --filter @civaria/docs build`
 Expected: `tsx scripts/build-search-index.ts` emits `public/search-index.json`, next build succeeds.
 
 - [ ] **Step 8: Commit**
@@ -1551,32 +1551,32 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <section className="wui-landing-hero">
-          <h1 className="wui-display wui-landing-hero__title">
+        <section className="civ-landing-hero">
+          <h1 className="civ-display civ-landing-hero__title">
             A design system that earns its place.
           </h1>
-          <p className="wui-landing-hero__sub">
+          <p className="civ-landing-hero__sub">
             Three consumption layers. WCAG AAA enforcement. OKLCH tokens. Designer-friendly.
           </p>
-          <div className="wui-landing-hero__cta">
-            <Link href="/docs/getting-started" className="wui-button wui-button--solid">Get Started</Link>
-            <Link href="/docs/components" className="wui-button wui-button--outline">Components</Link>
-            <a href={siteConfig.githubUrl} className="wui-button wui-button--ghost" target="_blank" rel="noreferrer">GitHub</a>
+          <div className="civ-landing-hero__cta">
+            <Link href="/docs/getting-started" className="civ-button civ-button--solid">Get Started</Link>
+            <Link href="/docs/components" className="civ-button civ-button--outline">Components</Link>
+            <a href={siteConfig.githubUrl} className="civ-button civ-button--ghost" target="_blank" rel="noreferrer">GitHub</a>
           </div>
         </section>
 
-        <section className="wui-landing-grid">
-          <div className="wui-card">
-            <div className="wui-card__header"><h3>Three Layers</h3></div>
-            <div className="wui-card__content">CSS-only primitives, headless behavior hooks, and fully styled React components.</div>
+        <section className="civ-landing-grid">
+          <div className="civ-card">
+            <div className="civ-card__header"><h3>Three Layers</h3></div>
+            <div className="civ-card__content">CSS-only primitives, headless behavior hooks, and fully styled React components.</div>
           </div>
-          <div className="wui-card">
-            <div className="wui-card__header"><h3>WCAG AAA</h3></div>
-            <div className="wui-card__content">7:1 contrast for content text, 44px touch targets, full keyboard navigation.</div>
+          <div className="civ-card">
+            <div className="civ-card__header"><h3>WCAG AAA</h3></div>
+            <div className="civ-card__content">7:1 contrast for content text, 44px touch targets, full keyboard navigation.</div>
           </div>
-          <div className="wui-card">
-            <div className="wui-card__header"><h3>OKLCH Tokens</h3></div>
-            <div className="wui-card__content">W3C Design Tokens in JSON. Auto dark mode. Designer-friendly source of truth.</div>
+          <div className="civ-card">
+            <div className="civ-card__header"><h3>OKLCH Tokens</h3></div>
+            <div className="civ-card__content">W3C Design Tokens in JSON. Auto dark mode. Designer-friendly source of truth.</div>
           </div>
         </section>
       </main>
@@ -1588,17 +1588,17 @@ export default function Home() {
 - [ ] **Step 2: Append landing hero styles to `chrome.css`**
 
 ```css
-@layer wui-base {
-  .wui-landing-hero {
+@layer civ-base {
+  .civ-landing-hero {
     max-inline-size: 72rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
-    padding-block: calc(var(--wui-spacing-12) * 2) var(--wui-spacing-12);
+    padding-inline: var(--civ-spacing-6);
+    padding-block: calc(var(--civ-spacing-12) * 2) var(--civ-spacing-12);
     text-align: center;
     position: relative;
     overflow: hidden;
   }
-  .wui-landing-hero::before {
+  .civ-landing-hero::before {
     content: "";
     position: absolute;
     inset-block-start: -20%;
@@ -1606,7 +1606,7 @@ export default function Home() {
     block-size: 60%;
     background-image: radial-gradient(
         60% 50% at 30% 30%,
-        color-mix(in oklch, var(--wui-color-primary) 20%, transparent) 0%,
+        color-mix(in oklch, var(--civ-color-primary) 20%, transparent) 0%,
         transparent 60%
       ),
       radial-gradient(
@@ -1618,31 +1618,31 @@ export default function Home() {
     z-index: -1;
     pointer-events: none;
   }
-  .wui-landing-hero__title {
-    font-family: var(--wui-font-family-display);
-    font-size: clamp(var(--wui-font-size-5xl), 8vw, var(--wui-font-size-6xl));
+  .civ-landing-hero__title {
+    font-family: var(--civ-font-family-display);
+    font-size: clamp(var(--civ-font-size-5xl), 8vw, var(--civ-font-size-6xl));
     line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-block-end: var(--wui-spacing-4);
+    margin-block-end: var(--civ-spacing-4);
   }
-  .wui-landing-hero__sub {
-    font-size: var(--wui-font-size-lg);
-    color: var(--wui-color-muted-foreground);
+  .civ-landing-hero__sub {
+    font-size: var(--civ-font-size-lg);
+    color: var(--civ-color-muted-foreground);
     max-inline-size: 40rem;
     margin-inline: auto;
-    margin-block-end: var(--wui-spacing-8);
+    margin-block-end: var(--civ-spacing-8);
   }
-  .wui-landing-hero__cta {
-    display: flex; gap: var(--wui-spacing-3); justify-content: center; flex-wrap: wrap;
+  .civ-landing-hero__cta {
+    display: flex; gap: var(--civ-spacing-3); justify-content: center; flex-wrap: wrap;
   }
 
-  .wui-landing-grid {
+  .civ-landing-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--wui-spacing-6);
+    gap: var(--civ-spacing-6);
     max-inline-size: 72rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
-    padding-block-end: var(--wui-spacing-12);
+    padding-inline: var(--civ-spacing-6);
+    padding-block-end: var(--civ-spacing-12);
   }
 }
 ```
@@ -1650,7 +1650,7 @@ export default function Home() {
 - [ ] **Step 3: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/app/page.tsx apps/docs/src/styles/chrome.css
 git commit -m "feat(docs): refresh landing hero with ambient gradient + Instrument Serif display"
 ```
@@ -1671,7 +1671,7 @@ Expected: 524+ tests pass (no regressions from Phase 0).
 
 - [ ] **Step 3: Manual dev server check**
 
-Run: `pnpm --filter @weiui/docs dev`
+Run: `pnpm --filter @civaria/docs dev`
 
 Open http://localhost:3000 and confirm:
 - Hero has ambient gradient + Instrument Serif display heading.

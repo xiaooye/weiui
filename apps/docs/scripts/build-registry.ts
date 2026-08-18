@@ -32,14 +32,14 @@ const DOCS_COMPONENTS_DIR = join(process.cwd(), "src", "app", "docs", "component
  * The values here are the exact import specifiers agents should emit.
  */
 const HEAVY_SUBPATHS: Record<string, string> = {
-  Editor: "@weiui/react/editor",
-  DataTable: "@weiui/react/data-table",
-  BarChart: "@weiui/react/chart",
-  LineChart: "@weiui/react/chart",
-  AreaChart: "@weiui/react/chart",
-  PieChart: "@weiui/react/chart",
-  DonutChart: "@weiui/react/chart",
-  RadarChart: "@weiui/react/chart",
+  Editor: "civaria/editor",
+  DataTable: "civaria/data-table",
+  BarChart: "civaria/chart",
+  LineChart: "civaria/chart",
+  AreaChart: "civaria/chart",
+  PieChart: "civaria/chart",
+  DonutChart: "civaria/chart",
+  RadarChart: "civaria/chart",
 };
 
 /**
@@ -383,7 +383,7 @@ function buildComponent(project: Project, name: string): RegistryComponentSchema
   const compound = extractCompound(project, tsxPath, name);
 
   const subpath = HEAVY_SUBPATHS[name] ?? null;
-  const importPath = subpath ?? "@weiui/react";
+  const importPath = subpath ?? "civaria";
 
   return {
     name,
@@ -391,7 +391,7 @@ function buildComponent(project: Project, name: string): RegistryComponentSchema
     description,
     importPath,
     subpathImport: subpath,
-    dependencies: ["@weiui/react", "@weiui/css", "@weiui/tokens"],
+    dependencies: ["civaria", "@civaria/css", "@civaria/tokens"],
     props,
     compound,
     examples,
@@ -424,7 +424,7 @@ export function buildRegistry(opts: BuildRegistryOptions): RegistryIndex {
       name,
       category: component.category,
       description: component.description,
-      url: `https://weiui.dev/registry/${name}.json`,
+      url: `https://civaria.dev/registry/${name}.json`,
     });
   }
 

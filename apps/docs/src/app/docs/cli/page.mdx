@@ -1,23 +1,23 @@
 # CLI
 
-The `@weiui/cli` package scaffolds WeiUI projects, adds components, and validates design tokens.
+The `@civaria/cli` package scaffolds Civaria projects, adds components, and validates design tokens.
 
 ## Install
 
 ```bash
-pnpm add -D @weiui/cli
+pnpm add -D @civaria/cli
 # or run ad-hoc
-pnpm dlx @weiui/cli --help
+pnpm dlx @civaria/cli --help
 ```
 
 ## Commands
 
 ### `init`
 
-Scaffold a new WeiUI consumer. Creates token imports and an optional theme config.
+Scaffold a new Civaria consumer. Creates token imports and an optional theme config.
 
 ```bash
-pnpm dlx @weiui/cli init
+pnpm dlx @civaria/cli init
 ```
 
 ### `add`
@@ -25,7 +25,7 @@ pnpm dlx @weiui/cli init
 Copy a single component's source into your project (shadcn-style ownership).
 
 ```bash
-pnpm dlx @weiui/cli add button
+pnpm dlx @civaria/cli add button
 ```
 
 ### `audit`
@@ -33,11 +33,11 @@ pnpm dlx @weiui/cli add button
 Validate that your local token overrides still pass WCAG AAA targets.
 
 ```bash
-pnpm dlx @weiui/cli audit
+pnpm dlx @civaria/cli audit
 ```
 
 Exits non-zero if any contrast pair drops below its required threshold.
 
 ## Programmatic API
 
-Every CLI command is also exported as a library function — see `@weiui/cli/api` for the full surface. This makes WeiUI's validators composable into your own build pipeline.
+Every CLI command is also exported as a library function — see `@civaria/cli/api` for the full surface. This makes Civaria's validators composable into your own build pipeline.

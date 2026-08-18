@@ -1,32 +1,32 @@
 /* packages/css/src/elements/link.css */
-@layer wui-elements {
-  .wui-link {
-    color: var(--wui-color-primary);
+@layer civ-elements {
+  .civ-link {
+    color: var(--civ-color-primary);
     text-decoration: underline;
     text-underline-offset: 4px;
   }
-  .wui-link[data-underline="hover"] {
+  .civ-link[data-underline="hover"] {
     text-decoration: none;
   }
-  .wui-link[data-underline="hover"]:hover,
-  .wui-link[data-underline="hover"]:focus-visible {
+  .civ-link[data-underline="hover"]:hover,
+  .civ-link[data-underline="hover"]:focus-visible {
     text-decoration: underline;
   }
-  .wui-link[data-underline="none"] {
+  .civ-link[data-underline="none"] {
     text-decoration: none;
   }
 
-  .wui-link:hover {
-    color: color-mix(in oklch, var(--wui-color-primary) 80%, transparent);
+  .civ-link:hover {
+    color: color-mix(in oklch, var(--civ-color-primary) 80%, transparent);
   }
 
-  .wui-link:focus-visible {
-    outline: var(--wui-shape-border-width-medium) solid var(--wui-color-ring);
+  .civ-link:focus-visible {
+    outline: var(--civ-shape-border-width-medium) solid var(--civ-color-ring);
     outline-offset: 2px;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
   }
 
-  .wui-link__external-icon {
+  .civ-link__external-icon {
     display: inline-block;
     margin-inline-start: 0.2em;
     font-size: 0.85em;

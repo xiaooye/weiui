@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, CommandPalette, toast, type CommandItem } from "@weiui/react";
+import { Button, CommandPalette, toast, type CommandItem } from "civaria";
 
 const items: CommandItem[] = [
   // File
@@ -136,7 +136,7 @@ export function CommandPaletteDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-2)",
+        gap: "var(--civ-spacing-2)",
       }}
     >
       <Button
@@ -147,8 +147,8 @@ export function CommandPaletteDemo() {
       </Button>
       <p
         style={{
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
           margin: 0,
         }}
       >

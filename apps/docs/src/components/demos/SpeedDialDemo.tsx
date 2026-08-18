@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SpeedDial } from "@weiui/react";
+import { SpeedDial } from "civaria";
 
 export function SpeedDialDemo() {
   const [lastAction, setLastAction] = useState<string | null>(null);
@@ -13,23 +13,23 @@ export function SpeedDialDemo() {
         width: "100%",
         maxWidth: "420px",
         minHeight: "220px",
-        padding: "var(--wui-spacing-4)",
-        borderRadius: "var(--wui-shape-radius-lg)",
-        border: "1px solid var(--wui-color-border)",
-        background: "var(--wui-color-muted)",
+        padding: "var(--civ-spacing-4)",
+        borderRadius: "var(--civ-shape-radius-lg)",
+        border: "1px solid var(--civ-color-border)",
+        background: "var(--civ-color-muted)",
       }}
     >
-      <style>{`.speed-dial-demo-scope .wui-speed-dial { position: absolute; inset-block-end: var(--wui-spacing-4); inset-inline-end: var(--wui-spacing-4); z-index: 1; }`}</style>
+      <style>{`.speed-dial-demo-scope .civ-speed-dial { position: absolute; inset-block-end: var(--civ-spacing-4); inset-inline-end: var(--civ-spacing-4); z-index: 1; }`}</style>
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
         {lastAction ? (
           <>
-            Last action: <strong style={{ color: "var(--wui-color-foreground)" }}>{lastAction}</strong>
+            Last action: <strong style={{ color: "var(--civ-color-foreground)" }}>{lastAction}</strong>
           </>
         ) : (
           "Click the + button to expand actions."

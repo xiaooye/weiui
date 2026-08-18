@@ -1,44 +1,44 @@
-@layer wui-utilities {
-  .wui-container {
+@layer civ-utilities {
+  .civ-container {
     inline-size: 100%;
-    max-inline-size: var(--wui-breakpoint-xl);
+    max-inline-size: var(--civ-breakpoint-xl);
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-4);
   }
 
-  .wui-stack {
+  .civ-stack {
     display: flex;
     flex-direction: column;
   }
 
-  .wui-stack--row { flex-direction: row; }
-  .wui-stack--wrap { flex-wrap: wrap; }
+  .civ-stack--row { flex-direction: row; }
+  .civ-stack--wrap { flex-wrap: wrap; }
 
-  .wui-grid {
+  .civ-grid {
     display: grid;
   }
 
-  .wui-divider {
+  .civ-divider {
     border: none;
-    border-block-start: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-block-start: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
     inline-size: 100%;
   }
 
-  .wui-divider--vertical {
+  .civ-divider--vertical {
     border-block-start: none;
-    border-inline-start: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
+    border-inline-start: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
     block-size: 100%;
     inline-size: 0;
   }
 
-  .wui-spacer { flex: 1; }
+  .civ-spacer { flex: 1; }
 
-  .wui-aspect-ratio {
+  .civ-aspect-ratio {
     position: relative;
     inline-size: 100%;
   }
 
-  .wui-aspect-ratio > * {
+  .civ-aspect-ratio > * {
     position: absolute;
     inset: 0;
     inline-size: 100%;

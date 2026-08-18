@@ -37,5 +37,5 @@ export function TabsList({ children, orientation = "horizontal", loop = true, ac
     }
   }, [orientation, loop, activationMode, onKeyDown]);
 
-  return <div ref={ref} role="tablist" aria-orientation={orientation} onKeyDown={handleKeyDown} {...props} data-wui-component="tabs" data-part="list" data-orientation={orientation}>{children}</div>;
+  return <div ref={ref} role="tablist" aria-orientation={orientation} onKeyDown={handleKeyDown} {...props} data-civaria-component="tabs" data-part="list" data-orientation={orientation}>{children}</div>;
 }

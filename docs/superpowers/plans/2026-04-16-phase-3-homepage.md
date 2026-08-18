@@ -4,9 +4,9 @@
 
 **Goal:** Rebuild the landing page with a polished hero, 6-value-prop grid, interactive live showcase, comparison table, install snippet, and footer. Keep the single ambient gradient + single display-serif constraint from the spec.
 
-**Architecture:** Landing page composed of reusable sections under `apps/docs/src/components/landing/`. Each section is a server component where possible (static content + existing WeiUI components). Only the `LiveShowcase` component (interactive demos) is a client component.
+**Architecture:** Landing page composed of reusable sections under `apps/docs/src/components/landing/`. Each section is a server component where possible (static content + existing Civaria components). Only the `LiveShowcase` component (interactive demos) is a client component.
 
-**Tech Stack:** Next.js 15 App Router, React 19, existing WeiUI components from `@weiui/react`.
+**Tech Stack:** Next.js 15 App Router, React 19, existing Civaria components from `civaria`.
 
 **Spec reference:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §7.
 
@@ -34,38 +34,38 @@
 - [ ] **Step 1: Create `apps/docs/src/styles/landing.css`**
 
 ```css
-@layer wui-base {
-  .wui-home-section {
+@layer civ-base {
+  .civ-home-section {
     max-inline-size: 72rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
+    padding-inline: var(--civ-spacing-6);
   }
-  .wui-home-section__header {
+  .civ-home-section__header {
     text-align: center;
-    margin-block-end: var(--wui-spacing-8);
+    margin-block-end: var(--civ-spacing-8);
   }
-  .wui-home-section__eyebrow {
+  .civ-home-section__eyebrow {
     display: inline-block;
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--wui-color-primary);
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
-    border-radius: var(--wui-shape-radius-full);
-    margin-block-end: var(--wui-spacing-3);
+    color: var(--civ-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
+    border-radius: var(--civ-shape-radius-full);
+    margin-block-end: var(--civ-spacing-3);
   }
-  .wui-home-section__title {
-    font-size: var(--wui-font-size-3xl);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-home-section__title {
+    font-size: var(--civ-font-size-3xl);
+    font-weight: var(--civ-font-weight-semibold);
     line-height: 1.15;
     letter-spacing: -0.01em;
-    margin-block-end: var(--wui-spacing-2);
+    margin-block-end: var(--civ-spacing-2);
   }
-  .wui-home-section__sub {
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-lg);
+  .civ-home-section__sub {
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-lg);
     max-inline-size: 42rem;
     margin-inline: auto;
   }
@@ -80,20 +80,20 @@ import { siteConfig } from "../../lib/site-config";
 
 export function Hero() {
   return (
-    <section className="wui-landing-hero">
-      <span className="wui-landing-hero__badge">v{siteConfig.version} · Pre-release</span>
-      <h1 className="wui-display wui-landing-hero__title">
+    <section className="civ-landing-hero">
+      <span className="civ-landing-hero__badge">v{siteConfig.version} · Pre-release</span>
+      <h1 className="civ-display civ-landing-hero__title">
         A design system that earns its place.
       </h1>
-      <p className="wui-landing-hero__sub">
+      <p className="civ-landing-hero__sub">
         Three consumption layers. WCAG AAA enforcement. OKLCH tokens. Designer-friendly.
       </p>
-      <div className="wui-landing-hero__cta">
-        <Link href="/docs/getting-started" className="wui-button wui-button--solid wui-button--lg">Get Started</Link>
-        <Link href="/docs/components" className="wui-button wui-button--outline wui-button--lg">Components</Link>
-        <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer" className="wui-button wui-button--ghost wui-button--lg">GitHub</a>
+      <div className="civ-landing-hero__cta">
+        <Link href="/docs/getting-started" className="civ-button civ-button--solid civ-button--lg">Get Started</Link>
+        <Link href="/docs/components" className="civ-button civ-button--outline civ-button--lg">Components</Link>
+        <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer" className="civ-button civ-button--ghost civ-button--lg">GitHub</a>
       </div>
-      <div className="wui-landing-hero__metrics">
+      <div className="civ-landing-hero__metrics">
         <div><strong>65+</strong><span>Components</span></div>
         <div><strong>AAA</strong><span>Contrast</span></div>
         <div><strong>3</strong><span>Layers</span></div>
@@ -107,46 +107,46 @@ export function Hero() {
 - [ ] **Step 3: Append hero-specific styles to `landing.css`**
 
 ```css
-@layer wui-base {
-  .wui-landing-hero__badge {
+@layer civ-base {
+  .civ-landing-hero__badge {
     display: inline-block;
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-muted-foreground);
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
-    border-radius: var(--wui-shape-radius-full);
-    margin-block-end: var(--wui-spacing-6);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-muted-foreground);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
+    border-radius: var(--civ-shape-radius-full);
+    margin-block-end: var(--civ-spacing-6);
   }
-  .wui-landing-hero__metrics {
+  .civ-landing-hero__metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--wui-spacing-8);
+    gap: var(--civ-spacing-8);
     max-inline-size: 48rem;
     margin-inline: auto;
-    margin-block-start: var(--wui-spacing-12);
-    padding-block-start: var(--wui-spacing-8);
-    border-block-start: 1px solid var(--wui-color-border);
+    margin-block-start: var(--civ-spacing-12);
+    padding-block-start: var(--civ-spacing-8);
+    border-block-start: 1px solid var(--civ-color-border);
   }
-  .wui-landing-hero__metrics > div {
-    display: flex; flex-direction: column; align-items: center; gap: var(--wui-spacing-1);
+  .civ-landing-hero__metrics > div {
+    display: flex; flex-direction: column; align-items: center; gap: var(--civ-spacing-1);
   }
-  .wui-landing-hero__metrics strong {
-    font-family: var(--wui-font-family-display);
-    font-size: var(--wui-font-size-3xl);
-    font-weight: var(--wui-font-weight-regular);
+  .civ-landing-hero__metrics strong {
+    font-family: var(--civ-font-family-display);
+    font-size: var(--civ-font-size-3xl);
+    font-weight: var(--civ-font-weight-regular);
     line-height: 1;
-    color: var(--wui-color-foreground);
+    color: var(--civ-color-foreground);
   }
-  .wui-landing-hero__metrics span {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-landing-hero__metrics span {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
   @media (max-width: 640px) {
-    .wui-landing-hero__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .civ-landing-hero__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 }
 ```
@@ -181,7 +181,7 @@ export default function Home() {
 - [ ] **Step 6: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/components/landing/Hero.tsx \
         apps/docs/src/styles/landing.css \
         apps/docs/src/app/layout.tsx \
@@ -239,20 +239,20 @@ const PROPS: Prop[] = [
 
 export function ValueProps() {
   return (
-    <section className="wui-home-section wui-home-values">
-      <header className="wui-home-section__header">
-        <span className="wui-home-section__eyebrow">Why WeiUI</span>
-        <h2 className="wui-home-section__title">Built for teams that ship serious UI.</h2>
-        <p className="wui-home-section__sub">
+    <section className="civ-home-section civ-home-values">
+      <header className="civ-home-section__header">
+        <span className="civ-home-section__eyebrow">Why Civaria</span>
+        <h2 className="civ-home-section__title">Built for teams that ship serious UI.</h2>
+        <p className="civ-home-section__sub">
           Every decision is graded against real production pain: drift, accessibility debt, designer–developer friction.
         </p>
       </header>
-      <div className="wui-home-values__grid">
+      <div className="civ-home-values__grid">
         {PROPS.map((p) => (
-          <article key={p.title} className="wui-home-values__card">
-            <span className="wui-home-values__glyph" aria-hidden="true">{p.glyph}</span>
-            <h3 className="wui-home-values__title">{p.title}</h3>
-            <p className="wui-home-values__body">{p.body}</p>
+          <article key={p.title} className="civ-home-values__card">
+            <span className="civ-home-values__glyph" aria-hidden="true">{p.glyph}</span>
+            <h3 className="civ-home-values__title">{p.title}</h3>
+            <p className="civ-home-values__body">{p.body}</p>
           </article>
         ))}
       </div>
@@ -264,52 +264,52 @@ export function ValueProps() {
 - [ ] **Step 2: Append styles to `landing.css`**
 
 ```css
-@layer wui-base {
-  .wui-home-values {
-    padding-block: var(--wui-spacing-12);
+@layer civ-base {
+  .civ-home-values {
+    padding-block: var(--civ-spacing-12);
   }
-  .wui-home-values__grid {
+  .civ-home-values__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--wui-spacing-4);
+    gap: var(--civ-spacing-4);
   }
-  .wui-home-values__card {
-    padding: var(--wui-spacing-6);
-    background-color: var(--wui-surface-raised);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-1);
+  .civ-home-values__card {
+    padding: var(--civ-spacing-6);
+    background-color: var(--civ-surface-raised);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-home-values__glyph {
+  .civ-home-values__glyph {
     display: inline-flex; align-items: center; justify-content: center;
     inline-size: 40px; block-size: 40px;
-    background-color: color-mix(in oklch, var(--wui-color-primary) 10%, transparent);
-    color: var(--wui-color-primary);
-    border-radius: var(--wui-shape-radius-md);
-    font-size: var(--wui-font-size-xl);
-    margin-block-end: var(--wui-spacing-3);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 10%, transparent);
+    color: var(--civ-color-primary);
+    border-radius: var(--civ-shape-radius-md);
+    font-size: var(--civ-font-size-xl);
+    margin-block-end: var(--civ-spacing-3);
   }
-  .wui-home-values__title {
-    font-size: var(--wui-font-size-lg);
-    font-weight: var(--wui-font-weight-semibold);
-    margin-block-end: var(--wui-spacing-2);
+  .civ-home-values__title {
+    font-size: var(--civ-font-size-lg);
+    font-weight: var(--civ-font-weight-semibold);
+    margin-block-end: var(--civ-spacing-2);
   }
-  .wui-home-values__body {
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-sm);
+  .civ-home-values__body {
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.6;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-home-values__card {
+    .civ-home-values__card {
       transition-property: transform, box-shadow, border-color;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-home-values__card:hover {
+    .civ-home-values__card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--wui-elevation-3);
-      border-color: color-mix(in oklch, var(--wui-color-primary) 40%, var(--wui-color-border));
+      box-shadow: var(--civ-elevation-3);
+      border-color: color-mix(in oklch, var(--civ-color-primary) 40%, var(--civ-color-border));
     }
   }
 }
@@ -338,7 +338,7 @@ export default function Home() {
 - [ ] **Step 4: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/components/landing/ValueProps.tsx \
         apps/docs/src/styles/landing.css \
         apps/docs/src/app/page.tsx
@@ -371,16 +371,16 @@ export function LiveShowcase() {
   const [active, setActive] = useState<DemoId>("buttons");
 
   return (
-    <section className="wui-home-section wui-home-showcase">
-      <header className="wui-home-section__header">
-        <span className="wui-home-section__eyebrow">Live preview</span>
-        <h2 className="wui-home-section__title">Components, live — not screenshots.</h2>
-        <p className="wui-home-section__sub">
+    <section className="civ-home-section civ-home-showcase">
+      <header className="civ-home-section__header">
+        <span className="civ-home-section__eyebrow">Live preview</span>
+        <h2 className="civ-home-section__title">Components, live — not screenshots.</h2>
+        <p className="civ-home-section__sub">
           Everything below is rendered with the same tokens your app will use. Toggle the theme from the header to see dark mode in real time.
         </p>
       </header>
 
-      <div className="wui-home-showcase__tabs" role="tablist">
+      <div className="civ-home-showcase__tabs" role="tablist">
         {DEMOS.map((d) => (
           <button
             key={d.id}
@@ -388,7 +388,7 @@ export function LiveShowcase() {
             role="tab"
             aria-selected={active === d.id}
             onClick={() => setActive(d.id)}
-            className="wui-home-showcase__tab"
+            className="civ-home-showcase__tab"
             data-active={active === d.id || undefined}
           >
             {d.label}
@@ -396,7 +396,7 @@ export function LiveShowcase() {
         ))}
       </div>
 
-      <div className="wui-home-showcase__stage">
+      <div className="civ-home-showcase__stage">
         {active === "buttons" && <ButtonDemo />}
         {active === "form" && <FormDemo />}
         {active === "card" && <CardDemo />}
@@ -408,49 +408,49 @@ export function LiveShowcase() {
 
 function ButtonDemo() {
   return (
-    <div className="wui-home-showcase__row">
-      <button className="wui-button wui-button--solid">Solid</button>
-      <button className="wui-button wui-button--outline">Outline</button>
-      <button className="wui-button wui-button--ghost">Ghost</button>
-      <button className="wui-button wui-button--soft">Soft</button>
-      <button className="wui-button wui-button--solid wui-button--destructive">Delete</button>
-      <button className="wui-button wui-button--solid" data-loading="true">Loading…</button>
+    <div className="civ-home-showcase__row">
+      <button className="civ-button civ-button--solid">Solid</button>
+      <button className="civ-button civ-button--outline">Outline</button>
+      <button className="civ-button civ-button--ghost">Ghost</button>
+      <button className="civ-button civ-button--soft">Soft</button>
+      <button className="civ-button civ-button--solid civ-button--destructive">Delete</button>
+      <button className="civ-button civ-button--solid" data-loading="true">Loading…</button>
     </div>
   );
 }
 
 function FormDemo() {
   return (
-    <div className="wui-home-showcase__form">
+    <div className="civ-home-showcase__form">
       <div>
-        <label htmlFor="wui-demo-email" className="wui-home-showcase__label">Email</label>
-        <input id="wui-demo-email" type="email" className="wui-input" placeholder="ada@example.com" />
+        <label htmlFor="civ-demo-email" className="civ-home-showcase__label">Email</label>
+        <input id="civ-demo-email" type="email" className="civ-input" placeholder="ada@example.com" />
       </div>
       <div>
-        <label htmlFor="wui-demo-pass" className="wui-home-showcase__label">Password</label>
-        <input id="wui-demo-pass" type="password" className="wui-input" placeholder="••••••••" />
+        <label htmlFor="civ-demo-pass" className="civ-home-showcase__label">Password</label>
+        <input id="civ-demo-pass" type="password" className="civ-input" placeholder="••••••••" />
       </div>
-      <button className="wui-button wui-button--solid" type="button">Sign in</button>
+      <button className="civ-button civ-button--solid" type="button">Sign in</button>
     </div>
   );
 }
 
 function CardDemo() {
   return (
-    <div className="wui-card" style={{ maxInlineSize: "360px" }}>
-      <div className="wui-card__header">
-        <span className="wui-avatar"><span className="wui-avatar__fallback">WU</span></span>
+    <div className="civ-card" style={{ maxInlineSize: "360px" }}>
+      <div className="civ-card__header">
+        <span className="civ-avatar"><span className="civ-avatar__fallback">WU</span></span>
         <div>
-          <div style={{ fontWeight: "var(--wui-font-weight-semibold)" }}>WeiUI Shipped</div>
-          <div style={{ fontSize: "var(--wui-font-size-xs)", color: "var(--wui-color-muted-foreground)" }}>v0.0.1 · 2 days ago</div>
+          <div style={{ fontWeight: "var(--civ-font-weight-semibold)" }}>Civaria Shipped</div>
+          <div style={{ fontSize: "var(--civ-font-size-xs)", color: "var(--civ-color-muted-foreground)" }}>v0.0.1 · 2 days ago</div>
         </div>
       </div>
-      <div className="wui-card__content">
+      <div className="civ-card__content">
         Phase 0 foundations landed — new shadow, motion, elevation tokens and a polish recipe applied to 36 component CSS files.
       </div>
-      <div className="wui-card__footer">
-        <button className="wui-button wui-button--soft wui-button--sm">View</button>
-        <button className="wui-button wui-button--ghost wui-button--sm">Dismiss</button>
+      <div className="civ-card__footer">
+        <button className="civ-button civ-button--soft civ-button--sm">View</button>
+        <button className="civ-button civ-button--ghost civ-button--sm">Dismiss</button>
       </div>
     </div>
   );
@@ -458,15 +458,15 @@ function CardDemo() {
 
 function ChipDemo() {
   return (
-    <div className="wui-home-showcase__row">
-      <span className="wui-chip">Default</span>
-      <span className="wui-chip wui-chip--primary">Primary</span>
-      <span className="wui-chip wui-chip--success">Shipped</span>
-      <span className="wui-chip wui-chip--destructive">Breaking</span>
-      <span className="wui-badge wui-badge--solid">New</span>
-      <span className="wui-badge wui-badge--soft">Beta</span>
-      <span className="wui-badge wui-badge--outline">v0</span>
-      <span className="wui-badge wui-badge--success">AAA</span>
+    <div className="civ-home-showcase__row">
+      <span className="civ-chip">Default</span>
+      <span className="civ-chip civ-chip--primary">Primary</span>
+      <span className="civ-chip civ-chip--success">Shipped</span>
+      <span className="civ-chip civ-chip--destructive">Breaking</span>
+      <span className="civ-badge civ-badge--solid">New</span>
+      <span className="civ-badge civ-badge--soft">Beta</span>
+      <span className="civ-badge civ-badge--outline">v0</span>
+      <span className="civ-badge civ-badge--success">AAA</span>
     </div>
   );
 }
@@ -475,72 +475,72 @@ function ChipDemo() {
 - [ ] **Step 2: Append styles to `landing.css`**
 
 ```css
-@layer wui-base {
-  .wui-home-showcase {
-    padding-block: var(--wui-spacing-12);
+@layer civ-base {
+  .civ-home-showcase {
+    padding-block: var(--civ-spacing-12);
   }
-  .wui-home-showcase__tabs {
+  .civ-home-showcase__tabs {
     display: inline-flex;
     gap: 2px;
     padding: 2px;
-    background-color: var(--wui-surface-sunken);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    margin-block-end: var(--wui-spacing-6);
+    background-color: var(--civ-surface-sunken);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    margin-block-end: var(--civ-spacing-6);
   }
-  .wui-home-showcase__tab {
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-medium);
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-2);
-    color: var(--wui-color-muted-foreground);
+  .civ-home-showcase__tab {
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-medium);
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-2);
+    color: var(--civ-color-muted-foreground);
     background: transparent;
     border: none;
-    border-radius: calc(var(--wui-shape-radius-md) - 2px);
+    border-radius: calc(var(--civ-shape-radius-md) - 2px);
     cursor: pointer;
   }
-  .wui-home-showcase__tab[data-active] {
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-foreground);
-    box-shadow: var(--wui-elevation-1);
+  .civ-home-showcase__tab[data-active] {
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-foreground);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-home-showcase__stage {
-    padding: var(--wui-spacing-8);
-    background-color: var(--wui-surface-raised);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-2);
+  .civ-home-showcase__stage {
+    padding: var(--civ-spacing-8);
+    background-color: var(--civ-surface-raised);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-2);
     min-block-size: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .wui-home-showcase__row {
+  .civ-home-showcase__row {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
     align-items: center;
     justify-content: center;
   }
-  .wui-home-showcase__form {
+  .civ-home-showcase__form {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
     max-inline-size: 320px;
     inline-size: 100%;
   }
-  .wui-home-showcase__label {
+  .civ-home-showcase__label {
     display: block;
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-muted-foreground);
-    margin-block-end: var(--wui-spacing-1);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-muted-foreground);
+    margin-block-end: var(--civ-spacing-1);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-home-showcase__tab {
+    .civ-home-showcase__tab {
       transition-property: background-color, color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -571,7 +571,7 @@ export default function Home() {
 - [ ] **Step 4: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/components/landing/LiveShowcase.tsx \
         apps/docs/src/styles/landing.css \
         apps/docs/src/app/page.tsx
@@ -603,7 +603,7 @@ const ROWS = [
 
 const LIBS: Lib[] = [
   {
-    name: "WeiUI",
+    name: "Civaria",
     cells: {
       "AAA enforced": true,
       "CSS-only tier": true,
@@ -670,23 +670,23 @@ const LIBS: Lib[] = [
 ];
 
 function Cell({ value }: { value: boolean | string }) {
-  if (value === true)  return <span className="wui-home-compare__yes" aria-label="Yes">●</span>;
-  if (value === false) return <span className="wui-home-compare__no"  aria-label="No">○</span>;
-  return <span className="wui-home-compare__partial">{value}</span>;
+  if (value === true)  return <span className="civ-home-compare__yes" aria-label="Yes">●</span>;
+  if (value === false) return <span className="civ-home-compare__no"  aria-label="No">○</span>;
+  return <span className="civ-home-compare__partial">{value}</span>;
 }
 
 export function Comparison() {
   return (
-    <section className="wui-home-section wui-home-compare">
-      <header className="wui-home-section__header">
-        <span className="wui-home-section__eyebrow">Comparison</span>
-        <h2 className="wui-home-section__title">Where WeiUI fits.</h2>
-        <p className="wui-home-section__sub">
+    <section className="civ-home-section civ-home-compare">
+      <header className="civ-home-section__header">
+        <span className="civ-home-section__eyebrow">Comparison</span>
+        <h2 className="civ-home-section__title">Where Civaria fits.</h2>
+        <p className="civ-home-section__sub">
           Every library has tradeoffs. These are ours, plotted against the closest peers.
         </p>
       </header>
-      <div className="wui-home-compare__wrap">
-        <table className="wui-home-compare__table">
+      <div className="civ-home-compare__wrap">
+        <table className="civ-home-compare__table">
           <thead>
             <tr>
               <th></th>
@@ -715,16 +715,16 @@ import { PackageManagerTabs } from "../docs/PackageManagerTabs";
 
 export function InstallSnippet() {
   return (
-    <section className="wui-home-section wui-home-install">
-      <header className="wui-home-section__header">
-        <span className="wui-home-section__eyebrow">Get started</span>
-        <h2 className="wui-home-section__title">One command.</h2>
-        <p className="wui-home-section__sub">
+    <section className="civ-home-section civ-home-install">
+      <header className="civ-home-section__header">
+        <span className="civ-home-section__eyebrow">Get started</span>
+        <h2 className="civ-home-section__title">One command.</h2>
+        <p className="civ-home-section__sub">
           All you need is the React package — tokens and CSS primitives come along for free.
         </p>
       </header>
-      <div className="wui-home-install__wrap">
-        <PackageManagerTabs command="@weiui/react" />
+      <div className="civ-home-install__wrap">
+        <PackageManagerTabs command="civaria" />
       </div>
     </section>
   );
@@ -739,14 +739,14 @@ import { siteConfig } from "../../lib/site-config";
 
 export function Footer() {
   return (
-    <footer className="wui-home-footer">
-      <div className="wui-home-footer__inner">
-        <div className="wui-home-footer__brand">
-          <span className="wui-home-footer__logo" aria-hidden="true">◐</span>
+    <footer className="civ-home-footer">
+      <div className="civ-home-footer__inner">
+        <div className="civ-home-footer__brand">
+          <span className="civ-home-footer__logo" aria-hidden="true">◐</span>
           <span>{siteConfig.name}</span>
-          <span className="wui-home-footer__version">v{siteConfig.version}</span>
+          <span className="civ-home-footer__version">v{siteConfig.version}</span>
         </div>
-        <div className="wui-home-footer__cols">
+        <div className="civ-home-footer__cols">
           <div>
             <h4>Docs</h4>
             <Link href="/docs/getting-started">Installation</Link>
@@ -768,9 +768,9 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="wui-home-footer__bottom">
-        <span>© 2026 WeiUI. MIT License.</span>
-        <span>Made with WeiUI.</span>
+      <div className="civ-home-footer__bottom">
+        <span>© 2026 Civaria. MIT License.</span>
+        <span>Made with Civaria.</span>
       </div>
     </footer>
   );
@@ -780,129 +780,129 @@ export function Footer() {
 - [ ] **Step 4: Append styles to `landing.css`**
 
 ```css
-@layer wui-base {
+@layer civ-base {
   /* Comparison */
-  .wui-home-compare { padding-block: var(--wui-spacing-12); }
-  .wui-home-compare__wrap {
+  .civ-home-compare { padding-block: var(--civ-spacing-12); }
+  .civ-home-compare__wrap {
     overflow-x: auto;
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    background-color: var(--wui-surface-raised);
-    box-shadow: var(--wui-elevation-1);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    background-color: var(--civ-surface-raised);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-home-compare__table {
+  .civ-home-compare__table {
     inline-size: 100%;
     border-collapse: collapse;
-    font-size: var(--wui-font-size-sm);
+    font-size: var(--civ-font-size-sm);
   }
-  .wui-home-compare__table th,
-  .wui-home-compare__table td {
-    padding-inline: var(--wui-spacing-4); padding-block: var(--wui-spacing-3);
+  .civ-home-compare__table th,
+  .civ-home-compare__table td {
+    padding-inline: var(--civ-spacing-4); padding-block: var(--civ-spacing-3);
     text-align: start;
-    border-block-end: 1px solid var(--wui-color-border);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-home-compare__table thead th {
-    background-color: var(--wui-surface-sunken);
-    font-weight: var(--wui-font-weight-semibold);
-    font-size: var(--wui-font-size-xs);
+  .civ-home-compare__table thead th {
+    background-color: var(--civ-surface-sunken);
+    font-weight: var(--civ-font-weight-semibold);
+    font-size: var(--civ-font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     text-align: center;
   }
-  .wui-home-compare__table thead th:first-child { text-align: start; }
-  .wui-home-compare__table tbody th {
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
+  .civ-home-compare__table thead th:first-child { text-align: start; }
+  .civ-home-compare__table tbody th {
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-foreground);
   }
-  .wui-home-compare__table tbody td { text-align: center; }
-  .wui-home-compare__yes {
-    color: var(--wui-color-success);
-    font-size: var(--wui-font-size-lg);
+  .civ-home-compare__table tbody td { text-align: center; }
+  .civ-home-compare__yes {
+    color: var(--civ-color-success);
+    font-size: var(--civ-font-size-lg);
   }
-  .wui-home-compare__no {
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-lg);
+  .civ-home-compare__no {
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-lg);
   }
-  .wui-home-compare__partial {
+  .civ-home-compare__partial {
     display: inline-block;
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-warning);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-warning);
     font-style: italic;
   }
 
   /* Install snippet */
-  .wui-home-install { padding-block: var(--wui-spacing-12); }
-  .wui-home-install__wrap {
+  .civ-home-install { padding-block: var(--civ-spacing-12); }
+  .civ-home-install__wrap {
     max-inline-size: 48rem;
     margin-inline: auto;
   }
 
   /* Footer */
-  .wui-home-footer {
-    margin-block-start: var(--wui-spacing-12);
-    padding-block: var(--wui-spacing-12);
-    background-color: var(--wui-surface-sunken);
-    border-block-start: 1px solid var(--wui-color-border);
+  .civ-home-footer {
+    margin-block-start: var(--civ-spacing-12);
+    padding-block: var(--civ-spacing-12);
+    background-color: var(--civ-surface-sunken);
+    border-block-start: 1px solid var(--civ-color-border);
   }
-  .wui-home-footer__inner {
+  .civ-home-footer__inner {
     max-inline-size: 72rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
+    padding-inline: var(--civ-spacing-6);
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: var(--wui-spacing-8);
+    gap: var(--civ-spacing-8);
   }
-  .wui-home-footer__brand {
-    display: flex; flex-direction: column; gap: var(--wui-spacing-1);
+  .civ-home-footer__brand {
+    display: flex; flex-direction: column; gap: var(--civ-spacing-1);
   }
-  .wui-home-footer__brand > span:first-child {
-    font-size: var(--wui-font-size-xl);
+  .civ-home-footer__brand > span:first-child {
+    font-size: var(--civ-font-size-xl);
   }
-  .wui-home-footer__brand > span:nth-child(2) {
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-home-footer__brand > span:nth-child(2) {
+    font-weight: var(--civ-font-weight-semibold);
   }
-  .wui-home-footer__version {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-home-footer__version {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-home-footer__cols {
+  .civ-home-footer__cols {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--wui-spacing-6);
+    gap: var(--civ-spacing-6);
   }
-  .wui-home-footer__cols h4 {
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
+  .civ-home-footer__cols h4 {
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--wui-color-muted-foreground);
-    margin-block-end: var(--wui-spacing-3);
+    color: var(--civ-color-muted-foreground);
+    margin-block-end: var(--civ-spacing-3);
   }
-  .wui-home-footer__cols a {
+  .civ-home-footer__cols a {
     display: block;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
     text-decoration: none;
     padding-block: 2px;
   }
-  .wui-home-footer__cols a:hover { color: var(--wui-color-foreground); }
-  .wui-home-footer__bottom {
+  .civ-home-footer__cols a:hover { color: var(--civ-color-foreground); }
+  .civ-home-footer__bottom {
     max-inline-size: 72rem;
     margin-inline: auto;
-    padding-inline: var(--wui-spacing-6);
-    margin-block-start: var(--wui-spacing-8);
-    padding-block-start: var(--wui-spacing-6);
-    border-block-start: 1px solid var(--wui-color-border);
+    padding-inline: var(--civ-spacing-6);
+    margin-block-start: var(--civ-spacing-8);
+    padding-block-start: var(--civ-spacing-6);
+    border-block-start: 1px solid var(--civ-color-border);
     display: flex;
     justify-content: space-between;
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
 
   @media (max-width: 768px) {
-    .wui-home-footer__inner { grid-template-columns: 1fr; }
-    .wui-home-footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .civ-home-footer__inner { grid-template-columns: 1fr; }
+    .civ-home-footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 }
 ```
@@ -940,7 +940,7 @@ export default function Home() {
 - [ ] **Step 6: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/components/landing/Comparison.tsx \
         apps/docs/src/components/landing/InstallSnippet.tsx \
         apps/docs/src/components/landing/Footer.tsx \
@@ -959,7 +959,7 @@ git commit -m "feat(docs): add comparison table, install snippet, footer"
   - Hero with badge, display heading, 3 CTAs, 4-metric bar
   - ValueProps 6 cards with glyphs, hover lift
   - LiveShowcase tabs switch content, components render with new polish
-  - Comparison table with WeiUI column filled vs dotted/partial others
+  - Comparison table with Civaria column filled vs dotted/partial others
   - Install snippet uses PackageManagerTabs
   - Footer with 3 columns + bottom copyright
 - [ ] Toggle theme from header — everything re-themes correctly

@@ -13,7 +13,7 @@ import {
   type HTMLAttributes,
   type CSSProperties,
 } from "react";
-import { useId, useFloatingMenu } from "@weiui/headless";
+import { useId, useFloatingMenu } from "@civaria/headless";
 import { Portal } from "../Portal";
 
 type TooltipSide = "top" | "right" | "bottom" | "left";

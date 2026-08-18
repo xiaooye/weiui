@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans.
 
-**Goal:** Produce `docs/audit/component-parity.md` — a single document with a table per component comparing WeiUI's current features to its pinned best-in-class reference. Rows flagged P0/P1/P2.
+**Goal:** Produce `docs/audit/component-parity.md` — a single document with a table per component comparing Civaria's current features to its pinned best-in-class reference. Rows flagged P0/P1/P2.
 
-**Architecture:** One markdown file. Three sections: (1) Reference table pinning best-in-class per component, (2) Priority definitions, (3) Per-component audit tables grouped by family matching the Phase 5 wave structure. Each row lists feature, WeiUI has / ref has, gap, priority, notes.
+**Architecture:** One markdown file. Three sections: (1) Reference table pinning best-in-class per component, (2) Priority definitions, (3) Per-component audit tables grouped by family matching the Phase 5 wave structure. Each row lists feature, Civaria has / ref has, gap, priority, notes.
 
-**Why P0 matters:** Waves 5a-5e only ship when every P0 row has moved from "missing" to "WeiUI has." P0 items block wave completion.
+**Why P0 matters:** Waves 5a-5e only ship when every P0 row has moved from "missing" to "Civaria has." P0 items block wave completion.
 
 **Spec reference:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8.
 
@@ -21,7 +21,7 @@ That's it. Pure documentation task.
 
 ---
 
-## Task 1: Inventory WeiUI's current component API surface
+## Task 1: Inventory Civaria's current component API surface
 
 **Files:** none modified — produces findings for Task 2.
 
@@ -61,7 +61,7 @@ Create the file with EXACTLY this structure:
 
 **Last updated:** 2026-04-16
 **Spec:** `docs/superpowers/specs/2026-04-16-polish-overhaul-design.md` §8
-**Purpose:** Track WeiUI's feature coverage vs best-in-class reference per component. Waves 5a-5e ship only when all P0 gaps close.
+**Purpose:** Track Civaria's feature coverage vs best-in-class reference per component. Waves 5a-5e ship only when all P0 gaps close.
 
 ---
 
@@ -107,9 +107,9 @@ After this preamble, produce one H2 section per component. For EACH component in
 ## ComponentName
 
 **Reference:** <library name> (see pins table above)
-**Status:** ✅ WeiUI ships / ⚠️ Partial / ❌ Stub only
+**Status:** ✅ Civaria ships / ⚠️ Partial / ❌ Stub only
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | ... | ... | ... | ... | P0/P1/P2 |
 
@@ -119,7 +119,7 @@ After this preamble, produce one H2 section per component. For EACH component in
 ### Content generation rules for each component
 
 1. **Read the component source** at `packages/react/src/components/<Name>/<Name>.tsx`.
-2. **List what WeiUI has** — every prop, sub-component, state, keyboard interaction documented in the source.
+2. **List what Civaria has** — every prop, sub-component, state, keyboard interaction documented in the source.
 3. **For "Reference has"** — list the features the reference library commonly provides. Use training knowledge for well-known APIs:
    - **Radix UI**: focus trap, portal escape hatch, controlled + uncontrolled, `onOpenChange`, modal vs non-modal, collision detection, scroll-lock, cancel vs dismiss, nested handling
    - **react-aria** (Downshift similar): async options, loading state, selection modes (single/multiple/none), menuPlacement, virtualization, keyboard selection, clear/dismiss, i18n locale
@@ -141,7 +141,7 @@ After this preamble, produce one H2 section per component. For EACH component in
 **Reference:** Radix UI
 **Status:** ⚠️ Partial — ships modal trigger/content/title/description/close but missing focus scope controls.
 
-| Feature | WeiUI has | Reference has | Gap | Priority |
+| Feature | Civaria has | Reference has | Gap | Priority |
 |---------|-----------|---------------|-----|----------|
 | Trigger + Portal + Overlay + Content parts | ✅ | ✅ | — | — |
 | Open state controlled + uncontrolled | ✅ via `open/defaultOpen` | ✅ | — | — |

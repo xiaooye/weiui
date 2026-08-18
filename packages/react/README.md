@@ -1,29 +1,29 @@
-# @weiui/react
+# civaria
 
-Styled React components built on `@weiui/headless` and `@weiui/css`. The top layer of the WeiUI stack — drop it in, get an accessible, theme-aware UI.
+Styled React components built on `@civaria/headless` and `@civaria/css`. The top layer of the Civaria stack — drop it in, get an accessible, theme-aware UI.
 
 ## Install
 
 ```bash
-pnpm add @weiui/react @weiui/css @weiui/tokens
+pnpm add civaria @civaria/css @civaria/tokens
 ```
 
 ```css
 /* app globals */
-@import "@weiui/tokens/tokens.css";
-@import "@weiui/css";
+@import "@civaria/tokens/tokens.css";
+@import "@civaria/css";
 ```
 
 ## Usage
 
 ```tsx
-import { Button, Dialog, DialogContent, DialogTrigger } from "@weiui/react";
+import { Button, Dialog, DialogContent, DialogTrigger } from "civaria";
 
 <Dialog>
   <DialogTrigger asChild>
     <Button variant="solid">Open</Button>
   </DialogTrigger>
-  <DialogContent>Hello from WeiUI</DialogContent>
+  <DialogContent>Hello from Civaria</DialogContent>
 </Dialog>
 ```
 
@@ -32,10 +32,10 @@ import { Button, Dialog, DialogContent, DialogTrigger } from "@weiui/react";
 Heavy dependencies live on dedicated subpaths so the main barrel stays light:
 
 ```tsx
-import { Button } from "@weiui/react";            // main barrel, no TipTap/Recharts
-import { Editor } from "@weiui/react/editor";     // TipTap
-import { DataTable } from "@weiui/react/data-table"; // TanStack Table
-import { BarChart } from "@weiui/react/chart";    // Recharts
+import { Button } from "civaria";            // main barrel, no TipTap/Recharts
+import { Editor } from "civaria/editor";     // TipTap
+import { DataTable } from "civaria/data-table"; // TanStack Table
+import { BarChart } from "civaria/chart";    // Recharts
 ```
 
 ## Features

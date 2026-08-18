@@ -18,12 +18,12 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
       <div
         ref={ref}
         className={cn(
-          "wui-stack",
-          direction === "row" && "wui-stack--row",
-          wrap && "wui-stack--wrap",
+          "civ-stack",
+          direction === "row" && "civ-stack--row",
+          wrap && "civ-stack--wrap",
           className,
         )}
-        style={gap !== undefined ? { ...style, gap: `var(--wui-spacing-${gap})` } : style}
+        style={gap !== undefined ? { ...style, gap: `var(--civ-spacing-${gap})` } : style}
         {...props}
       >
         {children}

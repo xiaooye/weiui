@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Card, Container, Heading, Stack, Text } from "@weiui/react";
+import { Badge, Card, Container, Heading, Stack, Text } from "civaria";
 
 interface Lib {
   name: string;
@@ -19,7 +19,7 @@ const ROWS = [
 
 const LIBS: Lib[] = [
   {
-    name: "WeiUI",
+    name: "Civaria",
     cells: {
       "AAA enforced": true,
       "CSS-only tier": true,
@@ -107,24 +107,24 @@ function Cell({ value }: { value: boolean | string }) {
 
 export function Comparison() {
   return (
-    <Container maxWidth="72rem" className="wui-home-section wui-home-compare">
+    <Container maxWidth="72rem" className="civ-home-section civ-home-compare">
       <Stack direction="column" gap={6}>
-        <Stack direction="column" gap={3} className="wui-home-section__header">
-          <Badge variant="soft" size="sm" className="wui-home-section__eyebrow">
+        <Stack direction="column" gap={3} className="civ-home-section__header">
+          <Badge variant="soft" size="sm" className="civ-home-section__eyebrow">
             Comparison
           </Badge>
-          <Heading level={2} className="wui-home-section__title">
-            Where WeiUI fits.
+          <Heading level={2} className="civ-home-section__title">
+            Where Civaria fits.
           </Heading>
-          <Text size="lg" color="muted" className="wui-home-section__sub">
+          <Text size="lg" color="muted" className="civ-home-section__sub">
             Every library has tradeoffs. These are ours, plotted against the closest peers.
           </Text>
         </Stack>
-        <Card variant="outlined" className="wui-home-compare__wrap">
-          <table className="wui-home-compare__table">
+        <Card variant="outlined" className="civ-home-compare__wrap">
+          <table className="civ-home-compare__table">
             <thead>
               <tr>
-                <th scope="col"><span className="wui-sr-only">Feature</span></th>
+                <th scope="col"><span className="civ-sr-only">Feature</span></th>
                 {LIBS.map((lib) => (
                   <th key={lib.name} scope="col">
                     {lib.name}

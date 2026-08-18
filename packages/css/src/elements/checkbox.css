@@ -1,44 +1,44 @@
-@layer wui-elements {
-  .wui-checkbox {
+@layer civ-elements {
+  .civ-checkbox {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
     min-block-size: 44px;
     cursor: pointer;
   }
-  .wui-checkbox__row {
+  .civ-checkbox__row {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-checkbox__description {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    padding-inline-start: calc(20px + var(--wui-spacing-2));
+  .civ-checkbox__description {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    padding-inline-start: calc(20px + var(--civ-spacing-2));
     margin: 0;
   }
-  .wui-checkbox__error {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-destructive);
-    padding-inline-start: calc(20px + var(--wui-spacing-2));
+  .civ-checkbox__error {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-destructive);
+    padding-inline-start: calc(20px + var(--civ-spacing-2));
     margin: 0;
   }
-  .wui-checkbox__input {
+  .civ-checkbox__input {
     appearance: none;
     -webkit-appearance: none;
     flex-shrink: 0;
     inline-size: 20px;
     block-size: 20px;
-    border: 1.5px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-sm);
-    background-color: var(--wui-color-background);
+    border: 1.5px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-sm);
+    background-color: var(--civ-color-background);
     display: inline-grid;
     place-content: center;
     cursor: inherit;
-    color: var(--wui-color-primary-foreground);
+    color: var(--civ-color-primary-foreground);
   }
-  .wui-checkbox__input::before {
+  .civ-checkbox__input::before {
     content: "";
     inline-size: 12px;
     block-size: 12px;
@@ -47,83 +47,83 @@
     background-color: currentColor;
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
   }
-  .wui-checkbox__input:hover:not(:disabled) {
-    border-color: var(--wui-color-primary);
+  .civ-checkbox__input:hover:not(:disabled) {
+    border-color: var(--civ-color-primary);
   }
-  .wui-checkbox__input:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-checkbox__input:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-checkbox__input:checked {
-    background-color: var(--wui-color-primary);
-    border-color: var(--wui-color-primary);
+  .civ-checkbox__input:checked {
+    background-color: var(--civ-color-primary);
+    border-color: var(--civ-color-primary);
   }
-  .wui-checkbox__input:checked::before {
+  .civ-checkbox__input:checked::before {
     transform: scale(1);
   }
-  .wui-checkbox__input:indeterminate {
-    background-color: var(--wui-color-primary);
-    border-color: var(--wui-color-primary);
+  .civ-checkbox__input:indeterminate {
+    background-color: var(--civ-color-primary);
+    border-color: var(--civ-color-primary);
   }
-  .wui-checkbox__input:indeterminate::before {
+  .civ-checkbox__input:indeterminate::before {
     transform: scale(1);
     clip-path: polygon(10% 40%, 90% 40%, 90% 60%, 10% 60%);
   }
-  .wui-checkbox__input:disabled {
+  .civ-checkbox__input:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-  .wui-checkbox__input[aria-invalid="true"],
-  .wui-checkbox__input[data-invalid] {
-    border-color: var(--wui-color-destructive);
+  .civ-checkbox__input[aria-invalid="true"],
+  .civ-checkbox__input[data-invalid] {
+    border-color: var(--civ-color-destructive);
   }
-  .wui-checkbox__label {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-foreground);
+  .civ-checkbox__label {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-foreground);
     cursor: pointer;
     user-select: none;
   }
-  .wui-checkbox__input:disabled ~ .wui-checkbox__label {
+  .civ-checkbox__input:disabled ~ .civ-checkbox__label {
     cursor: not-allowed;
     opacity: 0.5;
   }
   /* Sizes */
-  .wui-checkbox--sm .wui-checkbox__input { inline-size: 16px; block-size: 16px; }
-  .wui-checkbox--sm .wui-checkbox__input::before { inline-size: 10px; block-size: 10px; }
-  .wui-checkbox--sm .wui-checkbox__label { font-size: var(--wui-font-size-xs); }
-  .wui-checkbox--lg .wui-checkbox__input { inline-size: 24px; block-size: 24px; }
-  .wui-checkbox--lg .wui-checkbox__input::before { inline-size: 14px; block-size: 14px; }
-  .wui-checkbox--lg .wui-checkbox__label { font-size: var(--wui-font-size-base); }
+  .civ-checkbox--sm .civ-checkbox__input { inline-size: 16px; block-size: 16px; }
+  .civ-checkbox--sm .civ-checkbox__input::before { inline-size: 10px; block-size: 10px; }
+  .civ-checkbox--sm .civ-checkbox__label { font-size: var(--civ-font-size-xs); }
+  .civ-checkbox--lg .civ-checkbox__input { inline-size: 24px; block-size: 24px; }
+  .civ-checkbox--lg .civ-checkbox__input::before { inline-size: 14px; block-size: 14px; }
+  .civ-checkbox--lg .civ-checkbox__label { font-size: var(--civ-font-size-base); }
   /* Colors — swap check background/border + hover color to the matching token. */
-  .wui-checkbox--color-success .wui-checkbox__input { color: var(--wui-color-success-foreground); }
-  .wui-checkbox--color-success .wui-checkbox__input:hover:not(:disabled) { border-color: var(--wui-color-success); }
-  .wui-checkbox--color-success .wui-checkbox__input:checked,
-  .wui-checkbox--color-success .wui-checkbox__input:indeterminate {
-    background-color: var(--wui-color-success);
-    border-color: var(--wui-color-success);
+  .civ-checkbox--color-success .civ-checkbox__input { color: var(--civ-color-success-foreground); }
+  .civ-checkbox--color-success .civ-checkbox__input:hover:not(:disabled) { border-color: var(--civ-color-success); }
+  .civ-checkbox--color-success .civ-checkbox__input:checked,
+  .civ-checkbox--color-success .civ-checkbox__input:indeterminate {
+    background-color: var(--civ-color-success);
+    border-color: var(--civ-color-success);
   }
-  .wui-checkbox--color-warning .wui-checkbox__input { color: var(--wui-color-warning-foreground); }
-  .wui-checkbox--color-warning .wui-checkbox__input:hover:not(:disabled) { border-color: var(--wui-color-warning); }
-  .wui-checkbox--color-warning .wui-checkbox__input:checked,
-  .wui-checkbox--color-warning .wui-checkbox__input:indeterminate {
-    background-color: var(--wui-color-warning);
-    border-color: var(--wui-color-warning);
+  .civ-checkbox--color-warning .civ-checkbox__input { color: var(--civ-color-warning-foreground); }
+  .civ-checkbox--color-warning .civ-checkbox__input:hover:not(:disabled) { border-color: var(--civ-color-warning); }
+  .civ-checkbox--color-warning .civ-checkbox__input:checked,
+  .civ-checkbox--color-warning .civ-checkbox__input:indeterminate {
+    background-color: var(--civ-color-warning);
+    border-color: var(--civ-color-warning);
   }
-  .wui-checkbox--color-destructive .wui-checkbox__input { color: var(--wui-color-destructive-foreground); }
-  .wui-checkbox--color-destructive .wui-checkbox__input:hover:not(:disabled) { border-color: var(--wui-color-destructive); }
-  .wui-checkbox--color-destructive .wui-checkbox__input:checked,
-  .wui-checkbox--color-destructive .wui-checkbox__input:indeterminate {
-    background-color: var(--wui-color-destructive);
-    border-color: var(--wui-color-destructive);
+  .civ-checkbox--color-destructive .civ-checkbox__input { color: var(--civ-color-destructive-foreground); }
+  .civ-checkbox--color-destructive .civ-checkbox__input:hover:not(:disabled) { border-color: var(--civ-color-destructive); }
+  .civ-checkbox--color-destructive .civ-checkbox__input:checked,
+  .civ-checkbox--color-destructive .civ-checkbox__input:indeterminate {
+    background-color: var(--civ-color-destructive);
+    border-color: var(--civ-color-destructive);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-checkbox__input {
+    .civ-checkbox__input {
       transition-property: background-color, border-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-checkbox__input::before {
-      transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-checkbox__input::before {
+      transition: transform var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
   }
 }

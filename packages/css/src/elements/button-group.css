@@ -1,68 +1,68 @@
-@layer wui-elements {
-  .wui-button-group {
+@layer civ-elements {
+  .civ-button-group {
     display: inline-flex;
-    box-shadow: var(--wui-elevation-1);
-    border-radius: var(--wui-shape-radius-md);
+    box-shadow: var(--civ-elevation-1);
+    border-radius: var(--civ-shape-radius-md);
     overflow: hidden;
   }
-  .wui-button-group > :where(.wui-button) {
+  .civ-button-group > :where(.civ-button) {
     box-shadow: none;
     border-radius: 0;
     border-inline-end-width: 0;
   }
-  .wui-button-group > .wui-button:not(:last-child) {
-    border-inline-end: 1px solid color-mix(in oklch, var(--wui-color-border) 70%, transparent);
+  .civ-button-group > .civ-button:not(:last-child) {
+    border-inline-end: 1px solid color-mix(in oklch, var(--civ-color-border) 70%, transparent);
   }
-  .wui-button-group > .wui-button:first-child {
-    border-start-start-radius: var(--wui-shape-radius-md);
-    border-end-start-radius: var(--wui-shape-radius-md);
+  .civ-button-group > .civ-button:first-child {
+    border-start-start-radius: var(--civ-shape-radius-md);
+    border-end-start-radius: var(--civ-shape-radius-md);
   }
-  .wui-button-group > .wui-button:last-child {
-    border-start-end-radius: var(--wui-shape-radius-md);
-    border-end-end-radius: var(--wui-shape-radius-md);
-    border-inline-end-width: var(--wui-shape-border-width-medium);
+  .civ-button-group > .civ-button:last-child {
+    border-start-end-radius: var(--civ-shape-radius-md);
+    border-end-end-radius: var(--civ-shape-radius-md);
+    border-inline-end-width: var(--civ-shape-border-width-medium);
   }
 
   /* Vertical orientation — stack buttons */
-  .wui-button-group--vertical {
+  .civ-button-group--vertical {
     flex-direction: column;
   }
-  .wui-button-group--vertical > :where(.wui-button) {
-    border-inline-end-width: var(--wui-shape-border-width-medium);
+  .civ-button-group--vertical > :where(.civ-button) {
+    border-inline-end-width: var(--civ-shape-border-width-medium);
     border-block-end-width: 0;
   }
-  .wui-button-group--vertical > .wui-button:not(:last-child) {
+  .civ-button-group--vertical > .civ-button:not(:last-child) {
     border-inline-end: none;
-    border-block-end: 1px solid color-mix(in oklch, var(--wui-color-border) 70%, transparent);
+    border-block-end: 1px solid color-mix(in oklch, var(--civ-color-border) 70%, transparent);
   }
-  .wui-button-group--vertical > .wui-button:first-child {
-    border-start-start-radius: var(--wui-shape-radius-md);
-    border-start-end-radius: var(--wui-shape-radius-md);
+  .civ-button-group--vertical > .civ-button:first-child {
+    border-start-start-radius: var(--civ-shape-radius-md);
+    border-start-end-radius: var(--civ-shape-radius-md);
     border-end-start-radius: 0;
   }
-  .wui-button-group--vertical > .wui-button:last-child {
+  .civ-button-group--vertical > .civ-button:last-child {
     border-start-end-radius: 0;
-    border-end-end-radius: var(--wui-shape-radius-md);
-    border-end-start-radius: var(--wui-shape-radius-md);
-    border-block-end-width: var(--wui-shape-border-width-medium);
+    border-end-end-radius: var(--civ-shape-radius-md);
+    border-end-start-radius: var(--civ-shape-radius-md);
+    border-block-end-width: var(--civ-shape-border-width-medium);
   }
 
   /* Spaced variant — preserve each button's own radii and shadow with gap */
-  .wui-button-group--spaced {
+  .civ-button-group--spaced {
     box-shadow: none;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     overflow: visible;
   }
-  .wui-button-group--spaced > :where(.wui-button) {
-    border-radius: var(--wui-shape-radius-md);
-    border-inline-end-width: var(--wui-shape-border-width-medium);
-    border-block-end-width: var(--wui-shape-border-width-medium);
+  .civ-button-group--spaced > :where(.civ-button) {
+    border-radius: var(--civ-shape-radius-md);
+    border-inline-end-width: var(--civ-shape-border-width-medium);
+    border-block-end-width: var(--civ-shape-border-width-medium);
   }
-  .wui-button-group--spaced > .wui-button:not(:last-child) {
+  .civ-button-group--spaced > .civ-button:not(:last-child) {
     border-inline-end-color: transparent;
     border-block-end-color: transparent;
   }
-  .wui-button-group--spaced > .wui-button:not(:last-child) {
-    border-inline-end: var(--wui-shape-border-width-medium) solid transparent;
+  .civ-button-group--spaced > .civ-button:not(:last-child) {
+    border-inline-end: var(--civ-shape-border-width-medium) solid transparent;
   }
 }

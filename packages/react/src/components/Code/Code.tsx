@@ -12,13 +12,13 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
       return (
         <code
           ref={ref}
-          className={cn("wui-code", className)}
+          className={cn("civ-code", className)}
           {...props}
         />
       );
     }
     return (
-      <pre className={cn("wui-code-block", className)}>
+      <pre className={cn("civ-code-block", className)}>
         <code ref={ref} {...props} />
       </pre>
     );

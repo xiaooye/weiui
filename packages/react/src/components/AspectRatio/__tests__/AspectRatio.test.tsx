@@ -9,9 +9,9 @@ describe("AspectRatio", () => {
     expect(screen.getByText("content")).toBeInTheDocument();
   });
 
-  it("applies wui-aspect-ratio class", () => {
+  it("applies civ-aspect-ratio class", () => {
     const { container } = render(<AspectRatio>content</AspectRatio>);
-    expect(container.firstChild).toHaveClass("wui-aspect-ratio");
+    expect(container.firstChild).toHaveClass("civ-aspect-ratio");
   });
 
   it("applies default 16/9 aspect ratio via style", () => {
@@ -26,7 +26,7 @@ describe("AspectRatio", () => {
 
   it("merges custom className", () => {
     const { container } = render(<AspectRatio className="custom">content</AspectRatio>);
-    expect(container.firstChild).toHaveClass("wui-aspect-ratio", "custom");
+    expect(container.firstChild).toHaveClass("civ-aspect-ratio", "custom");
   });
 
   it("forwards ref", () => {

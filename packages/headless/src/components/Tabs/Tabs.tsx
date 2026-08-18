@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode, type HTMLAttributes, useEffect } from "react";
-import { createTabsController } from "@weiui/core";
+import { createTabsController } from "@civaria/core";
 import { useCoreController, useLatest } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { TabsContext } from "./TabsContext";
@@ -24,7 +24,7 @@ export function Tabs({ children, defaultValue = "", value, onValueChange, ...res
   const activeValue = value ?? state.value;
   return (
     <TabsContext.Provider value={{ activeValue, onValueChange: controller.select, baseId }}>
-      <div data-wui-component="tabs" data-part="root" {...rest}>{children}</div>
+      <div data-civaria-component="tabs" data-part="root" {...rest}>{children}</div>
     </TabsContext.Provider>
   );
 }

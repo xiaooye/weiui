@@ -1,23 +1,23 @@
 /* packages/css/src/elements/text.css */
-@layer wui-elements {
-  .wui-text { line-height: var(--wui-font-lineHeight-normal); }
+@layer civ-elements {
+  .civ-text { line-height: var(--civ-font-lineHeight-normal); }
 
   /* Sizes */
-  .wui-text--xs   { font-size: var(--wui-font-size-xs); }
-  .wui-text--sm   { font-size: var(--wui-font-size-sm); }
-  .wui-text--base { font-size: var(--wui-font-size-base); }
-  .wui-text--lg   { font-size: var(--wui-font-size-lg); }
-  .wui-text--xl   { font-size: var(--wui-font-size-xl); }
+  .civ-text--xs   { font-size: var(--civ-font-size-xs); }
+  .civ-text--sm   { font-size: var(--civ-font-size-sm); }
+  .civ-text--base { font-size: var(--civ-font-size-base); }
+  .civ-text--lg   { font-size: var(--civ-font-size-lg); }
+  .civ-text--xl   { font-size: var(--civ-font-size-xl); }
 
   /* Colors */
-  .wui-text--muted       { color: var(--wui-color-muted-foreground); }
-  .wui-text--primary     { color: var(--wui-color-primary); }
-  .wui-text--destructive { color: var(--wui-color-destructive); }
-  .wui-text--success     { color: var(--wui-color-success); }
+  .civ-text--muted       { color: var(--civ-color-muted-foreground); }
+  .civ-text--primary     { color: var(--civ-color-primary); }
+  .civ-text--destructive { color: var(--civ-color-destructive); }
+  .civ-text--success     { color: var(--civ-color-success); }
 
   /* Weights */
-  .wui-text--weight-regular  { font-weight: var(--wui-font-weight-regular); }
-  .wui-text--weight-medium   { font-weight: var(--wui-font-weight-medium); }
-  .wui-text--weight-semibold { font-weight: var(--wui-font-weight-semibold); }
-  .wui-text--weight-bold     { font-weight: var(--wui-font-weight-bold); }
+  .civ-text--weight-regular  { font-weight: var(--civ-font-weight-regular); }
+  .civ-text--weight-medium   { font-weight: var(--civ-font-weight-medium); }
+  .civ-text--weight-semibold { font-weight: var(--civ-font-weight-semibold); }
+  .civ-text--weight-bold     { font-weight: var(--civ-font-weight-bold); }
 }

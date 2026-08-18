@@ -9,14 +9,14 @@ describe("Container", () => {
     expect(screen.getByText("content")).toBeInTheDocument();
   });
 
-  it("applies wui-container class", () => {
+  it("applies civ-container class", () => {
     const { container } = render(<Container>content</Container>);
-    expect(container.firstChild).toHaveClass("wui-container");
+    expect(container.firstChild).toHaveClass("civ-container");
   });
 
   it("merges custom className", () => {
     const { container } = render(<Container className="custom">content</Container>);
-    expect(container.firstChild).toHaveClass("wui-container", "custom");
+    expect(container.firstChild).toHaveClass("civ-container", "custom");
   });
 
   it("applies custom maxWidth via style", () => {

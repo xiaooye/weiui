@@ -15,7 +15,7 @@ import {
   Label,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import type {
   ComponentSchema,
   PropSchema,
@@ -104,7 +104,7 @@ type BreadcrumbEntry =
   | { isEllipsis: true };
 
 /**
- * Render the Composer breadcrumb using the WeiUI `<Breadcrumb>` primitive.
+ * Render the Composer breadcrumb using the Civaria `<Breadcrumb>` primitive.
  * Collapses the middle to first + ellipsis + last-3 when path > 5 deep.
  */
 function renderBreadcrumb(
@@ -137,7 +137,7 @@ function renderBreadcrumb(
             ) : (
               <button
                 type="button"
-                className="wui-composer__crumb-link"
+                className="civ-composer__crumb-link"
                 onClick={() => onSelect(entry.node.id)}
               >
                 {entry.node.type}
@@ -269,14 +269,14 @@ export function PropsEditor({
   };
 
   return (
-    <Card className="wui-composer__props">
+    <Card className="civ-composer__props">
       <CardHeader>
         <Stack direction="column" gap={1}>
           {renderBreadcrumb(
             ancestors ?? [],
             onSelect ? (id) => onSelect(id) : undefined,
           )}
-          <div className="wui-composer__props-heading">
+          <div className="civ-composer__props-heading">
             <Text as="span" size="sm" weight="semibold">
               {node.type} Props
             </Text>
@@ -294,7 +294,7 @@ export function PropsEditor({
       <CardContent>
         <Stack direction="column" gap={4}>
           <section
-            className="wui-composer__props-section"
+            className="civ-composer__props-section"
             aria-label="Content"
           >
             <Text
@@ -302,7 +302,7 @@ export function PropsEditor({
               size="xs"
               weight="semibold"
               color="muted"
-              className="wui-composer__props-section-title"
+              className="civ-composer__props-section-title"
             >
               Content
             </Text>
@@ -322,7 +322,7 @@ export function PropsEditor({
             <>
               {grouped.appearance.length > 0 ? (
                 <section
-                  className="wui-composer__props-section"
+                  className="civ-composer__props-section"
                   aria-label="Appearance"
                 >
                   <Text
@@ -330,7 +330,7 @@ export function PropsEditor({
                     size="xs"
                     weight="semibold"
                     color="muted"
-                    className="wui-composer__props-section-title"
+                    className="civ-composer__props-section-title"
                   >
                     Appearance
                   </Text>
@@ -343,7 +343,7 @@ export function PropsEditor({
               ) : null}
               {grouped.behavior.length > 0 ? (
                 <section
-                  className="wui-composer__props-section"
+                  className="civ-composer__props-section"
                   aria-label="Behavior"
                 >
                   <Text
@@ -351,7 +351,7 @@ export function PropsEditor({
                     size="xs"
                     weight="semibold"
                     color="muted"
-                    className="wui-composer__props-section-title"
+                    className="civ-composer__props-section-title"
                   >
                     Behavior
                   </Text>
@@ -364,7 +364,7 @@ export function PropsEditor({
               ) : null}
               {grouped.advanced.length > 0 ? (
                 <section
-                  className="wui-composer__props-section"
+                  className="civ-composer__props-section"
                   aria-label="Advanced"
                 >
                   <Text
@@ -372,7 +372,7 @@ export function PropsEditor({
                     size="xs"
                     weight="semibold"
                     color="muted"
-                    className="wui-composer__props-section-title"
+                    className="civ-composer__props-section-title"
                   >
                     Advanced
                   </Text>

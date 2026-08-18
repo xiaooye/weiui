@@ -1,7 +1,7 @@
 "use client";
 import { forwardRef, useRef, useId, useState, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
-import { useControllable, useOutsideClick, useFloatingMenu } from "@weiui/headless";
+import { useControllable, useOutsideClick, useFloatingMenu } from "@civaria/headless";
 
 export interface AutoCompleteOption {
   value: string;
@@ -157,14 +157,14 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
         ? `${listboxId}-opt-${highlightedIndex}`
         : undefined;
 
-    const renderEmpty = () => emptyState ?? <div className="wui-autocomplete__empty">{emptyText}</div>;
+    const renderEmpty = () => emptyState ?? <div className="civ-autocomplete__empty">{emptyText}</div>;
 
     return (
-      <div ref={ref} className={cn("wui-autocomplete", className)} data-disabled={disabled || undefined}>
-        <div ref={containerRef} className="wui-autocomplete__wrapper">
+      <div ref={ref} className={cn("civ-autocomplete", className)} data-disabled={disabled || undefined}>
+        <div ref={containerRef} className="civ-autocomplete__wrapper">
           <input
             ref={refs.setReference}
-            className="wui-autocomplete__input"
+            className="civ-autocomplete__input"
             value={currentText}
             placeholder={placeholder}
             disabled={disabled}
@@ -186,7 +186,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
             <button
               type="button"
               aria-label="Clear"
-              className="wui-autocomplete__clear"
+              className="civ-autocomplete__clear"
               onClick={handleClear}
               tabIndex={-1}
             >
@@ -200,12 +200,12 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
             <div
               ref={refs.setFloating}
               style={floatingStyles}
-              className="wui-autocomplete__list"
+              className="civ-autocomplete__list"
               role="listbox"
               id={listboxId}
             >
               {loading && (
-                <div role="status" aria-live="polite" className="wui-autocomplete__loading">
+                <div role="status" aria-live="polite" className="civ-autocomplete__loading">
                   Loading…
                 </div>
               )}
@@ -214,7 +214,7 @@ export const AutoComplete = forwardRef<HTMLDivElement, AutoCompleteProps>(
                   <div
                     key={opt.value}
                     id={`${listboxId}-opt-${i}`}
-                    className="wui-autocomplete__item"
+                    className="civ-autocomplete__item"
                     role="option"
                     aria-selected={selectedValue === opt.value}
                     data-selected={selectedValue === opt.value || undefined}

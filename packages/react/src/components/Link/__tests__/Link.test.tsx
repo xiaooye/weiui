@@ -68,7 +68,7 @@ describe("Link", () => {
 
     it("renders an external-icon after the text", () => {
       render(<Link href="https://example.com">Ext</Link>);
-      expect(screen.getByRole("link")).toContainHTML("wui-link__external-icon");
+      expect(screen.getByRole("link")).toContainHTML("civ-link__external-icon");
     });
 
     it("showExternalIcon=false hides the icon", () => {
@@ -77,7 +77,7 @@ describe("Link", () => {
           Ext
         </Link>,
       );
-      expect(container.querySelector(".wui-link__external-icon")).not.toBeInTheDocument();
+      expect(container.querySelector(".civ-link__external-icon")).not.toBeInTheDocument();
     });
   });
 

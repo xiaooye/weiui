@@ -7,5 +7,5 @@ export interface DialogDescriptionProps extends HTMLAttributes<HTMLParagraphElem
 
 export function DialogDescription({ children, ...props }: DialogDescriptionProps) {
   const { descriptionId } = useDialogContext();
-  return <p id={descriptionId} data-wui-component="dialog" data-part="description" {...props}>{children}</p>;
+  return <p id={descriptionId} data-civaria-component="dialog" data-part="description" {...props}>{children}</p>;
 }

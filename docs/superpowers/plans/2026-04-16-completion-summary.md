@@ -1,4 +1,4 @@
-# WeiUI Polish Overhaul — Completion Summary
+# Civaria Polish Overhaul — Completion Summary
 
 **Shipped:** 2026-04-16 to 2026-04-18 (Phases 0-5 + polish 7-14, then top-of-class Waves A-F, then Phase 6-9 P1 sweep)
 **Total commits:** 230+ (200 prior + 30 Phase 6 P1 sweep)
@@ -24,7 +24,7 @@
 | Polish 3-8 | Iterative fix rounds 1–6 (diagnostic + fix loops) | 36 commits |
 | Polish 9 | Live demos for 11 components + missing a11y sections + Breadcrumb/TOC polish | 24 commits |
 | Polish 10 | Demo interaction fixes, typography page, Preview/TOC polish, 404 page | 10 commits |
-| Polish 11 | Bundle split — `@weiui/react` subpath exports (75% First-Load JS reduction on heavy pages) | 4 commits |
+| Polish 11 | Bundle split — `civaria` subpath exports (75% First-Load JS reduction on heavy pages) | 4 commits |
 | Polish 12 | Tool pages (Playground/Composer/Themes) Header integration + README/CONTRIBUTING refresh | 3 commits |
 | Polish 13 | Mobile reflow, Preview tabs keyboard, CommandPalette Escape, Getting Started rewrite | 4 commits |
 | Polish 14 | Mobile sidebar drawer, Playground/Themes/Composer grid reflow, dark muted-fg contrast bump | 3 commits |
@@ -42,7 +42,7 @@
 | Round 6 | InputNumber `locale` prop, migrate ComponentPreview → Preview on 11 pages | 2 |
 | Round 9 | Toaster mounted in layout; live demos for Dialog/Drawer/Popover/Tooltip/Menu/Toast/Kbd/Portal/VisuallyHidden/Editor/CommandPalette/ColorPicker/DatePicker/Calendar/MultiSelect/AutoComplete/FileUpload/DataTable; Accessibility sections added to 9 grouped pages; Breadcrumbs/TOC/anchor polish | 24 |
 | Round 10 | DataTable demo + 10 polish (Preview tabs, TOC scroll, turbo cache, typography previews, 404, LiveShowcase ARIA, demo onSelect wiring) | 10 |
-| Round 11 | Bundle split: `@weiui/react/editor`, `/chart`, `/data-table` subpaths; First-Load JS on heavy pages: 426 kB → 105-150 kB (75% reduction) | 4 |
+| Round 11 | Bundle split: `civaria/editor`, `/chart`, `/data-table` subpaths; First-Load JS on heavy pages: 426 kB → 105-150 kB (75% reduction) | 4 |
 | Round 12 | Playground/Composer/Themes Header integration; README + CONTRIBUTING refresh; diagnostic closed | 3 |
 | Round 13 | Mobile header reflow, Preview keyboard nav, CommandPalette Escape, Getting Started expansion | 4 |
 | Round 14 | Mobile hamburger + sidebar Drawer, three tool pages reflow, dark muted-fg contrast bump | 3 |
@@ -61,7 +61,7 @@
 All 65 components have:
 - ✅ Documentation (either dedicated page or grouped section)
 - ✅ At least one test file
-- ✅ Exported from `@weiui/react`
+- ✅ Exported from `civaria`
 - ✅ Listed in alphabetized Components sidebar
 - ✅ Props tables match actual TS API (re-verified across 6 rounds)
 
@@ -87,8 +87,8 @@ Top-of-class plan executed via subagent-driven-development — one fresh subagen
 
 - `pnpm build`: 8/8 ✓
 - `pnpm test`: 996/996 ✓ (react 996, headless + tokens + a11y green via separate runs)
-- `pnpm --filter @weiui/tokens validate`: 6/6 contrast (1 AAA + 5 AA) ✓
-- `pnpm --filter @weiui/docs build`: 44+ static pages, 0 warnings ✓
+- `pnpm --filter @civaria/tokens validate`: 6/6 contrast (1 AAA + 5 AA) ✓
+- `pnpm --filter @civaria/docs build`: 44+ static pages, 0 warnings ✓
 - Tailwind leakage scan across `packages/react/src/components/`: empty ✓
 - Audit P1s remaining: 0 ✓
 
@@ -127,7 +127,7 @@ Plan: `docs/superpowers/plans/2026-04-20-full-polish-pass.md` (30 tasks).
 27. Icons stroke normalization (no-op — already normalized) (`e4c337e`)
 
 **Tests:** 136 docs / 1002 react — all green.  
-**Build:** `pnpm --filter @weiui/docs build` clean, 49 static pages.  
+**Build:** `pnpm --filter @civaria/docs build` clean, 49 static pages.  
 **Tailwind leakage scan:** clean.
 
 Remaining tasks 28-30 (this commit + final verification + smoke suite) complete the pass.

@@ -1,6 +1,6 @@
 "use client";
 
-import { Textarea } from "@weiui/react";
+import { Textarea } from "civaria";
 
 export function TextareaSizesDemo() {
   return (
@@ -8,7 +8,7 @@ export function TextareaSizesDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
       }}
     >
       <Textarea size="sm" aria-label="Small textarea" placeholder="Small" rows={2} style={{ maxWidth: "400px" }} />

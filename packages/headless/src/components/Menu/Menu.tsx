@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode, useCallback, useRef, useState } from "react";
-import { createMenuController } from "@weiui/core";
+import { createMenuController } from "@civaria/core";
 import { useCoreController } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { MenuContext } from "./MenuContext";

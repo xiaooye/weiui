@@ -10,8 +10,8 @@ import {
   ToggleGroup,
   ToggleGroupItem,
   toast,
-} from "@weiui/react";
-import { getComponentMetadata } from "@weiui/core/registry";
+} from "civaria";
+import { getComponentMetadata } from "@civaria/core/registry";
 import {
   generateWeiRuntimeCode,
   type WeiTarget,
@@ -63,13 +63,13 @@ export function CodeOutput({ schema, props }: Props) {
   return (
     <Card>
       <CardHeader>
-        <Stack direction="row" gap={3} className="wui-tool-code__header">
+        <Stack direction="row" gap={3} className="civ-tool-code__header">
           <Stack direction="column" gap={1}>
             <Text as="span" size="sm" weight="medium">
               Code
             </Text>
             <Text as="span" size="xs" color="muted">
-              Same WeiUI component metadata, native runtime syntax.
+              Same Civaria component metadata, native runtime syntax.
             </Text>
           </Stack>
           <ToggleGroup
@@ -98,7 +98,7 @@ export function CodeOutput({ schema, props }: Props) {
         </Stack>
       </CardHeader>
       <CardContent>
-        <pre className="wui-tool-code__pre">
+        <pre className="civ-tool-code__pre">
           <code>{code}</code>
         </pre>
       </CardContent>

@@ -1,10 +1,10 @@
-# @weiui/solid
+# @civaria/solid
 
-Native SolidJS runtime for WeiUI. Controllers from `@weiui/core` are observed through Solid signals, IDs use `createUniqueId`, DOM updates use native refs/effects, and modal rendering uses Solid's `Portal`.
+Native SolidJS runtime for Civaria. Controllers from `@civaria/core` are observed through Solid signals, IDs use `createUniqueId`, DOM updates use native refs/effects, and modal rendering uses Solid's `Portal`.
 
 ```tsx
-import { Button, Dialog } from "@weiui/solid"
-import "@weiui/css"
+import { Button, Dialog } from "@civaria/solid"
+import "@civaria/css"
 
 <Button variant="solid">Save</Button>
 <Dialog trigger="Open" title="Example">Hello</Dialog>

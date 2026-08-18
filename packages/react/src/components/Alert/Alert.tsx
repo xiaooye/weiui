@@ -45,21 +45,21 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       <div
         ref={ref}
         role="alert"
-        className={cn("wui-alert", `wui-alert--${variant}`, className)}
+        className={cn("civ-alert", `civ-alert--${variant}`, className)}
         {...props}
       >
         {resolvedIcon != null && resolvedIcon !== false && (
-          <span className="wui-alert__icon" aria-hidden="true">
+          <span className="civ-alert__icon" aria-hidden="true">
             {resolvedIcon}
           </span>
         )}
-        <div className="wui-alert__body">{children}</div>
-        {action && <div className="wui-alert__action">{action}</div>}
+        <div className="civ-alert__body">{children}</div>
+        {action && <div className="civ-alert__action">{action}</div>}
         {dismissible && (
           <button
             type="button"
             aria-label="Dismiss"
-            className="wui-alert__close"
+            className="civ-alert__close"
             onClick={handleDismiss}
           >
             {"\u2715"}
@@ -73,14 +73,14 @@ Alert.displayName = "Alert";
 
 export const AlertTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h5 ref={ref} className={cn("wui-alert__title", className)} {...props} />
+    <h5 ref={ref} className={cn("civ-alert__title", className)} {...props} />
   ),
 );
 AlertTitle.displayName = "AlertTitle";
 
 export const AlertDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn("wui-alert__description", className)} {...props} />
+    <p ref={ref} className={cn("civ-alert__description", className)} {...props} />
   ),
 );
 AlertDescription.displayName = "AlertDescription";

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "@weiui/react";
+import { toast } from "civaria";
 
 /**
  * Clears the global toast store whenever the pathname changes so

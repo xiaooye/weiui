@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "@weiui/react";
+import { Text } from "civaria";
 
 export function TextDemo() {
   return (
@@ -8,7 +8,7 @@ export function TextDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-2)",
+        gap: "var(--civ-spacing-2)",
       }}
     >
       <Text size="xl" weight="bold">

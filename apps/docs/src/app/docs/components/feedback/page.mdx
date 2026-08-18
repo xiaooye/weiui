@@ -17,7 +17,7 @@ Inline messaging that is not time-sensitive — confirm, warn, or explain. Every
 </Preview>
 
 ```tsx
-import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
+import { Alert, AlertTitle, AlertDescription } from "civaria";
 
 <Alert variant="info">
   <AlertTitle>Info</AlertTitle>
@@ -55,7 +55,7 @@ Provide a recovery path for the message (e.g. "Undo") and let users dismiss when
 </Alert>
 
 {/* Swap in your own */}
-import { Zap } from "@weiui/icons";
+import { Zap } from "@civaria/icons";
 
 <Alert variant="info" icon={<Zap size={18} aria-hidden />}>
   <AlertTitle>New feature</AlertTitle>
@@ -89,7 +89,7 @@ An indeterminate loading indicator. Reach for it when a short action is in-fligh
 </Preview>
 
 ```tsx
-import { Spinner } from "@weiui/react";
+import { Spinner } from "civaria";
 
 <Spinner size="sm" />
 <Spinner size="md" label="Saving changes" />
@@ -127,7 +127,7 @@ import { Spinner } from "@weiui/react";
 ### Spinner accessibility
 
 - Renders with `role="status"` + `aria-label={label}`. Polite assistive-tech announcement, not disruptive.
-- The visible label is kept in the DOM (inside `wui-sr-only`) so it still reaches screen readers; it is not rendered visually.
+- The visible label is kept in the DOM (inside `civ-sr-only`) so it still reaches screen readers; it is not rendered visually.
 - Spin animation is wrapped in `@media (prefers-reduced-motion: no-preference)` — users who prefer reduced motion see a static circle but still hear the status.
 
 ## EmptyState
@@ -139,7 +139,7 @@ Communicates absence of data with purpose — tell the user what's missing and w
 </Preview>
 
 ```tsx
-import { EmptyState, Button } from "@weiui/react";
+import { EmptyState, Button } from "civaria";
 
 <EmptyState
   title="No projects yet"

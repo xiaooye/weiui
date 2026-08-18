@@ -9,7 +9,7 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarSubMenu,
-} from "@weiui/react";
+} from "civaria";
 
 export function SidebarGroupedDemo() {
   const [active, setActive] = useState("dashboard");
@@ -19,8 +19,8 @@ export function SidebarGroupedDemo() {
       style={{
         display: "flex",
         height: 360,
-        border: "1px solid var(--wui-color-border)",
-        borderRadius: "var(--wui-shape-radius-lg)",
+        border: "1px solid var(--civ-color-border)",
+        borderRadius: "var(--civ-shape-radius-lg)",
         overflow: "hidden",
       }}
     >
@@ -69,7 +69,7 @@ export function SidebarGroupedDemo() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <div style={{ flex: 1, padding: "var(--wui-spacing-4)", fontSize: "var(--wui-font-size-sm)" }}>
+      <div style={{ flex: 1, padding: "var(--civ-spacing-4)", fontSize: "var(--civ-font-size-sm)" }}>
         Showing <strong>{active}</strong>
       </div>
     </div>

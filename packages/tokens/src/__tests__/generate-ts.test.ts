@@ -12,13 +12,13 @@ const tokens: FlatToken[] = [
 describe("token module generation", () => {
   it("emits TypeScript source, runtime JavaScript, and declarations", () => {
     expect(generateTs(tokens)).toContain(
-      'export const COLOR_BRAND_PRIMARY = "var(--wui-color-brand-primary)" as const;',
+      'export const COLOR_BRAND_PRIMARY = "var(--civ-color-brand-primary)" as const;',
     );
     expect(generateJs(tokens)).toContain(
-      'export const COLOR_BRAND_PRIMARY = "var(--wui-color-brand-primary)";',
+      'export const COLOR_BRAND_PRIMARY = "var(--civ-color-brand-primary)";',
     );
     expect(generateDts(tokens)).toContain(
-      'export declare const COLOR_BRAND_PRIMARY: "var(--wui-color-brand-primary)";',
+      'export declare const COLOR_BRAND_PRIMARY: "var(--civ-color-brand-primary)";',
     );
   });
 });

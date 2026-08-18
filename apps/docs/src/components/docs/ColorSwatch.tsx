@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Code, Stack, Text } from "@weiui/react";
+import { Card, Code, Stack, Text } from "civaria";
 
 interface ColorSwatchProps {
   name: string;
@@ -20,7 +20,7 @@ export function ColorSwatch({ name, cssVar }: ColorSwatchProps) {
     }
   };
   return (
-    <Card variant="outlined" asChild className="wui-color-swatch">
+    <Card variant="outlined" asChild className="civ-color-swatch">
       <button
         type="button"
         onClick={onCopy}
@@ -28,15 +28,15 @@ export function ColorSwatch({ name, cssVar }: ColorSwatchProps) {
       >
         <Stack direction="row" gap={3}>
           <span
-            className="wui-color-swatch__chip"
+            className="civ-color-swatch__chip"
             aria-hidden="true"
             style={{ backgroundColor: `var(${cssVar})` }}
           />
-          <Stack direction="column" gap={0} className="wui-color-swatch__body">
+          <Stack direction="column" gap={0} className="civ-color-swatch__body">
             <Text as="span" size="sm" weight="medium">
               {name}
             </Text>
-            <Code className="wui-color-swatch__var">
+            <Code className="civ-color-swatch__var">
               {copied ? "copied!" : `var(${cssVar})`}
             </Code>
           </Stack>

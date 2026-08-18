@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@weiui/react";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "civaria";
 import { type Theme, THEME_STORAGE_KEY, resolveTheme } from "../../lib/theme";
 
 export function ThemeToggle() {

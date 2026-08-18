@@ -1,4 +1,4 @@
-# WeiUI Multi-Runtime Architecture
+# Civaria Multi-Runtime Architecture
 
 ## Governing principle
 
@@ -6,16 +6,16 @@
 
 ## Authority boundaries
 
-`@weiui/tokens` and `@weiui/css` are framework-neutral. `@weiui/core` is framework-neutral TypeScript and owns portable behavior/state/ARIA/anatomy/metadata. `@weiui/react`, `@weiui/vue`, `@weiui/solid`, `@weiui/svelte` and `@weiui/elements` are peer renderers over Core + CSS.
+`@civaria/tokens` and `@civaria/css` are framework-neutral. `@civaria/core` is framework-neutral TypeScript and owns portable behavior/state/ARIA/anatomy/metadata. `civaria`, `@civaria/vue`, `@civaria/solid`, `@civaria/svelte` and `@civaria/elements` are peer renderers over Core + CSS.
 
 Core may not import `react`, `react-dom`, `vue`, `solid-js` or `svelte`. A runtime package may not depend on another runtime package. `scripts/check-package-boundaries.mjs` enforces both rules in CI, including a prohibition on adapters bypassing semantic controller APIs through an internal store.
 
 ## Canonical DOM contract
 
-Runtimes converge on WeiUI-owned hooks where practical:
+Runtimes converge on Civaria-owned hooks where practical:
 
 ```text
-data-wui-component="select"
+data-civaria-component="select"
 data-part="trigger"
 data-state="open"
 data-selected
@@ -43,17 +43,17 @@ Use the smallest behavior abstraction that solves the component: stateless helpe
 - **Vue:** Composition API, slots, `v-model`, Teleport, refs; Dialog focus entry/trap/restore is bound to Vue lifecycle.
 - **Solid:** compiler-native JSX, signals/effects/context, `createUniqueId`, native refs/Portal; the package exposes a `solid` JSX condition so Solid toolchains can compile for client or SSR.
 - **Svelte:** Svelte 5 runes, bindable state, snippets/actions where appropriate; every shipped `.svelte` component is compiler-checked in CI.
-- **Elements:** light DOM by default, `wui-` prefix, CustomEvents, scalar attributes + complex properties, explicit duplicate-safe registration, form-associated Select/Combobox where ElementInternals is available with hidden-input fallback.
+- **Elements:** light DOM by default, `civ-` prefix, CustomEvents, scalar attributes + complex properties, explicit duplicate-safe registration, form-associated Select/Combobox where ElementInternals is available with hidden-input fallback.
 
 Web Components are a distribution target. Official native framework runtimes do not wrap them.
 
 ## Portability registry
 
-`@weiui/core/registry` is the machine-readable runtime-support source of truth. It records component name, category, portability A/B/C/D, semantic parts, supported runtimes and status. Docs/Composer/MCP/CLI consume or enrich from this registry rather than each inventing a support matrix.
+`@civaria/core/registry` is the machine-readable runtime-support source of truth. It records component name, category, portability A/B/C/D, semantic parts, supported runtimes and status. Docs/Composer/MCP/CLI consume or enrich from this registry rather than each inventing a support matrix.
 
 ## Ecosystem integrations
 
-Editor, DataTable and Charts remain React-specific because their mature ecosystems are React-native (Tiptap React, TanStack React Table, Recharts). Their dependencies remain isolated on explicit `@weiui/react/*` subpaths.
+Editor, DataTable and Charts remain React-specific because their mature ecosystems are React-native (Tiptap React, TanStack React Table, Recharts). Their dependencies remain isolated on explicit `civaria/*` subpaths.
 
 ## SSR
 
@@ -63,7 +63,7 @@ Vue is rendered through the official server renderer in CI. Solid's published JS
 
 ## CSS and theming
 
-`@weiui/css` remains the canonical visual contract. Runtime adapters may add ergonomic classes, but framework-specific class generation is not the sole visual source. Light DOM is preferred for Elements so global WeiUI CSS and semantic custom properties remain easy to theme.
+`@civaria/css` remains the canonical visual contract. Runtime adapters may add ergonomic classes, but framework-specific class generation is not the sole visual source. Light DOM is preferred for Elements so global Civaria CSS and semantic custom properties remain easy to theme.
 
 ## Testing hierarchy
 

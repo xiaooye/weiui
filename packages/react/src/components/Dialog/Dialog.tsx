@@ -15,7 +15,7 @@ import {
   useId,
   getFirstFocusable,
   type UseDisclosureProps,
-} from "@weiui/headless";
+} from "@civaria/headless";
 import { Portal } from "../Portal";
 import { cn } from "../../utils/cn";
 
@@ -114,7 +114,7 @@ export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-dialog__overlay", className)}
+        className={cn("civ-dialog__overlay", className)}
         style={{ zIndex: 50 + depth * 10, ...style }}
         aria-hidden="true"
         {...props}
@@ -207,7 +207,7 @@ export function DialogContent({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className={cn("wui-dialog__content", `wui-dialog__content--${size}`, className)}
+        className={cn("civ-dialog__content", `civ-dialog__content--${size}`, className)}
         style={{ zIndex: 51 + depth * 10, ...style }}
         onKeyDown={(e) => {
           if (e.key === "Escape") {

@@ -1,30 +1,30 @@
-@layer wui-elements {
-  .wui-dialog__overlay {
+@layer civ-elements {
+  .civ-dialog__overlay {
     position: fixed;
     inset: 0;
-    background-color: color-mix(in oklch, var(--wui-color-foreground) 40%, transparent);
+    background-color: color-mix(in oklch, var(--civ-color-foreground) 40%, transparent);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    z-index: var(--wui-zIndex-overlay);
+    z-index: var(--civ-zIndex-overlay);
   }
-  .wui-dialog__content {
+  .civ-dialog__content {
     position: fixed;
     inset-block-start: 50%;
     inset-inline-start: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--wui-surface-overlay);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-5);
-    padding: var(--wui-spacing-6);
+    background-color: var(--civ-surface-overlay);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-5);
+    padding: var(--civ-spacing-6);
     max-inline-size: 32rem;
     inline-size: calc(100vw - 2rem);
-    z-index: var(--wui-zIndex-modal);
+    z-index: var(--civ-zIndex-modal);
   }
-  .wui-dialog__content--sm { max-inline-size: 24rem; }
-  .wui-dialog__content--md { max-inline-size: 32rem; }
-  .wui-dialog__content--lg { max-inline-size: 48rem; }
-  .wui-dialog__content--full {
+  .civ-dialog__content--sm { max-inline-size: 24rem; }
+  .civ-dialog__content--md { max-inline-size: 32rem; }
+  .civ-dialog__content--lg { max-inline-size: 48rem; }
+  .civ-dialog__content--full {
     max-inline-size: none;
     inline-size: calc(100vw - 2rem);
     max-block-size: calc(100vh - 2rem);

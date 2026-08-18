@@ -1,6 +1,6 @@
 "use client";
 
-import { Timeline, TimelineItem } from "@weiui/react";
+import { Timeline, TimelineItem } from "civaria";
 
 export function TimelineAlternateDemo() {
   return (

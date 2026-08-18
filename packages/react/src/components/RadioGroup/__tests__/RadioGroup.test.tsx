@@ -92,13 +92,13 @@ describe("RadioGroup", () => {
     expect(radios[0]!.name).toBeTruthy();
   });
 
-  it("applies styled visual class (wui-radio__input)", () => {
+  it("applies styled visual class (civ-radio__input)", () => {
     render(
       <RadioGroup aria-label="styled">
         <RadioGroupItem value="a" label="A" />
       </RadioGroup>,
     );
-    expect(screen.getByRole("radio")).toHaveClass("wui-radio__input");
+    expect(screen.getByRole("radio")).toHaveClass("civ-radio__input");
   });
 
   it("arrow-down moves focus + selection to next item", async () => {
@@ -155,7 +155,7 @@ describe("RadioGroup", () => {
       </RadioGroup>,
     );
     const group = screen.getByRole("radiogroup");
-    expect(group).toHaveClass("wui-radio-group--vertical");
+    expect(group).toHaveClass("civ-radio-group--vertical");
     expect(group).toHaveAttribute("data-orientation", "vertical");
   });
 
@@ -177,13 +177,13 @@ describe("RadioGroup", () => {
         <RadioGroupItem value="a" label="A" />
       </RadioGroup>,
     );
-    expect(screen.getByRole("radiogroup")).toHaveClass("wui-radio-group--sm");
+    expect(screen.getByRole("radiogroup")).toHaveClass("civ-radio-group--sm");
     rerender(
       <RadioGroup aria-label="s" size="lg">
         <RadioGroupItem value="a" label="A" />
       </RadioGroup>,
     );
-    expect(screen.getByRole("radiogroup")).toHaveClass("wui-radio-group--lg");
+    expect(screen.getByRole("radiogroup")).toHaveClass("civ-radio-group--lg");
   });
 
   it("group-level disabled propagates to every item", () => {

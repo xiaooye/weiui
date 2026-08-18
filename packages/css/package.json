@@ -1,8 +1,8 @@
 {
-  "name": "@weiui/css",
+  "name": "@civaria/css",
   "version": "0.1.0",
-  "description": "WeiUI CSS layer — zero-JavaScript component styles built on design tokens with logical properties, OKLCH colors, and WCAG AAA contrast.",
-  "author": "WeiUI Contributors",
+  "description": "Civaria CSS layer — zero-JavaScript component styles built on design tokens with logical properties, OKLCH colors, and WCAG AAA contrast.",
+  "author": "Civaria Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
@@ -17,7 +17,7 @@
   "keywords": [
     "css",
     "design-system",
-    "weiui",
+    "civaria",
     "tokens",
     "oklch",
     "logical-properties",
@@ -25,11 +25,11 @@
     "wcag-aaa"
   ],
   "bin": {
-    "weiui-css": "./dist/config-cli.mjs"
+    "civaria-css": "./dist/config-cli.mjs"
   },
   "exports": {
-    ".": "./dist/weiui.css",
-    "./weiui.css": "./dist/weiui.css",
+    ".": "./dist/civaria.css",
+    "./civaria.css": "./dist/civaria.css",
     "./reset.css": "./dist/reset.css",
     "./base.css": "./dist/base.css",
     "./a11y/*": "./dist/a11y/*",

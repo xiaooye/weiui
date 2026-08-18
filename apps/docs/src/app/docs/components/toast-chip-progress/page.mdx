@@ -13,7 +13,7 @@ A notification system driven by an external store, rendered through a single `<T
 
 <Preview
   label="Toast variants"
-  code={`import { toast, Button } from "@weiui/react";
+  code={`import { toast, Button } from "civaria";
 
 <Button onClick={() => toast("Default toast")}>Default</Button>
 <Button onClick={() => toast.success("Saved!")}>Success</Button>
@@ -38,7 +38,7 @@ Mount `<Toaster />` once near your app root, then call `toast()` from anywhere:
 
 ```tsx
 // Root layout
-import { Toaster } from "@weiui/react";
+import { Toaster } from "civaria";
 
 export default function RootLayout({ children }) {
   return (
@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // Anywhere
-import { toast } from "@weiui/react";
+import { toast } from "civaria";
 
 toast("File saved successfully");
 toast.success("Payment received");
@@ -70,7 +70,7 @@ toast("Message archived", {
 Drive a single toast through `loading → success / error` states tied to a promise. The toast updates in place — no flicker, no duplicate notifications.
 
 ```tsx
-import { toast } from "@weiui/react";
+import { toast } from "civaria";
 
 async function handleSubscribe() {
   await toast.promise(api.subscribe(email), {
@@ -157,7 +157,7 @@ Like Badge but interactive — can be selected, removed, or carry an icon. Use f
 </Preview>
 
 ```tsx
-import { Chip } from "@weiui/react";
+import { Chip } from "civaria";
 
 {/* Static */}
 <Chip>Default</Chip>
@@ -213,7 +213,7 @@ Bounded (0-100) or indeterminate progress indicator with optional in-bar label.
 </Preview>
 
 ```tsx
-import { ProgressBar } from "@weiui/react";
+import { ProgressBar } from "civaria";
 
 <ProgressBar value={60} />
 <ProgressBar value={80} color="success" />

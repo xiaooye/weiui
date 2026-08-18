@@ -147,7 +147,7 @@ describe("InputOTP", () => {
 
     it("groups renders separators between slot groups", () => {
       const { container } = render(<InputOTP length={6} groups={[3, 3]} />);
-      expect(container.querySelectorAll(".wui-input-otp__separator").length).toBe(1);
+      expect(container.querySelectorAll(".civ-input-otp__separator").length).toBe(1);
     });
 
     it("onComplete fires when all slots are filled", async () => {

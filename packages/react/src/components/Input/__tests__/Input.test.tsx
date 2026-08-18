@@ -43,17 +43,17 @@ describe("Input", () => {
 
   it("applies disabled class when disabled", () => {
     render(<Input disabled aria-label="test input" />);
-    expect(screen.getByRole("textbox").className).toContain("wui-input--disabled");
+    expect(screen.getByRole("textbox").className).toContain("civ-input--disabled");
   });
 
   it("renders sm size class", () => {
     const { container } = render(<Input size="sm" />);
-    expect(container.querySelector(".wui-input--sm")).not.toBeNull();
+    expect(container.querySelector(".civ-input--sm")).not.toBeNull();
   });
 
   it("renders lg size class", () => {
     const { container } = render(<Input size="lg" />);
-    expect(container.querySelector(".wui-input--lg")).not.toBeNull();
+    expect(container.querySelector(".civ-input--lg")).not.toBeNull();
   });
 
   it("renders startAddon and endAddon", () => {
@@ -138,7 +138,7 @@ describe("SearchInput", () => {
     const { container } = render(<SearchInput aria-label="Search" />);
     const input = container.querySelector("input");
     expect(input).toHaveAttribute("type", "search");
-    expect(container.querySelector(".wui-input-group__addon svg")).not.toBeNull();
+    expect(container.querySelector(".civ-input-group__addon svg")).not.toBeNull();
   });
 
   it("is clearable by default", async () => {

@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Sidebar as WeiUISidebar,
+  Sidebar as CivariaSidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarItem,
-} from "@weiui/react";
+} from "civaria";
 import { siteConfig } from "../../lib/site-config";
 
 export function Sidebar() {
   const pathname = usePathname();
   return (
-    <WeiUISidebar
+    <CivariaSidebar
       aria-label="Docs navigation"
-      className="wui-docs-sidebar"
+      className="civ-docs-sidebar"
       defaultOpen={false}
     >
       <SidebarContent>
@@ -34,6 +34,6 @@ export function Sidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-    </WeiUISidebar>
+    </CivariaSidebar>
   );
 }

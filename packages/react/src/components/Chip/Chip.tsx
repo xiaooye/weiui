@@ -34,23 +34,23 @@ export const Chip = forwardRef<HTMLElement, ChipProps>((props, ref) => {
   } = props as CommonProps & { className?: string; onClick?: React.MouseEventHandler<HTMLButtonElement> };
 
   const classes = cn(
-    "wui-chip",
-    color !== "default" && `wui-chip--${color}`,
-    size !== "md" && `wui-chip--${size}`,
-    variant === "outlined" && "wui-chip--outlined",
-    disabled && "wui-chip--disabled",
-    onClick && "wui-chip--clickable",
+    "civ-chip",
+    color !== "default" && `civ-chip--${color}`,
+    size !== "md" && `civ-chip--${size}`,
+    variant === "outlined" && "civ-chip--outlined",
+    disabled && "civ-chip--disabled",
+    onClick && "civ-chip--clickable",
     className,
   );
 
   const content = (
     <>
-      {icon && <span className="wui-chip__icon" aria-hidden="true">{icon}</span>}
-      <span className="wui-chip__label">{children}</span>
+      {icon && <span className="civ-chip__icon" aria-hidden="true">{icon}</span>}
+      <span className="civ-chip__label">{children}</span>
       {onRemove && !disabled && (
         <button
           type="button"
-          className="wui-chip__remove"
+          className="civ-chip__remove"
           onClick={(e) => {
             e.stopPropagation();
             onRemove();

@@ -1,33 +1,33 @@
-@layer wui-elements {
-  .wui-tree {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-foreground);
-    border: var(--wui-shape-border-width-thin) solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-1);
-    padding: var(--wui-spacing-2);
+@layer civ-elements {
+  .civ-tree {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-foreground);
+    border: var(--civ-shape-border-width-thin) solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-1);
+    padding: var(--civ-spacing-2);
   }
-  .wui-tree[role="tree"] {
+  .civ-tree[role="tree"] {
     list-style: none;
-    padding: var(--wui-spacing-2);
+    padding: var(--civ-spacing-2);
     margin: 0;
   }
-  .wui-tree__group {
+  .civ-tree__group {
     list-style: none;
-    padding-inline-start: var(--wui-spacing-5);
+    padding-inline-start: var(--civ-spacing-5);
     margin: 0;
   }
-  .wui-tree__item {
+  .civ-tree__item {
     list-style: none;
   }
-  .wui-tree__node {
+  .civ-tree__node {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
     min-block-size: 44px;
-    padding-inline: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-1);
-    border-radius: var(--wui-shape-radius-md);
+    padding-inline: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-1);
+    border-radius: var(--civ-shape-radius-md);
     cursor: pointer;
     border: none;
     background: none;
@@ -36,18 +36,18 @@
     font-size: inherit;
     color: inherit;
   }
-  .wui-tree__node:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 4%, transparent);
+  .civ-tree__node:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 4%, transparent);
   }
-  .wui-tree__node:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-tree__node:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -3px;
   }
-  .wui-tree__node[data-selected] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-tree__node[data-selected] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-tree__toggle {
+  .civ-tree__toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,52 +55,52 @@
     block-size: 20px;
     flex-shrink: 0;
   }
-  .wui-tree__toggle[data-expanded] {
+  .civ-tree__toggle[data-expanded] {
     transform: rotate(90deg);
   }
-  .wui-tree__toggle[data-leaf] {
+  .civ-tree__toggle[data-leaf] {
     visibility: hidden;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-tree__toggle {
+    .civ-tree__toggle {
       transition-property: transform;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-tree__node {
+    .civ-tree__node {
       transition-property: background-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
-  .wui-tree__label {
+  .civ-tree__label {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .wui-tree__checkbox {
+  .civ-tree__checkbox {
     flex-shrink: 0;
     inline-size: 16px;
     block-size: 16px;
     cursor: pointer;
-    accent-color: var(--wui-color-primary);
+    accent-color: var(--civ-color-primary);
   }
-  .wui-tree__icon {
+  .civ-tree__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     inline-size: 20px;
     block-size: 20px;
     flex-shrink: 0;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-tree__loading {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    margin-inline-start: var(--wui-spacing-1);
+  .civ-tree__loading {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    margin-inline-start: var(--civ-spacing-1);
   }
-  .wui-tree__node[disabled] {
+  .civ-tree__node[disabled] {
     opacity: 0.5;
     cursor: not-allowed;
   }

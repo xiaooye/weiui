@@ -1,128 +1,128 @@
-@layer wui-elements {
-  .wui-command-overlay {
+@layer civ-elements {
+  .civ-command-overlay {
     position: fixed;
     inset: 0;
     background-color: oklch(0 0 0 / 0.5);
-    z-index: var(--wui-zIndex-overlay);
+    z-index: var(--civ-zIndex-overlay);
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding-block-start: 15vh;
   }
-  .wui-command {
+  .civ-command {
     inline-size: 100%;
     max-inline-size: 640px;
-    background-color: var(--wui-surface-overlay);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-4);
+    background-color: var(--civ-surface-overlay);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     overflow: hidden;
   }
   @supports not (backdrop-filter: blur(8px)) {
-    .wui-command { background-color: var(--wui-color-card); }
+    .civ-command { background-color: var(--civ-color-card); }
   }
-  .wui-command__input-wrapper {
+  .civ-command__input-wrapper {
     display: flex;
     align-items: center;
-    padding-inline: var(--wui-spacing-4);
-    border-block-end: 1px solid var(--wui-color-border);
+    padding-inline: var(--civ-spacing-4);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-command__icon {
-    color: var(--wui-color-muted-foreground);
+  .civ-command__icon {
+    color: var(--civ-color-muted-foreground);
     flex-shrink: 0;
-    margin-inline-end: var(--wui-spacing-2);
+    margin-inline-end: var(--civ-spacing-2);
   }
-  .wui-command__input {
+  .civ-command__input {
     flex: 1;
     min-block-size: 52px;
     border: none;
     background: none;
-    font-size: var(--wui-font-size-base);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-base);
+    color: var(--civ-color-foreground);
     outline: none;
   }
-  .wui-command__input::placeholder {
-    color: var(--wui-color-muted-foreground);
+  .civ-command__input::placeholder {
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-command__list {
+  .civ-command__list {
     max-block-size: 320px;
     overflow-block: auto;
-    padding-block: var(--wui-spacing-2);
+    padding-block: var(--civ-spacing-2);
   }
-  .wui-command__group-label {
-    padding-block: var(--wui-spacing-1);
-    padding-inline: var(--wui-spacing-4);
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-semibold);
-    color: var(--wui-color-muted-foreground);
+  .civ-command__group-label {
+    padding-block: var(--civ-spacing-1);
+    padding-inline: var(--civ-spacing-4);
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-semibold);
+    color: var(--civ-color-muted-foreground);
     text-transform: uppercase;
-    letter-spacing: var(--wui-font-letterSpacing-wider);
+    letter-spacing: var(--civ-font-letterSpacing-wider);
   }
-  .wui-command__item {
+  .civ-command__item {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
     min-block-size: 44px;
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-4);
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-4);
     cursor: pointer;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-foreground);
   }
-  .wui-command__item:hover,
-  .wui-command__item[data-highlighted] {
-    background-color: var(--wui-color-muted);
+  .civ-command__item:hover,
+  .civ-command__item[data-highlighted] {
+    background-color: var(--civ-color-muted);
   }
-  .wui-command__item[data-disabled] {
+  .civ-command__item[data-disabled] {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  .wui-command__item-icon {
+  .civ-command__item-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     inline-size: 1rem;
     block-size: 1rem;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-command__item-label {
+  .civ-command__item-label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .wui-command__item-shortcut {
+  .civ-command__item-shortcut {
     margin-inline-start: auto;
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    font-family: var(--wui-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    font-family: var(--civ-font-family-mono);
   }
-  .wui-command__empty {
-    padding-block: var(--wui-spacing-6);
+  .civ-command__empty {
+    padding-block: var(--civ-spacing-6);
     text-align: center;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-command-palette__loading {
+  .civ-command-palette__loading {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--wui-spacing-2);
-    padding-block: var(--wui-spacing-6);
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    gap: var(--civ-spacing-2);
+    padding-block: var(--civ-spacing-6);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-command-palette__loading-label { min-inline-size: 0; }
+  .civ-command-palette__loading-label { min-inline-size: 0; }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-command {
-      animation: wui-command-in var(--wui-motion-duration-base) var(--wui-motion-easing-emphasized);
+    .civ-command {
+      animation: civ-command-in var(--civ-motion-duration-base) var(--civ-motion-easing-emphasized);
     }
   }
-  @keyframes wui-command-in {
+  @keyframes civ-command-in {
     from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
   }

@@ -10,7 +10,7 @@ import {
   type ReactNode,
   type ReactElement,
 } from "react";
-import { useId } from "@weiui/headless";
+import { useId } from "@civaria/headless";
 import { cn } from "../../utils/cn";
 
 export interface FieldContextValue {
@@ -83,7 +83,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
       >
         <div
           ref={ref}
-          className={cn("wui-field", className)}
+          className={cn("civ-field", className)}
           data-disabled={disabled || undefined}
           data-validating={validating || undefined}
           data-invalid={hasError || undefined}
@@ -92,17 +92,17 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
         >
           {children}
           {hasError && (
-            <p id={errorId} className="wui-field__error" role="alert">
+            <p id={errorId} className="civ-field__error" role="alert">
               {error}
             </p>
           )}
           {!hasError && hasSuccessString && (
-            <p id={successId} className="wui-field__success">
+            <p id={successId} className="civ-field__success">
               {success as string}
             </p>
           )}
           {validating && (
-            <p className="wui-field__validating" aria-live="polite">
+            <p className="civ-field__validating" aria-live="polite">
               Validating…
             </p>
           )}
@@ -121,11 +121,11 @@ export const FieldLabel = forwardRef<HTMLLabelElement, HTMLAttributes<HTMLLabelE
       <label
         ref={ref}
         htmlFor={ctx?.fieldId}
-        className={cn("wui-label", className)}
+        className={cn("civ-label", className)}
         {...props}
       >
         {children}
-        {ctx?.required && <span aria-hidden="true" className="wui-label__required">*</span>}
+        {ctx?.required && <span aria-hidden="true" className="civ-label__required">*</span>}
       </label>
     );
   },
@@ -140,7 +140,7 @@ export const FieldDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<
       <p
         ref={ref}
         id={ctx?.descriptionId}
-        className={cn("wui-field__description", className)}
+        className={cn("civ-field__description", className)}
         {...props}
       />
     );

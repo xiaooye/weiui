@@ -9,7 +9,7 @@ const buttonSchema: ComponentSchema = {
   name: "Button",
   category: "Actions",
   description: "Button",
-  importPath: "@weiui/react",
+  importPath: "civaria",
   subpathImport: null,
   dependencies: [],
   props: [

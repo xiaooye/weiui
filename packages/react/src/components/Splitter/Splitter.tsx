@@ -351,14 +351,14 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
     return (
       <div
         ref={setContainerRef}
-        className={cn("wui-splitter", isVertical && "wui-splitter--vertical", className)}
+        className={cn("civ-splitter", isVertical && "civ-splitter--vertical", className)}
       >
         {panels.flatMap((panel, i) => {
           const size = sizes[i] ?? 0;
           const panelEl = (
             <div
               key={`panel-${i}`}
-              className={cn("wui-splitter__panel", panel.className)}
+              className={cn("civ-splitter__panel", panel.className)}
               data-panel-index={i}
               data-collapsible={panel.collapsible || undefined}
               style={isVertical ? { height: `${size}%` } : { width: `${size}%` }}
@@ -379,7 +379,7 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
           const handleEl = (
             <div
               key={`handle-${boundaryIdx}`}
-              className="wui-splitter__handle"
+              className="civ-splitter__handle"
               role="separator"
               aria-orientation={orientation}
               aria-valuenow={Math.round(leftSize)}
@@ -393,7 +393,7 @@ export const Splitter = forwardRef<HTMLDivElement, SplitterProps>(
               onKeyDown={(e) => handleKeyDown(e, boundaryIdx)}
               onDoubleClick={() => handleDoubleClick(boundaryIdx)}
             >
-              <div className="wui-splitter__handle-dot" />
+              <div className="civ-splitter__handle-dot" />
             </div>
           );
 

@@ -1,6 +1,6 @@
 (function () {
   try {
-    var stored = localStorage.getItem("wui-theme");
+    var stored = localStorage.getItem("civ-theme");
     var theme = stored || "system";
     var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     var resolved = theme === "system" ? (prefersDark ? "dark" : "light") : theme;

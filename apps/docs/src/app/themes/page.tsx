@@ -10,7 +10,7 @@ import {
   Heading,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import { Header } from "../../components/chrome/Header";
 import { generateTheme } from "./lib/theme-generator";
 import { ColorPicker } from "./components/ColorPicker";
@@ -26,13 +26,13 @@ export default function ThemesPage() {
   return (
     <>
       <Header />
-      <Container maxWidth="80rem" className="wui-tool-shell">
+      <Container maxWidth="80rem" className="civ-tool-shell">
         <Stack direction="column" gap={6}>
-          <Stack direction="column" gap={2} className="wui-tool-shell__header">
-            <Heading level={1} className="wui-tool-shell__title">
+          <Stack direction="column" gap={2} className="civ-tool-shell__header">
+            <Heading level={1} className="civ-tool-shell__title">
               Theme Builder
             </Heading>
-            <Text size="base" color="muted" className="wui-tool-shell__sub">
+            <Text size="base" color="muted" className="civ-tool-shell__sub">
               Pick a primary color and preview how every component looks with your custom theme.
               Export as CSS variables or JSON tokens.
             </Text>
@@ -40,7 +40,7 @@ export default function ThemesPage() {
           <Grid
             columns="300px minmax(0, 1fr)"
             gap={6}
-            className="wui-tool-shell__layout wui-tool-shell__layout--themes"
+            className="civ-tool-shell__layout civ-tool-shell__layout--themes"
           >
             <Stack direction="column" gap={4}>
               <ColorPicker
@@ -58,8 +58,8 @@ export default function ThemesPage() {
                 <CardContent>
                   <Stack direction="column" gap={2}>
                     {theme.contrastResults.map((r) => (
-                      <Stack key={r.pair} direction="row" gap={3} className="wui-contrast-row">
-                        <Text as="span" size="sm" className="wui-contrast-row__pair">
+                      <Stack key={r.pair} direction="row" gap={3} className="civ-contrast-row">
+                        <Text as="span" size="sm" className="civ-contrast-row__pair">
                           {r.pair}
                         </Text>
                         <Badge

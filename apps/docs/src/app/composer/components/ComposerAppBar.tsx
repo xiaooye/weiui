@@ -9,7 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@weiui/react";
+} from "civaria";
 import { useInteractionManager, type ZoomLevel } from "../lib/interaction-manager";
 
 export interface ComposerAppBarProps {
@@ -31,7 +31,7 @@ export function ComposerAppBar({
   return (
     <TooltipProvider>
       <div
-        className="wui-composer__appbar"
+        className="civ-composer__appbar"
         role="toolbar"
         aria-label="Composer actions"
       >
@@ -69,7 +69,7 @@ export function ComposerAppBar({
             Redo <Kbd>{"\u2318"}{"\u21E7"}Z</Kbd>
           </TooltipContent>
         </Tooltip>
-        <span className="wui-composer__appbar-sep" aria-hidden="true" />
+        <span className="civ-composer__appbar-sep" aria-hidden="true" />
         <ToggleGroup
           type="single"
           size="sm"
@@ -86,7 +86,7 @@ export function ComposerAppBar({
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
-        <span className="wui-composer__appbar-sep" aria-hidden="true" />
+        <span className="civ-composer__appbar-sep" aria-hidden="true" />
         <ToggleGroup
           type="single"
           size="sm"
@@ -101,22 +101,22 @@ export function ComposerAppBar({
           <ToggleGroupItem value="light">Light</ToggleGroupItem>
           <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
         </ToggleGroup>
-        <span className="wui-composer__appbar-sep" aria-hidden="true" />
-        <label className="wui-composer__appbar-switch">
+        <span className="civ-composer__appbar-sep" aria-hidden="true" />
+        <label className="civ-composer__appbar-switch">
           <Switch
             checked={im.state.previewMode}
             onChange={(e) => im.setPreviewMode(e.currentTarget.checked)}
           />
           Preview
         </label>
-        <label className="wui-composer__appbar-switch">
+        <label className="civ-composer__appbar-switch">
           <Switch
             checked={im.state.rulers}
             onChange={(e) => im.setRulers(e.currentTarget.checked)}
           />
           Rulers
         </label>
-        <span className="wui-composer__appbar-spacer" />
+        <span className="civ-composer__appbar-spacer" />
         <Button size="sm" variant="outline" onClick={onOpenPalette}>
           Commands <Kbd>{"\u2318"}K</Kbd>
         </Button>

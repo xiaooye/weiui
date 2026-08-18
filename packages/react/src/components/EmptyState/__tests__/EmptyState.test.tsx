@@ -37,17 +37,17 @@ describe("EmptyState", () => {
   // E.15 size + illustration + orientation
   it("does not apply size class for default md", () => {
     const { container } = render(<EmptyState title="x" />);
-    expect((container.firstChild as HTMLElement).className).not.toContain("wui-empty-state--md");
+    expect((container.firstChild as HTMLElement).className).not.toContain("civ-empty-state--md");
   });
 
   it("applies sm size class", () => {
     const { container } = render(<EmptyState title="x" size="sm" />);
-    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--sm");
+    expect((container.firstChild as HTMLElement).className).toContain("civ-empty-state--sm");
   });
 
   it("applies lg size class", () => {
     const { container } = render(<EmptyState title="x" size="lg" />);
-    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--lg");
+    expect((container.firstChild as HTMLElement).className).toContain("civ-empty-state--lg");
   });
 
   it("renders illustration slot", () => {
@@ -59,18 +59,18 @@ describe("EmptyState", () => {
 
   it("does not render illustration wrapper when omitted", () => {
     const { container } = render(<EmptyState title="x" />);
-    expect(container.querySelector(".wui-empty-state__illustration")).not.toBeInTheDocument();
+    expect(container.querySelector(".civ-empty-state__illustration")).not.toBeInTheDocument();
   });
 
   it("applies horizontal orientation class", () => {
     const { container } = render(
       <EmptyState title="x" orientation="horizontal" />,
     );
-    expect((container.firstChild as HTMLElement).className).toContain("wui-empty-state--horizontal");
+    expect((container.firstChild as HTMLElement).className).toContain("civ-empty-state--horizontal");
   });
 
   it("does not apply horizontal class for default vertical", () => {
     const { container } = render(<EmptyState title="x" />);
-    expect((container.firstChild as HTMLElement).className).not.toContain("wui-empty-state--horizontal");
+    expect((container.firstChild as HTMLElement).className).not.toContain("civ-empty-state--horizontal");
   });
 });

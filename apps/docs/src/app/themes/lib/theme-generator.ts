@@ -64,13 +64,13 @@ function parseOklchLightness(color: string): number {
 
 function generateCss(colors: ThemeColors): string {
   return `:root {
-  --wui-color-primary: ${colors.primary};
-  --wui-color-primary-foreground: ${colors.primaryForeground};
-  --wui-color-background: ${colors.background};
-  --wui-color-foreground: ${colors.foreground};
-  --wui-color-muted: ${colors.muted};
-  --wui-color-muted-foreground: ${colors.mutedForeground};
-  --wui-color-border: ${colors.border};
-  --wui-color-ring: ${colors.ring};
+  --civ-color-primary: ${colors.primary};
+  --civ-color-primary-foreground: ${colors.primaryForeground};
+  --civ-color-background: ${colors.background};
+  --civ-color-foreground: ${colors.foreground};
+  --civ-color-muted: ${colors.muted};
+  --civ-color-muted-foreground: ${colors.mutedForeground};
+  --civ-color-border: ${colors.border};
+  --civ-color-ring: ${colors.ring};
 }`;
 }

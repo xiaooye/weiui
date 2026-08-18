@@ -1,6 +1,6 @@
 "use client";
 import { useId } from "react";
-import { Switch } from "@weiui/react";
+import { Switch } from "civaria";
 
 export interface ControlBoolProps {
   label: string;
@@ -12,11 +12,11 @@ export interface ControlBoolProps {
 export function ControlBool({ label, value, onChange, description }: ControlBoolProps) {
   const id = useId();
   return (
-    <div className="wui-field">
-      <label htmlFor={id} className="wui-label">
+    <div className="civ-field">
+      <label htmlFor={id} className="civ-label">
         {label}
       </label>
-      {description && <p className="wui-field__description">{description}</p>}
+      {description && <p className="civ-field__description">{description}</p>}
       <Switch
         id={id}
         checked={value}

@@ -1,96 +1,96 @@
-@layer wui-elements {
-  .wui-accordion {
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
-    box-shadow: var(--wui-elevation-2);
+@layer civ-elements {
+  .civ-accordion {
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
+    box-shadow: var(--civ-elevation-2);
     overflow: hidden;
   }
-  .wui-accordion__item {
-    border-block-end: 1px solid var(--wui-color-border);
+  .civ-accordion__item {
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-accordion__item:last-child {
+  .civ-accordion__item:last-child {
     border-block-end: none;
   }
-  .wui-accordion__trigger {
+  .civ-accordion__trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
     inline-size: 100%;
     min-block-size: 52px;
-    padding-block: var(--wui-spacing-3);
-    padding-inline: var(--wui-spacing-4);
+    padding-block: var(--civ-spacing-3);
+    padding-inline: var(--civ-spacing-4);
     background: none;
     border: none;
     cursor: pointer;
-    font-size: var(--wui-font-size-sm);
-    font-weight: var(--wui-font-weight-medium);
-    color: var(--wui-color-foreground);
+    font-size: var(--civ-font-size-sm);
+    font-weight: var(--civ-font-weight-medium);
+    color: var(--civ-color-foreground);
     text-align: start;
   }
-  .wui-accordion__trigger:hover {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 8%, transparent);
-    color: var(--wui-color-primary);
+  .civ-accordion__trigger:hover {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 8%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-accordion__trigger[aria-expanded="true"] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 15%, transparent);
-    color: var(--wui-color-primary);
+  .civ-accordion__trigger[aria-expanded="true"] {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 15%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-accordion__trigger:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-accordion__trigger:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: -3px;
   }
-  .wui-accordion__icon {
+  .civ-accordion__icon {
     flex-shrink: 0;
   }
-  .wui-accordion__trigger[aria-expanded="true"] .wui-accordion__icon {
+  .civ-accordion__trigger[aria-expanded="true"] .civ-accordion__icon {
     transform: rotate(180deg);
   }
   /*
    * Animated expand — grid-template-rows 0fr→1fr pattern.
-   * The outer `.wui-accordion__content` is the grid container; the inner
-   * `.wui-accordion__content-inner` is the single row. Animating the track
+   * The outer `.civ-accordion__content` is the grid container; the inner
+   * `.civ-accordion__content-inner` is the single row. Animating the track
    * size gives a smooth height transition without knowing the content height.
    */
-  .wui-accordion__content {
+  .civ-accordion__content {
     display: grid;
     grid-template-rows: 1fr;
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-accordion__content-inner {
+  .civ-accordion__content-inner {
     overflow: hidden;
     min-block-size: 0;
-    padding-block: var(--wui-spacing-3);
-    padding-inline: var(--wui-spacing-4);
+    padding-block: var(--civ-spacing-3);
+    padding-inline: var(--civ-spacing-4);
   }
-  .wui-accordion__content[data-state="closed"] {
+  .civ-accordion__content[data-state="closed"] {
     grid-template-rows: 0fr;
   }
-  .wui-accordion__content[data-state="closed"] .wui-accordion__content-inner {
+  .civ-accordion__content[data-state="closed"] .civ-accordion__content-inner {
     padding-block: 0;
     visibility: hidden;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-accordion__trigger {
+    .civ-accordion__trigger {
       transition-property: background-color, color;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-accordion__icon {
+    .civ-accordion__icon {
       transition-property: transform;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-accordion__content {
+    .civ-accordion__content {
       transition-property: grid-template-rows;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-accordion__content-inner {
+    .civ-accordion__content-inner {
       transition-property: padding-block, visibility;
-      transition-duration: var(--wui-motion-duration-base);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-base);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }

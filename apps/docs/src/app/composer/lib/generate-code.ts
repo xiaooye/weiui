@@ -53,8 +53,8 @@ function groupImports(
 function emitImports(byPath: Map<string, string[]>): string {
   // Main barrel first, then subpaths alphabetised.
   const entries = Array.from(byPath.entries()).sort(([a], [b]) => {
-    const aIsBarrel = a === "@weiui/react";
-    const bIsBarrel = b === "@weiui/react";
+    const aIsBarrel = a === "civaria";
+    const bIsBarrel = b === "civaria";
     if (aIsBarrel && !bIsBarrel) return -1;
     if (!aIsBarrel && bIsBarrel) return 1;
     return a.localeCompare(b);
@@ -180,51 +180,51 @@ const HTML_TAG_MAP: Record<string, string> = {
 };
 
 const HTML_CLASS_MAP: Record<string, string> = {
-  Button: "wui-button wui-button--solid",
-  Input: "wui-input",
-  Textarea: "wui-textarea",
-  Card: "wui-card",
-  Badge: "wui-badge wui-badge--solid",
-  Chip: "wui-chip",
-  Avatar: "wui-avatar",
-  Alert: "wui-alert",
-  Divider: "wui-divider",
-  Heading: "wui-heading",
-  Text: "wui-text",
-  Stack: "wui-stack",
-  Container: "wui-container",
-  Grid: "wui-grid",
-  Link: "wui-link",
-  Spinner: "wui-spinner",
-  ProgressBar: "wui-progress",
-  EmptyState: "wui-empty-state",
-  Field: "wui-field",
-  Label: "wui-label",
-  Code: "wui-code",
-  Kbd: "wui-kbd",
-  Tabs: "wui-tabs",
-  Breadcrumb: "wui-breadcrumb",
-  Pagination: "wui-pagination",
-  AppBar: "wui-app-bar",
-  BottomNav: "wui-bottom-nav",
-  Sidebar: "wui-sidebar",
-  Stepper: "wui-stepper",
-  Menu: "wui-menu",
-  Spacer: "wui-spacer",
-  AspectRatio: "wui-aspect-ratio",
-  Splitter: "wui-splitter",
-  Accordion: "wui-accordion",
-  VisuallyHidden: "wui-visually-hidden",
-  Timeline: "wui-timeline",
-  TreeView: "wui-tree-view",
-  Transfer: "wui-transfer",
-  Skeleton: "wui-skeleton",
-  ToggleGroup: "wui-toggle-group",
-  ButtonGroup: "wui-button-group",
-  SpeedDial: "wui-speed-dial",
-  Toast: "wui-toast",
-  Checkbox: "wui-checkbox",
-  Switch: "wui-switch",
+  Button: "civ-button civ-button--solid",
+  Input: "civ-input",
+  Textarea: "civ-textarea",
+  Card: "civ-card",
+  Badge: "civ-badge civ-badge--solid",
+  Chip: "civ-chip",
+  Avatar: "civ-avatar",
+  Alert: "civ-alert",
+  Divider: "civ-divider",
+  Heading: "civ-heading",
+  Text: "civ-text",
+  Stack: "civ-stack",
+  Container: "civ-container",
+  Grid: "civ-grid",
+  Link: "civ-link",
+  Spinner: "civ-spinner",
+  ProgressBar: "civ-progress",
+  EmptyState: "civ-empty-state",
+  Field: "civ-field",
+  Label: "civ-label",
+  Code: "civ-code",
+  Kbd: "civ-kbd",
+  Tabs: "civ-tabs",
+  Breadcrumb: "civ-breadcrumb",
+  Pagination: "civ-pagination",
+  AppBar: "civ-app-bar",
+  BottomNav: "civ-bottom-nav",
+  Sidebar: "civ-sidebar",
+  Stepper: "civ-stepper",
+  Menu: "civ-menu",
+  Spacer: "civ-spacer",
+  AspectRatio: "civ-aspect-ratio",
+  Splitter: "civ-splitter",
+  Accordion: "civ-accordion",
+  VisuallyHidden: "civ-visually-hidden",
+  Timeline: "civ-timeline",
+  TreeView: "civ-tree-view",
+  Transfer: "civ-transfer",
+  Skeleton: "civ-skeleton",
+  ToggleGroup: "civ-toggle-group",
+  ButtonGroup: "civ-button-group",
+  SpeedDial: "civ-speed-dial",
+  Toast: "civ-toast",
+  Checkbox: "civ-checkbox",
+  Switch: "civ-switch",
 };
 
 const HTML_VOID_TAGS = new Set(["input", "hr", "br", "img"]);
@@ -300,7 +300,7 @@ function renderNodeHtml(node: ComponentNode, depth: number): string {
   const indent = "  ".repeat(depth);
 
   if (NO_HTML_EQUIVALENT.has(node.type)) {
-    return `${indent}<!-- ${node.type}: no plain-HTML equivalent. Use @weiui/react. -->`;
+    return `${indent}<!-- ${node.type}: no plain-HTML equivalent. Use civaria. -->`;
   }
 
   const tag = HTML_TAG_MAP[node.type] ?? "div";
@@ -310,7 +310,7 @@ function renderNodeHtml(node: ComponentNode, depth: number): string {
   let classAttr = cls;
   if (node.type === "Stack") {
     const dir = (node.props.direction as string | undefined) ?? "column";
-    classAttr = `${cls} wui-stack--${dir === "row" ? "row" : "column"}`.trim();
+    classAttr = `${cls} civ-stack--${dir === "row" ? "row" : "column"}`.trim();
   }
 
   const attrs: string[] = [];
@@ -355,8 +355,8 @@ function generateHtml(tree: ComponentNode[]): string {
     "<head>",
     '  <meta charset="utf-8" />',
     '  <meta name="viewport" content="width=device-width, initial-scale=1" />',
-    "  <title>WeiUI Composition</title>",
-    '  <link rel="stylesheet" href="https://weiui.dev/weiui.min.css" />',
+    "  <title>Civaria Composition</title>",
+    '  <link rel="stylesheet" href="https://civaria.dev/civaria.min.css" />',
     "</head>",
     "<body>",
     body,
@@ -393,11 +393,11 @@ export interface SchemaLike {
 export function makeSchemaResolver(schemas: SchemaLike[]): ImportResolver {
   const map = new Map<string, string>();
   for (const s of schemas) {
-    map.set(s.name, s.subpathImport ?? s.importPath ?? "@weiui/react");
+    map.set(s.name, s.subpathImport ?? s.importPath ?? "civaria");
   }
   return {
     resolveImport(name: string): string {
-      return map.get(name) ?? "@weiui/react";
+      return map.get(name) ?? "civaria";
     },
   };
 }

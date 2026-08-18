@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  CommandPalette as WeiUICommandPalette,
+  CommandPalette as CivariaCommandPalette,
   type CommandItem,
-} from "@weiui/react";
+} from "civaria";
 import type { SearchEntry } from "../../lib/search-index";
 
 interface CommandPaletteProps {
@@ -42,7 +42,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   );
 
   return (
-    <WeiUICommandPalette
+    <CivariaCommandPalette
       id="docs-search"
       open={open}
       onOpenChange={(next) => {

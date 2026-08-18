@@ -65,7 +65,7 @@ describe("WysiwygCanvas", () => {
     expect(getApi().state.selection.primary).toBe("seed-id");
 
     const stage = container.querySelector<HTMLElement>(
-      ".wui-composer__stage",
+      ".civ-composer__stage",
     );
     expect(stage).not.toBeNull();
     act(() => {
@@ -77,7 +77,7 @@ describe("WysiwygCanvas", () => {
   it("applies the viewport preset as maxInlineSize on the stage", () => {
     const { container, getApi } = renderWithProvider([]);
     const stage = container.querySelector<HTMLElement>(
-      ".wui-composer__stage",
+      ".civ-composer__stage",
     )!;
     act(() => {
       getApi().setViewport("375");

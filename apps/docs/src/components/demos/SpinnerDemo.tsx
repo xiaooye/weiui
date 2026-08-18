@@ -1,6 +1,6 @@
 "use client";
 
-import { Spinner } from "@weiui/react";
+import { Spinner } from "civaria";
 
 export function SpinnerDemo() {
   return (
@@ -8,7 +8,7 @@ export function SpinnerDemo() {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
       }}
     >
       <Spinner size="sm" label="Loading small" />

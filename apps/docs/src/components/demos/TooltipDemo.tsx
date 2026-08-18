@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "@weiui/react";
+import { Button, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from "civaria";
 
 export function TooltipDemo() {
   return (
@@ -12,11 +12,11 @@ export function TooltipDemo() {
       </TooltipTrigger>
       <TooltipContent
         style={{
-          background: "var(--wui-color-foreground)",
-          color: "var(--wui-color-background)",
-          padding: "var(--wui-spacing-1) var(--wui-spacing-2)",
-          borderRadius: "var(--wui-shape-radius-sm)",
-          fontSize: "var(--wui-font-size-xs)",
+          background: "var(--civ-color-foreground)",
+          color: "var(--civ-color-background)",
+          padding: "var(--civ-spacing-1) var(--civ-spacing-2)",
+          borderRadius: "var(--civ-shape-radius-sm)",
+          fontSize: "var(--civ-font-size-xs)",
           zIndex: 1000,
         }}
       >

@@ -9,7 +9,7 @@
 
 ## 1. Goal
 
-Finish the two interactive tool pages (`/playground` and `/composer`) so they actually exercise the full WeiUI library rather than a 5–9 component slice, emit production-ready code (with correct imports including heavy-component subpaths), support nesting, and persist state across reloads. Today both pages are ~15–20% complete: scaffolding is in place but 80% of components render as `<Text>name</Text>` placeholders, generated code has no import statements, and reloading the page resets all state.
+Finish the two interactive tool pages (`/playground` and `/composer`) so they actually exercise the full Civaria library rather than a 5–9 component slice, emit production-ready code (with correct imports including heavy-component subpaths), support nesting, and persist state across reloads. Today both pages are ~15–20% complete: scaffolding is in place but 80% of components render as `<Text>name</Text>` placeholders, generated code has no import statements, and reloading the page resets all state.
 
 **The test for "finished":**
 - A user can pick any of 65 components in Playground, tweak every documented prop, copy paste-ready code into a fresh project, and have it compile.
@@ -33,9 +33,9 @@ Finish the two interactive tool pages (`/playground` and `/composer`) so they ac
 
 **Composer** — real 2D page builder (NOT a vertical tree editor):
 - All 65 components renderable in the canvas (not just 9).
-- **True 2D layout via structural primitives** — components arrange horizontally AND vertically using WeiUI's existing `Stack` (direction `row | column`), `Grid` (columns, gap), and `Container` as the composition primitives. No free x/y positioning; all layouts compile to responsive flex/grid.
+- **True 2D layout via structural primitives** — components arrange horizontally AND vertically using Civaria's existing `Stack` (direction `row | column`), `Grid` (columns, gap), and `Container` as the composition primitives. No free x/y positioning; all layouts compile to responsive flex/grid.
 - **Edge-aware drag-and-drop** — dropping a palette item (or moving an existing node) onto another component shows **4 drop zones** (top / right / bottom / left) + **1 center zone** (insert as child of a container). Dropping left/right on a row-direction Stack inserts as sibling in that direction; dropping top/bottom does the same for column-direction. Dropping on a leaf auto-wraps both the target and the dragged item in a new Stack with inferred direction.
-- **WYSIWYG canvas** — the canvas IS a live render of the tree using real WeiUI components. What you see is what the exported code renders. Selection outlines draw over the real DOM.
+- **WYSIWYG canvas** — the canvas IS a live render of the tree using real Civaria components. What you see is what the exported code renders. Selection outlines draw over the real DOM.
 - **Inline layout editing** — selecting a `Stack`, `Grid`, or `Container` exposes direct-manipulation controls for `direction`, `gap`, `align`, `justify`, `columns` without leaving the canvas (overlay chips rendered next to the selection outline). Click the direction chip to toggle row↔column.
 - **Responsive breakpoint presets** — canvas width selector (375 / 768 / 1024 / 1280 / full) to preview how the layout reflows. No breakpoint-specific props editing in v1 (roadmap).
 - Nested component hierarchy (Card can contain Stack containing Button + Text + Field — unlimited depth).
@@ -110,7 +110,7 @@ interface ComponentSchema {
   name: string;
   category: string;
   description: string;
-  importPath: string;         // "@weiui/react" or subpath
+  importPath: string;         // "civaria" or subpath
   subpathImport: string | null;
   dependencies: string[];
   props: PropSchema[];        // { name, type, default?, required?, description }
@@ -153,7 +153,7 @@ Both pages share `render-component.tsx`:
 
 ```tsx
 // Accepts a ComponentNode or a Playground-state slice; renders the real React
-// component from @weiui/react (or subpath for heavy ones). Dynamic-import heavy
+// component from civaria (or subpath for heavy ones). Dynamic-import heavy
 // components (Editor, DataTable, Chart) to keep initial-load bundle small.
 function renderNode(node: ComponentNode): ReactNode;
 ```
@@ -175,8 +175,8 @@ function generateCode(root: ComponentNode | ComponentNode[], opts: GenerateCodeO
 ```
 
 Behaviors:
-- **JSX/TSX:** emits `import { Button, Dialog } from "@weiui/react";` grouped by path; heavy components go to their subpath (`import { Editor } from "@weiui/react/editor";`). Props serialize correctly (`disabled={true}`, `value={5}`, `label="Email"`). Falsy/default props filtered out. When `componentWrap=true`, wraps in `export default function Composition() { return (...) }`.
-- **HTML:** emits a standalone `<!DOCTYPE html>` snippet with CDN links to the CSS bundle (`https://weiui.dev/weiui.min.css`) + appropriate classes (`wui-button wui-button--solid`). Useful for non-React consumers.
+- **JSX/TSX:** emits `import { Button, Dialog } from "civaria";` grouped by path; heavy components go to their subpath (`import { Editor } from "civaria/editor";`). Props serialize correctly (`disabled={true}`, `value={5}`, `label="Email"`). Falsy/default props filtered out. When `componentWrap=true`, wraps in `export default function Composition() { return (...) }`.
+- **HTML:** emits a standalone `<!DOCTYPE html>` snippet with CDN links to the CSS bundle (`https://civaria.dev/civaria.min.css`) + appropriate classes (`civ-button civ-button--solid`). Useful for non-React consumers.
 
 Imports come from the registry JSON's `importPath` + `subpathImport` fields — no hardcoded heavy-component list in the code-gen.
 
@@ -221,7 +221,7 @@ Imports come from the registry JSON's `importPath` + `subpathImport` fields — 
    - `number` → `ControlNumber` (input + optional slider when min/max known).
    - `string` → `ControlString` (text input; textarea if type mentions `ReactNode`).
    - `ReactNode` (common for `children`) → `ControlReactNode` (text input that wraps in `<>{…}</>`).
-   - Color token patterns → `ControlColor` (WeiUI `ColorPicker`).
+   - Color token patterns → `ControlColor` (Civaria `ColorPicker`).
    - Object → `ControlObject` (JSON textarea with live validation).
    - Unknown → `ControlString` fallback.
    Defaults from `PropSchema.default` are pre-filled.
@@ -316,7 +316,7 @@ The canvas shows the **real rendered output** (WYSIWYG). Below the canvas, a tab
 
 1. **Palette** — same category structure as Playground's selector. Drag handle on each item (HTML5 native drag). Click-to-add fallback for accessibility (inserts as sibling of current selection or last root child).
 
-2. **WYSIWYG canvas** — the canvas renders the tree using real WeiUI components in a container sized to the chosen viewport preset. Each rendered node gets a dev-only invisible overlay (`<div className="wui-composer__node-hit">`) absolutely positioned over it via `getBoundingClientRect`, capturing pointer events for selection + drop. This keeps the real DOM (and layout) intact while letting Composer intercept interactions.
+2. **WYSIWYG canvas** — the canvas renders the tree using real Civaria components in a container sized to the chosen viewport preset. Each rendered node gets a dev-only invisible overlay (`<div className="civ-composer__node-hit">`) absolutely positioned over it via `getBoundingClientRect`, capturing pointer events for selection + drop. This keeps the real DOM (and layout) intact while letting Composer intercept interactions.
 
 3. **Edge-aware drag-and-drop:**
    - Palette → canvas: hover over any rendered node. The overlay shows **4 edge strips + 1 center** drop zones. The zone that the pointer is over highlights (thin primary bar on the edge, or center area lights up for containers). Drop there to insert.
@@ -387,7 +387,7 @@ The spec is done when:
 1. **Coverage** — every one of 65 components is selectable in Playground, renderable in Composer. No `<Text>{name}</Text>` placeholder fallback anywhere.
 2. **Prop controls** — for each component, every prop listed in its registry JSON has an appropriate control (string/number/bool/enum/color/object/ReactNode). No raw text input as the sole fallback for non-string props.
 3. **Code generation correctness** — copied code compiles in a fresh project:
-   - All needed imports present, grouped by module, subpath-aware (`@weiui/react/editor`, etc.).
+   - All needed imports present, grouped by module, subpath-aware (`civaria/editor`, etc.).
    - Boolean props serialize as `disabled={true}` not bare `disabled` when explicit.
    - String literal unions quote correctly.
    - Nested children emit proper indentation (2 spaces per level).
@@ -399,7 +399,7 @@ The spec is done when:
 9. **CodeSandbox/StackBlitz export** — clicking "Open in …" opens a new tab with the compositor tree running.
 10. **Performance** — Playground state update → preview paint < 80 ms. Composer tree update (add/move/delete) < 50 ms up to 200 nodes.
 11. **Tests** — unit tests for tree reducer, code-gen (including subpath imports, props serialization, nesting), state serialization. Playwright e2e: select-Dialog-tweak-props-copy-code (Playground); drag-three-components-export-code (Composer).
-12. **Docs build** — `pnpm --filter @weiui/docs build` produces clean HTML for both pages (no hydration errors).
+12. **Docs build** — `pnpm --filter @civaria/docs build` produces clean HTML for both pages (no hydration errors).
 
 ---
 
@@ -423,7 +423,7 @@ The spec is done when:
 | Drag-and-drop library bloat | Use native HTML5 DnD via a thin wrapper (~1 KB) instead of `react-dnd`. Only reach for `react-dnd` if nested-drop logic requires it. |
 | State serialization hits URL length limits | Cap `?p=` (props) at 4 KB; beyond that, fall back to localStorage-only and show a warning. Tree serialization limit at 8 KB; beyond, switch to localStorage. |
 | CodeSandbox/StackBlitz API breakage | Fall back to downloadable `.zip` bundle if POST fails; log telemetry. |
-| Registry JSON drifts from implementation (Prop exists in code but not in JSON, or vice versa) | Already mitigated by AI-first Task 2 — generator parses the actual TS AST. Add a CI check that runs `pnpm --filter @weiui/docs build` + verifies registry JSON contains an entry per `packages/react/src/components/*` folder. |
+| Registry JSON drifts from implementation (Prop exists in code but not in JSON, or vice versa) | Already mitigated by AI-first Task 2 — generator parses the actual TS AST. Add a CI check that runs `pnpm --filter @civaria/docs build` + verifies registry JSON contains an entry per `packages/react/src/components/*` folder. |
 | Prop-control library bloat | The 7 controls are tiny (~50 LOC each). Share with docs `/docs/tokens` page or any other doc pages needing prop inputs. |
 | Nesting creates invalid compositions (e.g., `<Button>` containing `<Dialog>`) | Add an optional `allowedParents` / `allowedChildren` field to `ComponentSchema` (future; not v1). For v1: allow any nesting; if invalid, user sees a runtime error in preview and can fix. |
 
@@ -446,4 +446,4 @@ Ten tasks, each shipping incrementally usable output:
 9. **Composer: keyboard shortcuts + full-file code export + template gallery.** Production-ready export.
 10. **Composer: CodeSandbox / StackBlitz integration + final verification + E2E tests.**
 
-Each task ends with `pnpm build && pnpm test && pnpm --filter @weiui/docs build` green. The plan file spells out bite-sized TDD steps per task.
+Each task ends with `pnpm build && pnpm test && pnpm --filter @civaria/docs build` green. The plan file spells out bite-sized TDD steps per task.

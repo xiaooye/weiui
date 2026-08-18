@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode } from "react";
-import { createComboboxController } from "@weiui/core";
+import { createComboboxController } from "@civaria/core";
 import { useCoreController, useLatest } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { ComboboxContext } from "./ComboboxContext";

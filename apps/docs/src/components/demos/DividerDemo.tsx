@@ -1,6 +1,6 @@
 "use client";
 
-import { Divider, Stack } from "@weiui/react";
+import { Divider, Stack } from "civaria";
 
 export function DividerDemo() {
   return (
@@ -8,9 +8,9 @@ export function DividerDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Horizontal divider:
@@ -23,9 +23,9 @@ export function DividerDemo() {
       <div>
         <p
           style={{
-            margin: "0 0 var(--wui-spacing-2)",
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            margin: "0 0 var(--civ-spacing-2)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Vertical divider in a row:

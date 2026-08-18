@@ -9,7 +9,7 @@ import {
   BreadcrumbItem,
   BreadcrumbSeparator,
   Link,
-} from "@weiui/react";
+} from "civaria";
 
 const MAX_VISIBLE = 4;
 
@@ -44,7 +44,7 @@ export function Breadcrumbs() {
     : crumbs;
 
   return (
-    <Breadcrumb className="wui-docs-breadcrumbs">
+    <Breadcrumb className="civ-docs-breadcrumbs">
       {visibleCrumbs.map((item, idx) => {
         const isLast = idx === visibleCrumbs.length - 1;
         if (item === "ellipsis") {

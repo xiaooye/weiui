@@ -111,13 +111,13 @@ describe("SpeedDial P1 additions", () => {
     render(<SpeedDial actions={actions} />);
     const root = screen.getByRole("group", { name: /speed dial/i });
     expect(root).toHaveAttribute("data-direction", "up");
-    expect(root.className).toMatch(/wui-speed-dial--up/);
+    expect(root.className).toMatch(/civ-speed-dial--up/);
   });
 
   it.each([
-    ["down" as const, "wui-speed-dial--down"],
-    ["left" as const, "wui-speed-dial--left"],
-    ["right" as const, "wui-speed-dial--right"],
+    ["down" as const, "civ-speed-dial--down"],
+    ["left" as const, "civ-speed-dial--left"],
+    ["right" as const, "civ-speed-dial--right"],
   ])("direction=%s applies class %s", (direction, cls) => {
     render(<SpeedDial actions={actions} direction={direction} />);
     const root = screen.getByRole("group", { name: /speed dial/i });
@@ -206,14 +206,14 @@ describe("SpeedDial P1 additions", () => {
     expect(root).toHaveAttribute("data-state", "open");
   });
 
-  it("each action exposes its index via --wui-speed-dial-index", async () => {
+  it("each action exposes its index via --civ-speed-dial-index", async () => {
     const user = userEvent.setup();
     render(<SpeedDial actions={actions} />);
     await user.click(screen.getByRole("button", { name: /open actions/i }));
     const add = screen.getByRole("menuitem", { name: "Add" });
     const edit = screen.getByRole("menuitem", { name: "Edit" });
-    expect(add.style.getPropertyValue("--wui-speed-dial-index")).toBe("0");
-    expect(edit.style.getPropertyValue("--wui-speed-dial-index")).toBe("1");
+    expect(add.style.getPropertyValue("--civ-speed-dial-index")).toBe("0");
+    expect(edit.style.getPropertyValue("--civ-speed-dial-index")).toBe("1");
   });
 
   it("each action has a tooltip with matching label", async () => {

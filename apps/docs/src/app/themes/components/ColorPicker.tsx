@@ -8,7 +8,7 @@ import {
   Slider,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 
 interface Props {
   hue: number;
@@ -30,7 +30,7 @@ export function ColorPicker({ hue, saturation, onHueChange, onSaturationChange }
       <CardContent>
         <Stack direction="column" gap={4}>
           <div
-            className="wui-theme-swatch"
+            className="civ-theme-swatch"
             role="img"
             aria-label={`Preview color ${color}`}
             style={{ backgroundColor: color }}

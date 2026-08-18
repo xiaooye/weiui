@@ -1,64 +1,64 @@
 /* packages/css/src/elements/empty-state.css */
-@layer wui-elements {
-  .wui-empty-state {
+@layer civ-elements {
+  .civ-empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--wui-spacing-8);
-    gap: var(--wui-spacing-3);
+    padding: var(--civ-spacing-8);
+    gap: var(--civ-spacing-3);
   }
 
-  .wui-empty-state__body {
+  .civ-empty-state__body {
     display: flex;
     flex-direction: column;
     align-items: inherit;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
 
-  .wui-empty-state__illustration {
+  .civ-empty-state__illustration {
     display: flex; align-items: center; justify-content: center;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
   }
 
-  .wui-empty-state__icon {
-    color: var(--wui-color-muted-foreground);
+  .civ-empty-state__icon {
+    color: var(--civ-color-muted-foreground);
   }
 
-  .wui-empty-state__title {
-    font-size: var(--wui-font-size-lg);
-    font-weight: var(--wui-font-weight-semibold);
-    line-height: var(--wui-font-lineHeight-tight);
+  .civ-empty-state__title {
+    font-size: var(--civ-font-size-lg);
+    font-weight: var(--civ-font-weight-semibold);
+    line-height: var(--civ-font-lineHeight-tight);
     margin: 0;
   }
 
-  .wui-empty-state__description {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-muted-foreground);
+  .civ-empty-state__description {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-muted-foreground);
     margin: 0;
   }
 
-  .wui-empty-state__action {
-    margin-block-start: var(--wui-spacing-2);
+  .civ-empty-state__action {
+    margin-block-start: var(--civ-spacing-2);
   }
 
-  .wui-empty-state--sm {
-    padding: var(--wui-spacing-4);
-    gap: var(--wui-spacing-2);
+  .civ-empty-state--sm {
+    padding: var(--civ-spacing-4);
+    gap: var(--civ-spacing-2);
   }
-  .wui-empty-state--sm .wui-empty-state__title { font-size: var(--wui-font-size-base); }
+  .civ-empty-state--sm .civ-empty-state__title { font-size: var(--civ-font-size-base); }
 
-  .wui-empty-state--lg {
-    padding: var(--wui-spacing-12);
-    gap: var(--wui-spacing-4);
+  .civ-empty-state--lg {
+    padding: var(--civ-spacing-12);
+    gap: var(--civ-spacing-4);
   }
-  .wui-empty-state--lg .wui-empty-state__title { font-size: var(--wui-font-size-xl); }
+  .civ-empty-state--lg .civ-empty-state__title { font-size: var(--civ-font-size-xl); }
 
-  .wui-empty-state--horizontal {
+  .civ-empty-state--horizontal {
     flex-direction: row;
     align-items: center;
     text-align: start;
-    gap: var(--wui-spacing-4);
+    gap: var(--civ-spacing-4);
   }
 }

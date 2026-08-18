@@ -7,7 +7,7 @@ import {
   CardFooter,
   Button,
   toast,
-} from "@weiui/react";
+} from "civaria";
 
 export function CardDemo() {
   return (
@@ -19,8 +19,8 @@ export function CardDemo() {
         <p
           style={{
             margin: 0,
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Your build finished in 3.2s. All 128 tests passed.

@@ -17,7 +17,7 @@ export const AppBar = forwardRef<HTMLElement, AppBarProps>(
   ({ className, children, position = "sticky", color = "surface", ...props }, ref) => (
     <header
       ref={ref}
-      className={cn("wui-app-bar", className)}
+      className={cn("civ-app-bar", className)}
       data-position={position}
       data-color={color}
       {...props}
@@ -30,14 +30,14 @@ AppBar.displayName = "AppBar";
 
 export const AppBarBrand = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-app-bar__brand", className)} {...props} />
+    <div ref={ref} className={cn("civ-app-bar__brand", className)} {...props} />
   ),
 );
 AppBarBrand.displayName = "AppBarBrand";
 
 export const AppBarNav = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => (
-    <nav ref={ref} className={cn("wui-app-bar__nav", className)} {...props} />
+    <nav ref={ref} className={cn("civ-app-bar__nav", className)} {...props} />
   ),
 );
 AppBarNav.displayName = "AppBarNav";
@@ -52,7 +52,7 @@ export const AppBarLink = forwardRef<HTMLButtonElement, AppBarLinkProps>(
     <button
       ref={ref}
       type="button"
-      className={cn("wui-app-bar__link", className)}
+      className={cn("civ-app-bar__link", className)}
       data-active={active || undefined}
       aria-current={active ? "page" : undefined}
       {...props}
@@ -63,7 +63,7 @@ AppBarLink.displayName = "AppBarLink";
 
 export const AppBarActions = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("wui-app-bar__actions", className)} {...props} />
+    <div ref={ref} className={cn("civ-app-bar__actions", className)} {...props} />
   ),
 );
 AppBarActions.displayName = "AppBarActions";

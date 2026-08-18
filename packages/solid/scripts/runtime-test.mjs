@@ -16,12 +16,12 @@ try {
   const runtime = await import(`${pathToFileURL(temp).href}?runtime=${Date.now()}`);
   const items = [{ value: "one", label: "One", content: "Panel one" }, { value: "two", label: "Two", content: "Panel two" }];
   const button = renderToString(() => runtime.Button({ variant: "solid", children: "Save" }));
-  assert.match(button, /data-wui-component="button"/);
+  assert.match(button, /data-civaria-component="button"/);
   const tabs = renderToString(() => runtime.Tabs({ items, value: "one" }));
-  assert.match(tabs, /data-wui-component="tabs"/);
+  assert.match(tabs, /data-civaria-component="tabs"/);
   assert.match(tabs, /aria-selected="true"/);
   const select = renderToString(() => runtime.Select({ items, value: "two", name: "choice", required: true }));
-  assert.match(select, /data-wui-component="select"/);
+  assert.match(select, /data-civaria-component="select"/);
   assert.match(select, /name="choice"/);
 } finally { await unlink(temp).catch(() => {}); }
 console.log("Solid compiler + native SSR contract: OK");

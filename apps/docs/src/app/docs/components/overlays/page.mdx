@@ -21,14 +21,14 @@ A modal overlay that traps focus and blocks interaction with the page behind it.
   DialogContent,
   DialogTitle,
   DialogClose,
-} from "@weiui/react";
+} from "civaria";
 
 <Dialog>
-  <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
+  <DialogTrigger className="civ-button civ-button--solid">Open</DialogTrigger>
   <DialogContent>
     <DialogTitle>Confirm Action</DialogTitle>
     <p>Are you sure you want to proceed?</p>
-    <DialogClose className="wui-button wui-button--outline">Cancel</DialogClose>
+    <DialogClose className="civ-button civ-button--outline">Cancel</DialogClose>
   </DialogContent>
 </Dialog>`}
 >
@@ -42,14 +42,14 @@ import {
   DialogContent,
   DialogTitle,
   DialogClose,
-} from "@weiui/react";
+} from "civaria";
 
 <Dialog>
-  <DialogTrigger className="wui-button wui-button--solid">Open</DialogTrigger>
+  <DialogTrigger className="civ-button civ-button--solid">Open</DialogTrigger>
   <DialogContent>
     <DialogTitle>Confirm Action</DialogTitle>
     <p>Are you sure you want to proceed?</p>
-    <DialogClose className="wui-button wui-button--outline">Cancel</DialogClose>
+    <DialogClose className="civ-button civ-button--outline">Cancel</DialogClose>
   </DialogContent>
 </Dialog>
 ```
@@ -83,11 +83,11 @@ Shows contextual information on hover or keyboard focus. The trigger gets `aria-
 </Preview>
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent } from "@weiui/react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "civaria";
 
 <Tooltip>
   <TooltipTrigger>
-    <button className="wui-button wui-button--ghost">Hover me</button>
+    <button className="civ-button civ-button--ghost">Hover me</button>
   </TooltipTrigger>
   <TooltipContent>Helpful information</TooltipContent>
 </Tooltip>
@@ -121,13 +121,13 @@ An interactive overlay positioned relative to its trigger. Popover is fully cont
 
 <Preview
   label="Popover"
-  code={`import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+  code={`import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "civaria";
 
 <Popover side="bottom" align="end">
-  <PopoverTrigger className="wui-button wui-button--outline">Settings</PopoverTrigger>
+  <PopoverTrigger className="civ-button civ-button--outline">Settings</PopoverTrigger>
   <PopoverContent>
     <p>Popover content here</p>
-    <PopoverClose className="wui-button wui-button--ghost">Close</PopoverClose>
+    <PopoverClose className="civ-button civ-button--ghost">Close</PopoverClose>
   </PopoverContent>
 </Popover>`}
 >
@@ -135,14 +135,14 @@ An interactive overlay positioned relative to its trigger. Popover is fully cont
 </Preview>
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "@weiui/react";
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "civaria";
 
 // Uncontrolled
 <Popover side="bottom" align="end">
-  <PopoverTrigger className="wui-button wui-button--outline">Settings</PopoverTrigger>
+  <PopoverTrigger className="civ-button civ-button--outline">Settings</PopoverTrigger>
   <PopoverContent>
     <p>Popover content here</p>
-    <PopoverClose className="wui-button wui-button--ghost">Close</PopoverClose>
+    <PopoverClose className="civ-button civ-button--ghost">Close</PopoverClose>
   </PopoverContent>
 </Popover>
 
@@ -181,10 +181,10 @@ Dropdown menu with rich keyboard support including typeahead.
 </Preview>
 
 ```tsx
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from "civaria";
 
 <Menu>
-  <MenuTrigger className="wui-button wui-button--outline">File</MenuTrigger>
+  <MenuTrigger className="civ-button civ-button--outline">File</MenuTrigger>
   <MenuContent>
     <MenuItem onSelect={() => newFile()}>New file</MenuItem>
     <MenuItem onSelect={() => open()}>Open…</MenuItem>

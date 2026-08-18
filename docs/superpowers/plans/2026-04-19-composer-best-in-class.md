@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Refactor `/composer` into a Framer/Webflow-quality page builder that is a live showcase of `@weiui/react` primitives (CommandPalette · Menu · Breadcrumb · Popover · Splitter · TreeView · Toast · Drawer · Dialog · Tooltip · Kbd).
+**Goal:** Refactor `/composer` into a Framer/Webflow-quality page builder that is a live showcase of `civaria` primitives (CommandPalette · Menu · Breadcrumb · Popover · Splitter · TreeView · Toast · Drawer · Dialog · Tooltip · Kbd).
 
-**Architecture:** One `useInteractionManager()` hook (React context + `useReducer`) owns selection / clipboard / drag / palette / menu / preview state. HTML5 `dataTransfer` is replaced with a pointer-first drag primitive + `<Portal>`-mounted ghost — eliminating the null-dataTransfer crash class. Canvas and Outline are thin views reading from the same store, so selection stays in sync. All chrome uses WeiUI components (no hand-rolled widgets when a primitive exists).
+**Architecture:** One `useInteractionManager()` hook (React context + `useReducer`) owns selection / clipboard / drag / palette / menu / preview state. HTML5 `dataTransfer` is replaced with a pointer-first drag primitive + `<Portal>`-mounted ghost — eliminating the null-dataTransfer crash class. Canvas and Outline are thin views reading from the same store, so selection stays in sync. All chrome uses Civaria components (no hand-rolled widgets when a primitive exists).
 
-**Tech Stack:** Next.js 15 App Router · React 19 · `@weiui/react` (Breadcrumb, CommandPalette, Menu, Popover, Splitter, TreeView, Toast, Drawer, Tooltip, Kbd) · `@weiui/headless` (useKeyboardNav, useFloatingMenu) · pointer events (no HTML5 DnD) · Vitest · Playwright.
+**Tech Stack:** Next.js 15 App Router · React 19 · `civaria` (Breadcrumb, CommandPalette, Menu, Popover, Splitter, TreeView, Toast, Drawer, Tooltip, Kbd) · `@civaria/headless` (useKeyboardNav, useFloatingMenu) · pointer events (no HTML5 DnD) · Vitest · Playwright.
 
 **Spec:** `docs/superpowers/specs/2026-04-19-composer-best-in-class-design.md`.
 
@@ -100,7 +100,7 @@ describe("tree-path", () => {
 - [ ] **Step 2: Run it to confirm fail**
 
 ```bash
-cd /c/weiui && pnpm --filter @weiui/docs test -- tree-path
+cd /c/civaria && pnpm --filter @civaria/docs test -- tree-path
 ```
 
 Expected: `Cannot find module '../tree-path'`.
@@ -176,7 +176,7 @@ export function depthFirstIds(tree: ComponentNode[]): string[] {
 - [ ] **Step 4: Run tests, verify pass**
 
 ```bash
-cd /c/weiui && pnpm --filter @weiui/docs test -- tree-path
+cd /c/civaria && pnpm --filter @civaria/docs test -- tree-path
 ```
 
 Expected: 4/4 pass.
@@ -266,7 +266,7 @@ describe("useInteractionManager", () => {
 - [ ] **Step 6: Run to confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- interaction-manager
+pnpm --filter @civaria/docs test -- interaction-manager
 ```
 
 Expected: `Cannot find module '../interaction-manager'`.
@@ -465,7 +465,7 @@ export function useInteractionManager(): InteractionApi {
 - [ ] **Step 8: Run tests, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- interaction-manager tree-path
+pnpm --filter @civaria/docs test -- interaction-manager tree-path
 ```
 
 Expected: 10/10 pass (4 tree-path + 6 interaction-manager).
@@ -558,7 +558,7 @@ describe("pointer-drag state machine", () => {
 - [ ] **Step 2: Run, confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- pointer-drag
+pnpm --filter @civaria/docs test -- pointer-drag
 ```
 
 Expected: module not found.
@@ -700,7 +700,7 @@ export function usePointerDrag<E extends HTMLElement = HTMLElement>(
 - [ ] **Step 4: Run tests, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- pointer-drag
+pnpm --filter @civaria/docs test -- pointer-drag
 ```
 
 Expected: 5/5 pass.
@@ -711,7 +711,7 @@ Create `apps/docs/src/app/composer/components/DragGhost.tsx`:
 
 ```tsx
 "use client";
-import { Portal, Chip } from "@weiui/react";
+import { Portal, Chip } from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 import type { ComponentNode } from "../lib/tree";
 
@@ -729,7 +729,7 @@ export function DragGhost() {
     <Portal>
       <div
         aria-hidden="true"
-        className="wui-composer__drag-ghost"
+        className="civ-composer__drag-ghost"
         style={{
           position: "fixed",
           top: drag.pointer.y + 8,
@@ -856,7 +856,7 @@ describe("computeDropIndicator", () => {
 - [ ] **Step 2: Run, confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- compute-drop-indicators
+pnpm --filter @civaria/docs test -- compute-drop-indicators
 ```
 
 Expected: module not found.
@@ -962,7 +962,7 @@ export { computeDropAction, locateNode, type DropContext } from "./drop-logic";
 - [ ] **Step 4: Run, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- compute-drop-indicators
+pnpm --filter @civaria/docs test -- compute-drop-indicators
 ```
 
 Expected: 4/4 pass.
@@ -1051,7 +1051,7 @@ describe("nextSelection", () => {
 - [ ] **Step 2: Run, confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- keyboard-nav
+pnpm --filter @civaria/docs test -- keyboard-nav
 ```
 
 Expected: module not found.
@@ -1125,7 +1125,7 @@ export function keyToNavKey(e: KeyboardEvent): NavKey | null {
 - [ ] **Step 4: Run, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- keyboard-nav
+pnpm --filter @civaria/docs test -- keyboard-nav
 ```
 
 Expected: 8/8 pass.
@@ -1195,7 +1195,7 @@ describe("clipboard", () => {
 - [ ] **Step 2: Run, confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- clipboard
+pnpm --filter @civaria/docs test -- clipboard
 ```
 
 - [ ] **Step 3: Implement `clipboard.ts`**
@@ -1241,7 +1241,7 @@ export function remapIds(nodes: ComponentNode[]): ComponentNode[] {
 - [ ] **Step 4: Run, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- clipboard
+pnpm --filter @civaria/docs test -- clipboard
 ```
 
 Expected: 3/3 pass.
@@ -1313,7 +1313,7 @@ describe("buildCommands", () => {
 - [ ] **Step 2: Run, confirm fail**
 
 ```bash
-pnpm --filter @weiui/docs test -- commands
+pnpm --filter @civaria/docs test -- commands
 ```
 
 - [ ] **Step 3: Implement `commands.ts`**
@@ -1406,7 +1406,7 @@ export function buildCommands({
 - [ ] **Step 4: Run, verify pass**
 
 ```bash
-pnpm --filter @weiui/docs test -- commands
+pnpm --filter @civaria/docs test -- commands
 ```
 
 Expected: 4/4 pass.
@@ -1457,7 +1457,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
   Toaster,
-} from "@weiui/react";
+} from "civaria";
 import { Header } from "../../components/chrome/Header";
 import { PALETTE_ITEMS } from "./lib/component-tree";
 import {
@@ -1577,23 +1577,23 @@ function ComposerShell() {
       <Header />
       <Toaster />
       <DragGhost />
-      <Container maxWidth="80rem" className="wui-tool-shell">
+      <Container maxWidth="80rem" className="civ-tool-shell">
         <Stack direction="column" gap={6}>
-          <Stack direction="column" gap={2} className="wui-tool-shell__header">
-            <Heading level={1} className="wui-tool-shell__title">Component Composer</Heading>
-            <Text size="base" color="muted" className="wui-tool-shell__sub">
+          <Stack direction="column" gap={2} className="civ-tool-shell__header">
+            <Heading level={1} className="civ-tool-shell__title">Component Composer</Heading>
+            <Text size="base" color="muted" className="civ-tool-shell__sub">
               Drag components onto the canvas, edit their props, and export ready-to-ship JSX, TSX or HTML.
             </Text>
           </Stack>
           <Grid
             columns="220px minmax(0, 1fr) 300px"
             gap={4}
-            className="wui-tool-shell__layout wui-tool-shell__layout--composer"
+            className="civ-tool-shell__layout civ-tool-shell__layout--composer"
           >
             <ComponentPalette onAdd={addNode} onLoadTemplate={loadTemplate} />
             <Stack direction="column" gap={4}>
               <Tabs value={view} onValueChange={(v) => setView(v as "design" | "outline")}>
-                <Stack direction="row" gap={3} className="wui-composer__viewport-bar">
+                <Stack direction="row" gap={3} className="civ-composer__viewport-bar">
                   <TabsList aria-label="Canvas view">
                     <TabsTrigger value="design">Design</TabsTrigger>
                     <TabsTrigger value="outline">Outline</TabsTrigger>
@@ -1672,8 +1672,8 @@ Inside the component, read `selectedId = im.state.selection.primary` and the vie
 - [ ] **Step 3: Run the full test suite + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 Expected: all tests pass; build clean.
@@ -1735,13 +1735,13 @@ function PaletteButton({ item, onAdd, category }: {
   return (
     <button
       type="button"
-      className="wui-tool-palette__item"
+      className="civ-tool-palette__item"
       onPointerDown={onPointerDown}
     >
-      <span className="wui-tool-palette__icon" data-category={category.toLowerCase()}>
+      <span className="civ-tool-palette__icon" data-category={category.toLowerCase()}>
         {item.label[0]}
       </span>
-      <span className="wui-tool-palette__label">{item.label}</span>
+      <span className="civ-tool-palette__label">{item.label}</span>
     </button>
   );
 }
@@ -1805,8 +1805,8 @@ function commitDrop(pointer: { x: number; y: number }) {
 - [ ] **Step 3: Run tests + build + manual verify via Playwright**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 Write a temporary manual test `apps/docs/e2e/_pointer-drag.spec.ts`:
@@ -1817,8 +1817,8 @@ import { test, expect } from "@playwright/test";
 test("palette pointer-drag adds a Card to the canvas", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  const cardBtn = page.locator(".wui-tool-palette").getByRole("button", { name: /^Card$/ });
-  const stage = page.locator(".wui-composer__stage");
+  const cardBtn = page.locator(".civ-tool-palette").getByRole("button", { name: /^Card$/ });
+  const stage = page.locator(".civ-composer__stage");
   const a = (await cardBtn.boundingBox())!;
   const s = (await stage.boundingBox())!;
   await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2);
@@ -1826,11 +1826,11 @@ test("palette pointer-drag adds a Card to the canvas", async ({ page }) => {
   await page.mouse.move(a.x + a.width / 2 + 20, a.y + a.height / 2 + 20, { steps: 5 });
   await page.mouse.move(s.x + s.width / 2, s.y + s.height / 2, { steps: 15 });
   await page.mouse.up();
-  await expect(page.locator(".wui-composer__stage [data-composer-id]")).toHaveCount(1);
+  await expect(page.locator(".civ-composer__stage [data-composer-id]")).toHaveCount(1);
 });
 ```
 
-Run: `pnpm --filter @weiui/docs exec playwright test e2e/_pointer-drag.spec.ts`
+Run: `pnpm --filter @civaria/docs exec playwright test e2e/_pointer-drag.spec.ts`
 Expected: PASS (1 card appears after pointer drag).
 
 Remove the temporary spec file when green.
@@ -1894,7 +1894,7 @@ function BetweenDropIndicator({
         left: rPrev ? rPrev.left + rPrev.width : rCurr!.left,
         width: 2,
         height: rPrev?.height ?? rCurr!.height,
-        background: "var(--wui-color-primary)",
+        background: "var(--civ-color-primary)",
         borderRadius: 2,
         pointerEvents: "none",
       }
@@ -1904,11 +1904,11 @@ function BetweenDropIndicator({
         left: rPrev?.left ?? rCurr!.left,
         height: 2,
         width: rPrev?.width ?? rCurr!.width,
-        background: "var(--wui-color-primary)",
+        background: "var(--civ-color-primary)",
         borderRadius: 2,
         pointerEvents: "none",
       };
-  return <div className="wui-composer__between-drop" style={style} aria-hidden="true" />;
+  return <div className="civ-composer__between-drop" style={style} aria-hidden="true" />;
 }
 ```
 
@@ -1939,18 +1939,18 @@ Inside WysiwygCanvas's overlay, alongside SelectionOutline / DropZones:
 
 - [ ] **Step 3: Add CSS in composer.css**
 
-Append to the `@layer wui-base` block:
+Append to the `@layer civ-base` block:
 
 ```css
   /* Between-siblings drop indicator — a 2px primary line at the sibling
      boundary the pointer is nearest to during a drag. Mutually exclusive
      with the edge drop zones (indicator state picks one or the other). */
-  .wui-composer__between-drop {
+  .civ-composer__between-drop {
     z-index: 2;
   }
 
   /* Drag ghost — follows the pointer via fixed positioning (see DragGhost). */
-  .wui-composer__drag-ghost {
+  .civ-composer__drag-ghost {
     transform: translateZ(0); /* GPU-promote to avoid flicker on fast moves */
   }
 ```
@@ -1958,8 +1958,8 @@ Append to the `@layer wui-base` block:
 - [ ] **Step 4: Run build + test**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 Expected: green.
@@ -1993,10 +1993,10 @@ EOF
 
 - [ ] **Step 1: Replace hand-rolled crumbs with `<Breadcrumb>`**
 
-Inside PropsEditor, find the existing `<nav className="wui-composer__props-breadcrumb">...` block and replace with:
+Inside PropsEditor, find the existing `<nav className="civ-composer__props-breadcrumb">...` block and replace with:
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbEllipsis } from "@weiui/react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, BreadcrumbEllipsis } from "civaria";
 import { Fragment } from "react";
 
 function renderBreadcrumb(
@@ -2030,7 +2030,7 @@ function renderBreadcrumb(
             ) : (
               <button
                 type="button"
-                className="wui-composer__crumb-link"
+                className="civ-composer__crumb-link"
                 onClick={() => onSelect(entry.node.id)}
               >
                 {entry.node.type}
@@ -2048,24 +2048,24 @@ Call `{renderBreadcrumb(ancestors ?? [], onSelect)}` where the crumbs used to re
 
 - [ ] **Step 2: Remove the obsolete CSS**
 
-From `composer.css`, delete `.wui-composer__props-breadcrumb`, `.wui-composer__props-crumb`, `.wui-composer__props-crumb-sep` rules. Keep `.wui-composer__crumb-link` (used by the onClick button) with:
+From `composer.css`, delete `.civ-composer__props-breadcrumb`, `.civ-composer__props-crumb`, `.civ-composer__props-crumb-sep` rules. Keep `.civ-composer__crumb-link` (used by the onClick button) with:
 
 ```css
-  .wui-composer__crumb-link {
+  .civ-composer__crumb-link {
     font: inherit;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     background: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
   }
-  .wui-composer__crumb-link:hover {
-    color: var(--wui-color-foreground);
+  .civ-composer__crumb-link:hover {
+    color: var(--civ-color-foreground);
     text-decoration: underline;
   }
-  .wui-composer__crumb-link:focus-visible {
-    outline: 2px solid var(--wui-color-ring);
+  .civ-composer__crumb-link:focus-visible {
+    outline: 2px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
 ```
@@ -2073,8 +2073,8 @@ From `composer.css`, delete `.wui-composer__props-breadcrumb`, `.wui-composer__p
 - [ ] **Step 3: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 Expected: green (no tests assert on the old crumb DOM structure).
@@ -2088,7 +2088,7 @@ git add apps/docs/src/app/composer/components/PropsEditor.tsx \
 git commit -m "$(cat <<'EOF'
 refactor(docs): Composer breadcrumb uses <Breadcrumb> primitive
 
-Replaces the hand-rolled crumb list with @weiui/react Breadcrumb +
+Replaces the hand-rolled crumb list with civaria Breadcrumb +
 BreadcrumbItem + BreadcrumbSeparator + BreadcrumbEllipsis. When
 path > 5 deep, collapses the middle to "first ⋯ last-3".
 
@@ -2110,7 +2110,7 @@ Current chips use absolute positioning from the selection rect; replace with a `
 
 ```tsx
 "use client";
-import { Popover, PopoverContent, PopoverAnchor, ToggleGroup, ToggleGroupItem, Slider } from "@weiui/react";
+import { Popover, PopoverContent, PopoverAnchor, ToggleGroup, ToggleGroupItem, Slider } from "civaria";
 import type { ComponentNode } from "../lib/tree";
 import { useEffect, useRef } from "react";
 
@@ -2160,7 +2160,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
       <PopoverAnchor>
         <span ref={anchorRef} aria-hidden="true" />
       </PopoverAnchor>
-      <PopoverContent side="top" sideOffset={8} className="wui-composer__chips">
+      <PopoverContent side="top" sideOffset={8} className="civ-composer__chips">
         {node.type === "Stack" ? (
           <>
             <ToggleGroup
@@ -2173,7 +2173,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
               <ToggleGroupItem value="row" aria-label="Row">{"\u2194"}</ToggleGroupItem>
               <ToggleGroupItem value="column" aria-label="Column">{"\u2195"}</ToggleGroupItem>
             </ToggleGroup>
-            <label className="wui-composer__chip-input">
+            <label className="civ-composer__chip-input">
               gap
               <Slider
                 value={Number(node.props.gap ?? 2)}
@@ -2188,7 +2188,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
         ) : null}
         {node.type === "Grid" ? (
           <>
-            <label className="wui-composer__chip-input">
+            <label className="civ-composer__chip-input">
               cols
               <Slider
                 value={Number(node.props.columns ?? 3)}
@@ -2199,7 +2199,7 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
                 aria-label="Grid columns"
               />
             </label>
-            <label className="wui-composer__chip-input">
+            <label className="civ-composer__chip-input">
               gap
               <Slider
                 value={Number(node.props.gap ?? 2)}
@@ -2213,12 +2213,12 @@ export function LayoutChips({ node, onUpdate }: LayoutChipsProps) {
           </>
         ) : null}
         {node.type === "Container" ? (
-          <label className="wui-composer__chip-input">
+          <label className="civ-composer__chip-input">
             max
             <select
               value={(node.props.maxWidth as string) ?? "100%"}
               onChange={(e) => onUpdate({ ...node.props, maxWidth: e.target.value })}
-              className="wui-select__trigger"
+              className="civ-select__trigger"
             >
               <option value="20rem">sm</option>
               <option value="40rem">md</option>
@@ -2254,8 +2254,8 @@ Edit `apps/docs/src/app/composer/components/__tests__/LayoutChips.test.tsx` — 
 - [ ] **Step 4: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test -- LayoutChips
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test -- LayoutChips
+pnpm --filter @civaria/docs build
 ```
 
 - [ ] **Step 5: Commit**
@@ -2268,7 +2268,7 @@ git add apps/docs/src/app/composer/components/LayoutChips.tsx \
 git commit -m "$(cat <<'EOF'
 refactor(docs): Composer layout chips use <Popover>
 
-Hand-rolled absolute positioning replaced with @weiui/react Popover +
+Hand-rolled absolute positioning replaced with civaria Popover +
 PopoverAnchor. Floating-UI handles flip / shift / collision so chips
 stay on-screen when the selected node is near a canvas edge. Slider
 primitive used for gap / columns.
@@ -2291,7 +2291,7 @@ EOF
 Inside `ComposerShell`, import `CommandPalette` and `useComposerCommands`:
 
 ```tsx
-import { CommandPalette } from "@weiui/react";
+import { CommandPalette } from "civaria";
 import { buildCommands } from "./lib/commands";
 import { remapIds, serialiseNodes, deserialiseNodes } from "./lib/clipboard";
 import { findAncestors, findNode, findPath } from "./lib/tree-path";
@@ -2436,8 +2436,8 @@ describe("Composer command palette", () => {
 - [ ] **Step 3: Run**
 
 ```bash
-pnpm --filter @weiui/docs test -- command-palette
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test -- command-palette
+pnpm --filter @civaria/docs build
 ```
 
 Expected: 1/1 pass.
@@ -2451,7 +2451,7 @@ git add apps/docs/src/app/composer/page.tsx \
 git commit -m "$(cat <<'EOF'
 feat(docs): Composer Cmd+K command palette
 
-Mounts @weiui/react CommandPalette with buildCommands output:
+Mounts civaria CommandPalette with buildCommands output:
 Add (65 components), Template (5), Edit (delete/duplicate/copy/paste/
 wrap x3/select-parent — selection-gated), View (toggle preview).
 Cmd+K opens; fuzzy match via built-in match-sorter; per-item shortcut
@@ -2479,7 +2479,7 @@ EOF
 
 ```tsx
 "use client";
-import { Menu, MenuContent, MenuItem, MenuSeparator } from "@weiui/react";
+import { Menu, MenuContent, MenuItem, MenuSeparator } from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 import { useMemo, useRef, useEffect } from "react";
 
@@ -2583,8 +2583,8 @@ Where `copy`, `paste`, `deleteSelected`, `duplicateSelected`, `selectParent`, `w
 - [ ] **Step 4: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 - [ ] **Step 5: Commit**
@@ -2597,7 +2597,7 @@ git add apps/docs/src/app/composer/components/ContextMenu.tsx \
 git commit -m "$(cat <<'EOF'
 feat(docs): Composer right-click context menu
 
-Right-click on any rendered composer node opens a @weiui/react Menu
+Right-click on any rendered composer node opens a civaria Menu
 positioned at the cursor (virtual-anchor pattern). Items: Duplicate
 (⌘D), Delete (⌫), Wrap in Stack row/column, Wrap in Card, Copy (⌘C),
 Paste (⌘V), Select parent (⌥↑). Shortcuts render as <Kbd> via
@@ -2621,7 +2621,7 @@ EOF
 
 ```tsx
 "use client";
-import { TreeView, type TreeNode } from "@weiui/react";
+import { TreeView, type TreeNode } from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 import type { ComponentNode } from "../lib/tree";
 
@@ -2684,8 +2684,8 @@ git rm apps/docs/src/app/composer/components/Canvas.tsx
 - [ ] **Step 4: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 Some old tests reference the outline Canvas — update or delete those too.
@@ -2700,7 +2700,7 @@ git commit -m "$(cat <<'EOF'
 refactor(docs): Composer outline uses <TreeView> primitive
 
 Hand-rolled outline Canvas component deleted; replaced by OutlineTree
-wrapping @weiui/react TreeView. Selection syncs through the
+wrapping civaria TreeView. Selection syncs through the
 interaction manager — clicking a row in the outline highlights the
 matching node on the design canvas and vice versa.
 
@@ -2729,7 +2729,7 @@ import {
   DrawerTrigger,
   DrawerContent,
   Button,
-} from "@weiui/react";
+} from "civaria";
 import { useEffect, useState, type ReactNode } from "react";
 
 export interface ResizableShellProps {
@@ -2738,7 +2738,7 @@ export interface ResizableShellProps {
   props: ReactNode;
 }
 
-const LS_KEY = "wui-composer-layout-sizes";
+const LS_KEY = "civ-composer-layout-sizes";
 const DEFAULT_SIZES = [17, 61, 22] as const;
 
 export function ResizableShell({ palette, canvas, props }: ResizableShellProps) {
@@ -2761,8 +2761,8 @@ export function ResizableShell({ palette, canvas, props }: ResizableShellProps) 
 
   if (isNarrow) {
     return (
-      <div className="wui-composer__mobile-shell">
-        <div className="wui-composer__mobile-toolbar">
+      <div className="civ-composer__mobile-shell">
+        <div className="civ-composer__mobile-toolbar">
           <Button size="sm" variant="outline" onClick={() => setPaletteOpen(true)}>
             Components
           </Button>
@@ -2848,23 +2848,23 @@ Replace the `<Grid columns="220px minmax(0, 1fr) 300px" ...>` block with:
 Append to composer.css:
 
 ```css
-  .wui-composer__mobile-shell {
+  .civ-composer__mobile-shell {
     display: flex;
     flex-direction: column;
-    gap: var(--wui-spacing-3);
+    gap: var(--civ-spacing-3);
     inline-size: 100%;
   }
-  .wui-composer__mobile-toolbar {
+  .civ-composer__mobile-toolbar {
     display: flex;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
 ```
 
 - [ ] **Step 4: Run tests + build + verify resize**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 - [ ] **Step 5: Commit**
@@ -2913,7 +2913,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@weiui/react";
+} from "civaria";
 import { useInteractionManager } from "../lib/interaction-manager";
 
 export interface ComposerAppBarProps {
@@ -2928,7 +2928,7 @@ export function ComposerAppBar({ canUndo, canRedo, onUndo, onRedo, onOpenPalette
   const im = useInteractionManager();
   return (
     <TooltipProvider>
-      <div className="wui-composer__appbar" role="toolbar" aria-label="Composer actions">
+      <div className="civ-composer__appbar" role="toolbar" aria-label="Composer actions">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button size="sm" variant="ghost" iconOnly disabled={!canUndo} onClick={onUndo} aria-label="Undo">
@@ -2945,7 +2945,7 @@ export function ComposerAppBar({ canUndo, canRedo, onUndo, onRedo, onOpenPalette
           </TooltipTrigger>
           <TooltipContent>Redo <Kbd>{"\u2318"}{"\u21E7"}Z</Kbd></TooltipContent>
         </Tooltip>
-        <span className="wui-composer__appbar-sep" aria-hidden="true" />
+        <span className="civ-composer__appbar-sep" aria-hidden="true" />
         <ToggleGroup
           type="single"
           size="sm"
@@ -2957,22 +2957,22 @@ export function ComposerAppBar({ canUndo, canRedo, onUndo, onRedo, onOpenPalette
             <ToggleGroupItem key={z} value={String(z)}>{z}%</ToggleGroupItem>
           ))}
         </ToggleGroup>
-        <span className="wui-composer__appbar-sep" aria-hidden="true" />
-        <label className="wui-composer__appbar-switch">
+        <span className="civ-composer__appbar-sep" aria-hidden="true" />
+        <label className="civ-composer__appbar-switch">
           <Switch
             checked={im.state.previewMode}
             onChange={(e) => im.setPreviewMode(e.currentTarget.checked)}
           />
           Preview
         </label>
-        <label className="wui-composer__appbar-switch">
+        <label className="civ-composer__appbar-switch">
           <Switch
             checked={im.state.rulers}
             onChange={(e) => im.setRulers(e.currentTarget.checked)}
           />
           Rulers
         </label>
-        <span className="wui-composer__appbar-spacer" />
+        <span className="civ-composer__appbar-spacer" />
         <Button size="sm" variant="outline" onClick={onOpenPalette}>
           Commands <Kbd>{"\u2318"}K</Kbd>
         </Button>
@@ -3010,8 +3010,8 @@ export function Rulers({ enabled, stageRef }: RulersProps) {
       left.width = 20; left.height = h;
       const ctx1 = top.getContext("2d")!;
       const ctx2 = left.getContext("2d")!;
-      ctx1.fillStyle = "var(--wui-color-muted-foreground)";
-      ctx2.fillStyle = "var(--wui-color-muted-foreground)";
+      ctx1.fillStyle = "var(--civ-color-muted-foreground)";
+      ctx2.fillStyle = "var(--civ-color-muted-foreground)";
       for (let x = 0; x < w; x += 10) {
         const tall = x % 50 === 0;
         ctx1.fillRect(x, tall ? 6 : 12, 1, tall ? 14 : 8);
@@ -3031,8 +3031,8 @@ export function Rulers({ enabled, stageRef }: RulersProps) {
 
   return (
     <>
-      <canvas ref={topRef} className="wui-composer__ruler wui-composer__ruler--top" aria-hidden="true" />
-      <canvas ref={leftRef} className="wui-composer__ruler wui-composer__ruler--left" aria-hidden="true" />
+      <canvas ref={topRef} className="civ-composer__ruler civ-composer__ruler--top" aria-hidden="true" />
+      <canvas ref={leftRef} className="civ-composer__ruler civ-composer__ruler--left" aria-hidden="true" />
     </>
   );
 }
@@ -3044,7 +3044,7 @@ Inside WysiwygCanvas, compute `scale = im.state.zoom / 100`. Apply:
 
 ```tsx
 <div
-  className="wui-composer__stage"
+  className="civ-composer__stage"
   data-preview={im.state.previewMode || undefined}
   style={{
     maxInlineSize,
@@ -3081,46 +3081,46 @@ When preview is on, skip rendering `<SelectionOutline>`, `<HoverOutline>`, `<Dro
 - [ ] **Step 4: CSS**
 
 ```css
-  .wui-composer__appbar {
+  .civ-composer__appbar {
     display: flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
     flex-wrap: wrap;
-    padding-block: var(--wui-spacing-2);
-    padding-inline: var(--wui-spacing-3);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
-    background-color: var(--wui-color-surface);
+    padding-block: var(--civ-spacing-2);
+    padding-inline: var(--civ-spacing-3);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
+    background-color: var(--civ-color-surface);
   }
-  .wui-composer__appbar-sep {
+  .civ-composer__appbar-sep {
     inline-size: 1px;
     block-size: 1.5rem;
-    background-color: var(--wui-color-border);
+    background-color: var(--civ-color-border);
   }
-  .wui-composer__appbar-spacer { flex: 1; }
-  .wui-composer__appbar-switch {
+  .civ-composer__appbar-spacer { flex: 1; }
+  .civ-composer__appbar-switch {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-1);
-    font-size: var(--wui-font-size-xs);
+    gap: var(--civ-spacing-1);
+    font-size: var(--civ-font-size-xs);
   }
 
-  .wui-composer__ruler {
+  .civ-composer__ruler {
     position: absolute;
     z-index: 1;
     pointer-events: none;
   }
-  .wui-composer__ruler--top { top: -20px; left: 0; }
-  .wui-composer__ruler--left { left: -20px; top: 0; }
+  .civ-composer__ruler--top { top: -20px; left: 0; }
+  .civ-composer__ruler--left { left: -20px; top: 0; }
 
-  .wui-composer__stage[data-preview="true"] { background-image: none !important; }
+  .civ-composer__stage[data-preview="true"] { background-image: none !important; }
 ```
 
 - [ ] **Step 5: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 - [ ] **Step 6: Commit**
@@ -3274,8 +3274,8 @@ useComposerShortcuts({
 - [ ] **Step 3: Run tests + build**
 
 ```bash
-pnpm --filter @weiui/docs test
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs test
+pnpm --filter @civaria/docs build
 ```
 
 - [ ] **Step 4: Commit**
@@ -3323,14 +3323,14 @@ import { test, expect } from "@playwright/test";
 test("arrows navigate siblings + Delete removes", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  await page.locator(".wui-tool-palette").getByRole("button", { name: /Pricing grid/i }).click();
+  await page.locator(".civ-tool-palette").getByRole("button", { name: /Pricing grid/i }).click();
   await page.waitForTimeout(1000);
   // Click first heading to select
-  await page.locator(".wui-composer__stage").getByText("Starter", { exact: true }).click();
+  await page.locator(".civ-composer__stage").getByText("Starter", { exact: true }).click();
   await page.keyboard.press("ArrowDown");
-  await expect(page.locator(".wui-composer__props-heading")).not.toContainText("Heading");
+  await expect(page.locator(".civ-composer__props-heading")).not.toContainText("Heading");
   await page.keyboard.press("Delete");
-  await expect(page.locator(".wui-composer__stage").getByText("Starter", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".civ-composer__stage").getByText("Starter", { exact: true })).toHaveCount(0);
 });
 ```
 
@@ -3344,8 +3344,8 @@ import { test, expect } from "@playwright/test";
 test("pointer-drag palette Button to empty stage", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  const btn = page.locator(".wui-tool-palette").getByRole("button", { name: /^Button$/ });
-  const stage = page.locator(".wui-composer__stage");
+  const btn = page.locator(".civ-tool-palette").getByRole("button", { name: /^Button$/ });
+  const stage = page.locator(".civ-composer__stage");
   const a = (await btn.boundingBox())!;
   const s = (await stage.boundingBox())!;
   await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2);
@@ -3353,7 +3353,7 @@ test("pointer-drag palette Button to empty stage", async ({ page }) => {
   await page.mouse.move(a.x + 20, a.y + 20, { steps: 5 });
   await page.mouse.move(s.x + s.width / 2, s.y + s.height / 2, { steps: 15 });
   await page.mouse.up();
-  await expect(page.locator(".wui-composer__stage .wui-button")).toHaveCount(1);
+  await expect(page.locator(".civ-composer__stage .civ-button")).toHaveCount(1);
 });
 ```
 
@@ -3367,13 +3367,13 @@ import { test, expect } from "@playwright/test";
 test("Shift+Click selects two, Delete removes both", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  await page.locator(".wui-tool-palette").getByRole("button", { name: /Pricing grid/i }).click();
+  await page.locator(".civ-tool-palette").getByRole("button", { name: /Pricing grid/i }).click();
   await page.waitForTimeout(1000);
-  await page.locator(".wui-composer__stage").getByText("Starter", { exact: true }).click();
-  await page.locator(".wui-composer__stage").getByText("Pro", { exact: true }).click({ modifiers: ["Shift"] });
+  await page.locator(".civ-composer__stage").getByText("Starter", { exact: true }).click();
+  await page.locator(".civ-composer__stage").getByText("Pro", { exact: true }).click({ modifiers: ["Shift"] });
   await page.keyboard.press("Delete");
-  await expect(page.locator(".wui-composer__stage").getByText("Starter")).toHaveCount(0);
-  await expect(page.locator(".wui-composer__stage").getByText("Pro", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".civ-composer__stage").getByText("Starter")).toHaveCount(0);
+  await expect(page.locator(".civ-composer__stage").getByText("Pro", { exact: true })).toHaveCount(0);
 });
 ```
 
@@ -3391,7 +3391,7 @@ test("Cmd+K + type + Enter adds a component", async ({ page, browserName }) => {
   await page.keyboard.press(`${mod}+k`);
   await page.keyboard.type("Add Card");
   await page.keyboard.press("Enter");
-  await expect(page.locator(".wui-composer__stage .wui-card")).toHaveCount(1);
+  await expect(page.locator(".civ-composer__stage .civ-card")).toHaveCount(1);
 });
 ```
 
@@ -3405,7 +3405,7 @@ import { test, expect } from "@playwright/test";
 test("Splitter handle drag changes palette width", async ({ page }) => {
   await page.goto("/composer");
   await page.waitForTimeout(1500);
-  const palette = page.locator(".wui-tool-palette").first();
+  const palette = page.locator(".civ-tool-palette").first();
   const initial = (await palette.boundingBox())!.width;
   // Splitter handle has role="separator"
   const handle = page.locator('[role="separator"]').first();
@@ -3422,7 +3422,7 @@ test("Splitter handle drag changes palette width", async ({ page }) => {
 - [ ] **Step 6: Run e2e list to verify tests are discovered**
 
 ```bash
-pnpm --filter @weiui/docs exec playwright test --list e2e/composer-*.spec.ts
+pnpm --filter @civaria/docs exec playwright test --list e2e/composer-*.spec.ts
 ```
 
 Expected: 5 tests listed. (Do not run them headed — requires browser install which may not be available.)
@@ -3475,8 +3475,8 @@ export {
 ```bash
 pnpm build
 pnpm test
-pnpm --filter @weiui/docs build
-pnpm --filter @weiui/tokens validate
+pnpm --filter @civaria/docs build
+pnpm --filter @civaria/tokens validate
 ```
 
 Expected: all green, zero TypeScript errors, zero Tailwind utility leakage (verify the last via):
@@ -3491,7 +3491,7 @@ Expected: empty.
 - [ ] **Step 3: Manual smoke test via dev server**
 
 ```bash
-pnpm --filter @weiui/docs dev &
+pnpm --filter @civaria/docs dev &
 # browse to http://localhost:3000/composer
 # verify: click-to-add, pointer-drag, Cmd+K, right-click, keyboard nav,
 # Splitter resize, multi-select + Delete, copy/paste, preview toggle.
@@ -3559,7 +3559,7 @@ git push origin main
 </ToggleGroup>
 ```
 
-And apply to stage: `data-theme={im.state.theme}` on the `.wui-composer__stage` div.
+And apply to stage: `data-theme={im.state.theme}` on the `.civ-composer__stage` div.
 
 **Placeholder scan:** No "TBD", "TODO", "similar to Task N" patterns found. Every code step has complete code.
 

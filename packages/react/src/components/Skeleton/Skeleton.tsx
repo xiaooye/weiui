@@ -44,9 +44,9 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
           ref={ref}
           aria-hidden="true"
           className={cn(
-            "wui-skeleton",
-            variant === "text" && "wui-skeleton--text",
-            variant === "circle" && "wui-skeleton--circle",
+            "civ-skeleton",
+            variant === "text" && "civ-skeleton--text",
+            variant === "circle" && "civ-skeleton--circle",
             className,
           )}
           style={mergedStyle}
@@ -64,9 +64,9 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
         ref={i === 0 ? ref : undefined}
         aria-hidden="true"
         className={cn(
-          "wui-skeleton",
-          variant === "text" && "wui-skeleton--text",
-          variant === "circle" && "wui-skeleton--circle",
+          "civ-skeleton",
+          variant === "text" && "civ-skeleton--text",
+          variant === "circle" && "civ-skeleton--circle",
           className,
         )}
         style={mergedStyle}

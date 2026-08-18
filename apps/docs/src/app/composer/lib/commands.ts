@@ -3,7 +3,7 @@ import { TEMPLATES } from "./templates";
 import type { ComponentNode } from "./tree";
 import type { Selection } from "./interaction-manager";
 
-const RECENTS_KEY = "wui-composer-command-recents";
+const RECENTS_KEY = "civ-composer-command-recents";
 const MAX_RECENTS = 5;
 
 function readRecents(): string[] {

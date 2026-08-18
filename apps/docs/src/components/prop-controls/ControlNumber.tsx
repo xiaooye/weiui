@@ -1,6 +1,6 @@
 "use client";
 import { useId } from "react";
-import { Input } from "@weiui/react";
+import { Input } from "civaria";
 
 export interface ControlNumberProps {
   label: string;
@@ -23,11 +23,11 @@ export function ControlNumber({
 }: ControlNumberProps) {
   const id = useId();
   return (
-    <div className="wui-field">
-      <label htmlFor={id} className="wui-label">
+    <div className="civ-field">
+      <label htmlFor={id} className="civ-label">
         {label}
       </label>
-      {description && <p className="wui-field__description">{description}</p>}
+      {description && <p className="civ-field__description">{description}</p>}
       <Input
         id={id}
         type="number"

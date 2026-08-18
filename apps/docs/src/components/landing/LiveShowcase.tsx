@@ -22,7 +22,7 @@ import {
   TabsList,
   TabsTrigger,
   Text,
-} from "@weiui/react";
+} from "civaria";
 
 const DEMOS = [
   { id: "buttons", label: "Buttons" },
@@ -37,16 +37,16 @@ export function LiveShowcase() {
   const [active, setActive] = useState<DemoId>("buttons");
 
   return (
-    <Container maxWidth="72rem" className="wui-home-section wui-home-showcase">
+    <Container maxWidth="72rem" className="civ-home-section civ-home-showcase">
       <Stack direction="column" gap={6}>
-        <Stack direction="column" gap={3} className="wui-home-section__header">
-          <Badge variant="soft" size="sm" className="wui-home-section__eyebrow">
+        <Stack direction="column" gap={3} className="civ-home-section__header">
+          <Badge variant="soft" size="sm" className="civ-home-section__eyebrow">
             Live preview
           </Badge>
-          <Heading level={2} className="wui-home-section__title">
+          <Heading level={2} className="civ-home-section__title">
             Components, live {"\u2014"} not screenshots.
           </Heading>
-          <Text size="lg" color="muted" className="wui-home-section__sub">
+          <Text size="lg" color="muted" className="civ-home-section__sub">
             Everything below is rendered with the same tokens your app will use. Toggle the theme
             from the header to see dark mode in real time.
           </Text>
@@ -54,7 +54,7 @@ export function LiveShowcase() {
         <Tabs
           value={active}
           onValueChange={(v) => setActive(v as DemoId)}
-          className="wui-home-showcase"
+          className="civ-home-showcase"
         >
           <TabsList aria-label="Component preview">
             {DEMOS.map((d) => (
@@ -63,16 +63,16 @@ export function LiveShowcase() {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContent value="buttons" className="wui-home-showcase__stage">
+          <TabsContent value="buttons" className="civ-home-showcase__stage">
             <ButtonDemo />
           </TabsContent>
-          <TabsContent value="form" className="wui-home-showcase__stage">
+          <TabsContent value="form" className="civ-home-showcase__stage">
             <FormDemo />
           </TabsContent>
-          <TabsContent value="card" className="wui-home-showcase__stage">
+          <TabsContent value="card" className="civ-home-showcase__stage">
             <CardDemo />
           </TabsContent>
-          <TabsContent value="chips" className="wui-home-showcase__stage">
+          <TabsContent value="chips" className="civ-home-showcase__stage">
             <ChipDemo />
           </TabsContent>
         </Tabs>
@@ -83,7 +83,7 @@ export function LiveShowcase() {
 
 function ButtonDemo() {
   return (
-    <Stack direction="row" gap={3} wrap className="wui-home-showcase__row">
+    <Stack direction="row" gap={3} wrap className="civ-home-showcase__row">
       <Button variant="solid">Solid</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
@@ -100,15 +100,15 @@ function ButtonDemo() {
 
 function FormDemo() {
   return (
-    <Stack direction="column" gap={3} className="wui-home-showcase__form">
+    <Stack direction="column" gap={3} className="civ-home-showcase__form">
       <Field>
-        <Label htmlFor="wui-demo-email">Email</Label>
-        <Input id="wui-demo-email" type="email" placeholder="ada@example.com" />
+        <Label htmlFor="civ-demo-email">Email</Label>
+        <Input id="civ-demo-email" type="email" placeholder="ada@example.com" />
       </Field>
       <Field>
-        <Label htmlFor="wui-demo-pass">Password</Label>
+        <Label htmlFor="civ-demo-pass">Password</Label>
         <Input
-          id="wui-demo-pass"
+          id="civ-demo-pass"
           type="password"
           placeholder={"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
         />
@@ -122,7 +122,7 @@ function FormDemo() {
 
 function CardDemo() {
   return (
-    <Card className="wui-home-showcase__card">
+    <Card className="civ-home-showcase__card">
       <CardHeader>
         <Stack direction="row" gap={3}>
           <Avatar>
@@ -130,7 +130,7 @@ function CardDemo() {
           </Avatar>
           <Stack direction="column" gap={0}>
             <Text as="span" weight="semibold">
-              WeiUI Shipped
+              Civaria Shipped
             </Text>
             <Text as="span" size="xs" color="muted">
               v0.0.1 {"\u00B7"} 2 days ago
@@ -158,7 +158,7 @@ function CardDemo() {
 
 function ChipDemo() {
   return (
-    <Stack direction="row" gap={3} wrap className="wui-home-showcase__row">
+    <Stack direction="row" gap={3} wrap className="civ-home-showcase__row">
       <Chip>Default</Chip>
       <Chip color="primary">Primary</Chip>
       <Chip color="success">Shipped</Chip>

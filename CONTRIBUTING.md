@@ -1,4 +1,4 @@
-# Contributing to WeiUI
+# Contributing to Civaria
 
 ## Development setup
 
@@ -34,19 +34,19 @@ apps/docs         docs/product/Playground/Composer
 - React/Vue/Solid/Svelte/Elements are peers; none depends on another runtime.
 - New reusable interactive semantics go to Core first.
 - Rendering/lifecycle stays native to the adapter.
-- Stable WeiUI classes/data anatomy are the cross-runtime styling/testing contract.
-- Do not expose underlying state-machine implementation types as public WeiUI API.
+- Stable Civaria classes/data anatomy are the cross-runtime styling/testing contract.
+- Do not expose underlying state-machine implementation types as public Civaria API.
 
 ### Portability classes
 
-A = visual primitive; B = interactive primitive; C = complex composite; D = ecosystem integration. Update `@weiui/core/registry` when component support changes. This registry is the canonical support matrix consumed by tooling.
+A = visual primitive; B = interactive primitive; C = complex composite; D = ecosystem integration. Update `@civaria/core/registry` when component support changes. This registry is the canonical support matrix consumed by tooling.
 
 ### React heavy subpaths
 
 Keep mature ecosystem dependencies isolated:
-- `@weiui/react/editor` — Tiptap React
-- `@weiui/react/data-table` — TanStack React Table
-- `@weiui/react/chart` — Recharts
+- `civaria/editor` — Tiptap React
+- `civaria/data-table` — TanStack React Table
+- `civaria/chart` — Recharts
 
 Never import those entrypoints from the root barrel.
 
@@ -56,9 +56,9 @@ Never import those entrypoints from the root barrel.
 - [ ] TypeScript/source checks pass; avoid `any` escape hatches.
 - [ ] Shared state/ARIA/keyboard behavior has Core tests.
 - [ ] Native adapter uses its framework conventions rather than wrapping another runtime.
-- [ ] Semantic `data-wui-component` / `data-part` / state attributes are compatible where practical.
+- [ ] Semantic `data-civaria-component` / `data-part` / state attributes are compatible where practical.
 - [ ] 44px touch targets, focus visibility, keyboard interaction and reduced-motion rules remain intact.
-- [ ] CSS uses WeiUI variables/logical properties and avoids visual redesign unless requested.
+- [ ] CSS uses Civaria variables/logical properties and avoids visual redesign unless requested.
 - [ ] SSR has no import-time DOM/random-ID behavior.
 - [ ] Docs, registry metadata and migration notes are updated.
 - [ ] Heavy dependencies stay isolated.
@@ -69,7 +69,7 @@ Never import those entrypoints from the root barrel.
 - Docs registry may enrich it with prose/props/examples.
 - MCP consumes Core metadata and emits runtime-aware answers.
 - CLI detects/scaffolds runtimes using the same metadata.
-- Composer canonical representation is semantic WeiUI AST; generated React/Vue/Solid/Svelte/Elements code is derived output.
+- Composer canonical representation is semantic Civaria AST; generated React/Vue/Solid/Svelte/Elements code is derived output.
 
 ## Changesets
 

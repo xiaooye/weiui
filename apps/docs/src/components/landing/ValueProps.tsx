@@ -9,7 +9,7 @@ import {
   Heading,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 
 interface Prop {
   title: string;
@@ -52,38 +52,38 @@ const PROPS: Prop[] = [
 
 export function ValueProps() {
   return (
-    <Container maxWidth="72rem" className="wui-home-section wui-home-values">
+    <Container maxWidth="72rem" className="civ-home-section civ-home-values">
       <Stack direction="column" gap={8}>
-        <Stack direction="column" gap={3} className="wui-home-section__header">
-          <Badge variant="soft" size="sm" className="wui-home-section__eyebrow">
-            Why WeiUI
+        <Stack direction="column" gap={3} className="civ-home-section__header">
+          <Badge variant="soft" size="sm" className="civ-home-section__eyebrow">
+            Why Civaria
           </Badge>
-          <Heading level={2} className="wui-home-section__title">
+          <Heading level={2} className="civ-home-section__title">
             Built for teams that ship serious UI.
           </Heading>
-          <Text size="lg" color="muted" className="wui-home-section__sub">
+          <Text size="lg" color="muted" className="civ-home-section__sub">
             Every decision is graded against real production pain: drift, accessibility debt,
             designer{"\u2013"}developer friction.
           </Text>
         </Stack>
         <Grid columns="repeat(auto-fit, minmax(260px, 1fr))" gap={4}>
           {PROPS.map((p) => (
-            <Card key={p.title} variant="outlined" className="wui-home-values__card">
+            <Card key={p.title} variant="outlined" className="civ-home-values__card">
               <CardHeader>
                 <Text
                   as="span"
                   size="xl"
-                  className="wui-home-values__glyph"
+                  className="civ-home-values__glyph"
                   aria-hidden="true"
                 >
                   {p.glyph}
                 </Text>
-                <Heading level={3} className="wui-home-values__title">
+                <Heading level={3} className="civ-home-values__title">
                   {p.title}
                 </Heading>
               </CardHeader>
               <CardContent>
-                <Text size="sm" color="muted" className="wui-home-values__body">
+                <Text size="sm" color="muted" className="civ-home-values__body">
                   {p.body}
                 </Text>
               </CardContent>

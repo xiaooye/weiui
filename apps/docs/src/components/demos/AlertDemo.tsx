@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, AlertTitle, AlertDescription } from "@weiui/react";
+import { Alert, AlertTitle, AlertDescription } from "civaria";
 
 export function AlertDemo() {
   return (
@@ -8,7 +8,7 @@ export function AlertDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         width: "100%",
         maxWidth: "480px",
       }}

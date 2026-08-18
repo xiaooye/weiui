@@ -8,6 +8,6 @@ test("Cmd+K + type + Enter adds a component", async ({ page, browserName }) => {
   await page.keyboard.type("Add Card");
   await page.keyboard.press("Enter");
   await expect(
-    page.locator(".wui-composer__stage .wui-card"),
+    page.locator(".civ-composer__stage .civ-card"),
   ).toHaveCount(1);
 });

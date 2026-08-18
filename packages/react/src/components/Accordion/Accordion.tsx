@@ -61,7 +61,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
         if (!root) return;
         const triggers = Array.from(
           root.querySelectorAll<HTMLButtonElement>(
-            '.wui-accordion__trigger:not([disabled])',
+            '.civ-accordion__trigger:not([disabled])',
           ),
         );
         if (triggers.length === 0) return;
@@ -90,7 +90,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
             if (typeof ref === "function") ref(el);
             else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
           }}
-          className={cn("wui-accordion", className)}
+          className={cn("civ-accordion", className)}
           onKeyDown={handleKeyDown}
           {...props}
         >
@@ -120,7 +120,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
       >
         <div
           ref={ref}
-          className={cn("wui-accordion__item", className)}
+          className={cn("civ-accordion__item", className)}
           data-disabled={disabled ? "" : undefined}
           {...props}
         >
@@ -151,7 +151,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
         ref={ref}
         type="button"
         id={item.triggerId}
-        className={cn("wui-accordion__trigger", className)}
+        className={cn("civ-accordion__trigger", className)}
         aria-expanded={isOpen}
         aria-controls={item.contentId}
         disabled={disabled}
@@ -161,7 +161,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
         {...props}
       >
         {children}
-        <span className="wui-accordion__icon" aria-hidden="true">
+        <span className="civ-accordion__icon" aria-hidden="true">
           {"\u25BE"}
         </span>
       </button>
@@ -187,14 +187,14 @@ export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps
       <div
         ref={ref}
         id={item.contentId}
-        className={cn("wui-accordion__content", className)}
+        className={cn("civ-accordion__content", className)}
         role="region"
         aria-labelledby={item.triggerId}
         data-state={isOpen ? "open" : "closed"}
         inert={!isOpen}
         {...props}
       >
-        <div className="wui-accordion__content-inner">{children}</div>
+        <div className="civ-accordion__content-inner">{children}</div>
       </div>
     );
   },

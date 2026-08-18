@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarImage, AvatarFallback } from "@weiui/react";
+import { Avatar, AvatarImage, AvatarFallback } from "civaria";
 
 export function AvatarDemo() {
   return (
@@ -8,7 +8,7 @@ export function AvatarDemo() {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "var(--wui-spacing-3)",
+        gap: "var(--civ-spacing-3)",
         flexWrap: "wrap",
       }}
     >

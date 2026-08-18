@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Input, Label } from "@weiui/react";
+import { Input, Label } from "civaria";
 
 export function InputDemo() {
   const [value, setValue] = useState("");
@@ -11,7 +11,7 @@ export function InputDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-1\\.5)",
+        gap: "var(--civ-spacing-1\\.5)",
         maxWidth: "320px",
       }}
     >

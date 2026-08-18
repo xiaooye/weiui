@@ -12,7 +12,7 @@ import {
   Input,
   Stack,
   Text,
-} from "@weiui/react";
+} from "civaria";
 import {
   PALETTE_ITEMS,
   PALETTE_CATEGORIES,
@@ -69,16 +69,16 @@ function PaletteButton({
   return (
     <button
       type="button"
-      className="wui-tool-palette__item"
+      className="civ-tool-palette__item"
       onPointerDown={onPointerDown}
     >
       <span
-        className="wui-tool-palette__icon"
+        className="civ-tool-palette__icon"
         data-category={category.toLowerCase()}
       >
         {item.label[0]}
       </span>
-      <span className="wui-tool-palette__label">{item.label}</span>
+      <span className="civ-tool-palette__label">{item.label}</span>
     </button>
   );
 }
@@ -128,7 +128,7 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
     );
 
   return (
-    <Card className="wui-tool-palette">
+    <Card className="civ-tool-palette">
       <CardHeader>
         <Stack direction="column" gap={2}>
           <Text as="span" size="sm" weight="semibold">
@@ -141,7 +141,7 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
             onChange={(e) => setQuery(e.currentTarget.value)}
             placeholder="Search..."
             aria-label="Filter components"
-            className="wui-tool-palette__search"
+            className="civ-tool-palette__search"
           />
         </Stack>
       </CardHeader>
@@ -150,16 +150,16 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
           type="multiple"
           value={effectiveExpanded}
           onValueChange={setExpanded}
-          className="wui-tool-palette__accordion"
+          className="civ-tool-palette__accordion"
         >
           {onLoadTemplate && filteredTemplates.length > 0 ? (
             <AccordionItem
               value={TEMPLATES_VALUE}
-              className="wui-tool-palette__section wui-tool-palette__section--templates"
+              className="civ-tool-palette__section civ-tool-palette__section--templates"
             >
-              <AccordionTrigger className="wui-tool-palette__trigger">
-                <span className="wui-tool-palette__trigger-label">
-                  <span className="wui-tool-palette__trigger-title">
+              <AccordionTrigger className="civ-tool-palette__trigger">
+                <span className="civ-tool-palette__trigger-label">
+                  <span className="civ-tool-palette__trigger-title">
                     Templates
                   </span>
                   <Badge variant="soft" size="sm">
@@ -168,19 +168,19 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="wui-tool-palette__list">
+                <div className="civ-tool-palette__list">
                   {filteredTemplates.map((tpl) => (
                     <button
                       type="button"
                       key={tpl.id}
                       onClick={() => onLoadTemplate(tpl.tree)}
-                      className="wui-tool-palette__item wui-tool-palette__item--template"
+                      className="civ-tool-palette__item civ-tool-palette__item--template"
                       title={tpl.description}
                     >
-                      <span className="wui-tool-palette__icon wui-tool-palette__icon--template">
+                      <span className="civ-tool-palette__icon civ-tool-palette__icon--template">
                         {tpl.label[0]}
                       </span>
-                      <span className="wui-tool-palette__label">
+                      <span className="civ-tool-palette__label">
                         {tpl.label}
                       </span>
                     </button>
@@ -196,12 +196,12 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
               <AccordionItem
                 key={category}
                 value={category}
-                className="wui-tool-palette__section"
+                className="civ-tool-palette__section"
                 data-category={category.toLowerCase()}
               >
-                <AccordionTrigger className="wui-tool-palette__trigger">
-                  <span className="wui-tool-palette__trigger-label">
-                    <span className="wui-tool-palette__trigger-title">
+                <AccordionTrigger className="civ-tool-palette__trigger">
+                  <span className="civ-tool-palette__trigger-label">
+                    <span className="civ-tool-palette__trigger-title">
                       {category}
                     </span>
                     <Badge variant="soft" size="sm">
@@ -210,7 +210,7 @@ export function ComponentPalette({ onAdd, onLoadTemplate }: Props) {
                   </span>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="wui-tool-palette__list">
+                  <div className="civ-tool-palette__list">
                     {items.map((item) => (
                       <PaletteButton
                         key={item.type}

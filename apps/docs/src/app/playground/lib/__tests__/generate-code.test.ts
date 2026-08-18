@@ -7,12 +7,12 @@ describe("generateCode", () => {
       {
         component: "Button",
         props: { variant: "solid", children: "Save" },
-        importPath: "@weiui/react",
+        importPath: "civaria",
         subpathImport: null,
       },
       { target: "jsx", includeImports: true },
     );
-    expect(out).toMatch(/import \{ Button \} from "@weiui\/react";/);
+    expect(out).toMatch(/import \{ Button \} from "@civaria\/react";/);
     expect(out).toMatch(/<Button variant="solid">Save<\/Button>/);
   });
 
@@ -21,12 +21,12 @@ describe("generateCode", () => {
       {
         component: "Editor",
         props: {},
-        importPath: "@weiui/react/editor",
-        subpathImport: "@weiui/react/editor",
+        importPath: "civaria/editor",
+        subpathImport: "civaria/editor",
       },
       { target: "jsx", includeImports: true },
     );
-    expect(out).toMatch(/import \{ Editor \} from "@weiui\/react\/editor";/);
+    expect(out).toMatch(/import \{ Editor \} from "@civaria\/react\/editor";/);
   });
 
   it("serializes booleans and numbers correctly", () => {
@@ -34,7 +34,7 @@ describe("generateCode", () => {
       {
         component: "Slider",
         props: { value: 50, disabled: true },
-        importPath: "@weiui/react",
+        importPath: "civaria",
         subpathImport: null,
       },
       { target: "jsx", includeImports: false },
@@ -48,7 +48,7 @@ describe("generateCode", () => {
       {
         component: "Button",
         props: { children: "Hi" },
-        importPath: "@weiui/react",
+        importPath: "civaria",
         subpathImport: null,
       },
       { target: "tsx", includeImports: true, componentWrap: true },

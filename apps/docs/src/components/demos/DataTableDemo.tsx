@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 const DataTableDemoInner = dynamic(() => import("./DataTableDemoInner"), {
   ssr: false,
-  loading: () => <div style={{ blockSize: 320, inlineSize: "100%" }} className="wui-skeleton" />,
+  loading: () => <div style={{ blockSize: 320, inlineSize: "100%" }} className="civ-skeleton" />,
 });
 
 export function DataTableDemo() {

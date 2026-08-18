@@ -21,7 +21,7 @@ export function TabsTrigger({ value, children, onKeyDown, ...props }: TabsTrigge
       onClick={() => onValueChange(value)}
       onKeyDown={(e) => onKeyDown?.(e)}
       {...props}
-      data-wui-component="tabs"
+      data-civaria-component="tabs"
       data-part="trigger"
       data-state={isActive ? "active" : "inactive"}
       data-selected={isActive ? "" : undefined}

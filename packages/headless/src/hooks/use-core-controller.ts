@@ -1,9 +1,9 @@
 import { useRef, useSyncExternalStore } from "react";
-import type { Controller } from "@weiui/core";
+import type { Controller } from "@civaria/core";
 
 type ControllerState<CoreController extends Controller<any>> = ReturnType<CoreController["getState"]>;
 
-/** React binding for an observable framework-neutral WeiUI controller. */
+/** React binding for an observable framework-neutral Civaria controller. */
 export function useCoreController<CoreController extends Controller<any>>(
   create: () => CoreController,
 ): readonly [CoreController, ControllerState<CoreController>] {

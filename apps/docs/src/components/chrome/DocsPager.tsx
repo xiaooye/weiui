@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { Card, Grid, Stack, Text } from "@weiui/react";
+import { Card, Grid, Stack, Text } from "civaria";
 import { siteConfig, type SidebarItem } from "../../lib/site-config";
 
 export function DocsPager() {
@@ -21,10 +21,10 @@ export function DocsPager() {
       gap={4}
       role="navigation"
       aria-label="Pager"
-      className="wui-docs-pager"
+      className="civ-docs-pager"
     >
       {prev ? (
-        <Card variant="outlined" asChild className="wui-docs-pager__card">
+        <Card variant="outlined" asChild className="civ-docs-pager__card">
           <NextLink href={prev.href}>
             <Stack direction="column" gap={1}>
               <Text size="xs" color="muted">
@@ -40,7 +40,7 @@ export function DocsPager() {
         <span />
       )}
       {next ? (
-        <Card variant="outlined" asChild className="wui-docs-pager__card wui-docs-pager__card--next">
+        <Card variant="outlined" asChild className="civ-docs-pager__card civ-docs-pager__card--next">
           <NextLink href={next.href}>
             <Stack direction="column" gap={1}>
               <Text size="xs" color="muted">

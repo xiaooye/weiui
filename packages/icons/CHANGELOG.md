@@ -1,4 +1,4 @@
-# @weiui/icons
+# @civaria/icons
 
 ## 0.0.1
 

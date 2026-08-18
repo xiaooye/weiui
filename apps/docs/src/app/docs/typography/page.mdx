@@ -1,31 +1,31 @@
 # Typography
 
-WeiUI ships three type stacks exposed as CSS variables:
+Civaria ships three type stacks exposed as CSS variables:
 
-- `--wui-font-family-sans` — **Inter** (body, UI, prose)
-- `--wui-font-family-display` — **Instrument Serif** (hero/display headings)
-- `--wui-font-family-mono` — **JetBrains Mono** (code)
+- `--civ-font-family-sans` — **Inter** (body, UI, prose)
+- `--civ-font-family-display` — **Instrument Serif** (hero/display headings)
+- `--civ-font-family-mono` — **JetBrains Mono** (code)
 
 ## Scale
 
 | Token | Value | Example |
 |-------|-------|---------|
-| `--wui-font-size-xs` | 12px | <span style={{ fontSize: "var(--wui-font-size-xs)" }}>The quick brown fox</span> |
-| `--wui-font-size-sm` | 14px | <span style={{ fontSize: "var(--wui-font-size-sm)" }}>The quick brown fox</span> |
-| `--wui-font-size-base` | 16px | <span style={{ fontSize: "var(--wui-font-size-base)" }}>The quick brown fox</span> |
-| `--wui-font-size-lg` | 18px | <span style={{ fontSize: "var(--wui-font-size-lg)" }}>The quick brown fox</span> |
-| `--wui-font-size-xl` | 20px | <span style={{ fontSize: "var(--wui-font-size-xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-2xl` | 24px | <span style={{ fontSize: "var(--wui-font-size-2xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-3xl` | 30px | <span style={{ fontSize: "var(--wui-font-size-3xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-4xl` | 36px | <span style={{ fontSize: "var(--wui-font-size-4xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-5xl` | 48px | <span style={{ fontSize: "var(--wui-font-size-5xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-xs` | 12px | <span style={{ fontSize: "var(--civ-font-size-xs)" }}>The quick brown fox</span> |
+| `--civ-font-size-sm` | 14px | <span style={{ fontSize: "var(--civ-font-size-sm)" }}>The quick brown fox</span> |
+| `--civ-font-size-base` | 16px | <span style={{ fontSize: "var(--civ-font-size-base)" }}>The quick brown fox</span> |
+| `--civ-font-size-lg` | 18px | <span style={{ fontSize: "var(--civ-font-size-lg)" }}>The quick brown fox</span> |
+| `--civ-font-size-xl` | 20px | <span style={{ fontSize: "var(--civ-font-size-xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-2xl` | 24px | <span style={{ fontSize: "var(--civ-font-size-2xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-3xl` | 30px | <span style={{ fontSize: "var(--civ-font-size-3xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-4xl` | 36px | <span style={{ fontSize: "var(--civ-font-size-4xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-5xl` | 48px | <span style={{ fontSize: "var(--civ-font-size-5xl)" }}>The quick brown fox</span> |
 
 ## Display typography
 
-The hero on the landing page uses the display stack. Add `className="wui-display"` to any heading to opt in.
+The hero on the landing page uses the display stack. Add `className="civ-display"` to any heading to opt in.
 
-<div style={{ padding: "2rem", border: "1px solid var(--wui-color-border)", borderRadius: "var(--wui-shape-radius-lg)" }}>
-  <h2 className="wui-display" style={{ fontSize: "var(--wui-font-size-5xl)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+<div style={{ padding: "2rem", border: "1px solid var(--civ-color-border)", borderRadius: "var(--civ-shape-radius-lg)" }}>
+  <h2 className="civ-display" style={{ fontSize: "var(--civ-font-size-5xl)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
     A design system that earns its place.
   </h2>
 </div>
@@ -34,25 +34,25 @@ The hero on the landing page uses the display stack. Add `className="wui-display
 
 | Token | Value | Preview |
 |-------|-------|---------|
-| `--wui-font-weight-regular` | 400 | <span style={{ fontWeight: 400 }}>The quick brown fox jumps over the lazy dog</span> |
-| `--wui-font-weight-medium` | 500 | <span style={{ fontWeight: 500 }}>The quick brown fox jumps over the lazy dog</span> |
-| `--wui-font-weight-semibold` | 600 | <span style={{ fontWeight: 600 }}>The quick brown fox jumps over the lazy dog</span> |
-| `--wui-font-weight-bold` | 700 | <span style={{ fontWeight: 700 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--civ-font-weight-regular` | 400 | <span style={{ fontWeight: 400 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--civ-font-weight-medium` | 500 | <span style={{ fontWeight: 500 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--civ-font-weight-semibold` | 600 | <span style={{ fontWeight: 600 }}>The quick brown fox jumps over the lazy dog</span> |
+| `--civ-font-weight-bold` | 700 | <span style={{ fontWeight: 700 }}>The quick brown fox jumps over the lazy dog</span> |
 
 ## Line height
 
 | Token | Value | Description |
 |-------|-------|-------------|
-| `--wui-font-lineHeight-tight` | 1.25 | Headings and display text |
-| `--wui-font-lineHeight-snug` | 1.375 | UI text, labels, buttons |
-| `--wui-font-lineHeight-normal` | 1.5 | Body copy — comfortable reading |
-| `--wui-font-lineHeight-relaxed` | 1.625 | Long-form prose |
-| `--wui-font-lineHeight-loose` | 2 | Dense vertical rhythm (e.g. spaced list items) |
+| `--civ-font-lineHeight-tight` | 1.25 | Headings and display text |
+| `--civ-font-lineHeight-snug` | 1.375 | UI text, labels, buttons |
+| `--civ-font-lineHeight-normal` | 1.5 | Body copy — comfortable reading |
+| `--civ-font-lineHeight-relaxed` | 1.625 | Long-form prose |
+| `--civ-font-lineHeight-loose` | 2 | Dense vertical rhythm (e.g. spaced list items) |
 
 ## Mono stack
 
-Block + inline code use `--wui-font-family-mono`.
+Block + inline code use `--civ-font-family-mono`.
 
-<pre style={{ fontFamily: "var(--wui-font-family-mono)", fontSize: "var(--wui-font-size-sm)", background: "var(--wui-color-muted)", padding: "var(--wui-spacing-3)", borderRadius: "var(--wui-shape-radius-md)", margin: 0 }}>
+<pre style={{ fontFamily: "var(--civ-font-family-mono)", fontSize: "var(--civ-font-size-sm)", background: "var(--civ-color-muted)", padding: "var(--civ-spacing-3)", borderRadius: "var(--civ-shape-radius-md)", margin: 0 }}>
 {`const greet = (name: string) => \`Hello, \${name}!\`;`}
 </pre>

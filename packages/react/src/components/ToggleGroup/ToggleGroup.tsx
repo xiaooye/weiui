@@ -172,10 +172,10 @@ export const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
         <div
           ref={ref}
           className={cn(
-            "wui-toggle-group",
-            orientation === "vertical" && "wui-toggle-group--vertical",
-            size === "sm" && "wui-toggle-group--sm",
-            size === "lg" && "wui-toggle-group--lg",
+            "civ-toggle-group",
+            orientation === "vertical" && "civ-toggle-group--vertical",
+            size === "sm" && "civ-toggle-group--sm",
+            size === "lg" && "civ-toggle-group--lg",
             className,
           )}
           role="group"
@@ -222,7 +222,7 @@ export const ToggleGroupItem = forwardRef<HTMLButtonElement, ToggleGroupItemProp
       <button
         ref={setRef}
         type="button"
-        className={cn("wui-toggle-group__item", className)}
+        className={cn("civ-toggle-group__item", className)}
         data-active={isActive || undefined}
         data-disabled={isDisabled || undefined}
         aria-pressed={isActive}

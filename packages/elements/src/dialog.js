@@ -1,1 +1,1 @@
-export { WuiDialogElement, defineDialog } from "./index.js";
+export { CivDialogElement, defineDialog } from "./index.js";

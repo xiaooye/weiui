@@ -359,7 +359,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
       return (
         <li
           key={node.id}
-          className="wui-tree__item"
+          className="civ-tree__item"
           role="treeitem"
           data-tree-node-id={node.id}
           aria-expanded={hasChildren ? isExpanded : undefined}
@@ -372,11 +372,11 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
               else nodeRefs.current.delete(node.id);
             }}
             type="button"
-            className="wui-tree__node"
+            className="civ-tree__node"
             data-selected={isSelected || undefined}
             data-depth={depth}
             disabled={node.disabled}
-            style={{ ["--wui-tree-depth" as string]: String(depth) }}
+            style={{ ["--civ-tree-depth" as string]: String(depth) }}
             tabIndex={
               isSelected ||
               (!selected && selectionMode === "single" && depth === 0 && node === nodes[0])
@@ -391,7 +391,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
             onKeyDown={(e) => handleKeyDown(e, node.id)}
           >
             <span
-              className="wui-tree__toggle"
+              className="civ-tree__toggle"
               data-expanded={isExpanded || undefined}
               data-leaf={!hasChildren || undefined}
               aria-hidden="true"
@@ -401,7 +401,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
             {checkboxes && (
               <input
                 type="checkbox"
-                className="wui-tree__checkbox"
+                className="civ-tree__checkbox"
                 checked={checkState === "checked"}
                 ref={(el) => {
                   if (el) el.indeterminate = checkState === "indeterminate";
@@ -416,19 +416,19 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
               />
             )}
             {node.icon && (
-              <span className="wui-tree__icon" aria-hidden="true">
+              <span className="civ-tree__icon" aria-hidden="true">
                 {node.icon}
               </span>
             )}
-            <span className="wui-tree__label">{node.label}</span>
+            <span className="civ-tree__label">{node.label}</span>
             {isLoading && (
-              <span className="wui-tree__loading" aria-hidden="true">
+              <span className="civ-tree__loading" aria-hidden="true">
                 {"\u2026"}
               </span>
             )}
           </button>
           {hasChildren && isExpanded && node.children?.length && (
-            <ul className="wui-tree__group" role="group">
+            <ul className="civ-tree__group" role="group">
               {node.children.map((child) => renderNode(child, depth + 1))}
             </ul>
           )}
@@ -439,7 +439,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
     return (
       <ul
         ref={ref}
-        className={cn("wui-tree", className)}
+        className={cn("civ-tree", className)}
         role="tree"
         aria-label={label || "Tree view"}
         aria-multiselectable={selectionMode === "multiple" ? true : undefined}

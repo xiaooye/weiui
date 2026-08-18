@@ -7,7 +7,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarItem,
-} from "@weiui/react";
+} from "civaria";
 
 const items = [
   { id: "dashboard", label: "Dashboard" },
@@ -23,8 +23,8 @@ export function SidebarDemo() {
       style={{
         display: "flex",
         height: "260px",
-        border: "1px solid var(--wui-color-border)",
-        borderRadius: "var(--wui-shape-radius-lg)",
+        border: "1px solid var(--civ-color-border)",
+        borderRadius: "var(--civ-shape-radius-lg)",
         overflow: "hidden",
       }}
     >
@@ -48,8 +48,8 @@ export function SidebarDemo() {
         </SidebarContent>
         <SidebarFooter
           style={{
-            fontSize: "var(--wui-font-size-xs)",
-            color: "var(--wui-color-muted-foreground)",
+            fontSize: "var(--civ-font-size-xs)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           v1.0.0
@@ -58,8 +58,8 @@ export function SidebarDemo() {
       <div
         style={{
           flex: 1,
-          padding: "var(--wui-spacing-4)",
-          fontSize: "var(--wui-font-size-sm)",
+          padding: "var(--civ-spacing-4)",
+          fontSize: "var(--civ-font-size-sm)",
         }}
       >
         Showing <strong>{current}</strong>

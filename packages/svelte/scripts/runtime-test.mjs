@@ -18,7 +18,7 @@ await writeFile(temp, compiled.js.code);
 try {
   const module = await import(`${pathToFileURL(temp).href}?runtime=${Date.now()}`);
   const result = render(module.default, { props: { variant: "solid" } });
-  assert.match(result.body, /data-wui-component="button"/);
-  assert.match(result.body, /wui-button/);
+  assert.match(result.body, /data-civaria-component="button"/);
+  assert.match(result.body, /civ-button/);
 } finally { await unlink(temp).catch(() => {}); }
 console.log("Svelte compiler + native SSR contract: OK");

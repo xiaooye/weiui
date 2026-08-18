@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { checkUsage } from "../tools/check-usage.js";
 
 describe("checkUsage tool", () => {
-  it("flags Tailwind utility classes on WeiUI components", async () => {
+  it("flags Tailwind utility classes on Civaria components", async () => {
     const code = `<Button className="inline-flex items-center h-11">Hi</Button>`;
     const result = await checkUsage({}, { code });
     expect(result.warnings.length).toBeGreaterThan(0);
@@ -10,11 +10,11 @@ describe("checkUsage tool", () => {
   });
 
   it("flags heavy components imported from the main barrel", async () => {
-    const code = `import { Editor } from "@weiui/react";`;
+    const code = `import { Editor } from "civaria";`;
     const result = await checkUsage({}, { code });
     expect(result.warnings).toHaveLength(1);
     expect(result.warnings[0]!.message).toMatch(/Editor/);
-    expect(result.warnings[0]!.suggestion).toMatch(/@weiui\/react\/editor/);
+    expect(result.warnings[0]!.suggestion).toMatch(/@civaria\/react\/editor/);
   });
 
   it("flags <Button iconOnly> without aria-label", async () => {

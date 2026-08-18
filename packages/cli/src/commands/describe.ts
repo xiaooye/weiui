@@ -1,5 +1,5 @@
-import { getComponent } from "@weiui/mcp/tools/get-component";
-import { defaultLoadComponent } from "@weiui/mcp/registry-loader";
+import { getComponent } from "@civaria/mcp/tools/get-component";
+import { defaultLoadComponent } from "@civaria/mcp/registry-loader";
 
 export async function describeCommand(name: string): Promise<string> {
   const loadComponent = defaultLoadComponent();

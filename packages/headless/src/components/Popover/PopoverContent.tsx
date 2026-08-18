@@ -40,7 +40,7 @@ export function PopoverContent({ children, onKeyDown, ...props }: PopoverContent
       ref={setRefs}
       id={popoverId}
       style={floatingStyles}
-      data-wui-component="popover"
+      data-civaria-component="popover"
       data-part="content"
       data-state="open"
       onKeyDown={(e) => {

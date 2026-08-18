@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { checkUsage } from "@weiui/mcp/tools/check-usage";
+import { checkUsage } from "@civaria/mcp/tools/check-usage";
 
 export async function checkUsageCommand(filePath: string): Promise<string> {
   const code = readFileSync(filePath, "utf-8");

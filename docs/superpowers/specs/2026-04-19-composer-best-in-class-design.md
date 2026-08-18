@@ -10,7 +10,7 @@
 
 ## 1. Goal
 
-Turn the WeiUI Composer at `/composer` into a page builder that can sit next to Framer, Webflow, and Plasmic in quality, while being a **live showcase of `@weiui/react` primitives**. Every piece of editor chrome is built from a WeiUI component — no custom shadcn-lite widgets when a library primitive exists. The tool proves the design system can build itself.
+Turn the Civaria Composer at `/composer` into a page builder that can sit next to Framer, Webflow, and Plasmic in quality, while being a **live showcase of `civaria` primitives**. Every piece of editor chrome is built from a Civaria component — no custom shadcn-lite widgets when a library primitive exists. The tool proves the design system can build itself.
 
 **The test for "best in class":**
 - Cmd+K opens a command palette that adds components, loads templates, and runs actions.
@@ -38,7 +38,7 @@ Turn the WeiUI Composer at `/composer` into a page builder that can sit next to 
 6. **Copy / paste** — Cmd/Ctrl+C serialises selected subtrees to an in-memory clipboard and `navigator.clipboard.writeText(json)`. Cmd/Ctrl+V reads back, assigns fresh UUIDs, inserts as sibling of primary (or at root). Survives undo/redo.
 7. **Command palette (Cmd+K)** — `<CommandPalette>` bound to Cmd+K. Commands include: "Add &lt;Component&gt;" (one per palette item) · "Load template: &lt;Name&gt;" · "Delete selection" · "Duplicate selection" · "Wrap in Stack (row/column)" · "Wrap in Card" · "Select parent" · "Toggle preview" · "Toggle outline panel". Fuzzy-matched via `match-sorter` (already in the CP). Arrow keys + Enter select.
 8. **Right-click context menu** — `<Menu>` opened via `onContextMenu` on any `[data-composer-id]`. Items: Duplicate (⌘D) · Delete (⌫) · Wrap in Stack row (⌥R) · Wrap in Stack column (⌥C) · Wrap in Card · Copy (⌘C) · Paste (⌘V) · Select parent (⌥↑) · Move up (⌘↑) · Move down (⌘↓). Each item renders `<Kbd>` for its shortcut.
-9. **Breadcrumb (WeiUI `<Breadcrumb>`)** — replaces the hand-rolled chain in PropsEditor. Uses `<BreadcrumbItem>` + `<BreadcrumbEllipsis>` when depth > 5.
+9. **Breadcrumb (Civaria `<Breadcrumb>`)** — replaces the hand-rolled chain in PropsEditor. Uses `<BreadcrumbItem>` + `<BreadcrumbEllipsis>` when depth > 5.
 10. **Popover-anchored layout chips** — replace the absolute-positioned chip div with a `<Popover>` anchored to the selection rect. Floating-UI handles flip/shift/collision.
 11. **Splitter-based resizable chrome** — the Palette / Canvas / Props columns live inside a horizontal `<Splitter>` with three `<SplitterPanel>`s (min 200 / 400 / 240, collapsible on the side panels). Palette and Props can be double-clicked to collapse; the canvas panel always stays visible.
 12. **TreeView outline** — replace the custom outline `<Canvas>` with a `<TreeView>` driven by the same tree state. Expand/collapse with chevrons, roving tabindex, drag-reorder rows (via the same pointer primitive as the canvas), typeahead by first letter. Selection mirrors the canvas.
@@ -52,7 +52,7 @@ Turn the WeiUI Composer at `/composer` into a page builder that can sit next to 
 
 ### Out of scope
 
-- **Free x/y absolute positioning.** Still deliberately not a page-builder goal — every layout compiles to WeiUI Stack/Grid/Container.
+- **Free x/y absolute positioning.** Still deliberately not a page-builder goal — every layout compiles to Civaria Stack/Grid/Container.
 - **Per-breakpoint prop overrides.** Still a future spec; v1 previews responsive widths but doesn't store breakpoint-specific props.
 - **Cross-tab clipboard sync.** Clipboard is per-session.
 - **Collaborative editing.** No real-time co-authoring.
@@ -93,7 +93,7 @@ Turn the WeiUI Composer at `/composer` into a page builder that can sit next to 
                                 └──── Drawer (mobile palette) ───┘
 ```
 
-All chrome components come from `@weiui/react`. Custom code is narrow: state store, drag math, command registry, a thin DragGhost portal, the canvas overlay.
+All chrome components come from `civaria`. Custom code is narrow: state store, drag math, command registry, a thin DragGhost portal, the canvas overlay.
 
 ### 3.1 Module responsibilities
 
@@ -106,7 +106,7 @@ All chrome components come from `@weiui/react`. Custom code is narrow: state sto
 | `lib/commands.ts` | Command registry. `buildCommands(tree, selection, palette)` returns the list the `<CommandPalette>` shows. | `useComposerCommands()` |
 | `lib/clipboard.ts` | Serialise / deserialise subtrees with fresh-id remapping. | `copyNodes()`, `pasteNodes()` |
 | `components/DragGhost.tsx` | Portal-mounted floating preview that follows the pointer during drag. | `DragGhost` |
-| `components/OutlineTree.tsx` | Wraps `<TreeView>` from `@weiui/react`; pipes tree state through. Replaces today's `Canvas.tsx` outline implementation. | `OutlineTree` |
+| `components/OutlineTree.tsx` | Wraps `<TreeView>` from `civaria`; pipes tree state through. Replaces today's `Canvas.tsx` outline implementation. | `OutlineTree` |
 | `components/ContextMenu.tsx` | Wraps `<Menu>`; opened at pointer on `contextmenu`. | `ContextMenu` |
 | `components/ComposerAppBar.tsx` | Top toolbar: undo/redo, zoom, viewport, theme, preview, command-palette trigger, sandbox. Uses `<AppBar>` from the lib. | `ComposerAppBar` |
 | `components/ResizableShell.tsx` | 3-panel `<Splitter>` layout with mobile collapse to `<Drawer>`s. | `ResizableShell` |
@@ -215,7 +215,7 @@ For each frame during `dragging`, call `computeDropIndicator(stageRect, tree, re
 
 **Visualisation:**
 - Edge drop: the existing 30%-slice highlight (unchanged).
-- Between drop: a 2px `var(--wui-color-primary)` horizontal/vertical line at the gap, with 4px rounded caps. Pointer-events none so it doesn't interfere.
+- Between drop: a 2px `var(--civ-color-primary)` horizontal/vertical line at the gap, with 4px rounded caps. Pointer-events none so it doesn't interfere.
 
 ### 4.5 Unified dispatch
 
@@ -316,13 +316,13 @@ Both are already in the component (shipped in Phase 6a — see commit `6fbe3aa`)
 
 `onContextMenu` on the stage: find the `[data-composer-id]`, `e.preventDefault()`, dispatch `openContextMenu({ id, x, y })`. The page mounts a `<Menu>` whose `<MenuContent>` is positioned at `(x, y)` via a virtual-anchor trick (a zero-size `<span>` placed absolutely at the coords and passed to Menu's floating-ref — matches the pattern used elsewhere in the codebase for context menus).
 
-Each `<MenuItem>` takes a `shortcut` string prop that renders a `.wui-menu__shortcut` span on the trailing edge — no separate `MenuShortcut` component needed. Items are the "Edit" group commands from §6.1. Esc + outside-click close behaviour is built into `<Menu>`.
+Each `<MenuItem>` takes a `shortcut` string prop that renders a `.civ-menu__shortcut` span on the trailing edge — no separate `MenuShortcut` component needed. Items are the "Edit" group commands from §6.1. Esc + outside-click close behaviour is built into `<Menu>`.
 
 ---
 
-## 8. Breadcrumb (WeiUI component)
+## 8. Breadcrumb (Civaria component)
 
-Today's hand-rolled crumb chain in `PropsEditor` is replaced by the WeiUI `<Breadcrumb>` primitive. The public exports from `@weiui/react` are `Breadcrumb`, `BreadcrumbItem`, `BreadcrumbSeparator`, `BreadcrumbEllipsis` — no `BreadcrumbLink` / `BreadcrumbPage`. Each crumb is a bare `<BreadcrumbItem>` whose child is either a text node (for the current / last item) or a `<button>` (for ancestors):
+Today's hand-rolled crumb chain in `PropsEditor` is replaced by the Civaria `<Breadcrumb>` primitive. The public exports from `civaria` are `Breadcrumb`, `BreadcrumbItem`, `BreadcrumbSeparator`, `BreadcrumbEllipsis` — no `BreadcrumbLink` / `BreadcrumbPage`. Each crumb is a bare `<BreadcrumbItem>` whose child is either a text node (for the current / last item) or a `<button>` (for ancestors):
 
 ```tsx
 <Breadcrumb>
@@ -332,7 +332,7 @@ Today's hand-rolled crumb chain in `PropsEditor` is replaced by the WeiUI `<Brea
         {i === arr.length - 1 ? (
           <Text as="span" size="xs" weight="semibold">{a.type}</Text>
         ) : (
-          <button type="button" className="wui-composer__crumb-link" onClick={() => select(a.id, "replace")}>
+          <button type="button" className="civ-composer__crumb-link" onClick={() => select(a.id, "replace")}>
             {a.type}
           </button>
         )}
@@ -375,7 +375,7 @@ Today's hand-rolled crumb chain in `PropsEditor` is replaced by the WeiUI `<Brea
 </Splitter>
 ```
 
-Defaults sum to 100. On a 1440-px screen this yields roughly `240 · 880 · 320` which matches the Framer-ish proportions. Double-click the palette / props handles to collapse (uses SplitterPanel's existing `collapsible` semantic). Sizes persist via `useSyncExternalStore` on `localStorage` key `wui-composer-layout-sizes`.
+Defaults sum to 100. On a 1440-px screen this yields roughly `240 · 880 · 320` which matches the Framer-ish proportions. Double-click the palette / props handles to collapse (uses SplitterPanel's existing `collapsible` semantic). Sizes persist via `useSyncExternalStore` on `localStorage` key `civ-composer-layout-sizes`.
 
 ---
 
@@ -426,7 +426,7 @@ Shortcut: Cmd+P. Toolbar toggle: `<Switch>` labelled "Preview".
 
 ### 14.1 Theme toggle in stage
 
-Same tri-state `<ToggleGroup>` pattern as Playground. Sets `data-theme={theme}` on the `.wui-composer__stage` wrapper. CSS applies light-mode token overrides when `data-theme="light"` even inside a `.dark` document.
+Same tri-state `<ToggleGroup>` pattern as Playground. Sets `data-theme={theme}` on the `.civ-composer__stage` wrapper. CSS applies light-mode token overrides when `data-theme="light"` even inside a `.dark` document.
 
 ### 14.2 Zoom
 
@@ -449,7 +449,7 @@ Breakpoint: `768px`.
 - **≥ 768px:** three-column `<Splitter>` as described.
 - **< 768px:** `<Splitter>` collapses — only the canvas panel renders. Two buttons in the AppBar open the palette (`<Drawer side="left">`) and the props panel (`<Drawer side="right">`). Canvas fills the viewport.
 
-Existing `@media (max-width: 768px)` CSS in `chrome.css` is replaced by the conditional Drawer approach — cleaner and matches WeiUI's responsive patterns elsewhere.
+Existing `@media (max-width: 768px)` CSS in `chrome.css` is replaced by the conditional Drawer approach — cleaner and matches Civaria's responsive patterns elsewhere.
 
 ---
 
@@ -537,7 +537,7 @@ Baseline: the existing 100 tests must stay green.
 The spec is done when:
 
 1. Every item in §2 (scope, 19 entries) is implemented and manually-demonstrably working on both mobile and desktop Chrome + Firefox + Safari.
-2. No regressions: full test suite ≥ 100 passing; `pnpm --filter @weiui/docs build` clean; zero Tailwind utility leakage in the changed files.
+2. No regressions: full test suite ≥ 100 passing; `pnpm --filter @civaria/docs build` clean; zero Tailwind utility leakage in the changed files.
 3. Drag works in every browser we test — no "Cannot read properties of null" error class in the console.
 4. Multi-select + Delete removes N nodes in one history frame (undo restores them all at once).
 5. Cmd+K opens in ≤ 50ms from keypress; fuzzy search of all 65 components + 5 templates + 10+ actions is sub-frame.

@@ -1,1 +1,1 @@
-export { WuiButtonElement, defineButton } from "./index.js";
+export { CivButtonElement, defineButton } from "./index.js";

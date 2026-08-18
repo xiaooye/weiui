@@ -1,6 +1,6 @@
 "use client";
 import NextLink from "next/link";
-import { Button, Heading, Stack, Text } from "@weiui/react";
+import { Button, Heading, Stack, Text } from "civaria";
 import { Header } from "../components/chrome/Header";
 import { Footer } from "../components/landing/Footer";
 
@@ -8,19 +8,19 @@ export default function NotFound() {
   return (
     <>
       <Header />
-      <main className="wui-not-found">
-        <Stack direction="column" gap={6} className="wui-not-found__stack">
+      <main className="civ-not-found">
+        <Stack direction="column" gap={6} className="civ-not-found__stack">
           <Text
             as="span"
             aria-hidden="true"
             size="xl"
             color="muted"
-            className="wui-not-found__code"
+            className="civ-not-found__code"
           >
             404
           </Text>
-          <Stack direction="column" gap={3} className="wui-not-found__body">
-            <Heading level={1} className="wui-not-found__title">
+          <Stack direction="column" gap={3} className="civ-not-found__body">
+            <Heading level={1} className="civ-not-found__title">
               Page not found.
             </Heading>
             <Text size="lg" color="muted">
@@ -28,7 +28,7 @@ export default function NotFound() {
               index or one of the featured components below.
             </Text>
           </Stack>
-          <Stack direction="row" gap={3} wrap className="wui-not-found__actions">
+          <Stack direction="row" gap={3} wrap className="civ-not-found__actions">
             <Button asChild variant="solid" size="lg">
               <NextLink href="/">Back to home</NextLink>
             </Button>

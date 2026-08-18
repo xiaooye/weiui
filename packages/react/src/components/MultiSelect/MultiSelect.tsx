@@ -1,7 +1,7 @@
 "use client";
 import { Fragment, forwardRef, useState, useRef, useId } from "react";
 import { cn } from "../../utils/cn";
-import { useOutsideClick, useFloatingMenu } from "@weiui/headless";
+import { useOutsideClick, useFloatingMenu } from "@civaria/headless";
 import { Spinner } from "../Spinner/Spinner";
 
 export interface MultiSelectOption {
@@ -205,7 +205,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       <div
         key={opt.value}
         id={`${listboxId}-opt-${i}`}
-        className="wui-multi-select__option"
+        className="civ-multi-select__option"
         role="option"
         aria-selected={selected.includes(opt.value)}
         aria-disabled={opt.disabled || undefined}
@@ -221,13 +221,13 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     return (
       <div
         ref={ref}
-        className={cn("wui-multi-select", className)}
+        className={cn("civ-multi-select", className)}
         data-disabled={disabled || undefined}
       >
         <div ref={containerRef}>
           <div
             ref={refs.setReference}
-            className="wui-multi-select__trigger"
+            className="civ-multi-select__trigger"
             role="combobox"
             aria-expanded={isOpen}
             aria-controls={listboxId}
@@ -241,11 +241,11 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
               selected.map((val) => {
                 const opt = options.find((o) => o.value === val);
                 return (
-                  <span key={val} className="wui-multi-select__tag">
+                  <span key={val} className="civ-multi-select__tag">
                     {opt?.label ?? val}
                     <button
                       type="button"
-                      className="wui-multi-select__tag-remove"
+                      className="civ-multi-select__tag-remove"
                       aria-label={`Remove ${opt?.label ?? val}`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -259,21 +259,21 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 );
               })
             ) : (
-              <span className="wui-multi-select__placeholder">{placeholder}</span>
+              <span className="civ-multi-select__placeholder">{placeholder}</span>
             )}
           </div>
           {isOpen && (
             <div
               ref={refs.setFloating}
               style={floatingStyles}
-              className="wui-multi-select__dropdown"
+              className="civ-multi-select__dropdown"
               role="listbox"
               id={listboxId}
               aria-multiselectable="true"
             >
               <input
                 type="text"
-                className="wui-multi-select__search"
+                className="civ-multi-select__search"
                 placeholder="Search…"
                 value={filter}
                 onChange={(e) => {
@@ -284,7 +284,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 onClick={(e) => e.stopPropagation()}
               />
               {loading ? (
-                <div className="wui-multi-select__loading" role="status" aria-live="polite">
+                <div className="civ-multi-select__loading" role="status" aria-live="polite">
                   <Spinner size="sm" label="" aria-hidden="true" />
                   <span>Loading…</span>
                 </div>
@@ -292,7 +292,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 <>
                   {selectAll && (
                     <div
-                      className="wui-multi-select__option wui-multi-select__option--all"
+                      className="civ-multi-select__option civ-multi-select__option--all"
                       role="option"
                       aria-selected={allSelected}
                       data-selected={allSelected || undefined}
@@ -305,7 +305,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                     ? groupedOptions.map((bucket) => (
                         <Fragment key={bucket.group ?? "__ungrouped"}>
                           {bucket.group && (
-                            <div className="wui-multi-select__group" role="presentation">
+                            <div className="civ-multi-select__group" role="presentation">
                               {bucket.group}
                             </div>
                           )}
@@ -318,7 +318,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                     : filtered.map((opt, i) => renderOption(opt, i))}
                   {creatable && filter.trim().length > 0 && filtered.length === 0 && (
                     <div
-                      className="wui-multi-select__option wui-multi-select__option--create"
+                      className="civ-multi-select__option civ-multi-select__option--create"
                       role="option"
                       aria-selected={false}
                       onClick={() => {

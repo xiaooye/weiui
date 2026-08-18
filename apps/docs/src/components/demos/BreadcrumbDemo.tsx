@@ -1,6 +1,6 @@
 "use client";
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, Link } from "@weiui/react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator, Link } from "civaria";
 
 export function BreadcrumbDemo() {
   return (

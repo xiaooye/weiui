@@ -12,8 +12,8 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
       <hr
         ref={ref}
         className={cn(
-          "wui-divider",
-          orientation === "vertical" && "wui-divider--vertical",
+          "civ-divider",
+          orientation === "vertical" && "civ-divider--vertical",
           className,
         )}
         aria-orientation={orientation}

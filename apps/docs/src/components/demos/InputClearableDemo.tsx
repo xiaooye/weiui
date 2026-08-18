@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@weiui/react";
-import { Eye, EyeOff } from "@weiui/icons/react";
+import { Input } from "civaria";
+import { Eye, EyeOff } from "@civaria/icons/react";
 
 export function InputClearableDemo() {
   const [name, setName] = useState("Jane Doe");
-  const [message, setMessage] = useState("Hello from WeiUI");
+  const [message, setMessage] = useState("Hello from Civaria");
   const [pw, setPw] = useState("");
   const [show, setShow] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)", maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--civ-spacing-3)", maxWidth: 320 }}>
       <Input
         aria-label="Full name"
         placeholder="Full name"
@@ -45,7 +45,7 @@ export function InputClearableDemo() {
               padding: 0,
               display: "inline-flex",
               alignItems: "center",
-              color: "var(--wui-color-muted-foreground)",
+              color: "var(--civ-color-muted-foreground)",
             }}
           >
             {show ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />}

@@ -1,15 +1,15 @@
 import type { FlatToken } from "./types";
 
 export const CASCADE_LAYER_ORDER =
-  "@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;";
+  "@layer civ-reset, civ-tokens, civ-theme, civ-base, civ-elements, civ-utilities;";
 
 export function pathToCssVar(path: string[]): string {
   const name = path.join("-").replace(/\./g, "\\.");
-  return `--wui-${name}`;
+  return `--civ-${name}`;
 }
 
 export function generateCss(tokens: FlatToken[]): string {
-  const lines: string[] = [CASCADE_LAYER_ORDER, "", "@layer wui-tokens {", "  :root {"];
+  const lines: string[] = [CASCADE_LAYER_ORDER, "", "@layer civ-tokens {", "  :root {"];
   for (const { path, token } of tokens) {
     lines.push(`    ${pathToCssVar(path)}: ${token.$value};`);
   }
@@ -20,7 +20,7 @@ export function generateCss(tokens: FlatToken[]): string {
 }
 
 export function generateDarkCss(tokens: FlatToken[]): string {
-  const lines: string[] = ["@layer wui-tokens {", "  .dark {"];
+  const lines: string[] = ["@layer civ-tokens {", "  .dark {"];
   for (const { path, token } of tokens) {
     lines.push(`    ${pathToCssVar(path)}: ${token.$value};`);
   }

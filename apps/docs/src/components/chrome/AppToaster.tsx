@@ -1,6 +1,6 @@
 "use client";
 
-import { Toaster } from "@weiui/react";
+import { Toaster } from "civaria";
 
 export function AppToaster() {
   return <Toaster />;

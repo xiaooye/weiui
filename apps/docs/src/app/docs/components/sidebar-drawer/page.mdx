@@ -24,7 +24,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarItem,
-} from "@weiui/react";
+} from "civaria";
 
 <Sidebar aria-label="Main navigation">
   <SidebarHeader>App Name</SidebarHeader>
@@ -48,7 +48,7 @@ Break up long item lists with `SidebarGroup` + `SidebarGroupLabel`. Use `Sidebar
 import {
   Sidebar, SidebarContent, SidebarHeader,
   SidebarGroup, SidebarGroupLabel, SidebarSubMenu, SidebarItem,
-} from "@weiui/react";
+} from "civaria";
 
 <Sidebar aria-label="Admin navigation">
   <SidebarHeader>Admin</SidebarHeader>
@@ -152,7 +152,7 @@ On narrow viewports, prefer rendering the Sidebar inside a Drawer from the start
 
 - Root is a semantic `<aside>` — always pass `aria-label` so multiple asides are distinguishable.
 - Active item carries `aria-current="page"` per ARIA Authoring Practices.
-- Labels stay in the DOM even when collapsed (visually hidden via `wui-sr-only`).
+- Labels stay in the DOM even when collapsed (visually hidden via `civ-sr-only`).
 - Sub-menu toggles expose `aria-expanded` + `aria-controls`; Enter/Space expand and collapse.
 - Tab order follows DOM order; arrow keys navigate within `SidebarSubMenu` groups.
 
@@ -170,7 +170,7 @@ A transient panel that slides in from any edge, renders in a Portal, traps focus
 import {
   Drawer, DrawerTrigger, DrawerContent,
   DrawerHeader, DrawerClose,
-} from "@weiui/react";
+} from "civaria";
 
 <Drawer side="end">
   <DrawerTrigger>Open Drawer</DrawerTrigger>

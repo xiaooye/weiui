@@ -1,6 +1,6 @@
 # Component Verification Plan
 
-> Repeatable audit to verify every WeiUI component is **present in the docs** and **actually interactive**.
+> Repeatable audit to verify every Civaria component is **present in the docs** and **actually interactive**.
 
 **Owner:** maintainer on duty
 **Run after:** any major component/doc commit, or before release
@@ -13,7 +13,7 @@
 Past rounds kept missing issues because static analysis (grep/read code) can't catch:
 - Components emitting Tailwind classes that don't exist in the consumer → **rendered unstyled**
 - Demos that import real components but have no state/handlers → **appear static**
-- Demos that render static HTML with `wui-*` classes instead of the real React component → **look correct but aren't interactive**
+- Demos that render static HTML with `civ-*` classes instead of the real React component → **look correct but aren't interactive**
 - MDX pages that import a demo but never render it → **invisible**
 - Subpath-imported components (Chart/DataTable/Editor) that slip into the main barrel → **silent bundle bloat**
 
@@ -35,8 +35,8 @@ For every component under `packages/react/src/components/`, verify each of these
 
 ### 1.2 Rendering correctness
 
-- [ ] Component emits **`wui-*` classes only** — no Tailwind utilities like `inline-flex`, `h-11`, `bg-[var(...)]`, `items-center`, `font-semibold`, `text-sm`, etc.
-- [ ] Every `wui-*` class emitted exists in `packages/css/src/elements/*.css`
+- [ ] Component emits **`civ-*` classes only** — no Tailwind utilities like `inline-flex`, `h-11`, `bg-[var(...)]`, `items-center`, `font-semibold`, `text-sm`, etc.
+- [ ] Every `civ-*` class emitted exists in `packages/css/src/elements/*.css`
 - [ ] Matching CSS file is imported from `packages/css/src/index.css`
 - [ ] Renders identically in SSR and client hydration (no `typeof window` gate missing)
 
@@ -64,7 +64,7 @@ For every component under `packages/react/src/components/`, verify each of these
 
 - [ ] Demo file exists at `apps/docs/src/components/demos/<Name>Demo.tsx` (or is inlined in the MDX for trivial components)
 - [ ] Demo starts with `"use client"`
-- [ ] Demo imports the **real component** from `@weiui/react` (or subpath) — **not** raw HTML with `wui-*` classes pretending to be the component
+- [ ] Demo imports the **real component** from `civaria` (or subpath) — **not** raw HTML with `civ-*` classes pretending to be the component
 - [ ] Demo is imported AND rendered in its MDX page (not just imported)
 - [ ] If the component is stateful: demo has `useState` + visible state updates on interaction
 - [ ] If the component is display-only (Badge, Heading, Text, Code, Kbd, etc.): demo shows the relevant variants and needs no state — this is OK
@@ -74,7 +74,7 @@ For every component under `packages/react/src/components/`, verify each of these
 For `Editor`, `DataTable`, `BarChart`, `LineChart`, `AreaChart`, `PieChart`, `DonutChart`, `RadarChart`:
 - [ ] NOT exported from main `packages/react/src/index.ts` barrel
 - [ ] Exported from the appropriate subpath entry (`editor-entry.ts`, `chart-entry.ts`, `data-table-entry.ts`)
-- [ ] Demo imports from the subpath: `@weiui/react/editor`, `@weiui/react/chart`, `@weiui/react/data-table`
+- [ ] Demo imports from the subpath: `civaria/editor`, `civaria/chart`, `civaria/data-table`
 - [ ] Demo uses `next/dynamic` with `ssr: false` where appropriate (heavy bundles)
 
 ---
@@ -87,7 +87,7 @@ For `Editor`, `DataTable`, `BarChart`, `LineChart`, `AreaChart`, `PieChart`, `Do
 # Runs in < 60s
 pnpm build
 pnpm test
-pnpm --filter @weiui/tokens validate
+pnpm --filter @civaria/tokens validate
 ```
 
 Pass = all green. Fail = stop the run.
@@ -99,15 +99,15 @@ Pass = all green. Fail = stop the run.
 grep -rnE "inline-flex|items-center|bg-\[var\(|h-\d+|px-\d+|py-\d+|gap-\d|rounded-\[|border-\[var\(|font-(bold|semibold|medium|mono)|text-(xs|sm|lg|xl|\dxl)|hover:bg-|focus-visible:outline-" packages/react/src/components/**/*.tsx packages/react/src/variants/*.ts
 ```
 
-Pass = 0 matches (or only in `tailwind-variants` composition that emits wui-* classes).
+Pass = 0 matches (or only in `tailwind-variants` composition that emits civ-* classes).
 Fail = each match is a component rendering unstyled in consumers.
 
 ### 2.3 CSS class existence check
 
 ```bash
-# Every wui-* class used in components must exist in CSS
-grep -rhoE "wui-[a-z][a-z0-9-]*" packages/react/src/components/ | sort -u > /tmp/used.txt
-grep -rhoE "\.wui-[a-z][a-z0-9-]*" packages/css/src/elements/ | sed 's/^\.//' | sort -u > /tmp/defined.txt
+# Every civ-* class used in components must exist in CSS
+grep -rhoE "civ-[a-z][a-z0-9-]*" packages/react/src/components/ | sort -u > /tmp/used.txt
+grep -rhoE "\.civ-[a-z][a-z0-9-]*" packages/css/src/elements/ | sed 's/^\.//' | sort -u > /tmp/defined.txt
 comm -23 /tmp/used.txt /tmp/defined.txt
 ```
 
@@ -182,7 +182,7 @@ Manual review: flag any interactive-component demo with both counts at 0.
 
 ### 2.8 Built HTML inspection
 
-After `pnpm --filter @weiui/docs build`, grep the generated HTML for:
+After `pnpm --filter @civaria/docs build`, grep the generated HTML for:
 
 ```bash
 # Tailwind utility leakage in rendered HTML
@@ -192,16 +192,16 @@ grep -rE 'class="[^"]*\b(inline-flex|items-center|h-11|h-9|bg-\[|text-sm font|fo
 Pass = empty. Fail = component renders with Tailwind utilities that aren't styled.
 
 ```bash
-# Expected wui-* marker classes present on component pages
-grep -l "wui-button" apps/docs/.next/server/app/docs/components/button.html && echo "Button OK"
-grep -l "wui-input" apps/docs/.next/server/app/docs/components/input.html && echo "Input OK"
-grep -l "wui-dialog__trigger\|wui-button" apps/docs/.next/server/app/docs/components/overlays.html && echo "Overlays OK"
+# Expected civ-* marker classes present on component pages
+grep -l "civ-button" apps/docs/.next/server/app/docs/components/button.html && echo "Button OK"
+grep -l "civ-input" apps/docs/.next/server/app/docs/components/input.html && echo "Input OK"
+grep -l "civ-dialog__trigger\|civ-button" apps/docs/.next/server/app/docs/components/overlays.html && echo "Overlays OK"
 ```
 
 ### 2.9 Contrast validation
 
 ```bash
-pnpm --filter @weiui/tokens validate
+pnpm --filter @civaria/tokens validate
 ```
 
 Pass = all 6 pairs pass AA minimum; body text at AAA.
@@ -209,7 +209,7 @@ Pass = all 6 pairs pass AA minimum; body text at AAA.
 ### 2.10 Dev server smoke test (manual, optional)
 
 ```bash
-pnpm --filter @weiui/docs dev
+pnpm --filter @civaria/docs dev
 # Open http://localhost:3000
 # Walk through each doc page, click at least one interaction per page
 # Verify dark mode toggle works
@@ -221,7 +221,7 @@ pnpm --filter @weiui/docs dev
 
 ## Section 3 — Component inventory
 
-Current count: **66 user-facing components** (65 React components + Select re-exported from @weiui/headless).
+Current count: **66 user-facing components** (65 React components + Select re-exported from @civaria/headless).
 
 ### 3.1 By family with home page
 
@@ -244,9 +244,9 @@ Current count: **66 user-facing components** (65 React components + Select re-ex
 
 | Component | Subpath |
 |-----------|---------|
-| Editor | `@weiui/react/editor` |
-| DataTable | `@weiui/react/data-table` |
-| BarChart / LineChart / AreaChart / PieChart / DonutChart / RadarChart | `@weiui/react/chart` |
+| Editor | `civaria/editor` |
+| DataTable | `civaria/data-table` |
+| BarChart / LineChart / AreaChart / PieChart / DonutChart / RadarChart | `civaria/chart` |
 
 **Rule:** these must NOT leak into the main barrel. Verify with:
 ```bash
@@ -295,12 +295,12 @@ Use these as "likely places to find issues":
 ### Pattern A — Tailwind leakage
 **Symptom:** Component renders unstyled in docs (plain browser default appearance).
 **Root cause:** Component's `className={cn("inline-flex items-center ...")}` or `tailwind-variants` emits Tailwind utilities but docs app doesn't load Tailwind.
-**Fix:** Rewrite to emit `wui-*` classes; add matching CSS file; register in `packages/css/src/index.css`.
+**Fix:** Rewrite to emit `civ-*` classes; add matching CSS file; register in `packages/css/src/index.css`.
 **Past instances:** Button, Alert, Breadcrumb, Code, EmptyState, Field, Heading, Kbd, Label, Link, Text (11 components total fixed in commits `4c0cc14` and `79309c0`).
 
 ### Pattern B — Static HTML pretending to be a demo
 **Symptom:** Demo block in MDX looks correct visually but clicks do nothing.
-**Root cause:** MDX has `<Preview><button className="wui-button wui-button--solid">Solid</button></Preview>` instead of `<ButtonDemo />`.
+**Root cause:** MDX has `<Preview><button className="civ-button civ-button--solid">Solid</button></Preview>` instead of `<ButtonDemo />`.
 **Fix:** Replace static HTML with real demo component that imports the React component + has state.
 **Past instances:** 8 pages fixed in commit `def04ba` plus LiveShowcase in `1bb87cb`.
 
@@ -331,7 +331,7 @@ Use these as "likely places to find issues":
 
 ### Pattern H — Exported name mismatch
 **Symptom:** Demo import errors, `Cannot find module` at build.
-**Root cause:** Component folder name doesn't match exported name (e.g., `Tabs/index.ts` re-exports from `@weiui/headless`, but consumer expects a styled `Tabs`).
+**Root cause:** Component folder name doesn't match exported name (e.g., `Tabs/index.ts` re-exports from `@civaria/headless`, but consumer expects a styled `Tabs`).
 **Detection:** Section 1.1 + attempt-build.
 
 ---

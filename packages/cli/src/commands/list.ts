@@ -1,5 +1,5 @@
-import { listComponents } from "@weiui/mcp/tools/list-components";
-import { defaultLoadIndex } from "@weiui/mcp/registry-loader";
+import { listComponents } from "@civaria/mcp/tools/list-components";
+import { defaultLoadIndex } from "@civaria/mcp/registry-loader";
 
 export interface ListCommandOptions {
   category?: string;

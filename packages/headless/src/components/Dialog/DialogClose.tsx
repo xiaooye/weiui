@@ -11,7 +11,7 @@ export function DialogClose({ children, onClick, ...props }: DialogCloseProps) {
   return (
     <button
       type="button"
-      data-wui-component="dialog"
+      data-civaria-component="dialog"
       data-part="close"
       onClick={(e) => {
         onClose();

@@ -1,1 +1,1 @@
-export { WuiPopoverElement, definePopover } from "./index.js";
+export { CivPopoverElement, definePopover } from "./index.js";

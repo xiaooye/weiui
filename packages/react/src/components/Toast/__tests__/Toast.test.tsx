@@ -150,7 +150,7 @@ describe("Toaster", () => {
     render(<Toaster />);
     const btn = screen.getByRole("button", { name: "Undo" });
     expect(btn).toBeInTheDocument();
-    expect(btn).toHaveClass("wui-toast__action");
+    expect(btn).toHaveClass("civ-toast__action");
     act(() => {
       btn.click();
     });
@@ -161,14 +161,14 @@ describe("Toaster", () => {
   it("applies position modifier class on Toaster root", () => {
     render(<Toaster position="top-left" />);
     const region = screen.getByRole("region");
-    expect(region).toHaveClass("wui-toaster--top-left");
+    expect(region).toHaveClass("civ-toaster--top-left");
     expect(region).toHaveAttribute("data-position", "top-left");
   });
 
   it("defaults to bottom-right position", () => {
     render(<Toaster />);
     const region = screen.getByRole("region");
-    expect(region).toHaveClass("wui-toaster--bottom-right");
+    expect(region).toHaveClass("civ-toaster--bottom-right");
   });
 });
 

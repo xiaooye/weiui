@@ -15,7 +15,7 @@ export function SelectItem({ value, children, onClick, ...props }: SelectItemPro
     <div
       role="option"
       aria-selected={isSelected}
-      data-wui-component="select"
+      data-civaria-component="select"
       data-part="item"
       data-selected={isSelected ? "" : undefined}
       onClick={(e) => {

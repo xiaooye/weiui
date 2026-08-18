@@ -70,16 +70,16 @@ export function Preview({ children, code, label }: PreviewProps) {
   };
 
   return (
-    <div className="wui-preview">
-      <div className="wui-preview__header">
-        {label && <span className="wui-preview__label">{label}</span>}
-        <div className="wui-preview__tabs" role="tablist">
+    <div className="civ-preview">
+      <div className="civ-preview__header">
+        {label && <span className="civ-preview__label">{label}</span>}
+        <div className="civ-preview__tabs" role="tablist">
           <button
             type="button"
             role="tab"
             aria-selected={tab === "preview"}
             onClick={() => setTab("preview")}
-            className="wui-preview__tab"
+            className="civ-preview__tab"
             data-active={tab === "preview" || undefined}
           >
             Preview
@@ -90,19 +90,19 @@ export function Preview({ children, code, label }: PreviewProps) {
               role="tab"
               aria-selected={tab === "code"}
               onClick={() => setTab("code")}
-              className="wui-preview__tab"
+              className="civ-preview__tab"
               data-active={tab === "code" || undefined}
             >
               Code
             </button>
           )}
         </div>
-        <div className="wui-preview__actions">
+        <div className="civ-preview__actions">
           {code && (
             <button
               type="button"
               onClick={onCopy}
-              className="wui-preview__copy"
+              className="civ-preview__copy"
               aria-label={copied ? "Copied" : "Copy code"}
             >
               {copied ? "✓" : "⧉"}
@@ -111,9 +111,9 @@ export function Preview({ children, code, label }: PreviewProps) {
         </div>
       </div>
       {tab === "preview" ? (
-        <div className="wui-preview__stage">{children}</div>
+        <div className="civ-preview__stage">{children}</div>
       ) : (
-        <pre className="wui-preview__code"><code>{code}</code></pre>
+        <pre className="civ-preview__code"><code>{code}</code></pre>
       )}
     </div>
   );
@@ -123,90 +123,90 @@ export function Preview({ children, code, label }: PreviewProps) {
 - [ ] **Step 2: Create `apps/docs/src/styles/preview.css`**
 
 ```css
-@layer wui-base {
-  .wui-preview {
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-lg);
+@layer civ-base {
+  .civ-preview {
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-lg);
     overflow: hidden;
-    margin-block: var(--wui-spacing-4);
-    background-color: var(--wui-surface-raised);
+    margin-block: var(--civ-spacing-4);
+    background-color: var(--civ-surface-raised);
   }
-  .wui-preview__header {
-    display: flex; align-items: center; gap: var(--wui-spacing-3);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-2);
-    background-color: var(--wui-surface-sunken);
-    border-block-end: 1px solid var(--wui-color-border);
+  .civ-preview__header {
+    display: flex; align-items: center; gap: var(--civ-spacing-3);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-2);
+    background-color: var(--civ-surface-sunken);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-preview__label {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-medium);
+  .civ-preview__label {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-medium);
   }
-  .wui-preview__tabs {
+  .civ-preview__tabs {
     display: inline-flex;
     gap: 2px;
-    background-color: var(--wui-color-background);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: var(--civ-color-background);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     padding: 2px;
   }
-  .wui-preview__tab {
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-medium);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
+  .civ-preview__tab {
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-medium);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
     background-color: transparent;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     border: none;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     cursor: pointer;
   }
-  .wui-preview__tab[data-active] {
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-foreground);
-    box-shadow: var(--wui-elevation-1);
+  .civ-preview__tab[data-active] {
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-foreground);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-preview__actions {
+  .civ-preview__actions {
     margin-inline-start: auto;
     display: inline-flex;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-preview__copy {
+  .civ-preview__copy {
     inline-size: 28px; block-size: 28px;
     display: inline-flex; align-items: center; justify-content: center;
     background-color: transparent;
-    color: var(--wui-color-muted-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    color: var(--civ-color-muted-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     cursor: pointer;
-    font-size: var(--wui-font-size-xs);
+    font-size: var(--civ-font-size-xs);
   }
-  .wui-preview__copy:hover {
-    color: var(--wui-color-foreground);
-    background-color: var(--wui-color-muted);
+  .civ-preview__copy:hover {
+    color: var(--civ-color-foreground);
+    background-color: var(--civ-color-muted);
   }
-  .wui-preview__stage {
+  .civ-preview__stage {
     display: flex; flex-wrap: wrap;
-    gap: var(--wui-spacing-3);
-    padding: var(--wui-spacing-6);
+    gap: var(--civ-spacing-3);
+    padding: var(--civ-spacing-6);
     align-items: center;
     min-block-size: 96px;
   }
-  .wui-preview__code {
-    padding: var(--wui-spacing-4);
+  .civ-preview__code {
+    padding: var(--civ-spacing-4);
     overflow-x: auto;
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.6;
     margin: 0;
-    background-color: var(--wui-surface-sunken);
+    background-color: var(--civ-surface-sunken);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-preview__tab,
-    .wui-preview__copy {
+    .civ-preview__tab,
+    .civ-preview__copy {
       transition-property: background-color, color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
   }
 }
@@ -230,7 +230,7 @@ import "../styles/preview.css";
 - [ ] **Step 5: Build + test**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 ```
 Expected: all 31 pages still build.
 
@@ -302,15 +302,15 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
   <head>
     ${sheets}
     <style>
-      body { margin: 0; padding: 24px; font-family: var(--wui-font-family-sans); background: var(--wui-color-background); color: var(--wui-color-foreground); }
-      #wui-preview-root { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      body { margin: 0; padding: 24px; font-family: var(--civ-font-family-sans); background: var(--civ-color-background); color: var(--civ-color-foreground); }
+      #civ-preview-root { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     </style>
   </head>
-  <body><div id="wui-preview-root"></div></body>
+  <body><div id="civ-preview-root"></div></body>
 </html>`);
     doc.close();
 
-    const root = doc.getElementById("wui-preview-root");
+    const root = doc.getElementById("civ-preview-root");
     setContainer(root);
   }, [theme, dir, setContainer]);
 
@@ -320,7 +320,7 @@ export function PreviewFrame({ children, theme, dir, width }: PreviewFrameProps)
     <>
       <iframe
         ref={iframeRef}
-        className="wui-preview__frame"
+        className="civ-preview__frame"
         style={{ inlineSize, blockSize: 320, border: 0 }}
         title="Component preview"
       />
@@ -377,16 +377,16 @@ export function Preview({ children, code, label }: PreviewProps) {
   const isolated = theme !== "inherit" || dir !== "ltr" || viewport !== "100%";
 
   return (
-    <div className="wui-preview">
-      <div className="wui-preview__header">
-        {label && <span className="wui-preview__label">{label}</span>}
-        <div className="wui-preview__tabs" role="tablist">
+    <div className="civ-preview">
+      <div className="civ-preview__header">
+        {label && <span className="civ-preview__label">{label}</span>}
+        <div className="civ-preview__tabs" role="tablist">
           <button
             type="button"
             role="tab"
             aria-selected={tab === "preview"}
             onClick={() => setTab("preview")}
-            className="wui-preview__tab"
+            className="civ-preview__tab"
             data-active={tab === "preview" || undefined}
           >
             Preview
@@ -397,14 +397,14 @@ export function Preview({ children, code, label }: PreviewProps) {
               role="tab"
               aria-selected={tab === "code"}
               onClick={() => setTab("code")}
-              className="wui-preview__tab"
+              className="civ-preview__tab"
               data-active={tab === "code" || undefined}
             >
               Code
             </button>
           )}
         </div>
-        <div className="wui-preview__actions">
+        <div className="civ-preview__actions">
           {tab === "preview" && (
             <>
               <SegmentToggle
@@ -442,7 +442,7 @@ export function Preview({ children, code, label }: PreviewProps) {
             <button
               type="button"
               onClick={onCopy}
-              className="wui-preview__copy"
+              className="civ-preview__copy"
               aria-label={copied ? "Copied" : "Copy code"}
             >
               {copied ? "✓" : "⧉"}
@@ -452,7 +452,7 @@ export function Preview({ children, code, label }: PreviewProps) {
       </div>
       {tab === "preview" ? (
         isolated ? (
-          <div className="wui-preview__stage wui-preview__stage--frame">
+          <div className="civ-preview__stage civ-preview__stage--frame">
             <PreviewFrame
               theme={theme === "inherit" ? "system" : theme}
               dir={dir}
@@ -462,10 +462,10 @@ export function Preview({ children, code, label }: PreviewProps) {
             </PreviewFrame>
           </div>
         ) : (
-          <div className="wui-preview__stage">{children}</div>
+          <div className="civ-preview__stage">{children}</div>
         )
       ) : (
-        <pre className="wui-preview__code"><code>{code}</code></pre>
+        <pre className="civ-preview__code"><code>{code}</code></pre>
       )}
     </div>
   );
@@ -480,7 +480,7 @@ interface SegmentToggleProps<T extends string | number> {
 
 function SegmentToggle<T extends string | number>({ value, options, onChange, ...rest }: SegmentToggleProps<T>) {
   return (
-    <div className="wui-preview__segment" role="radiogroup" aria-label={rest["aria-label"]}>
+    <div className="civ-preview__segment" role="radiogroup" aria-label={rest["aria-label"]}>
       {options.map((opt) => (
         <button
           key={String(opt.value)}
@@ -488,7 +488,7 @@ function SegmentToggle<T extends string | number>({ value, options, onChange, ..
           role="radio"
           aria-checked={value === opt.value}
           onClick={() => onChange(opt.value)}
-          className="wui-preview__segment-item"
+          className="civ-preview__segment-item"
           data-active={value === opt.value || undefined}
         >
           {opt.label}
@@ -502,44 +502,44 @@ function SegmentToggle<T extends string | number>({ value, options, onChange, ..
 - [ ] **Step 3: Append styles to `preview.css`**
 
 ```css
-@layer wui-base {
-  .wui-preview__segment {
+@layer civ-base {
+  .civ-preview__segment {
     display: inline-flex;
-    background-color: var(--wui-color-background);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    background-color: var(--civ-color-background);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     padding: 2px;
     gap: 2px;
   }
-  .wui-preview__segment-item {
-    font-size: var(--wui-font-size-xs);
-    padding-inline: var(--wui-spacing-2); padding-block: var(--wui-spacing-1);
-    color: var(--wui-color-muted-foreground);
+  .civ-preview__segment-item {
+    font-size: var(--civ-font-size-xs);
+    padding-inline: var(--civ-spacing-2); padding-block: var(--civ-spacing-1);
+    color: var(--civ-color-muted-foreground);
     background: transparent;
     border: none;
     cursor: pointer;
-    border-radius: calc(var(--wui-shape-radius-base) - 2px);
+    border-radius: calc(var(--civ-shape-radius-base) - 2px);
   }
-  .wui-preview__segment-item[data-active] {
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-foreground);
-    box-shadow: var(--wui-elevation-1);
+  .civ-preview__segment-item[data-active] {
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-foreground);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-preview__stage--frame {
-    padding: var(--wui-spacing-2);
-    background-color: var(--wui-surface-sunken);
+  .civ-preview__stage--frame {
+    padding: var(--civ-spacing-2);
+    background-color: var(--civ-surface-sunken);
     display: flex;
     justify-content: center;
   }
-  .wui-preview__frame {
-    background-color: var(--wui-color-background);
-    border-radius: var(--wui-shape-radius-md);
+  .civ-preview__frame {
+    background-color: var(--civ-color-background);
+    border-radius: var(--civ-shape-radius-md);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .wui-preview__segment-item {
-      transition: background-color var(--wui-motion-duration-fast) var(--wui-motion-easing-standard),
-                  color var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-preview__segment-item {
+      transition: background-color var(--civ-motion-duration-fast) var(--civ-motion-easing-standard),
+                  color var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
   }
 }
@@ -548,7 +548,7 @@ function SegmentToggle<T extends string | number>({ value, options, onChange, ..
 - [ ] **Step 4: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/components/preview/Preview.tsx \
         apps/docs/src/components/preview/PreviewFrame.tsx \
         apps/docs/src/styles/preview.css
@@ -567,45 +567,45 @@ git commit -m "feat(docs): add theme/RTL/viewport toggles with iframe isolation"
 ```markdown
 # Typography
 
-WeiUI ships three type stacks exposed as CSS variables:
+Civaria ships three type stacks exposed as CSS variables:
 
-- `--wui-font-family-sans` — **Inter** (body, UI, prose)
-- `--wui-font-family-display` — **Instrument Serif** (hero/display headings)
-- `--wui-font-family-mono` — **JetBrains Mono** (code)
+- `--civ-font-family-sans` — **Inter** (body, UI, prose)
+- `--civ-font-family-display` — **Instrument Serif** (hero/display headings)
+- `--civ-font-family-mono` — **JetBrains Mono** (code)
 
 ## Scale
 
 | Token | Value | Example |
 |-------|-------|---------|
-| `--wui-font-size-xs` | 12px | <span style={{ fontSize: "var(--wui-font-size-xs)" }}>The quick brown fox</span> |
-| `--wui-font-size-sm` | 14px | <span style={{ fontSize: "var(--wui-font-size-sm)" }}>The quick brown fox</span> |
-| `--wui-font-size-base` | 16px | <span style={{ fontSize: "var(--wui-font-size-base)" }}>The quick brown fox</span> |
-| `--wui-font-size-lg` | 18px | <span style={{ fontSize: "var(--wui-font-size-lg)" }}>The quick brown fox</span> |
-| `--wui-font-size-xl` | 20px | <span style={{ fontSize: "var(--wui-font-size-xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-2xl` | 24px | <span style={{ fontSize: "var(--wui-font-size-2xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-3xl` | 30px | <span style={{ fontSize: "var(--wui-font-size-3xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-4xl` | 36px | <span style={{ fontSize: "var(--wui-font-size-4xl)" }}>The quick brown fox</span> |
-| `--wui-font-size-5xl` | 48px | <span style={{ fontSize: "var(--wui-font-size-5xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-xs` | 12px | <span style={{ fontSize: "var(--civ-font-size-xs)" }}>The quick brown fox</span> |
+| `--civ-font-size-sm` | 14px | <span style={{ fontSize: "var(--civ-font-size-sm)" }}>The quick brown fox</span> |
+| `--civ-font-size-base` | 16px | <span style={{ fontSize: "var(--civ-font-size-base)" }}>The quick brown fox</span> |
+| `--civ-font-size-lg` | 18px | <span style={{ fontSize: "var(--civ-font-size-lg)" }}>The quick brown fox</span> |
+| `--civ-font-size-xl` | 20px | <span style={{ fontSize: "var(--civ-font-size-xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-2xl` | 24px | <span style={{ fontSize: "var(--civ-font-size-2xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-3xl` | 30px | <span style={{ fontSize: "var(--civ-font-size-3xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-4xl` | 36px | <span style={{ fontSize: "var(--civ-font-size-4xl)" }}>The quick brown fox</span> |
+| `--civ-font-size-5xl` | 48px | <span style={{ fontSize: "var(--civ-font-size-5xl)" }}>The quick brown fox</span> |
 
 ## Display typography
 
-The hero on the landing page uses the display stack. Add `className="wui-display"` to any heading to opt in.
+The hero on the landing page uses the display stack. Add `className="civ-display"` to any heading to opt in.
 
-<div style={{ padding: "2rem", border: "1px solid var(--wui-color-border)", borderRadius: "var(--wui-shape-radius-lg)" }}>
-  <h2 className="wui-display" style={{ fontSize: "var(--wui-font-size-5xl)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+<div style={{ padding: "2rem", border: "1px solid var(--civ-color-border)", borderRadius: "var(--civ-shape-radius-lg)" }}>
+  <h2 className="civ-display" style={{ fontSize: "var(--civ-font-size-5xl)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
     A design system that earns its place.
   </h2>
 </div>
 
 ## Weights
 
-`var(--wui-font-weight-regular)` = 400, `-medium` = 500, `-semibold` = 600, `-bold` = 700.
+`var(--civ-font-weight-regular)` = 400, `-medium` = 500, `-semibold` = 600, `-bold` = 700.
 ```
 
 - [ ] **Step 2: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/app/docs/typography/page.mdx
 git commit -m "feat(docs): add /docs/typography page"
 ```
@@ -643,16 +643,16 @@ export function ColorSwatch({ name, cssVar }: ColorSwatchProps) {
     <button
       type="button"
       onClick={onCopy}
-      className="wui-color-swatch"
+      className="civ-color-swatch"
       aria-label={`Copy var(${cssVar})`}
     >
       <span
-        className="wui-color-swatch__chip"
+        className="civ-color-swatch__chip"
         style={{ backgroundColor: `var(${cssVar})` }}
       />
-      <span className="wui-color-swatch__body">
-        <span className="wui-color-swatch__name">{name}</span>
-        <code className="wui-color-swatch__var">{copied ? "copied!" : `var(${cssVar})`}</code>
+      <span className="civ-color-swatch__body">
+        <span className="civ-color-swatch__name">{name}</span>
+        <code className="civ-color-swatch__var">{copied ? "copied!" : `var(${cssVar})`}</code>
       </span>
     </button>
   );
@@ -662,35 +662,35 @@ export function ColorSwatch({ name, cssVar }: ColorSwatchProps) {
 - [ ] **Step 2: Append styles to `preview.css`**
 
 ```css
-@layer wui-base {
-  .wui-color-swatch {
-    display: flex; align-items: center; gap: var(--wui-spacing-3);
+@layer civ-base {
+  .civ-color-swatch {
+    display: flex; align-items: center; gap: var(--civ-spacing-3);
     inline-size: 100%;
-    padding: var(--wui-spacing-3);
-    background-color: var(--wui-surface-raised);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+    padding: var(--civ-spacing-3);
+    background-color: var(--civ-surface-raised);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     text-align: start;
     cursor: pointer;
   }
-  .wui-color-swatch:hover { border-color: var(--wui-color-primary); }
-  .wui-color-swatch__chip {
+  .civ-color-swatch:hover { border-color: var(--civ-color-primary); }
+  .civ-color-swatch__chip {
     inline-size: 40px; block-size: 40px;
-    border-radius: var(--wui-shape-radius-base);
-    border: 1px solid color-mix(in oklch, var(--wui-color-foreground) 10%, transparent);
+    border-radius: var(--civ-shape-radius-base);
+    border: 1px solid color-mix(in oklch, var(--civ-color-foreground) 10%, transparent);
     flex: 0 0 auto;
   }
-  .wui-color-swatch__body { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
-  .wui-color-swatch__name { font-size: var(--wui-font-size-sm); font-weight: var(--wui-font-weight-medium); }
-  .wui-color-swatch__var {
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
+  .civ-color-swatch__body { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
+  .civ-color-swatch__name { font-size: var(--civ-font-size-sm); font-weight: var(--civ-font-weight-medium); }
+  .civ-color-swatch__var {
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
   }
-  .wui-color-grid {
+  .civ-color-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--wui-spacing-3);
-    margin-block: var(--wui-spacing-4);
+    gap: var(--civ-spacing-3);
+    margin-block: var(--civ-spacing-4);
   }
 }
 ```
@@ -702,43 +702,43 @@ import { ColorSwatch } from "../../../components/docs/ColorSwatch";
 
 # Colors
 
-All colors in WeiUI use the OKLCH color space. Semantic tokens are derived from primitive neutrals and hues. Click any swatch to copy its CSS variable.
+All colors in Civaria use the OKLCH color space. Semantic tokens are derived from primitive neutrals and hues. Click any swatch to copy its CSS variable.
 
 ## Semantic
 
-<div className="wui-color-grid">
-  <ColorSwatch name="Primary" cssVar="--wui-color-primary" />
-  <ColorSwatch name="Primary foreground" cssVar="--wui-color-primary-foreground" />
-  <ColorSwatch name="Background" cssVar="--wui-color-background" />
-  <ColorSwatch name="Foreground" cssVar="--wui-color-foreground" />
-  <ColorSwatch name="Card" cssVar="--wui-color-card" />
-  <ColorSwatch name="Card foreground" cssVar="--wui-color-card-foreground" />
-  <ColorSwatch name="Muted" cssVar="--wui-color-muted" />
-  <ColorSwatch name="Muted foreground" cssVar="--wui-color-muted-foreground" />
-  <ColorSwatch name="Border" cssVar="--wui-color-border" />
-  <ColorSwatch name="Ring" cssVar="--wui-color-ring" />
-  <ColorSwatch name="Ring soft" cssVar="--wui-color-ring-soft" />
+<div className="civ-color-grid">
+  <ColorSwatch name="Primary" cssVar="--civ-color-primary" />
+  <ColorSwatch name="Primary foreground" cssVar="--civ-color-primary-foreground" />
+  <ColorSwatch name="Background" cssVar="--civ-color-background" />
+  <ColorSwatch name="Foreground" cssVar="--civ-color-foreground" />
+  <ColorSwatch name="Card" cssVar="--civ-color-card" />
+  <ColorSwatch name="Card foreground" cssVar="--civ-color-card-foreground" />
+  <ColorSwatch name="Muted" cssVar="--civ-color-muted" />
+  <ColorSwatch name="Muted foreground" cssVar="--civ-color-muted-foreground" />
+  <ColorSwatch name="Border" cssVar="--civ-color-border" />
+  <ColorSwatch name="Ring" cssVar="--civ-color-ring" />
+  <ColorSwatch name="Ring soft" cssVar="--civ-color-ring-soft" />
 </div>
 
 ## Status
 
-<div className="wui-color-grid">
-  <ColorSwatch name="Destructive" cssVar="--wui-color-destructive" />
-  <ColorSwatch name="Success" cssVar="--wui-color-success" />
-  <ColorSwatch name="Warning" cssVar="--wui-color-warning" />
+<div className="civ-color-grid">
+  <ColorSwatch name="Destructive" cssVar="--civ-color-destructive" />
+  <ColorSwatch name="Success" cssVar="--civ-color-success" />
+  <ColorSwatch name="Warning" cssVar="--civ-color-warning" />
 </div>
 
 ## Surfaces
 
-<div className="wui-color-grid">
-  <ColorSwatch name="Raised" cssVar="--wui-surface-raised" />
-  <ColorSwatch name="Overlay" cssVar="--wui-surface-overlay" />
-  <ColorSwatch name="Sunken" cssVar="--wui-surface-sunken" />
+<div className="civ-color-grid">
+  <ColorSwatch name="Raised" cssVar="--civ-surface-raised" />
+  <ColorSwatch name="Overlay" cssVar="--civ-surface-overlay" />
+  <ColorSwatch name="Sunken" cssVar="--civ-surface-sunken" />
 </div>
 
 ## Contrast
 
-All content-text token pairs are validated at build time. Run `pnpm --filter @weiui/tokens validate` to see the full matrix.
+All content-text token pairs are validated at build time. Run `pnpm --filter @civaria/tokens validate` to see the full matrix.
 
 | Foreground | Background | Ratio | Passes |
 |------------|------------|-------|--------|
@@ -753,7 +753,7 @@ All content-text token pairs are validated at build time. Run `pnpm --filter @we
 - [ ] **Step 4: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/app/docs/colors/page.mdx \
         apps/docs/src/components/docs/ColorSwatch.tsx \
         apps/docs/src/styles/preview.css
@@ -776,7 +776,7 @@ git commit -m "feat(docs): add /docs/colors page with click-to-copy swatches"
 import { useState, useEffect } from "react";
 
 interface Props {
-  command: string; // e.g. "add @weiui/react"
+  command: string; // e.g. "add civaria"
 }
 
 const MANAGERS = [
@@ -793,12 +793,12 @@ export function PackageManagerTabs({ command }: Props) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("wui-pm") as ManagerId | null;
+    const stored = localStorage.getItem("civ-pm") as ManagerId | null;
     if (stored && MANAGERS.some((m) => m.id === stored)) setActive(stored);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("wui-pm", active);
+    localStorage.setItem("civ-pm", active);
   }, [active]);
 
   const current = MANAGERS.find((m) => m.id === active)!;
@@ -813,8 +813,8 @@ export function PackageManagerTabs({ command }: Props) {
   };
 
   return (
-    <div className="wui-pm-tabs">
-      <div className="wui-pm-tabs__row" role="tablist">
+    <div className="civ-pm-tabs">
+      <div className="civ-pm-tabs__row" role="tablist">
         {MANAGERS.map((m) => (
           <button
             key={m.id}
@@ -823,7 +823,7 @@ export function PackageManagerTabs({ command }: Props) {
             aria-selected={active === m.id}
             onClick={() => setActive(m.id)}
             data-active={active === m.id || undefined}
-            className="wui-pm-tabs__tab"
+            className="civ-pm-tabs__tab"
           >
             {m.label}
           </button>
@@ -831,13 +831,13 @@ export function PackageManagerTabs({ command }: Props) {
         <button
           type="button"
           onClick={onCopy}
-          className="wui-pm-tabs__copy"
+          className="civ-pm-tabs__copy"
           aria-label={copied ? "Copied" : "Copy command"}
         >
           {copied ? "✓" : "⧉"}
         </button>
       </div>
-      <pre className="wui-pm-tabs__cmd"><code>{full}</code></pre>
+      <pre className="civ-pm-tabs__cmd"><code>{full}</code></pre>
     </div>
   );
 }
@@ -846,51 +846,51 @@ export function PackageManagerTabs({ command }: Props) {
 - [ ] **Step 2: Append styles to `preview.css`**
 
 ```css
-@layer wui-base {
-  .wui-pm-tabs {
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-md);
+@layer civ-base {
+  .civ-pm-tabs {
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-md);
     overflow: hidden;
-    margin-block: var(--wui-spacing-4);
-    background-color: var(--wui-surface-raised);
+    margin-block: var(--civ-spacing-4);
+    background-color: var(--civ-surface-raised);
   }
-  .wui-pm-tabs__row {
+  .civ-pm-tabs__row {
     display: flex; align-items: center; gap: 2px;
-    padding: var(--wui-spacing-2);
-    background-color: var(--wui-surface-sunken);
-    border-block-end: 1px solid var(--wui-color-border);
+    padding: var(--civ-spacing-2);
+    background-color: var(--civ-surface-sunken);
+    border-block-end: 1px solid var(--civ-color-border);
   }
-  .wui-pm-tabs__tab {
-    font-size: var(--wui-font-size-xs);
-    font-weight: var(--wui-font-weight-medium);
-    padding-inline: var(--wui-spacing-3); padding-block: var(--wui-spacing-1);
+  .civ-pm-tabs__tab {
+    font-size: var(--civ-font-size-xs);
+    font-weight: var(--civ-font-weight-medium);
+    padding-inline: var(--civ-spacing-3); padding-block: var(--civ-spacing-1);
     background-color: transparent;
-    color: var(--wui-color-muted-foreground);
+    color: var(--civ-color-muted-foreground);
     border: none;
-    border-radius: var(--wui-shape-radius-sm);
+    border-radius: var(--civ-shape-radius-sm);
     cursor: pointer;
   }
-  .wui-pm-tabs__tab[data-active] {
-    background-color: var(--wui-surface-raised);
-    color: var(--wui-color-foreground);
-    box-shadow: var(--wui-elevation-1);
+  .civ-pm-tabs__tab[data-active] {
+    background-color: var(--civ-surface-raised);
+    color: var(--civ-color-foreground);
+    box-shadow: var(--civ-elevation-1);
   }
-  .wui-pm-tabs__copy {
+  .civ-pm-tabs__copy {
     margin-inline-start: auto;
     inline-size: 28px; block-size: 28px;
     display: inline-flex; align-items: center; justify-content: center;
     background: transparent;
-    color: var(--wui-color-muted-foreground);
-    border: 1px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-base);
+    color: var(--civ-color-muted-foreground);
+    border: 1px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-base);
     cursor: pointer;
-    font-size: var(--wui-font-size-xs);
+    font-size: var(--civ-font-size-xs);
   }
-  .wui-pm-tabs__cmd {
-    padding: var(--wui-spacing-4);
+  .civ-pm-tabs__cmd {
+    padding: var(--civ-spacing-4);
     margin: 0;
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
     overflow-x: auto;
   }
 }
@@ -903,30 +903,30 @@ import { PackageManagerTabs } from "../../../components/docs/PackageManagerTabs"
 
 # Installation
 
-WeiUI ships four packages. Install only what you need.
+Civaria ships four packages. Install only what you need.
 
-## @weiui/react — styled React components
+## civaria — styled React components
 
-<PackageManagerTabs command="@weiui/react" />
+<PackageManagerTabs command="civaria" />
 
-## @weiui/headless — accessible hooks
+## @civaria/headless — accessible hooks
 
-<PackageManagerTabs command="@weiui/headless" />
+<PackageManagerTabs command="@civaria/headless" />
 
-## @weiui/css — Layer 1 CSS-only primitives (zero JS)
+## @civaria/css — Layer 1 CSS-only primitives (zero JS)
 
-<PackageManagerTabs command="@weiui/css" />
+<PackageManagerTabs command="@civaria/css" />
 
-## @weiui/tokens — design tokens (CSS vars + JSON)
+## @civaria/tokens — design tokens (CSS vars + JSON)
 
-<PackageManagerTabs command="@weiui/tokens" />
+<PackageManagerTabs command="@civaria/tokens" />
 
 ## Quick start
 
 ```tsx
 // your-app/layout.tsx
-import "@weiui/tokens/tokens.css";
-import "@weiui/css";
+import "@civaria/tokens/tokens.css";
+import "@civaria/css";
 
 export default function RootLayout({ children }) {
   return <html><body>{children}</body></html>;
@@ -935,10 +935,10 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // your-app/page.tsx
-import { Button } from "@weiui/react";
+import { Button } from "civaria";
 
 export default function Page() {
-  return <Button>Hello WeiUI</Button>;
+  return <Button>Hello Civaria</Button>;
 }
 ```
 
@@ -948,7 +948,7 @@ Your tokens default to system light/dark via `prefers-color-scheme`. Add a `dark
 - [ ] **Step 4: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/app/docs/installation/page.mdx \
         apps/docs/src/components/docs/PackageManagerTabs.tsx \
         apps/docs/src/styles/preview.css
@@ -972,7 +972,7 @@ git commit -m "feat(docs): add /docs/installation page with pkg-manager tabs"
 ```markdown
 # Icons
 
-WeiUI does not ship a bundled icon set yet. The Phase 4 component-audit may grow `@weiui/icons`; for now, pair any icon library of your choice.
+Civaria does not ship a bundled icon set yet. The Phase 4 component-audit may grow `@civaria/icons`; for now, pair any icon library of your choice.
 
 ## Recommended pairings
 
@@ -980,12 +980,12 @@ WeiUI does not ship a bundled icon set yet. The Phase 4 component-audit may grow
 - **Tabler** — extensive set with variants. `pnpm add @tabler/icons-react`
 - **Phosphor** — multiple weights. `pnpm add @phosphor-icons/react`
 
-All icon libraries respect `currentColor` and `em`-sized dimensions, so they adopt WeiUI's color and typography tokens automatically.
+All icon libraries respect `currentColor` and `em`-sized dimensions, so they adopt Civaria's color and typography tokens automatically.
 
 ## Example
 
 ```tsx
-import { Button } from "@weiui/react";
+import { Button } from "civaria";
 import { Download } from "lucide-react";
 
 <Button>
@@ -996,7 +996,7 @@ import { Download } from "lucide-react";
 
 ## Future
 
-A searchable icon browser is planned for the @weiui/icons release. Track progress on the roadmap page.
+A searchable icon browser is planned for the @civaria/icons release. Track progress on the roadmap page.
 ```
 
 ### CLI page
@@ -1006,24 +1006,24 @@ A searchable icon browser is planned for the @weiui/icons release. Track progres
 ```markdown
 # CLI
 
-The `@weiui/cli` package scaffolds WeiUI projects, adds components, and validates design tokens.
+The `@civaria/cli` package scaffolds Civaria projects, adds components, and validates design tokens.
 
 ## Install
 
 ```bash
-pnpm add -D @weiui/cli
+pnpm add -D @civaria/cli
 # or run ad-hoc
-pnpm dlx @weiui/cli --help
+pnpm dlx @civaria/cli --help
 ```
 
 ## Commands
 
 ### `init`
 
-Scaffold a new WeiUI consumer. Creates token imports and an optional theme config.
+Scaffold a new Civaria consumer. Creates token imports and an optional theme config.
 
 ```bash
-pnpm dlx @weiui/cli init
+pnpm dlx @civaria/cli init
 ```
 
 ### `add`
@@ -1031,7 +1031,7 @@ pnpm dlx @weiui/cli init
 Copy a single component's source into your project (shadcn-style ownership).
 
 ```bash
-pnpm dlx @weiui/cli add button
+pnpm dlx @civaria/cli add button
 ```
 
 ### `audit`
@@ -1039,14 +1039,14 @@ pnpm dlx @weiui/cli add button
 Validate that your local token overrides still pass WCAG AAA targets.
 
 ```bash
-pnpm dlx @weiui/cli audit
+pnpm dlx @civaria/cli audit
 ```
 
 Exits non-zero if any contrast pair drops below its required threshold.
 
 ## Programmatic API
 
-Every CLI command is also exported as a library function — see `@weiui/cli/api` for the full surface. This makes WeiUI's validators composable into your own build pipeline.
+Every CLI command is also exported as a library function — see `@civaria/cli/api` for the full surface. This makes Civaria's validators composable into your own build pipeline.
 ```
 
 ### Migration page
@@ -1056,7 +1056,7 @@ Every CLI command is also exported as a library function — see `@weiui/cli/api
 ```markdown
 # Migration Guides
 
-Migration notes land here as major versions ship. WeiUI is pre-1.0; no breaking changes yet.
+Migration notes land here as major versions ship. Civaria is pre-1.0; no breaking changes yet.
 
 ## v0 → v1 (planned)
 
@@ -1077,11 +1077,11 @@ If you land a breaking change, append a section to this page in the same PR. Eac
 
 Releases are driven by [Changesets](https://github.com/changesets/changesets). Each package has its own `CHANGELOG.md` — links below.
 
-- [`@weiui/react`](https://github.com/xiaooye/weiui/blob/main/packages/react/CHANGELOG.md)
-- [`@weiui/headless`](https://github.com/xiaooye/weiui/blob/main/packages/headless/CHANGELOG.md)
-- [`@weiui/css`](https://github.com/xiaooye/weiui/blob/main/packages/css/CHANGELOG.md)
-- [`@weiui/tokens`](https://github.com/xiaooye/weiui/blob/main/packages/tokens/CHANGELOG.md)
-- [`@weiui/cli`](https://github.com/xiaooye/weiui/blob/main/packages/cli/CHANGELOG.md)
+- [`civaria`](https://github.com/xiaooye/weiui/blob/main/packages/react/CHANGELOG.md)
+- [`@civaria/headless`](https://github.com/xiaooye/weiui/blob/main/packages/headless/CHANGELOG.md)
+- [`@civaria/css`](https://github.com/xiaooye/weiui/blob/main/packages/css/CHANGELOG.md)
+- [`@civaria/tokens`](https://github.com/xiaooye/weiui/blob/main/packages/tokens/CHANGELOG.md)
+- [`@civaria/cli`](https://github.com/xiaooye/weiui/blob/main/packages/cli/CHANGELOG.md)
 
 ## Pre-releases
 
@@ -1100,7 +1100,7 @@ Unreleased work is described in the ongoing `docs/superpowers/plans/` directory:
 - [ ] **Step 2: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/app/docs/icons/page.mdx \
         apps/docs/src/app/docs/cli/page.mdx \
         apps/docs/src/app/docs/migration/page.mdx \
@@ -1186,7 +1186,7 @@ sidebarGroups: [
 - [ ] **Step 2: Build + commit**
 
 ```bash
-pnpm --filter @weiui/docs build
+pnpm --filter @civaria/docs build
 git add apps/docs/src/lib/site-config.ts
 git commit -m "feat(docs): wire new pages into sidebar nav"
 ```
@@ -1198,7 +1198,7 @@ git commit -m "feat(docs): wire new pages into sidebar nav"
 - [ ] Full build: `pnpm build`
 - [ ] Tests: `pnpm test` (still 524+)
 - [ ] Dev server: open `/docs/typography`, `/docs/colors`, `/docs/installation`, `/docs/cli`, `/docs/migration`, `/docs/changelog`, `/docs/icons` — each renders with new chrome, sidebar active state, TOC.
-- [ ] Click a color swatch — copies `var(--wui-color-primary)` etc. to clipboard.
+- [ ] Click a color swatch — copies `var(--civ-color-primary)` etc. to clipboard.
 - [ ] Switch package manager tabs on `/docs/installation` — selection persists in localStorage.
 - [ ] Any existing doc page using `<ComponentPreview>` still renders (shim preserves compat).
 - [ ] Open any preview with a `code` prop and verify Preview/Code tabs + copy work.

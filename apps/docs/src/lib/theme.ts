@@ -1,6 +1,6 @@
 export type Theme = "light" | "dark" | "system";
 
-export const THEME_STORAGE_KEY = "wui-theme";
+export const THEME_STORAGE_KEY = "civ-theme";
 
 export function resolveTheme(theme: Theme): "light" | "dark" {
   if (theme === "system") {

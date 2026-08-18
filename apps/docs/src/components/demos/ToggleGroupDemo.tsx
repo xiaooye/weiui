@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ToggleGroup, ToggleGroupItem } from "@weiui/react";
+import { ToggleGroup, ToggleGroupItem } from "civaria";
 
 export function ToggleGroupDemo() {
   const [alignment, setAlignment] = useState<string>("left");
@@ -12,20 +12,20 @@ export function ToggleGroupDemo() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
       }}
     >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--wui-spacing-2)",
+          gap: "var(--civ-spacing-2)",
         }}
       >
         <span
           style={{
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Single — alignment: <strong>{alignment}</strong>
@@ -46,13 +46,13 @@ export function ToggleGroupDemo() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--wui-spacing-2)",
+          gap: "var(--civ-spacing-2)",
         }}
       >
         <span
           style={{
-            fontSize: "var(--wui-font-size-sm)",
-            color: "var(--wui-color-muted-foreground)",
+            fontSize: "var(--civ-font-size-sm)",
+            color: "var(--civ-color-muted-foreground)",
           }}
         >
           Multiple — formatting: <strong>{formatting.join(", ") || "none"}</strong>

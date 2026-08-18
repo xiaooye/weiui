@@ -1,7 +1,7 @@
 "use client";
 import { type ReactNode } from "react";
 import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react";
-import { createTooltipController } from "@weiui/core";
+import { createTooltipController } from "@civaria/core";
 import { useCoreController } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { TooltipContext } from "./TooltipContext";

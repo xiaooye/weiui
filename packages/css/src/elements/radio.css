@@ -1,102 +1,102 @@
-@layer wui-elements {
-  .wui-radio-group {
+@layer civ-elements {
+  .civ-radio-group {
     display: inline-flex;
     flex-direction: row;
-    gap: var(--wui-spacing-4);
+    gap: var(--civ-spacing-4);
     align-items: center;
   }
-  .wui-radio-group--vertical {
+  .civ-radio-group--vertical {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-radio {
+  .civ-radio {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--wui-spacing-1);
+    gap: var(--civ-spacing-1);
     min-block-size: 44px;
     cursor: pointer;
   }
-  .wui-radio__row {
+  .civ-radio__row {
     display: inline-flex;
     align-items: center;
-    gap: var(--wui-spacing-2);
+    gap: var(--civ-spacing-2);
   }
-  .wui-radio__description {
-    font-size: var(--wui-font-size-xs);
-    color: var(--wui-color-muted-foreground);
-    padding-inline-start: calc(20px + var(--wui-spacing-2));
+  .civ-radio__description {
+    font-size: var(--civ-font-size-xs);
+    color: var(--civ-color-muted-foreground);
+    padding-inline-start: calc(20px + var(--civ-spacing-2));
     margin: 0;
   }
-  .wui-radio__input {
+  .civ-radio__input {
     appearance: none;
     -webkit-appearance: none;
     flex-shrink: 0;
     inline-size: 20px;
     block-size: 20px;
-    border: 1.5px solid var(--wui-color-border);
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-background);
+    border: 1.5px solid var(--civ-color-border);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-background);
     display: inline-grid;
     place-content: center;
     cursor: inherit;
-    color: var(--wui-color-primary);
+    color: var(--civ-color-primary);
   }
-  .wui-radio__input::before {
+  .civ-radio__input::before {
     content: "";
     inline-size: 10px;
     block-size: 10px;
-    border-radius: var(--wui-shape-radius-full);
+    border-radius: var(--civ-shape-radius-full);
     transform: scale(0);
     background-color: currentColor;
   }
-  .wui-radio__input:hover:not(:disabled) {
-    border-color: var(--wui-color-primary);
+  .civ-radio__input:hover:not(:disabled) {
+    border-color: var(--civ-color-primary);
   }
-  .wui-radio__input:focus-visible {
-    outline: 3px solid var(--wui-color-ring);
+  .civ-radio__input:focus-visible {
+    outline: 3px solid var(--civ-color-ring);
     outline-offset: 2px;
   }
-  .wui-radio__input:checked {
-    border-color: var(--wui-color-primary);
+  .civ-radio__input:checked {
+    border-color: var(--civ-color-primary);
   }
-  .wui-radio__input:checked::before {
+  .civ-radio__input:checked::before {
     transform: scale(1);
   }
-  .wui-radio__input:disabled {
+  .civ-radio__input:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-  .wui-radio__input[aria-invalid="true"],
-  .wui-radio__input[data-invalid] {
-    border-color: var(--wui-color-destructive);
+  .civ-radio__input[aria-invalid="true"],
+  .civ-radio__input[data-invalid] {
+    border-color: var(--civ-color-destructive);
   }
-  .wui-radio__label {
-    font-size: var(--wui-font-size-sm);
-    color: var(--wui-color-foreground);
+  .civ-radio__label {
+    font-size: var(--civ-font-size-sm);
+    color: var(--civ-color-foreground);
     cursor: pointer;
     user-select: none;
   }
-  .wui-radio__input:disabled ~ .wui-radio__label {
+  .civ-radio__input:disabled ~ .civ-radio__label {
     cursor: not-allowed;
     opacity: 0.5;
   }
   /* Sizes — propagated from the group. */
-  .wui-radio-group--sm .wui-radio__input { inline-size: 16px; block-size: 16px; }
-  .wui-radio-group--sm .wui-radio__input::before { inline-size: 8px; block-size: 8px; }
-  .wui-radio-group--sm .wui-radio__label { font-size: var(--wui-font-size-xs); }
-  .wui-radio-group--lg .wui-radio__input { inline-size: 24px; block-size: 24px; }
-  .wui-radio-group--lg .wui-radio__input::before { inline-size: 12px; block-size: 12px; }
-  .wui-radio-group--lg .wui-radio__label { font-size: var(--wui-font-size-base); }
+  .civ-radio-group--sm .civ-radio__input { inline-size: 16px; block-size: 16px; }
+  .civ-radio-group--sm .civ-radio__input::before { inline-size: 8px; block-size: 8px; }
+  .civ-radio-group--sm .civ-radio__label { font-size: var(--civ-font-size-xs); }
+  .civ-radio-group--lg .civ-radio__input { inline-size: 24px; block-size: 24px; }
+  .civ-radio-group--lg .civ-radio__input::before { inline-size: 12px; block-size: 12px; }
+  .civ-radio-group--lg .civ-radio__label { font-size: var(--civ-font-size-base); }
   @media (prefers-reduced-motion: no-preference) {
-    .wui-radio__input {
+    .civ-radio__input {
       transition-property: border-color, box-shadow;
-      transition-duration: var(--wui-motion-duration-fast);
-      transition-timing-function: var(--wui-motion-easing-standard);
+      transition-duration: var(--civ-motion-duration-fast);
+      transition-timing-function: var(--civ-motion-easing-standard);
     }
-    .wui-radio__input::before {
-      transition: transform var(--wui-motion-duration-fast) var(--wui-motion-easing-standard);
+    .civ-radio__input::before {
+      transition: transform var(--civ-motion-duration-fast) var(--civ-motion-easing-standard);
     }
   }
 }

@@ -40,10 +40,10 @@ describe("Editor", () => {
     expect(screen.getByRole("group", { name: /rich text editor/i })).toBeInTheDocument();
   });
 
-  it("applies wui-editor class and data-disabled when disabled", () => {
+  it("applies civ-editor class and data-disabled when disabled", () => {
     render(<Editor defaultValue="<p>x</p>" disabled />);
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-editor");
+    expect(group).toHaveClass("civ-editor");
     expect(group).toHaveAttribute("data-disabled");
   });
 
@@ -56,10 +56,10 @@ describe("Editor", () => {
     }
   });
 
-  it("merges user className with wui-editor base class", () => {
+  it("merges user className with civ-editor base class", () => {
     render(<Editor defaultValue="<p>x</p>" className="my-editor" />);
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-editor");
+    expect(group).toHaveClass("civ-editor");
     expect(group).toHaveClass("my-editor");
   });
 
@@ -93,7 +93,7 @@ describe("Editor", () => {
       <Editor ref={ref} defaultValue="<p>x</p>" onImageUpload={onImageUpload} />,
     );
     const fileInput = container.querySelector<HTMLInputElement>(
-      "input.wui-editor__file-input",
+      "input.civ-editor__file-input",
     );
     expect(fileInput).not.toBeNull();
     const file = new File(["x"], "img.png", { type: "image/png" });
@@ -255,7 +255,7 @@ describe("Editor", () => {
   // Separator items render but aren't buttons
   it("renders separators in the default toolbar", () => {
     const { container } = render(<Editor defaultValue="<p>x</p>" />);
-    const separators = container.querySelectorAll(".wui-editor__toolbar-sep");
+    const separators = container.querySelectorAll(".civ-editor__toolbar-sep");
     expect(separators.length).toBeGreaterThan(0);
   });
 });

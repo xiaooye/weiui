@@ -236,7 +236,7 @@ describe("ToggleGroup", () => {
       </ToggleGroup>,
     );
     const group = screen.getByRole("group");
-    expect(group).toHaveClass("wui-toggle-group--vertical");
+    expect(group).toHaveClass("civ-toggle-group--vertical");
     expect(group).toHaveAttribute("data-orientation", "vertical");
   });
 
@@ -246,13 +246,13 @@ describe("ToggleGroup", () => {
         <ToggleGroupItem value="a">A</ToggleGroupItem>
       </ToggleGroup>,
     );
-    expect(screen.getByRole("group")).toHaveClass("wui-toggle-group--sm");
+    expect(screen.getByRole("group")).toHaveClass("civ-toggle-group--sm");
     rerender(
       <ToggleGroup type="single" size="lg">
         <ToggleGroupItem value="a">A</ToggleGroupItem>
       </ToggleGroup>,
     );
-    expect(screen.getByRole("group")).toHaveClass("wui-toggle-group--lg");
+    expect(screen.getByRole("group")).toHaveClass("civ-toggle-group--lg");
   });
 
   it("defaults to md size with no modifier class", () => {
@@ -262,6 +262,6 @@ describe("ToggleGroup", () => {
       </ToggleGroup>,
     );
     const group = screen.getByRole("group");
-    expect(group.className).not.toMatch(/wui-toggle-group--(sm|lg)/);
+    expect(group.className).not.toMatch(/civ-toggle-group--(sm|lg)/);
   });
 });

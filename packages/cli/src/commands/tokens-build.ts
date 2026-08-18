@@ -6,7 +6,7 @@ export const tokensBuildCommand = new Command("build")
   .action(() => {
     console.log("Building tokens...");
     try {
-      execFileSync("pnpm", ["--filter", "@weiui/tokens", "build"], { stdio: "inherit" });
+      execFileSync("pnpm", ["--filter", "@civaria/tokens", "build"], { stdio: "inherit" });
     } catch {
       process.exit(1);
     }

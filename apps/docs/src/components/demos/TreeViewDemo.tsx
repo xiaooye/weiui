@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TreeView, type TreeNode } from "@weiui/react";
+import { TreeView, type TreeNode } from "civaria";
 
 const NODES: TreeNode[] = [
   {
@@ -36,7 +36,7 @@ export function TreeViewDemo() {
   const [selected, setSelected] = useState<string>("src/index.ts");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--wui-spacing-3)", width: "100%", maxWidth: "320px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--civ-spacing-3)", width: "100%", maxWidth: "320px" }}>
       <TreeView
         nodes={NODES}
         defaultExpanded={["src", "src/components"]}
@@ -46,11 +46,11 @@ export function TreeViewDemo() {
       <p
         style={{
           margin: 0,
-          fontSize: "var(--wui-font-size-sm)",
-          color: "var(--wui-color-muted-foreground)",
+          fontSize: "var(--civ-font-size-sm)",
+          color: "var(--civ-color-muted-foreground)",
         }}
       >
-        Selected: <code style={{ color: "var(--wui-color-foreground)" }}>{selected}</code>
+        Selected: <code style={{ color: "var(--civ-color-foreground)" }}>{selected}</code>
       </p>
     </div>
   );

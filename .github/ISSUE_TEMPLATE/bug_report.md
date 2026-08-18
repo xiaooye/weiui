@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug in WeiUI
+about: Report a bug in Civaria
 title: "[Bug] "
 labels: bug
 ---
@@ -27,5 +27,5 @@ What actually happens.
 
 - Browser:
 - OS:
-- WeiUI version:
+- Civaria version:
 - Package:

@@ -14,26 +14,26 @@ describe("Skeleton", () => {
     expect(screen.getByTestId("skel")).toHaveAttribute("aria-hidden", "true");
   });
 
-  it("applies wui-skeleton class", () => {
+  it("applies civ-skeleton class", () => {
     render(<Skeleton data-testid="skel" />);
-    expect(screen.getByTestId("skel").className).toContain("wui-skeleton");
+    expect(screen.getByTestId("skel").className).toContain("civ-skeleton");
   });
 
   it("does not apply variant class for default rect", () => {
     render(<Skeleton data-testid="skel" />);
     const cls = screen.getByTestId("skel").className;
-    expect(cls).not.toContain("wui-skeleton--text");
-    expect(cls).not.toContain("wui-skeleton--circle");
+    expect(cls).not.toContain("civ-skeleton--text");
+    expect(cls).not.toContain("civ-skeleton--circle");
   });
 
-  it("applies wui-skeleton--text class for text variant", () => {
+  it("applies civ-skeleton--text class for text variant", () => {
     render(<Skeleton variant="text" data-testid="skel" />);
-    expect(screen.getByTestId("skel").className).toContain("wui-skeleton--text");
+    expect(screen.getByTestId("skel").className).toContain("civ-skeleton--text");
   });
 
-  it("applies wui-skeleton--circle class for circle variant", () => {
+  it("applies civ-skeleton--circle class for circle variant", () => {
     render(<Skeleton variant="circle" data-testid="skel" />);
-    expect(screen.getByTestId("skel").className).toContain("wui-skeleton--circle");
+    expect(screen.getByTestId("skel").className).toContain("civ-skeleton--circle");
   });
 
   it("merges custom className", () => {
@@ -47,11 +47,11 @@ describe("Skeleton", () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
-  it("uses wui-skeleton class whose shimmer is PRM-gated in the CSS layer", () => {
+  it("uses civ-skeleton class whose shimmer is PRM-gated in the CSS layer", () => {
     // The shimmer ::after animation is defined inside
     // @media (prefers-reduced-motion: no-preference) — see skeleton.css.
     render(<Skeleton data-testid="skel" />);
-    expect(screen.getByTestId("skel")).toHaveClass("wui-skeleton");
+    expect(screen.getByTestId("skel")).toHaveClass("civ-skeleton");
   });
 
   // E.16 visible + width/height + count
@@ -62,7 +62,7 @@ describe("Skeleton", () => {
       </Skeleton>,
     );
     expect(screen.getByTestId("content")).toBeInTheDocument();
-    expect(document.querySelector(".wui-skeleton")).not.toBeInTheDocument();
+    expect(document.querySelector(".civ-skeleton")).not.toBeInTheDocument();
   });
 
   it("renders the skeleton when visible is true (default)", () => {
@@ -90,17 +90,17 @@ describe("Skeleton", () => {
 
   it("renders a single block by default", () => {
     const { container } = render(<Skeleton />);
-    expect(container.querySelectorAll(".wui-skeleton").length).toBe(1);
+    expect(container.querySelectorAll(".civ-skeleton").length).toBe(1);
   });
 
   it("renders N blocks when count is set", () => {
     const { container } = render(<Skeleton count={4} />);
-    expect(container.querySelectorAll(".wui-skeleton").length).toBe(4);
+    expect(container.querySelectorAll(".civ-skeleton").length).toBe(4);
   });
 
   it("applies width/height to each block when count > 1", () => {
     const { container } = render(<Skeleton count={3} width={100} height={10} />);
-    const blocks = container.querySelectorAll(".wui-skeleton");
+    const blocks = container.querySelectorAll(".civ-skeleton");
     expect(blocks.length).toBe(3);
     blocks.forEach((b) => {
       expect((b as HTMLElement).style.inlineSize).toBe("100px");

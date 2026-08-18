@@ -152,7 +152,7 @@ function DataTableInner<TData>(
     const cols: ColumnDef<TData, unknown>[] = [];
     if (selectable) {
       cols.push({
-        id: "__wui_select__",
+        id: "__civ_select__",
         size: 44,
         enableSorting: false,
         enableResizing: false,
@@ -180,7 +180,7 @@ function DataTableInner<TData>(
     }
     if (enableExpanding) {
       cols.push({
-        id: "__wui_expander__",
+        id: "__civ_expander__",
         size: 44,
         enableSorting: false,
         enableResizing: false,
@@ -189,7 +189,7 @@ function DataTableInner<TData>(
           row.getCanExpand() ? (
             <button
               type="button"
-              className="wui-data-table__expander-btn"
+              className="civ-data-table__expander-btn"
               aria-label={row.getIsExpanded() ? `Collapse row ${row.id}` : `Expand row ${row.id}`}
               aria-expanded={row.getIsExpanded()}
               onClick={(e) => {
@@ -285,21 +285,21 @@ function DataTableInner<TData>(
     (e: KeyboardEvent<HTMLTableElement>) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
-      const cell = target.closest<HTMLTableCellElement>("[data-wui-cell]");
+      const cell = target.closest<HTMLTableCellElement>("[data-civaria-cell]");
       if (!cell) return;
       const tr = cell.parentElement as HTMLTableRowElement | null;
       if (!tr) return;
       const tbody = tr.parentElement;
       if (!tbody) return;
-      const rowsNodes = Array.from(tbody.querySelectorAll<HTMLTableRowElement>(":scope > tr[data-wui-row]"));
+      const rowsNodes = Array.from(tbody.querySelectorAll<HTMLTableRowElement>(":scope > tr[data-civaria-row]"));
       const rowIdx = rowsNodes.indexOf(tr);
-      const cellsNodes = Array.from(tr.querySelectorAll<HTMLTableCellElement>(":scope > [data-wui-cell]"));
+      const cellsNodes = Array.from(tr.querySelectorAll<HTMLTableCellElement>(":scope > [data-civaria-cell]"));
       const colIdx = cellsNodes.indexOf(cell);
 
       const focusAt = (r: number, c: number) => {
         const targetRow = rowsNodes[r];
         if (!targetRow) return;
-        const targetCell = targetRow.querySelectorAll<HTMLTableCellElement>(":scope > [data-wui-cell]")[c];
+        const targetCell = targetRow.querySelectorAll<HTMLTableCellElement>(":scope > [data-civaria-cell]")[c];
         if (targetCell) {
           e.preventDefault();
           targetCell.focus();
@@ -318,15 +318,15 @@ function DataTableInner<TData>(
     [],
   );
 
-  const allLeafColumns = table.getAllLeafColumns().filter((c) => c.id !== "__wui_select__");
+  const allLeafColumns = table.getAllLeafColumns().filter((c) => c.id !== "__civ_select__");
 
   return (
     <div
       ref={ref}
       className={cn(
-        "wui-data-table",
-        size === "dense" && "wui-data-table--dense",
-        stickyHeader && "wui-data-table--sticky",
+        "civ-data-table",
+        size === "dense" && "civ-data-table--dense",
+        stickyHeader && "civ-data-table--sticky",
         className,
       )}
       data-loading={loading || undefined}
@@ -334,10 +334,10 @@ function DataTableInner<TData>(
       data-testid={dataTestId}
     >
       {(searchable || enableColumnVisibility) && (
-        <div className="wui-data-table__toolbar">
+        <div className="civ-data-table__toolbar">
           {searchable && (
             <input
-              className="wui-data-table__search"
+              className="civ-data-table__search"
               placeholder={searchPlaceholder}
               value={globalFilter}
               onChange={(e) => {
@@ -348,10 +348,10 @@ function DataTableInner<TData>(
             />
           )}
           {enableColumnVisibility && (
-            <div className="wui-data-table__visibility">
+            <div className="civ-data-table__visibility">
               <button
                 type="button"
-                className="wui-data-table__visibility-trigger"
+                className="civ-data-table__visibility-trigger"
                 aria-haspopup="menu"
                 aria-expanded={visibilityMenuOpen}
                 onClick={() => setVisibilityMenuOpen((s) => !s)}
@@ -359,9 +359,9 @@ function DataTableInner<TData>(
                 Columns
               </button>
               {visibilityMenuOpen && (
-                <div className="wui-data-table__visibility-menu" role="menu" aria-label="Toggle columns">
+                <div className="civ-data-table__visibility-menu" role="menu" aria-label="Toggle columns">
                   {allLeafColumns.map((col) => (
-                    <label key={col.id} className="wui-data-table__visibility-item">
+                    <label key={col.id} className="civ-data-table__visibility-item">
                       <input
                         type="checkbox"
                         checked={col.getIsVisible()}
@@ -379,7 +379,7 @@ function DataTableInner<TData>(
       )}
       <div
         ref={scrollRef}
-        className="wui-data-table__wrapper"
+        className="civ-data-table__wrapper"
         style={virtualize ? { overflowY: "auto", maxBlockSize: virtualHeight } : undefined}
       >
         <table
@@ -394,7 +394,7 @@ function DataTableInner<TData>(
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const sorted = header.column.getIsSorted();
-                  const isSelectCol = header.column.id === "__wui_select__";
+                  const isSelectCol = header.column.id === "__civ_select__";
                   const pin = header.column.getIsPinned();
                   const canResize = header.column.getCanResize();
                   return (
@@ -417,13 +417,13 @@ function DataTableInner<TData>(
                           : undefined
                       }
                     >
-                      <div className="wui-data-table__th-content">
+                      <div className="civ-data-table__th-content">
                         {header.isPlaceholder
                           ? null
                           : flexRender(header.column.columnDef.header, header.getContext())}
                         {canSort && (
                           <span
-                            className="wui-data-table__sort-icon"
+                            className="civ-data-table__sort-icon"
                             data-active={sorted || undefined}
                             aria-hidden="true"
                           >
@@ -431,10 +431,10 @@ function DataTableInner<TData>(
                           </span>
                         )}
                         {enableColumnPinning && !isSelectCol && (
-                          <span className="wui-data-table__pin-actions">
+                          <span className="civ-data-table__pin-actions">
                             <button
                               type="button"
-                              className="wui-data-table__pin-btn"
+                              className="civ-data-table__pin-btn"
                               aria-label={`Pin column ${header.column.id} left`}
                               aria-pressed={pin === "left"}
                               onClick={(e) => {
@@ -446,7 +446,7 @@ function DataTableInner<TData>(
                             </button>
                             <button
                               type="button"
-                              className="wui-data-table__pin-btn"
+                              className="civ-data-table__pin-btn"
                               aria-label={`Pin column ${header.column.id} right`}
                               aria-pressed={pin === "right"}
                               onClick={(e) => {
@@ -461,7 +461,7 @@ function DataTableInner<TData>(
                       </div>
                       {canResize && (
                         <span
-                          className="wui-data-table__resizer"
+                          className="civ-data-table__resizer"
                           role="separator"
                           aria-orientation="vertical"
                           aria-label={`Resize column ${header.column.id}`}
@@ -476,15 +476,15 @@ function DataTableInner<TData>(
               </tr>
             ))}
             {enableColumnFilters && (
-              <tr className="wui-data-table__filter-row">
+              <tr className="civ-data-table__filter-row">
                 {table.getHeaderGroups()[0]?.headers.map((header) => {
-                  const canFilter = header.column.getCanFilter() && header.column.id !== "__wui_select__";
+                  const canFilter = header.column.getCanFilter() && header.column.id !== "__civ_select__";
                   return (
-                    <th key={`f-${header.id}`} data-select-col={header.column.id === "__wui_select__" || undefined}>
+                    <th key={`f-${header.id}`} data-select-col={header.column.id === "__civ_select__" || undefined}>
                       {canFilter && (
                         <input
                           type="text"
-                          className="wui-data-table__column-filter"
+                          className="civ-data-table__column-filter"
                           aria-label={`Filter ${header.column.id}`}
                           value={(header.column.getFilterValue() as string | undefined) ?? ""}
                           onChange={(e) => header.column.setFilterValue(e.target.value || undefined)}
@@ -500,7 +500,7 @@ function DataTableInner<TData>(
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={totalColCount} className="wui-data-table__loading" aria-live="polite">
+                <td colSpan={totalColCount} className="civ-data-table__loading" aria-live="polite">
                   {loadingText}
                 </td>
               </tr>
@@ -529,7 +529,7 @@ function DataTableInner<TData>(
               </>
             ) : (
               <tr>
-                <td colSpan={totalColCount} className="wui-data-table__empty">
+                <td colSpan={totalColCount} className="civ-data-table__empty">
                   {emptyText}
                 </td>
               </tr>
@@ -537,12 +537,12 @@ function DataTableInner<TData>(
           </tbody>
         </table>
       </div>
-      <div className="wui-data-table__pagination">
-        <div className="wui-data-table__page-size">
-          <label htmlFor="wui-data-table-page-size">Rows per page:</label>
+      <div className="civ-data-table__pagination">
+        <div className="civ-data-table__page-size">
+          <label htmlFor="civ-data-table-page-size">Rows per page:</label>
           <select
-            id="wui-data-table-page-size"
-            className="wui-data-table__page-size-select"
+            id="civ-data-table-page-size"
+            className="civ-data-table__page-size-select"
             value={table.getState().pagination.pageSize}
             onChange={(e) => {
               table.setPageSize(Number(e.target.value));
@@ -558,10 +558,10 @@ function DataTableInner<TData>(
         <span>
           Page {table.getState().pagination.pageIndex + 1} of {Math.max(1, pageCount)}
         </span>
-        <div className="wui-data-table__page-btns">
+        <div className="civ-data-table__page-btns">
           <button
             type="button"
-            className="wui-data-table__page-btn"
+            className="civ-data-table__page-btn"
             onClick={() => table.firstPage()}
             disabled={!table.getCanPreviousPage()}
             data-disabled={!table.getCanPreviousPage() || undefined}
@@ -571,7 +571,7 @@ function DataTableInner<TData>(
           </button>
           <button
             type="button"
-            className="wui-data-table__page-btn"
+            className="civ-data-table__page-btn"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             data-disabled={!table.getCanPreviousPage() || undefined}
@@ -581,7 +581,7 @@ function DataTableInner<TData>(
           </button>
           <button
             type="button"
-            className="wui-data-table__page-btn"
+            className="civ-data-table__page-btn"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             data-disabled={!table.getCanNextPage() || undefined}
@@ -591,7 +591,7 @@ function DataTableInner<TData>(
           </button>
           <button
             type="button"
-            className="wui-data-table__page-btn"
+            className="civ-data-table__page-btn"
             onClick={() => table.lastPage()}
             disabled={!table.getCanNextPage()}
             data-disabled={!table.getCanNextPage() || undefined}
@@ -619,20 +619,20 @@ function RowFragment<TData>({ row, selectable, onRowClick, renderSubRow, enableE
   return (
     <>
       <tr
-        data-wui-row
+        data-civaria-row
         data-selected={row.getIsSelected() || undefined}
         aria-selected={selectable ? row.getIsSelected() : undefined}
         data-clickable={onRowClick ? "" : undefined}
         onClick={onRowClick ? (e) => onRowClick(row.original, e) : undefined}
       >
         {cells.map((cell) => {
-          const isSelectCol = cell.column.id === "__wui_select__";
-          const isExpanderCol = cell.column.id === "__wui_expander__";
+          const isSelectCol = cell.column.id === "__civ_select__";
+          const isExpanderCol = cell.column.id === "__civ_expander__";
           const pin = cell.column.getIsPinned();
           return (
             <td
               key={cell.id}
-              data-wui-cell
+              data-civaria-cell
               tabIndex={-1}
               data-select-col={isSelectCol || undefined}
               data-expander-col={isExpanderCol || undefined}
@@ -644,7 +644,7 @@ function RowFragment<TData>({ row, selectable, onRowClick, renderSubRow, enableE
         })}
       </tr>
       {isExpanded && renderSubRow && (
-        <tr className="wui-data-table__subrow" data-wui-subrow>
+        <tr className="civ-data-table__subrow" data-civaria-subrow>
           <td colSpan={cells.length}>{renderSubRow(row)}</td>
         </tr>
       )}

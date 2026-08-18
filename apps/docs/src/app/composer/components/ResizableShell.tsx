@@ -5,7 +5,7 @@ import {
   Drawer,
   DrawerContent,
   Button,
-} from "@weiui/react";
+} from "civaria";
 import { useEffect, useState, type ReactNode } from "react";
 
 export interface ResizableShellProps {
@@ -14,7 +14,7 @@ export interface ResizableShellProps {
   props: ReactNode;
 }
 
-const LS_KEY = "wui-composer-layout-sizes";
+const LS_KEY = "civ-composer-layout-sizes";
 const DEFAULT_SIZES = [17, 61, 22] as const;
 
 function readSizes(): number[] {
@@ -67,8 +67,8 @@ export function ResizableShell({
 
   if (isNarrow) {
     return (
-      <div className="wui-composer__mobile-shell">
-        <div className="wui-composer__mobile-toolbar">
+      <div className="civ-composer__mobile-shell">
+        <div className="civ-composer__mobile-toolbar">
           <Button
             size="sm"
             variant="outline"

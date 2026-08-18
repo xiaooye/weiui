@@ -11,22 +11,22 @@ import {
   MenuRadioItem,
   MenuLabel,
   toast,
-} from "@weiui/react";
+} from "civaria";
 
 const menuItemStyle: CSSProperties = {
-  padding: "var(--wui-spacing-2) var(--wui-spacing-3)",
-  borderRadius: "var(--wui-shape-radius-sm)",
+  padding: "var(--civ-spacing-2) var(--civ-spacing-3)",
+  borderRadius: "var(--civ-shape-radius-sm)",
   cursor: "pointer",
-  fontSize: "var(--wui-font-size-sm)",
+  fontSize: "var(--civ-font-size-sm)",
   outline: "none",
 };
 
 const menuContentStyle: CSSProperties = {
-  background: "var(--wui-surface-overlay)",
-  border: "1px solid var(--wui-color-border)",
-  borderRadius: "var(--wui-shape-radius-md)",
-  boxShadow: "var(--wui-elevation-3)",
-  padding: "var(--wui-spacing-1)",
+  background: "var(--civ-surface-overlay)",
+  border: "1px solid var(--civ-color-border)",
+  borderRadius: "var(--civ-shape-radius-md)",
+  boxShadow: "var(--civ-elevation-3)",
+  padding: "var(--civ-spacing-1)",
   minInlineSize: "200px",
   zIndex: 1000,
 };
@@ -37,9 +37,9 @@ export function MenuDemo() {
   const [align, setAlign] = useState<string>("left");
 
   return (
-    <div style={{ display: "flex", gap: "var(--wui-spacing-2)", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: "var(--civ-spacing-2)", flexWrap: "wrap" }}>
       <Menu>
-        <MenuTrigger className="wui-button wui-button--outline">File</MenuTrigger>
+        <MenuTrigger className="civ-button civ-button--outline">File</MenuTrigger>
         <MenuContent style={menuContentStyle}>
           <MenuItem style={menuItemStyle} shortcut="⌘N" onSelect={() => toast("New file")}>
             New file
@@ -50,8 +50,8 @@ export function MenuDemo() {
           <MenuSeparator
             style={{
               blockSize: "1px",
-              background: "var(--wui-color-border)",
-              marginBlock: "var(--wui-spacing-1)",
+              background: "var(--civ-color-border)",
+              marginBlock: "var(--civ-spacing-1)",
             }}
           />
           <MenuItem style={menuItemStyle} shortcut="⌘S" disabled onSelect={() => toast.error("This should never fire")}>
@@ -64,9 +64,9 @@ export function MenuDemo() {
       </Menu>
 
       <Menu>
-        <MenuTrigger className="wui-button wui-button--outline">Format</MenuTrigger>
+        <MenuTrigger className="civ-button civ-button--outline">Format</MenuTrigger>
         <MenuContent style={menuContentStyle}>
-          <MenuLabel style={{ padding: "var(--wui-spacing-1) var(--wui-spacing-3)" }}>Style</MenuLabel>
+          <MenuLabel style={{ padding: "var(--civ-spacing-1) var(--civ-spacing-3)" }}>Style</MenuLabel>
           <MenuCheckboxItem
             style={menuItemStyle}
             checked={bold}
@@ -86,11 +86,11 @@ export function MenuDemo() {
           <MenuSeparator
             style={{
               blockSize: "1px",
-              background: "var(--wui-color-border)",
-              marginBlock: "var(--wui-spacing-1)",
+              background: "var(--civ-color-border)",
+              marginBlock: "var(--civ-spacing-1)",
             }}
           />
-          <MenuLabel style={{ padding: "var(--wui-spacing-1) var(--wui-spacing-3)" }}>Alignment</MenuLabel>
+          <MenuLabel style={{ padding: "var(--civ-spacing-1) var(--civ-spacing-3)" }}>Alignment</MenuLabel>
           <MenuRadioItem style={menuItemStyle} value="left" checked={align === "left"} onSelect={setAlign}>
             Left
           </MenuRadioItem>

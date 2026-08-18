@@ -1,6 +1,6 @@
 "use client";
 
-import { AspectRatio } from "@weiui/react";
+import { AspectRatio } from "civaria";
 
 const boxStyle: React.CSSProperties = {
   inlineSize: "100%",
@@ -9,12 +9,12 @@ const boxStyle: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   background:
-    "linear-gradient(135deg, color-mix(in oklch, var(--wui-color-primary) 18%, transparent), color-mix(in oklch, var(--wui-color-primary) 4%, transparent))",
-  border: "1px solid var(--wui-color-border)",
-  borderRadius: "var(--wui-shape-radius-md)",
-  color: "var(--wui-color-foreground)",
-  fontSize: "var(--wui-font-size-sm)",
-  fontWeight: "var(--wui-font-weight-medium)",
+    "linear-gradient(135deg, color-mix(in oklch, var(--civ-color-primary) 18%, transparent), color-mix(in oklch, var(--civ-color-primary) 4%, transparent))",
+  border: "1px solid var(--civ-color-border)",
+  borderRadius: "var(--civ-shape-radius-md)",
+  color: "var(--civ-color-foreground)",
+  fontSize: "var(--civ-font-size-sm)",
+  fontWeight: "var(--civ-font-weight-medium)",
 };
 
 export function AspectRatioDemo() {
@@ -23,7 +23,7 @@ export function AspectRatioDemo() {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-        gap: "var(--wui-spacing-4)",
+        gap: "var(--civ-spacing-4)",
         inlineSize: "100%",
       }}
     >

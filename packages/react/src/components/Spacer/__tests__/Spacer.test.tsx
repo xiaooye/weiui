@@ -9,9 +9,9 @@ describe("Spacer", () => {
     expect(container.querySelector("div")).toBeInTheDocument();
   });
 
-  it("applies wui-spacer class", () => {
+  it("applies civ-spacer class", () => {
     const { container } = render(<Spacer />);
-    expect(container.firstChild).toHaveClass("wui-spacer");
+    expect(container.firstChild).toHaveClass("civ-spacer");
   });
 
   it("has aria-hidden true", () => {
@@ -21,7 +21,7 @@ describe("Spacer", () => {
 
   it("merges custom className", () => {
     const { container } = render(<Spacer className="custom" />);
-    expect(container.firstChild).toHaveClass("wui-spacer", "custom");
+    expect(container.firstChild).toHaveClass("civ-spacer", "custom");
   });
 
   it("forwards ref", () => {

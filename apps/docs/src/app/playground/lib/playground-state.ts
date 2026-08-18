@@ -15,7 +15,7 @@ const DEFAULTS: PlaygroundState = {
   viewport: "full",
 };
 const URL_LIMIT = 4096;
-const LS_KEY = "wui-playground-state";
+const LS_KEY = "civ-playground-state";
 
 export function encodeState(s: PlaygroundState): string {
   const params = new URLSearchParams();

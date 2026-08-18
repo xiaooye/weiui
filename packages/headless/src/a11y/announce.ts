@@ -1,5 +1,5 @@
 export function announce(message: string, priority: "polite" | "assertive" = "polite"): void {
-  const id = `wui-live-region-${priority}`;
+  const id = `civ-live-region-${priority}`;
   let region = document.getElementById(id);
 
   if (!region) {
@@ -8,7 +8,7 @@ export function announce(message: string, priority: "polite" | "assertive" = "po
     region.setAttribute("role", priority === "assertive" ? "alert" : "status");
     region.setAttribute("aria-live", priority);
     region.setAttribute("aria-atomic", "true");
-    region.className = "wui-sr-only";
+    region.className = "civ-sr-only";
     document.body.appendChild(region);
   }
 

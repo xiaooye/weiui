@@ -1,51 +1,51 @@
-@layer wui-elements {
-  .wui-avatar {
+@layer civ-elements {
+  .civ-avatar {
     position: relative; display: inline-flex; align-items: center; justify-content: center;
     overflow: hidden;
     inline-size: 40px; block-size: 40px;
-    border-radius: var(--wui-shape-radius-full);
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-muted-foreground);
-    font-weight: var(--wui-font-weight-medium); font-size: var(--wui-font-size-sm);
-    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--wui-color-foreground) 6%, transparent);
+    border-radius: var(--civ-shape-radius-full);
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-muted-foreground);
+    font-weight: var(--civ-font-weight-medium); font-size: var(--civ-font-size-sm);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--civ-color-foreground) 6%, transparent);
   }
-  .wui-avatar__image { inline-size: 100%; block-size: 100%; object-fit: cover; }
-  .wui-avatar__fallback { display: flex; align-items: center; justify-content: center; inline-size: 100%; block-size: 100%; }
-  .wui-avatar--sm { inline-size: 32px; block-size: 32px; font-size: var(--wui-font-size-xs); }
-  .wui-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--wui-font-size-base); }
-  .wui-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--wui-font-size-lg); }
-  .wui-avatar--square { border-radius: var(--wui-shape-radius-md); }
+  .civ-avatar__image { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .civ-avatar__fallback { display: flex; align-items: center; justify-content: center; inline-size: 100%; block-size: 100%; }
+  .civ-avatar--sm { inline-size: 32px; block-size: 32px; font-size: var(--civ-font-size-xs); }
+  .civ-avatar--lg { inline-size: 48px; block-size: 48px; font-size: var(--civ-font-size-base); }
+  .civ-avatar--xl { inline-size: 64px; block-size: 64px; font-size: var(--civ-font-size-lg); }
+  .civ-avatar--square { border-radius: var(--civ-shape-radius-md); }
 
-  .wui-avatar--primary {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 18%, transparent);
-    color: var(--wui-color-primary);
+  .civ-avatar--primary {
+    background-color: color-mix(in oklch, var(--civ-color-primary) 18%, transparent);
+    color: var(--civ-color-primary);
   }
-  .wui-avatar--success {
-    background-color: color-mix(in oklch, var(--wui-color-success) 18%, transparent);
-    color: var(--wui-color-success);
+  .civ-avatar--success {
+    background-color: color-mix(in oklch, var(--civ-color-success) 18%, transparent);
+    color: var(--civ-color-success);
   }
-  .wui-avatar--warning {
-    background-color: color-mix(in oklch, var(--wui-color-warning) 18%, transparent);
-    color: var(--wui-color-warning);
+  .civ-avatar--warning {
+    background-color: color-mix(in oklch, var(--civ-color-warning) 18%, transparent);
+    color: var(--civ-color-warning);
   }
-  .wui-avatar--destructive {
-    background-color: color-mix(in oklch, var(--wui-color-destructive) 18%, transparent);
-    color: var(--wui-color-destructive);
+  .civ-avatar--destructive {
+    background-color: color-mix(in oklch, var(--civ-color-destructive) 18%, transparent);
+    color: var(--civ-color-destructive);
   }
 
-  .wui-avatar-group {
+  .civ-avatar-group {
     display: inline-flex;
     align-items: center;
   }
-  .wui-avatar-group > .wui-avatar {
-    box-shadow: 0 0 0 2px var(--wui-color-background);
+  .civ-avatar-group > .civ-avatar {
+    box-shadow: 0 0 0 2px var(--civ-color-background);
   }
-  .wui-avatar-group > .wui-avatar + .wui-avatar {
-    margin-inline-start: calc(var(--wui-spacing-2) * -1);
+  .civ-avatar-group > .civ-avatar + .civ-avatar {
+    margin-inline-start: calc(var(--civ-spacing-2) * -1);
   }
-  .wui-avatar--overflow {
-    background-color: var(--wui-color-muted);
-    color: var(--wui-color-muted-foreground);
-    font-size: var(--wui-font-size-xs);
+  .civ-avatar--overflow {
+    background-color: var(--civ-color-muted);
+    color: var(--civ-color-muted-foreground);
+    font-size: var(--civ-font-size-xs);
   }
 }

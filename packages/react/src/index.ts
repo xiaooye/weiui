@@ -1,5 +1,5 @@
 // Provider
-export { WeiUIProvider, useWeiUI, type WeiUIProviderProps, type WeiUILocale } from "./provider/WeiUIProvider";
+export { CivariaProvider, useCivaria, type CivariaProviderProps, type CivariaLocale } from "./provider/CivariaProvider";
 
 // Typography
 export { Heading, type HeadingProps } from "./components/Heading";
@@ -75,7 +75,7 @@ export {
   Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
   type SelectProps, type SelectTriggerProps, type SelectValueProps,
   type SelectContentProps, type SelectItemProps,
-} from "@weiui/headless";
+} from "@civaria/headless";
 
 // Navigation
 export {
@@ -128,11 +128,11 @@ export { Stepper, Step, StepSeparator, type StepperProps, type StepProps, type S
 export { Timeline, TimelineItem, type TimelineProps, type TimelineItemProps } from "./components/Timeline";
 
 // Data components
-// DataTable and Chart are exported from dedicated subpaths ("@weiui/react/data-table", "@weiui/react/chart")
+// DataTable and Chart are exported from dedicated subpaths ("civaria/data-table", "civaria/chart")
 // to keep the main barrel free of heavy deps (@tanstack/react-table, recharts).
 export { TreeView, type TreeViewProps, type TreeNode } from "./components/TreeView";
 
-// Editor is exported from "@weiui/react/editor" to keep Tiptap out of the main barrel.
+// Editor is exported from "civaria/editor" to keep Tiptap out of the main barrel.
 
 // Command Palette
 export { CommandPalette, type CommandPaletteProps, type CommandItem } from "./components/CommandPalette";

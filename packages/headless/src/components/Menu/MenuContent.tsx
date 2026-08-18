@@ -62,7 +62,7 @@ export function MenuContent({ children, onKeyDown, ...props }: MenuContentProps)
       id={menuId}
       role="menu"
       aria-labelledby={triggerId}
-      data-wui-component="menu"
+      data-civaria-component="menu"
       data-part="content"
       data-state="open"
       onKeyDown={(e) => {

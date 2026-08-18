@@ -1,35 +1,35 @@
-@layer wui-base {
+@layer civ-base {
   figure[data-rehype-pretty-code-figure] {
     background:
-      linear-gradient(var(--wui-surface-sunken), var(--wui-surface-sunken)) padding-box,
+      linear-gradient(var(--civ-surface-sunken), var(--civ-surface-sunken)) padding-box,
       linear-gradient(
         135deg,
-        color-mix(in oklch, var(--wui-color-primary) 20%, var(--wui-color-border)),
-        var(--wui-color-border)
+        color-mix(in oklch, var(--civ-color-primary) 20%, var(--civ-color-border)),
+        var(--civ-color-border)
       ) border-box;
     border: 1px solid transparent;
-    border-radius: var(--wui-shape-radius-lg);
+    border-radius: var(--civ-shape-radius-lg);
     overflow: hidden;
-    margin-block: var(--wui-spacing-4);
+    margin-block: var(--civ-spacing-4);
     position: relative;
   }
   figure[data-rehype-pretty-code-figure] > pre {
-    padding: var(--wui-spacing-4);
+    padding: var(--civ-spacing-4);
     overflow-x: auto;
-    font-family: var(--wui-font-family-mono);
-    font-size: var(--wui-font-size-sm);
+    font-family: var(--civ-font-family-mono);
+    font-size: var(--civ-font-size-sm);
     line-height: 1.6;
   }
   figure[data-rehype-pretty-code-figure] code {
     counter-reset: line;
   }
   figure[data-rehype-pretty-code-figure] code > [data-line] {
-    padding-inline: var(--wui-spacing-4);
+    padding-inline: var(--civ-spacing-4);
     border-inline-start: 2px solid transparent;
   }
   figure[data-rehype-pretty-code-figure] code > [data-highlighted-line] {
-    background-color: color-mix(in oklch, var(--wui-color-primary) 6%, transparent);
-    border-inline-start-color: var(--wui-color-primary);
+    background-color: color-mix(in oklch, var(--civ-color-primary) 6%, transparent);
+    border-inline-start-color: var(--civ-color-primary);
   }
   /* rehype-pretty-code emits two color tokens per span (--shiki-light / --shiki-dark) */
   code[data-theme*=" "],

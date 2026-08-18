@@ -89,7 +89,7 @@ export interface SelectionOutlineProps {
 export function SelectionOutline({ rect }: SelectionOutlineProps) {
   return (
     <div
-      className="wui-composer__selection-outline"
+      className="civ-composer__selection-outline"
       style={{
         position: "absolute",
         insetBlockStart: rect.top,

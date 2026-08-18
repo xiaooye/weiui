@@ -17,7 +17,7 @@ export function TooltipContent({ children, ...props }: TooltipContentProps) {
       id={tooltipId}
       role="tooltip"
       style={floatingStyles}
-      data-wui-component="tooltip"
+      data-civaria-component="tooltip"
       data-part="content"
       data-state="open"
       {...props}

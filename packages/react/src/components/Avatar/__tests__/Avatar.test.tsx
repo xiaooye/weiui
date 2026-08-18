@@ -9,19 +9,19 @@ describe("Avatar", () => {
     expect(screen.getByText("JD")).toBeInTheDocument();
   });
 
-  it("applies wui-avatar class", () => {
+  it("applies civ-avatar class", () => {
     render(<Avatar data-testid="avatar"><span>JD</span></Avatar>);
-    expect(screen.getByTestId("avatar").className).toContain("wui-avatar");
+    expect(screen.getByTestId("avatar").className).toContain("civ-avatar");
   });
 
   it("does not apply size class for default md", () => {
     render(<Avatar data-testid="avatar"><span>JD</span></Avatar>);
-    expect(screen.getByTestId("avatar").className).not.toContain("wui-avatar--md");
+    expect(screen.getByTestId("avatar").className).not.toContain("civ-avatar--md");
   });
 
   it("applies size class for non-default sizes", () => {
     render(<Avatar size="lg" data-testid="avatar"><span>JD</span></Avatar>);
-    expect(screen.getByTestId("avatar").className).toContain("wui-avatar--lg");
+    expect(screen.getByTestId("avatar").className).toContain("civ-avatar--lg");
   });
 
   it("merges custom className", () => {
@@ -37,11 +37,11 @@ describe("Avatar", () => {
 });
 
 describe("AvatarImage", () => {
-  it("renders an img element with wui-avatar__image class", () => {
+  it("renders an img element with civ-avatar__image class", () => {
     render(<AvatarImage src="/avatar.jpg" alt="User" />);
     const img = screen.getByAltText("User");
     expect(img.tagName).toBe("IMG");
-    expect(img.className).toContain("wui-avatar__image");
+    expect(img.className).toContain("civ-avatar__image");
   });
 
   it("defaults alt to empty string", () => {
@@ -62,9 +62,9 @@ describe("AvatarImage", () => {
 });
 
 describe("AvatarFallback", () => {
-  it("renders with wui-avatar__fallback class", () => {
+  it("renders with civ-avatar__fallback class", () => {
     render(<AvatarFallback data-testid="fallback">JD</AvatarFallback>);
-    expect(screen.getByTestId("fallback").className).toContain("wui-avatar__fallback");
+    expect(screen.getByTestId("fallback").className).toContain("civ-avatar__fallback");
   });
 
   it("merges custom className", () => {
@@ -132,12 +132,12 @@ describe("Avatar auto-initials", () => {
 
   it("applies color class when colorFromName is enabled", () => {
     const { container } = render(<Avatar name="Jane Doe" data-testid="a" />);
-    const avatar = container.querySelector(".wui-avatar") as HTMLElement;
+    const avatar = container.querySelector(".civ-avatar") as HTMLElement;
     const hasColorClass =
-      avatar.className.includes("wui-avatar--primary") ||
-      avatar.className.includes("wui-avatar--success") ||
-      avatar.className.includes("wui-avatar--warning") ||
-      avatar.className.includes("wui-avatar--destructive");
+      avatar.className.includes("civ-avatar--primary") ||
+      avatar.className.includes("civ-avatar--success") ||
+      avatar.className.includes("civ-avatar--warning") ||
+      avatar.className.includes("civ-avatar--destructive");
     expect(hasColorClass).toBe(true);
   });
 
@@ -150,7 +150,7 @@ describe("Avatar auto-initials", () => {
   it("colorFromName={false} disables color class", () => {
     const { container } = render(<Avatar name="Jane Doe" colorFromName={false} />);
     const cls = (container.firstChild as HTMLElement).className;
-    expect(cls).not.toMatch(/wui-avatar--primary|wui-avatar--success|wui-avatar--warning|wui-avatar--destructive/);
+    expect(cls).not.toMatch(/civ-avatar--primary|civ-avatar--success|civ-avatar--warning|civ-avatar--destructive/);
   });
 });
 
@@ -193,12 +193,12 @@ describe("AvatarGroup", () => {
     expect(screen.getByLabelText("2 more")).toBeInTheDocument();
   });
 
-  it("applies wui-avatar-group class", () => {
+  it("applies civ-avatar-group class", () => {
     render(
       <AvatarGroup data-testid="g">
         <Avatar name="A" />
       </AvatarGroup>,
     );
-    expect(screen.getByTestId("g").className).toContain("wui-avatar-group");
+    expect(screen.getByTestId("g").className).toContain("civ-avatar-group");
   });
 });

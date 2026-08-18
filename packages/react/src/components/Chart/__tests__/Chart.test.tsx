@@ -44,7 +44,7 @@ describe("Chart", () => {
     const { container } = render(
       <BarChart data={data} dataKeys={["sales"]} title="Monthly sales" />,
     );
-    expect(container.querySelector(".wui-chart")).toBeInTheDocument();
+    expect(container.querySelector(".civ-chart")).toBeInTheDocument();
     expect(screen.getByText("Monthly sales")).toBeInTheDocument();
   });
 
@@ -118,7 +118,7 @@ describe("Chart", () => {
       // recharts-animation class to bars/lines. Verify at least that the
       // chart renders at all — the animation-disabled flag is an internal
       // Recharts prop so full verification needs the render tree.
-      expect(container.querySelector(".wui-chart")).toBeInTheDocument();
+      expect(container.querySelector(".civ-chart")).toBeInTheDocument();
     });
   });
 
@@ -186,7 +186,7 @@ describe("Chart", () => {
       // which shows up as overlapping rectangles with matching internal props.
       // We cannot read React props from the DOM, but we can assert the chart
       // still renders both series by checking for the legend entries.
-      expect(container.querySelector(".wui-chart")).toBeInTheDocument();
+      expect(container.querySelector(".civ-chart")).toBeInTheDocument();
       // Each data key should appear as a legend label.
       expect(screen.getAllByText(/sales/i).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/profit/i).length).toBeGreaterThan(0);
@@ -196,7 +196,7 @@ describe("Chart", () => {
       const { container } = render(
         <AreaChart data={data} dataKeys={["sales", "profit"]} stacked="totals" />,
       );
-      expect(container.querySelector(".wui-chart")).toBeInTheDocument();
+      expect(container.querySelector(".civ-chart")).toBeInTheDocument();
     });
   });
 
@@ -245,7 +245,7 @@ describe("Chart", () => {
       expect(grid).toBeInTheDocument();
       // Inspect one of the grid lines — stroke should match the token var.
       const line = grid?.querySelector("line");
-      expect(line?.getAttribute("stroke")).toBe("var(--wui-color-border)");
+      expect(line?.getAttribute("stroke")).toBe("var(--civ-color-border)");
     });
   });
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Step, StepSeparator, Stepper } from "@weiui/react";
+import { Step, StepSeparator, Stepper } from "civaria";
 
 export function StepperClickableDemo() {
   const [active, setActive] = useState(2);

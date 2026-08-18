@@ -4,9 +4,9 @@
 
 Use the smallest correct change, preserve unrelated code, state concrete verification criteria, and keep edits traceable to the requested task. Do not hide unresolved failures behind cleanup or compatibility shims.
 
-## WeiUI architecture
+## Civaria architecture
 
-WeiUI is a multi-runtime design system. The dependency model is:
+Civaria is a multi-runtime design system. The dependency model is:
 
 ```text
 Tokens ─► CSS
@@ -19,20 +19,20 @@ A11y  ─► Core ─► React
 
 ### Hard rules
 
-- `@weiui/core` is framework-neutral. No React/ReactDOM/Vue/Solid/Svelte imports.
+- `@civaria/core` is framework-neutral. No React/ReactDOM/Vue/Solid/Svelte imports.
 - Official runtime packages are peers and may not depend on one another.
 - Share semantics, state, accessibility and anatomy; keep rendering/lifecycle native.
-- `@weiui/css` is the canonical visual contract. State is expressed with WeiUI-owned data attributes where practical.
-- `@weiui/headless` is deprecated React compatibility; do not add duplicate generic behavior there.
+- `@civaria/css` is the canonical visual contract. State is expressed with Civaria-owned data attributes where practical.
+- `@civaria/headless` is deprecated React compatibility; do not add duplicate generic behavior there.
 - React Editor/DataTable/Chart stay isolated ecosystem integrations on explicit subpaths.
 - Core/public runtimes must be SSR/import safe: no import-time browser globals, DOM measurement or random/time-based IDs.
-- Web Components use the `wui-` prefix, explicit duplicate-safe registration, scalar attributes and properties for complex values. They are a distribution target, not the canonical implementation model.
-- `@weiui/icons` root is framework-neutral; framework renderers are generated subpaths.
-- `@weiui/core/registry` owns portability/anatomy/runtime support truth. Composer/MCP/CLI consume it.
+- Web Components use the `civ-` prefix, explicit duplicate-safe registration, scalar attributes and properties for complex values. They are a distribution target, not the canonical implementation model.
+- `@civaria/icons` root is framework-neutral; framework renderers are generated subpaths.
+- `@civaria/core/registry` owns portability/anatomy/runtime support truth. Composer/MCP/CLI consume it.
 
 ### CSS/accessibility
 
-Use logical properties and `--wui-*` tokens. Preserve focus visibility, reduced-motion handling, WAI-ARIA keyboard behavior and 44×44px interactive targets. Avoid gratuitous visual redesign during architecture work.
+Use logical properties and `--civ-*` tokens. Preserve focus visibility, reduced-motion handling, WAI-ARIA keyboard behavior and 44×44px interactive targets. Avoid gratuitous visual redesign during architecture work.
 
 ### Testing
 
@@ -48,7 +48,7 @@ pnpm test
 pnpm check:parity
 pnpm check:ssr
 pnpm check:fixtures
-pnpm --filter @weiui/tokens validate
+pnpm --filter @civaria/tokens validate
 ```
 
 See `MULTI-RUNTIME-ARCHITECTURE.md` and `MIGRATION-MULTI-RUNTIME.md`.
