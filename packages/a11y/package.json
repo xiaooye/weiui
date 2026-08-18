@@ -29,6 +29,6 @@
     "build": "tsup src/index.ts --format esm --dts",
     "test": "vitest run"
   },
-  "dependencies": { "colorjs.io": "^0.5" },
+  "dependencies": { "colorjs.io": "^0.7" },
   "devDependencies": { "tsup": "^8.4", "vitest": "^4.1" }
 }
