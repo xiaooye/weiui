@@ -69,7 +69,7 @@ import { BarChart, LineChart } from "@weiui/react/chart";
 
 ## Why WeiUI
 
-WeiUI is built around production pressure rather than component-count theater. The goal is to reduce the places where real interfaces usually drift: accessibility, color, bundle size, framework coupling, and designer–developer handoff.
+WeiUI is built around production pressure rather than raw component count. The goal is to reduce the places where real interfaces usually drift: accessibility, color, bundle size, framework coupling, and designer–developer handoff.
 
 | Production pressure | WeiUI answer |
 | --- | --- |
