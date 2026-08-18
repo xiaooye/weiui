@@ -34,6 +34,11 @@ jobs:
       - name: Commit atomic generated migration
         shell: bash
         run: |
+          # GITHUB_TOKEN may update ordinary branch content but cannot update
+          # workflow files without the separate workflows permission. Keep the
+          # generated workflow edits out of this bot commit; the manager applies
+          # those exact workflow changes via the GitHub connector afterward.
+          git restore --source=HEAD -- .github/workflows
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
