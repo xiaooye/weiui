@@ -10,7 +10,7 @@ permissions:
 jobs:
   build:
     if: github.actor == 'dependabot[bot]'
-    name: Workspace Build
+    name: Workspace + Cloudflare Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,3 +27,6 @@ jobs:
 
       - name: Build workspace
         run: pnpm build
+
+      - name: Verify Cloudflare production build
+        run: pnpm --filter @weiui/docs run cf:build
