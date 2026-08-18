@@ -1,58 +1,15 @@
 # @weiui/headless
 
-Unstyled, accessible React primitives. Hooks + compound components that implement WAI-ARIA patterns without opinions about presentation.
+> **Deprecated compatibility package.** Existing React imports continue to work, but shared behavior now belongs to `@weiui/core`. New React code should prefer `@weiui/react/headless`; Vue, Solid, Svelte and Custom Elements use their native WeiUI runtime packages.
 
-## Install
-
-```bash
-pnpm add @weiui/headless
-```
-
-## What's inside
-
-**Hooks**
-- `useControllable` — controlled/uncontrolled state with a single hook
-- `useDisclosure` — open/close state with imperative helpers
-- `useFocusTrap` — trap focus inside a container (e.g. modal, popover)
-- `useId` — SSR-safe stable IDs
-- `useKeyboardNav` — roving tabindex + arrow key navigation
-- `useOutsideClick` — detect clicks outside a ref
-- `useToggle` — boolean state toggle
-- `useFloatingMenu` — `@floating-ui/react` wrapper for menus, tooltips, popovers
-
-**Compound components**
-- `Accordion`
-- `Combobox`
-- `Dialog`
-- `Menu`
-- `Popover`
-- `Select`
-- `Tabs`
-- `Tooltip`
-
-**A11y utilities**
-- `announce(message, priority?)` — live-region announcer for screen readers
-
-## Usage
+The package remains an unstyled React renderer/lifecycle adapter for existing users. React context, refs, portals, focus lifecycle and Floating UI bindings stay here where they are framework-specific; reusable open/close, selection, highlighted state and ARIA semantics are backed by `@weiui/core` controllers.
 
 ```tsx
+// Existing code remains valid
 import { Dialog, DialogTrigger, DialogContent } from "@weiui/headless";
 
-<Dialog>
-  <DialogTrigger>Open</DialogTrigger>
-  <DialogContent>
-    Content (add your own styles)
-  </DialogContent>
-</Dialog>
+// Preferred for new React code
+import { Dialog, DialogTrigger, DialogContent } from "@weiui/react/headless";
 ```
 
-## Philosophy
-
-- Zero styling — bring your own CSS or Tailwind
-- `@floating-ui/react` is the only runtime dep
-- Every compound component ships a typed context so consumers can compose their own sub-components
-- `forwardRef` on everything
-
-## Status
-
-v0.0.1. Compound components and hooks cover Wave 1–3 needs of `@weiui/react`. Tests live under `src/**/__tests__`.
+No duplicate generic implementation should be added here. New cross-runtime behavior must be added to `@weiui/core` first.

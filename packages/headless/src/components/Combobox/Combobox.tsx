@@ -1,44 +1,9 @@
 "use client";
-import { type ReactNode, useReducer, useCallback } from "react";
+import { type ReactNode } from "react";
+import { createComboboxController } from "@weiui/core";
+import { useCoreController, useLatest } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { ComboboxContext } from "./ComboboxContext";
-
-interface State {
-  isOpen: boolean;
-  inputValue: string;
-  selectedValue: string;
-  selectedLabel: string;
-  highlightedIndex: number;
-}
-
-type Action =
-  | { type: "OPEN" }
-  | { type: "CLOSE" }
-  | { type: "SET_INPUT"; value: string }
-  | { type: "SELECT"; value: string; label: string }
-  | { type: "SET_HIGHLIGHT"; index: number };
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "OPEN":
-      return { ...state, isOpen: true, highlightedIndex: -1 };
-    case "CLOSE":
-      return { ...state, isOpen: false, highlightedIndex: -1 };
-    case "SET_INPUT":
-      return { ...state, inputValue: action.value, isOpen: true, highlightedIndex: -1 };
-    case "SELECT":
-      return {
-        ...state,
-        selectedValue: action.value,
-        selectedLabel: action.label,
-        inputValue: action.label,
-        isOpen: false,
-        highlightedIndex: -1,
-      };
-    case "SET_HIGHLIGHT":
-      return { ...state, highlightedIndex: action.index };
-  }
-}
 
 export interface ComboboxProps {
   children: ReactNode;
@@ -47,42 +12,35 @@ export interface ComboboxProps {
 }
 
 export function Combobox({ children, defaultValue = "", onValueChange }: ComboboxProps) {
-  const [state, dispatch] = useReducer(reducer, {
-    isOpen: false,
-    inputValue: "",
-    selectedValue: defaultValue,
-    selectedLabel: "",
-    highlightedIndex: -1,
-  });
-
   const baseId = useId("combobox");
-
-  const onSelect = useCallback(
-    (value: string, label: string) => {
-      dispatch({ type: "SELECT", value, label });
-      onValueChange?.(value);
-    },
-    [onValueChange],
-  );
-
+  const callbackRef = useLatest(onValueChange);
+  const [controller, state] = useCoreController(() => createComboboxController({
+    id: baseId,
+    defaultValue,
+    onValueChange: (next) => callbackRef.current?.(next),
+  }));
+  const onSelect = (value: string, label: string) => {
+    // Legacy React items provide the visible label through children. Keep that
+    // adapter concern here while Core owns the semantic state shape.
+    controller.store.setState({ ...controller.getState(), value, inputValue: label, open: false, highlightedIndex: -1 });
+    callbackRef.current?.(value);
+  };
   return (
-    <ComboboxContext.Provider
-      value={{
-        isOpen: state.isOpen,
-        inputValue: state.inputValue,
-        setInputValue: (v) => dispatch({ type: "SET_INPUT", value: v }),
-        selectedValue: state.selectedValue,
-        selectedLabel: state.selectedLabel,
-        onSelect,
-        highlightedIndex: state.highlightedIndex,
-        setHighlightedIndex: (i) => dispatch({ type: "SET_HIGHLIGHT", index: i }),
-        onOpen: () => dispatch({ type: "OPEN" }),
-        onClose: () => dispatch({ type: "CLOSE" }),
-        baseId,
-        inputId: `${baseId}-input`,
-        listboxId: `${baseId}-listbox`,
-      }}
-    >
+    <ComboboxContext.Provider value={{
+      isOpen: state.open,
+      inputValue: state.inputValue,
+      setInputValue: controller.setInputValue,
+      selectedValue: state.value,
+      selectedLabel: state.inputValue,
+      onSelect,
+      highlightedIndex: state.highlightedIndex,
+      setHighlightedIndex: controller.highlight,
+      onOpen: controller.open,
+      onClose: controller.close,
+      baseId,
+      inputId: `${baseId}-input`,
+      listboxId: `${baseId}-listbox`,
+    }}>
       {children}
     </ComboboxContext.Provider>
   );
