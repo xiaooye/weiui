@@ -22,8 +22,8 @@ export function Combobox({ children, defaultValue = "", onValueChange }: Combobo
   const onSelect = (value: string, label: string) => {
     // Legacy React items provide the visible label through children. Keep that
     // adapter concern here while Core owns the semantic state shape.
-    controller.store.setState({ ...controller.getState(), value, inputValue: label, open: false, highlightedIndex: -1 });
-    callbackRef.current?.(value);
+    controller.syncInputValue(label);
+    controller.select(value);
   };
   return (
     <ComboboxContext.Provider value={{
