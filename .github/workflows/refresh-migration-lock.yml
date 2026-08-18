@@ -1,0 +1,51 @@
+name: Refresh migration lock
+
+on:
+  push:
+    branches: [feat/multi-framework-runtime]
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: ${{ !contains(github.event.head_commit.message, 'chore(lock): refresh multi-runtime workspace') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/multi-framework-runtime
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Refresh lockfile only
+        run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
+      - name: Mark legacy design plan migration authority
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path("DESIGNSYSTEM-PLAN.md")
+          text = path.read_text()
+          marker = "<!-- weiui-multi-runtime-authority -->"
+          if marker not in text:
+              notice = '''<!-- weiui-multi-runtime-authority -->
+          > [!IMPORTANT]
+          > **Architecture migration notice (2026-08):** historical sections below describe the former three-tier React-centric architecture. The current authority is `MULTI-RUNTIME-ARCHITECTURE.md`: Tokens + canonical CSS + framework-neutral `@weiui/core` + native React/Vue/Solid/Svelte/Elements runtimes. `@weiui/headless` is deprecated React compatibility, not the generic behavior layer.
+
+          '''
+              path.write_text(notice + text)
+      - name: Commit deterministic lock update
+        run: |
+          git diff --check
+          git status --short
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml DESIGNSYSTEM-PLAN.md
+          if git diff --cached --quiet; then
+            echo "No lock/design-plan changes required"
+            exit 0
+          fi
+          git commit -m "chore(lock): refresh multi-runtime workspace"
+          git push origin HEAD:feat/multi-framework-runtime
