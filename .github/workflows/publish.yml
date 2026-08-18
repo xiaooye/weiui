@@ -6,6 +6,7 @@ on:
     paths:
       - ".github/workflows/publish.yml"
       - ".changeset/**"
+      - "bootstrap/**"
       - "packages/**"
       - "package.json"
       - "pnpm-lock.yaml"
@@ -42,6 +43,10 @@ jobs:
       - name: Validate publish tarballs
         run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
 
+      - name: Validate Civaria bootstrap tarball
+        working-directory: bootstrap/civaria
+        run: npm pack --dry-run --json > /dev/null
+
   release:
     name: Release
     if: github.event_name == 'push'
@@ -72,7 +77,40 @@ jobs:
       - name: Validate publish tarballs
         run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
 
+      - name: Detect namespace migration state
+        id: migration
+        shell: bash
+        run: |
+          if grep -R --include='package.json' -q '"name"[[:space:]]*:[[:space:]]*"@weiui/' packages; then
+            echo "legacy_namespace=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "legacy_namespace=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if npm view civaria version >/dev/null 2>&1; then
+            echo "civaria_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "civaria_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate Civaria bootstrap tarball
+        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
+        working-directory: bootstrap/civaria
+        run: npm pack --dry-run --json > /dev/null
+
+      - name: Bootstrap civaria package name
+        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
+        working-directory: bootstrap/civaria
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      # Normal Changesets publishing stays disabled while the repository still
+      # contains the legacy @weiui/* namespace. The full Civaria rename removes
+      # that guard and deletes bootstrap/civaria.
       - name: Create or update release pull request
+        if: steps.migration.outputs.legacy_namespace == 'false'
         id: changesets
         uses: changesets/action@v1
         with:
@@ -82,7 +120,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Select npm authentication mode
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
         id: npm-auth
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -94,18 +132,18 @@ jobs:
           fi
 
       - name: Bootstrap first npm publication
-        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
         run: pnpm exec changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Publish packages with npm Trusted Publishing
-        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
         run: pnpm exec changeset publish
         env:
           NPM_CONFIG_PROVENANCE: true
 
       - name: Push release tags
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
         run: git push --follow-tags
