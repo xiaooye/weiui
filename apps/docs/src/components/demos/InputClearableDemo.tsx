@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Input } from "@weiui/react";
-import { Eye, EyeOff } from "@weiui/icons";
+import { Eye, EyeOff } from "@weiui/icons/react";
 
 export function InputClearableDemo() {
   const [name, setName] = useState("Jane Doe");
