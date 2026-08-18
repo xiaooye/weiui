@@ -16,6 +16,9 @@ export function AccordionContent({ children, ...props }: AccordionContentProps) 
       role="region"
       aria-labelledby={triggerId}
       {...props}
+      data-wui-component="accordion"
+      data-part="content"
+      data-state="open"
     >
       <div>{children}</div>
     </div>
