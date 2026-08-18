@@ -8,6 +8,11 @@ export interface TooltipTriggerProps {
 
 export function TooltipTrigger({ children }: TooltipTriggerProps) {
   const { open, close, isOpen, tooltipId, refs } = useTooltipContext();
+  const semantic = {
+    "data-wui-component": "tooltip",
+    "data-part": "trigger",
+    "data-state": isOpen ? "open" : "closed",
+  } as const;
 
   if (isValidElement(children)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +23,7 @@ export function TooltipTrigger({ children }: TooltipTriggerProps) {
       onFocus: open,
       onBlur: close,
       "aria-describedby": isOpen ? tooltipId : undefined,
+      ...semantic,
     });
   }
 
@@ -29,6 +35,7 @@ export function TooltipTrigger({ children }: TooltipTriggerProps) {
       onFocus={open}
       onBlur={close}
       aria-describedby={isOpen ? tooltipId : undefined}
+      {...semantic}
     >
       {children}
     </span>
