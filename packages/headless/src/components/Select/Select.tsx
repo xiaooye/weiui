@@ -22,9 +22,7 @@ export function Select({ children, defaultValue = "", value, onValueChange }: Se
     onValueChange: (next) => callbackRef.current?.(next),
   }));
   useEffect(() => {
-    if (value !== undefined && state.value !== value) {
-      controller.store.setState({ ...controller.getState(), value });
-    }
+    if (value !== undefined && state.value !== value) controller.syncValue(value);
   }, [controller, state.value, value]);
   const selectedValue = value ?? state.value;
   const onSelect = (next: string, label: string) => { setSelectedLabel(label); controller.select(next); };
