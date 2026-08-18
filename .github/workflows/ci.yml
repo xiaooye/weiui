@@ -10,6 +10,37 @@ permissions:
   contents: read
 
 jobs:
+  generate-civaria-rename:
+    if: github.event_name == 'pull_request' && github.head_ref == 'rename/civaria'
+    name: Generate Civaria rename (temporary)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rename/civaria
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Apply deterministic repository rename
+        run: node scripts/civaria-rename.mjs
+      - name: Regenerate workspace lockfile from renamed manifests
+        run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
+      - name: Commit atomic generated migration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "feat(rename): migrate WeiUI to Civaria"
+          git push origin HEAD:rename/civaria
+
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build, Test & Runtime Contracts
