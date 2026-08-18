@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
   pull-requests: read
 
 jobs:
@@ -66,33 +67,20 @@ jobs:
           echo "eligible=true" >> "$GITHUB_OUTPUT"
           echo "number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
-      - name: Validate owner merge token
+      - name: Request Dependabot squash merge
         if: steps.pr.outputs.eligible == 'true'
         env:
-          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
-        run: |
-          if [ -z "${GH_TOKEN:-}" ]; then
-            echo "DEPENDABOT_MERGE_TOKEN is missing."
-            exit 1
-          fi
-
-          LOGIN=$(gh api user --jq '.login')
-          if [ "$LOGIN" != "$GITHUB_REPOSITORY_OWNER" ]; then
-            echo "DEPENDABOT_MERGE_TOKEN authenticates as '$LOGIN', expected '$GITHUB_REPOSITORY_OWNER'."
-            exit 1
-          fi
-
-          CAN_PUSH=$(gh api "repos/$GITHUB_REPOSITORY" --jq '.permissions.push')
-          if [ "$CAN_PUSH" != "true" ]; then
-            echo "DEPENDABOT_MERGE_TOKEN does not have push access to $GITHUB_REPOSITORY."
-            exit 1
-          fi
-
-          echo "Owner merge token is valid for $GITHUB_REPOSITORY."
-
-      - name: Squash merge Dependabot pull request
-        if: steps.pr.outputs.eligible == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ steps.pr.outputs.number }}
-        run: gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
+        run: |
+          EXISTING=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" --paginate \
+            --jq '.[] | select(.body == "@dependabot squash and merge") | .id' | head -n 1)
+
+          if [ -n "$EXISTING" ]; then
+            echo "Dependabot squash-merge command already requested for PR #$PR_NUMBER."
+            exit 0
+          fi
+
+          gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" \
+            -f body='@dependabot squash and merge' >/dev/null
+          echo "Requested Dependabot squash merge for PR #$PR_NUMBER."
