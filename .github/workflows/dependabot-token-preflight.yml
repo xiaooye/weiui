@@ -1,0 +1,38 @@
+name: Dependabot Merge Token Preflight
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/dependabot-token-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate owner merge token
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate DEPENDABOT_MERGE_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "DEPENDABOT_MERGE_TOKEN is missing."
+            exit 1
+          fi
+
+          LOGIN=$(gh api user --jq '.login')
+          if [ "$LOGIN" != "$GITHUB_REPOSITORY_OWNER" ]; then
+            echo "Token authenticates as '$LOGIN', expected '$GITHUB_REPOSITORY_OWNER'."
+            exit 1
+          fi
+
+          CAN_PUSH=$(gh api "repos/$GITHUB_REPOSITORY" --jq '.permissions.push')
+          if [ "$CAN_PUSH" != "true" ]; then
+            echo "Token does not have push access to $GITHUB_REPOSITORY."
+            exit 1
+          fi
+
+          echo "DEPENDABOT_MERGE_TOKEN is valid for $GITHUB_REPOSITORY as $LOGIN."
