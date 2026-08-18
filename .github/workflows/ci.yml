@@ -10,42 +10,6 @@ permissions:
   contents: read
 
 jobs:
-  generate-civaria-rename:
-    if: github.event_name == 'pull_request' && github.head_ref == 'rename/civaria'
-    name: Generate Civaria rename (temporary)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: rename/civaria
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "pnpm"
-      - name: Apply deterministic repository rename
-        run: node scripts/civaria-rename.mjs
-      - name: Regenerate workspace lockfile from renamed manifests
-        run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
-      - name: Commit atomic generated migration
-        shell: bash
-        run: |
-          # GITHUB_TOKEN may update ordinary branch content but cannot update
-          # workflow files without the separate workflows permission. Keep the
-          # generated workflow edits out of this bot commit; the manager applies
-          # those exact workflow changes via the GitHub connector afterward.
-          git restore --source=HEAD -- .github/workflows
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet && exit 0
-          git commit -m "feat(rename): migrate WeiUI to Civaria"
-          git push origin HEAD:rename/civaria
-
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build, Test & Runtime Contracts
@@ -59,17 +23,19 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Enforce Civaria brand boundary
+        run: pnpm check:brand
       - name: Enforce package boundaries
         run: pnpm check:boundaries
       - name: Build all packages and docs
         run: pnpm build
       - name: Run package unit and adapter contract tests
-        run: pnpm turbo run test --filter='!@weiui/docs'
+        run: pnpm turbo run test --filter='!@civaria/docs'
       - name: Run docs tests with known registry timeout allowance
         # build-registry is a pre-existing CPU-bound suite that intermittently
         # exceeds Vitest's 5s default on hosted runners. Keep product logic and
         # the local test contract unchanged; CI only gives the suite headroom.
-        run: pnpm --filter @weiui/docs exec vitest run --testTimeout 15000
+        run: pnpm --filter @civaria/docs exec vitest run --testTimeout 15000
       - name: Verify required cross-runtime parity
         run: pnpm check:parity
       - name: Verify SSR/import safety
@@ -77,12 +43,16 @@ jobs:
       - name: Verify public consumption fixtures
         run: pnpm check:fixtures
       - name: Validate token contrast (WCAG AAA/AA)
-        run: pnpm --filter @weiui/tokens validate
+        run: pnpm --filter @civaria/tokens validate
+      - name: Smoke Civaria CLI
+        run: node packages/cli/dist/index.js --help
+      - name: Smoke Civaria MCP CLI
+        run: node packages/mcp/dist/index.js --help
       - name: Check bundle sizes
         run: |
           echo "=== Package sizes ==="
           wc -c packages/tokens/dist/tokens.css
-          wc -c packages/css/dist/weiui.css packages/css/dist/weiui.min.css
+          wc -c packages/css/dist/civaria.css packages/css/dist/civaria.min.css
           wc -c packages/core/dist/index.js
           wc -c packages/headless/dist/index.js
           wc -c packages/react/dist/index.js
@@ -94,6 +64,21 @@ jobs:
           wc -c packages/a11y/dist/index.js
           wc -c packages/cli/dist/index.js
           wc -c packages/mcp/dist/index.js
+
+  docs-cloudflare:
+    if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
+    name: Docs Cloudflare Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Build docs through OpenNext Cloudflare
+        run: pnpm --filter @civaria/docs run cf:build
 
   typecheck:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
@@ -109,12 +94,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Build source and declaration surfaces
         run: |
-          pnpm --filter @weiui/tokens build
-          pnpm --filter @weiui/css build
-          pnpm --filter @weiui/core build
-          pnpm --filter @weiui/headless build
-          pnpm --filter @weiui/react build
-          pnpm --filter @weiui/a11y build
+          pnpm --filter @civaria/tokens build
+          pnpm --filter @civaria/css build
+          pnpm --filter @civaria/core build
+          pnpm --filter @civaria/headless build
+          pnpm --filter civaria build
+          pnpm --filter @civaria/a11y build
       - name: Strict checks for migration-owned typed packages
         run: |
           pnpm exec tsc -p packages/core/tsconfig.json --noEmit
@@ -122,8 +107,9 @@ jobs:
           (cd packages/a11y && pnpm exec tsc --noEmit)
       - name: Native runtime source checks
         run: |
-          pnpm --filter @weiui/vue typecheck
-          pnpm --filter @weiui/solid typecheck
-          pnpm --filter @weiui/svelte typecheck
-          pnpm --filter @weiui/elements typecheck
+          pnpm --filter @civaria/vue typecheck
+          pnpm --filter @civaria/solid typecheck
+          pnpm --filter @civaria/svelte typecheck
+          pnpm --filter @civaria/elements typecheck
           pnpm check:boundaries
+          pnpm check:brand
