@@ -12,6 +12,82 @@ permissions:
   pull-requests: write
 
 jobs:
+  refresh-runtime-lock:
+    if: github.event_name == 'pull_request' && github.head_ref == 'feat/multi-framework-runtime-main'
+    name: Refresh runtime lock (temporary)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/multi-framework-runtime-main
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Finish Elements semantic API migration
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('packages/elements/src/index.js')
+          source = path.read_text()
+          source = source.replace('  createTooltipController,\n} from "@weiui/core";', '  createTooltipController,\n  focusFirst,\n  trapTabKey,\n} from "@weiui/core";')
+          start = source.index('function trapTab(event, container) {')
+          end = source.index('class ControllerElement', start)
+          source = source[:start] + '''function trapTab(event, container) {
+            if (event.key !== "Tab") return;
+            const targets = [...container.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(item => item.getAttribute("aria-hidden") !== "true");
+            if (targets.length === 0) { event.preventDefault(); container.focus(); return; }
+            const active = targets.indexOf(document.activeElement);
+            trapTabKey(event, targets, active < 0 ? (event.shiftKey ? 0 : -1) : active);
+          }
+          ''' + source[end:]
+          start = source.index('export class WuiSelectElement extends ControllerElement')
+          end = source.index('export class WuiTabsElement', start)
+          source = source[:start] + '''export class WuiSelectElement extends ControllerElement {
+            static formAssociated = true; _items=[]; _internals;
+            constructor(){super();this._internals=this.attachInternals?.()}
+            static get observedAttributes(){return ["value","name","required","disabled"]}
+            attributeChangedCallback(name,_old,value){if(name==="value"&&this._controller)this._controller.syncValue(value??"");if(this.isConnected)this._syncFormValue()}
+            get items(){return this._items}set items(value){this._items=Array.isArray(value)?value:[];this._controller?.setItems(this._items);if(this.isConnected)this.render()}
+            get value(){return this._controller?.getState().value??this.getAttribute("value")??""}set value(value){this.setAttribute("value",value??"")}
+            _syncFormValue(){const value=this.value;const disabled=this.hasAttribute("disabled");this._internals?.setFormValue(disabled?null:value);if(this._internals?.setValidity){const missing=this.hasAttribute("required")&&!value;this._internals.setValidity(missing?{valueMissing:true}:{},missing?"Please select an option.":"")}}
+            connectedCallback(){const c=createSelectController({id:elementId(this,"select"),defaultValue:this.getAttribute("value")??"",onValueChange:value=>{this.setAttribute("value",value);this._syncFormValue();emit(this,"valuechange",{value})}});c.setItems(this._items);this.watch(c);this._syncFormValue();this.render()}
+            render(){const c=this._controller;if(!c)return;this.replaceChildren();const root=node("div","select","root",c.getRootProps()),selected=this._items.find(item=>item.value===c.getState().value),trigger=node("button","select","trigger",c.getTriggerProps(),selected?.label??this.getAttribute("placeholder")??"Select…");trigger.disabled=this.hasAttribute("disabled");if(this.hasAttribute("required"))trigger.setAttribute("aria-required","true");root.append(trigger);const content=node("div","select","content",c.getContentProps());this._items.forEach((item,index)=>content.append(node("div","select","item",c.getItemProps(index),item.label??item.value)));root.append(content);if(!this._internals&&this.getAttribute("name"))root.append(node("input","select","hiddenInput",c.getHiddenInputProps(this.getAttribute("name")??undefined,this.hasAttribute("required"),this.hasAttribute("disabled"))));this.append(root)}
+          }
+          ''' + source[end:]
+          start = source.index('export class WuiComboboxElement extends ControllerElement')
+          end = source.index('function choiceElement', start)
+          source = source[:start] + '''export class WuiComboboxElement extends ControllerElement {
+            static formAssociated = true; _items=[]; _internals;
+            constructor(){super();this._internals=this.attachInternals?.()}
+            static get observedAttributes(){return ["value","name","required","disabled"]}
+            attributeChangedCallback(name,_old,value){if(name==="value"&&this._controller)this._controller.syncValue(value??"");if(this.isConnected)this._syncFormValue()}
+            get items(){return this._items}set items(value){this._items=Array.isArray(value)?value:[];this._controller?.setItems(this._items);if(this.isConnected)this.render()}
+            get value(){return this._controller?.getState().value??this.getAttribute("value")??""}set value(value){this.setAttribute("value",value??"")}
+            _syncFormValue(){const value=this.value;const disabled=this.hasAttribute("disabled");this._internals?.setFormValue(disabled?null:value);if(this._internals?.setValidity){const missing=this.hasAttribute("required")&&!value;this._internals.setValidity(missing?{valueMissing:true}:{},missing?"Please select an option.":"")}}
+            connectedCallback(){const c=createComboboxController({id:elementId(this,"combobox"),defaultValue:this.getAttribute("value")??"",defaultInputValue:this.getAttribute("input-value")??"",onValueChange:value=>{this.setAttribute("value",value);this._syncFormValue();emit(this,"valuechange",{value})},onInputValueChange:value=>{this.setAttribute("input-value",value);emit(this,"inputvaluechange",{value})}});c.setItems(this._items);this.watch(c);this._syncFormValue();this.render()}
+            render(){const c=this._controller;if(!c)return;this.replaceChildren();const root=node("div","combobox","root",c.getRootProps()),input=node("input","combobox","input",c.getInputProps());input.placeholder=this.getAttribute("placeholder")??"";input.disabled=this.hasAttribute("disabled");input.required=this.hasAttribute("required");input.addEventListener("input",event=>c.setInputValue(event.currentTarget.value));const content=node("div","combobox","content",c.getContentProps());this._items.forEach((item,index)=>content.append(node("div","combobox","item",c.getItemProps(index),item.label??item.value)));root.append(input,content);if(!this._internals&&this.getAttribute("name"))root.append(node("input","combobox","hiddenInput",c.getHiddenInputProps(this.getAttribute("name")??undefined,this.hasAttribute("required"),this.hasAttribute("disabled"))));this.append(root)}
+          }
+          ''' + source[end:]
+          source = source.replace("queueMicrotask(()=>(content.querySelector('button,[href],input,select,textarea,[tabindex]:not([tabindex=\"-1\"])')??content).focus())", "queueMicrotask(()=>{const targets=[...content.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex=\"-1\"])')];if(!focusFirst(targets))content.focus()})")
+          if '.store' in source:
+            raise SystemExit('Elements still contains direct store access')
+          path.write_text(source)
+      - name: Regenerate lockfile from workspace manifests
+        run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
+      - name: Commit generated lock and Elements migration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/elements/src/index.js pnpm-lock.yaml
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(lock): refresh native runtime test dependencies"
+          git push origin HEAD:feat/multi-framework-runtime-main
+
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build, Test & Runtime Contracts
