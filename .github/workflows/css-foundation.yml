@@ -35,21 +35,21 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
       - name: Build accessibility dependency
-        run: pnpm --filter @weiui/a11y build
+        run: pnpm --filter @civaria/a11y build
       - name: Build tokens
-        run: pnpm --filter @weiui/tokens build
+        run: pnpm --filter @civaria/tokens build
       - name: Test tokens
-        run: pnpm --filter @weiui/tokens test
+        run: pnpm --filter @civaria/tokens test
       - name: Validate token contrast
-        run: pnpm --filter @weiui/tokens validate
+        run: pnpm --filter @civaria/tokens validate
       - name: Build CSS foundation and config manifest
-        run: pnpm --filter @weiui/css build
+        run: pnpm --filter @civaria/css build
       - name: Test CSS config layer and fragment outputs
-        run: pnpm --filter @weiui/css test
+        run: pnpm --filter @civaria/css test
       - name: Verify consumer theme cascade contract
         run: |
-          grep -F '@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;' packages/tokens/dist/tokens.css
-          grep -F '@layer wui-reset, wui-tokens, wui-theme, wui-base, wui-elements, wui-utilities;' packages/css/dist/weiui.css
+          grep -F '@layer civ-reset, civ-tokens, civ-theme, civ-base, civ-elements, civ-utilities;' packages/tokens/dist/tokens.css
+          grep -F '@layer civ-reset, civ-tokens, civ-theme, civ-base, civ-elements, civ-utilities;' packages/css/dist/civaria.css
           test -f packages/css/dist/bundle-manifest.json
           test -f packages/css/dist/elements/button.css
           test -f packages/css/dist/a11y/focus.css
