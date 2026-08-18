@@ -12,7 +12,7 @@ describe("generateCode", () => {
       },
       { target: "jsx", includeImports: true },
     );
-    expect(out).toMatch(/import \{ Button \} from "@civaria\/react";/);
+    expect(out).toMatch(/import \{ Button \} from "civaria";/);
     expect(out).toMatch(/<Button variant="solid">Save<\/Button>/);
   });
 
@@ -26,7 +26,7 @@ describe("generateCode", () => {
       },
       { target: "jsx", includeImports: true },
     );
-    expect(out).toMatch(/import \{ Editor \} from "@civaria\/react\/editor";/);
+    expect(out).toMatch(/import \{ Editor \} from "civaria\/editor";/);
   });
 
   it("serializes booleans and numbers correctly", () => {
