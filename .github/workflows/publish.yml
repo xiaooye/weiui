@@ -1,25 +1,63 @@
 name: Publish
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish.yml"
+      - ".changeset/**"
+      - "packages/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
   push:
     branches: [main]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
+  preflight:
+    name: npm Package Preflight
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Validate publish tarballs
+        run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
+
   release:
     name: Release
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
@@ -43,12 +81,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish packages
+      - name: Select npm authentication mode
         if: steps.changesets.outputs.hasChangesets == 'false'
+        id: npm-auth
+        env:
+          NPM_BOOTSTRAP_TOKEN: ${{ secrets.NPM_BOOTSTRAP_TOKEN }}
+        run: |
+          if [ -n "${NPM_BOOTSTRAP_TOKEN:-}" ]; then
+            echo "bootstrap=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "bootstrap=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bootstrap first npm publication
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
         run: pnpm exec changeset publish
         env:
-          # Empty after bootstrap: npm 11+ uses GitHub OIDC automatically.
-          # For the first publish of brand-new packages only, a short-lived
-          # granular token can be provided through this temporary secret.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_BOOTSTRAP_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: Publish packages with npm Trusted Publishing
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
+        run: pnpm exec changeset publish
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Push release tags
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: git push --follow-tags
