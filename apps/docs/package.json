@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "@weiui/core": "workspace:*",
     "@weiui/css": "workspace:*",
     "@weiui/headless": "workspace:*",
     "@weiui/icons": "workspace:*",

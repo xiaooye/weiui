@@ -1,150 +1,17 @@
 "use client";
-import { useMemo, useState } from "react";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Stack,
-  toast,
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@weiui/react";
-import { generateCode, makeSchemaResolver } from "../lib/generate-code";
-import { openInCodeSandbox } from "../lib/codesandbox-export";
+import { useMemo } from "react";
+import { Button, Card, CardContent, CardHeader, Stack, toast, ToggleGroup, ToggleGroupItem } from "@weiui/react";
+import { generateWeiRuntimeCode, type WeiTarget } from "../lib/wei-ast";
 import type { ComponentNode } from "../lib/tree";
 import type { ComponentSchema } from "../../../lib/component-schema-loader";
-
-export type CodeMode = "jsx" | "tsx" | "html";
-
-interface Props {
-  tree: ComponentNode[];
-  schemas: ComponentSchema[];
-  codeMode: CodeMode;
-  onCodeModeChange: (mode: CodeMode) => void;
-}
-
-const FILE_EXT: Record<CodeMode, string> = {
-  jsx: "jsx",
-  tsx: "tsx",
-  html: "html",
-};
-
-const MIME_TYPE: Record<CodeMode, string> = {
-  jsx: "text/plain",
-  tsx: "text/plain",
-  html: "text/html",
-};
-
-export function CodeExport({ tree, schemas, codeMode, onCodeModeChange }: Props) {
-  const resolver = useMemo(
-    () =>
-      makeSchemaResolver(
-        schemas.map((s) => ({
-          name: s.name,
-          importPath: s.importPath,
-          subpathImport: s.subpathImport ?? null,
-        })),
-      ),
-    [schemas],
-  );
-
-  const code = useMemo(() => {
-    if (tree.length === 0) return "";
-    return generateCode(tree, resolver, {
-      target: codeMode,
-      componentWrap: codeMode === "tsx",
-      includeImports: true,
-    });
-  }, [tree, resolver, codeMode]);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      toast.success("Copied to clipboard");
-    } catch {
-      toast.error("Copy failed");
-    }
-  };
-
-  const handleDownload = () => {
-    const blob = new Blob([code], { type: MIME_TYPE[codeMode] });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `composition.${FILE_EXT[codeMode]}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const [opening, setOpening] = useState(false);
-
-  const handleOpenInCodeSandbox = async () => {
-    setOpening(true);
-    try {
-      const url = await openInCodeSandbox(tree, schemas);
-      window.open(url, "_blank", "noopener,noreferrer");
-    } catch (err) {
-      toast.error(
-        "Failed to open CodeSandbox: " + (err as Error).message,
-      );
-    } finally {
-      setOpening(false);
-    }
-  };
-
-  const emptyCode = tree.length === 0;
-
-  return (
-    <Card>
-      <CardHeader>
-        <Stack direction="row" gap={3} className="wui-tool-code__header">
-          <ToggleGroup
-            type="single"
-            value={codeMode}
-            onChange={(v) => {
-              const next = Array.isArray(v) ? v[0] : v;
-              if (next) onCodeModeChange(next as CodeMode);
-            }}
-            label="Output format"
-          >
-            <ToggleGroupItem value="jsx">JSX</ToggleGroupItem>
-            <ToggleGroupItem value="tsx">TSX</ToggleGroupItem>
-            <ToggleGroupItem value="html">HTML</ToggleGroupItem>
-          </ToggleGroup>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleCopy}
-            disabled={emptyCode}
-          >
-            Copy
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleDownload}
-            disabled={emptyCode}
-          >
-            Download
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleOpenInCodeSandbox}
-            disabled={emptyCode || opening}
-          >
-            {opening ? "Opening…" : "Open in CodeSandbox"}
-          </Button>
-        </Stack>
-      </CardHeader>
-      <CardContent>
-        <pre className="wui-tool-code__pre">
-          <code>{code || "// Add components to see generated code"}</code>
-        </pre>
-      </CardContent>
-    </Card>
-  );
+export type CodeMode = "jsx" | Exclude<WeiTarget, "react">;
+interface Props { tree: ComponentNode[]; schemas: ComponentSchema[]; codeMode: CodeMode; onCodeModeChange: (mode: CodeMode) => void; }
+const FILE_EXT: Record<CodeMode,string> = { jsx:"tsx",vue:"vue",solid:"tsx",svelte:"svelte",elements:"html" };
+const LABEL: Record<CodeMode,string> = { jsx:"React",vue:"Vue",solid:"Solid",svelte:"Svelte",elements:"HTML / Elements" };
+export function CodeExport({ tree, codeMode, onCodeModeChange }: Props) {
+  const target: WeiTarget = codeMode === "jsx" ? "react" : codeMode;
+  const code=useMemo(()=>tree.length?generateWeiRuntimeCode(tree,target):"",[tree,target]);
+  const copy=async()=>{try{await navigator.clipboard.writeText(code);toast.success("Copied to clipboard")}catch{toast.error("Copy failed")}};
+  const download=()=>{const blob=new Blob([code],{type:codeMode==="elements"?"text/html":"text/plain"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`composition.${FILE_EXT[codeMode]}`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url)};
+  return <Card><CardHeader><Stack direction="row" gap={3} className="wui-tool-code__header"><ToggleGroup type="single" value={codeMode} onChange={(v)=>{const next=Array.isArray(v)?v[0]:v;if(next)onCodeModeChange(next as CodeMode)}} label="Integration runtime">{(Object.keys(LABEL) as CodeMode[]).map(mode=><ToggleGroupItem key={mode} value={mode}>{LABEL[mode]}</ToggleGroupItem>)}</ToggleGroup><Button variant="ghost" size="sm" onClick={copy} disabled={!code}>Copy</Button><Button variant="ghost" size="sm" onClick={download} disabled={!code}>Download</Button></Stack></CardHeader><CardContent><pre className="wui-tool-code__pre"><code>{code||"// Add components to see generated code"}</code></pre></CardContent></Card>;
 }

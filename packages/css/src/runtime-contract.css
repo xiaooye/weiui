@@ -1,0 +1,22 @@
+@layer wui-elements {
+  /* Cross-runtime semantic contract. Framework adapters may differ in syntax,
+     but these WeiUI-owned attributes are stable styling and test hooks. */
+  [data-wui-component][hidden],
+  [data-wui-component] [data-part][hidden] {
+    display: none !important;
+  }
+
+  [data-wui-component][data-disabled],
+  [data-wui-component] [data-part][data-disabled] {
+    cursor: not-allowed;
+  }
+
+  [data-wui-component] [data-part="trigger"][aria-expanded="true"] {
+    z-index: 1;
+  }
+
+  [data-wui-component] [data-part="content"]:focus-visible {
+    outline: 3px solid var(--wui-color-ring);
+    outline-offset: 2px;
+  }
+}

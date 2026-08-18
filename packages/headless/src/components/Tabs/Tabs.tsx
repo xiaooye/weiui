@@ -1,6 +1,7 @@
 "use client";
-import { type ReactNode, type HTMLAttributes } from "react";
-import { useControllable } from "../../hooks/use-controllable";
+import { type ReactNode, type HTMLAttributes, useEffect } from "react";
+import { createTabsController } from "@weiui/core";
+import { useCoreController, useLatest } from "../../hooks/use-core-controller";
 import { useId } from "../../hooks/use-id";
 import { TabsContext } from "./TabsContext";
 
@@ -12,16 +13,18 @@ export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function Tabs({ children, defaultValue = "", value, onValueChange, ...rest }: TabsProps) {
-  const [activeValue, setActiveValue] = useControllable({
-    value,
-    defaultValue,
-    onChange: onValueChange,
-  });
   const baseId = useId("tabs");
-
+  const callbackRef = useLatest(onValueChange);
+  const [controller, state] = useCoreController(() =>
+    createTabsController({ id: baseId, defaultValue, onValueChange: (next) => callbackRef.current?.(next) }),
+  );
+  useEffect(() => {
+    if (value !== undefined && state.value !== value) controller.store.setState({ value });
+  }, [controller, state.value, value]);
+  const activeValue = value ?? state.value;
   return (
-    <TabsContext.Provider value={{ activeValue, onValueChange: setActiveValue, baseId }}>
-      <div {...rest}>{children}</div>
+    <TabsContext.Provider value={{ activeValue, onValueChange: controller.select, baseId }}>
+      <div data-wui-component="tabs" data-part="root" {...rest}>{children}</div>
     </TabsContext.Provider>
   );
 }

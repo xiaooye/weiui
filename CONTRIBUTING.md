@@ -1,87 +1,76 @@
 # Contributing to WeiUI
 
-Thank you for your interest in contributing to WeiUI.
+## Development setup
 
-## Development Setup
+1. Fork/clone the repository.
+2. `pnpm install --frozen-lockfile`
+3. `pnpm check:boundaries`
+4. `pnpm build`
+5. `pnpm test`
+6. `pnpm check:parity && pnpm check:ssr && pnpm check:fixtures`
 
-1. Fork and clone the repository
-2. Install dependencies: `pnpm install`
-3. Build all packages: `pnpm build`
-4. Run tests: `pnpm test`
+## Architecture
 
-## Project Structure
-
+```text
+packages/tokens   framework-neutral design decisions
+packages/css      canonical visual contract
+packages/a11y     accessibility validation utilities
+packages/core     framework-neutral behavior/state/ARIA/anatomy/registry
+packages/react    native React renderer + heavy ecosystem subpaths
+packages/vue      native Vue 3 renderer
+packages/solid    native Solid renderer
+packages/svelte   native Svelte 5 renderer
+packages/elements optional native Custom Elements distribution
+packages/headless deprecated React compatibility layer
+packages/icons    neutral icon data + generated runtime adapters
+packages/cli      runtime-aware CLI
+packages/mcp      runtime-aware AI tooling
+apps/docs         docs/product/Playground/Composer
 ```
-weiui/
-├── packages/
-│   ├── tokens/     # Design tokens
-│   ├── css/        # CSS-only components
-│   ├── headless/   # Headless React hooks
-│   ├── react/      # Styled React components
-│   ├── icons/      # Icon set
-│   ├── cli/        # CLI tool
-│   └── a11y/       # Accessibility utilities
-├── apps/
-│   └── docs/       # Documentation site (Next.js)
-└── DESIGNSYSTEM-PLAN.md  # Full design specification
-```
 
-### Subpath imports in `@weiui/react`
+### Dependency laws
 
-Heavy third-party deps are kept out of the main barrel and live on
-dedicated subpath entries, so consumers who never touch those components
-pay nothing for them:
+- Core imports no UI framework.
+- React/Vue/Solid/Svelte/Elements are peers; none depends on another runtime.
+- New reusable interactive semantics go to Core first.
+- Rendering/lifecycle stays native to the adapter.
+- Stable WeiUI classes/data anatomy are the cross-runtime styling/testing contract.
+- Do not expose underlying state-machine implementation types as public WeiUI API.
 
-- `@weiui/react/editor` — Tiptap-backed rich-text editor
-- `@weiui/react/data-table` — TanStack-table-backed DataTable
-- `@weiui/react/chart` — Recharts-backed BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart
+### Portability classes
 
-If you add a component with a heavy peer dep, route it through its own
-entry file (see `packages/react/src/editor-entry.ts` for the pattern).
+A = visual primitive; B = interactive primitive; C = complex composite; D = ecosystem integration. Update `@weiui/core/registry` when component support changes. This registry is the canonical support matrix consumed by tooling.
 
-## Pull Request Process
+### React heavy subpaths
 
-1. Create a feature branch from `main`
-2. Make your changes
-3. Add a changeset: `pnpm changeset`
-4. Ensure all tests pass: `pnpm test`
-5. Ensure token contrast validation passes: `pnpm --filter @weiui/tokens validate`
-6. Submit a PR
+Keep mature ecosystem dependencies isolated:
+- `@weiui/react/editor` — Tiptap React
+- `@weiui/react/data-table` — TanStack React Table
+- `@weiui/react/chart` — Recharts
 
-## Code Review Checklist
+Never import those entrypoints from the root barrel.
 
-- [ ] TypeScript strict — zero `any`
-- [ ] All tests passing
-- [ ] Accessibility tests passing (AAA for content, AA for accents)
-- [ ] CSS uses logical properties (no physical left/right)
-- [ ] CSS uses `--wui-` custom properties (no hardcoded values)
-- [ ] Components use `forwardRef`
-- [ ] States use data attributes (`[data-disabled]`, not classes)
-- [ ] Animations behind `prefers-reduced-motion: no-preference`
-- [ ] 44px minimum touch targets on interactive elements
-- [ ] Documentation updated
+## Review checklist
 
-## Component Proposal
+- [ ] Core/runtime package-boundary checks pass.
+- [ ] TypeScript/source checks pass; avoid `any` escape hatches.
+- [ ] Shared state/ARIA/keyboard behavior has Core tests.
+- [ ] Native adapter uses its framework conventions rather than wrapping another runtime.
+- [ ] Semantic `data-wui-component` / `data-part` / state attributes are compatible where practical.
+- [ ] 44px touch targets, focus visibility, keyboard interaction and reduced-motion rules remain intact.
+- [ ] CSS uses WeiUI variables/logical properties and avoids visual redesign unless requested.
+- [ ] SSR has no import-time DOM/random-ID behavior.
+- [ ] Docs, registry metadata and migration notes are updated.
+- [ ] Heavy dependencies stay isolated.
 
-New components must meet these criteria:
-1. Has a clear WAI-ARIA pattern
-2. Not composable from existing components
-3. Passes accessibility audit
-4. Includes unit tests, a11y tests, keyboard tests
+## AI/tooling surface
 
-## Naming Conventions
+- Core registry owns cross-runtime support/anatomy.
+- Docs registry may enrich it with prose/props/examples.
+- MCP consumes Core metadata and emits runtime-aware answers.
+- CLI detects/scaffolds runtimes using the same metadata.
+- Composer canonical representation is semantic WeiUI AST; generated React/Vue/Solid/Svelte/Elements code is derived output.
 
-- CSS classes: `wui-{component}`, `wui-{component}__{element}`, `wui-{component}--{modifier}`
-- CSS properties: `--wui-{category}-{name}`
-- Files: PascalCase for components, kebab-case for hooks and CSS
+## Changesets
 
-## AI-usage surface
-
-Six integration points for AI assistants. When modifying components, keep them in sync:
-
-1. **Registry JSON** (generated) — regenerated on `pnpm --filter @weiui/docs build` from JSDoc + MDX. Don't hand-edit `apps/docs/public/registry/*.json`.
-2. **llms.txt / llms-full.txt** (generated) — same. Source of truth is each doc page's MDX.
-3. **@weiui/mcp tools** — if you add a new tool, mirror its logic into a `@weiui/cli` command so CLI and MCP stay in parity.
-4. **JSDoc coverage** — new Props fields must have JSDoc descriptions. Run `pnpm check-jsdoc`; fails CI below 95%.
-5. **AGENTS.md** — update when import rules or heavy-component subpaths change.
-6. **`/docs/ai-guide`** — user-facing mirror of AGENTS.md; keep them in sync.
+Core + official runtime packages are a fixed release group. Add a changeset for public behavior/API changes and run the full verification sequence before review.

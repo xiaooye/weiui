@@ -1,36 +1,18 @@
 {
   "name": "@weiui/cli",
   "version": "0.0.1",
-  "description": "WeiUI CLI — initialise projects, scaffold components (weiui add <name>), build and validate tokens.",
+  "description": "WeiUI multi-runtime CLI — detect projects, initialize runtimes, scaffold components, and manage tokens.",
   "author": "WeiUI Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/xiaooye/weiui.git",
-    "directory": "packages/cli"
-  },
+  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/cli" },
   "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
-  "keywords": [
-    "cli",
-    "weiui",
-    "design-system",
-    "scaffold",
-    "tokens",
-    "design-tokens",
-    "shadcn"
-  ],
+  "keywords": ["cli", "weiui", "design-system", "scaffold", "tokens", "react", "vue", "solid", "svelte", "web-components"],
   "type": "module",
   "bin": { "weiui": "./dist/index.js" },
   "files": ["dist", "README.md"],
-  "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --shims",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "@weiui/mcp": "workspace:*",
-    "commander": "^13.1"
-  },
+  "scripts": { "build": "tsup src/index.ts --format esm --dts --shims", "test": "vitest run" },
+  "dependencies": { "@weiui/core": "workspace:*", "@weiui/mcp": "workspace:*", "commander": "^13.1" },
   "devDependencies": { "tsup": "^8.4" }
 }

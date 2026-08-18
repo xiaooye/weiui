@@ -1,17 +1,13 @@
 {
   "name": "@weiui/mcp",
   "version": "0.0.1",
-  "description": "Model Context Protocol server for WeiUI — lets AI agents introspect components.",
+  "description": "Model Context Protocol server for framework-neutral WeiUI component metadata and examples.",
   "author": "Wei",
   "license": "MIT",
   "publishConfig": { "access": "public" },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/xiaooye/weiui.git",
-    "directory": "packages/mcp"
-  },
+  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/mcp" },
   "homepage": "https://ui.wei-dev.com/",
-  "keywords": ["weiui", "mcp", "ai", "agent", "react", "components"],
+  "keywords": ["weiui", "mcp", "ai", "agent", "components", "react", "vue", "solid", "svelte", "web-components"],
   "type": "module",
   "bin": { "weiui-mcp": "./dist/index.js" },
   "exports": {
@@ -25,19 +21,7 @@
     "./lint": { "types": "./dist/lint.d.ts", "import": "./dist/lint.js" }
   },
   "files": ["dist", "registry", "README.md"],
-  "scripts": {
-    "build": "tsup src/index.ts src/tools/list-components.ts src/tools/get-component.ts src/tools/search-components.ts src/tools/get-example.ts src/tools/check-usage.ts src/registry-loader.ts src/lint.ts --format esm --dts --target node20",
-    "test": "vitest run",
-    "prepack": "node -e \"try { require('fs').cpSync('../../apps/docs/public/registry', './registry', { recursive: true }) } catch (e) {}\""
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "zod": "^3.23.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "tsup": "^8.3",
-    "typescript": "^5.8",
-    "vitest": "^4.1"
-  }
+  "scripts": { "build": "tsup src/index.ts src/tools/list-components.ts src/tools/get-component.ts src/tools/search-components.ts src/tools/get-example.ts src/tools/check-usage.ts src/registry-loader.ts src/lint.ts --format esm --dts --target node20", "test": "vitest run", "prepack": "node -e \"try { require('fs').cpSync('../../apps/docs/public/registry', './registry', { recursive: true }) } catch (e) {}\"" },
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.0.0", "@weiui/core": "workspace:*", "zod": "^3.23.0" },
+  "devDependencies": { "@types/node": "^20", "tsup": "^8.3", "typescript": "^5.8", "vitest": "^4.1" }
 }
