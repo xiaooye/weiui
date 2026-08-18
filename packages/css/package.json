@@ -1,6 +1,6 @@
 {
   "name": "@weiui/css",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "WeiUI CSS layer — zero-JavaScript component styles built on design tokens with logical properties, OKLCH colors, and WCAG AAA contrast.",
   "author": "WeiUI Contributors",
   "license": "MIT",
@@ -10,7 +10,9 @@
     "url": "https://github.com/xiaooye/weiui.git",
     "directory": "packages/css"
   },
-  "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
+  "bugs": {
+    "url": "https://github.com/xiaooye/weiui/issues"
+  },
   "keywords": [
     "css",
     "design-system",
@@ -35,7 +37,10 @@
     "./bundle-manifest.json": "./dist/bundle-manifest.json",
     "./config": "./dist/config.mjs"
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node scripts/test-build.mjs"
