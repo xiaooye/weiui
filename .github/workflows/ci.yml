@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-test:
+    if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Build & Test
     runs-on: ubuntu-latest
     steps:
@@ -51,6 +52,7 @@ jobs:
           wc -c packages/cli/dist/index.js
 
   typecheck:
+    if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
     name: Type Check
     runs-on: ubuntu-latest
     steps:
