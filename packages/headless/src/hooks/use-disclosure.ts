@@ -35,7 +35,7 @@ export function useDisclosure(props: UseDisclosureProps = {}): UseDisclosureRetu
   );
 
   useEffect(() => {
-    if (open !== undefined && state.open !== open) controller.store.setState({ open });
+    if (open !== undefined && state.open !== open) controller.syncOpen(open);
   }, [controller, open, state.open]);
 
   const isOpen = open ?? state.open;
