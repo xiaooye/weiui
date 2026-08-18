@@ -1,0 +1,102 @@
+name: Dependabot Auto Merge
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+      - CSS Foundation
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve Dependabot pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          PR_NUMBER="$RUN_PR_NUMBER"
+
+          if [ -z "$PR_NUMBER" ]; then
+            PR_NUMBER=$(gh api --method GET "repos/$GITHUB_REPOSITORY/pulls" \
+              -f state=open \
+              -f head="$GITHUB_REPOSITORY_OWNER:$HEAD_BRANCH" \
+              --jq '.[0].number // empty')
+          fi
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No pull request associated with this workflow run."
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          AUTHOR=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.user.login')
+          if [ "$AUTHOR" != "dependabot[bot]" ]; then
+            echo "PR #$PR_NUMBER was opened by $AUTHOR, not Dependabot."
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+          echo "number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for all checks to finish successfully
+        if: steps.pr.outputs.eligible == 'true'
+        id: checks
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ steps.pr.outputs.sha }}
+        run: |
+          for attempt in $(seq 1 60); do
+            CHECKS=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100")
+
+            TOTAL=$(echo "$CHECKS" | jq '.check_runs | length')
+            BLOCKING=$(echo "$CHECKS" | jq '[.check_runs[] | select(.status != "completed" or (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')
+            FAILED=$(echo "$CHECKS" | jq '[.check_runs[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')
+
+            if [ "$FAILED" -gt 0 ]; then
+              echo "At least one check failed; leaving the Dependabot PR open."
+              echo "$CHECKS" | jq -r '.check_runs[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "- \(.name): \(.conclusion)"'
+              echo "ready=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if [ "$TOTAL" -gt 0 ] && [ "$BLOCKING" -eq 0 ]; then
+              echo "All registered checks passed."
+              echo "ready=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            echo "Checks are still running (attempt $attempt/60); waiting 10 seconds..."
+            sleep 10
+          done
+
+          echo "Timed out waiting for checks; leaving the Dependabot PR open."
+          echo "ready=false" >> "$GITHUB_OUTPUT"
+
+      - name: Approve Dependabot pull request
+        if: steps.checks.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        run: gh pr review "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --approve || true
+
+      - name: Squash merge Dependabot pull request
+        if: steps.checks.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        run: gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
