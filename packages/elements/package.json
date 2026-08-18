@@ -1,0 +1,26 @@
+{
+  "name": "@weiui/elements",
+  "version": "0.1.0",
+  "description": "SSR-safe native Custom Elements distribution for WeiUI.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./button": { "types": "./dist/index.d.ts", "import": "./dist/button.js" },
+    "./accordion": { "types": "./dist/index.d.ts", "import": "./dist/accordion.js" },
+    "./dialog": { "types": "./dist/index.d.ts", "import": "./dist/dialog.js" },
+    "./menu": { "types": "./dist/index.d.ts", "import": "./dist/menu.js" },
+    "./popover": { "types": "./dist/index.d.ts", "import": "./dist/popover.js" },
+    "./select": { "types": "./dist/index.d.ts", "import": "./dist/select.js" },
+    "./tabs": { "types": "./dist/index.d.ts", "import": "./dist/tabs.js" },
+    "./tooltip": { "types": "./dist/index.d.ts", "import": "./dist/tooltip.js" },
+    "./combobox": { "types": "./dist/index.d.ts", "import": "./dist/combobox.js" },
+    "./checkbox": { "types": "./dist/index.d.ts", "import": "./dist/checkbox.js" },
+    "./switch": { "types": "./dist/index.d.ts", "import": "./dist/switch.js" }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": { "build": "node ./scripts/build.mjs", "test": "node ./scripts/contract-test.mjs && node ./scripts/ssr-import.mjs", "typecheck": "node --check ./src/index.js" },
+  "dependencies": { "@weiui/core": "workspace:*", "@weiui/css": "workspace:*" }
+}

@@ -1,0 +1,1 @@
+<script lang="ts">import { semanticPart } from "@weiui/core"; let { variant, size, class: className, ...rest } = $props<{ variant?: string; size?: string; class?: string; [key:string]:unknown }>(); let attrs=$derived({ ...rest, ...semanticPart("spinner","root",{variant,size}) });</script><span {...attrs} role="status" class="wui-spinner {className ?? ''}"></span>
