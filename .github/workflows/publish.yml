@@ -13,24 +13,42 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
-          cache: "pnpm"
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish
+      - name: Build packages
+        run: pnpm build
+
+      - name: Validate publish tarballs
+        run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
+
+      - name: Create or update release pull request
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
           title: "chore: version packages"
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish packages
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: pnpm exec changeset publish
+        env:
+          # Empty after bootstrap: npm 11+ uses GitHub OIDC automatically.
+          # For the first publish of brand-new packages only, a short-lived
+          # granular token can be provided through this temporary secret.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_BOOTSTRAP_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
