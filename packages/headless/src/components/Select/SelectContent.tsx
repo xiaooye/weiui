@@ -15,9 +15,7 @@ export function SelectContent({ children, onKeyDown, ...props }: SelectContentPr
   useOutsideClick(contentRef, onClose, isOpen);
 
   useEffect(() => {
-    if (isOpen && contentRef.current) {
-      contentRef.current.focus();
-    }
+    if (isOpen && contentRef.current) contentRef.current.focus();
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -29,6 +27,9 @@ export function SelectContent({ children, onKeyDown, ...props }: SelectContentPr
       role="listbox"
       aria-labelledby={triggerId}
       tabIndex={-1}
+      data-wui-component="select"
+      data-part="content"
+      data-state="open"
       onKeyDown={(e) => {
         if (e.key === Keys.Escape) {
           e.preventDefault();
