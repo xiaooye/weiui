@@ -1,36 +1,149 @@
 name: Publish
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish.yml"
+      - ".changeset/**"
+      - "bootstrap/**"
+      - "packages/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
   push:
     branches: [main]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
+  preflight:
+    name: npm Package Preflight
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Validate publish tarballs
+        run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
+
+      - name: Validate Civaria bootstrap tarball
+        working-directory: bootstrap/civaria
+        run: npm pack --dry-run --json > /dev/null
+
   release:
     name: Release
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
         with:
-          node-version: 22
-          cache: "pnpm"
+          version: 10.33.0
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
 
-      - name: Create Release Pull Request or Publish
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Validate publish tarballs
+        run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
+
+      - name: Detect namespace migration state
+        id: migration
+        shell: bash
+        run: |
+          if grep -R --include='package.json' -q '"name"[[:space:]]*:[[:space:]]*"@weiui/' packages; then
+            echo "legacy_namespace=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "legacy_namespace=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if npm view civaria version >/dev/null 2>&1; then
+            echo "civaria_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "civaria_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate Civaria bootstrap tarball
+        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
+        working-directory: bootstrap/civaria
+        run: npm pack --dry-run --json > /dev/null
+
+      - name: Bootstrap civaria package name
+        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
+        working-directory: bootstrap/civaria
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      # Normal Changesets publishing stays disabled while the repository still
+      # contains the legacy @weiui/* namespace. The full Civaria rename removes
+      # that guard and deletes bootstrap/civaria.
+      - name: Create or update release pull request
+        if: steps.migration.outputs.legacy_namespace == 'false'
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
           title: "chore: version packages"
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Select npm authentication mode
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
+        id: npm-auth
+        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "${NPM_TOKEN:-}" ]; then
+            echo "bootstrap=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "bootstrap=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bootstrap first npm publication
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
+        run: pnpm exec changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Publish packages with npm Trusted Publishing
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
+        run: pnpm exec changeset publish
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Push release tags
+        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
+        run: git push --follow-tags

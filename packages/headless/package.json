@@ -4,7 +4,8 @@
   "description": "WeiUI headless layer — unstyled React hooks and compound components with ARIA wiring, focus management, keyboard nav, and controlled/uncontrolled patterns.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",

@@ -4,8 +4,13 @@
   "description": "Model Context Protocol server for WeiUI — lets AI agents introspect components.",
   "author": "Wei",
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui" },
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaooye/weiui.git",
+    "directory": "packages/mcp"
+  },
+  "homepage": "https://ui.wei-dev.com/",
   "keywords": ["weiui", "mcp", "ai", "agent", "react", "components"],
   "type": "module",
   "bin": { "weiui-mcp": "./dist/index.js" },

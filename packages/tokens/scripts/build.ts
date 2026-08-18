@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import { flatten } from "../src/flatten";
 import { resolveReferences } from "../src/resolve";
 import { generateCss, generateDarkCss } from "../src/generate-css";
-import { generateTs } from "../src/generate-ts";
+import { generateTs, generateJs, generateDts } from "../src/generate-ts";
 import { generateDarkTokens } from "../src/dark-mode";
 import type { TokenGroup } from "../src/types";
 
@@ -41,18 +41,26 @@ const darkTokens = generateDarkTokens(resolved);
 const darkCss = generateDarkCss(darkTokens);
 const lightCss = readFileSync(join(DIST, "tokens.css"), "utf-8");
 writeFileSync(join(DIST, "tokens.css"), lightCss + "\n" + darkCss);
+
+// Keep the TypeScript source artifact for tooling while also emitting the
+// JavaScript and declaration files advertised by package.json exports.
 writeFileSync(join(DIST, "index.ts"), generateTs(resolved));
+writeFileSync(join(DIST, "index.js"), generateJs(resolved));
+writeFileSync(join(DIST, "index.d.ts"), generateDts(resolved));
 writeFileSync(
   join(DIST, "tokens.json"),
   JSON.stringify(
     Object.fromEntries(resolved.map((t) => [t.path.join("."), t.token.$value])),
-    null, 2,
+    null,
+    2,
   ),
 );
 
 console.log(`Done — ${resolved.length} tokens generated`);
 console.log(`  dist/tokens.css`);
 console.log(`  dist/index.ts`);
+console.log(`  dist/index.js`);
+console.log(`  dist/index.d.ts`);
 console.log(`  dist/tokens.json`);
 
 function deepMerge(target: TokenGroup, source: TokenGroup): void {

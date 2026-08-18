@@ -4,7 +4,8 @@
   "description": "WeiUI design tokens — W3C Design Tokens Community Group JSON source-of-truth exported as CSS custom properties and TypeScript.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",

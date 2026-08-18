@@ -4,7 +4,8 @@
   "description": "WeiUI React component library — 65 styled components with WCAG AAA contrast, compound composition, controlled/uncontrolled patterns, and SSR-safe defaults.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",
