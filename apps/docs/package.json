@@ -18,7 +18,7 @@
     "@weiui/icons": "workspace:*",
     "@weiui/react": "workspace:*",
     "@weiui/tokens": "workspace:*",
-    "next": "^15.3",
+    "next": "^15.5",
     "react": "^19.1",
     "react-dom": "^19.1",
     "rehype-pretty-code": "^0.14.5",
@@ -43,6 +43,6 @@
     "ts-morph": "^28.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.8",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.6"
   }
 }
