@@ -27,7 +27,7 @@ const elementIds = imports
   .sort((a, b) => b.length - a.length || a.localeCompare(b));
 
 function classify(relative) {
-  if (relative === "reset.css" || relative === "base.css") return "foundation";
+  if (relative === "reset.css" || relative === "base.css" || relative === "runtime-contract.css") return "foundation";
   if (relative.startsWith("a11y/")) return "a11y";
   if (relative.startsWith("elements/")) return "elements";
   if (relative.startsWith("utilities/")) return "utilities";
