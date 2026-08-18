@@ -28,7 +28,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10",
     "@mdx-js/loader": "^3.1",
-    "@next/mdx": "^15.3",
+    "@next/mdx": "^16.3",
     "@playwright/test": "^1.52",
     "@testing-library/jest-dom": "^6.6",
     "@testing-library/react": "^16.3",
