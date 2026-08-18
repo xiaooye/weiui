@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "tsx scripts/build-llms-txt.ts && tsx scripts/build-search-index.ts && tsx scripts/build-registry.ts && next build",
-    "cf:build": "pnpm --filter \"@weiui/docs...\" run build && pnpm dlx @opennextjs/cloudflare@1.20.2 build",
-    "cf:deploy": "pnpm dlx wrangler@4.123.0 deploy",
+    "cf:build": "pnpm --filter \"@weiui/docs...\" run build && opennextjs-cloudflare build",
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:upload": "wrangler versions upload",
     "start": "next start",
     "test": "vitest run",
     "test:e2e": "playwright test",
@@ -31,6 +32,7 @@
     "@axe-core/playwright": "^4.10",
     "@mdx-js/loader": "^3.1",
     "@next/mdx": "^16.3",
+    "@opennextjs/cloudflare": "1.20.2",
     "@playwright/test": "^1.52",
     "@testing-library/jest-dom": "^6.6",
     "@testing-library/react": "^16.3",
@@ -45,6 +47,7 @@
     "ts-morph": "^28.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.8",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "4.123.0"
   }
 }
