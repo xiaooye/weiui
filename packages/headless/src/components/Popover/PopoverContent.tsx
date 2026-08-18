@@ -14,7 +14,6 @@ export function PopoverContent({ children, onKeyDown, ...props }: PopoverContent
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // Sync floating-ui ref with our local ref
   const setRefs = (el: HTMLDivElement | null) => {
     (contentRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
     refs.setFloating(el);
@@ -27,9 +26,7 @@ export function PopoverContent({ children, onKeyDown, ...props }: PopoverContent
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
       const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
-      if (firstFocusable) {
-        firstFocusable.focus();
-      }
+      if (firstFocusable) firstFocusable.focus();
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
       previousFocusRef.current = null;
@@ -43,6 +40,9 @@ export function PopoverContent({ children, onKeyDown, ...props }: PopoverContent
       ref={setRefs}
       id={popoverId}
       style={floatingStyles}
+      data-wui-component="popover"
+      data-part="content"
+      data-state="open"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.stopPropagation();
