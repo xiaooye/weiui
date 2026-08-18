@@ -16,6 +16,9 @@ export function MenuTrigger({ children, onClick, ...props }: MenuTriggerProps) {
       aria-haspopup="menu"
       aria-expanded={isOpen}
       aria-controls={isOpen ? menuId : undefined}
+      data-wui-component="menu"
+      data-part="trigger"
+      data-state={isOpen ? "open" : "closed"}
       onClick={(e) => {
         onOpen();
         onClick?.(e);
