@@ -9,51 +9,51 @@ on:
 jobs:
   build-and-test:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
-    name: Build & Test
+    name: Build, Test & Runtime Contracts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "pnpm"
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Build all packages
+      - name: Enforce package boundaries
+        run: pnpm check:boundaries
+      - name: Build all packages and docs
         run: pnpm build
-
-      - name: Run tests
+      - name: Run unit and adapter contract tests
         run: pnpm test
-
+      - name: Verify required cross-runtime parity
+        run: pnpm check:parity
+      - name: Verify SSR/import safety
+        run: pnpm check:ssr
+      - name: Verify public consumption fixtures
+        run: pnpm check:fixtures
       - name: Validate token contrast (WCAG AAA/AA)
         run: pnpm --filter @weiui/tokens validate
-
       - name: Check bundle sizes
         run: |
           echo "=== Package sizes ==="
-          echo "--- @weiui/tokens CSS ---"
           wc -c packages/tokens/dist/tokens.css
-          echo "--- @weiui/css ---"
           wc -c packages/css/dist/weiui.css packages/css/dist/weiui.min.css
-          echo "--- @weiui/headless ---"
+          wc -c packages/core/dist/index.js
           wc -c packages/headless/dist/index.js
-          echo "--- @weiui/react ---"
           wc -c packages/react/dist/index.js
-          echo "--- @weiui/icons ---"
-          wc -c packages/icons/dist/index.js
-          echo "--- @weiui/a11y ---"
+          wc -c packages/vue/dist/index.js
+          wc -c packages/solid/dist/index.js
+          wc -c packages/svelte/dist/index.js
+          wc -c packages/elements/dist/index.js
+          wc -c packages/icons/dist/index.js packages/icons/dist/react.js packages/icons/dist/vue.js packages/icons/dist/solid.js
           wc -c packages/a11y/dist/index.js
-          echo "--- @weiui/cli ---"
           wc -c packages/cli/dist/index.js
+          wc -c packages/mcp/dist/index.js
 
   typecheck:
     if: github.event_name == 'push' || github.actor != 'dependabot[bot]'
-    name: Type Check
+    name: Type & Source Checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,9 +64,17 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - name: TypeScript strict check
+      - name: TypeScript strict checks
         run: |
-          cd packages/headless && npx tsc --noEmit
-          cd ../../packages/react && npx tsc --noEmit
-          cd ../../packages/a11y && npx tsc --noEmit
-          cd ../../packages/tokens && npx tsc --noEmit
+          pnpm exec tsc -p packages/core/tsconfig.json --noEmit
+          cd packages/headless && pnpm exec tsc --noEmit
+          cd ../react && pnpm exec tsc --noEmit
+          cd ../a11y && pnpm exec tsc --noEmit
+          cd ../tokens && pnpm exec tsc --noEmit
+      - name: Native runtime source checks
+        run: |
+          pnpm --filter @weiui/vue typecheck
+          pnpm --filter @weiui/solid typecheck
+          pnpm --filter @weiui/svelte typecheck
+          pnpm --filter @weiui/elements typecheck
+          pnpm check:boundaries
