@@ -102,7 +102,14 @@ jobs:
           node-version: 22
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - name: Prepare packages required by strict checks
+        run: |
+          pnpm --filter @weiui/tokens build
+          pnpm --filter @weiui/css build
+          pnpm --filter @weiui/core build
+          pnpm --filter @weiui/headless build
+          pnpm --filter @weiui/react build
+          pnpm --filter @weiui/a11y build
       - name: TypeScript strict checks
         id: strict
         continue-on-error: true
