@@ -6,10 +6,11 @@ on:
     paths:
       - ".github/workflows/publish.yml"
       - ".changeset/**"
-      - "bootstrap/**"
       - "packages/**"
       - "package.json"
       - "pnpm-lock.yaml"
+      - "scripts/check-civaria-registry.mjs"
+      - "scripts/check-civaria-legacy.mjs"
   push:
     branches: [main]
 
@@ -37,15 +38,78 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Verify Civaria brand boundary
+        run: pnpm check:brand
+
       - name: Build packages
         run: pnpm build
 
-      - name: Validate publish tarballs
+      - name: Verify npm registry ownership and target availability
+        run: node scripts/check-civaria-registry.mjs
+
+      - name: Validate npm dry-run tarballs for every publishable package
         run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
 
-      - name: Validate Civaria bootstrap tarball
-        working-directory: bootstrap/civaria
-        run: npm pack --dry-run --json > /dev/null
+      - name: Validate expected public exports
+        run: |
+          test -f packages/react/dist/index.js
+          test -f packages/react/dist/index.d.ts
+          test -f packages/react/dist/editor-entry.js
+          test -f packages/react/dist/chart-entry.js
+          test -f packages/react/dist/data-table-entry.js
+          test -f packages/tokens/dist/index.js
+          test -f packages/tokens/dist/index.d.ts
+          test -f packages/tokens/dist/tokens.css
+          test -f packages/tokens/dist/tokens.json
+          test -f packages/css/dist/civaria.css
+
+      - name: Pack publish artifacts and reject workspace protocol leaks
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK_DIR="$RUNNER_TEMP/civaria-packs"
+          rm -rf "$PACK_DIR"
+          mkdir -p "$PACK_DIR"
+          for dir in packages/*; do
+            [ -f "$dir/package.json" ] || continue
+            PRIVATE=$(node -e 'const p=require(process.argv[1]); process.stdout.write(String(Boolean(p.private)))' "./$dir/package.json")
+            [ "$PRIVATE" = "true" ] && continue
+            (cd "$dir" && pnpm pack --pack-destination "$PACK_DIR" >/dev/null)
+          done
+          COUNT=$(find "$PACK_DIR" -maxdepth 1 -name '*.tgz' | wc -l)
+          [ "$COUNT" -ge 13 ] || { echo "Expected at least 13 publishable Civaria tarballs, got $COUNT"; exit 1; }
+          for archive in "$PACK_DIR"/*.tgz; do
+            if tar -xOf "$archive" package/package.json | grep -F 'workspace:'; then
+              echo "Workspace protocol leaked into $archive"
+              exit 1
+            fi
+          done
+          echo "Packed $COUNT publishable Civaria packages without workspace protocol leaks."
+
+      - name: Install packed Civaria packages in a clean consumer
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK_DIR="$RUNNER_TEMP/civaria-packs"
+          CONSUMER="$RUNNER_TEMP/civaria-consumer"
+          rm -rf "$CONSUMER"
+          mkdir -p "$CONSUMER"
+          cd "$CONSUMER"
+          npm init -y >/dev/null
+          npm install "$PACK_DIR"/*.tgz --ignore-scripts
+          node --input-type=module <<'NODE'
+          await import('civaria');
+          await import('@civaria/headless');
+          await import('@civaria/tokens');
+          await import('@civaria/a11y');
+          await import('@civaria/icons');
+          await import('@civaria/core');
+          const css = import.meta.resolve('@civaria/css/civaria.css');
+          if (!css.includes('civaria.css')) throw new Error(`Unexpected CSS resolution: ${css}`);
+          console.log('Packed Civaria ESM/CSS consumer imports: OK');
+          NODE
+          ./node_modules/.bin/civaria --help
+          ./node_modules/.bin/civaria-mcp --help
 
   release:
     name: Release
@@ -71,46 +135,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Verify Civaria brand boundary
+        run: pnpm check:brand
+
       - name: Build packages
         run: pnpm build
 
       - name: Validate publish tarballs
         run: pnpm -r --filter "./packages/**" exec npm pack --dry-run --json > /dev/null
 
-      - name: Detect namespace migration state
-        id: migration
-        shell: bash
-        run: |
-          if grep -R --include='package.json' -q '"name"[[:space:]]*:[[:space:]]*"@weiui/' packages; then
-            echo "legacy_namespace=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "legacy_namespace=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          if npm view civaria version >/dev/null 2>&1; then
-            echo "civaria_exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "civaria_exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Validate Civaria bootstrap tarball
-        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
-        working-directory: bootstrap/civaria
-        run: npm pack --dry-run --json > /dev/null
-
-      - name: Bootstrap civaria package name
-        if: steps.migration.outputs.legacy_namespace == 'true' && steps.migration.outputs.civaria_exists == 'false'
-        working-directory: bootstrap/civaria
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
-
-      # Normal Changesets publishing stays disabled while the repository still
-      # contains the legacy @weiui/* namespace. The full Civaria rename removes
-      # that guard and deletes bootstrap/civaria.
       - name: Create or update release pull request
-        if: steps.migration.outputs.legacy_namespace == 'false'
         id: changesets
         uses: changesets/action@v1
         with:
@@ -120,7 +154,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Select npm authentication mode
-        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.hasChangesets == 'false'
         id: npm-auth
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -131,19 +165,19 @@ jobs:
             echo "bootstrap=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Bootstrap first npm publication
-        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
+      - name: Bootstrap first Civaria namespace publication
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'true'
         run: pnpm exec changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Publish packages with npm Trusted Publishing
-        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.npm-auth.outputs.bootstrap == 'false'
         run: pnpm exec changeset publish
         env:
           NPM_CONFIG_PROVENANCE: true
 
       - name: Push release tags
-        if: steps.migration.outputs.legacy_namespace == 'false' && steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.hasChangesets == 'false'
         run: git push --follow-tags
