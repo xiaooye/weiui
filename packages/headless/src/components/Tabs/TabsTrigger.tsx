@@ -10,7 +10,6 @@ export interface TabsTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement
 export function TabsTrigger({ value, children, onKeyDown, ...props }: TabsTriggerProps) {
   const { activeValue, onValueChange, baseId } = useTabsContext();
   const isActive = activeValue === value;
-
   return (
     <button
       type="button"
@@ -20,11 +19,12 @@ export function TabsTrigger({ value, children, onKeyDown, ...props }: TabsTrigge
       aria-controls={`${baseId}-content-${value}`}
       tabIndex={isActive ? 0 : -1}
       onClick={() => onValueChange(value)}
-      onKeyDown={(e) => {
-        // Arrow navigation handled at TabsList level or by parent
-        onKeyDown?.(e);
-      }}
+      onKeyDown={(e) => onKeyDown?.(e)}
       {...props}
+      data-wui-component="tabs"
+      data-part="trigger"
+      data-state={isActive ? "active" : "inactive"}
+      data-selected={isActive ? "" : undefined}
     >
       {children}
     </button>
