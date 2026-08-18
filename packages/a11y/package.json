@@ -4,7 +4,8 @@
   "description": "Build-time accessibility helpers for WeiUI — OKLCH contrast scoring for WCAG AAA compliance.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",
