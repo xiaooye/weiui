@@ -22,7 +22,7 @@
     "@weiui/tokens": "workspace:*",
     "next": "^15.5",
     "react": "^19.1",
-    "react-dom": "^19.1",
+    "react-dom": "^19.2",
     "rehype-pretty-code": "^0.14.5",
     "rehype-slug": "^6.0.0",
     "shiki": "^4.4.3"
@@ -38,7 +38,7 @@
     "@types/mdx": "^2.0.13",
     "@types/node": "25.6.0",
     "@types/react": "^19.1",
-    "@types/react-dom": "^19.1",
+    "@types/react-dom": "^19.2",
     "@vitejs/plugin-react": "^4.3",
     "jsdom": "^26.0",
     "remark-gfm": "^4.0.1",
