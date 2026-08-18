@@ -4,7 +4,8 @@
   "description": "WeiUI CLI — initialise projects, scaffold components (weiui add <name>), build and validate tokens.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",
