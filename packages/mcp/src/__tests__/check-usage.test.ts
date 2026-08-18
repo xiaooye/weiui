@@ -14,7 +14,7 @@ describe("checkUsage tool", () => {
     const result = await checkUsage({}, { code });
     expect(result.warnings).toHaveLength(1);
     expect(result.warnings[0]!.message).toMatch(/Editor/);
-    expect(result.warnings[0]!.suggestion).toMatch(/@civaria\/react\/editor/);
+    expect(result.warnings[0]!.suggestion).toMatch(/civaria\/editor/);
   });
 
   it("flags <Button iconOnly> without aria-label", async () => {
