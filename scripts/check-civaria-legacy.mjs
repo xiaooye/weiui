@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 const root=process.cwd();
 const skipDirs=new Set([".git","node_modules",".next",".turbo","dist"]);
-const skipFiles=new Set(["apps/docs/wrangler.jsonc","scripts/civaria-rename.mjs","scripts/check-civaria-legacy.mjs"]);
-const textExts=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".jsonc",".md",".mdx",".css",".scss",".html",".yml",".yaml",".txt",".svg",".toml",".sh",".ps1"]);
+const skipFiles=new Set(["apps/docs/wrangler.jsonc","scripts/check-civaria-legacy.mjs"]);
+const textExts=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".svelte",".json",".jsonc",".md",".mdx",".css",".scss",".html",".yml",".yaml",".txt",".svg",".toml",".sh",".ps1"]);
 const pieces={brand:"wei"+"ui",cap:"Wei"+"UI",upper:"WEI"+"UI",short:"w"+"ui",shortCap:"W"+"ui",shortUpper:"W"+"UI"};
 const forbidden=["@"+pieces.brand+"/",pieces.cap,pieces.upper,"--"+pieces.short+"-","data-"+pieces.short+"-",pieces.short+"-",pieces.brand+"_",pieces.brand+"-",pieces.brand];
 function walk(dir=root){const out=[];for(const e of readdirSync(dir,{withFileTypes:true})){if(e.isDirectory()&&skipDirs.has(e.name))continue;const p=join(dir,e.name);if(e.isDirectory())out.push(...walk(p));else out.push(p)}return out}
