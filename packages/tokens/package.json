@@ -40,6 +40,6 @@
   },
   "devDependencies": {
     "tsx": "^4.19",
-    "vitest": "^3.1"
+    "vitest": "^4.1"
   }
 }
