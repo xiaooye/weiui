@@ -17,21 +17,17 @@ export function DialogContent({ children, onKeyDown, ...props }: DialogContentPr
   useFocusTrap(contentRef, isOpen);
   useOutsideClick(contentRef, onClose, isOpen);
 
-  // Focus management: focus first focusable on open, return focus on close
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
       const firstFocusable = contentRef.current && getFirstFocusable(contentRef.current);
-      if (firstFocusable) {
-        firstFocusable.focus();
-      }
+      if (firstFocusable) firstFocusable.focus();
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
       previousFocusRef.current = null;
     }
   }, [isOpen]);
 
-  // Scroll lock
   useEffect(() => {
     if (isOpen) {
       const original = document.body.style.overflow;
@@ -50,6 +46,9 @@ export function DialogContent({ children, onKeyDown, ...props }: DialogContentPr
       aria-modal="true"
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
+      data-wui-component="dialog"
+      data-part="content"
+      data-state="open"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.stopPropagation();

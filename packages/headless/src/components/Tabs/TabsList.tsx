@@ -5,79 +5,37 @@ export type TabsActivationMode = "automatic" | "manual";
 
 export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  /** Layout orientation. `vertical` uses ArrowUp/ArrowDown; `horizontal` uses ArrowLeft/ArrowRight. */
   orientation?: "horizontal" | "vertical";
-  /** When true, arrow navigation loops at ends (default true). */
   loop?: boolean;
-  /** Activation mode. `automatic`: arrow keys immediately activate tab. `manual`: arrows move focus only; Enter/Space activates. Default `automatic`. */
   activationMode?: TabsActivationMode;
 }
 
-export function TabsList({
-  children,
-  orientation = "horizontal",
-  loop = true,
-  activationMode = "automatic",
-  onKeyDown,
-  ...props
-}: TabsListProps) {
+export function TabsList({ children, orientation = "horizontal", loop = true, activationMode = "automatic", onKeyDown, ...props }: TabsListProps) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
+    const isHorizontal = orientation === "horizontal";
+    const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
+    const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
+    if (e.key !== nextKey && e.key !== prevKey && e.key !== "Home" && e.key !== "End") return;
+    const list = ref.current;
+    if (!list) return;
+    const triggers = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]:not([disabled])'));
+    if (triggers.length === 0) return;
+    const active = document.activeElement as HTMLElement | null;
+    const currentIdx = triggers.findIndex((t) => t === active);
+    let nextIdx = currentIdx;
+    if (e.key === nextKey) { nextIdx = currentIdx + 1; if (nextIdx >= triggers.length) nextIdx = loop ? 0 : triggers.length - 1; }
+    else if (e.key === prevKey) { nextIdx = currentIdx - 1; if (nextIdx < 0) nextIdx = loop ? triggers.length - 1 : 0; }
+    else if (e.key === "Home") nextIdx = 0;
+    else if (e.key === "End") nextIdx = triggers.length - 1;
+    if (nextIdx !== currentIdx && triggers[nextIdx]) {
+      e.preventDefault();
+      triggers[nextIdx]!.focus();
+      if (activationMode === "automatic") triggers[nextIdx]!.click();
+    }
+  }, [orientation, loop, activationMode, onKeyDown]);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      onKeyDown?.(e);
-      if (e.defaultPrevented) return;
-
-      const isHorizontal = orientation === "horizontal";
-      const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
-      const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
-
-      if (e.key !== nextKey && e.key !== prevKey && e.key !== "Home" && e.key !== "End") return;
-
-      const list = ref.current;
-      if (!list) return;
-      const triggers = Array.from(
-        list.querySelectorAll<HTMLButtonElement>('[role="tab"]:not([disabled])'),
-      );
-      if (triggers.length === 0) return;
-
-      const active = document.activeElement as HTMLElement | null;
-      const currentIdx = triggers.findIndex((t) => t === active);
-
-      let nextIdx = currentIdx;
-      if (e.key === nextKey) {
-        nextIdx = currentIdx + 1;
-        if (nextIdx >= triggers.length) nextIdx = loop ? 0 : triggers.length - 1;
-      } else if (e.key === prevKey) {
-        nextIdx = currentIdx - 1;
-        if (nextIdx < 0) nextIdx = loop ? triggers.length - 1 : 0;
-      } else if (e.key === "Home") {
-        nextIdx = 0;
-      } else if (e.key === "End") {
-        nextIdx = triggers.length - 1;
-      }
-
-      if (nextIdx !== currentIdx && triggers[nextIdx]) {
-        e.preventDefault();
-        triggers[nextIdx]!.focus();
-        // `automatic` activates on focus; `manual` requires Enter/Space (handled by browser default click on the trigger).
-        if (activationMode === "automatic") {
-          triggers[nextIdx]!.click();
-        }
-      }
-    },
-    [orientation, loop, activationMode, onKeyDown],
-  );
-
-  return (
-    <div
-      ref={ref}
-      role="tablist"
-      aria-orientation={orientation}
-      onKeyDown={handleKeyDown}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+  return <div ref={ref} role="tablist" aria-orientation={orientation} onKeyDown={handleKeyDown} {...props} data-wui-component="tabs" data-part="list" data-orientation={orientation}>{children}</div>;
 }

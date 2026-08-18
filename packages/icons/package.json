@@ -1,41 +1,21 @@
 {
   "name": "@weiui/icons",
   "version": "0.0.1",
-  "description": "WeiUI icon set — 61 tree-shakable Feather-style React SVG components with currentColor stroke.",
+  "description": "Framework-neutral WeiUI icon data with generated React, Vue, Solid, Svelte and SVG adapters.",
   "author": "WeiUI Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/xiaooye/weiui.git",
-    "directory": "packages/icons"
-  },
+  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/icons" },
   "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
-  "keywords": [
-    "icons",
-    "svg",
-    "react",
-    "weiui",
-    "feather",
-    "design-system",
-    "tree-shakable"
-  ],
+  "keywords": ["icons", "svg", "weiui", "react", "vue", "solid", "svelte", "framework-neutral", "tree-shakable"],
   "type": "module",
-  "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
-  },
   "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }, "./react": { "types": "./dist/react.d.ts", "import": "./dist/react.js" }, "./vue": { "types": "./dist/vue.d.ts", "import": "./dist/vue.js" }, "./solid": { "types": "./dist/solid.d.ts", "import": "./dist/solid.js" }, "./svelte": { "types": "./dist/svelte.d.ts", "svelte": "./dist/svelte.js", "import": "./dist/svelte.js" }, "./svg": { "types": "./dist/svg.d.ts", "import": "./dist/svg.js" } },
   "files": ["dist", "README.md"],
-  "scripts": {
-    "generate": "tsx scripts/build.ts",
-    "build": "tsx scripts/build.ts && tsup src/index.ts --format esm --dts --external react"
-  },
-  "peerDependencies": { "react": "^19.0" },
-  "devDependencies": {
-    "tsx": "^4.19",
-    "tsup": "^8.4",
-    "svgo": "^3.3",
-    "@types/react": "^19.1"
-  }
+  "scripts": { "generate": "node scripts/build.mjs", "build": "node scripts/build.mjs", "test": "node scripts/contract-test.mjs" },
+  "peerDependencies": { "react": "^19.0", "vue": "^3.5.0", "solid-js": "^1.9.0", "svelte": "^5.0.0" },
+  "peerDependenciesMeta": { "react": { "optional": true }, "vue": { "optional": true }, "solid-js": { "optional": true }, "svelte": { "optional": true } }
 }

@@ -17,6 +17,9 @@ export function PopoverTrigger({ children, onClick, ...props }: PopoverTriggerPr
       aria-haspopup="true"
       aria-expanded={isOpen}
       aria-controls={isOpen ? popoverId : undefined}
+      data-wui-component="popover"
+      data-part="trigger"
+      data-state={isOpen ? "open" : "closed"}
       onClick={(e) => {
         onToggle();
         onClick?.(e);

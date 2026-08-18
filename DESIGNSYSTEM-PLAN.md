@@ -1,3 +1,7 @@
+<!-- weiui-multi-runtime-authority -->
+> [!IMPORTANT]
+> **Architecture migration notice (2026-08):** historical sections below describe the former three-tier React-centric architecture. The current authority is `MULTI-RUNTIME-ARCHITECTURE.md`: Tokens + canonical CSS + framework-neutral `@weiui/core` + native React/Vue/Solid/Svelte/Elements runtimes. `@weiui/headless` is deprecated React compatibility, not the generic behavior layer.
+
 # WeiUI — Design System & Component Library
 
 > An accessibility-first, layered design system with three consumption tiers: CSS-only primitives, headless behavior hooks, and fully styled React components.

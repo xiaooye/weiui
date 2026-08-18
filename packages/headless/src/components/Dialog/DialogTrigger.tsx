@@ -21,6 +21,9 @@ export function DialogTrigger({ children, onClick, ...props }: DialogTriggerProp
         onClick?.(e);
       }}
       {...props}
+      data-wui-component="dialog"
+      data-part="trigger"
+      data-state={isOpen ? "open" : "closed"}
     >
       {children}
     </button>

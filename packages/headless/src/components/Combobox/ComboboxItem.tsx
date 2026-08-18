@@ -15,7 +15,9 @@ export function ComboboxItem({ value, children, onClick, ...props }: ComboboxIte
     <div
       role="option"
       aria-selected={isSelected}
-      data-selected={isSelected || undefined}
+      data-wui-component="combobox"
+      data-part="item"
+      data-selected={isSelected ? "" : undefined}
       onClick={(e) => {
         const label = typeof children === "string" ? children : value;
         onSelect(value, label);

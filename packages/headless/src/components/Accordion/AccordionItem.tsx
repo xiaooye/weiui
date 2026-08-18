@@ -21,7 +21,13 @@ export function AccordionItem({ value, children }: AccordionItemProps) {
         contentId: `${baseId}-content`,
       }}
     >
-      <div>{children}</div>
+      <div
+        data-wui-component="accordion"
+        data-part="item"
+        data-state={isExpanded ? "open" : "closed"}
+      >
+        {children}
+      </div>
     </AccordionItemContext.Provider>
   );
 }

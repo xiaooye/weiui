@@ -1,40 +1,28 @@
-# Using WeiUI
+# Using and modifying WeiUI
 
-## Rules
+## Architecture rules
 
-1. Choose the lowest WeiUI layer that matches the host instead of forcing a framework runtime:
-   - Solid, Svelte, Vue, plain HTML, server-rendered apps, and other non-React consumers: use `@weiui/tokens` + `@weiui/css`.
-   - React consumers that want behavior primitives: use `@weiui/headless`.
-   - React consumers that want fully styled components: import from `@weiui/react`. Heavy components use subpaths:
-     - `@weiui/react/editor` — Editor
-     - `@weiui/react/data-table` — DataTable
-     - `@weiui/react/chart` — BarChart/LineChart/AreaChart/PieChart/DonutChart/RadarChart
+1. Choose a native WeiUI runtime when behavior/components are needed: `@weiui/react`, `@weiui/vue`, `@weiui/solid`, `@weiui/svelte`, or `@weiui/elements`. CSS-only use remains `@weiui/tokens` + `@weiui/css`.
+2. `@weiui/core` owns portable state, event intent, ARIA derivation, collections, IDs/relationships, anatomy and component metadata. It must never import a UI framework.
+3. Runtime packages render natively and never depend on another runtime package. Vue/Solid/Svelte must not route through React or Custom Elements.
+4. `@weiui/headless` is deprecated React compatibility. Prefer `@weiui/react/headless` for new unstyled React code.
+5. Heavy React integrations stay on `@weiui/react/editor`, `@weiui/react/data-table`, and `@weiui/react/chart`.
+6. `@weiui/css` is the canonical visual contract. Prefer `.wui-*`, `data-wui-component`, `data-part`, `data-state`, `data-disabled`, `data-selected`, `data-highlighted`, `data-size` and `data-variant` over framework-private styling truth.
+7. Icon-only controls require accessible names. Follow WAI-ARIA keyboard/focus patterns and preserve 44px minimum interactive targets.
+8. No import-time DOM, `Date.now()` IDs or `Math.random()` IDs in Core/public runtimes. Defer measurement/focus work to framework lifecycle.
 
-2. Branded consumers should override semantic `--wui-*` custom properties inside `@layer wui-theme`; do not fork component CSS merely to change product identity.
+## Component metadata
 
-3. Style via `wui-*` classes or component variants. Never emit Tailwind utilities in consumer code.
-   - Bad: `<Button className="inline-flex items-center">`
-   - Good: `<Button variant="solid" size="md">`
+`@weiui/core/registry` is the machine-readable source of truth for portability class, semantic anatomy and runtime availability. Docs, Composer, MCP and CLI may enrich it but must not invent a competing support matrix.
 
-4. Compound components must live inside their root:
-   - `<DialogOverlay>` only inside `<Dialog>`
-   - `<TabsList>`/`<TabsTrigger>`/`<TabsContent>` only inside `<Tabs>`
+## Tooling
 
-5. Icon-only buttons (`<Button iconOnly>`) require `aria-label`.
+- `npx @weiui/cli list`
+- `npx @weiui/cli init --framework vue`
+- `npx @weiui/cli add Button --framework solid`
+- `npx @weiui/cli describe Button`
+- MCP: `@weiui/mcp` exposes component metadata and runtime-aware examples.
 
-6. Prefer controlled-or-uncontrolled via `value`/`defaultValue` pairs in React behavior components.
+## Verification
 
-## Discovery
-
-- https://weiui.dev/docs/components
-- Per-component: https://weiui.dev/registry/<Name>.json
-- Full docs: https://weiui.dev/llms-full.txt
-- MCP server: add `@weiui/mcp` to your agent config for live introspection.
-
-## Copy-paste
-
-- `npx @weiui/cli list` — all components.
-- `npx @weiui/cli describe <Name>` — JSON schema.
-- `npx @weiui/cli examples <Name>` — code sample.
-- `npx @weiui/cli add <Name>` — scaffold into src/components/ui/.
-- `npx @weiui/cli check-usage <file>` — lint.
+Run `pnpm check:boundaries`, `pnpm build`, `pnpm test`, `pnpm check:parity`, `pnpm check:ssr`, `pnpm check:fixtures`, plus token/a11y checks before merging architecture changes.

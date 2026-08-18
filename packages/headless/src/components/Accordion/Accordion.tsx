@@ -1,5 +1,8 @@
 "use client";
-import { type ReactNode, useState, useCallback } from "react";
+import { type ReactNode } from "react";
+import { createAccordionController } from "@weiui/core";
+import { useCoreController } from "../../hooks/use-core-controller";
+import { useId } from "../../hooks/use-id";
 import { AccordionContext } from "./AccordionContext";
 
 export interface AccordionProps {
@@ -9,29 +12,15 @@ export interface AccordionProps {
 }
 
 export function Accordion({ children, type = "single", defaultValue = [] }: AccordionProps) {
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set(defaultValue));
-
-  const toggleItem = useCallback(
-    (value: string) => {
-      setExpandedItems((prev) => {
-        const next = new Set(prev);
-        if (next.has(value)) {
-          next.delete(value);
-        } else {
-          if (type === "single") {
-            next.clear();
-          }
-          next.add(value);
-        }
-        return next;
-      });
-    },
-    [type],
+  const id = useId("accordion");
+  const [controller, state] = useCoreController(() =>
+    createAccordionController({ id, type, defaultValue }),
   );
-
   return (
-    <AccordionContext.Provider value={{ expandedItems, toggleItem, type }}>
-      <div>{children}</div>
+    <AccordionContext.Provider
+      value={{ expandedItems: new Set(state.expanded), toggleItem: controller.toggle, type }}
+    >
+      <div data-wui-component="accordion" data-part="root">{children}</div>
     </AccordionContext.Provider>
   );
 }

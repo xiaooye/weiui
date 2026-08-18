@@ -1,5 +1,7 @@
-import { useControllable } from "./use-controllable";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { createDisclosureController } from "@weiui/core";
+import { useId } from "./use-id";
+import { useCoreController, useLatest } from "./use-core-controller";
 
 export interface UseDisclosureProps {
   /** Initial open state for uncontrolled mode. @default false */
@@ -21,26 +23,26 @@ export interface UseDisclosureReturn {
 
 export function useDisclosure(props: UseDisclosureProps = {}): UseDisclosureReturn {
   const { defaultOpen = false, open, onOpenChange } = props;
-
-  const [isOpen, setIsOpen] = useControllable({
-    value: open,
-    defaultValue: defaultOpen,
-    onChange: onOpenChange,
-  });
-
-  const onOpen = useCallback(() => setIsOpen(true), [setIsOpen]);
-  const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
-  const onToggle = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen]);
-
-  const getDisclosureProps = useCallback(
-    () => ({ "aria-expanded": isOpen }),
-    [isOpen],
+  const baseId = useId("disclosure");
+  const callbackRef = useLatest(onOpenChange);
+  const [controller, state] = useCoreController(() =>
+    createDisclosureController({
+      id: baseId,
+      component: "disclosure",
+      defaultOpen,
+      onOpenChange: (next) => callbackRef.current?.(next),
+    }),
   );
 
-  const getContentProps = useCallback(
-    () => ({ hidden: !isOpen }),
-    [isOpen],
-  );
+  useEffect(() => {
+    if (open !== undefined && state.open !== open) controller.syncOpen(open);
+  }, [controller, open, state.open]);
 
+  const isOpen = open ?? state.open;
+  const onOpen = useCallback(() => controller.setOpen(true), [controller]);
+  const onClose = useCallback(() => controller.setOpen(false), [controller]);
+  const onToggle = useCallback(() => controller.setOpen(!isOpen), [controller, isOpen]);
+  const getDisclosureProps = useCallback(() => ({ "aria-expanded": isOpen }), [isOpen]);
+  const getContentProps = useCallback(() => ({ hidden: !isOpen }), [isOpen]);
   return { isOpen, onOpen, onClose, onToggle, getDisclosureProps, getContentProps };
 }

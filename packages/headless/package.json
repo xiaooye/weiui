@@ -1,55 +1,20 @@
 {
   "name": "@weiui/headless",
   "version": "0.0.1",
-  "description": "WeiUI headless layer — unstyled React hooks and compound components with ARIA wiring, focus management, keyboard nav, and controlled/uncontrolled patterns.",
+  "description": "Deprecated React compatibility layer for WeiUI unstyled primitives. Shared behavior lives in @weiui/core; prefer @weiui/react/headless for new React code.",
   "author": "WeiUI Contributors",
   "license": "MIT",
   "publishConfig": { "access": "public" },
   "homepage": "https://ui.wei-dev.com/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/xiaooye/weiui.git",
-    "directory": "packages/headless"
-  },
+  "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/headless" },
   "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
-  "keywords": [
-    "headless",
-    "react",
-    "hooks",
-    "aria",
-    "accessibility",
-    "weiui",
-    "design-system",
-    "compound-components",
-    "floating-ui"
-  ],
+  "keywords": ["headless", "react", "aria", "accessibility", "weiui", "compatibility"],
   "type": "module",
-  "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
-  },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
   "sideEffects": false,
   "files": ["dist", "README.md"],
-  "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --external react --external react-dom",
-    "test": "vitest run"
-  },
-  "peerDependencies": {
-    "react": "^19.0",
-    "react-dom": "^19.0"
-  },
-  "dependencies": {
-    "@floating-ui/react": "^0.27"
-  },
-  "devDependencies": {
-    "tsup": "^8.4",
-    "vitest": "^4.1",
-    "@testing-library/react": "^16.3",
-    "@testing-library/user-event": "^14.6",
-    "@testing-library/jest-dom": "^6.6",
-    "@types/react": "^19.0",
-    "@types/react-dom": "^19.0",
-    "jsdom": "^26.0",
-    "react": "^19.1",
-    "react-dom": "^19.1"
-  }
+  "scripts": { "build": "tsup src/index.ts --format esm --dts --external react --external react-dom", "test": "vitest run" },
+  "peerDependencies": { "react": "^19.0", "react-dom": "^19.0" },
+  "dependencies": { "@floating-ui/react": "^0.27", "@weiui/core": "workspace:*" },
+  "devDependencies": { "tsup": "^8.4", "vitest": "^4.1", "@testing-library/react": "^16.3", "@testing-library/user-event": "^14.6", "@testing-library/jest-dom": "^6.6", "@types/react": "^19.0", "@types/react-dom": "^19.0", "jsdom": "^26.0", "react": "^19.1", "react-dom": "^19.1" }
 }

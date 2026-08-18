@@ -30,7 +30,6 @@ export function MenuContent({ children, onKeyDown, ...props }: MenuContentProps)
       (child.type as { isSeparator?: boolean }).isSeparator === true;
   }
 
-  // Assign sequential indices to menu items, skip separators
   let itemIndex = 0;
   const indexedChildren = Children.map(children, (child) => {
     if (!isValidElement(child)) return child;
@@ -40,33 +39,19 @@ export function MenuContent({ children, onKeyDown, ...props }: MenuContentProps)
   });
 
   const totalItems = itemIndex;
-
-  useEffect(() => {
-    setItemCount(totalItems);
-  }, [totalItems, setItemCount]);
-
-  // Store trigger ref and focus first item on open
+  useEffect(() => { setItemCount(totalItems); }, [totalItems, setItemCount]);
   useEffect(() => {
     if (isOpen) {
       triggerRef.current = document.getElementById(triggerId) as HTMLElement | null;
-      // Focus the first menu item
       setActiveIndex(0);
-    } else {
-      // Return focus to trigger on close
-      if (triggerRef.current) {
-        triggerRef.current.focus();
-      }
+    } else if (triggerRef.current) {
+      triggerRef.current.focus();
     }
   }, [isOpen, triggerId, setActiveIndex]);
-
-  // Focus the active item when activeIndex changes
   useEffect(() => {
     if (!isOpen || activeIndex < 0 || !contentRef.current) return;
     const items = contentRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]');
-    const item = items[activeIndex];
-    if (item) {
-      item.focus();
-    }
+    items[activeIndex]?.focus();
   }, [isOpen, activeIndex]);
 
   if (!isOpen) return null;
@@ -77,37 +62,22 @@ export function MenuContent({ children, onKeyDown, ...props }: MenuContentProps)
       id={menuId}
       role="menu"
       aria-labelledby={triggerId}
+      data-wui-component="menu"
+      data-part="content"
+      data-state="open"
       onKeyDown={(e) => {
         const items = contentRef.current
           ? Array.from(contentRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]'))
           : [];
         const count = items.length;
-
         switch (e.key) {
-          case Keys.Escape:
-            e.preventDefault();
-            onClose();
-            break;
-          case Keys.ArrowDown:
-            e.preventDefault();
-            setActiveIndex(activeIndex + 1 >= count ? 0 : activeIndex + 1);
-            break;
-          case Keys.ArrowUp:
-            e.preventDefault();
-            setActiveIndex(activeIndex - 1 < 0 ? count - 1 : activeIndex - 1);
-            break;
-          case Keys.Home:
-            e.preventDefault();
-            setActiveIndex(0);
-            break;
-          case Keys.End:
-            e.preventDefault();
-            setActiveIndex(count - 1);
-            break;
-          default:
-            break;
+          case Keys.Escape: e.preventDefault(); onClose(); break;
+          case Keys.ArrowDown: e.preventDefault(); setActiveIndex(activeIndex + 1 >= count ? 0 : activeIndex + 1); break;
+          case Keys.ArrowUp: e.preventDefault(); setActiveIndex(activeIndex - 1 < 0 ? count - 1 : activeIndex - 1); break;
+          case Keys.Home: e.preventDefault(); setActiveIndex(0); break;
+          case Keys.End: e.preventDefault(); setActiveIndex(count - 1); break;
+          default: break;
         }
-
         onKeyDown?.(e);
       }}
       {...props}

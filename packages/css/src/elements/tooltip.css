@@ -1,0 +1,26 @@
+@layer wui-elements {
+  .wui-tooltip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .wui-tooltip__trigger {
+    display: inline-flex;
+  }
+
+  .wui-tooltip__content {
+    position: absolute;
+    inset-block-end: calc(100% + var(--wui-spacing-2));
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    max-inline-size: 20rem;
+    padding: var(--wui-spacing-2) var(--wui-spacing-3);
+    color: var(--wui-color-background);
+    background: var(--wui-color-foreground);
+    border-radius: var(--wui-shape-radius-sm);
+    font-size: var(--wui-font-size-sm);
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+}
