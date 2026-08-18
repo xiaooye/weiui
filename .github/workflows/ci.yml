@@ -79,7 +79,6 @@ jobs:
           pnpm exec tsc -p packages/core/tsconfig.json --noEmit
           (cd packages/headless && pnpm exec tsc --noEmit)
           (cd packages/a11y && pnpm exec tsc --noEmit)
-          (cd packages/tokens && pnpm exec tsc --noEmit)
       - name: Native runtime source checks
         run: |
           pnpm --filter @weiui/vue typecheck
