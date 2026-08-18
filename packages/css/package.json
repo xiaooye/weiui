@@ -4,7 +4,8 @@
   "description": "WeiUI CSS layer — zero-JavaScript component styles built on design tokens with logical properties, OKLCH colors, and WCAG AAA contrast.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/xiaooye/weiui.git",
