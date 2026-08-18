@@ -5,6 +5,16 @@ updates:
     schedule:
       interval: "weekly"
     groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
       tiptap:
         patterns:
           - "@tiptap/*"
+    ignore:
+      - dependency-name: "next"
+        update-types:
+          - "version-update:semver-major"
