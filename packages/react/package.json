@@ -4,7 +4,8 @@
   "description": "WeiUI native React runtime — styled components backed by the shared WeiUI semantic core.",
   "author": "WeiUI Contributors",
   "license": "MIT",
-  "homepage": "https://weiui.dev",
+  "publishConfig": { "access": "public" },
+  "homepage": "https://ui.wei-dev.com/",
   "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/react" },
   "bugs": { "url": "https://github.com/xiaooye/weiui/issues" },
   "keywords": ["react", "components", "ui", "weiui", "design-system", "accessibility", "wcag-aaa", "ssr"],
@@ -18,15 +19,10 @@
   },
   "sideEffects": false,
   "files": ["dist", "README.md"],
-  "scripts": {
-    "build": "tsup src/index.ts src/headless-entry.ts src/editor-entry.ts src/chart-entry.ts src/data-table-entry.ts --format esm --dts --external react --external react-dom",
-    "test": "vitest run"
-  },
+  "scripts": { "build": "tsup src/index.ts src/headless-entry.ts src/editor-entry.ts src/chart-entry.ts src/data-table-entry.ts --format esm --dts --external react --external react-dom", "test": "vitest run" },
   "peerDependencies": { "react": "^19.0", "react-dom": "^19.0" },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3", "@tanstack/react-virtual": "^3.14.9", "@tiptap/extension-bubble-menu": "3.30.1", "@tiptap/extension-character-count": "3.30.1", "@tiptap/extension-code-block-lowlight": "3.30.1", "@tiptap/extension-floating-menu": "3.30.1", "@tiptap/extension-image": "3.30.1", "@tiptap/extension-placeholder": "3.30.1", "@tiptap/pm": "3.30.1", "@tiptap/react": "3.30.1", "@tiptap/starter-kit": "3.30.1", "@weiui/core": "workspace:*", "@weiui/css": "workspace:*", "@weiui/headless": "workspace:*", "lowlight": "^3.3.0", "match-sorter": "^8.3.0", "recharts": "^3.10.1", "tailwind-merge": "^3.0", "tailwind-variants": "^3.3", "tiptap-markdown": "^0.9.0"
   },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.6", "@testing-library/react": "^16.3", "@testing-library/user-event": "^14.6", "@types/react": "^19.1", "@types/react-dom": "^19.1", "jsdom": "^26.0", "react": "^19.1", "react-dom": "^19.1", "tsup": "^8.4", "vitest": "^4.1"
-  }
+  "devDependencies": { "@testing-library/jest-dom": "^6.6", "@testing-library/react": "^16.3", "@testing-library/user-event": "^14.6", "@types/react": "^19.1", "@types/react-dom": "^19.1", "jsdom": "^26.0", "react": "^19.1", "react-dom": "^19.1", "tsup": "^8.4", "vitest": "^4.1" }
 }

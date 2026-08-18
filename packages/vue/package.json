@@ -1,15 +1,6 @@
 {
-  "name": "@weiui/vue",
-  "version": "0.1.0",
-  "description": "Native Vue 3 runtime for the WeiUI design system.",
-  "type": "module",
-  "sideEffects": false,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist", "README.md"],
+  "name": "@weiui/vue", "version": "0.1.0", "description": "Native Vue 3 runtime for the WeiUI design system.", "author": "WeiUI Contributors", "license": "MIT", "publishConfig": { "access": "public" }, "homepage": "https://ui.wei-dev.com/", "repository": { "type": "git", "url": "https://github.com/xiaooye/weiui.git", "directory": "packages/vue" }, "bugs": { "url": "https://github.com/xiaooye/weiui/issues" }, "type": "module", "sideEffects": false,
+  "main": "./dist/index.js", "types": "./dist/index.d.ts", "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } }, "files": ["dist", "README.md"],
   "scripts": { "build": "node ./scripts/build.mjs", "test": "node ./scripts/contract-test.mjs", "typecheck": "node --check ./src/index.js" },
-  "dependencies": { "@weiui/core": "workspace:*", "@weiui/css": "workspace:*" },
-  "peerDependencies": { "vue": "^3.5.0" },
-  "peerDependenciesMeta": { "vue": { "optional": true } }
+  "dependencies": { "@weiui/core": "workspace:*", "@weiui/css": "workspace:*" }, "peerDependencies": { "vue": "^3.5.0" }, "peerDependenciesMeta": { "vue": { "optional": true } }
 }
