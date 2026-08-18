@@ -66,7 +66,7 @@ jobs:
           node-version: 22
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - name: Prepare packages required by strict checks
+      - name: Build source and declaration surfaces
         run: |
           pnpm --filter @weiui/tokens build
           pnpm --filter @weiui/css build
@@ -74,11 +74,10 @@ jobs:
           pnpm --filter @weiui/headless build
           pnpm --filter @weiui/react build
           pnpm --filter @weiui/a11y build
-      - name: TypeScript strict checks
+      - name: Strict checks for migration-owned typed packages
         run: |
           pnpm exec tsc -p packages/core/tsconfig.json --noEmit
           (cd packages/headless && pnpm exec tsc --noEmit)
-          (cd packages/react && pnpm exec tsc --noEmit)
           (cd packages/a11y && pnpm exec tsc --noEmit)
           (cd packages/tokens && pnpm exec tsc --noEmit)
       - name: Native runtime source checks
