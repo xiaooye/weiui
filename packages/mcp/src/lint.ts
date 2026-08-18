@@ -56,7 +56,7 @@ function detectTailwind(line: string): boolean {
 }
 
 function detectHeavyImport(line: string): { name: string; subpath: string } | null {
-  const match = line.match(/import\s*\{([^}]+)\}\s*from\s*["']@civaria\/react["']/);
+  const match = line.match(/import\s*\{([^}]+)\}\s*from\s*["']civaria["']/);
   if (!match) return null;
   const names = match[1]!.split(",").map((s) => s.trim().split(/\s+as\s+/)[0]!.trim());
   for (const name of names) {
