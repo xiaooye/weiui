@@ -16,5 +16,5 @@
   "scripts": { "build": "tsup src/index.ts --format esm --dts --external react --external react-dom", "test": "vitest run" },
   "peerDependencies": { "react": "^19.0", "react-dom": "^19.0" },
   "dependencies": { "@floating-ui/react": "^0.27", "@weiui/core": "workspace:*" },
-  "devDependencies": { "tsup": "^8.4", "vitest": "^4.1", "@testing-library/react": "^16.3", "@testing-library/user-event": "^14.6", "@testing-library/jest-dom": "^6.6", "@types/react": "^19.0", "@types/react-dom": "^19.0", "jsdom": "^26.0", "react": "^19.1", "react-dom": "^19.1" }
+  "devDependencies": { "tsup": "^8.4", "vitest": "^4.1", "@testing-library/react": "^16.3", "@testing-library/user-event": "^14.6", "@testing-library/jest-dom": "^6.6", "@types/react": "^19.2", "@types/react-dom": "^19.2", "jsdom": "^26.0", "react": "^19.2", "react-dom": "^19.2" }
 }
