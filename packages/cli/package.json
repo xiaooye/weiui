@@ -13,6 +13,6 @@
   "bin": { "weiui": "./dist/index.js" },
   "files": ["dist", "README.md"],
   "scripts": { "build": "tsup src/index.ts --format esm --dts --shims", "test": "vitest run" },
-  "dependencies": { "@weiui/core": "workspace:*", "@weiui/mcp": "workspace:*", "commander": "^13.1" },
+  "dependencies": { "@weiui/core": "workspace:*", "@weiui/mcp": "workspace:*", "commander": "^15.0" },
   "devDependencies": { "tsup": "^8.4" }
 }
